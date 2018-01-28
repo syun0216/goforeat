@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
+import DashBoardView from './app/views/DashBoardView'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -24,7 +25,7 @@ export default class App extends Component<{}> {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Welcome to Goforeat!
         </Text>
         <Text style={styles.instructions}>
           To get started, edit App.js
