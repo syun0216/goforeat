@@ -2,7 +2,11 @@ import React,{Component} from 'react'
 import {View,Text} from 'react-native'
 import {Container,Header,Body,Right,Left,Button, Icon, Title,Content } from 'native-base'
 
+
 export default class PeopleView extends Component{
+  componentDidMount() {
+    this.props.navigation.navigate('Login')
+  }
   render() {
     return (
       <Container>

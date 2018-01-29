@@ -58,13 +58,13 @@ export default class ArticleView extends Component{
              }
            />
          </View>
-         <View style={{ flexDirection: "row", flex: 1, position: "absolute", bottom: 50, left: 0, right: 0, justifyContent: 'space-between', padding: 15 }}>
+         <View style={{ flexDirection: "row", flex: 1, position: "absolute", bottom: 30, left: 0, right: 0, justifyContent: 'space-between', padding: 15 }}>
           <Button transparent iconLeft onPress={() => this._deckSwiper._root.swipeLeft()}>
             <Icon name="arrow-back" />
-            <Text>Swipe Left</Text>
+            <Text>上一篇</Text>
           </Button>
           <Button transparent iconRight onPress={() => this._deckSwiper._root.swipeRight()}>
-            <Text>Swipe Right</Text>
+            <Text>下一篇</Text>
             <Icon name="arrow-forward" />
           </Button>
         </View>

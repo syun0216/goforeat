@@ -6,6 +6,8 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 //navigation
 import {StackNavigator,TabNavigator} from 'react-navigation'
 //views
+import LoginView from './LoginView'
+
 import ContentView from './views/ContentView'
 
 import GoodsListPageView from './views/GoodsListPageView'
@@ -18,6 +20,9 @@ let MainView = StackNavigator({
   Home: {screen: GoodsListPageView},
   Content: {screen: ContentView, navigationOptions: {
     tabBarVisible: false,
+  }},
+  Login: {screen: LoginView,navigationOptions: {
+    tabBarVisible: false
   }}
 }, {
   headerMode: 'none'
