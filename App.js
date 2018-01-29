@@ -24,11 +24,7 @@ const instructions = Platform.select({
 export default class App extends Component<{}> {
   render() {
     return (
-      <View>
-        <Button primary><Text>123</Text></Button>
-        <DashBoardView />
-
-    </View>
+      <DashBoardView />
     );
   }
 }

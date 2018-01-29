@@ -13,12 +13,8 @@ const api = {
       params:params
     })
   },
-  test() {
-    return fetch(root_url + '/guide/queryCanteen').then(res => {
-      return res.json().then(
-         () => res.json() // this will throw
-      );
-    });
+  getCanteenOptions() {
+    return axios.get(root_url + '/guide/getCanteenOption')
   }
 }
 
