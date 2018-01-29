@@ -10,7 +10,7 @@ import {
   StyleSheet,
   View
 } from 'react-native';
-import {Button,Text} from 'native-base'
+import {Root} from 'native-base'
 import StacksInTabs from './app/DashBoardView'
 
 const instructions = Platform.select({
@@ -23,7 +23,9 @@ const instructions = Platform.select({
 export default class App extends Component<{}> {
   render() {
     return (
-      <StacksInTabs />
+      <Root>
+        <StacksInTabs />
+      </Root>
     );
   }
 }

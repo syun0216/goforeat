@@ -8,11 +8,11 @@ export default class SearchView extends Component{
        <Header searchBar rounded>
          <Item>
            <Icon name="ios-search" />
-           <Input placeholder="Search" />
-           <Icon name="ios-people" />
+           <Input placeholder="輸入商品名稱" />
+           {/* <Icon name="ios-people" /> */}
          </Item>
          <Button transparent>
-           <Text>Search</Text>
+           <Text>搜索</Text>
          </Button>
        </Header>
      </Container>

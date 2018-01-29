@@ -23,8 +23,13 @@ let MainView = StackNavigator({
     tabBarVisible: false,
   }},
   Login: {screen: LoginView,navigationOptions: {
-    tabBarVisible: false
-  }},
+    tabBarVisible: false,
+  },
+  transitionConfig: {
+    isModal: true
+  }
+
+},
   Search: {screen: SearchView,navigationOptions: {
     tabBarVisible: false
   }}

@@ -25,7 +25,7 @@ export default class ArticleView extends Component{
     return (
       <Container>
          <Header>
-           <Body><Text>文章详情</Text></Body>
+           <Body><Text>文章詳情</Text></Body>
          </Header>
          <View>
            <DeckSwiper
