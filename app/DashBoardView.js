@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {View,FlatList} from 'react-native'
+import {Platform} from 'react-native'
 import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text} from 'native-base'
 //icon
 import EntypoIcon from 'react-native-vector-icons/Entypo';
@@ -20,10 +20,10 @@ import api from './api'
 let MainView = StackNavigator({
   Home: {screen: GoodsListPageView},
   Content: {screen: ContentView, navigationOptions: {
-    tabBarVisible: false,
+    tabBarVisible: false
   }},
   Login: {screen: LoginView,navigationOptions: {
-    tabBarVisible: false,
+    tabBarVisible: false
   },
   transitionConfig: {
     isModal: true
@@ -36,6 +36,11 @@ let MainView = StackNavigator({
 }, {
   headerMode: 'none'
 })
+
+const isLabelShow = Platform.select({
+  ios: false,
+  android: true,
+});
 
 const StacksInTabs = TabNavigator({
   GoodsListTab: {
@@ -59,7 +64,7 @@ const StacksInTabs = TabNavigator({
   PersonTab: {
     screen: PersonView,
     navigationOptions: {
-        tabBarLabel: '个人中心',
+        tabBarLabel: '個人中心',
         tabBarIcon: ({tintColor}) => (
           <EntypoIcon size={30} name="man" style={{color:tintColor}}/>
         )
@@ -67,9 +72,15 @@ const StacksInTabs = TabNavigator({
   }
 },{
   animationEnabled: true,
+  tabBarPosition: 'bottom',
   tabBarOptions: {
     activeTintColor: '#f07341',
-    showLabel:false,
+    showLabel:isLabelShow,
+    inactiveTintColor: '#707070',
+    activeTintColor: '#f07341',
+    style: {
+      backgroundColor: '#fff'
+    },
     // tabStyle: {
     //   height:100
     // }

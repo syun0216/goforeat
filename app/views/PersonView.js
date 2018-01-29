@@ -9,7 +9,7 @@ export default class PeopleView extends Component{
   render() {
     return (
       <Container>
-        <Header>
+        <Header style={{backgroundColor: '#fff'}}>
           <Body><Text>個人詳情</Text></Body>
         </Header>
         <Content>

@@ -32,14 +32,14 @@ export default class ContentView extends Component {
   render() {
     return (
       <Container>
-        <Header>
+        <Header style={{backgroundColor: '#fff'}}>
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='arrow-back' style={{color:'#f07341'}}/>
             </Button>
           </Left>
           <Body>
-            <Title>{this.props.navigation.state.params.data.name}</Title>
+            <Title style={{color:'#707070'}}>{this.props.navigation.state.params.data.name}</Title>
           </Body>
           <Right>
             <Button transparent onPress={() => this.addNewsToFavorite()}>

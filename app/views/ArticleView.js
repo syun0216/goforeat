@@ -24,7 +24,7 @@ export default class ArticleView extends Component{
   render() {
     return (
       <Container>
-         <Header>
+         <Header style={{backgroundColor: '#fff'}}>
            <Body><Text>文章詳情</Text></Body>
          </Header>
          <View>
