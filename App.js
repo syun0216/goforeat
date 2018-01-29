@@ -11,7 +11,7 @@ import {
   View
 } from 'react-native';
 import {Button,Text} from 'native-base'
-import DashBoardView from './app/DashBoardView'
+import StacksInTabs from './app/DashBoardView'
 import api from './app/api'
 
 const instructions = Platform.select({
@@ -24,7 +24,7 @@ const instructions = Platform.select({
 export default class App extends Component<{}> {
   render() {
     return (
-      <DashBoardView />
+      <StacksInTabs />
     );
   }
 }
