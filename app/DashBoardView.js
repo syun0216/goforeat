@@ -10,6 +10,7 @@ import LoginView from './LoginView'
 
 import ContentView from './views/ContentView'
 
+import SearchView from './views/SearchView'
 import GoodsListPageView from './views/GoodsListPageView'
 import ArticleView from './views/ArticleView'
 import PersonView from './views/PersonView'
@@ -22,6 +23,9 @@ let MainView = StackNavigator({
     tabBarVisible: false,
   }},
   Login: {screen: LoginView,navigationOptions: {
+    tabBarVisible: false
+  }},
+  Search: {screen: SearchView,navigationOptions: {
     tabBarVisible: false
   }}
 }, {

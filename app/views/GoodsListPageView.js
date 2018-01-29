@@ -53,7 +53,7 @@ export default class GoodsListPageView extends Component{
             <Body>
               <Text>Goforeat</Text>
             </Body>
-            <Right><FeatherIcon name="search" size={30} style={{color: '#f07341'}} /></Right>
+            <Right><FeatherIcon onPress={() => this.props.navigation.navigate('Search')} name="search" size={30} style={{color: '#f07341'}} /></Right>
           </Header>
           <Content>
             {this.state.canteenDetail.length > 0 ? this._renderFlatListItem() : null}
