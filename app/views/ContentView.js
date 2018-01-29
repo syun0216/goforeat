@@ -19,13 +19,13 @@ export default class ContentView extends Component {
           this.setState({
               favoriteChecked: true
           });
-          ToastUtil.show('收藏成功', 1000, 'top', 'success');
+          ToastUtil.show('收藏成功', 1000, 'bottom', 'success');
       }
       else {
           this.setState({
               favoriteChecked: false
           });
-          ToastUtil.show('取消收藏', 1000, 'top', 'warning');
+          ToastUtil.show('取消收藏', 1000, 'bottom', 'warning');
       }
   }
 
