@@ -12,7 +12,7 @@ export default class ContentView extends Component {
         <Header>
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name='arrow-back' />
+              <Icon name='arrow-back' style={{color:'#f07341'}}/>
             </Button>
           </Left>
           <Body>
@@ -20,7 +20,7 @@ export default class ContentView extends Component {
           </Body>
           <Right>
             <Button transparent>
-              <Icon name='menu' />
+              <Icon name='menu' style={{color:'#f07341'}} />
             </Button>
           </Right>
         </Header>

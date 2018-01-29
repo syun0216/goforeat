@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
-import {View,FlatList} from 'react-native'
+import {View,FlatList,Image} from 'react-native'
 import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text} from 'native-base'
+import FeatherIcon from 'react-native-vector-icons/Feather'
 //api
 import api from '../api'
 
@@ -45,7 +46,15 @@ export default class GoodsListPageView extends Component{
     render(){
       return (
         <Container>
-          <Header searchBar={true} iosBarStyle='dark-content'/>
+          <Header>
+            <Left>
+              <Image style={{width:40,height:40}} source={require('../asset/eat.png')}/>
+            </Left>
+            <Body>
+              <Text>Goforeat</Text>
+            </Body>
+            <Right><FeatherIcon name="search" size={30} style={{color: '#f07341'}} /></Right>
+          </Header>
           <Content>
             {this.state.canteenDetail.length > 0 ? this._renderFlatListItem() : null}
           </Content>

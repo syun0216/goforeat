@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import {Button,Text} from 'native-base'
 import StacksInTabs from './app/DashBoardView'
-import api from './app/api'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
