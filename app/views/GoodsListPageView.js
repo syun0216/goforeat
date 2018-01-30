@@ -1,24 +1,30 @@
 import React,{Component} from 'react'
-import {View,SectionList,Image,StyleSheet,ScrollView,ActivityIndicator,TouchableOpacity} from 'react-native'
+import {View,SectionList,Image,StyleSheet,ScrollView,TouchableWithoutFeedback,ActivityIndicator,TouchableOpacity,Animated,Easing} from 'react-native'
 import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text,Spinner} from 'native-base'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 //api
 import api from '../api'
 //components
 import GoodsSwiper from '../components/Swiper'
+import Dropdownfilter from '../components/Dropdownfilter'
+//utils
+import GLOBAL_PARAMS from '../utils/global_params'
 
 export default class GoodsListPageView extends Component{
+
   state = {
     canteenDetail: [],
-    currentPage: 1
+    currentPage: 1,
+    showFilterList: false,
+    positionTop: new Animated.Value(0)
   }
 
   //api function
   getCanteenDetail(){
     api.getCanteenDetail(this.state.currentPage).then(data => {
-      this.setState({
-        refreshing: false
-      })
+      // this.setState({
+      //   refreshing: false
+      // })
       if(data.status === 200 && data.data.data.length > 0) {
         // console.log(data.data.data)
         this.setState({
@@ -40,8 +46,56 @@ export default class GoodsListPageView extends Component{
     this.getCanteenDetail()
   }
 
+  _toToggleFilterListView(val) {
+    this.setState({
+      showFilterList: val === 1
+    })
+    Animated.spring(this.state.positionTop, {
+      toValue: val, // 目标值
+      duration: 1000, // 动画时间
+      easing: Easing.linear // 缓动函数
+    }).start();
+  }
+
   componentDidMount() {
     this.getCanteenDetail()
+  }
+
+  _renderFilterView() {
+    return (
+      <Animated.View style={{
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: 'white',
+        position: 'absolute',
+        zIndex: 1000,
+        borderTopWidth: 1,
+        borderTopColor: '#ccc',
+        width: GLOBAL_PARAMS._winWidth,
+        height: 251,
+        top: this.state.positionTop.interpolate({
+            inputRange: [0, 1],
+            outputRange: [-250, 62]
+        })
+      }}>
+        <Dropdownfilter />
+      </Animated.View>
+    )
+  }
+
+  _renderPreventClickView() {
+    return this.state.showFilterList ? <TouchableWithoutFeedback onPress={() => this._toToggleFilterListView(0)}>
+        <View style={{
+            width: GLOBAL_PARAMS._winWidth,
+            height: GLOBAL_PARAMS._winHeight,
+            position: 'absolute',
+            zIndex: 99,
+            top: 0,
+            left: 0,
+            backgroundColor: '#5b7492',
+            opacity: 0.3
+        }}/>
+    </TouchableWithoutFeedback> : null;
   }
 
   _renderSectionList(data,key) {
@@ -100,9 +154,11 @@ export default class GoodsListPageView extends Component{
     render(){
       return (
         <Container>
+          {/* {this.state.showFilterList ? this._renderPreventClickView() : null} */}
+          {this._renderFilterView()}
           <Header style={{backgroundColor:'#fff'}}>
             <Left>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this._toToggleFilterListView(1)}>
                 <View>
                   <Text style={{color: '#f07341'}}>篩選分類</Text>
                 </View>
