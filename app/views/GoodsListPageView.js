@@ -1,16 +1,21 @@
 import React,{Component} from 'react'
-import {View,SectionList,Image,StyleSheet,ScrollView} from 'react-native'
-import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text} from 'native-base'
+import {View,SectionList,Image,StyleSheet,ScrollView,ActivityIndicator} from 'react-native'
+import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text,Spinner} from 'native-base'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 //api
 import api from '../api'
+//components
+import GoodsSwiper from '../components/Swiper'
 
 export default class GoodsListPageView extends Component{
   state = {
-    canteenDetail: []
+    canteenDetail: [],
+    currentPage: 1
   }
-  componentDidMount() {
-    api.getCanteenDetail(1).then(data => {
+
+  //api function
+  getCanteenDetail(){
+    api.getCanteenDetail(this.state.currentPage).then(data => {
       if(data.status === 200 && data.data.data.length > 0) {
         // console.log(data.data.data)
         this.setState({
@@ -20,11 +25,20 @@ export default class GoodsListPageView extends Component{
     })
   }
 
+  // common function
+  _onEndReached() {
+    console.log('onend')
+  }
+
+  componentDidMount() {
+    this.getCanteenDetail()
+  }
+
   _renderSectionList(data,key) {
     return (
         <SectionList
           sections={[
-            {title:'菜單列表',data:this.state.canteenDetail},
+            {title:'餐廳列表',data:this.state.canteenDetail},
           ]}
           stickySectionHeadersEnabled={true}
           renderItem={({item,index}) => this._renderSectionListItem(item,index)}
@@ -32,16 +46,20 @@ export default class GoodsListPageView extends Component{
           renderSectionHeader={({section}) => (
             <Text style={styles.sectionHeader}>{section.title}</Text>
           )}
+          refreshing={true}
           initialNumToRender={7}
           onEndReachedThreshold={10}
+          onEndReached={this._onEndReached}
+          ListHeaderComponent={() => <GoodsSwiper />}
           ListEmptyComponent={() => (
-            <View>
+            <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
               <Text>沒有數據了...</Text>
             </View>
           )}
           ListFooterComponent={() => (
-            <View style={{alignSelf:'center'}}>
-              <Text>正在加載中...</Text>
+            <View style={{height:50,flex:1,flexDirection:'row',justifyContent:'center'}}>
+              <ActivityIndicator style={{flex:1,}} size='small' color='#000'/>
+              {/* <Text style={{flex:1}}>正在加載中...</Text> */}
             </View>
           )}
         />
@@ -49,7 +67,6 @@ export default class GoodsListPageView extends Component{
   }
 
   _renderSectionListItem(item,index) {
-    console.log(index)
     return (
       <ListItem avatar key={index} onPress={() =>this.props.navigation.navigate('Content',{
         data:item

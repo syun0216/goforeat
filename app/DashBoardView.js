@@ -42,6 +42,15 @@ const isLabelShow = Platform.select({
   android: true,
 });
 
+// 自定义路由拦截
+const defaultGetStateForAction = MainView.router.getStateForAction
+
+MainView.router.getStateForAction = (action, state) => {
+  console.log('action', action)
+  console.log('state', state)
+  return defaultGetStateForAction(action, state)
+}
+
 const StacksInTabs = TabNavigator({
   GoodsListTab: {
     screen: MainView,

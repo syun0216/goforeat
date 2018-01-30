@@ -27,7 +27,7 @@ export default class ArticleView extends Component{
          <Header style={{backgroundColor: '#fff'}}>
            <Body><Text>文章詳情</Text></Body>
          </Header>
-         <View>
+         <View style={{backgroundColor:'#fafafa'}}>
            <DeckSwiper
              ref={(c) => this._deckSwiper = c}
              dataSource={cards}
@@ -37,7 +37,7 @@ export default class ArticleView extends Component{
                </View>
              )}
              renderItem={item =>
-               <Card style={{ elevation: 3 }}>
+               <Card style={{ elevation: 3 }} onPress={() => this.props.navigation.navigate('Content')}>
                  <CardItem>
                    <Left>
                      <Thumbnail source={item.image} />
