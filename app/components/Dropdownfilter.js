@@ -12,7 +12,8 @@ export default class Dropdownfilter extends PureComponent{
     filterData:PropTypes.object.isRequired
   }
   state = {
-    currentItem:1
+    currentItem:1,
+    
   }
 
   _selectCurrent(index) {

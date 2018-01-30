@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import {View,Text} from 'react-native'
 import {Container,Header,Body,Right,Left,Button, Icon, Title,Content } from 'native-base'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 //utils
 import ToastUtil from '../utils/ToastUtil';
 import Colors from '../utils/Colors'
@@ -33,7 +32,7 @@ export default class ContentView extends Component {
         <Header style={{backgroundColor: '#fff'}}>
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name='arrow-back' style={{color:Colors.main_orange}}/>
+              <Icon size={20} name='ios-arrow-back' style={{fontSize: 25,color:Colors.main_orange}}/>
             </Button>
           </Left>
           <Body>
@@ -42,8 +41,8 @@ export default class ContentView extends Component {
           <Right>
             <Button transparent onPress={() => this.addNewsToFavorite()}>
               {this.state.favoriteChecked ?
-                  <MaterialIcons name='favorite' style={{fontSize: 20, color: '#ff5858'}}/> :
-                  <MaterialIcons name="favorite-border" style={{color:'#ff5858',fontSize: 20}}/>}
+                  <Icon name='md-heart' style={{fontSize: 20, color: Colors.main_orange}}/> :
+                  <Icon name="md-heart-outline" style={{color:'#ff5858',fontSize: 20}}/>}
             </Button>
           </Right>
         </Header>

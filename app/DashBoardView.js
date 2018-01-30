@@ -11,10 +11,9 @@ import {
   Right,
   Thumbnail,
   Button,
-  Text
+  Text,
+  Icon
 } from 'native-base'
-//icon
-import EntypoIcon from 'react-native-vector-icons/Entypo';
 //navigation
 import {StackNavigator, TabNavigator} from 'react-navigation'
 //views
@@ -28,87 +27,35 @@ import ArticleView from './views/ArticleView'
 import PersonView from './views/PersonView'
 //api
 import api from './api'
-
-let MainView = StackNavigator({
-  Home: {
-    screen: GoodsListPageView
-  },
-  Content: {
-    screen: ContentView,
-    navigationOptions: {
-      tabBarVisible: false
-    }
-  },
-  Search: {
-    screen: SearchView,
-    navigationOptions: {
-      tabBarVisible: false
-    }
-  }
-}, {headerMode: 'none'})
-
-let SecondView = StackNavigator({
-  Home: {
-    screen: ArticleView
-  },
-  Content: {
-    screen: ContentView,
-    navigationOptions: {
-      tabBarVisible: false
-    }
-  }
-}, {headerMode: 'none'})
-
-let ThirdView = StackNavigator({
-  Home: {
-    screen: PersonView
-  },
-  Login: {
-    screen: LoginView,
-    navigationOptions: {
-      tabBarVisible: false,
-      transitionConfig: {
-        isModal: true
-      }
-    }
-  }
-}, {headerMode: 'none'})
+//utils
+import ToastUtil from './utils/ToastUtil'
 
 const isLabelShow = Platform.select({ios: false, android: true});
 
-// 自定义路由拦截
-const defaultGetStateForAction = MainView.router.getStateForAction
-
-MainView.router.getStateForAction = (action, state) => {
-  console.log('action', action)
-  console.log('state', state)
-  return defaultGetStateForAction(action, state)
-}
-
-const StacksInTabs = TabNavigator({
+const rootView = TabNavigator({
   GoodsListTab: {
-    screen: MainView,
+    screen: GoodsListPageView,
     navigationOptions: {
       tabBarLabel: '商品',
-      tabBarIcon: ({tintColor}) => (<EntypoIcon size={35} name="menu" style={{
+      tabBarIcon: ({tintColor}) => (<Icon size={35} name="md-list-box" style={{
           color: tintColor
         }}/>)
     }
   },
   ArticleTab: {
-    screen: SecondView,
+    screen: ArticleView,
     navigationOptions: {
       tabBarLabel: '文章',
-      tabBarIcon: ({tintColor}) => (<EntypoIcon size={30} name="feather" style={{
+      tabBarIcon: ({tintColor}) => (<Icon size={28} name="md-images" style={{
           color: tintColor
         }}/>)
     }
   },
   PersonTab: {
-    screen: ThirdView,
+    screen: PersonView,
     navigationOptions: {
       tabBarLabel: '個人中心',
-      tabBarIcon: ({tintColor}) => (<EntypoIcon size={30} name="man" style={{
+      tabBarIcon: ({tintColor}) => (<Icon size={35} name="md-contact" style={{
           color: tintColor
         }}/>)
     }
@@ -130,4 +77,45 @@ const StacksInTabs = TabNavigator({
   }
 })
 
-export default StacksInTabs
+let MainView = StackNavigator({
+  Home: {
+    screen: rootView
+  },
+  Content: {
+    screen: ContentView,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  Search: {
+    screen: SearchView,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  Login: {
+    screen: LoginView,
+    navigationOptions: {
+      tabBarVisible: false,
+      transitionConfig: {
+        isModal: true
+      }
+    }
+  }
+}, {headerMode: 'none'})
+
+// 自定义路由拦截
+const defaultGetStateForAction = MainView.router.getStateForAction
+
+MainView.router.getStateForAction = (action, state) => {
+  console.log('action', action)
+  console.log('state', state)
+  // if(action.type === 'Navigation/NAVIGATE' && action.routeName === 'Login') {
+  //
+  // }
+  return defaultGetStateForAction(action, state)
+}
+
+
+
+export default MainView

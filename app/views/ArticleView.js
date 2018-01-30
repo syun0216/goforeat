@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Image } from 'react-native'
+import { Image,TouchableOpacity } from 'react-native'
 import { Container, Header, View, DeckSwiper, Card,Button, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
 
 const cards = [
@@ -27,41 +27,44 @@ export default class ArticleView extends Component{
          <Header style={{backgroundColor: '#fff'}}>
            <Body><Text>文章詳情</Text></Body>
          </Header>
-         <View style={{backgroundColor:'#fafafa'}}>
-           <DeckSwiper
-             ref={(c) => this._deckSwiper = c}
-             dataSource={cards}
-             renderEmpty={() => (
-               <View style={{ alignSelf: "center" }}>
-                 <Text>沒有更多了</Text>
-               </View>
-             )}
-             renderItem={item =>
-               <Card style={{ elevation: 3 }}>
-                 <CardItem >
-                   <Left>
-                     <Thumbnail source={item.image} />
-                     <Body>
-                       <Text>{item.text}</Text>
-                       <Text note>NativeBase</Text>
-                     </Body>
-                   </Left>
-                 </CardItem>
-                 <CardItem cardBody>
-                   <Image style={{ height: 300, flex: 1 }} source={item.image} />
-                 </CardItem>
-                 <CardItem>
-                   <Icon name="heart" style={{ color: '#ED4A6A' }} />
-                   <Text>{item.name}</Text>
-                 </CardItem>
-               </Card>
-             }
-           />
-         </View>
+           <View style={{backgroundColor:'#fafafa'}}>
+             <DeckSwiper
+               ref={(c) => this._deckSwiper = c}
+               dataSource={cards}
+               renderEmpty={() => (
+                 <View style={{ alignSelf: "center" }}>
+                   <Text>沒有更多了</Text>
+                 </View>
+               )}
+               renderItem={item =>
+                 <Card style={{ elevation: 3 }} >
+                   <CardItem>
+                     <Left>
+                       <Thumbnail source={item.image} />
+                       <Body>
+                         <Text>{item.text}</Text>
+                         <Text note>NativeBase</Text>
+                       </Body>
+                     </Left>
+                   </CardItem>
+                   <CardItem cardBody>
+                     <Image style={{ height: 300, flex: 1 }} source={item.image} />
+                   </CardItem>
+                   <CardItem>
+                     <Icon name="heart" style={{ color: '#ED4A6A' }} />
+                     <Text>{item.name}</Text>
+                   </CardItem>
+                 </Card>
+               }
+             />
+           </View>
          <View style={{ flexDirection: "row", flex: 1, position: "absolute", bottom: 30, left: 0, right: 0, justifyContent: 'space-between', padding: 15 }}>
           <Button transparent iconLeft onPress={() => this._deckSwiper._root.swipeLeft()}>
             <Icon name="arrow-back" />
             <Text>上一篇</Text>
+          </Button>
+          <Button transparent onPress={() => this.props.navigation.navigate('Content',{data:this._deckSwiper._root.state.selectedItem})}>
+            <Text>點擊查看詳情</Text>
           </Button>
           <Button transparent iconRight onPress={() => this._deckSwiper._root.swipeRight()}>
             <Text>下一篇</Text>

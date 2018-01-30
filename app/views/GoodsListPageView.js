@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {View,SectionList,Image,StyleSheet,ScrollView,TouchableWithoutFeedback,ActivityIndicator,TouchableOpacity,Animated,Easing} from 'react-native'
-import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text,Spinner} from 'native-base'
-import FeatherIcon from 'react-native-vector-icons/Feather'
+import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text,Spinner,Icon} from 'native-base'
+
 //api
 import api from '../api'
 //components
@@ -85,7 +85,7 @@ export default class GoodsListPageView extends Component{
         height: 251,
         top: this.state.positionTop.interpolate({
             inputRange: [0, 1],
-            outputRange: [-250, 62]
+            outputRange: [-270, 62]
         })
       }}>
         <Dropdownfilter filterData={this.state.canteenOptions}/>
@@ -178,7 +178,7 @@ export default class GoodsListPageView extends Component{
             <Body>
               <Text>Goforeat</Text>
             </Body>
-            <Right><FeatherIcon onPress={() => this.props.navigation.navigate('Search')} name="search" size={25} style={{color: Colors.main_orange}} /></Right>
+            <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
           </Header>
           <Content>
             {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}

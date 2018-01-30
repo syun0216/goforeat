@@ -11,7 +11,7 @@ import {
   View
 } from 'react-native';
 import {Root} from 'native-base'
-import StacksInTabs from './app/DashBoardView'
+import MainView from './app/DashBoardView'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -24,7 +24,7 @@ export default class App extends Component<{}> {
   render() {
     return (
       <Root>
-        <StacksInTabs />
+        <MainView />
       </Root>
     );
   }
