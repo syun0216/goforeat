@@ -2,16 +2,14 @@ import React,{Component} from 'react'
 import {View,Text} from 'react-native'
 import {Container,Header,Body,Right,Left,Button, Icon, Title,Content } from 'native-base'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+//utils
 import ToastUtil from '../utils/ToastUtil';
+import Colors from '../utils/Colors'
 
 export default class ContentView extends Component {
 
   state = {
     favoriteChecked: false
-  }
-
-  componentDidMount(){
-    console.log(this.props)
   }
 
   addNewsToFavorite() {
@@ -35,7 +33,7 @@ export default class ContentView extends Component {
         <Header style={{backgroundColor: '#fff'}}>
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name='arrow-back' style={{color:'#f07341'}}/>
+              <Icon name='arrow-back' style={{color:Colors.main_orange}}/>
             </Button>
           </Left>
           <Body>

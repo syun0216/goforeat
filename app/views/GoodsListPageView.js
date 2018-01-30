@@ -9,11 +9,13 @@ import GoodsSwiper from '../components/Swiper'
 import Dropdownfilter from '../components/Dropdownfilter'
 //utils
 import GLOBAL_PARAMS from '../utils/global_params'
+import Colors from '../utils/Colors'
 
 export default class GoodsListPageView extends Component{
 
   state = {
     canteenDetail: [],
+    canteenOptions: null,
     currentPage: 1,
     showFilterList: false,
     positionTop: new Animated.Value(0)
@@ -22,13 +24,19 @@ export default class GoodsListPageView extends Component{
   //api function
   getCanteenDetail(){
     api.getCanteenDetail(this.state.currentPage).then(data => {
-      // this.setState({
-      //   refreshing: false
-      // })
       if(data.status === 200 && data.data.data.length > 0) {
-        // console.log(data.data.data)
         this.setState({
           canteenDetail: data.data.data
+        })
+      }
+    })
+  }
+
+  getCanteenOption() {
+    api.getCanteenOptions().then(data => {
+      if(data.status === 200 ){
+        this.setState({
+          canteenOptions: data.data
         })
       }
     })
@@ -46,12 +54,12 @@ export default class GoodsListPageView extends Component{
     this.getCanteenDetail()
   }
 
-  _toToggleFilterListView(val) {
+  _toToggleFilterListView() {
     this.setState({
-      showFilterList: val === 1
+      showFilterList: !this.state.showFilterList
     })
     Animated.spring(this.state.positionTop, {
-      toValue: val, // 目标值
+      toValue: this.state.showFilterList? 0 : 1, // 目标值
       duration: 1000, // 动画时间
       easing: Easing.linear // 缓动函数
     }).start();
@@ -59,16 +67,18 @@ export default class GoodsListPageView extends Component{
 
   componentDidMount() {
     this.getCanteenDetail()
+    this.getCanteenOption()
   }
 
   _renderFilterView() {
     return (
+
       <Animated.View style={{
         flex: 1,
         flexDirection: 'column',
         backgroundColor: 'white',
         position: 'absolute',
-        zIndex: 1000,
+        zIndex: 1,
         borderTopWidth: 1,
         borderTopColor: '#ccc',
         width: GLOBAL_PARAMS._winWidth,
@@ -78,7 +88,7 @@ export default class GoodsListPageView extends Component{
             outputRange: [-250, 62]
         })
       }}>
-        <Dropdownfilter />
+        <Dropdownfilter filterData={this.state.canteenOptions}/>
       </Animated.View>
     )
   }
@@ -155,12 +165,12 @@ export default class GoodsListPageView extends Component{
       return (
         <Container>
           {/* {this.state.showFilterList ? this._renderPreventClickView() : null} */}
-          {this._renderFilterView()}
-          <Header style={{backgroundColor:'#fff'}}>
+          {this.state.canteenOptions ? this._renderFilterView() : null}
+          <Header style={{backgroundColor:'#fff',zIndex:10}}>
             <Left>
-              <TouchableOpacity onPress={() => this._toToggleFilterListView(1)}>
+              <TouchableOpacity onPress={() => this._toToggleFilterListView()}>
                 <View>
-                  <Text style={{color: '#f07341'}}>篩選分類</Text>
+                  <Text style={{color: Colors.main_orange}}>{this.state.showFilterList? '收起分類' : '篩選分類'}</Text>
                 </View>
               </TouchableOpacity>
               {/* <Image style={{width:40,height:40}} source={require('../asset/eat.png')}/> */}
@@ -168,7 +178,7 @@ export default class GoodsListPageView extends Component{
             <Body>
               <Text>Goforeat</Text>
             </Body>
-            <Right><FeatherIcon onPress={() => this.props.navigation.navigate('Search')} name="search" size={25} style={{color: '#f07341'}} /></Right>
+            <Right><FeatherIcon onPress={() => this.props.navigation.navigate('Search')} name="search" size={25} style={{color: Colors.main_orange}} /></Right>
           </Header>
           <Content>
             {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}
