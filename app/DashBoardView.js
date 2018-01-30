@@ -1,10 +1,22 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {Platform} from 'react-native'
-import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text} from 'native-base'
+import {
+  Container,
+  Header,
+  Content,
+  List,
+  ListItem,
+  Left,
+  Body,
+  Right,
+  Thumbnail,
+  Button,
+  Text
+} from 'native-base'
 //icon
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 //navigation
-import {StackNavigator,TabNavigator} from 'react-navigation'
+import {StackNavigator, TabNavigator} from 'react-navigation'
 //views
 import LoginView from './LoginView'
 
@@ -18,29 +30,51 @@ import PersonView from './views/PersonView'
 import api from './api'
 
 let MainView = StackNavigator({
-  Home: {screen: GoodsListPageView},
-  Content: {screen: ContentView, navigationOptions: {
-    tabBarVisible: false
-  }},
-  Login: {screen: LoginView,navigationOptions: {
-    tabBarVisible: false
+  Home: {
+    screen: GoodsListPageView
   },
-  transitionConfig: {
-    isModal: true
+  Content: {
+    screen: ContentView,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  Search: {
+    screen: SearchView,
+    navigationOptions: {
+      tabBarVisible: false
+    }
   }
+}, {headerMode: 'none'})
 
-},
-  Search: {screen: SearchView,navigationOptions: {
-    tabBarVisible: false
-  }}
-}, {
-  headerMode: 'none'
-})
+let SecondView = StackNavigator({
+  Home: {
+    screen: ArticleView
+  },
+  Content: {
+    screen: ContentView,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  }
+}, {headerMode: 'none'})
 
-const isLabelShow = Platform.select({
-  ios: false,
-  android: true,
-});
+let ThirdView = StackNavigator({
+  Home: {
+    screen: PersonView
+  },
+  Login: {
+    screen: LoginView,
+    navigationOptions: {
+      tabBarVisible: false,
+      transitionConfig: {
+        isModal: true
+      }
+    }
+  }
+}, {headerMode: 'none'})
+
+const isLabelShow = Platform.select({ios: false, android: true});
 
 // 自定义路由拦截
 const defaultGetStateForAction = MainView.router.getStateForAction
@@ -55,36 +89,36 @@ const StacksInTabs = TabNavigator({
   GoodsListTab: {
     screen: MainView,
     navigationOptions: {
-        tabBarLabel: '商品',
-        tabBarIcon: ({tintColor}) => (
-          <EntypoIcon size={35} name="menu" style={{color:tintColor}}/>
-        )
-      },
+      tabBarLabel: '商品',
+      tabBarIcon: ({tintColor}) => (<EntypoIcon size={35} name="menu" style={{
+          color: tintColor
+        }}/>)
+    }
   },
   ArticleTab: {
-    screen: ArticleView,
+    screen: SecondView,
     navigationOptions: {
-        tabBarLabel: '文章',
-        tabBarIcon: ({tintColor}) => (
-          <EntypoIcon size={30} name="feather" style={{color:tintColor}}/>
-        )
-      },
+      tabBarLabel: '文章',
+      tabBarIcon: ({tintColor}) => (<EntypoIcon size={30} name="feather" style={{
+          color: tintColor
+        }}/>)
+    }
   },
   PersonTab: {
-    screen: PersonView,
+    screen: ThirdView,
     navigationOptions: {
-        tabBarLabel: '個人中心',
-        tabBarIcon: ({tintColor}) => (
-          <EntypoIcon size={30} name="man" style={{color:tintColor}}/>
-        )
-      },
+      tabBarLabel: '個人中心',
+      tabBarIcon: ({tintColor}) => (<EntypoIcon size={30} name="man" style={{
+          color: tintColor
+        }}/>)
+    }
   }
-},{
+}, {
   animationEnabled: true,
   tabBarPosition: 'bottom',
   tabBarOptions: {
     activeTintColor: '#f07341',
-    showLabel:isLabelShow,
+    showLabel: isLabelShow,
     inactiveTintColor: '#707070',
     activeTintColor: '#f07341',
     style: {

@@ -37,8 +37,8 @@ export default class ArticleView extends Component{
                </View>
              )}
              renderItem={item =>
-               <Card style={{ elevation: 3 }} onPress={() => this.props.navigation.navigate('Content')}>
-                 <CardItem>
+               <Card style={{ elevation: 3 }}>
+                 <CardItem >
                    <Left>
                      <Thumbnail source={item.image} />
                      <Body>

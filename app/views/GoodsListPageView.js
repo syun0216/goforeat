@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {View,SectionList,Image,StyleSheet,ScrollView,ActivityIndicator} from 'react-native'
+import {View,SectionList,Image,StyleSheet,ScrollView,ActivityIndicator,TouchableOpacity} from 'react-native'
 import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text,Spinner} from 'native-base'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 //api
@@ -16,6 +16,9 @@ export default class GoodsListPageView extends Component{
   //api function
   getCanteenDetail(){
     api.getCanteenDetail(this.state.currentPage).then(data => {
+      this.setState({
+        refreshing: false
+      })
       if(data.status === 200 && data.data.data.length > 0) {
         // console.log(data.data.data)
         this.setState({
@@ -28,6 +31,13 @@ export default class GoodsListPageView extends Component{
   // common function
   _onEndReached() {
     console.log('onend')
+  }
+
+  _onRefreshToRequestFirstPageData(){
+    this.setState({
+      currentPage: 1
+    })
+    this.getCanteenDetail()
   }
 
   componentDidMount() {
@@ -48,6 +58,7 @@ export default class GoodsListPageView extends Component{
           )}
           refreshing={true}
           initialNumToRender={7}
+          // onRefresh={() => this._onRefreshToRequestFirstPageData}
           onEndReachedThreshold={10}
           onEndReached={this._onEndReached}
           ListHeaderComponent={() => <GoodsSwiper />}
@@ -91,7 +102,12 @@ export default class GoodsListPageView extends Component{
         <Container>
           <Header style={{backgroundColor:'#fff'}}>
             <Left>
-              <Image style={{width:40,height:40}} source={require('../asset/eat.png')}/>
+              <TouchableOpacity>
+                <View>
+                  <Text style={{color: '#f07341'}}>篩選分類</Text>
+                </View>
+              </TouchableOpacity>
+              {/* <Image style={{width:40,height:40}} source={require('../asset/eat.png')}/> */}
             </Left>
             <Body>
               <Text>Goforeat</Text>
