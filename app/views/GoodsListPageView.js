@@ -12,50 +12,52 @@ import Loading from '../components/Loading'
 import GLOBAL_PARAMS from '../utils/global_params'
 import Colors from '../utils/Colors'
 
+let requestParams = {
+  status: {
+    LOADING: 0,
+    LOAD_SUCCESS: 1,
+    LOAD_FAILED: 2
+  },
+  currentPage: 1,
+  isFirstTime: false //判断是不是第一次触发sectionlist的onendreach方法
+}
 export default class GoodsListPageView extends Component{
 
   sectionList = null
+  onEndReachedCalledDuringMomentum = false
 
   state = {
     loading: false,
+    bottomRequestStatus:requestParams.status.LOADING,
     canteenDetail: [],
     canteenOptions: null,
-    currentPage: 1,
     showFilterList: false,
     positionTop: new Animated.Value(0)
   }
 
-  //api function
-  getCanteenDetail(){
-    api.getCanteenDetail(this.state.currentPage).then(data => {
-      if(data.status === 200 && data.data.data.length > 0) {
-        this.setState({
-          canteenDetail: data.data.data
-        })
-      }
+  componentDidMount() {
+    this.setState({
+      loading: true
     })
+    this.getCanteenDetail()
+    this.getCanteenOption()
   }
 
-  getCanteenOption() {
-    api.getCanteenOptions().then(data => {
-      if(data.status === 200 ){
-        this.setState({
-          canteenOptions: data.data,
-          loading: false
-        })
-      }
-    })
-  }
 
   // common function
   _onEndReached() {
+    if (!this.onEndReachedCalledDuringMomentum) {
+      console.log('onend')
+      this.onEndReachedCalledDuringMomentum = true;
+    }
     console.log('onend')
+    // requestParams.currentPage ++;
+    // this.getCanteenDetail()
+    
   }
 
   _onRefreshToRequestFirstPageData(){
-    this.setState({
-      currentPage: 1
-    })
+    requestParams.currentPage = 1
     this.getCanteenDetail()
   }
 
@@ -70,14 +72,34 @@ export default class GoodsListPageView extends Component{
     }).start();
   }
 
-  componentDidMount() {
-    this.setState({
-      loading: true
+  //api function
+  getCanteenDetail(){
+    api.getCanteenDetail(requestParams.currentPage).then(data => {
+      this.setState({loading:false})
+      if(data.status === 200 && data.data.data.length > 0) {
+        this.setState({
+          canteenDetail: this.state.canteenDetail.concat(data.data.data)
+        })
+      }
+      else{
+        requestParams.currentPage --;
+      }
+    },() => {
+      requestParams.currentPage --;
     })
-    this.getCanteenDetail()
-    this.getCanteenOption()
   }
 
+  getCanteenOption() {
+    api.getCanteenOptions().then(data => {
+      if(data.status === 200 ){
+        this.setState({
+          canteenOptions: data.data,
+        })
+      }
+    })
+  }
+
+  
   _renderFilterView() {
     return (
 
@@ -119,6 +141,7 @@ export default class GoodsListPageView extends Component{
   _renderSectionList(data,key) {
     return (
         <SectionList
+          bounces={false}
           ref={(sectionList) => this.sectionList = sectionList}
           sections={[
             {title:'餐廳列表',data:this.state.canteenDetail},
@@ -131,9 +154,10 @@ export default class GoodsListPageView extends Component{
           )}
           refreshing={true}
           initialNumToRender={7}
-          // onRefresh={() => this._onRefreshToRequestFirstPageData}
-          onEndReachedThreshold={10}
-          onEndReached={this._onEndReached}
+          // onRefresh={() => alert('onRefresh: nothing to refresh :P')}
+          // onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+          onEndReachedThreshold={0}
+          onEndReached={() => this._onEndReached()}
           ListHeaderComponent={() => <GoodsSwiper />}
           ListEmptyComponent={() => (
             <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>

@@ -9,11 +9,11 @@ export default class PeopleView extends Component{
 
   _renderNotLoginView() {
     return (
-      <TouchableOpacity style={{alignSelf:'center',marginTop:100}} onPress={() => this.props.navigation.navigate('Login')}>
-        <View>
-          <Text>未登錄，請先登錄哦</Text>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity style={{alignSelf:'center',marginTop:100}} onPress={() => this.props.navigation.navigate('Login')}>
+          <View>
+            <Text>未登錄，請先登錄哦</Text>
+          </View>
+        </TouchableOpacity>
     )
   }
 
@@ -24,11 +24,7 @@ export default class PeopleView extends Component{
           <Body><Text>個人詳情</Text></Body>
         </Header>
         <Content>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
-            <View style={{ alignSelf: "center",justifyContent:"center" }}>
-              <Text>未登錄，請先登錄哦</Text>
-            </View>
-          </TouchableOpacity>
+          {this._renderNotLoginView()}
         </Content>
       </Container>
     )
