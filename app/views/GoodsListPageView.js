@@ -7,13 +7,17 @@ import api from '../api'
 //components
 import GoodsSwiper from '../components/Swiper'
 import Dropdownfilter from '../components/Dropdownfilter'
+import Loading from '../components/Loading'
 //utils
 import GLOBAL_PARAMS from '../utils/global_params'
 import Colors from '../utils/Colors'
 
 export default class GoodsListPageView extends Component{
 
+  sectionList = null
+
   state = {
+    loading: false,
     canteenDetail: [],
     canteenOptions: null,
     currentPage: 1,
@@ -36,7 +40,8 @@ export default class GoodsListPageView extends Component{
     api.getCanteenOptions().then(data => {
       if(data.status === 200 ){
         this.setState({
-          canteenOptions: data.data
+          canteenOptions: data.data,
+          loading: false
         })
       }
     })
@@ -66,6 +71,9 @@ export default class GoodsListPageView extends Component{
   }
 
   componentDidMount() {
+    this.setState({
+      loading: true
+    })
     this.getCanteenDetail()
     this.getCanteenOption()
   }
@@ -111,6 +119,7 @@ export default class GoodsListPageView extends Component{
   _renderSectionList(data,key) {
     return (
         <SectionList
+          ref={(sectionList) => this.sectionList = sectionList}
           sections={[
             {title:'餐廳列表',data:this.state.canteenDetail},
           ]}
@@ -164,9 +173,10 @@ export default class GoodsListPageView extends Component{
     render(){
       return (
         <Container>
+          {this.state.loading ? <Loading message="玩命加载中..."/> : null}
           {/* {this.state.showFilterList ? this._renderPreventClickView() : null} */}
           {this.state.canteenOptions ? this._renderFilterView() : null}
-          <Header style={{backgroundColor:'#fff',zIndex:10}}>
+          <Header style={{backgroundColor:'#fff'}}>
             <Left>
               <TouchableOpacity onPress={() => this._toToggleFilterListView()}>
                 <View>
