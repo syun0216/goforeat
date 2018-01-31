@@ -14,6 +14,8 @@ import {Root} from 'native-base'
 import store from './app/store'
 import {Provider} from 'react-redux'
 import MainView from './app/DashBoardView'
+//cache
+import appStorage from './app/utils/appStorage'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -23,6 +25,16 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component<{}> {
+  componentDidMount = () => {
+    appStorage.getLoginUserJsonData((error,data) => {
+      if(error === null) {
+        if(store.getState().auth.username === null) {
+          store.dispatch({type:'LOGIN',username:data})
+        }
+      }
+    })
+  }
+  
   render() {
     return (
       <Root>

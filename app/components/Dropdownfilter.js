@@ -24,7 +24,7 @@ export default class Dropdownfilter extends PureComponent{
 
 
   componentDidMount(){
-    console.log(this.props)
+    // console.log(this.props)
   }
 
   render() {

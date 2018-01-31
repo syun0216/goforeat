@@ -35,16 +35,18 @@ import ToastUtil from "./utils/ToastUtil"
 import appStorage from './utils/appStorage'
 //api
 import api from './api/index'
-//react-redux
-import {connect} from 'react-redux'
-import {user} from './utils/mapStateAndDIspatch'
 
-class LoginView extends Component {
+export default class LoginView extends Component {
   state = {
     phone: "",
     password: "",
     disabled: true
   };
+
+  componentDidMount = () => {
+    console.log('login',this.props)
+  };
+  
 
   //common function
   _getPhone(text) {
@@ -67,8 +69,8 @@ class LoginView extends Component {
     api.testLogin(this.state.phone,this.state.password).then(data => {
         console.log(data)
         if(data.status === 200 && !data.data.code) {
-            appStorage.setLoginUserJsonData(data.data.data[0])
             this.props.userLogin(data.data.data[0])
+            this.props.navigation.goBack()
         }else {
             Toast.show(data.data.msg,1000,'bottom','error')
         }
@@ -357,5 +359,3 @@ class LoginView extends Component {
     );
   }
 }
-
-export default connect(user.mapStateToProps,user.mapDispatchToProps)(LoginView)

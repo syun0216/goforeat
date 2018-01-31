@@ -29,6 +29,9 @@ import PersonView from './views/PersonView'
 import api from './api'
 //utils
 import ToastUtil from './utils/ToastUtil'
+//react-redux
+import {connect} from 'react-redux'
+import {userStateAndDispatch} from './utils/mapStateAndDIspatch'
 
 const isLabelShow = Platform.select({ios: false, android: true});
 
@@ -52,7 +55,7 @@ const rootView = TabNavigator({
     }
   },
   PersonTab: {
-    screen: PersonView,
+    screen: connect(userStateAndDispatch.mapStateToProps,userStateAndDispatch.mapDispatchToProps)(PersonView),
     navigationOptions: {
       tabBarLabel: '個人中心',
       tabBarIcon: ({tintColor}) => (<Icon size={35} name="md-contact" style={{
@@ -94,7 +97,7 @@ let MainView = StackNavigator({
     }
   },
   Login: {
-    screen: LoginView,
+    screen: connect(userStateAndDispatch.mapStateToProps,userStateAndDispatch.mapDispatchToProps)(LoginView),
     navigationOptions: {
       tabBarVisible: false,
       transitionConfig: {
