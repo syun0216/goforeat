@@ -32,6 +32,9 @@ import ToastUtil from './utils/ToastUtil'
 //react-redux
 import {connect} from 'react-redux'
 import {userStateAndDispatch} from './utils/mapStateAndDIspatch'
+//store
+import store from './store'
+
 
 const isLabelShow = Platform.select({ios: false, android: true});
 
@@ -113,9 +116,10 @@ const defaultGetStateForAction = MainView.router.getStateForAction
 MainView.router.getStateForAction = (action, state) => {
   console.log('action', action)
   console.log('state', state)
-  // if(action.type === 'Navigation/NAVIGATE' && action.routeName === 'Login') {
-  //
-  // }
+  if(action.type === 'Navigation/NAVIGATE' && action.routeName === 'Login'&& store.getState().auth.username !== null) {
+    ToastUtil.show('你不能进入',1000,'bottom','danger')
+    return null
+  }
   return defaultGetStateForAction(action, state)
 }
 
