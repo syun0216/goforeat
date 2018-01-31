@@ -11,6 +11,8 @@ import {
   View
 } from 'react-native';
 import {Root} from 'native-base'
+import store from './app/store'
+import {Provider} from 'react-redux'
 import MainView from './app/DashBoardView'
 
 const instructions = Platform.select({
@@ -24,27 +26,10 @@ export default class App extends Component<{}> {
   render() {
     return (
       <Root>
-        <MainView />
+        <Provider store={store}>
+          <MainView />
+        </Provider>
       </Root>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

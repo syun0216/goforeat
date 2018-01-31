@@ -30,6 +30,11 @@ import { StatusBar } from "react-native";
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
 import Colors from "./utils/Colors";
+import ToastUtil from "./utils/ToastUtil"
+//cache
+import appStorage from './utils/appStorage'
+//api
+import api from './api/index'
 
 export default class LoginView extends Component {
   state = {
@@ -40,13 +45,9 @@ export default class LoginView extends Component {
 
   //common function
   _getPhone(text) {
-    let reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
-    if (reg.test(text)) {
-      this.setState({
-        phone: text,
-        disabled: false
-      });
-    }
+    this.setState({
+        phone:text
+    })
   }
 
   _getPassword(text) {
@@ -60,11 +61,14 @@ export default class LoginView extends Component {
       ToastUtil.show("请填写用户名或密码", 1000, "bottom");
       return;
     }
-    if (this.state.phone !== "18022129789" && this.state.password !== "123") {
-      ToastUtil.show("用户名和密码错误", 1000, "bottom", "danger");
-      return;
-    }
-    alert(this.state.phone)
+    api.testLogin(this.state.phone,this.state.password).then(data => {
+        console.log(data)
+        if(data.status === 200 && !data.data.code) {
+            appStorage.setLoginUserJsonData(data.data.data[0])
+        }else {
+            Toast.show(data.data.msg,1000,'bottom','error')
+        }
+    })
     // const resetAction = NavigationActions.reset({
     //     index: 0,
     //     actions: [

@@ -4,7 +4,7 @@ let user_name = null;
 
 let appStorage = {
   _STORAGE_KEY_USER_DATA: "storage_key_user_data",
-  isLogin: user,
+  isLogin: user_name,
   /**
    * 存储用户信息
    * @param userInfo("id":"xxxxx","name":"xxxxx")
@@ -46,3 +46,5 @@ let appStorage = {
     AsyncStorage.clear();
   }
 };
+
+module.exports = appStorage
