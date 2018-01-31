@@ -11,7 +11,8 @@ goforear 外卖软件 （react native架构）
 - 个人详情页(开发中...)
 - 搜索页(开发中...)
 <p align="center">
-  <img src="./display/s1.png">
+  <img src="./display/s1.png" style="width:300px;">
+  <img src="./display/as1.png" style="width:325px;">
 </p>
 <p align="center">
   <img src="./display/s2.png">
