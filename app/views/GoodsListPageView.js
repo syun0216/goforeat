@@ -102,8 +102,9 @@ export default class GoodsListPageView extends Component{
 //views
   _renderSubHeader = () => (
     <View style={{
-      // position:'absolute',
-      // top:50,
+      position:'absolute',
+      top:64,
+      zIndex:100,
       width:GLOBAL_PARAMS._winWidth,height:30,
       display:'flex',
       justifyContent:'center',
@@ -139,7 +140,7 @@ export default class GoodsListPageView extends Component{
         height: 251,
         top: this.state.positionTop.interpolate({
             inputRange: [0, 1],
-            outputRange: [-270, 93]
+            outputRange: [-270, 94]
         })
       }}>
         <Dropdownfilter filterData={this.state.canteenOptions}/>
@@ -165,6 +166,7 @@ export default class GoodsListPageView extends Component{
   _renderSectionList(data,key) {
     return (
         <SectionList
+          style={{marginTop:32}}
           bounces={false}
           ref={(sectionList) => this.sectionList = sectionList}
           sections={[
@@ -224,6 +226,7 @@ export default class GoodsListPageView extends Component{
           {this.state.loading ? <Loading message="玩命加载中..."/> : null}
           {this.state.showFilterList ? this._renderPreventClickView() : null}
           {this.state.canteenOptions ? this._renderFilterView() : null}
+          {this._renderSubHeader()}
           <Header style={{backgroundColor:'#fff'}}>
             <Left>
               {/* <TouchableOpacity onPress={() => this._toToggleFilterListView()}>
@@ -243,7 +246,6 @@ export default class GoodsListPageView extends Component{
             <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
           </Header>
           <Content>
-            {this._renderSubHeader()}
             {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}
           </Content>
         </Container>
