@@ -22,12 +22,6 @@ export default class PeopleView extends Component {
     console.log(this.props);
   }
 
-  // shouldComponentUpdate = (nextProps, nextState) => {
-  //   if(nextProps.user === this.state.user) {
-  //     return false
-  //   }
-  // }
-
   //common function
 
   _renderNotLoginView() {
@@ -72,7 +66,7 @@ export default class PeopleView extends Component {
           </Body>
         </Header>
         <Content>
-          {this.state.user !== null
+          {this.props.user !== null
             ? this._renderIsLoginView()
             : this._renderNotLoginView()}
         </Content>

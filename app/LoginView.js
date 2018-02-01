@@ -46,7 +46,7 @@ export default class LoginView extends Component {
   componentDidMount = () => {
     console.log('login',this.props)
   };
-  
+
 
   //common function
   _getPhone(text) {
@@ -70,6 +70,13 @@ export default class LoginView extends Component {
         console.log(data)
         if(data.status === 200 && !data.data.code) {
             this.props.userLogin(data.data.data[0])
+            // const resetAction = NavigationActions.reset({
+            //     index: 0,
+            //     actions: [
+            //         NavigationActions.navigate({ routeName: 'Home'})
+            //     ]
+            // });
+            //  this.props.navigation.dispatch(resetAction);
             this.props.navigation.goBack()
         }else {
             Toast.show(data.data.msg,1000,'bottom','error')
