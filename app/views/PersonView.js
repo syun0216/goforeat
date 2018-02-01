@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity,StyleSheet,SectionList,Image } from "react-native";
+import { View, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert } from "react-native";
 import {
   Container,
   Header,
@@ -49,9 +49,9 @@ export default class PeopleView extends Component {
       ]}
       keyExtractor={(item, index) => index} // 消除SectionList warning
       renderItem={({item}) => (
-        <ListItem icon>
+        <ListItem icon onPress={() => this.props.navigation.navigate('Content',{data:{name:item.name}})}>
           <Left>
-            <Icon name={item.icon}></Icon>
+            <Icon color={Colors.main_orange} name={item.icon}></Icon>
           </Left>
           <Body>
             <Text>{item.name}</Text>
@@ -71,7 +71,17 @@ export default class PeopleView extends Component {
         </View>
       )}
       ListFooterComponent={() => (
-        <Button style={{ alignSelf: "center"}} transparent onPress={() => this.props.userLogout()}>
+        <Button style={{ alignSelf: "center"}} transparent onPress={() => {
+          Alert.alert(
+            '提示',
+            '確定要登出嗎？',
+            [
+              {text: '取消', onPress: () => {return null}, style: 'cancel'},
+              {text: '確定', onPress: () => this.props.userLogout()},
+            ],
+            { cancelable: false }
+          )
+        }}>
           <Text style={{color:Colors.main_orange,fontSize:20}}>登出</Text>
         </Button>
       )}
@@ -79,7 +89,7 @@ export default class PeopleView extends Component {
   )
 
   _renderPersonDetailHeader = () => (
-    <View style={styles.loginHeader}>
+    <View style={[styles.loginHeader,{backgroundColor:Colors.main_orange}]}>
       <Image style={styles.personAvatar} source={require('../asset/eat.png')}/>
       <Text>用戶名稱:{testData.name}</Text>
       <Text>年齡:{testData.age}</Text>
