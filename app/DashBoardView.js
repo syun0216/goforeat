@@ -1,21 +1,10 @@
 import React, {Component} from 'react'
-import {Platform} from 'react-native'
+import {Platform,View,Text,TouchableOpacity} from 'react-native'
 import {
-  Container,
-  Header,
-  Content,
-  List,
-  ListItem,
-  Left,
-  Body,
-  Right,
-  Thumbnail,
-  Button,
-  Text,
   Icon
 } from 'native-base'
 //navigation
-import {StackNavigator, TabNavigator} from 'react-navigation'
+import {StackNavigator, TabNavigator,DrawerNavigator} from 'react-navigation'
 //views
 import LoginView from './LoginView'
 
@@ -29,6 +18,8 @@ import PersonView from './views/PersonView'
 import api from './api'
 //utils
 import ToastUtil from './utils/ToastUtil'
+import LinkingUtils from './utils/LinkingUtils'
+import GLOBAL_PARAMS from './utils/global_params'
 //react-redux
 import {connect} from 'react-redux'
 import {userStateAndDispatch} from './utils/mapStateAndDIspatch'
@@ -38,7 +29,9 @@ import store from './store'
 
 const isLabelShow = Platform.select({ios: false, android: true});
 
-const rootView = TabNavigator({
+
+
+const tabView = TabNavigator({
   GoodsListTab: {
     screen: GoodsListPageView,
     navigationOptions: {
@@ -83,9 +76,30 @@ const rootView = TabNavigator({
   }
 })
 
+const darwerView = DrawerNavigator({
+  GoodsListDrawer: {
+    screen: tabView
+  }
+},{
+  drawerWidth:240,
+  drawerPosition: 'left',
+  contentComponent: props => (
+    <View style={{position:'relative',flex:1,height:GLOBAL_PARAMS._winHeight}}>
+      <View style={{alignSelf:'center',marginTop:100}}>
+        <Text>Goforeat v1.0.0</Text>
+      </View>
+      <TouchableOpacity style={{position:'absolute',bottom:30,right:50}} onPress={() => LinkingUtils.dialPhoneWithNumber('123456')}>
+        <View>
+          <Text style={{fontSize:18}}>联系电话:123456</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  )
+})
+
 let MainView = StackNavigator({
   Home: {
-    screen: rootView
+    screen: darwerView
   },
   Content: {
     screen: ContentView,

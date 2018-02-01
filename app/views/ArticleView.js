@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import { Image,TouchableOpacity } from 'react-native'
 import { Container, Header, View, DeckSwiper, Card,Button, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
+import Colors from '../utils/Colors'
 
 const cards = [
   {
@@ -60,15 +61,15 @@ export default class ArticleView extends Component{
            </View>
          <View style={{ flexDirection: "row", flex: 1, position: "absolute", bottom: 30, left: 0, right: 0, justifyContent: 'space-between', padding: 15 }}>
           <Button transparent iconLeft onPress={() => this._deckSwiper._root.swipeLeft()}>
-            <Icon name="arrow-back" />
-            <Text>上一篇</Text>
+            <Icon style={{color:Colors.main_orange}} name="arrow-back" />
+            <Text style={{color:Colors.main_orange}}>上一篇</Text>
           </Button>
           <Button transparent onPress={() => this.props.navigation.navigate('Content',{data:this._deckSwiper._root.state.selectedItem})}>
-            <Text>點擊查看詳情</Text>
+            <Text style={{color:Colors.main_orange}}>點擊查看詳情</Text>
           </Button>
           <Button transparent iconRight onPress={() => this._deckSwiper._root.swipeRight()}>
-            <Text>下一篇</Text>
-            <Icon name="arrow-forward" />
+            <Text style={{color:Colors.main_orange}}>下一篇</Text>
+            <Icon style={{color:Colors.main_orange}} name="arrow-forward" />
           </Button>
         </View>
        </Container>

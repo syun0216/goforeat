@@ -53,7 +53,7 @@ export default class GoodsListPageView extends Component{
     console.log('onend')
     // requestParams.currentPage ++;
     // this.getCanteenDetail()
-    
+
   }
 
   _onRefreshToRequestFirstPageData(){
@@ -99,7 +99,31 @@ export default class GoodsListPageView extends Component{
     })
   }
 
-  
+//views
+  _renderSubHeader = () => (
+    <View style={{
+      // position:'absolute',
+      // top:50,
+      width:GLOBAL_PARAMS._winWidth,height:30,
+      display:'flex',
+      justifyContent:'center',
+      backgroundColor:'#fff',
+      flexDirection:'row'}}>
+      <TouchableOpacity onPress={() => this._toToggleFilterListView()} style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+        <Icon name='md-compass' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/>
+        <Text>地區</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => this._toToggleFilterListView()} style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+        <Icon name='md-funnel' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/>
+        <Text>分類</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => this._toToggleFilterListView()} style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+        <Icon name='md-contacts' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/>
+        <Text>人數</Text>
+      </TouchableOpacity>
+    </View>
+  )
+
   _renderFilterView() {
     return (
 
@@ -108,14 +132,14 @@ export default class GoodsListPageView extends Component{
         flexDirection: 'column',
         backgroundColor: 'white',
         position: 'absolute',
-        zIndex: 1,
+        zIndex: 100,
         borderTopWidth: 1,
         borderTopColor: '#ccc',
         width: GLOBAL_PARAMS._winWidth,
         height: 251,
         top: this.state.positionTop.interpolate({
             inputRange: [0, 1],
-            outputRange: [-270, 62]
+            outputRange: [-270, 93]
         })
       }}>
         <Dropdownfilter filterData={this.state.canteenOptions}/>
@@ -188,7 +212,7 @@ export default class GoodsListPageView extends Component{
           <Text note>评分：{item.rate}</Text>
         </Body>
         <Right>
-          <Text note style={{color:'#ff5858'}}>${item.price}</Text>
+          <Text note style={{color:'#ff5858',fontSize:18}}>${item.price}</Text>
         </Right>
       </ListItem>
     )
@@ -198,16 +222,20 @@ export default class GoodsListPageView extends Component{
       return (
         <Container>
           {this.state.loading ? <Loading message="玩命加载中..."/> : null}
-          {/* {this.state.showFilterList ? this._renderPreventClickView() : null} */}
+          {this.state.showFilterList ? this._renderPreventClickView() : null}
           {this.state.canteenOptions ? this._renderFilterView() : null}
           <Header style={{backgroundColor:'#fff'}}>
             <Left>
-              <TouchableOpacity onPress={() => this._toToggleFilterListView()}>
+              {/* <TouchableOpacity onPress={() => this._toToggleFilterListView()}>
                 <View>
                   <Text style={{color: Colors.main_orange}}>{this.state.showFilterList? '收起分類' : '篩選分類'}</Text>
                 </View>
+              </TouchableOpacity> */}
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('DrawerOpen')}>
+                <View>
+                  <Icon name="md-apps" size={20} style={{color:Colors.main_orange}}/>
+                </View>
               </TouchableOpacity>
-              {/* <Image style={{width:40,height:40}} source={require('../asset/eat.png')}/> */}
             </Left>
             <Body>
               <Text>Goforeat</Text>
@@ -215,6 +243,7 @@ export default class GoodsListPageView extends Component{
             <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
           </Header>
           <Content>
+            {this._renderSubHeader()}
             {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}
           </Content>
         </Container>
