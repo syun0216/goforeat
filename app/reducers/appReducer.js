@@ -2,10 +2,12 @@ import {LOGIN,LOGOUT} from '../actions'
 import appStorage from '../utils/appStorage'
 
 const initialState = {
-  username:null
+  userState:{
+    username:null
+  }
 }
 
-export function auth(state=initialState,action) {
+export function auth(state=initialState.userState,action) {
   switch(action.type) {
     case LOGIN:
     appStorage.setLoginUserJsonData(action.username)
@@ -21,4 +23,12 @@ export function auth(state=initialState,action) {
     }
     default:return state
   }
+}
+
+export function http(){
+
+}
+
+export function theme(){
+
 }

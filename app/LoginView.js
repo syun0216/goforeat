@@ -66,32 +66,18 @@ export default class LoginView extends Component {
       ToastUtil.show("请填写用户名或密码", 1000, "bottom");
       return;
     }
-    api.testLogin(this.state.phone,this.state.password).then(data => {
-        console.log(data)
-        if(data.status === 200 && !data.data.code) {
-            this.props.userLogin(data.data.data[0])
-            // const resetAction = NavigationActions.reset({
-            //     index: 0,
-            //     actions: [
-            //         NavigationActions.navigate({ routeName: 'Home'})
-            //     ]
-            // });
-            //  this.props.navigation.dispatch(resetAction);
-            this.props.navigation.goBack()
-        }else {
-            Toast.show(data.data.msg,1000,'bottom','error')
-        }
-    })
-    // const resetAction = NavigationActions.reset({
-    //     index: 0,
-    //     actions: [
-    //         NavigationActions.navigate({ routeName: 'Home'})
-    //     ]
-    // });
-    // UserStore.setLoginUserJsonData(this.state.phone);
-    // console.log(userData.account.id);
-    // this.props.navigation.dispatch(resetAction);
-    // this.props.navigation.goBack();
+    if(this.state.phone === '123' && this.state.password === '123') {
+      this.props.userLogin('123')
+      this.props.navigation.goBack()
+    }
+    // api.testLogin(this.state.phone,this.state.password).then(data => {
+    //     if(data.status === 200 && !data.data.code) {
+    //         this.props.userLogin(data.data.data[0])
+    //         this.props.navigation.goBack()
+    //     }else {
+    //         Toast.show(data.data.msg,1000,'bottom','error')
+    //     }
+    // })
   }
 
   _register() {
