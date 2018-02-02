@@ -28,7 +28,7 @@ export default class ArticleView extends Component{
          <Header style={{backgroundColor: '#fff'}}>
            <Body><Text>文章詳情</Text></Body>
          </Header>
-           <View style={{backgroundColor:'#fafafa'}}>
+           <View>
              <DeckSwiper
                ref={(c) => this._deckSwiper = c}
                dataSource={cards}

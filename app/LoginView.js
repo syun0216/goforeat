@@ -36,6 +36,8 @@ import appStorage from './utils/appStorage'
 //api
 import api from './api/index'
 
+// const
+
 export default class LoginView extends Component {
   state = {
     phone: "",
@@ -90,6 +92,8 @@ export default class LoginView extends Component {
       return;
     }
   }
+
+  //views
 
   render() {
     return (

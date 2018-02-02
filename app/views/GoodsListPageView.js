@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {View,SectionList,Image,StyleSheet,ScrollView,TouchableWithoutFeedback,ActivityIndicator,TouchableOpacity,Animated,Easing} from 'react-native'
+import {View,SectionList,Image,StyleSheet,Platform,ScrollView,TouchableWithoutFeedback,ActivityIndicator,TouchableOpacity,Animated,Easing} from 'react-native'
 import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text,Spinner,Icon} from 'native-base'
 
 //api
@@ -8,9 +8,11 @@ import api from '../api'
 import GoodsSwiper from '../components/Swiper'
 import Dropdownfilter from '../components/Dropdownfilter'
 import Loading from '../components/Loading'
+import ErrorPage from '../components/ErrorPage'
 //utils
 import GLOBAL_PARAMS from '../utils/global_params'
 import Colors from '../utils/Colors'
+import ToastUtil from '../utils/ToastUtil'
 
 let requestParams = {
   status: {
@@ -21,6 +23,12 @@ let requestParams = {
   currentPage: 1,
   isFirstTime: false //判断是不是第一次触发sectionlist的onendreach方法
 }
+
+const diffplatform = {
+  subHeaderTop:Platform.select({ios: 64, android: 52}),
+  filterTop:Platform.select({ios: 94, android: 82})
+}
+
 export default class GoodsListPageView extends Component{
 
   sectionList = null
@@ -32,20 +40,63 @@ export default class GoodsListPageView extends Component{
     canteenDetail: [],
     canteenOptions: null,
     showFilterList: false,
+    loadingStatus:{
+      firstPageLoading: requestParams.status.LOADING,
+      pullUpLoading: requestParams.status.LOADING
+    },
     positionTop: new Animated.Value(0)
   }
 
   componentDidMount() {
-    this.setState({
-      loading: true
-    })
     this.getCanteenDetail()
     this.getCanteenOption()
   }
 
 
+  //api function
+  getCanteenDetail = () => {
+    api.getCanteenDetail(requestParams.currentPage).then(data => {
+      if(data.status === 200) {
+        this.setState({
+          canteenDetail: this.state.canteenDetail.concat(data.data.data),
+          loadingStatus:{
+            firstPageLoading: requestParams.status.LOAD_SUCCESS
+          }
+        })
+      }
+      else{
+        this.setState({
+          loadingStatus:{
+            firstPageLoading: requestParams.status.LOAD_FAILED
+          }
+        })
+        requestParams.currentPage --;
+      }
+    },() => {
+      ToastUtil.show('网络请求出错','bottom',1000,'warning')
+      this.setState({
+        loadingStatus:{
+          firstPageLoading:requestParams.status.LOAD_FAILED
+        }
+      })
+      requestParams.currentPage --;
+    })
+  }
+
+  getCanteenOption = () => {
+    api.getCanteenOptions().then(data => {
+      if(data.status === 200 ){
+        this.setState({
+          canteenOptions: data.data,
+        })
+      }
+    },() => {
+      ToastUtil.show('网络请求出错','bottom',1000,'warning')
+    })
+  }
+
   // common function
-  _onEndReached() {
+  _onEndReached = () => {
     if (!this.onEndReachedCalledDuringMomentum) {
       console.log('onend')
       this.onEndReachedCalledDuringMomentum = true;
@@ -56,12 +107,12 @@ export default class GoodsListPageView extends Component{
 
   }
 
-  _onRefreshToRequestFirstPageData(){
-    requestParams.currentPage = 1
+  _onRefreshToRequestFirstPageData = () => {
+    // requestParams.currentPage = 1
     this.getCanteenDetail()
   }
 
-  _toToggleFilterListView() {
+  _toToggleFilterListView= () => {
     this.setState({
       showFilterList: !this.state.showFilterList
     })
@@ -72,40 +123,14 @@ export default class GoodsListPageView extends Component{
     }).start();
   }
 
-  //api function
-  getCanteenDetail(){
-    api.getCanteenDetail(requestParams.currentPage).then(data => {
-      this.setState({loading:false})
-      if(data.status === 200 && data.data.data.length > 0) {
-        this.setState({
-          canteenDetail: this.state.canteenDetail.concat(data.data.data)
-        })
-      }
-      else{
-        requestParams.currentPage --;
-      }
-    },() => {
-      requestParams.currentPage --;
-    })
-  }
-
-  getCanteenOption() {
-    api.getCanteenOptions().then(data => {
-      if(data.status === 200 ){
-        this.setState({
-          canteenOptions: data.data,
-        })
-      }
-    })
-  }
-
 //views
   _renderSubHeader = () => (
     <View style={{
       position:'absolute',
-      top:64,
+      top:diffplatform.subHeaderTop,
       zIndex:100,
-      width:GLOBAL_PARAMS._winWidth,height:30,
+      width:GLOBAL_PARAMS._winWidth,
+      height:30,
       display:'flex',
       justifyContent:'center',
       backgroundColor:'#fff',
@@ -125,7 +150,7 @@ export default class GoodsListPageView extends Component{
     </View>
   )
 
-  _renderFilterView() {
+  _renderFilterView= () => {
     return (
 
       <Animated.View style={{
@@ -140,7 +165,7 @@ export default class GoodsListPageView extends Component{
         height: 251,
         top: this.state.positionTop.interpolate({
             inputRange: [0, 1],
-            outputRange: [-270, 94]
+            outputRange: [-270, diffplatform.filterTop]
         })
       }}>
         <Dropdownfilter filterData={this.state.canteenOptions}/>
@@ -148,7 +173,7 @@ export default class GoodsListPageView extends Component{
     )
   }
 
-  _renderPreventClickView() {
+  _renderPreventClickView= () => {
     return this.state.showFilterList ? <TouchableWithoutFeedback onPress={() => this._toToggleFilterListView(0)}>
         <View style={{
             width: GLOBAL_PARAMS._winWidth,
@@ -163,7 +188,7 @@ export default class GoodsListPageView extends Component{
     </TouchableWithoutFeedback> : null;
   }
 
-  _renderSectionList(data,key) {
+  _renderSectionList= (data,key) =>{
     return (
         <SectionList
           style={{marginTop:32}}
@@ -200,8 +225,7 @@ export default class GoodsListPageView extends Component{
     )
   }
 
-  _renderSectionListItem(item,index) {
-    return (
+  _renderSectionListItem = (item,index) => (
       <ListItem avatar key={index} onPress={() =>this.props.navigation.navigate('Content',{
         data:item
       })}>
@@ -218,12 +242,14 @@ export default class GoodsListPageView extends Component{
         </Right>
       </ListItem>
     )
-  }
 
     render(){
       return (
         <Container>
-          {this.state.loading ? <Loading message="玩命加载中..."/> : null}
+          {this.state.loadingStatus.firstPageLoading === requestParams.status.LOADING ?
+            <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === requestParams.status.LOAD_FAILED ?
+            <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onRefreshToRequestFirstPageData}/> : null)}
+
           {this.state.showFilterList ? this._renderPreventClickView() : null}
           {this.state.canteenOptions ? this._renderFilterView() : null}
           {this._renderSubHeader()}

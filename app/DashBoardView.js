@@ -26,11 +26,6 @@ import {userStateAndDispatch} from './utils/mapStateAndDIspatch'
 //store
 import store from './store'
 
-
-const isLabelShow = Platform.select({ios: false, android: true});
-
-
-
 const tabView = TabNavigator({
   GoodsListTab: {
     screen: GoodsListPageView,
@@ -64,7 +59,8 @@ const tabView = TabNavigator({
   tabBarPosition: 'bottom',
   tabBarOptions: {
     activeTintColor: '#f07341',
-    showLabel: isLabelShow,
+    showLabel: false,
+    showIcon:true,
     inactiveTintColor: '#707070',
     activeTintColor: '#f07341',
     style: {

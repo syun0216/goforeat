@@ -12,7 +12,8 @@ const api = {
       limit: 12
     }
     return axios.get(root_url + '/guide/queryCanteen',{
-      params:params
+      params:params,
+      timeout: 4500
     })
   },
   getCanteenOptions() {
