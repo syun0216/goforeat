@@ -13,12 +13,14 @@ import ErrorPage from '../components/ErrorPage'
 import GLOBAL_PARAMS from '../utils/global_params'
 import Colors from '../utils/Colors'
 import ToastUtil from '../utils/ToastUtil'
+import ListFooter from '../components/ListFooter'
 
 let requestParams = {
   status: {
     LOADING: 0,
     LOAD_SUCCESS: 1,
-    LOAD_FAILED: 2
+    LOAD_FAILED: 2,
+    NO_MORE_DATA: 3
   },
   currentPage: 1,
   isFirstTime: false //判断是不是第一次触发sectionlist的onendreach方法
@@ -36,13 +38,13 @@ export default class GoodsListPageView extends Component{
 
   state = {
     loading: false,
-    bottomRequestStatus:requestParams.status.LOADING,
+    bottomRequestStatus:GLOBAL_PARAMS.httpStatus.LOADING,
     canteenDetail: [],
     canteenOptions: null,
     showFilterList: false,
     loadingStatus:{
-      firstPageLoading: requestParams.status.LOADING,
-      pullUpLoading: requestParams.status.LOADING
+      firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
+      pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING
     },
     positionTop: new Animated.Value(0)
   }
@@ -58,28 +60,27 @@ export default class GoodsListPageView extends Component{
     api.getCanteenDetail(requestParams.currentPage).then(data => {
       if(data.status === 200) {
         this.setState({
-          canteenDetail: this.state.canteenDetail.concat(data.data.data),
+          canteenDetail: data.data.data,
           loadingStatus:{
-            firstPageLoading: requestParams.status.LOAD_SUCCESS
+            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
           }
         })
       }
       else{
         this.setState({
+          canteenDetail: data.data.data,
           loadingStatus:{
-            firstPageLoading: requestParams.status.LOAD_FAILED
+            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
           }
         })
-        requestParams.currentPage --;
       }
     },() => {
       ToastUtil.show('网络请求出错','bottom',1000,'warning')
       this.setState({
         loadingStatus:{
-          firstPageLoading:requestParams.status.LOAD_FAILED
+          firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
         }
       })
-      requestParams.currentPage --;
     })
   }
 
@@ -97,19 +98,73 @@ export default class GoodsListPageView extends Component{
 
   // common function
   _onEndReached = () => {
-    if (!this.onEndReachedCalledDuringMomentum) {
-      console.log('onend')
-      this.onEndReachedCalledDuringMomentum = true;
-    }
-    console.log('onend')
-    // requestParams.currentPage ++;
-    // this.getCanteenDetail()
+    requestParams.currentPage ++
+    console.log(123)
+    this.setState({
+      loadingStatus: {
+        pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
+      }
+    })
 
+    // api.getCanteenDetail(requestParams.currentPage).then(data => {
+    //   if(data.status === 200) {
+    //     console.log(data)
+    //     if(data.data.data.length === 0) {
+    //       requestParams.currentPage --
+    //       // this.setState({
+    //       //   canteenDetail:this.state.canteenDetail.concat(data.data.data)
+    //       //   loadingStatus: {
+    //       //     pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
+    //       //   }
+    //       // })
+    //       return
+    //     }
+    //     this.setState({
+    //       canteenDetail:this.state.canteenDetail.concat(data.data.data),
+    //       loadingStatus:{
+    //         pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
+    //       }
+    //     })
+    //   }
+    // },() => {
+    //   requestParams.currentPage --
+    //   this.setState({
+    //     loadingStatus: {
+    //       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
+    //     }
+    //   })
+    // })
   }
 
-  _onRefreshToRequestFirstPageData = () => {
-    // requestParams.currentPage = 1
+  _onRequestFirstPageData = () => {
+    requestParams.currentPage = 1
     this.getCanteenDetail()
+    // const successCallBack = (data) => {
+    //   this.setState({
+    //     canteenDetail: data.data.data,
+    //     loadingStatus:{
+    //       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
+    //     }
+    //   })
+    // }
+    // const successButNoDataCallBack = (data) => {
+    //   this.setState({
+    //     canteenDetail: data.data.data,
+    //     loadingStatus:{
+    //       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
+    //     }
+    //   })
+    // }
+    // const failCallBack = () => {
+    //   ToastUtil.show('网络请求出错','bottom',1000,'warning')
+    //   this.setState({
+    //     loadingStatus:{
+    //       firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
+    //     }
+    //   })
+    // }
+    // this.getCanteenDetail(successCallBack,failCallBack,successButNoDataCallBack)
+
   }
 
   _toToggleFilterListView= () => {
@@ -192,7 +247,6 @@ export default class GoodsListPageView extends Component{
     return (
         <SectionList
           style={{marginTop:32}}
-          bounces={false}
           ref={(sectionList) => this.sectionList = sectionList}
           sections={[
             {title:'餐廳列表',data:this.state.canteenDetail},
@@ -207,20 +261,16 @@ export default class GoodsListPageView extends Component{
           initialNumToRender={7}
           // onRefresh={() => alert('onRefresh: nothing to refresh :P')}
           // onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={10}
           onEndReached={() => this._onEndReached()}
+          // onEndReached={this._onEndReached.bind(this)}
           ListHeaderComponent={() => <GoodsSwiper />}
           ListEmptyComponent={() => (
             <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
               <Text>沒有數據了...</Text>
             </View>
           )}
-          ListFooterComponent={() => (
-            <View style={{height:50,flex:1,flexDirection:'row',justifyContent:'center'}}>
-              <ActivityIndicator style={{flex:1,}} size='small' color='#000'/>
-              {/* <Text style={{flex:1}}>正在加載中...</Text> */}
-            </View>
-          )}
+          ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={this._onEndReached}/>)}
         />
     )
   }
@@ -241,42 +291,37 @@ export default class GoodsListPageView extends Component{
           <Text note style={{color:'#ff5858',fontSize:18}}>${item.price}</Text>
         </Right>
       </ListItem>
+  )
+
+  render(){
+    return (
+      <Container>
+        {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
+          <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+          <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onRequestFirstPageData}/> : null)}
+
+        {this.state.showFilterList ? this._renderPreventClickView() : null}
+        {this.state.canteenOptions ? this._renderFilterView() : null}
+        {this._renderSubHeader()}
+        <Header style={{backgroundColor:'#fff'}}>
+          <Left>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('DrawerOpen')}>
+              <View>
+                <Icon name="md-apps" size={20} style={{color:Colors.main_orange}}/>
+              </View>
+            </TouchableOpacity>
+          </Left>
+          <Body>
+            <Text>Goforeat</Text>
+          </Body>
+          <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
+        </Header>
+        <View  style={{backgroundColor:'#fff'}}>
+          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}
+        </View>
+      </Container>
     )
-
-    render(){
-      return (
-        <Container>
-          {this.state.loadingStatus.firstPageLoading === requestParams.status.LOADING ?
-            <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === requestParams.status.LOAD_FAILED ?
-            <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onRefreshToRequestFirstPageData}/> : null)}
-
-          {this.state.showFilterList ? this._renderPreventClickView() : null}
-          {this.state.canteenOptions ? this._renderFilterView() : null}
-          {this._renderSubHeader()}
-          <Header style={{backgroundColor:'#fff'}}>
-            <Left>
-              {/* <TouchableOpacity onPress={() => this._toToggleFilterListView()}>
-                <View>
-                  <Text style={{color: Colors.main_orange}}>{this.state.showFilterList? '收起分類' : '篩選分類'}</Text>
-                </View>
-              </TouchableOpacity> */}
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('DrawerOpen')}>
-                <View>
-                  <Icon name="md-apps" size={20} style={{color:Colors.main_orange}}/>
-                </View>
-              </TouchableOpacity>
-            </Left>
-            <Body>
-              <Text>Goforeat</Text>
-            </Body>
-            <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
-          </Header>
-          <Content>
-            {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}
-          </Content>
-        </Container>
-      )
-    }
+  }
 }
 
 const styles = StyleSheet.create({
