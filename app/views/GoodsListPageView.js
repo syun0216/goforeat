@@ -28,12 +28,13 @@ let requestParams = {
 
 const diffplatform = {
   subHeaderTop:Platform.select({ios: 64, android: 52}),
-  filterTop:Platform.select({ios: 94, android: 82})
+  filterTop:Platform.select({ios: 0, android: 56})
 }
 
 export default class GoodsListPageView extends Component{
 
   sectionList = null
+  sview = null // 滾動視圖
   onEndReachedCalledDuringMomentum = false
 
   state = {
@@ -97,14 +98,28 @@ export default class GoodsListPageView extends Component{
   }
 
   // common function
+  // _getListViewData(sview) {
+    // console.log(sview.nativeEvent.contentOffset.y)
+      // if (sview.nativeEvent.contentOffset.y > 100) {
+      //     Animated.spring(this.state.positionBottom, {
+      //         toValue: 1,
+      //         duration: 500,
+      //         easing: Easing.linear
+      //     }).start();
+      // }
+      // else {
+      //     Animated.timing(this.state.positionBottom, {
+      //         toValue: 0,
+      //         duration: 200,
+      //         easing: Easing.linear
+      //     }).start();
+      // }
+      // console.log(sview.nativeEvent.contentOffset.y);
+  // }
+
   _onEndReached = () => {
     requestParams.currentPage ++
     console.log(123)
-    this.setState({
-      loadingStatus: {
-        pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
-      }
-    })
 
     // api.getCanteenDetail(requestParams.currentPage).then(data => {
     //   if(data.status === 200) {
@@ -168,39 +183,60 @@ export default class GoodsListPageView extends Component{
   }
 
   _toToggleFilterListView= () => {
-    this.setState({
-      showFilterList: !this.state.showFilterList
-    })
-    Animated.spring(this.state.positionTop, {
-      toValue: this.state.showFilterList? 0 : 1, // 目标值
-      duration: 1000, // 动画时间
-      easing: Easing.linear // 缓动函数
-    }).start();
+    this.sectionList.scrollToLocation({
+      sectionIndex: 0,
+      itemIndex: 0,
+      viewPosition: 0,
+      viewOffset: 0,
+      })
+    let timer = setTimeout(() => {
+      this.setState({
+        showFilterList: !this.state.showFilterList
+      })
+      Animated.spring(this.state.positionTop, {
+         toValue: this.state.showFilterList? 1 : 0, // 目标值
+         duration: 1000, // 动画时间
+         easing: Easing.linear // 缓动函数
+       }).start();
+      clearTimeout(timer)
+    },0)
+    // let timer = setTimeout(() => {
+    //   Animated.spring(this.state.positionTop, {
+    //     toValue: this.state.showFilterList? 0 : 1, // 目标值
+    //     duration: 1000, // 动画时间
+    //     easing: Easing.linear // 缓动函数
+    //   }).start();
+    //   clearTimeout(timer)
+    // },1000)
+
   }
 
 //views
   _renderSubHeader = () => (
     <View style={{
-      position:'absolute',
-      top:diffplatform.subHeaderTop,
+      // position:'absolute',
+      // top:diffplatform.subHeaderTop,
+      borderColor:'#ccc',
+      borderBottomWidth:1,
       zIndex:100,
       width:GLOBAL_PARAMS._winWidth,
-      height:30,
+      height:50,
       display:'flex',
       justifyContent:'center',
       backgroundColor:'#fff',
       flexDirection:'row'}}>
-      <TouchableOpacity onPress={() => this._toToggleFilterListView()} style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-        <Icon name='md-compass' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/>
-        <Text>地區</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => this._toToggleFilterListView()} style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-        <Icon name='md-funnel' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/>
-        <Text>分類</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => this._toToggleFilterListView()} style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-        <Icon name='md-contacts' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/>
-        <Text>人數</Text>
+      <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+        {/* <Icon name='md-compass' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/> */}
+        <Text>餐廳列表</Text>
+      </View>
+      <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+        {/* <Icon name='md-funnel' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/>
+        <Text>分類</Text> */}
+      </View>
+      <TouchableOpacity onPress={() => this._toToggleFilterListView()}
+        style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+        {/* <Icon name='md-menu' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/> */}
+        <Text style={{color:Colors.main_orange}}>篩選分類</Text>
       </TouchableOpacity>
     </View>
   )
@@ -246,19 +282,18 @@ export default class GoodsListPageView extends Component{
   _renderSectionList= (data,key) =>{
     return (
         <SectionList
-          style={{marginTop:32}}
           ref={(sectionList) => this.sectionList = sectionList}
+          // onScroll={(sview) => this._getListViewData(sview)}
           sections={[
             {title:'餐廳列表',data:this.state.canteenDetail},
           ]}
           stickySectionHeadersEnabled={true}
           renderItem={({item,index}) => this._renderSectionListItem(item,index)}
           keyExtractor={(item, index) => index} // 消除SectionList warning
-          renderSectionHeader={({section}) => (
-            <Text style={styles.sectionHeader}>{section.title}</Text>
-          )}
+          renderSectionHeader={({section}) => this._renderSubHeader()}
           refreshing={true}
           initialNumToRender={7}
+          getItemLayout={(data,index) => ({length: 75, offset: 75 * index + 175, index: index})}
           // onRefresh={() => alert('onRefresh: nothing to refresh :P')}
           // onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
           onEndReachedThreshold={10}
@@ -302,7 +337,7 @@ export default class GoodsListPageView extends Component{
 
         {this.state.showFilterList ? this._renderPreventClickView() : null}
         {this.state.canteenOptions ? this._renderFilterView() : null}
-        {this._renderSubHeader()}
+        {/* {this._renderSubHeader()} */}
         <Header style={{backgroundColor:'#fff'}}>
           <Left>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('DrawerOpen')}>
