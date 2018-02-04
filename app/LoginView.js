@@ -65,7 +65,7 @@ export default class LoginView extends Component {
 
   _login() {
     if (this.state.phone === "" && this.state.password === "") {
-      ToastUtil.show("请填写用户名或密码", 1000, "bottom");
+      ToastUtil.show("請填寫手機號或密碼", 1000, "bottom","warning");
       return;
     }
     if(this.state.phone === '123' && this.state.password === '123') {
@@ -84,11 +84,11 @@ export default class LoginView extends Component {
 
   _register() {
     if (this.state.phone === "" && this.state.password === "") {
-      ToastUtil.show("请填写用户名或密码", 1000, "bottom");
+      ToastUtil.show("請填寫手機號或密碼", 1000, "bottom");
       return;
     }
     if (this.state.phone !== "18022129789" && this.state.password !== "123") {
-      ToastUtil.show("用户名和密码错误", 1000, "bottom", "danger");
+      ToastUtil.show("手機號或密碼錯誤", 1000, "bottom", "danger");
       return;
     }
   }
@@ -222,7 +222,7 @@ export default class LoginView extends Component {
                     onChangeText={phone => this._getPhone(phone)}
                     multiline={false}
                     autoFocus={false}
-                    placeholder="请输入手机号"
+                    placeholder="請輸入手機號"
                     keyboardType="numeric"
                     clearButtonMode="while-editing"
                     placeholderTextColor="gray"
@@ -265,7 +265,7 @@ export default class LoginView extends Component {
                     onChangeText={password => this._getPassword(password)}
                     multiline={false}
                     autoFocus={false}
-                    placeholder="请输入密码"
+                    placeholder="請輸入密碼"
                     clearButtonMode="while-editing"
                     placeholderTextColor="gray"
                     returnKeyType="done"
@@ -319,7 +319,7 @@ export default class LoginView extends Component {
                 <Text
                   style={{ textAlign: "center", fontSize: 12, color: "#fff" }}
                 >
-                  忘记密码？
+                  忘記密碼?
                 </Text>
               </View>
             </View>
@@ -348,7 +348,7 @@ export default class LoginView extends Component {
                 fontSize: 12
               }}
             >
-              新用户？点击注册
+              新用戶?點擊註冊
             </Text>
           </View>
         </View>

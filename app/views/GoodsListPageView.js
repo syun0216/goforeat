@@ -58,8 +58,9 @@ export default class GoodsListPageView extends Component{
 
 
   //api function
-  getCanteenDetail = () => {
-    api.getCanteenDetail(requestParams.currentPage).then(data => {
+  getCanteenDetail = (filter) => {
+    api.getCanteenDetail(requestParams.currentPage,filter).then(data => {
+      console.log(data)
       if(data.status === 200) {
         this.setState({
           canteenDetail: data.data.data,
@@ -224,10 +225,18 @@ export default class GoodsListPageView extends Component{
 
   _confirmToFilter = (data) => {
     console.log('data',data)
+    requestParams.currentPage = 1
+    this.setState({
+      loadingStatus:{
+        firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
+      }
+    })
+    this.getCanteenDetail(data)
+    this._toToggleFilterListView(0)
   }
 //views
-  _renderSubHeader = () => (
-    <View style={{
+  _renderSubHeader = (section) => {
+    return (<View style={{
       // position:'absolute',
       // top:diffplatform.subHeaderTop,
       borderColor:'#ccc',
@@ -252,8 +261,8 @@ export default class GoodsListPageView extends Component{
         {/* <Icon name='md-menu' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/> */}
         <Text style={{color:Colors.main_orange}}>篩選分類</Text>
       </TouchableOpacity>
-    </View>
-  )
+    </View>)
+  }
 
   _renderFilterView= () => {
     return (
@@ -303,7 +312,7 @@ export default class GoodsListPageView extends Component{
           stickySectionHeadersEnabled={true}
           renderItem={({item,index}) => this._renderSectionListItem(item,index)}
           keyExtractor={(item, index) => index} // 消除SectionList warning
-          renderSectionHeader={({section}) => this._renderSubHeader()}
+          renderSectionHeader={({section}) => this._renderSubHeader(section)}
           refreshing={true}
           initialNumToRender={7}
           getItemLayout={(data,index) => ({length: 75, offset: 75 * index + 175, index: index})}

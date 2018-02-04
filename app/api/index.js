@@ -5,12 +5,22 @@ const root_url = 'http://goforeat.hk'
 const test_url = 'http://localhost:1091'
 
 const api = {
-  getCanteenDetail(page) {
+  getCanteenDetail(page,filter) {
+    const validItem = {}
     const params = {
       page: page,
       condition: 'default',
       limit: 12
     }
+    if(typeof filter !== 'undefined'){
+      for(let i in filter){
+        if(filter[i] !== 'default'){
+          validItem[i] = filter[i]
+        }
+      }
+      Object.assign(params,validItem)
+    }
+    console.log(params)
     return axios.get(root_url + '/guide/queryCanteen',{
       params:params,
       timeout: 4500
