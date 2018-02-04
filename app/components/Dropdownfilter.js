@@ -33,7 +33,7 @@ class Dropdownfilter extends PureComponent{
 
 
   componentDidMount(){
-    console.log(this.props)
+    // console.log(this.props)
   }
 
   _renderFilterItem = (item,idx) => (
@@ -50,7 +50,7 @@ class Dropdownfilter extends PureComponent{
   _renderFilterChildrenItem = (citem,cidx,itemEnName) => (
     <View style={styles.filterItemChildren} key={cidx}>
       {citem.map((btn,btnkey) => (
-        <Button onPress={() => this._filterClick(btn,itemEnName)}
+        <Button key={btnkey} onPress={() => this._filterClick(btn,itemEnName)}
            transparent key={btnkey} style={styles.filterItemChildrenBtn}>
           <Text style={this.props.filterSort[itemEnName] === btn[0] ?
             styles.activeText : null}>{btn[1]}</Text>

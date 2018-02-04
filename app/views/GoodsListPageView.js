@@ -52,15 +52,15 @@ export default class GoodsListPageView extends Component{
   }
 
   componentDidMount() {
-    this.getCanteenDetail()
+    this.getCanteenList()
     this.getCanteenOption()
   }
 
 
   //api function
-  getCanteenDetail = (filter) => {
-    api.getCanteenDetail(requestParams.currentPage,filter).then(data => {
-      console.log(data)
+  getCanteenList = (filter) => {
+    api.getCanteenList(requestParams.currentPage,filter).then(data => {
+      // console.log(data)
       if(data.status === 200) {
         this.setState({
           canteenDetail: data.data.data,
@@ -132,7 +132,7 @@ export default class GoodsListPageView extends Component{
   _onEndReached = () => {
     requestParams.currentPage ++
 
-    // api.getCanteenDetail(requestParams.currentPage).then(data => {
+    // api.getCanteenList(requestParams.currentPage).then(data => {
     //   if(data.status === 200) {
     //     console.log(data)
     //     if(data.data.data.length === 0) {
@@ -164,7 +164,7 @@ export default class GoodsListPageView extends Component{
 
   _onRequestFirstPageData = () => {
     requestParams.currentPage = 1
-    this.getCanteenDetail()
+    this.getCanteenList()
     // const successCallBack = (data) => {
     //   this.setState({
     //     canteenDetail: data.data.data,
@@ -189,12 +189,12 @@ export default class GoodsListPageView extends Component{
     //     }
     //   })
     // }
-    // this.getCanteenDetail(successCallBack,failCallBack,successButNoDataCallBack)
+    // this.getCanteenList(successCallBack,failCallBack,successButNoDataCallBack)
   }
 
   _onFilterEmptyData = () => {
     requestParams.currentPage = 1
-    this.getCanteenDetail()
+    this.getCanteenList()
     this.props.resetFilter()
   }
 
@@ -228,14 +228,14 @@ export default class GoodsListPageView extends Component{
   }
 
   _confirmToFilter = (data) => {
-    console.log('data',data)
+    // console.log('data',data)
     requestParams.currentPage = 1
     this.setState({
       loadingStatus:{
         firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
       }
     })
-    this.getCanteenDetail(data)
+    this.getCanteenList(data)
     this._toToggleFilterListView(0)
   }
 //views
@@ -342,7 +342,8 @@ export default class GoodsListPageView extends Component{
 
   _renderSectionListItem = (item,index) => (
       <ListItem avatar key={index} onPress={() =>this.props.navigation.navigate('Content',{
-        data:item
+        data:item,
+        kind:'canteen'
       })}>
         <Left>
           <Thumbnail size={10}  source={{uri:item.image}} />

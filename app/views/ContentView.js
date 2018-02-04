@@ -1,25 +1,34 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
-import {
-  Container,
-  Header,
-  Body,
-  Right,
-  Left,
-  Button,
-  Icon,
-  Title,
-  Content
-} from "native-base";
+import { View,Image,TouchableOpacity } from "react-native";
+import { Container, Header,Title,Right, Content,Badge, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Footer } from 'native-base';
 //utils
 import ToastUtil from "../utils/ToastUtil";
 import Colors from "../utils/Colors";
-
+import GLOBAL_PARAMS from '../utils/global_params'
+//api
+import api from '../api'
 export default class ContentView extends Component {
   state = {
-    favoriteChecked: false
+    favoriteChecked: false,
+    canteenData:null
   };
 
+  componentWillMount(){
+    if(this.props.navigation.state.params.kind === 'canteen'){
+     this.getCanteenDetail()
+    }
+  }
+
+  //api
+  getCanteenDetail(){
+    api.getCanteenDetail(1).then(data => {
+      if(data.status === 200 && data.data.ro.ok) {
+        this.setState({
+          canteenData:data.data.data
+        })
+      }
+    })
+  }
   addNewsToFavorite() {
     if (!this.state.favoriteChecked) {
       this.setState({
@@ -33,6 +42,35 @@ export default class ContentView extends Component {
       ToastUtil.show("取消收藏", 1000, "bottom", "warning");
     }
   }
+
+  _renderContentView = () => (
+          <Card style={{flex: 0}}>
+            <CardItem>
+              <Left>
+                <Thumbnail source={{uri: this.state.canteenData.image}} />
+                <Body>
+                  <Text>{this.state.canteenData.name}</Text>
+                  <Text note>{this.state.canteenData.address}</Text>
+                </Body>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <Text>餐廳菜品</Text>
+                {this.state.canteenData.foods.map((item,idx) => (
+                  <Image key={idx}
+                    style={{
+                      width:GLOBAL_PARAMS._winWidth*0.91,
+                      height:200,
+                      marginTop:10,
+                      marginBottom:10
+                    }}
+                    source={{uri:item.foodImage}}/>
+                ))}
+              </Body>
+            </CardItem>
+          </Card>
+  )
 
   render() {
     return (
@@ -69,8 +107,18 @@ export default class ContentView extends Component {
           </Right>
         </Header>
         <Content>
-          <Text>内容页</Text>
+          {this.state.canteenData !== null ? this._renderContentView() : null}
         </Content>
+        {this.state.canteenData !== null ?(<Footer style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+          <Text style={{flex:1}}>價格:{this.state.canteenData.price}</Text>
+          <Text style={{flex:1}}>評分:{this.state.canteenData.rate}</Text>
+          <TouchableOpacity transparent style={{flex:1,flexDirection:'row',alignSelf:'center'}}>
+            <Text style={{color:Colors.main_orange}}>评论</Text>
+            {/* <Badge style={{marginLeft:10,paddiBottom:10}}>
+             <Text>2</Text>
+           </Badge> */}
+          </TouchableOpacity>
+        </Footer>) : null}
       </Container>
     );
   }

@@ -84,9 +84,9 @@ const darwerView = DrawerNavigator({
       <View style={{alignSelf:'center',marginTop:100}}>
         <Text>Goforeat v1.0.0</Text>
       </View>
-      <TouchableOpacity style={{position:'absolute',bottom:30,right:50}} onPress={() => LinkingUtils.dialPhoneWithNumber('123456')}>
+      <TouchableOpacity style={{position:'absolute',bottom:30,right:50}} onPress={() => LinkingUtils.dialPhoneWithNumber('97926095')}>
         <View>
-          <Text style={{fontSize:18}}>联系电话:123456</Text>
+          <Text style={{fontSize:18}}>聯繫電話:97926095</Text>
         </View>
       </TouchableOpacity>
     </View>

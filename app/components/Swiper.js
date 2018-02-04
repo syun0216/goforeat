@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {View,Text,StyleSheet,Image} from 'react-native'
 import Swiper from 'react-native-swiper'
 import GLOBAL_PARAMS from '../utils/global_params'
@@ -53,5 +54,9 @@ const GoodsSwiper = () => (
     </View>
   </Swiper>
 )
+
+// GoodsSwiper.defaultProps({
+//   imgArr:[]
+// })
 
 export default GoodsSwiper
