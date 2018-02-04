@@ -4,13 +4,11 @@ const initialState = {areas:'default',categories:'default',seats:'default'}
 export const filterSort = (state=initialState,action) => {
   switch(action.type){
     case SAVE_FILTER_PARAMS:{
-      return {
-        ...state,
-        action.data
-      }
+      return Object.assign({}, state, action.data)
     }
     case RESET_FILTER_PARAMS:{
       return {
+        ...state,
         areas:'default',categories:'default',seats:'default'
       }
     }

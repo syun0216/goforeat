@@ -4,8 +4,12 @@ import {View,TouchableOpacity,StyleSheet} from 'react-native'
 import {Container,Content,Footer,Button,Text,Badge} from 'native-base'
 //utils
 import Colors from '../utils/Colors'
+import {filterStateAndDispatch} from '../utils/mapStateAndDIspatch'
+//react-redux
+import {connect} from 'react-redux'
 
-export default class Dropdownfilter extends PureComponent{
+
+class Dropdownfilter extends PureComponent{
   static defaultProps = {
     filterData: []
   }
@@ -14,12 +18,11 @@ export default class Dropdownfilter extends PureComponent{
     confirmToDo:PropTypes.func,
     cancleToDo:PropTypes.func
   }
+  componentDidMount() {
+    console.log(this.props)
+  }
   state = {
-    currentSelect:{
-      areas:'default',
-      categories:'default',
-      seats:'default'
-    }
+    currentSelect:this.props.filterSort
   }
 
   _selectCurrent(index) {
@@ -48,9 +51,8 @@ export default class Dropdownfilter extends PureComponent{
     <View style={styles.filterItemChildren} key={cidx}>
       {citem.map((btn,btnkey) => (
         <Button onPress={() => this._filterClick(btn,itemEnName)}
-           transparent key={btnkey} style={[styles.filterItemChildrenBtn,
-           this.state.currentSelect[itemEnName] === btn[0] ? styles.activeBtn : null]}>
-          <Text style={this.state.currentSelect[itemEnName] === btn[0] ?
+           transparent key={btnkey} style={styles.filterItemChildrenBtn}>
+          <Text style={this.props.filterSort[itemEnName] === btn[0] ?
             styles.activeText : null}>{btn[1]}</Text>
         </Button>
       ))}
@@ -60,16 +62,14 @@ export default class Dropdownfilter extends PureComponent{
   //common functions
   _filterClick = (btn,itemEnName) =>{
     // console.log(btn[0])
-    if(btn[0] === this.state.currentSelect[itemEnName].value){
+    if(btn[0] === this.props.filterSort[itemEnName]){
       return ;
     }
     let _obj = {
-      ...this.state.currentSelect
+      ...this.props.filterSort
     }
     _obj[itemEnName] = btn[0]
-    this.setState({
-      currentSelect:_obj
-    })
+    this.props.saveFilter(_obj)
     // switch(itemEnName){
     //   case 'areas': {
     //     this.setState({currentSelect:{...thiareas:btn[0]}});break
@@ -81,7 +81,7 @@ export default class Dropdownfilter extends PureComponent{
     //     this.setState({currentSelect:{seats:btn[0]}});break
     //   }
     // }
-    console.log(this.state.currentSelect)
+    console.log(this.props.filterSort)
   }
 
   render() {
@@ -95,8 +95,8 @@ export default class Dropdownfilter extends PureComponent{
             style={[styles.footerBtn,{borderRightWidth:1,borderColor:'#ccc',borderRadius:0}]}>
             <Text>取消</Text>
           </Button>
-          <Button onPress={() => this.props.confirmToDo(this.state.currentSelect)}
-             transparent info style={styles.footerBtn}>
+          <Button onPress={() => this.props.confirmToDo(this.props.filterSort)}
+             transparent style={styles.footerBtn}>
             <Text>確定</Text>
           </Button>
         </View>
@@ -114,8 +114,6 @@ const styles = StyleSheet.create({
     flex:1
   },
   footerContainer: {
-    borderTopWidth:1,
-    borderColor:'#ccc',
     height: 47,
     display:'flex',
     justifyContent:'center',
@@ -159,9 +157,11 @@ const styles = StyleSheet.create({
     marginRight:5
   },
   activeBtn:{
-    backgroundColor:Colors.main_orange,
+    // :Colors.main_orange,
   },
   activeText: {
-    color:'#fff'
+    color:Colors.main_orange
   }
 })
+
+export default connect(filterStateAndDispatch.mapStateToProps,filterStateAndDispatch.mapDispatchToProps)(Dropdownfilter)

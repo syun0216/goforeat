@@ -131,7 +131,6 @@ export default class GoodsListPageView extends Component{
 
   _onEndReached = () => {
     requestParams.currentPage ++
-    console.log(123)
 
     // api.getCanteenDetail(requestParams.currentPage).then(data => {
     //   if(data.status === 200) {
@@ -191,7 +190,12 @@ export default class GoodsListPageView extends Component{
     //   })
     // }
     // this.getCanteenDetail(successCallBack,failCallBack,successButNoDataCallBack)
+  }
 
+  _onFilterEmptyData = () => {
+    requestParams.currentPage = 1
+    this.getCanteenDetail()
+    this.props.resetFilter()
   }
 
   _toToggleFilterListView= () => {
@@ -281,7 +285,11 @@ export default class GoodsListPageView extends Component{
             outputRange: [-420, diffplatform.filterTop]
         })
       }}>
-        <Dropdownfilter filterData={this.state.canteenOptions} confirmToDo={(data) => this._confirmToFilter(data)} cancleToDo={() =>this._toToggleFilterListView(0)}/>
+        <Dropdownfilter filterData={this.state.canteenOptions}
+          confirmToDo={(data) => this._confirmToFilter(data)}
+          cancleToDo={() =>{
+            this._toToggleFilterListView(0)
+          }}/>
       </Animated.View>
     )
   }
@@ -374,7 +382,7 @@ export default class GoodsListPageView extends Component{
           <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
         </Header>
         <View  style={{backgroundColor:'#fff'}}>
-          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : <ErrorPage style={{marginTop:0}} errorToDo={this._onRequestFirstPageData} errorTips="沒有篩選的數據,撤回篩選？"/>}
+          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : <ErrorPage style={{marginTop:0}} errorToDo={this._onFilterEmptyData} errorTips="沒有篩選的數據,撤回篩選？"/>}
         </View>
       </Container>
     )

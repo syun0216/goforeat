@@ -22,7 +22,7 @@ export const filterStateAndDispatch = {
       filterSort: state.filterSort
     }
   },
-  mapDispatchToProps: state => {
+  mapDispatchToProps: dispatch => {
     return {
       saveFilter: (data) => dispatch({type:'SAVE_FILTER_PARAMS',data:data}),
       resetFilter: () => dispatch({type:'RESET_FILTER_PARAMS'})
