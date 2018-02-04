@@ -1,6 +1,7 @@
 import React,{PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import {View,Text,TouchableOpacity,StyleSheet} from 'react-native'
+import {View,TouchableOpacity,StyleSheet} from 'react-native'
+import {Container,Content,Footer,Button,Text,Badge} from 'native-base'
 //utils
 import Colors from '../utils/Colors'
 
@@ -9,11 +10,16 @@ export default class Dropdownfilter extends PureComponent{
     filterData: []
   }
   static propTypes = {
-    filterData:PropTypes.object.isRequired
+    filterData:PropTypes.array.isRequired,
+    confirmToDo:PropTypes.func,
+    cancleToDo:PropTypes.func
   }
   state = {
-    currentItem:1,
-    
+    currentSelect:{
+      areas:'default',
+      categories:'default',
+      seats:'default'
+    }
   }
 
   _selectCurrent(index) {
@@ -24,31 +30,75 @@ export default class Dropdownfilter extends PureComponent{
 
 
   componentDidMount(){
-    // console.log(this.props)
+    console.log(this.props)
+  }
+
+  _renderFilterItem = (item,idx) => (
+    <View key={idx} style={styles.filterItemContainer}>
+      <View style={styles.filterItemContainerLeft}>
+        <Text>{item.name}</Text>
+      </View>
+      <View style={styles.filterItemContainerRight}>
+        {item.value.map((citem,cidx) => this._renderFilterChildrenItem(citem,cidx,item.enName))}
+      </View>
+    </View>
+  )
+
+  _renderFilterChildrenItem = (citem,cidx,itemEnName) => (
+    <View style={styles.filterItemChildren} key={cidx}>
+      {citem.map((btn,btnkey) => (
+        <Button onPress={() => this._filterClick(btn,itemEnName)}
+           transparent key={btnkey} style={[styles.filterItemChildrenBtn,
+           this.state.currentSelect[itemEnName] === btn[0] ? styles.activeBtn : null]}>
+          <Text style={this.state.currentSelect[itemEnName] === btn[0] ?
+            styles.activeText : null}>{btn[1]}</Text>
+        </Button>
+      ))}
+    </View>
+  )
+
+  //common functions
+  _filterClick = (btn,itemEnName) =>{
+    // console.log(btn[0])
+    if(btn[0] === this.state.currentSelect[itemEnName].value){
+      return ;
+    }
+    let _obj = {
+      ...this.state.currentSelect
+    }
+    _obj[itemEnName] = btn[0]
+    this.setState({
+      currentSelect:_obj
+    })
+    // switch(itemEnName){
+    //   case 'areas': {
+    //     this.setState({currentSelect:{...thiareas:btn[0]}});break
+    //   }
+    //   case 'categories': {
+    //     this.setState({currentSelect:{categories:btn[0]}});break
+    //   }
+    //   case 'seats': {
+    //     this.setState({currentSelect:{seats:btn[0]}});break
+    //   }
+    // }
+    console.log(this.state.currentSelect)
   }
 
   render() {
     return (
       <View style={styles.filterContainer}>
-        <View style={styles.leftContainer}>
-          <TouchableOpacity style={styles.leftContainerItem} onPress={() => this._selectCurrent(1)}>
-            <View style={this.state.currentItem===1?styles.leftActiveItem:styles.leftInActiveItem}>
-              <Text style={this.state.currentItem===1?styles.leftActiveText:null}>123</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.leftContainerItem} onPress={() => this._selectCurrent(2)}>
-            <View style={this.state.currentItem===2?styles.leftActiveItem:styles.leftInActiveItem}>
-              <Text style={this.state.currentItem===2?styles.leftActiveText:null}>123</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.leftContainerItem} onPress={() => this._selectCurrent(3)}>
-            <View style={this.state.currentItem===3?styles.leftActiveItem:styles.leftInActiveItem}>
-              <Text style={this.state.currentItem===3?styles.leftActiveText:null}>123</Text>
-            </View>
-          </TouchableOpacity>
+        <View style={styles.mainContainer}>
+          {this.props.filterData.map((item,idx) => this._renderFilterItem(item,idx))}
         </View>
-        <View style={styles.rightContainer}>
-
+        <View style={styles.footerContainer}>
+          <Button transparent danger onPress={() => this.props.cancleToDo()}
+            style={[styles.footerBtn,{borderRightWidth:1,borderColor:'#ccc',borderRadius:0}]}>
+            <Text>取消</Text>
+          </Button>
+          <Button onPress={() => this.props.confirmToDo(this.state.currentSelect)}
+             transparent info style={styles.footerBtn}>
+            <Text>確定</Text>
+          </Button>
         </View>
       </View>
     )
@@ -57,38 +107,61 @@ export default class Dropdownfilter extends PureComponent{
 
 const styles = StyleSheet.create({
   filterContainer:{
-    height:250,
+    height:400,
     flex:1,
+  },
+  mainContainer: {
+    flex:1
+  },
+  footerContainer: {
+    borderTopWidth:1,
+    borderColor:'#ccc',
+    height: 47,
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
     flexDirection:'row'
   },
-  leftContainer: {
-    width: 80,
-    height:250,
-    display:'flex'
-  },
-  leftContainerItem: {
+  footerBtn:{
     flex:1,
-
+    justifyContent:'center'
   },
-  leftInActiveItem: {
+  filterItemContainer:{
     flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-    borderColor:'#ccc',
+    flexDirection:'row',
+    borderBottomWidth:1,
+    borderColor:'#ccc'
+  },
+  filterItemContainerLeft:{
+    width:50,
     borderRightWidth:1,
+    borderColor:'#ccc',
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center'
   },
-  leftActiveItem: {
+  filterItemContainerRight:{
     flex:1,
     justifyContent:'center',
-    alignItems:'center',
-    borderRightWidth:5,
-    borderColor:Colors.main_orange,
+    alignItems:'center'
   },
-  leftActiveText: {
-    color: Colors.main_orange
-  },
-  rightContainer: {
+  filterItemChildren:{
     flex:1,
-    height:250
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+    marginTop:5
   },
+  filterItemChildrenBtn:{
+    // flex:1,
+    borderRadius:0,
+    marginLeft:5,
+    marginRight:5
+  },
+  activeBtn:{
+    backgroundColor:Colors.main_orange,
+  },
+  activeText: {
+    color:'#fff'
+  }
 })

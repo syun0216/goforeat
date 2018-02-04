@@ -14,6 +14,7 @@ import GLOBAL_PARAMS from '../utils/global_params'
 import Colors from '../utils/Colors'
 import ToastUtil from '../utils/ToastUtil'
 import ListFooter from '../components/ListFooter'
+import _ from 'lodash'
 
 let requestParams = {
   status: {
@@ -27,8 +28,8 @@ let requestParams = {
 }
 
 const diffplatform = {
-  subHeaderTop:Platform.select({ios: 64, android: 52}),
-  filterTop:Platform.select({ios: 0, android: 56})
+  preventViewTop:Platform.select({ios: 56, android: 0}),
+  filterTop:Platform.select({ios: 56, android: 56})
 }
 
 export default class GoodsListPageView extends Component{
@@ -88,8 +89,18 @@ export default class GoodsListPageView extends Component{
   getCanteenOption = () => {
     api.getCanteenOptions().then(data => {
       if(data.status === 200 ){
+        const _newCanteenOptionsArr = []
+        for(let i in data.data) {
+          data.data[i].unshift(['default','全部'])
+          data.data[i] = _.chunk(data.data[i],3);
+          switch (i) {
+            case 'areas':_newCanteenOptionsArr.push({name:'地區',enName:'areas',value:data.data[i]});break;
+            case 'categories':_newCanteenOptionsArr.push({name:'分類',enName:'categories',value:data.data[i]});break;
+            case 'seats':_newCanteenOptionsArr.push({name:'人數',enName:'seats',value:data.data[i]});break;
+          }
+        }
         this.setState({
-          canteenOptions: data.data,
+          canteenOptions: _newCanteenOptionsArr
         })
       }
     },() => {
@@ -211,6 +222,9 @@ export default class GoodsListPageView extends Component{
 
   }
 
+  _confirmToFilter = (data) => {
+    console.log('data',data)
+  }
 //views
   _renderSubHeader = () => (
     <View style={{
@@ -243,7 +257,6 @@ export default class GoodsListPageView extends Component{
 
   _renderFilterView= () => {
     return (
-
       <Animated.View style={{
         flex: 1,
         flexDirection: 'column',
@@ -253,13 +266,13 @@ export default class GoodsListPageView extends Component{
         borderTopWidth: 1,
         borderTopColor: '#ccc',
         width: GLOBAL_PARAMS._winWidth,
-        height: 251,
+        height: 400,
         top: this.state.positionTop.interpolate({
             inputRange: [0, 1],
-            outputRange: [-270, diffplatform.filterTop]
+            outputRange: [-420, diffplatform.filterTop]
         })
       }}>
-        <Dropdownfilter filterData={this.state.canteenOptions}/>
+        <Dropdownfilter filterData={this.state.canteenOptions} confirmToDo={(data) => this._confirmToFilter(data)} cancleToDo={() =>this._toToggleFilterListView(0)}/>
       </Animated.View>
     )
   }
@@ -271,7 +284,7 @@ export default class GoodsListPageView extends Component{
             height: GLOBAL_PARAMS._winHeight,
             position: 'absolute',
             zIndex: 99,
-            top: 0,
+            top: diffplatform.preventViewTop,
             left: 0,
             backgroundColor: '#5b7492',
             opacity: 0.3
