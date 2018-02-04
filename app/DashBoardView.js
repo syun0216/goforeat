@@ -22,13 +22,13 @@ import LinkingUtils from './utils/LinkingUtils'
 import GLOBAL_PARAMS from './utils/global_params'
 //react-redux
 import {connect} from 'react-redux'
-import {userStateAndDispatch} from './utils/mapStateAndDIspatch'
+import {userStateAndDispatch,filterStateAndDispatch} from './utils/mapStateAndDIspatch'
 //store
 import store from './store'
 
 const tabView = TabNavigator({
   GoodsListTab: {
-    screen: GoodsListPageView,
+    screen: connect(filterStateAndDispatch.mapStateToProps,filterStateAndDispatch.mapDispatchToProps)(GoodsListPageView),
     navigationOptions: {
       tabBarLabel: '商品',
       tabBarIcon: ({tintColor}) => (<Icon size={35} name="md-list-box" style={{

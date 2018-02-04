@@ -1,8 +1,8 @@
 import {bindActionCreators} from 'redux';
-import * as actionCreator from '../actions/index'
+
+
 export const userStateAndDispatch = {
   mapStateToProps: state => {
-    console.log(state)
     return {
       user: state.auth.username
     };
@@ -15,3 +15,17 @@ export const userStateAndDispatch = {
   }
   // mapDispatchToProps: dispatch => bindActionCreators(actionCreator,dispatch)
 };
+
+export const filterStateAndDispatch = {
+  mapStateToProps : state => {
+    return {
+      filterSort: state.filterSort
+    }
+  },
+  mapDispatchToProps: state => {
+    return {
+      saveFilter: (data) => dispatch({type:'SAVE_FILTER_PARAMS',data:data}),
+      resetFilter: () => dispatch({type:'RESET_FILTER_PARAMS'})
+    }
+  }
+}

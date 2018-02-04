@@ -1,2 +1,5 @@
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
+
+export const SAVE_FILTER_PARAMS = 'SAVE_FILTER_PARAMS'
+export const RESET_FILTER_PARAMS = 'RESET_FILTER_PARAMS'
