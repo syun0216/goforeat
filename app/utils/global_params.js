@@ -9,6 +9,10 @@ const GLOBAL_PARAMS = {
     LOAD_FAILED: 2,
     NO_MORE_DATA: 3
   },
+  phoneType: {
+    CHN:{label:'CHN +86',value:2},
+    HK:{label:'HK +852',value:1}
+  }
 }
 
 module.exports = GLOBAL_PARAMS

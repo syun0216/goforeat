@@ -105,17 +105,7 @@ export default class LoginView extends Component {
   }
 
   //views
-  _renderPickerView = () => (
-    <Picker
-      style={{backgroundColor:'#fff'}}
-    selectedValue={this.state.phoneType.value}
-    onValueChange={(lang) => console.log(lang)}
-    >
-      {this.phoneType.map((item,idx) => (
-        <Picker.Item label={item.label} key={idx} value={item.value} />
-      ))}
-  </Picker>
-  )
+
 
 
   render() {
