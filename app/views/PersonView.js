@@ -51,7 +51,7 @@ export default class PeopleView extends Component {
       ]}
       keyExtractor={(item, index) => index} // 消除SectionList warning
       renderItem={({item}) => (
-        <ListItem icon onPress={() => this.props.navigation.navigate('Content',{data:{name:item.name,kind:'canteen'}})}>
+        <ListItem icon onPress={() => this.props.navigation.navigate('Content',{data:{name:item.name},kind:'canteen'})}>
           <Left>
             <Icon color={Colors.main_orange} name={item.icon}></Icon>
           </Left>
