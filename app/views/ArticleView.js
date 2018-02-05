@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Image,TouchableOpacity } from 'react-native'
+import { Image,TouchableOpacity,Platform } from 'react-native'
 import { Container, Header, View, DeckSwiper, Card,Button, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
 import Colors from '../utils/Colors'
 
@@ -49,7 +49,7 @@ export default class ArticleView extends Component{
                      </Left>
                    </CardItem>
                    <CardItem cardBody>
-                     <Image style={{ height: 300, flex: 1 }} source={item.image} />
+                     <Image style={[{ flex: 1 },Platform.OS === 'ios' ? {height:300} : {height:200}]} source={item.image} />
                    </CardItem>
                    <CardItem>
                      <Icon name="heart" style={{ color: '#ED4A6A' }} />
