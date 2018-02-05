@@ -20,43 +20,66 @@ import {NavigationActions} from 'react-navigation'
 //utils
 import Colors from './utils/Colors'
 import GLOBAL_PARAMS from './utils/global_params'
+import ToastUtil from './utils/ToastUtil'
+//api
+import api from './api'
 
 export default class RegisterView extends PureComponent {
+  token = null
+  interval = null //定時器
+
   state = {
     selectedValue:GLOBAL_PARAMS.phoneType.HK,
     isBtnDisabled: true,
     codeContent: '點擊發送',
     isCodeDisabled: false,
-    phone: '',
-    code: ''
+    phone: null,
+    code: null,
+    password: null
   }
 
   componentDidMount() {
-    // Picker.init({
-    //   pickerData: [
-    //     'HK +852', 'CHN +86'
-    //   ],
-    //   selectedValue: ['HK: +852'],
-    //   pickerTitleText: '選擇電話類型',
-    //   pickerConfirmBtnText: '確定',
-    //   pickerCancelBtnText: '取消',
-    //   onPickerConfirm: data => {
-    //     switch(data[0]){
-    //       case GLOBAL_PARAMS.phoneType.HK.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.HK});break
-    //       case GLOBAL_PARAMS.phoneType.CHN.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.CHN});break
-    //     }
-    //   }
-    // });
+    Picker.init({
+      pickerData: [
+        'HK +852', 'CHN +86'
+      ],
+      selectedValue: ['HK: +852'],
+      pickerTitleText: '選擇電話類型',
+      pickerConfirmBtnText: '確定',
+      pickerCancelBtnText: '取消',
+      onPickerConfirm: data => {
+        switch(data[0]){
+          case GLOBAL_PARAMS.phoneType.HK.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.HK});break
+          case GLOBAL_PARAMS.phoneType.CHN.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.CHN});break
+        }
+      }
+    });
   }
 
   componentWillUnmount() {
     Picker.hide()
+    clearInterval(this.interval)
   }
 
   //common function
   _sendPhoneAndGetCode = () => {
+    if(this.state.phone === null) {
+      ToastUtil.show('手機號格式有誤',1000,'top','warning')
+      return;
+    }
+    api.getCode(this.state.phone,this.state.selectedValue.value).then(data => {
+      if(data.status === 200 && data.data.ro.ok) {
+        this.token = data.data.data.token
+        ToastUtil.show('驗證碼發送成功',1000,'top','success')
+      }
+      else{
+        ToastUtil.show('驗證碼發送失敗',1000,'top','warning')
+      }
+    },() => {
+      ToastUtil.show('驗證碼發送失敗',1000,'top','warning')
+    })
     let _during = 60
-    let interval = setInterval(() => {
+    this.interval = setInterval(() => {
       _during--;
       this.setState({
         codeContent:`${_during}秒后重發`,
@@ -73,36 +96,61 @@ export default class RegisterView extends PureComponent {
   }
 
   _getPhone = (phone) => {
-    if(phone.length === 3) {
-      this.setState({
-        isBtnDisabled: false,
-        phone: phone
-      })
+    let reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+    if (reg.test(phone)) {
+        this.setState({
+          isBtnDisabled: false,
+          phone
+        })
     }
     else{
       this.setState({
-        isBtnDisabled: true
+        isBtnDisabled: true,
+        phone: null
       })
     }
   }
 
   _getCode = (code) => {
     this.setState({
-      code: code
+      code
+    })
+  }
+
+  _getPassword = (password) => {
+    this.setState({
+      password
     })
   }
 
   _register = () => {
-    if(this.state.phone === '123' && this.state.code === '123') {
-      this.props.userLogin('123')
-      const resetAction = NavigationActions.reset({
-          index: 0,
-          actions: [
-              NavigationActions.navigate( { routeName: 'Home',params:{refresh:true}} )
-          ],
-      });
-      this.props.navigation.dispatch(resetAction);
+    if(this.state.password === null) {
+      ToastUtil.show('請輸入密碼',1000,'top','warning')
+      return
     }
+    if(this.state.code === null){
+      ToastUtil.show('請輸入6位驗證碼',1000,'top','warning')
+      return
+    }
+    api.register(this.state.phone, this.state.selectedValue.value, this.token, this.state.code, this.state.password)
+    .then(data => {
+      if(data.status === 200 && data.data.ro.ok) {
+        ToastUtil.show('註冊成功',1000,'top','success')
+          this.props.userLogin(this.state.phone)
+          const resetAction = NavigationActions.reset({
+              index: 0,
+              actions: [
+                  NavigationActions.navigate( { routeName: 'Home',params:{refresh:true}} )
+              ],
+          });
+          this.props.navigation.dispatch(resetAction);
+      }
+      else{
+        ToastUtil.show('註冊失敗',1000,'top','warning')
+      }
+    },() => {
+      ToastUtil.show('註冊失敗',1000,'top','warning')
+    })
   }
 
   render() {
@@ -142,12 +190,21 @@ export default class RegisterView extends PureComponent {
               returnKeyType="done"
             />
           </Item>
+          <Item inlineLabel>
+            <Input
+              placeholder="填寫密碼"
+              returnKeyType="done"
+              maxLength={12}
+              secureTextEntry={true}
+              onChangeText={password => this._getPassword(password)}/>
+          </Item>
           <Item inlineLabel last>
             {/* <Label>發送驗證碼</Label> */}
             <Input
               placeholder="填寫驗證碼"
               keyboardType="numeric"
               returnKeyType="done"
+              maxLength={6}
               onChangeText={code => this._getCode(code)}
             />
             <Button disabled={this.state.isCodeDisabled} transparent onPress={() => this._sendPhoneAndGetCode()}>

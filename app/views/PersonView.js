@@ -25,7 +25,6 @@ const testData = {
 
 export default class PeopleView extends Component {
   componentDidMount() {
-    console.log(111,this.props)
   }
   //common function
 
@@ -94,7 +93,7 @@ export default class PeopleView extends Component {
   _renderPersonDetailHeader = () => (
     <View style={[styles.loginHeader,{backgroundColor:Colors.main_orange}]}>
       <Image style={styles.personAvatar} source={require('../asset/eat.png')}/>
-      <Text>用戶名稱:{testData.name}</Text>
+      <Text>註冊號碼:{this.props.user}</Text>
       <Text>年齡:{testData.age}</Text>
       <Text>性別:{testData.sex}</Text>
       <Text>地區:{testData.area}</Text>

@@ -2,7 +2,8 @@ import React,{Component} from 'react'
 import { Image,TouchableOpacity,Platform } from 'react-native'
 import { Container, Header, View, DeckSwiper, Card,Button, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
 import Colors from '../utils/Colors'
-
+//api
+import api from '../api'
 const cards = [
   {
     text:'Card One',
@@ -22,6 +23,11 @@ const cards = [
 ]
 
 export default class ArticleView extends Component{
+  ComponentDidMount() {
+    api.getArticleList().then(data => {
+      console.log(data)
+    })
+  }
   render() {
     return (
       <Container>

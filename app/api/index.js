@@ -77,6 +77,17 @@ const api = {
   },
   logout() {
     return axios.post(api_url + "/passport/logout")
+  },
+  // article
+  getArticleList() {
+    return axios.post(root_url + '/cms/getNewsList', qs.stringify({
+      limit: 15,
+      offset: 0
+    }),{
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
   }
 }
 
