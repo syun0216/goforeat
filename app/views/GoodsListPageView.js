@@ -78,7 +78,7 @@ export default class GoodsListPageView extends Component{
         })
       }
     },() => {
-      ToastUtil.show('网络请求出错','bottom',1000,'warning')
+      ToastUtil.show('网络请求出错',1000,'bottom','warning')
       this.setState({
         loadingStatus:{
           firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
@@ -383,7 +383,7 @@ export default class GoodsListPageView extends Component{
           <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
         </Header>
         <View  style={{backgroundColor:'#fff'}}>
-          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : <ErrorPage style={{marginTop:0}} errorToDo={this._onFilterEmptyData} errorTips="沒有篩選的數據,撤回篩選？"/>}
+          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : <ErrorPage style={{marginTop:0}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/>}
         </View>
       </Container>
     )

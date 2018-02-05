@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Animated,
   Easing,
-  Platform
+  Platform,
+  Picker
 } from "react-native";
 import {
   Container,
@@ -24,7 +25,8 @@ import {
   Body,
   Left,
   Right,
-  Icon
+  Icon,
+  ActionSheet
 } from "native-base";
 import { StatusBar } from "react-native";
 //utils
@@ -42,8 +44,17 @@ export default class LoginView extends Component {
   state = {
     phone: "",
     password: "",
-    disabled: true
+    disabled: true,
+    isPickerShow:false,
+    phoneType:{
+      label:'+852',value:1
+    }
   };
+
+  phoneType = [
+    {label:'+852',value:1},
+    {label:'+86',value:2}
+  ]
 
   componentDidMount = () => {
     console.log('login',this.props)
@@ -94,6 +105,18 @@ export default class LoginView extends Component {
   }
 
   //views
+  _renderPickerView = () => (
+    <Picker
+      style={{backgroundColor:'#fff'}}
+    selectedValue={this.state.phoneType.value}
+    onValueChange={(lang) => console.log(lang)}
+    >
+      {this.phoneType.map((item,idx) => (
+        <Picker.Item label={item.label} key={idx} value={item.value} />
+      ))}
+  </Picker>
+  )
+
 
   render() {
     return (
@@ -138,16 +161,18 @@ export default class LoginView extends Component {
               />
             </Button>
             <View
-              style={{
+              style={[{
                 flex: 1,
                 alignItems: "center",
                 justifyContent: "flex-end",
                 width: GLOBAL_PARAMS._winWidth,
                 height: 150,
+
+              },Platform.OS === 'ios' ? {
                 position: "absolute",
                 top: GLOBAL_PARAMS._winHeight * 0.15,
                 left: 0
-              }}
+              } : null ]}
             >
               {/* <Animated.View style={{
                           transform: [{
@@ -174,15 +199,19 @@ export default class LoginView extends Component {
             </View>
 
             <View
-              style={{
+              style={[{
                 flex: 1,
                 alignItems: "center",
                 width: GLOBAL_PARAMS._winWidth,
                 marginTop: 30,
+                // position: "absolute",
+                // top: 0.35 * GLOBAL_PARAMS._winHeight,
+                // left: 0
+              },Platform.OS === 'ios' ? {
                 position: "absolute",
                 top: 0.35 * GLOBAL_PARAMS._winHeight,
                 left: 0
-              }}
+              } : null]}
             >
               <View
                 style={{
@@ -207,6 +236,9 @@ export default class LoginView extends Component {
                     }}
                   />
                 </View>
+                <Button transparent style={{marginTop:2}} onPress={() => this.setState({isPickerShow:true})}>
+                  <Text style={{color:'gray'}}>+852</Text>
+                </Button>
                 <View
                   style={{
                     flex: 1,
@@ -309,23 +341,25 @@ export default class LoginView extends Component {
                   </View>
                 </TouchableOpacity>
               </View>
-              <View
-                style={{
-                  width: GLOBAL_PARAMS._winWidth,
-                  height: 20,
-                  marginTop: 15
-                }}
-              >
-                <Text
-                  style={{ textAlign: "center", fontSize: 12, color: "#fff" }}
-                >
-                  忘記密碼?
-                </Text>
-              </View>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+                <View
+                  style={{
+                    width: GLOBAL_PARAMS._winWidth,
+                    height: 20,
+                    marginTop: 15
+                  }}
+                  >
+                    <Text
+                      style={{ textAlign: "center", fontSize: 14, color: "#fff" }}
+                      >
+                        新用戶?點擊註冊
+                      </Text>
+                  </View>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
-        <View
+        {/* <View
           style={{
             position: "absolute",
             bottom: 0,
@@ -351,7 +385,8 @@ export default class LoginView extends Component {
               新用戶?點擊註冊
             </Text>
           </View>
-        </View>
+        </View> */}
+        {this.state.isPickerShow ? this._renderPickerView() : null}
       </View>
     );
   }

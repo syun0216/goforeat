@@ -109,11 +109,11 @@ export default class ContentView extends Component {
         <Content>
           {this.state.canteenData !== null ? this._renderContentView() : null}
         </Content>
-        {this.state.canteenData !== null ?(<Footer style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-          <Text style={{flex:1}}>價格:{this.state.canteenData.price}</Text>
-          <Text style={{flex:1}}>評分:{this.state.canteenData.rate}</Text>
-          <TouchableOpacity transparent style={{flex:1,flexDirection:'row',alignSelf:'center'}}>
-            <Text style={{color:Colors.main_orange}}>评论</Text>
+        {this.state.canteenData !== null ?(<Footer style={{display:'flex',backgroundColor:'#fff',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>價格:${this.state.canteenData.price}</Text></View>
+          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>評分:{this.state.canteenData.rate}</Text></View>
+          <TouchableOpacity style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            <Text style={{color:Colors.main_orange}}>評論</Text>
             {/* <Badge style={{marginLeft:10,paddiBottom:10}}>
              <Text>2</Text>
            </Badge> */}

@@ -7,6 +7,7 @@ import {
 import {StackNavigator, TabNavigator,DrawerNavigator} from 'react-navigation'
 //views
 import LoginView from './LoginView'
+import RegisterView from './RegisterView'
 
 import ContentView from './views/ContentView'
 
@@ -117,6 +118,9 @@ let MainView = StackNavigator({
         isModal: true
       }
     }
+  },
+  Register: {
+    screen: connect(userStateAndDispatch.mapStateToProps,userStateAndDispatch.mapDispatchToProps)(RegisterView)
   }
 }, {headerMode: 'none'})
 
