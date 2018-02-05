@@ -9,7 +9,7 @@ import {
   Animated,
   Easing,
   Platform,
-  Picker
+  StatusBar
 } from "react-native";
 import {
   Container,
@@ -28,7 +28,8 @@ import {
   Icon,
   ActionSheet
 } from "native-base";
-import { StatusBar } from "react-native";
+import Picker from 'react-native-picker'
+
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
 import Colors from "./utils/Colors";
@@ -44,21 +45,30 @@ export default class LoginView extends Component {
   state = {
     phone: "",
     password: "",
-    disabled: true,
-    isPickerShow:false,
-    phoneType:{
-      label:'+852',value:1
-    }
+    selectedValue:GLOBAL_PARAMS.phoneType.HK,
   };
 
-  phoneType = [
-    {label:'+852',value:1},
-    {label:'+86',value:2}
-  ]
+  componentDidMount() {
+    Picker.init({
+      pickerData: [
+        'HK +852', 'CHN +86'
+      ],
+      selectedValue: ['HK: +852'],
+      pickerTitleText: '選擇電話類型',
+      pickerConfirmBtnText: '確定',
+      pickerCancelBtnText: '取消',
+      onPickerConfirm: data => {
+        switch(data[0]){
+          case GLOBAL_PARAMS.phoneType.HK.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.HK});break
+          case GLOBAL_PARAMS.phoneType.CHN.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.CHN});break
+        }
+      }
+    });
+  }
 
-  componentDidMount = () => {
-    console.log('login',this.props)
-  };
+  componentWillUnmount() {
+    Picker.hide()
+  }
 
 
   //common function
@@ -82,25 +92,6 @@ export default class LoginView extends Component {
     if(this.state.phone === '123' && this.state.password === '123') {
       this.props.userLogin('123')
       this.props.navigation.goBack()
-    }
-    // api.testLogin(this.state.phone,this.state.password).then(data => {
-    //     if(data.status === 200 && !data.data.code) {
-    //         this.props.userLogin(data.data.data[0])
-    //         this.props.navigation.goBack()
-    //     }else {
-    //         Toast.show(data.data.msg,1000,'bottom','error')
-    //     }
-    // })
-  }
-
-  _register() {
-    if (this.state.phone === "" && this.state.password === "") {
-      ToastUtil.show("請填寫手機號或密碼", 1000, "bottom");
-      return;
-    }
-    if (this.state.phone !== "18022129789" && this.state.password !== "123") {
-      ToastUtil.show("手機號或密碼錯誤", 1000, "bottom", "danger");
-      return;
     }
   }
 
@@ -226,8 +217,8 @@ export default class LoginView extends Component {
                     }}
                   />
                 </View>
-                <Button transparent style={{marginTop:2}} onPress={() => this.setState({isPickerShow:true})}>
-                  <Text style={{color:'gray'}}>+852</Text>
+                <Button transparent style={{marginTop:2}} onPress={() => Picker.show()}>
+                  <Text style={{color:'gray'}}>{this.state.selectedValue.label}</Text>
                 </Button>
                 <View
                   style={{

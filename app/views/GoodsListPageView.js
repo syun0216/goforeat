@@ -383,7 +383,7 @@ export default class GoodsListPageView extends Component{
           <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
         </Header>
         <View  style={{backgroundColor:'#fff'}}>
-          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : <ErrorPage style={{marginTop:0}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/>}
+          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : <ErrorPage errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/>}
         </View>
       </Container>
     )
