@@ -3,7 +3,7 @@ import md5 from 'js-md5'
 import qs from 'qs'
 
 const root_url = 'http://goforeat.hk'
-const test_url = 'http://localhost:1091'
+const api_url = 'http://api.goforeat.hk'
 
 const api = {
   getCanteenList(page, filter) {
@@ -33,14 +33,51 @@ const api = {
     // let params = new URLSearchParams();
     // params.append('canteenId', canteenId);
     return axios.post(root_url + "/guide/getCanteenDetail", qs.stringify({
-      canteenId:canteenId
+      canteenId
     }), {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }
     });
   },
-
+  // login
+  getCode(mobile,type) {
+    return axios.post(api_url + "/passport/register" ,qs.stringify({
+      mobile,
+      type
+    }), {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
+  },
+  register(mobile,type,token,code,password) {
+    return axios.post(api_url + "/passport/checkCode", qs.stringify({
+      mobile,
+      type,
+      token,
+      code,
+      password
+    }),{
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
+  },
+  login(mobile,type,password) {
+    return axios.post(api_url + "/passport/login", qs.stringify({
+      mobile,
+      type,
+      password
+    }),{
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
+  },
+  logout() {
+    return axios.post(api_url + "/passport/logout")
+  }
 }
 
 module.exports = api
