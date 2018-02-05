@@ -20,10 +20,13 @@ import Colors from '../utils/Colors'
 import GLOBAL_PARAMS from '../utils/global_params'
 
 const testData = {
-  title:'個人信息',name:'junwen',sex: '男',age:'年齡',area:'旺角',introduction:'我不明白也不需要明白'
+  title:'個人信息',name:'junwen',sex: '男',age:'22',area:'旺角',introduction:'我不明白也不需要明白'
 }
 
 export default class PeopleView extends Component {
+  componentDidMount() {
+    console.log(111,this.props)
+  }
   //common function
 
   _renderNotLoginView() {
@@ -49,7 +52,7 @@ export default class PeopleView extends Component {
       ]}
       keyExtractor={(item, index) => index} // 消除SectionList warning
       renderItem={({item}) => (
-        <ListItem icon onPress={() => this.props.navigation.navigate('Content',{data:{name:item.name}})}>
+        <ListItem icon onPress={() => this.props.navigation.navigate('Content',{data:{name:item.name,kind:'canteen'}})}>
           <Left>
             <Icon color={Colors.main_orange} name={item.icon}></Icon>
           </Left>
@@ -77,7 +80,7 @@ export default class PeopleView extends Component {
             '確定要登出嗎？',
             [
               {text: '取消', onPress: () => {return null}, style: 'cancel'},
-              {text: '確定', onPress: () => this.props.userLogout()},
+              {text: '確定', onPress: () => {this.props.userLogout();this.props.refreshReset()}},
             ],
             { cancelable: false }
           )

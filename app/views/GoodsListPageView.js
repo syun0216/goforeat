@@ -56,6 +56,10 @@ export default class GoodsListPageView extends Component{
     this.getCanteenOption()
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('nextprops',nextProps)
+    this._onRequestFirstPageData()
+  }
 
   //api function
   getCanteenList = (filter) => {

@@ -55,7 +55,7 @@ export default class RegisterView extends PureComponent {
 
   //common function
   _sendPhoneAndGetCode = () => {
-    let _during = 10
+    let _during = 60
     let interval = setInterval(() => {
       _during--;
       this.setState({
@@ -71,11 +71,17 @@ export default class RegisterView extends PureComponent {
       }
     },1000)
   }
+
   _getPhone = (phone) => {
     if(phone.length === 3) {
       this.setState({
         isBtnDisabled: false,
         phone: phone
+      })
+    }
+    else{
+      this.setState({
+        isBtnDisabled: true
       })
     }
   }
@@ -92,7 +98,7 @@ export default class RegisterView extends PureComponent {
       const resetAction = NavigationActions.reset({
           index: 0,
           actions: [
-              NavigationActions.navigate( { routeName: 'Home'} )
+              NavigationActions.navigate( { routeName: 'Home',params:{refresh:true}} )
           ],
       });
       this.props.navigation.dispatch(resetAction);
@@ -101,7 +107,7 @@ export default class RegisterView extends PureComponent {
 
   render() {
     return (<Container>
-      <Header>
+      <Header style={{backgroundColor:'#fff'}}>
         <Left>
           <Button transparent onPress={() => this.props.navigation.goBack()}>
             <Icon
@@ -129,7 +135,7 @@ export default class RegisterView extends PureComponent {
             <Input
               onChangeText={phone => this._getPhone(phone)}
               placeholder="填寫手機號碼"
-              autoFocus={true}
+              autoFocus={false}
               keyboardType="numeric"
               clearButtonMode="while-editing"
               maxLength={11}

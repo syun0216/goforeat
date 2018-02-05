@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
-import {Platform,View,Text,TouchableOpacity} from 'react-native'
-import {
-  Icon
-} from 'native-base'
+import {Platform, View, Text, TouchableOpacity} from 'react-native'
+import {Icon} from 'native-base'
 //navigation
-import {StackNavigator, TabNavigator,DrawerNavigator} from 'react-navigation'
+import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation'
 //views
 import LoginView from './LoginView'
 import RegisterView from './RegisterView'
@@ -23,13 +21,18 @@ import LinkingUtils from './utils/LinkingUtils'
 import GLOBAL_PARAMS from './utils/global_params'
 //react-redux
 import {connect} from 'react-redux'
-import {userStateAndDispatch,filterStateAndDispatch} from './utils/mapStateAndDIspatch'
+import {userStateAndDispatch,
+      goodsListStateAndDispatch,
+      loginStateAndDispatch,
+      registerStateAndDispatch,
+      filterStateAndDispatch,
+      personStateAndDispatch} from './utils/mapStateAndDispatch'
 //store
 import store from './store'
 
 const tabView = TabNavigator({
   GoodsListTab: {
-    screen: connect(filterStateAndDispatch.mapStateToProps,filterStateAndDispatch.mapDispatchToProps)(GoodsListPageView),
+    screen: connect(goodsListStateAndDispatch.mapStateToProps, goodsListStateAndDispatch.mapDispatchToProps)(GoodsListPageView),
     navigationOptions: {
       tabBarLabel: '商品',
       tabBarIcon: ({tintColor}) => (<Icon size={35} name="md-list-box" style={{
@@ -47,7 +50,7 @@ const tabView = TabNavigator({
     }
   },
   PersonTab: {
-    screen: connect(userStateAndDispatch.mapStateToProps,userStateAndDispatch.mapDispatchToProps)(PersonView),
+    screen: connect(personStateAndDispatch.mapStateToProps, personStateAndDispatch.mapDispatchToProps)(PersonView),
     navigationOptions: {
       tabBarLabel: '個人中心',
       tabBarIcon: ({tintColor}) => (<Icon size={35} name="md-contact" style={{
@@ -61,7 +64,7 @@ const tabView = TabNavigator({
   tabBarOptions: {
     activeTintColor: '#f07341',
     showLabel: false,
-    showIcon:true,
+    showIcon: true,
     inactiveTintColor: '#707070',
     activeTintColor: '#f07341',
     style: {
@@ -77,21 +80,32 @@ const darwerView = DrawerNavigator({
   GoodsListDrawer: {
     screen: tabView
   }
-},{
-  drawerWidth:240,
+}, {
+  drawerWidth: 240,
   drawerPosition: 'left',
-  contentComponent: props => (
-    <View style={{position:'relative',flex:1,height:GLOBAL_PARAMS._winHeight}}>
-      <View style={{alignSelf:'center',marginTop:100}}>
-        <Text>Goforeat v1.0.0</Text>
-      </View>
-      <TouchableOpacity style={{position:'absolute',bottom:30,right:50}} onPress={() => LinkingUtils.dialPhoneWithNumber('97926095')}>
-        <View>
-          <Text style={{fontSize:18}}>聯繫電話:97926095</Text>
-        </View>
-      </TouchableOpacity>
+  contentComponent: props => (<View style={{
+      position: 'relative',
+      flex: 1,
+      height: GLOBAL_PARAMS._winHeight
+    }}>
+    <View style={{
+        alignSelf: 'center',
+        marginTop: 100
+      }}>
+      <Text>Goforeat v1.0.0</Text>
     </View>
-  )
+    <TouchableOpacity style={{
+        position: 'absolute',
+        bottom: 30,
+        right: 50
+      }} onPress={() => LinkingUtils.dialPhoneWithNumber('97926095')}>
+      <View>
+        <Text style={{
+            fontSize: 18
+          }}>聯繫電話:97926095</Text>
+      </View>
+    </TouchableOpacity>
+  </View>)
 })
 
 let MainView = StackNavigator({
@@ -111,7 +125,7 @@ let MainView = StackNavigator({
     }
   },
   Login: {
-    screen: connect(userStateAndDispatch.mapStateToProps,userStateAndDispatch.mapDispatchToProps)(LoginView),
+    screen: connect(loginStateAndDispatch.mapStateToProps, loginStateAndDispatch.mapDispatchToProps)(LoginView),
     navigationOptions: {
       tabBarVisible: false,
       transitionConfig: {
@@ -120,7 +134,7 @@ let MainView = StackNavigator({
     }
   },
   Register: {
-    screen: connect(userStateAndDispatch.mapStateToProps,userStateAndDispatch.mapDispatchToProps)(RegisterView)
+    screen: connect(registerStateAndDispatch.mapStateToProps, registerStateAndDispatch.mapDispatchToProps)(RegisterView)
   }
 }, {headerMode: 'none'})
 
@@ -130,13 +144,14 @@ const defaultGetStateForAction = MainView.router.getStateForAction
 MainView.router.getStateForAction = (action, state) => {
   console.log('action', action)
   console.log('state', state)
-  if(action.type === 'Navigation/NAVIGATE' && action.routeName === 'Login'&& store.getState().auth.username !== null) {
-    ToastUtil.show('你不能进入',1000,'bottom','danger')
+  if (action.type === 'Navigation/NAVIGATE' && action.routeName === 'Login' && store.getState().auth.username !== null) {
+    ToastUtil.show('你不能进入', 1000, 'bottom', 'danger')
     return null
+  }
+  if (action.type === 'Navigation/RESET') {
+    store.dispatch({type: 'REFRESH', refresh: action.actions[0].params.refresh})
   }
   return defaultGetStateForAction(action, state)
 }
-
-
 
 export default MainView

@@ -4,7 +4,7 @@ import {View,TouchableOpacity,StyleSheet} from 'react-native'
 import {Container,Content,Footer,Button,Text,Badge} from 'native-base'
 //utils
 import Colors from '../utils/Colors'
-import {filterStateAndDispatch} from '../utils/mapStateAndDIspatch'
+import {filterStateAndDispatch} from '../utils/mapStateAndDispatch'
 //react-redux
 import {connect} from 'react-redux'
 
