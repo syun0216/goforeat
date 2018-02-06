@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View,Image,TouchableOpacity } from "react-native";
+import { View,Image,TouchableOpacity,WebView } from "react-native";
 import { Container, Header,Title,Right, Content,Badge, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Footer } from 'native-base';
 //utils
 import ToastUtil from "../utils/ToastUtil";
@@ -40,6 +40,7 @@ export default class ContentView extends Component {
       }
     })
   }
+
   addNewsToFavorite() {
     if (!this.state.favoriteChecked) {
       this.setState({
@@ -83,6 +84,14 @@ export default class ContentView extends Component {
     </Card>
   )
 
+  _renderArticleContentView = () => (
+    <WebView bounces={true}
+       scalesPageToFit={true}
+       source={{uri: this.props.navigation.state.params.data.url}}
+       style={{width: GLOBAL_PARAMS._winWidth, height: GLOBAL_PARAMS._winHeight}}>
+    </WebView>
+  )
+
   render() {
     return (
       <Container>
@@ -98,7 +107,8 @@ export default class ContentView extends Component {
           </Left>
           <Body>
             <Title style={{ color: "#707070" }}>
-              {this.props.navigation.state.params.data.name}
+              {this.props.navigation.state.params.kind === 'canteen' ? this.props.navigation.state.params.data.name :
+              this.props.navigation.state.params.data.title}
             </Title>
           </Body>
           <Right>
@@ -119,6 +129,7 @@ export default class ContentView extends Component {
         </Header>
         <Content>
           {this.state.canteenData !== null ? this._renderContentView() : null}
+          {this.props.navigation.state.params.kind === 'article' ? this._renderArticleContentView() : null}
         </Content>
         {this.state.canteenData !== null ?(<Footer style={{display:'flex',backgroundColor:'#fff',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>價格:${this.state.canteenData.price}</Text></View>
