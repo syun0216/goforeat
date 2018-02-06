@@ -92,7 +92,7 @@ class Dropdownfilter extends PureComponent{
         </View>
         <View style={styles.footerContainer}>
           <Button transparent danger onPress={() => this.props.cancleToDo()}
-            style={[styles.footerBtn,{borderRightWidth:1,borderColor:'#ccc',borderRadius:0}]}>
+            style={[styles.footerBtn,{borderRightWidth:1,borderColor:'#ddd',borderRadius:0}]}>
             <Text>取消</Text>
           </Button>
           <Button onPress={() => this.props.confirmToDo(this.props.filterSort)}
@@ -128,12 +128,12 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection:'row',
     borderBottomWidth:1,
-    borderColor:'#ccc'
+    borderColor:'#ddd'
   },
   filterItemContainerLeft:{
     width:50,
     borderRightWidth:1,
-    borderColor:'#ccc',
+    borderColor:'#ddd',
     display:'flex',
     justifyContent:'center',
     alignItems:'center'

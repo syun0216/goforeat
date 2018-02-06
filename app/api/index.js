@@ -21,18 +21,18 @@ const api = {
       }
       Object.assign(params, validItem)
     }
-    return axios.get(root_url + '/guide/queryCanteen', {
+    return axios.get(api_url + '/guide/queryCanteen', {
       params: params,
       timeout: 4500
     })
   },
   getCanteenOptions() {
-    return axios.get(root_url + '/guide/getCanteenOption')
+    return axios.get(api_url + '/guide/getCanteenOption')
   },
   getCanteenDetail(canteenId){
     // let params = new URLSearchParams();
     // params.append('canteenId', canteenId);
-    return axios.post(root_url + "/guide/getCanteenDetail", qs.stringify({
+    return axios.post(api_url + "/guide/getCanteenDetail", qs.stringify({
       canteenId
     }), {
       headers: {
@@ -80,7 +80,7 @@ const api = {
   },
   // article
   getArticleList() {
-    return axios.post(root_url + '/cms/getNewsList', qs.stringify({
+    return axios.post(api_url + '/cms/getNewsList', qs.stringify({
       limit: 15,
       offset: 0
     }),{

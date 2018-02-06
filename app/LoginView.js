@@ -43,8 +43,8 @@ import api from './api/index'
 
 export default class LoginView extends Component {
   state = {
-    phone: "",
-    password: "",
+    phone: null,
+    password: null,
     selectedValue:GLOBAL_PARAMS.phoneType.HK,
   };
 
@@ -72,10 +72,18 @@ export default class LoginView extends Component {
 
 
   //common function
-  _getPhone(text) {
-    this.setState({
-        phone:text
-    })
+  _getPhone(phone) {
+    let reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+    if (reg.test(phone)) {
+        this.setState({
+          phone
+        })
+    }
+    else{
+      this.setState({
+        phone: null
+      })
+    }
   }
 
   _getPassword(text) {
@@ -85,19 +93,29 @@ export default class LoginView extends Component {
   }
 
   _login() {
-    if (this.state.phone === "" && this.state.password === "") {
-      ToastUtil.show("請填寫手機號或密碼", 1000, "bottom","warning");
-      return;
+    if(this.state.phone === null){
+      ToastUtil.show("請填寫手機號", 1000, "top","warning")
+      return
     }
-    if(this.state.phone === '123' && this.state.password === '123') {
-      this.props.userLogin('123')
-      this.props.navigation.goBack()
+    if(this.state.password === null){
+      ToastUtil.show("請填寫密碼", 1000, "top","warning")
+      return
     }
+    api.login(this.state.phone,this.state.selectedValue.value,this.state.password).then(data => {
+      if(data.status === 200 && data.data.ro.ok){
+        ToastUtil.show("登錄成功", 1000, "top","success")
+        this.props.userLogin(this.state.phone)
+        this.props.navigation.goBack()
+      }
+      else{
+        ToastUtil.show("登錄失敗", 1000, "top","warning")
+      }
+    },() => {
+      ToastUtil.show("登錄失敗,請檢查網絡", 1000, "top","warning")
+    })
   }
 
   //views
-
-
 
   render() {
     return (
@@ -208,6 +226,8 @@ export default class LoginView extends Component {
                 }}
               >
                 <View style={{ width: 40, paddingLeft: 10 }}>
+                  {/* <Icon name="md-phone-portrait"
+                    style={{color:Colors.main_orange}} /> */}
                   <Image
                     source={require("./asset/phone.png")}
                     style={{
@@ -217,7 +237,7 @@ export default class LoginView extends Component {
                     }}
                   />
                 </View>
-                <Button transparent style={{marginTop:2}} onPress={() => Picker.show()}>
+                <Button transparent style={{marginLeft:-9,marginTop:2}} onPress={() => Picker.show()}>
                   <Text style={{color:'gray'}}>{this.state.selectedValue.label}</Text>
                 </Button>
                 <View
@@ -262,6 +282,7 @@ export default class LoginView extends Component {
                     source={require("./asset/password.png")}
                     style={{ width: 20, height: 20, marginTop: -2 }}
                   />
+                  {/* <Icon name="md-lock" style={{color:Colors.main_orange,margin}}/> */}
                 </View>
                 <View
                   style={{
@@ -299,7 +320,7 @@ export default class LoginView extends Component {
                   style={{
                     width: GLOBAL_PARAMS._winWidth * 0.8,
                     height: 50,
-                    borderColor: Colors.main_yellow,
+                    borderColor: Colors.main_orange,
                     borderWidth: 2,
                     backgroundColor: "transparent",
                     flex: 1,
@@ -312,7 +333,7 @@ export default class LoginView extends Component {
                   <View>
                     <Text
                       style={{
-                        color: Colors.main_yellow,
+                        color: Colors.main_orange,
                         fontSize: 20,
                         fontWeight: "500"
                       }}
@@ -367,7 +388,6 @@ export default class LoginView extends Component {
             </Text>
           </View>
         </View> */}
-        {this.state.isPickerShow ? this._renderPickerView() : null}
       </View>
     );
   }

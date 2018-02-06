@@ -18,15 +18,28 @@ import appStorage from "../utils/appStorage";
 import Colors from '../utils/Colors'
 //utils
 import GLOBAL_PARAMS from '../utils/global_params'
-
-const testData = {
-  title:'個人信息',name:'junwen',sex: '男',age:'22',area:'旺角',introduction:'我不明白也不需要明白'
-}
+import ToastUtil from '../utils/ToastUtil'
+//api
+import api from '../api'
 
 export default class PeopleView extends Component {
   componentDidMount() {
   }
   //common function
+  _logout = () => {
+    api.logout().then(data => {
+      if(data.status === 200 && data.data.ro.ok){
+        ToastUtil.show("登出成功", 1000, "top","success")
+        this.props.userLogout();
+        this.props.refreshReset();
+      }
+      else{
+        ToastUtil.show("登出失敗", 1000, "top","warning")
+      }
+    },() => {
+        ToastUtil.show("登出失敗,請檢查網絡", 1000, "top","warning")
+    })
+  }
 
   _renderNotLoginView() {
     return (
@@ -79,7 +92,7 @@ export default class PeopleView extends Component {
             '確定要登出嗎？',
             [
               {text: '取消', onPress: () => {return null}, style: 'cancel'},
-              {text: '確定', onPress: () => {this.props.userLogout();this.props.refreshReset()}},
+              {text: '確定', onPress: () => this._logout()},
             ],
             { cancelable: false }
           )
@@ -93,11 +106,7 @@ export default class PeopleView extends Component {
   _renderPersonDetailHeader = () => (
     <View style={[styles.loginHeader,{backgroundColor:Colors.main_orange}]}>
       <Image style={styles.personAvatar} source={require('../asset/eat.png')}/>
-      <Text>註冊號碼:{this.props.user}</Text>
-      <Text>年齡:{testData.age}</Text>
-      <Text>性別:{testData.sex}</Text>
-      <Text>地區:{testData.area}</Text>
-      <Text>個人簡介:{testData.introduction}</Text>
+      <Text style={{marginTop:10}}>用戶:{this.props.user}</Text>
     </View>
   )
 
@@ -125,7 +134,7 @@ const styles = StyleSheet.create({
   },
   loginHeader: {
     width: GLOBAL_PARAMS._winWidth,
-    height: 300,
+    height: 200,
     flex:1,
     justifyContent: 'center',
     alignItems: 'center'

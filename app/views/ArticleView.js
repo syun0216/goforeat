@@ -23,7 +23,7 @@ const cards = [
 ]
 
 export default class ArticleView extends Component{
-  ComponentDidMount() {
+  componentDidMount() {
     api.getArticleList().then(data => {
       console.log(data)
     })

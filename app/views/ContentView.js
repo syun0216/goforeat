@@ -7,22 +7,33 @@ import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from '../utils/global_params'
 //api
 import api from '../api'
+//components
+import Loading from '../components/Loading'
+
 export default class ContentView extends Component {
   state = {
     favoriteChecked: false,
-    canteenData:null
+    canteenData:null,
+    loading:true
   };
 
-  componentWillMount(){
+  componentDidMount(){
     if(this.props.navigation.state.params.kind === 'canteen'){
      this.getCanteenDetail()
     }
   }
 
+  componentWillUnmount() {
+    this.setState({
+      canteenData: null
+    })
+  }
+
   //api
   getCanteenDetail(){
-    api.getCanteenDetail(1).then(data => {
+    api.getCanteenDetail(this.props.navigation.state.params.data.id).then(data => {
       if(data.status === 200 && data.data.ro.ok) {
+        console.log(data.data)
         this.setState({
           canteenData:data.data.data
         })
@@ -44,32 +55,32 @@ export default class ContentView extends Component {
   }
 
   _renderContentView = () => (
-          <Card style={{flex: 0}}>
-            <CardItem>
-              <Left>
-                <Thumbnail source={{uri: this.state.canteenData.image}} />
-                <Body>
-                  <Text>{this.state.canteenData.name}</Text>
-                  <Text note>{this.state.canteenData.address}</Text>
-                </Body>
-              </Left>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Text>餐廳菜品</Text>
-                {this.state.canteenData.foods.map((item,idx) => (
-                  <Image key={idx}
-                    style={{
-                      width:GLOBAL_PARAMS._winWidth*0.91,
-                      height:200,
-                      marginTop:10,
-                      marginBottom:10
-                    }}
-                    source={{uri:item.foodImage}}/>
-                ))}
-              </Body>
-            </CardItem>
-          </Card>
+    <Card style={{flex: 0}}>
+      <CardItem>
+        <Left>
+          <Thumbnail source={{uri: this.state.canteenData.image}} />
+          <Body>
+            <Text>{this.state.canteenData.name}</Text>
+            <Text note>{this.state.canteenData.address}</Text>
+          </Body>
+        </Left>
+      </CardItem>
+      <CardItem>
+        <Body>
+          <Text>餐廳菜品</Text>
+          {this.state.canteenData.foods.length > 0 ? (this.state.canteenData.foods.map((item,idx) => (
+            <Image key={idx}
+              style={{
+                width:GLOBAL_PARAMS._winWidth*0.91,
+                height:200,
+                marginTop:10,
+                marginBottom:10
+              }}
+              source={{uri:item.foodImage}}/>
+          ))) : (<View style={{marginTop:10}}><Text>暫無菜品數據</Text></View>)}
+        </Body>
+      </CardItem>
+    </Card>
   )
 
   render() {
@@ -113,7 +124,7 @@ export default class ContentView extends Component {
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>價格:${this.state.canteenData.price}</Text></View>
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>評分:{this.state.canteenData.rate}</Text></View>
           <TouchableOpacity style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-            <Text style={{color:Colors.main_orange}}>評論</Text>
+            <Text style={{color:Colors.main_orange}}>評論:{this.state.canteenData.commentsCount}</Text>
             {/* <Badge style={{marginLeft:10,paddiBottom:10}}>
              <Text>2</Text>
            </Badge> */}
