@@ -390,6 +390,7 @@ export default class GoodsListPageView extends Component{
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onRequestFirstPageData}/> : null)}
         {this.state.showFilterList ? this._renderPreventClickView() : null}
         {this.state.canteenOptions ? this._renderFilterView() : null}
+        {this.state.canteenDetail.length === 0 ? <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
         <Header style={{backgroundColor:'#fff'}}>
           <Left>
@@ -405,7 +406,7 @@ export default class GoodsListPageView extends Component{
           <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
         </Header>
         <View  style={{backgroundColor:'#fff',marginBottom:diffplatform.bottomDistance}}>
-          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/>}
+          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}
         </View>
       </Container>
     )
