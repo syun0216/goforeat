@@ -236,15 +236,6 @@ export default class GoodsListPageView extends Component{
        }).start();
       clearTimeout(timer)
     },0)
-    // let timer = setTimeout(() => {
-    //   Animated.spring(this.state.positionTop, {
-    //     toValue: this.state.showFilterList? 0 : 1, // 目标值
-    //     duration: 1000, // 动画时间
-    //     easing: Easing.linear // 缓动函数
-    //   }).start();
-    //   clearTimeout(timer)
-    // },1000)
-
   }
 
   _confirmToFilter = (data) => {

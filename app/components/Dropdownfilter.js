@@ -38,8 +38,8 @@ class Dropdownfilter extends PureComponent{
 
   _renderFilterItem = (item,idx) => (
     <View key={idx} style={styles.filterItemContainer}>
-      <View style={styles.filterItemContainerLeft}>
-        <Text>{item.name}</Text>
+      <View>
+        <Text style={styles.filterItemContainerTitle}>{item.name}</Text>
       </View>
       <View style={styles.filterItemContainerRight}>
         {item.value.map((citem,cidx) => this._renderFilterChildrenItem(citem,cidx,item.enName))}
@@ -96,8 +96,8 @@ class Dropdownfilter extends PureComponent{
             <Text>取消</Text>
           </Button>
           <Button onPress={() => this.props.confirmToDo(this.props.filterSort)}
-             transparent style={styles.footerBtn}>
-            <Text>確定</Text>
+             transparent style={[styles.footerBtn,{backgroundColor:Colors.main_orange}]}>
+            <Text style={{color:'#fff'}}>確定</Text>
           </Button>
         </View>
       </View>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     flex:1
   },
   footerContainer: {
-    height: 47,
+    height: 45,
     display:'flex',
     justifyContent:'center',
     alignItems:'center',
@@ -122,13 +122,19 @@ const styles = StyleSheet.create({
   },
   footerBtn:{
     flex:1,
-    justifyContent:'center'
+    justifyContent:'center',
+    borderRadius: 0
   },
   filterItemContainer:{
     flex:1,
-    flexDirection:'row',
+    paddingTop:10,
+    paddingBottom:10,
     borderBottomWidth:1,
     borderColor:'#ddd'
+  },
+  filterItemContainerTitle:{
+    color:'#959595',
+    marginLeft:21
   },
   filterItemContainerLeft:{
     width:50,
@@ -141,20 +147,21 @@ const styles = StyleSheet.create({
   filterItemContainerRight:{
     flex:1,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'flex-start'
   },
   filterItemChildren:{
     flex:1,
     flexDirection:'row',
-    justifyContent:'center',
-    alignItems:'center',
-    marginTop:5
+    justifyContent:'flex-start',
+    alignItems:'flex-start',
+    marginTop:5,
   },
   filterItemChildrenBtn:{
     // flex:1,
     borderRadius:0,
     marginLeft:5,
-    marginRight:5
+    marginRight:5,
+    width:120
   },
   activeBtn:{
     // :Colors.main_orange,

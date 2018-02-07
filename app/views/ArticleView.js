@@ -1,15 +1,13 @@
 import React, {Component} from 'react'
-import {Image, TouchableOpacity, Platform} from 'react-native'
+import {View,Text,Image, TouchableOpacity, Platform, FlatList,StyleSheet} from 'react-native'
 import {
   Container,
   Header,
-  View,
   DeckSwiper,
   Card,
   Button,
   CardItem,
   Thumbnail,
-  Text,
   Left,
   Body,
   Icon
@@ -17,32 +15,22 @@ import {
 //utils
 import ToastUtil from '../utils/ToastUtil'
 import Colors from '../utils/Colors'
+import GLOBAL_PARAMS from '../utils/global_params'
 //api
 import api from '../api'
 //components
 import ErrorPage from '../components/ErrorPage'
 
-const cards = [
-  {
-    text: 'Card One',
-    name: 'One',
-    image: require('../asset/01.png')
-  }, {
-    text: 'Card Two',
-    name: 'Two',
-    image: require('../asset/02.png')
-  }, {
-    text: 'Card Third',
-    name: 'Third',
-    image: require('../asset/03.png')
-  }
-]
-
 export default class ArticleView extends Component {
   state = {
     articleList: null
   }
+
   componentDidMount() {
+    this._getArticleData()
+  }
+
+  _getArticleData = () => {
     api.getArticleList().then(data => {
       if (data.status === 200 && data.data.ro.ok) {
         console.log(data.data.data)
@@ -52,45 +40,23 @@ export default class ArticleView extends Component {
   }
 
   _renderArticleListView = () => (
-    <View style={{position:'relative'}}>
-      <DeckSwiper ref={(c) => this._deckSwiper = c} dataSource={this.state.articleList} renderEmpty={() => (<View style={{
-            alignSelf: "center"
-          }}>
-          <Text>沒有更多了</Text>
-        </View>)} renderItem={item => <Card style={{
-            elevation: 3
-          }}>
-          <CardItem>
-            <Left>
-              <Thumbnail source={{uri:item.pic}}/>
-              <Body>
-                <Text>{item.brief}</Text>
-                <Text note="note">{item.title}</Text>
-              </Body>
-            </Left>
-          </CardItem>
-          <CardItem cardBody>
-            <Image style={[
-                {
-                  flex: 1
-                },
-                Platform.OS === 'ios'
-                  ? {
-                    height: 300
-                  }
-                  : {
-                    height: 200
-                  }
-              ]} source={{uri:item.pic}}/>
-          </CardItem>
-          <CardItem>
-            <Icon name="heart" style={{
-                color: '#ED4A6A'
-              }}/>
-            <Text>{item.time}</Text>
-          </CardItem>
-        </Card>}/>
-    </View>)
+    <FlatList
+      data = {this.state.articleList}
+      renderItem = {({item}) => this._renderArticleListItemView(item)}
+      keyExtractor={(item, index) => item.title}
+    />
+  )
+
+  _renderArticleListItemView = (item) => (
+    <TouchableOpacity style={styles.articleItemContainer}
+      onPress={() => this.props.navigation.navigate('Content', {data: item,kind:'article'})}>
+        <View><Image style={styles.articleImage} source={{uri:item.pic}} /></View>
+        <View style={styles.articleDesc}>
+          <Text style={styles.articleTitle}>{item.title}</Text>
+          <Text style={styles.articleSubTitle}>{item.brief}</Text>
+        </View>
+    </TouchableOpacity>
+    )
 
   render() {
     return (<Container>
@@ -108,38 +74,32 @@ export default class ArticleView extends Component {
                 this.getArticleList()
               }}/>
       }
-      <View style={{
-          flexDirection: "row",
-          flex: 1,
-          position: "absolute",
-          bottom: 30,
-          left: 0,
-          right: 0,
-          justifyContent: 'space-between',
-          padding: 15
-        }}>
-        <Button transparent iconLeft onPress={() => this._deckSwiper._root.swipeLeft()}>
-          <Icon style={{
-              color: Colors.main_orange
-            }} name="arrow-back"/>
-          <Text style={{
-              color: Colors.main_orange
-            }}>上一篇</Text>
-        </Button>
-        <Button transparent onPress={() => this.props.navigation.navigate('Content', {data: this._deckSwiper._root.state.selectedItem,kind:'article'})}>
-          <Text style={{
-              color: Colors.main_orange
-            }}>點擊查看詳情</Text>
-        </Button>
-        <Button transparent iconRight onPress={() => this._deckSwiper._root.swipeRight()}>
-          <Text style={{
-              color: Colors.main_orange
-            }}>下一篇</Text>
-          <Icon style={{
-              color: Colors.main_orange
-            }} name="arrow-forward"/>
-        </Button>
-      </View>
     </Container>)
   }
 }
+
+const styles = StyleSheet.create({
+  articleItemContainer:{
+    marginBottom: 15,
+    height:250,
+    flex:1,
+    backgroundColor:'#fff'
+  },
+  articleImage: {
+    width:GLOBAL_PARAMS._winWidth,
+    height:190
+  },
+  articleDesc: {
+    flex:1,
+    justifyContent:'center',
+    paddingLeft:10
+  },
+  articleTitle: {
+    fontSize:18,
+    marginBottom:5
+  },
+  articleSubTitle: {
+    fontSize:14,
+    color:'#959595'
+  }
+})

@@ -51,6 +51,7 @@ export default class PeopleView extends Component {
 
   _renderIsLoginView = () => (
     <SectionList
+      bounces={false}
       ref={(sectionList) => this.sectionList = sectionList}
       sections={[
         {title:'收藏餐廳列表',data:[
@@ -66,7 +67,7 @@ export default class PeopleView extends Component {
       renderItem={({item}) => (
         <ListItem icon onPress={() => this.props.navigation.navigate('Content',{data:{name:item.name},kind:'canteen'})}>
           <Left>
-            <Icon color={Colors.main_orange} name={item.icon}></Icon>
+            <Icon style={{color: Colors.main_orange}} name={item.icon}></Icon>
           </Left>
           <Body>
             <Text>{item.name}</Text>

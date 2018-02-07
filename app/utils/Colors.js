@@ -10,7 +10,7 @@ let colors = {
     main_blue:"#1296db",
     bgColor:'#edeff7',
     main_yellow:'#ffd300',
-    main_orange:'#f07341'
+    main_orange:'#ef7344'
 };
 
 module.exports = colors;
