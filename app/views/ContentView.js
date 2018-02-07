@@ -56,6 +56,7 @@ export default class ContentView extends Component {
   }
 
   _renderContentView = () => (
+    <Content>
     <Card style={{flex: 0}}>
       <CardItem>
         <Left>
@@ -82,6 +83,7 @@ export default class ContentView extends Component {
         </Body>
       </CardItem>
     </Card>
+  </Content>
   )
 
   _renderArticleContentView = () => (
@@ -127,10 +129,9 @@ export default class ContentView extends Component {
             </Button>
           </Right>
         </Header>
-        <Content>
+        {this.props.navigation.state.params.kind === 'article' ? this._renderArticleContentView() : null}
+
           {this.state.canteenData !== null ? this._renderContentView() : null}
-          {this.props.navigation.state.params.kind === 'article' ? this._renderArticleContentView() : null}
-        </Content>
         {this.state.canteenData !== null ?(<Footer style={{display:'flex',backgroundColor:'#fff',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>價格:${this.state.canteenData.price}</Text></View>
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>評分:{this.state.canteenData.rate}</Text></View>
