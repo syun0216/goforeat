@@ -29,7 +29,7 @@ let requestParams = {
 
 const diffplatform = {
   preventViewTop:Platform.select({ios: 56, android: 0}),
-  filterTop:Platform.select({ios: 56, android: 56})
+  bottomDistance:Platform.select({ios: 65, android: 60})
 }
 
 export default class GoodsListPageView extends Component{
@@ -82,7 +82,7 @@ export default class GoodsListPageView extends Component{
         })
       }
     },() => {
-      ToastUtil.show('网络请求出错',1000,'bottom','warning')
+      ToastUtil.show('网络请求出错',1000,'top','warning')
       this.setState({
         loadingStatus:{
           firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
@@ -109,7 +109,7 @@ export default class GoodsListPageView extends Component{
         })
       }
     },() => {
-      ToastUtil.show('网络请求出错','bottom',1000,'warning')
+      ToastUtil.show('网络请求出错','top',1000,'warning')
     })
   }
 
@@ -202,7 +202,7 @@ export default class GoodsListPageView extends Component{
     //   })
     // }
     // const failCallBack = () => {
-    //   ToastUtil.show('网络请求出错','bottom',1000,'warning')
+    //   ToastUtil.show('网络请求出错','top',1000,'warning')
     //   this.setState({
     //     loadingStatus:{
     //       firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
@@ -236,6 +236,15 @@ export default class GoodsListPageView extends Component{
        }).start();
       clearTimeout(timer)
     },0)
+    // let timer = setTimeout(() => {
+    //   Animated.spring(this.state.positionTop, {
+    //     toValue: this.state.showFilterList? 0 : 1, // 目标值
+    //     duration: 1000, // 动画时间
+    //     easing: Easing.linear // 缓动函数
+    //   }).start();
+    //   clearTimeout(timer)
+    // },1000)
+
   }
 
   _confirmToFilter = (data) => {
@@ -246,8 +255,11 @@ export default class GoodsListPageView extends Component{
         firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
       }
     })
-    this.getCanteenList(data)
     this._toToggleFilterListView(0)
+    let timer = setTimeout(() => {
+      clearTimeout(timer)
+      this.getCanteenList(data)
+    },0)
   }
 //views
   _renderSubHeader = (section) => {
@@ -293,7 +305,7 @@ export default class GoodsListPageView extends Component{
         height: 400,
         top: this.state.positionTop.interpolate({
             inputRange: [0, 1],
-            outputRange: [-420, diffplatform.filterTop]
+            outputRange: [-420, 56]
         })
       }}>
         <Dropdownfilter filterData={this.state.canteenOptions}
@@ -392,7 +404,7 @@ export default class GoodsListPageView extends Component{
           </Body>
           <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
         </Header>
-        <View  style={{backgroundColor:'#fff',marginBottom:65}}>
+        <View  style={{backgroundColor:'#fff',marginBottom:diffplatform.bottomDistance}}>
           {this.state.canteenDetail.length > 0 ? this._renderSectionList() : <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/>}
         </View>
       </Container>

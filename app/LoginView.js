@@ -57,6 +57,7 @@ export default class LoginView extends Component {
       pickerTitleText: '選擇電話類型',
       pickerConfirmBtnText: '確定',
       pickerCancelBtnText: '取消',
+      pickerRowHeight:30,
       onPickerConfirm: data => {
         switch(data[0]){
           case GLOBAL_PARAMS.phoneType.HK.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.HK});break
@@ -152,7 +153,7 @@ export default class LoginView extends Component {
             <Button
               onPress={() => this.props.navigation.goBack()}
               transparent
-              style={{ position: "absolute", top: 25, right: 10, zIndex: 20 }}
+              style={{ position: "absolute", top: 35, right: 20, zIndex: 20 }}
             >
               <Image
                 style={{ width: 28, height: 28 }}

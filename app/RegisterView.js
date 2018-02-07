@@ -47,6 +47,7 @@ export default class RegisterView extends PureComponent {
       pickerTitleText: '選擇電話類型',
       pickerConfirmBtnText: '確定',
       pickerCancelBtnText: '取消',
+      pickerRowHeight:30,
       onPickerConfirm: data => {
         switch(data[0]){
           case GLOBAL_PARAMS.phoneType.HK.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.HK});break
