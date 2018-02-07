@@ -5,7 +5,7 @@ import GLOBAL_PARAMS from '../utils/global_params'
 
 const styles = StyleSheet.create({
   commonContainer:{
-    height:50,flex:1,flexDirection:'row',justifyContent:'center'
+    height:50,flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'
   }
 })
 
@@ -21,15 +21,19 @@ const ListFooter = ({loadingStatus,errorToDo}) => {
     }
     case GLOBAL_PARAMS.httpStatus.LOAD_FAILED: {
       return (
-        <TouchableOpacity style={style.commonContainer} onPress={() => errorToDo()}>
-          <Text style={{flex:1}}>加載失敗,請點擊重試...</Text>
+        <TouchableOpacity style={styles.commonContainer} onPress={() => errorToDo()}>
+          <View  style={{flex:1,alignItems:'center'}}>
+            <Text>加載失敗,請點擊重試...</Text>
+          </View>
         </TouchableOpacity>
       )
     }
-    case GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS: {
+    case GLOBAL_PARAMS.httpStatus.NO_MORE_DATA: {
       return (
-        <View style={styles.commonContainer}>
-          <Text>沒有更多數據了...</Text>
+        <View style={[styles.commonContainer]}>
+          <View style={{width:GLOBAL_PARAMS._winWidth*0.4,height:1,marginLeft:10,marginRight:10,backgroundColor:'#ddd'}}></View>
+          <View style={{width:5,height:5,borderRadius:50,backgroundColor:'#ccc'}}></View>
+          <View style={{width:GLOBAL_PARAMS._winWidth*0.4,height:1,marginLeft:10,marginRight:10,backgroundColor:'#ddd'}}></View>
         </View>
       )
     }

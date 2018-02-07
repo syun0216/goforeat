@@ -133,37 +133,53 @@ export default class GoodsListPageView extends Component{
       // console.log(sview.nativeEvent.contentOffset.y);
   // }
 
+  _requestNextDetailList() {
+    if(this.state.loadingStatus.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
+      return;
+    }
+    api.getCanteenList(requestParams.currentPage).then(data => {
+      if(data.status === 200) {
+        console.log(data)
+        if(data.data.data.length === 0) {
+          requestParams.currentPage --
+          this.setState({
+            canteenDetail:this.state.canteenDetail.concat(data.data.data),
+            loadingStatus: {
+              pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
+            }
+          })
+          return
+        }
+        this.setState({
+          canteenDetail:this.state.canteenDetail.concat(data.data.data),
+          loadingStatus:{
+            pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
+          }
+        })
+      }
+    },() => {
+      requestParams.currentPage --
+      this.setState({
+        loadingStatus: {
+          pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
+        }
+      })
+    })
+  }
+
   _onEndReached = () => {
     requestParams.currentPage ++
+    this._requestNextDetailList()
+  }
 
-    // api.getCanteenList(requestParams.currentPage).then(data => {
-    //   if(data.status === 200) {
-    //     console.log(data)
-    //     if(data.data.data.length === 0) {
-    //       requestParams.currentPage --
-    //       // this.setState({
-    //       //   canteenDetail:this.state.canteenDetail.concat(data.data.data)
-    //       //   loadingStatus: {
-    //       //     pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
-    //       //   }
-    //       // })
-    //       return
-    //     }
-    //     this.setState({
-    //       canteenDetail:this.state.canteenDetail.concat(data.data.data),
-    //       loadingStatus:{
-    //         pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
-    //       }
-    //     })
-    //   }
-    // },() => {
-    //   requestParams.currentPage --
-    //   this.setState({
-    //     loadingStatus: {
-    //       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-    //     }
-    //   })
-    // })
+  _onErrorToRequestNextPage() {
+    this.setState({
+      loadingStatus:{
+        pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
+      }
+    })
+    requestParams.currentPage ++;
+    this._requestNextDetailList()
   }
 
   _onRequestFirstPageData = () => {
@@ -339,7 +355,7 @@ export default class GoodsListPageView extends Component{
               <Text>沒有數據了...</Text>
             </View>
           )}
-          ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={this._onEndReached}/>)}
+          ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}
         />
     )
   }
@@ -369,7 +385,6 @@ export default class GoodsListPageView extends Component{
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
           <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onRequestFirstPageData}/> : null)}
-
         {this.state.showFilterList ? this._renderPreventClickView() : null}
         {this.state.canteenOptions ? this._renderFilterView() : null}
         {/* {this._renderSubHeader()} */}
@@ -386,8 +401,8 @@ export default class GoodsListPageView extends Component{
           </Body>
           <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
         </Header>
-        <View  style={{backgroundColor:'#fff'}}>
-          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : <ErrorPage errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/>}
+        <View  style={{backgroundColor:'#fff',marginBottom:65}}>
+          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/>}
         </View>
       </Container>
     )

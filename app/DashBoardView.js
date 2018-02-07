@@ -61,6 +61,7 @@ const tabView = TabNavigator({
 }, {
   animationEnabled: true,
   tabBarPosition: 'bottom',
+  lazy:true, //该属性只会加载tab的当前view
   tabBarOptions: {
     activeTintColor: '#f07341',
     showLabel: false,
