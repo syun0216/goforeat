@@ -10,7 +10,8 @@ import {
   Icon,
   Title,
   Content,
-  ListItem
+  ListItem,
+  List
 } from "native-base";
 //cache
 import appStorage from "../utils/appStorage";
@@ -41,87 +42,93 @@ export default class PeopleView extends Component {
     })
   }
 
-  _renderNotLoginView() {
-    return (
-      <Button style={{ alignSelf: "center", marginTop: 100 }} transparent onPress={() => this.props.navigation.navigate("Login")}>
-        <Text style={{color:Colors.main_orange,fontSize:20}}>未登錄，請先登錄哦</Text>
-      </Button>
-    );
+  _commonItemClick = () => {
+    if(this.props.user === null) {
+      this.props.navigation.navigate('Login')
+    }else {
+      ToastUtil.show('暫未開放',1000,'top','warning')
+    }
   }
-
-  _renderIsLoginView = () => (
-    <SectionList
-      bounces={false}
-      ref={(sectionList) => this.sectionList = sectionList}
-      sections={[
-        {title:'收藏餐廳列表',data:[
-          {name:'大頭蝦餐廳',icon:'md-pizza'},
-          {name:'滾滾來火鍋',icon:'md-pizza'}
-        ]},
-        {title:'收藏文章列表',data:[
-          {name:'九龍最火的美食城',icon:'md-bookmarks'},
-          {name:'搜羅最全中環地道美食',icon:'md-bookmarks'},
-        ]}
-      ]}
-      keyExtractor={(item, index) => index} // 消除SectionList warning
-      renderItem={({item}) => (
-        <ListItem icon onPress={() => this.props.navigation.navigate('Content',{data:{name:item.name},kind:'canteen'})}>
-          <Left>
-            <Icon style={{color: Colors.main_orange}} name={item.icon}></Icon>
-          </Left>
-          <Body>
-            <Text>{item.name}</Text>
-          </Body>
-          <Right>
-            <Icon name="arrow-forward" />
-          </Right>
-        </ListItem>
-      )}
-      renderSectionHeader={({section}) => (
-        <Text style={styles.sectionHeader}>{section.title}</Text>
-      )}
-      ListEmptyComponent={() => (
-        <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-          <Text>您還未收藏任何餐廳和文章哦</Text>
-        </View>
-      )}
-      ListFooterComponent={() => (
-        <Button style={{ alignSelf: "center"}} transparent onPress={() => {
-          Alert.alert(
-            '提示',
-            '確定要登出嗎？',
-            [
-              {text: '取消', onPress: () => {return null}, style: 'cancel'},
-              {text: '確定', onPress: () => this._logout()},
-            ],
-            { cancelable: false }
-          )
-        }}>
-          <Text style={{color:Colors.main_orange,fontSize:20}}>登出</Text>
-        </Button>
-      )}
-    />
-  )
 
   _renderPersonDetailHeader = () => (
     <View style={[styles.loginHeader,{backgroundColor:Colors.main_orange}]}>
       {this.props.user !== null ? (<Image style={styles.personAvatar} source={require('../asset/eat.png')}/>) :
     (<Image style={styles.personAvatar} source={require('../asset/touxiang.png')}/>)}
-      {this.props.user !== null ? (<Text style={{marginTop:10}}>用戶:{this.props.user}</Text>) :
+      {this.props.user !== null ? (<Text style={{fontSize:16,color:'#fff',marginTop:10}}>用戶:{this.props.user}</Text>) :
     (<TouchableOpacity style={{marginTop:10}} onPress={() => this.props.navigation.navigate("Login")}>
-      <Text style={{fontSize:16}}>登錄/註冊</Text>
+      <Text style={{fontSize:16,color:'#fff'}}>登錄/註冊</Text>
     </TouchableOpacity>)}
     </View>
+  )
+
+  _renderCommonItemView = () => (
+    <View style={{flex:1,flexDirection:'row',borderBottomWidth:1,borderColor:'#ddd',height:70}}>
+      <TouchableOpacity style={styles.commonItem} onPress={this._commonItemClick}>
+        <Image source={require('../asset/01-guanli.png')} style={styles.commonImage}/>
+        <Text>商鋪管理</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.commonItem} onPress={this._commonItemClick}>
+        <Image source={require('../asset/02-guanzhu.png')} style={styles.commonImage}/>
+        <Text>我的關注</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.commonItem} onPress={this._commonItemClick}>
+        <Image source={require('../asset/03-renzheng.png')} style={styles.commonImage}/>
+        <Text>實名認證</Text>
+      </TouchableOpacity>
+    </View>
+  )
+
+  _renderCommonListView = () => (
+    <List>
+      <ListItem icon onPress={() => this.props.navigation.navigate('Content',{data:{name:item.name},kind:'canteen'})}>
+        <Left>
+          <Icon style={{color: Colors.main_orange,fontSize:22}} name="md-contacts"></Icon>
+        </Left>
+        <Body>
+          <Text>關於我們</Text>
+        </Body>
+        <Right>
+          <Icon name="arrow-forward" />
+        </Right>
+      </ListItem>
+      <ListItem icon onPress={() => this.props.navigation.navigate('Content',{data:{name:item.name},kind:'canteen'})}>
+        <Left>
+          <Icon style={{color: Colors.main_orange,fontSize:22}} name="md-settings"></Icon>
+        </Left>
+        <Body>
+          <Text>系統設置</Text>
+        </Body>
+        <Right>
+          <Icon name="arrow-forward" />
+        </Right>
+      </ListItem>
+    </List>
+  )
+
+  _renderListFooterView = () => (
+    <Button style={{ alignSelf: "center"}} transparent onPress={() => {
+      Alert.alert(
+        '提示',
+        '確定要登出嗎？',
+        [
+          {text: '取消', onPress: () => {return null}, style: 'cancel'},
+          {text: '確定', onPress: () => this._logout()},
+        ],
+        { cancelable: false }
+      )
+    }}>
+      <Text style={{color:Colors.main_orange,fontSize:20}}>登出</Text>
+    </Button>
   )
 
   render() {
     return (
       <Container>
-        <Content>
+        <Content style={{backgroundColor:'#fff'}}>
           {this._renderPersonDetailHeader()}
-          {this.props.user !== null
-            ? this._renderIsLoginView()
-            : this._renderNotLoginView()}
+          {this._renderCommonItemView()}
+          {this._renderCommonListView()}
+          {this.props.user !== null ? this._renderListFooterView() : null}
         </Content>
       </Container>
     );
@@ -151,5 +158,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     backgroundColor: 'rgba(247,247,247,1.0)',
+  },
+  commonItem:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  commonImage: {
+    width:28,
+    height:28,
+    marginBottom:10
   }
 })
