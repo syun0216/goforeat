@@ -8,6 +8,7 @@
  */
 
 #import "AppDelegate.h"
+#import "SplashScreen.h"  // here
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -32,6 +33,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+//  [SplashScreen show];  // here
   return YES;
 }
 

@@ -11,6 +11,7 @@ import {
   View
 } from 'react-native';
 import {Root} from 'native-base'
+import SplashScreen from 'react-native-splash-screen'
 import store from './app/store'
 import {Provider} from 'react-redux'
 import MainView from './app/DashBoardView'
@@ -26,6 +27,7 @@ const instructions = Platform.select({
 
 export default class App extends Component<{}> {
   componentDidMount = () => {
+    SplashScreen.hide();
     appStorage.getLoginUserJsonData((error,data) => {
       if(error === null) {
         if(store.getState().auth.username === null) {
@@ -34,7 +36,7 @@ export default class App extends Component<{}> {
       }
     })
   }
-  
+
   render() {
     return (
       <Root>

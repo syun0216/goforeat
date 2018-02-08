@@ -15,6 +15,7 @@
     "react": "16.2.0",
     "react-native": "0.52.2",
     "react-native-picker": "^4.3.5",
+    "react-native-splash-screen": "^3.0.6",
     "react-native-swiper": "^1.5.13",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.0.0-beta.27",

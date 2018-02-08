@@ -80,7 +80,6 @@ export default class PeopleView extends Component {
       renderSectionHeader={({section}) => (
         <Text style={styles.sectionHeader}>{section.title}</Text>
       )}
-      ListHeaderComponent={() => this._renderPersonDetailHeader()}
       ListEmptyComponent={() => (
         <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
           <Text>您還未收藏任何餐廳和文章哦</Text>
@@ -106,20 +105,20 @@ export default class PeopleView extends Component {
 
   _renderPersonDetailHeader = () => (
     <View style={[styles.loginHeader,{backgroundColor:Colors.main_orange}]}>
-      <Image style={styles.personAvatar} source={require('../asset/eat.png')}/>
-      <Text style={{marginTop:10}}>用戶:{this.props.user}</Text>
+      {this.props.user !== null ? (<Image style={styles.personAvatar} source={require('../asset/eat.png')}/>) :
+    (<Image style={styles.personAvatar} source={require('../asset/touxiang.png')}/>)}
+      {this.props.user !== null ? (<Text style={{marginTop:10}}>用戶:{this.props.user}</Text>) :
+    (<TouchableOpacity style={{marginTop:10}} onPress={() => this.props.navigation.navigate("Login")}>
+      <Text style={{fontSize:16}}>登錄/註冊</Text>
+    </TouchableOpacity>)}
     </View>
   )
 
   render() {
     return (
       <Container>
-        {this.props.user !== null ? null : (<Header style={{ backgroundColor: "#fff" }}>
-          <Body>
-            <Text>個人詳情</Text>
-          </Body>
-        </Header>)}
         <Content>
+          {this._renderPersonDetailHeader()}
           {this.props.user !== null
             ? this._renderIsLoginView()
             : this._renderNotLoginView()}
@@ -141,8 +140,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   personAvatar: {
-    width:80,
-    height:80,
+    width:65,
+    height:65,
   },
   sectionHeader: {
     paddingTop: 2,
