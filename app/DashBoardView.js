@@ -29,7 +29,8 @@ import {userStateAndDispatch,
       loginStateAndDispatch,
       registerStateAndDispatch,
       filterStateAndDispatch,
-      personStateAndDispatch} from './utils/mapStateAndDispatch'
+      personStateAndDispatch,
+      myFavoriteStateAndDispatch} from './utils/mapStateAndDispatch'
 //store
 import store from './store'
 
@@ -144,7 +145,7 @@ let MainView = StackNavigator({
     screen: SettingView
   },
   MyFavorite: {
-    screen: MyFavoriteView
+    screen: connect(myFavoriteStateAndDispatch.mapStateToProps,myFavoriteStateAndDispatch.mapDispatchToProps)(MyFavoriteView)
   }
 }, {headerMode: 'none'})
 

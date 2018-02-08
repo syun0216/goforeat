@@ -1,5 +1,20 @@
 import {bindActionCreators} from 'redux';
 
+export const myFavoriteStateAndDispatch = {
+  mapStateToProps: state => {
+    console.log(state)
+    return {
+      shopList: state.stockShop
+    };
+  },
+  mapDispatchToProps: dispatch => {
+    return {
+      userLogin: (username) => dispatch({type:'LOGIN',username:username}),
+      userLogout: () => dispatch({type:'LOGOUT'})
+    }
+  }
+}
+
 export const contentStateAndDispatch = {
   mapStateToProps:state => {
     return {
@@ -8,7 +23,8 @@ export const contentStateAndDispatch = {
   },
   mapDispatchToProps: dispatch => {
     return {
-      stockShop: (item) => dispatch({type:'STOCK_SHOP',data:item})
+      stockShop: (item) => dispatch({type:'STOCK_SHOP',data:item}),
+      deleteShop: (id) => dispatch({type:'DELETE_SHOP',id:id})
     }
   }
 }

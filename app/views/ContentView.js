@@ -48,15 +48,21 @@ export default class ContentView extends Component {
       ToastUtil.show("請先登錄哦",1000,"top","warning")
       return;
     }
+    if(this.props.navigation.state.params.kind === 'article'){
+      ToastUtil.show("暫未開放收藏文章",1000,"top","warning")
+      return
+    }
     if (!this.state.favoriteChecked) {
       this.setState({
         favoriteChecked: true
       });
+      this.props.stockShop(this.props.navigation.state.params.data)
       ToastUtil.show("收藏成功", 1000, "top", "success");
     } else {
       this.setState({
         favoriteChecked: false
       });
+      this.props.deleteShop(this.props.navigation.state.params.data.id)
       ToastUtil.show("取消收藏", 1000, "top", "warning");
     }
   }
