@@ -147,13 +147,13 @@ const styles = StyleSheet.create({
   filterItemContainerRight:{
     flex:1,
     justifyContent:'center',
-    alignItems:'flex-start'
+    alignItems:'center'
   },
   filterItemChildren:{
     flex:1,
     flexDirection:'row',
-    justifyContent:'flex-start',
-    alignItems:'flex-start',
+    justifyContent:'center',
+    alignItems:'center',
     marginTop:5,
   },
   filterItemChildrenBtn:{
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     borderRadius:0,
     marginLeft:5,
     marginRight:5,
-    width:120
+    // width:120
   },
   activeBtn:{
     // :Colors.main_orange,
