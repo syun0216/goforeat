@@ -11,8 +11,8 @@ export default class SearchView extends Component{
            <Input placeholder="輸入商品名稱" />
            {/* <Icon name="ios-people" /> */}
          </Item>
-         <Button transparent>
-           <Text style={{color:'#f07341'}}>搜索</Text>
+         <Button transparent onPress={() => this.props.navigation.goBack()}>
+           <Text style={{color:'#f07341'}}>取消</Text>
          </Button>
        </Header>
      </Container>

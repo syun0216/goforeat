@@ -3,3 +3,8 @@ export const LOGOUT = 'LOGOUT'
 
 export const SAVE_FILTER_PARAMS = 'SAVE_FILTER_PARAMS'
 export const RESET_FILTER_PARAMS = 'RESET_FILTER_PARAMS'
+
+export const STOCK_ARTICLE = 'STOCK_ARTICLE'
+export const STOCK_SHOP = 'STOCK_SHOP'
+export const DELETE_ARTICLE = 'DELETE_ARTICLE'
+export const DELETE_SHOP = 'DELETE_SHOP'

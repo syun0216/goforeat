@@ -1,5 +1,31 @@
 import {bindActionCreators} from 'redux';
 
+export const contentStateAndDispatch = {
+  mapStateToProps:state => {
+    return {
+      user: state.auth.username
+    };
+  },
+  mapDispatchToProps: dispatch => {
+    return {
+      stockShop: (item) => dispatch({type:'STOCK_SHOP',data:item})
+    }
+  }
+}
+
+export const settingStateAndDispatch = {
+  mapStateToProps: state => {
+    return {
+      shopList: state.stockShop.shopList
+    };
+  },
+  mapDispatchToProps: dispatch => {
+    return {
+      userLogin: (username) => dispatch({type:'LOGIN',username:username}),
+      userLogout: () => dispatch({type:'LOGOUT'})
+    }
+  }
+}
 
 export const loginStateAndDispatch = {
   mapStateToProps: state => {

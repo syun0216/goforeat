@@ -3,7 +3,6 @@ import {View, Image} from 'react-native'
 import Picker from 'react-native-picker'
 import {
   Container,
-  Header,
   Content,
   Form,
   Item,
@@ -23,6 +22,8 @@ import GLOBAL_PARAMS from './utils/global_params'
 import ToastUtil from './utils/ToastUtil'
 //api
 import api from './api'
+//components
+import CommonHeader from './components/CommonHeader'
 
 export default class RegisterView extends PureComponent {
   token = null
@@ -156,21 +157,7 @@ export default class RegisterView extends PureComponent {
 
   render() {
     return (<Container>
-      <Header style={{backgroundColor:'#fff'}}>
-        <Left>
-          <Button transparent onPress={() => this.props.navigation.goBack()}>
-            <Icon
-              size={20}
-              name="ios-arrow-back"
-              style={{ fontSize: 25, color: Colors.main_orange }}
-            />
-          </Button>
-        </Left>
-        <Body>
-          <Text>用戶註冊</Text>
-        </Body>
-        <Right/>
-      </Header>
+      <CommonHeader canBack title="用戶註冊" {...this['props']} />
       <Content>
         <Form>
           <Item>

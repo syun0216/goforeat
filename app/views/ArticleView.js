@@ -20,6 +20,7 @@ import GLOBAL_PARAMS from '../utils/global_params'
 import api from '../api'
 //components
 import ErrorPage from '../components/ErrorPage'
+import CommonHeader from '../components/CommonHeader'
 
 export default class ArticleView extends Component {
   state = {
@@ -60,13 +61,7 @@ export default class ArticleView extends Component {
 
   render() {
     return (<Container>
-      <Header style={{
-          backgroundColor: '#fff'
-        }}>
-        <Body>
-          <Text>文章詳情</Text>
-        </Body>
-      </Header>
+      <CommonHeader title="文章詳情"/>
       {
         this.state.articleList !== null
           ? this._renderArticleListView()

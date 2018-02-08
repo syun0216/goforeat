@@ -57,7 +57,7 @@ export default class GoodsListPageView extends Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextprops',nextProps)
+    // console.log('nextprops',nextProps)
     this._onRequestFirstPageData()
   }
 
@@ -139,7 +139,7 @@ export default class GoodsListPageView extends Component{
     }
     api.getCanteenList(requestParams.currentPage).then(data => {
       if(data.status === 200) {
-        console.log(data)
+        // console.log(data)
         if(data.data.data.length === 0) {
           requestParams.currentPage --
           this.setState({

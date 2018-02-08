@@ -16,7 +16,7 @@ import store from './app/store'
 import {Provider} from 'react-redux'
 import MainView from './app/DashBoardView'
 //cache
-import appStorage from './app/utils/appStorage'
+import appStorage from './app/cache/appStorage'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +

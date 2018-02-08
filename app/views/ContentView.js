@@ -9,6 +9,7 @@ import GLOBAL_PARAMS from '../utils/global_params'
 import api from '../api'
 //components
 import Loading from '../components/Loading'
+import CommonHeader from '../components/CommonHeader'
 
 export default class ContentView extends Component {
   state = {
@@ -18,6 +19,7 @@ export default class ContentView extends Component {
   };
 
   componentDidMount(){
+    console.log(this.props)
     if(this.props.navigation.state.params.kind === 'canteen'){
      this.getCanteenDetail()
     }
@@ -41,7 +43,11 @@ export default class ContentView extends Component {
     })
   }
 
-  addNewsToFavorite() {
+  _addNewsToFavorite() {
+    if(this.props.user === null) {
+      ToastUtil.show("請先登錄哦",1000,"top","warning")
+      return;
+    }
     if (!this.state.favoriteChecked) {
       this.setState({
         favoriteChecked: true
@@ -114,7 +120,7 @@ export default class ContentView extends Component {
             </Title>
           </Body>
           <Right>
-            <Button transparent onPress={() => this.addNewsToFavorite()}>
+            <Button transparent onPress={() => this._addNewsToFavorite()}>
               {this.state.favoriteChecked ? (
                 <Icon
                   name="md-heart"

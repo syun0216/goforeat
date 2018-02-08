@@ -14,7 +14,7 @@ import {
   List
 } from "native-base";
 //cache
-import appStorage from "../utils/appStorage";
+import appStorage from "../cache/appStorage";
 //Colors
 import Colors from '../utils/Colors'
 //utils
@@ -68,7 +68,9 @@ export default class PeopleView extends Component {
         <Image source={require('../asset/01-guanli.png')} style={styles.commonImage}/>
         <Text>商鋪管理</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.commonItem} onPress={this._commonItemClick}>
+      <TouchableOpacity style={styles.commonItem} onPress={() => {
+        this.props.user !== null ? this.props.navigation.navigate('MyFavorite') : this.props.navigation.navigate('Login')
+      }}>
         <Image source={require('../asset/02-guanzhu.png')} style={styles.commonImage}/>
         <Text>我的關注</Text>
       </TouchableOpacity>

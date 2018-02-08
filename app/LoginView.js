@@ -35,7 +35,7 @@ import GLOBAL_PARAMS from "./utils/global_params";
 import Colors from "./utils/Colors";
 import ToastUtil from "./utils/ToastUtil"
 //cache
-import appStorage from './utils/appStorage'
+import appStorage from './cache/appStorage'
 //api
 import api from './api/index'
 

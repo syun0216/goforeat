@@ -14,6 +14,7 @@ import SearchView from './views/SearchView'
 import GoodsListPageView from './views/GoodsListPageView'
 import ArticleView from './views/ArticleView'
 import PersonView from './views/PersonView'
+import MyFavoriteView from './views/MyFavoriteVIew'
 //api
 import api from './api'
 //utils
@@ -23,6 +24,7 @@ import GLOBAL_PARAMS from './utils/global_params'
 //react-redux
 import {connect} from 'react-redux'
 import {userStateAndDispatch,
+      contentStateAndDispatch,
       goodsListStateAndDispatch,
       loginStateAndDispatch,
       registerStateAndDispatch,
@@ -115,7 +117,7 @@ let MainView = StackNavigator({
     screen: darwerView
   },
   Content: {
-    screen: ContentView,
+    screen: connect(contentStateAndDispatch.mapStateToProps,contentStateAndDispatch.mapDispatchToProps)(ContentView),
     navigationOptions: {
       tabBarVisible: false
     }
@@ -140,6 +142,9 @@ let MainView = StackNavigator({
   },
   Setting: {
     screen: SettingView
+  },
+  MyFavorite: {
+    screen: MyFavoriteView
   }
 }, {headerMode: 'none'})
 
