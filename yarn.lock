@@ -3724,6 +3724,10 @@ react-native-easy-grid@0.1.15:
   dependencies:
     lodash "^4.11.1"
 
+react-native-interactable@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.npmjs.org/react-native-interactable/-/react-native-interactable-0.1.10.tgz#65b9a68f6a84ba1c0e2ad5478b1f22ffb29c0526"
+
 react-native-iphone-x-helper@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.0.2.tgz#7dbca530930f7c1ce8633cc8fd13ba94102992e1"

@@ -9,8 +9,8 @@ export const myFavoriteStateAndDispatch = {
   },
   mapDispatchToProps: dispatch => {
     return {
-      userLogin: (username) => dispatch({type:'LOGIN',username:username}),
-      userLogout: () => dispatch({type:'LOGOUT'})
+      stockShop: (item) => dispatch({type:'STOCK_SHOP',data:item}),
+      deleteShop: (id) => dispatch({type:'DELETE_SHOP',id:id})
     }
   }
 }
