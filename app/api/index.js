@@ -88,6 +88,15 @@ const api = {
         "Content-Type": "application/x-www-form-urlencoded"
       }
     })
+  },
+  searchCanteenWithName(name) {
+    return axios.post(api_url + '/guide/matchCanteenByName', qs.stringify({
+      name
+    }),{
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
   }
 }
 
