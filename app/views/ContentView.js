@@ -12,6 +12,7 @@ import Loading from '../components/Loading'
 import CommonHeader from '../components/CommonHeader'
 
 export default class ContentView extends Component {
+
   state = {
     favoriteChecked: false,
     canteenData:null,
@@ -19,7 +20,13 @@ export default class ContentView extends Component {
   };
 
   componentDidMount(){
-    console.log(this.props)
+    for(let item of this.props.shopList.data) {
+      if(item !== null && item.id === this.props.navigation.state.params.data.id) {
+        this.setState({
+          favoriteChecked: true
+        })
+      }
+    }
     if(this.props.navigation.state.params.kind === 'canteen'){
      this.getCanteenDetail()
     }
@@ -44,12 +51,13 @@ export default class ContentView extends Component {
   }
 
   _addNewsToFavorite() {
+
     if(this.props.user === null) {
-      ToastUtil.show("請先登錄哦",1000,"top","warning")
+      ToastUtil.show("請先登錄哦",1000,"bottom","warning")
       return;
     }
     if(this.props.navigation.state.params.kind === 'article'){
-      ToastUtil.show("暫未開放收藏文章",1000,"top","warning")
+      ToastUtil.show("暫未開放收藏文章",1000,"bottom","warning")
       return
     }
     if (!this.state.favoriteChecked) {
@@ -57,13 +65,13 @@ export default class ContentView extends Component {
         favoriteChecked: true
       });
       this.props.stockShop(this.props.navigation.state.params.data)
-      ToastUtil.show("收藏成功", 1000, "top", "success");
+      ToastUtil.show("收藏成功", 1000, "bottom", "success");
     } else {
       this.setState({
         favoriteChecked: false
       });
       this.props.deleteShop(this.props.navigation.state.params.data.id)
-      ToastUtil.show("取消收藏", 1000, "top", "warning");
+      ToastUtil.show("取消收藏", 1000, "bottom", "warning");
     }
   }
 

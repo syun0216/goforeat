@@ -164,12 +164,12 @@ MainView.router.getStateForAction = (action, state) => {
   }
   if(typeof state !== 'undefined' && state.routes[state.routes.length - 1].routeName === 'Search'){
     const routes = state.routes.slice(0,state.routes.length - 1)
-    routes.push(action)
-    return {
+    // routes.push(action)
+    return defaultGetStateForAction(action, {
       ...state,
       routes,
       index:routes.length - 1
-    }
+    })
   }
   return defaultGetStateForAction(action, state)
 }

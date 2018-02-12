@@ -1,8 +1,9 @@
 import { AsyncStorage } from "react-native";
+import store from '../store'
 
 let user_name = null;
 
-let appStorage = {
+let userStorage = {
   _STORAGE_KEY_USER_DATA: "storage_key_user_data",
   isLogin: user_name,
   /**
@@ -41,10 +42,41 @@ let appStorage = {
   /**
    * 清空用户信息
    */
-  clearStoreUser() {
+  removeStoreUser() {
     user_name = null;
-    AsyncStorage.clear();
+    AsyncStorage.removeItem(this._STORAGE_KEY_USER_DATA);
   }
 };
+
+let shopListStorage = {
+  _STORAGE_KEY_SHOP_LIST: "storage_key_shop_list",
+  setShopListData() {
+    // console.log(store.getState().stockShop)
+    if(store.getState().stockShop.data.length > 0 ){
+      AsyncStorage.setItem(this._STORAGE_KEY_SHOP_LIST, JSON.stringify(store.getState().stockShop));
+    }
+  },
+  getShopListData(callBack) {
+    "use strict";
+    if (callBack == null) {
+      return;
+    }
+    AsyncStorage.getItem(this._STORAGE_KEY_SHOP_LIST, (error, value) => {
+      if (error != null || value == null || value.length == 0) {
+        callBack(error, null);
+        return;
+      }
+      callBack(null, JSON.parse(value));
+    });
+  },
+  removeShopList() {
+    AsyncStorage.removeItem(this._STORAGE_KEY_SHOP_LIST);
+  }
+}
+
+const appStorage = {
+  ...userStorage,
+  ...shopListStorage
+}
 
 module.exports = appStorage

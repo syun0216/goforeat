@@ -1,7 +1,8 @@
 import {LOGIN,LOGOUT,STOCK_ARTICLE,STOCK_SHOP,DELETE_ARTICLE,DELETE_SHOP} from '../actions'
 //cache
 import appStorage from '../cache/appStorage'
-
+//utils
+import ToastUtil from '../utils/ToastUtil'
 const initialState = {
   userState:{
     username:null
@@ -24,7 +25,6 @@ export function auth(state=initialState.userState,action) {
       username: action.username
     };
     case LOGOUT:
-    appStorage.clearStoreUser();
     return {
       ...state,
       username: null

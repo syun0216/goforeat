@@ -18,7 +18,8 @@ export const myFavoriteStateAndDispatch = {
 export const contentStateAndDispatch = {
   mapStateToProps:state => {
     return {
-      user: state.auth.username
+      user: state.auth.username,
+      shopList: state.stockShop
     };
   },
   mapDispatchToProps: dispatch => {

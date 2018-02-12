@@ -34,7 +34,7 @@ export default class ArticleView extends Component {
   _getArticleData = () => {
     api.getArticleList().then(data => {
       if (data.status === 200 && data.data.ro.ok) {
-        console.log(data.data.data)
+        // console.log(data.data.data)
         this.setState({articleList: data.data.data})
       }
     })

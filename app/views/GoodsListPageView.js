@@ -82,7 +82,7 @@ export default class GoodsListPageView extends Component{
         })
       }
     },() => {
-      ToastUtil.show('网络请求出错',1000,'top','warning')
+      ToastUtil.show('网络请求出错',1000,'bottom','warning')
       this.setState({
         loadingStatus:{
           firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
@@ -109,7 +109,7 @@ export default class GoodsListPageView extends Component{
         })
       }
     },() => {
-      ToastUtil.show('网络请求出错','top',1000,'warning')
+      ToastUtil.show('网络请求出错','bottom',1000,'warning')
     })
   }
 
@@ -202,7 +202,7 @@ export default class GoodsListPageView extends Component{
     //   })
     // }
     // const failCallBack = () => {
-    //   ToastUtil.show('网络请求出错','top',1000,'warning')
+    //   ToastUtil.show('网络请求出错','bottom',1000,'warning')
     //   this.setState({
     //     loadingStatus:{
     //       firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED

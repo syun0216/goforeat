@@ -95,24 +95,24 @@ export default class LoginView extends Component {
 
   _login() {
     if(this.state.phone === null){
-      ToastUtil.show("請填寫手機號", 1000, "top","warning")
+      ToastUtil.show("請填寫手機號", 1000, "bottom","warning")
       return
     }
     if(this.state.password === null){
-      ToastUtil.show("請填寫密碼", 1000, "top","warning")
+      ToastUtil.show("請填寫密碼", 1000, "bottom","warning")
       return
     }
     api.login(this.state.phone,this.state.selectedValue.value,this.state.password).then(data => {
       if(data.status === 200 && data.data.ro.ok){
-        ToastUtil.show("登錄成功", 1000, "top","success")
+        ToastUtil.show("登錄成功", 1000, "bottom","success")
         this.props.userLogin(this.state.phone)
         this.props.navigation.goBack()
       }
       else{
-        ToastUtil.show("登錄失敗", 1000, "top","warning")
+        ToastUtil.show("登錄失敗", 1000, "bottom","warning")
       }
     },() => {
-      ToastUtil.show("登錄失敗,請檢查網絡", 1000, "top","warning")
+      ToastUtil.show("登錄失敗,請檢查網絡", 1000, "bottom","warning")
     })
   }
 
