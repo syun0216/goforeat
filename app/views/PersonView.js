@@ -63,7 +63,7 @@ export default class PeopleView extends Component {
   }
 
   _renderPersonDetailHeader = () => (
-    <View style={[styles.loginHeader,{backgroundColor:Colors.main_orange}]}>
+    <View style={[styles.loginHeader,{backgroundColor:this.props.theme}]}>
       {this.props.user !== null ? (<Image style={styles.personAvatar} source={require('../asset/eat.png')}/>) :
     (<Image style={styles.personAvatar} source={require('../asset/touxiang.png')}/>)}
       {this.props.user !== null ? (<Text style={{fontSize:16,color:'#fff',marginTop:10}}>用戶:{this.props.user}</Text>) :
@@ -104,7 +104,7 @@ export default class PeopleView extends Component {
       {_data.map((item,idx) => (
         <ListItem key={idx} style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10,marginBottom:10}} icon onPress={() => item.func()}>
           <Left>
-            <Icon style={{color: Colors.main_orange,fontSize:22}} name={item.icon}></Icon>
+            <Icon style={{color: this.props.theme,fontSize:22}} name={item.icon}></Icon>
           </Left>
           <Body>
             <Text>{item.name}</Text>
@@ -133,7 +133,7 @@ export default class PeopleView extends Component {
         marginTop: 10,
         marginLeft: 10,
         marginRight: 10,
-        backgroundColor:Colors.main_orange
+        backgroundColor:this.props.theme
       }}>
       <Text style={{color:'#fff',fontSize:16}}>登出</Text>
     </Button>
@@ -142,7 +142,8 @@ export default class PeopleView extends Component {
   _renderModalView = () => (
     <CommonModal content={this.state.modalContent}
        modalVisible={this.state.modalVisible}
-       closeFunc={() => this.setState({modalVisible:false})}/>
+       closeFunc={() => this.setState({modalVisible:false})}
+       {...this['props']}/>
   )
 
   render() {

@@ -20,44 +20,52 @@ const instructions = Platform.select({
 
 export default class App extends Component < {} > {
   componentDidMount = () => {
-
     AppState.addEventListener('change', this._handleAppStateChange)
 
-  appStorage.getLoginUserJsonData((error, data) => {
-    if (error === null) {
-      if (store.getState().auth.username === null) {
-        store.dispatch({type: 'LOGIN', username: data})
+    appStorage.getLoginUserJsonData((error, data) => {
+      if (error === null) {
+        if (store.getState().auth.username === null) {
+          store.dispatch({type: 'LOGIN', username: data})
+        }
       }
-    }
-  })
-  // appStorage.removeShopList()
-  appStorage.getShopListData((error,data) => {
-    if(error === null) {
-      if(data !== null) {
-        store.dispatch({type: 'STOCK_SHOP', data: data.data})
+    })
+    // appStorage.removeAll()
+    appStorage.getShopListData((error, data) => {
+      if (error === null) {
+        if (data !== null) {
+          store.dispatch({type: 'STOCK_SHOP', data: data.data})
+        }
       }
-    }
-  })
-}
-
-componentWillUnmount = () => {
-  AppState.removeEventListener('change', this._handleAppStateChange);
-}
-
-_handleAppStateChange = (nextAppState) => {
-  if (nextAppState.match(/inactive/)) {
-    appStorage.setShopListData()
-    // return
+    })
+    //theme
+    appStorage.getTheme((error, data) => {
+      if (error === null) {
+        if (data !== null) {
+          console.log(data)
+          store.dispatch({type: 'CHANGE_THEME', theme: data})
+        }
+      }
+    })
   }
-  // this.setState({currentAppState: nextAppState});
-  // console.log(nextAppState)
-}
 
-render() {
-  return (<Root>
-    <Provider store={store}>
-      <MainView/>
-    </Provider>
-  </Root>);
-}
+  componentWillUnmount = () => {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (nextAppState.match(/inactive/)) {
+      appStorage.setShopListData()
+      // return
+    }
+    // this.setState({currentAppState: nextAppState});
+    // console.log(nextAppState)
+  }
+
+  render() {
+    return (<Root>
+      <Provider store={store}>
+        <MainView/>
+      </Provider>
+    </Root>);
+  }
 }

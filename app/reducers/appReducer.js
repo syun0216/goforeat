@@ -3,6 +3,8 @@ import {LOGIN,LOGOUT,STOCK_ARTICLE,STOCK_SHOP,DELETE_ARTICLE,DELETE_SHOP} from '
 import appStorage from '../cache/appStorage'
 //utils
 import ToastUtil from '../utils/ToastUtil'
+import Colors from '../utils/Colors'
+
 const initialState = {
   userState:{
     username:null
@@ -13,6 +15,9 @@ const initialState = {
   favoriteStock:{
     articleList:{title:'文章收藏',data:[]},
     shopList:{title:'商店收藏',data:[]}
+  },
+  themeState: {
+    theme: Colors.main_orange
   }
 }
 
@@ -62,10 +67,19 @@ export function refresh(state = initialState.goodsListState,action) {
   }
 }
 
-export function http(){
-
+export function theme(state = initialState.themeState,action) {
+  switch(action.type) {
+    case 'CHANGE_THEME':
+      console.log('reducers',action.theme)
+      appStorage.setTheme(action.theme)
+      return {
+        ...state,
+        theme: action.theme
+      }
+    default: return state
+  }
 }
 
-export function theme(){
+export function http(){
 
 }

@@ -163,7 +163,7 @@ export default class RegisterView extends PureComponent {
           <Item>
             <Label>選擇區域</Label>
             <Button transparent onPress={() => Picker.show()}>
-              <Text style={{color:Colors.main_orange}}>{this.state.selectedValue.label}</Text>
+              <Text style={{color:this.props.theme}}>{this.state.selectedValue.label}</Text>
             </Button>
           </Item>
           <Item inlineLabel>
@@ -196,7 +196,7 @@ export default class RegisterView extends PureComponent {
               onChangeText={code => this._getCode(code)}
             />
             <Button disabled={this.state.isCodeDisabled} transparent onPress={() => this._sendPhoneAndGetCode()}>
-              <Text style={this.state.isCodeDisabled ? {color:'#959595'} : {color:Colors.main_orange}}>{this.state.codeContent}</Text>
+              <Text style={this.state.isCodeDisabled ? {color:'#959595'} : {color:this.props.theme}}>{this.state.codeContent}</Text>
             </Button>
           </Item>
           <Button onPress={() => this._register()}
@@ -204,7 +204,7 @@ export default class RegisterView extends PureComponent {
               marginTop: 10,
               marginLeft: 10,
               marginRight: 10
-            },this.state.isBtnDisabled ? null : {backgroundColor:Colors.main_orange}]}>
+            },this.state.isBtnDisabled ? null : {backgroundColor:this.props.theme}]}>
             <Text>點擊註冊</Text>
           </Button>
         </Form>

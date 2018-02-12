@@ -123,7 +123,7 @@ export default class ContentView extends Component {
               <Icon
                 size={20}
                 name="ios-arrow-back"
-                style={{ fontSize: 25, color: Colors.main_orange }}
+                style={{ fontSize: 25, color: this.props.theme }}
               />
             </Button>
           </Left>
@@ -138,12 +138,12 @@ export default class ContentView extends Component {
               {this.state.favoriteChecked ? (
                 <Icon
                   name="md-heart"
-                  style={{ fontSize: 20, color: Colors.main_orange }}
+                  style={{ fontSize: 20, color: this.props.theme }}
                 />
               ) : (
                 <Icon
                   name="md-heart-outline"
-                  style={{ color: "#ff5858", fontSize: 20 }}
+                  style={{ color: this.props.theme, fontSize: 20 }}
                 />
               )}
             </Button>
@@ -156,7 +156,7 @@ export default class ContentView extends Component {
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>價格:${this.state.canteenData.price}</Text></View>
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>評分:{this.state.canteenData.rate}</Text></View>
           <TouchableOpacity style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-            <Text style={{color:Colors.main_orange}}>評論:{this.state.canteenData.commentsCount}</Text>
+            <Text style={{color:this.props.theme}}>評論:{this.state.canteenData.commentsCount}</Text>
             {/* <Badge style={{marginLeft:10,paddiBottom:10}}>
              <Text>2</Text>
            </Badge> */}

@@ -12,7 +12,7 @@ const CommonHeader = (props) => (
           <Icon
             size={20}
             name="ios-arrow-back"
-            style={{ fontSize: 25, color: Colors.main_orange }}
+            style={{ fontSize: 25, color: props.theme }}
           />
         </Button>
       )) : null}

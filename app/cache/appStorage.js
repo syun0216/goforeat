@@ -74,9 +74,34 @@ let shopListStorage = {
   }
 }
 
+let themeStorage = {
+  _STORAGE_KEY_THEME: "storage_key_theme",
+  setTheme(theme) {
+      AsyncStorage.setItem(this._STORAGE_KEY_THEME, theme);
+  },
+  getTheme(callBack) {
+    "use strict";
+    if (callBack == null) {
+      return;
+    }
+    AsyncStorage.getItem(this._STORAGE_KEY_THEME, (error, value) => {
+      if (error != null || value == null || value.length == 0) {
+        callBack(error, null);
+        return;
+      }
+      callBack(null, value);
+    });
+  },
+  removeAll() {
+    AsyncStorage.clear()
+  }
+
+}
+
 const appStorage = {
   ...userStorage,
-  ...shopListStorage
+  ...shopListStorage,
+  ...themeStorage
 }
 
 module.exports = appStorage

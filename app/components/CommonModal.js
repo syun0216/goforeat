@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import {Modal,View,Image,Text,TouchableOpacity} from 'react-native'
 import {Icon} from 'native-base'
 //utils
-import Colors from '../utils/Colors' 
+import Colors from '../utils/Colors'
 
-const CommonModal = ({content,modalVisible,closeFunc}) => (
+const CommonModal = ({content,modalVisible,closeFunc,theme}) => (
   <Modal
     animationType={"slide"}
     transparent={false}
@@ -19,7 +19,7 @@ const CommonModal = ({content,modalVisible,closeFunc}) => (
        </View>
        <View style={{height:100,display:'flex',alignItems:'center',justifyContent:'center'}}>
          <TouchableOpacity onPress={() => closeFunc()}>
-           <Icon name="md-close-circle" style={{color:Colors.main_orange,fontSize:40}}/>
+           <Icon name="md-close-circle" style={{color:theme,fontSize:40}}/>
          </TouchableOpacity>
        </View>
       </View>

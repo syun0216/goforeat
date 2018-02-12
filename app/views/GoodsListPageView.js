@@ -276,17 +276,17 @@ export default class GoodsListPageView extends Component{
       backgroundColor:'#fff',
       flexDirection:'row'}}>
       <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-        {/* <Icon name='md-compass' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/> */}
+        {/* <Icon name='md-compass' style={{fontSize:20,color:this.props.theme,marginRight:5}}/> */}
         <Text>餐廳列表</Text>
       </View>
       <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-        {/* <Icon name='md-funnel' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/>
+        {/* <Icon name='md-funnel' style={{fontSize:20,color:this.props.theme,marginRight:5}}/>
         <Text>分類</Text> */}
       </View>
       <TouchableOpacity onPress={() => this._toToggleFilterListView()}
         style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-        {/* <Icon name='md-menu' style={{fontSize:20,color:Colors.main_orange,marginRight:5}}/> */}
-        <Text style={{color:Colors.main_orange}}>篩選分類</Text>
+        {/* <Icon name='md-menu' style={{fontSize:20,color:this.props.theme,marginRight:5}}/> */}
+        <Text style={{color:this.props.theme}}>篩選分類</Text>
       </TouchableOpacity>
     </View>)
   }
@@ -377,7 +377,7 @@ export default class GoodsListPageView extends Component{
           <Text note>评分：{item.rate}</Text>
         </Body>
         <Right>
-          <Text note style={{color:'#ff5858',fontSize:18}}>${item.price}</Text>
+          <Text note style={{color:this.props.theme,fontSize:18}}>${item.price}</Text>
         </Right>
       </ListItem>
   )
@@ -396,14 +396,14 @@ export default class GoodsListPageView extends Component{
           <Left>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('DrawerOpen')}>
               <View>
-                <Icon name="md-apps" size={20} style={{color:Colors.main_orange}}/>
+                <Icon name="md-apps" size={20} style={{color:this.props.theme}}/>
               </View>
             </TouchableOpacity>
           </Left>
           <Body>
             <Text>Goforeat</Text>
           </Body>
-          <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: Colors.main_orange}} /></Right>
+          <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: this.props.theme}} /></Right>
         </Header>
         <View  style={{backgroundColor:'#fff',marginBottom:diffplatform.bottomDistance}}>
           {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}

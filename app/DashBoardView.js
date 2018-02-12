@@ -31,7 +31,9 @@ import {userStateAndDispatch,
       registerStateAndDispatch,
       filterStateAndDispatch,
       personStateAndDispatch,
-      myFavoriteStateAndDispatch} from './utils/mapStateAndDispatch'
+      myFavoriteStateAndDispatch,
+      settingsStateAndDispatch,
+      searchStateAndDispatch} from './utils/mapStateAndDispatch'
 //store
 import store from './store'
 
@@ -40,8 +42,8 @@ const tabView = TabNavigator({
     screen: connect(goodsListStateAndDispatch.mapStateToProps, goodsListStateAndDispatch.mapDispatchToProps)(GoodsListPageView),
     navigationOptions: {
       tabBarLabel: '商品',
-      tabBarIcon: ({tintColor}) => (<Icon size={35} name="md-list-box" style={{
-          color: tintColor
+      tabBarIcon: ({tintColor,focused}) => (<Icon size={35} name="md-list-box" style={{
+          color:  focused ? store.getState().theme.theme : tintColor
         }}/>)
     }
   },
@@ -49,8 +51,8 @@ const tabView = TabNavigator({
     screen: ArticleView,
     navigationOptions: {
       tabBarLabel: '文章',
-      tabBarIcon: ({tintColor}) => (<Icon size={28} name="md-images" style={{
-          color: tintColor
+      tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-images" style={{
+          color:  focused ? store.getState().theme.theme : tintColor
         }}/>)
     }
   },
@@ -58,8 +60,8 @@ const tabView = TabNavigator({
     screen: connect(personStateAndDispatch.mapStateToProps, personStateAndDispatch.mapDispatchToProps)(PersonView),
     navigationOptions: {
       tabBarLabel: '個人中心',
-      tabBarIcon: ({tintColor}) => (<Icon size={35} name="md-contact" style={{
-          color: tintColor
+      tabBarIcon: ({tintColor,focused}) => (<Icon size={35} name="md-contact" style={{
+          color:  focused ? store.getState().theme.theme : tintColor
         }}/>)
     }
   }
@@ -68,11 +70,10 @@ const tabView = TabNavigator({
   tabBarPosition: 'bottom',
   lazy:true, //该属性只会加载tab的当前view
   tabBarOptions: {
-    activeTintColor: '#f07341',
     showLabel: false,
     showIcon: true,
     inactiveTintColor: '#707070',
-    activeTintColor: '#f07341',
+    activeTintColor: store.getState().theme.theme,
     style: {
       backgroundColor: '#fff'
     },
@@ -92,7 +93,7 @@ const darwerView = DrawerNavigator({
   contentComponent: props => (<View style={{
       position: 'relative',
       flex: 1,
-      backgroundColor: Colors.main_orange
+      backgroundColor: store.getState().theme.theme
     }}>
     <View style={{
         alignSelf: 'center',
@@ -144,7 +145,7 @@ let MainView = StackNavigator({
     }
   },
   Search: {
-    screen: SearchView,
+    screen: connect(searchStateAndDispatch.mapStateToProps)(SearchView),
     navigationOptions: {
       tabBarVisible: false
     }
@@ -162,7 +163,7 @@ let MainView = StackNavigator({
     screen: connect(registerStateAndDispatch.mapStateToProps, registerStateAndDispatch.mapDispatchToProps)(RegisterView)
   },
   Setting: {
-    screen: SettingView
+    screen: connect(settingsStateAndDispatch.mapStateToProps,settingsStateAndDispatch.mapDispatchToProps)(SettingView)
   },
   MyFavorite: {
     screen: connect(myFavoriteStateAndDispatch.mapStateToProps,myFavoriteStateAndDispatch.mapDispatchToProps)(MyFavoriteView)
