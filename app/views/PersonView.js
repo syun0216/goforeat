@@ -50,7 +50,7 @@ export default class PeopleView extends Component {
     if(this.props.user === null) {
       this.props.navigation.navigate('Login')
     }else {
-      ToastUtil.show('暫未開放',1000,'top','warning')
+      ToastUtil.show('暫未開放',1000,'bottom','warning')
     }
   }
 

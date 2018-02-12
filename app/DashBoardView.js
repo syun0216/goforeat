@@ -7,6 +7,7 @@ import {StackNavigator, TabNavigator, DrawerNavigator,DrawerItems} from 'react-n
 import LoginView from './LoginView'
 import RegisterView from './RegisterView'
 import SettingView from './SettingView'
+import SplashPageView from './SplashPageView'
 
 import ContentView from './views/ContentView'
 
@@ -135,6 +136,9 @@ const darwerView = DrawerNavigator({
 })
 
 let MainView = StackNavigator({
+  Splash: {
+    screen: SplashPageView
+  },
   Home: {
     screen: darwerView
   },
