@@ -53,7 +53,7 @@ class Dropdownfilter extends PureComponent{
         <Button key={btnkey} onPress={() => this._filterClick(btn,itemEnName)}
            transparent key={btnkey} style={styles.filterItemChildrenBtn}>
           <Text style={this.props.filterSort[itemEnName] === btn[0] ?
-            styles.activeText : null}>{btn[1]}</Text>
+            {color:this.props.theme} : {color:Colors.fontBlack}}>{btn[1]}</Text>
         </Button>
       ))}
     </View>
@@ -93,10 +93,10 @@ class Dropdownfilter extends PureComponent{
         <View style={styles.footerContainer}>
           <Button transparent danger onPress={() => this.props.cancleToDo()}
             style={[styles.footerBtn,{borderRightWidth:1,borderColor:'#ddd',borderRadius:0}]}>
-            <Text>取消</Text>
+            <Text style={{color:this.props.theme}}>取消</Text>
           </Button>
           <Button onPress={() => this.props.confirmToDo(this.props.filterSort)}
-             transparent style={[styles.footerBtn,{backgroundColor:Colors.main_orange}]}>
+             transparent style={[styles.footerBtn,{backgroundColor:this.props.theme}]}>
             <Text style={{color:'#fff'}}>確定</Text>
           </Button>
         </View>

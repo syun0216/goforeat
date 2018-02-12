@@ -1,6 +1,7 @@
 import React,{PureComponent} from 'react'
 import {View,Text,StyleSheet,TouchableOpacity} from 'react-native'
 import {Container,Body,Button,Icon,Content} from 'native-base'
+import {NavigationActions} from 'react-navigation'
 //utils
 import Colors from './utils/Colors'
 //components
@@ -14,6 +15,13 @@ export default class SettingView extends PureComponent{
     console.log(theme)
     if(theme === this.props.theme) return;
     this.props.changeTheme(theme)
+    const resetAction = NavigationActions.reset({
+        index: 0,
+        actions: [
+            NavigationActions.navigate( { routeName: 'Home',params:{refresh:123}} )
+        ],
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 
   render() {
