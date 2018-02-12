@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
-
+import {NavigationActions} from 'react-navigation'
 import Swiper from 'react-native-swiper';
 
 const styles = StyleSheet.create({
@@ -47,7 +47,15 @@ const SplashPageView = (props) => {
           <Text style={styles.text}>HK</Text>
         </View>
         <View style={styles.slide3} >
-          <TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
+          <TouchableOpacity onPress={() => {
+            const resetAction = NavigationActions.reset({
+                index: 0,
+                actions: [
+                    NavigationActions.navigate( { routeName: 'Home',params:{refresh:true}} )
+                ],
+            });
+            props.navigation.dispatch(resetAction);
+          }}>
             <Text style={styles.text}>Go to Home Page</Text>
           </TouchableOpacity>
         </View>
