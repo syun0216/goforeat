@@ -1,11 +1,15 @@
+import React from 'react'
 import PropTypes from 'prop-types'
-import {Modal} from 'react-native'
+import {Modal,View,Image,Text,TouchableOpacity} from 'react-native'
+import {Icon} from 'native-base'
+//utils
+import Colors from '../utils/Colors' 
 
-const CommonModal = ({content,closeFunc}) => (
+const CommonModal = ({content,modalVisible,closeFunc}) => (
   <Modal
     animationType={"slide"}
     transparent={false}
-    visible={this.state.modalVisible}
+    visible={modalVisible}
     onRequestClose={() => {alert("Modal has been closed.")}}
     >
       <View style={{flex:1,justifyContent:'center'}}>
@@ -24,6 +28,7 @@ const CommonModal = ({content,closeFunc}) => (
 
 CommonModal.propsType = {
   content: PropTypes.string,
+  modalVisible: PropTypes.bool,
   closeFunc: PropTypes.func
 }
 

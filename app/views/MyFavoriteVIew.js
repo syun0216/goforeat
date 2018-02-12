@@ -42,7 +42,7 @@ export default class MyFavoriteView extends PureComponent {
             <Image style={styles.rowIcon} source={{uri:item.image}}/>
             <View>
               <Text style={styles.rowTitle}>{item.name}</Text>
-              <Text style={styles.rowSubtitle}>{item.address}</Text>
+              <Text style={styles.rowSubtitle}>{item.address.length > 15 ? `${item.address.substr(0,15)}...` : item.address }</Text>
             </View>
           </TouchableOpacity>
         </Row>

@@ -27,7 +27,8 @@ import CommonModal from '../components/CommonModal'
 
 export default class PeopleView extends Component {
   state = {
-    modalVisible: false
+    modalVisible: false,
+    modalContent: ''
   }
   //common function
   _logout = () => {
@@ -51,6 +52,14 @@ export default class PeopleView extends Component {
     }else {
       ToastUtil.show('暫未開放',1000,'top','warning')
     }
+  }
+
+  _showModal = (content) => {
+    this.setState({
+      modalVisible: true,
+      modalContent: content
+    })
+    // console.log(123)
   }
 
   _renderPersonDetailHeader = () => (
@@ -83,54 +92,30 @@ export default class PeopleView extends Component {
     </View>
   )
 
-  _renderCommonListView = () => (
+  _renderCommonListView = () => {
+    const _data = [
+      {name:'關於我們',icon:'md-people',func:() => this._showModal(`Goforeat作為香港餐廳互聯網化的技術服務公司，力圖打造為每個香港餐廳量身定制網站和應用程序。網站不僅只限於展示熱門菜式、優惠，還包括餐廳招聘，數據分析等功能，為餐廳處理好每一個細節。讓商家能夠更專注于營運，做出更優質美食。`)},
+        {name:'允許使用政策',icon:'md-log-in',func:() => this._showModal(`允許使用政策側`)},
+        {name:'刪除內容政策',icon:'md-log-out',func:() => this._showModal(`刪除使用政策側`)},
+        {name:'系統設置',icon:'md-settings',func:() => this.props.navigation.navigate('Setting')}
+    ]
+    return (
     <List>
-      <ListItem style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10,marginBottom:10}} icon onPress={() => this.setState({modalVisible:true})}>
-        <Left>
-          <Icon style={{color: Colors.main_orange,fontSize:22}} name="md-people"></Icon>
-        </Left>
-        <Body>
-          <Text>關於我們</Text>
-        </Body>
-        <Right>
-          <Icon name="arrow-forward" />
-        </Right>
-      </ListItem>
-      <ListItem style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10,marginBottom:10}} icon onPress={() => this.props.navigation.navigate('Setting')}>
-        <Left>
-          <Icon style={{color: Colors.main_orange,fontSize:22}} name="md-log-in"></Icon>
-        </Left>
-        <Body>
-          <Text>允許使用政策</Text>
-        </Body>
-        <Right>
-          <Icon name="arrow-forward" />
-        </Right>
-      </ListItem>
-      <ListItem style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10,marginBottom:10}} icon onPress={() => this.props.navigation.navigate('Setting')}>
-        <Left>
-          <Icon style={{color: Colors.main_orange,fontSize:22}} name="md-log-out"></Icon>
-        </Left>
-        <Body>
-          <Text>刪除內容政策</Text>
-        </Body>
-        <Right>
-          <Icon name="arrow-forward" />
-        </Right>
-      </ListItem>
-      <ListItem style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10,marginBottom:10}} icon onPress={() => this.props.navigation.navigate('Setting')}>
-        <Left>
-          <Icon style={{color: Colors.main_orange,fontSize:22}} name="md-settings"></Icon>
-        </Left>
-        <Body>
-          <Text>系統設置</Text>
-        </Body>
-        <Right>
-          <Icon name="arrow-forward" />
-        </Right>
-      </ListItem>
+      {_data.map((item,idx) => (
+        <ListItem key={idx} style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10,marginBottom:10}} icon onPress={() => item.func()}>
+          <Left>
+            <Icon style={{color: Colors.main_orange,fontSize:22}} name={item.icon}></Icon>
+          </Left>
+          <Body>
+            <Text>{item.name}</Text>
+          </Body>
+          <Right>
+            <Icon name="arrow-forward" />
+          </Right>
+        </ListItem>
+      ))}
     </List>
-  )
+  )}
 
   _renderListFooterView = () => (
     <Button onPress={() => {
@@ -155,10 +140,9 @@ export default class PeopleView extends Component {
   )
 
   _renderModalView = () => (
-    <CommonModal content=`Goforeat作為香港餐廳互聯網化的技術服務公司，
-      力圖打造為每個香港餐廳量身定制網站和應用程序。
-      網站不僅只限於展示熱門菜式、優惠，還包括餐廳招聘，數據分析等功能，
-      為餐廳處理好每一個細節。讓商家能夠更專注于營運，做出更優質美食。` closeFunc={() => this.setState({modalVisible:false})}/>
+    <CommonModal content={this.state.modalContent}
+       modalVisible={this.state.modalVisible}
+       closeFunc={() => this.setState({modalVisible:false})}/>
   )
 
   render() {
