@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Platform, View, Text, TouchableOpacity} from 'react-native'
+import {Platform, View, Text, TouchableOpacity,ScrollView,Image} from 'react-native'
 import {Icon} from 'native-base'
 //navigation
-import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation'
+import {StackNavigator, TabNavigator, DrawerNavigator,DrawerItems} from 'react-navigation'
 //views
 import LoginView from './LoginView'
 import RegisterView from './RegisterView'
@@ -21,6 +21,7 @@ import api from './api'
 import ToastUtil from './utils/ToastUtil'
 import LinkingUtils from './utils/LinkingUtils'
 import GLOBAL_PARAMS from './utils/global_params'
+import Colors from './utils/Colors'
 //react-redux
 import {connect} from 'react-redux'
 import {userStateAndDispatch,
@@ -91,14 +92,33 @@ const darwerView = DrawerNavigator({
   contentComponent: props => (<View style={{
       position: 'relative',
       flex: 1,
-      height: GLOBAL_PARAMS._winHeight
+      backgroundColor: Colors.main_orange
     }}>
     <View style={{
         alignSelf: 'center',
-        marginTop: 100
+        marginTop: 100,
+        marginBottom: 100
       }}>
       <Text>Goforeat v1.0.0</Text>
     </View>
+    <ScrollView style={{marginLeft:-50}} showsVerticalScrollIndicator={false}>
+        <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
+          <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/Law.png')}/>
+          <Text style={{fontSize:22}}>法律聲明</Text>
+        </View>
+        <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
+          <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/Service.png')}/>
+          <Text style={{fontSize:22}}>服務條款</Text>
+        </View>
+        <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
+          <Image style={{width:28,height:33,marginRight:30}} source={require('./asset/Privacy.png')}/>
+          <Text style={{fontSize:22}}>隱私政策</Text>
+        </View>
+        <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
+          <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/about.png')}/>
+          <Text style={{fontSize:22}}>關於我們</Text>
+        </View>
+    </ScrollView>
     <TouchableOpacity style={{
         position: 'absolute',
         bottom: 30,

@@ -22,6 +22,8 @@ import GLOBAL_PARAMS from '../utils/global_params'
 import ToastUtil from '../utils/ToastUtil'
 //api
 import api from '../api'
+//components
+import CommonModal from '../components/CommonModal'
 
 export default class PeopleView extends Component {
   state = {
@@ -63,10 +65,10 @@ export default class PeopleView extends Component {
   )
 
   _renderCommonItemView = () => (
-    <View style={{flex:1,flexDirection:'row',borderBottomWidth:1,borderColor:'#ddd',backgroundColor:'#fff',height:70,marginBottom:10}}>
+    <View style={{display:'flex',flexDirection:'row',borderBottomWidth:1,borderColor:'#ddd',backgroundColor:'#fff',height:70,marginBottom:10}}>
       <TouchableOpacity style={styles.commonItem} onPress={this._commonItemClick}>
         <Image source={require('../asset/01-guanli.png')} style={styles.commonImage}/>
-        <Text>商鋪管理</Text>
+        <Text>服務條款</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.commonItem} onPress={() => {
         this.props.user !== null ? this.props.navigation.navigate('MyFavorite') : this.props.navigation.navigate('Login')
@@ -76,7 +78,7 @@ export default class PeopleView extends Component {
       </TouchableOpacity>
       <TouchableOpacity style={styles.commonItem} onPress={this._commonItemClick}>
         <Image source={require('../asset/03-renzheng.png')} style={styles.commonImage}/>
-        <Text>實名認證</Text>
+        <Text>隱私政策</Text>
       </TouchableOpacity>
     </View>
   )
@@ -85,10 +87,32 @@ export default class PeopleView extends Component {
     <List>
       <ListItem style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10,marginBottom:10}} icon onPress={() => this.setState({modalVisible:true})}>
         <Left>
-          <Icon style={{color: Colors.main_orange,fontSize:22}} name="md-contacts"></Icon>
+          <Icon style={{color: Colors.main_orange,fontSize:22}} name="md-people"></Icon>
         </Left>
         <Body>
           <Text>關於我們</Text>
+        </Body>
+        <Right>
+          <Icon name="arrow-forward" />
+        </Right>
+      </ListItem>
+      <ListItem style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10,marginBottom:10}} icon onPress={() => this.props.navigation.navigate('Setting')}>
+        <Left>
+          <Icon style={{color: Colors.main_orange,fontSize:22}} name="md-log-in"></Icon>
+        </Left>
+        <Body>
+          <Text>允許使用政策</Text>
+        </Body>
+        <Right>
+          <Icon name="arrow-forward" />
+        </Right>
+      </ListItem>
+      <ListItem style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10,marginBottom:10}} icon onPress={() => this.props.navigation.navigate('Setting')}>
+        <Left>
+          <Icon style={{color: Colors.main_orange,fontSize:22}} name="md-log-out"></Icon>
+        </Left>
+        <Body>
+          <Text>刪除內容政策</Text>
         </Body>
         <Right>
           <Icon name="arrow-forward" />
@@ -131,41 +155,22 @@ export default class PeopleView extends Component {
   )
 
   _renderModalView = () => (
-    <Modal
-      animationType={"slide"}
-      transparent={false}
-      visible={this.state.modalVisible}
-      onRequestClose={() => {alert("Modal has been closed.")}}
-      >
-     <View style={{flex:1,justifyContent:'center'}}>
-      <View style={{flex:1,alignItems:'center',justifyContent:'center',marginTop:-20,padding:10}}>
-        <Image source={require('../asset/logo.png')} style={{marginBottom:30}}/>
-        <Text style={{marginLeft:20,marginRight:20,fontSize:16}}>Goforeat作為香港餐廳互聯網化的技術服務公司，
-          力圖打造為每個香港餐廳量身定制網站和應用程序。
-          網站不僅只限於展示熱門菜式、優惠，還包括餐廳招聘，數據分析等功能，
-          為餐廳處理好每一個細節。讓商家能夠更專注于營運，做出更優質美食。</Text>
-      </View>
-      <View style={{height:100,display:'flex',alignItems:'center',justifyContent:'center'}}>
-        <TouchableOpacity onPress={() => {
-          this.setState({modalVisible:false})
-        }}>
-          <Icon name="md-close-circle" style={{color:Colors.main_orange,fontSize:40}}/>
-        </TouchableOpacity>
-      </View>
-     </View>
-    </Modal>
+    <CommonModal content=`Goforeat作為香港餐廳互聯網化的技術服務公司，
+      力圖打造為每個香港餐廳量身定制網站和應用程序。
+      網站不僅只限於展示熱門菜式、優惠，還包括餐廳招聘，數據分析等功能，
+      為餐廳處理好每一個細節。讓商家能夠更專注于營運，做出更優質美食。` closeFunc={() => this.setState({modalVisible:false})}/>
   )
 
   render() {
     return (
       <Container>
         {this._renderModalView()}
-        <Content>
+        <View style={{flex:1}}>
           {this._renderPersonDetailHeader()}
           {this._renderCommonItemView()}
           {this._renderCommonListView()}
           {this.props.user !== null ? this._renderListFooterView() : null}
-        </Content>
+        </View>
       </Container>
     );
   }
@@ -178,7 +183,7 @@ const styles = StyleSheet.create({
   loginHeader: {
     width: GLOBAL_PARAMS._winWidth,
     height: 200,
-    flex:1,
+    display:'flex',
     justifyContent: 'center',
     alignItems: 'center'
   },
