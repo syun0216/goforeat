@@ -1200,7 +1200,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.syun.goforeat;
 				PRODUCT_NAME = goforeat_app;
-				PROVISIONING_PROFILE = "c54dd449-8b4a-4255-af1f-22699b63a3a9";
+				PROVISIONING_PROFILE = "3da74183-0d78-49dc-b9ed-77307345b1b5";
 				PROVISIONING_PROFILE_SPECIFIER = GoforeatApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

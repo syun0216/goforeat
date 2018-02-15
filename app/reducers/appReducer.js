@@ -70,7 +70,6 @@ export function refresh(state = initialState.goodsListState,action) {
 export function theme(state = initialState.themeState,action) {
   switch(action.type) {
     case 'CHANGE_THEME':
-      console.log('reducers',action.theme)
       appStorage.setTheme(action.theme)
       return {
         ...state,

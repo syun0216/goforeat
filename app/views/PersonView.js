@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,Modal } from "react-native";
+import { View, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,Modal,ScrollView } from "react-native";
 import {
   Container,
   Header,
@@ -24,11 +24,13 @@ import ToastUtil from '../utils/ToastUtil'
 import api from '../api'
 //components
 import CommonModal from '../components/CommonModal'
+import Divider from '../components/Divider'
 
 export default class PeopleView extends Component {
   state = {
     modalVisible: false,
-    modalContent: ''
+    modalContent: '',
+    modalTitle:''
   }
   //common function
   _logout = () => {
@@ -46,18 +48,19 @@ export default class PeopleView extends Component {
     })
   }
 
-  _commonItemClick = () => {
+  _commonItemClick = (name) => {
     if(this.props.user === null) {
       this.props.navigation.navigate('Login')
     }else {
-      ToastUtil.show('暫未開放',1000,'bottom','warning')
+      this.props.navigation.navigate('Statement',{name:name})
     }
   }
 
-  _showModal = (content) => {
+  _showModal = (title,content) => {
     this.setState({
       modalVisible: true,
-      modalContent: content
+      modalContent: content,
+      modalTitle: title
     })
     // console.log(123)
   }
@@ -75,7 +78,7 @@ export default class PeopleView extends Component {
 
   _renderCommonItemView = () => (
     <View style={{display:'flex',flexDirection:'row',borderBottomWidth:1,borderColor:'#ddd',backgroundColor:'#fff',height:70,marginBottom:10}}>
-      <TouchableOpacity style={styles.commonItem} onPress={this._commonItemClick}>
+      <TouchableOpacity style={styles.commonItem} onPress={() => this._commonItemClick('service')}>
         <Image source={require('../asset/01-guanli.png')} style={styles.commonImage}/>
         <Text>服務條款</Text>
       </TouchableOpacity>
@@ -85,7 +88,7 @@ export default class PeopleView extends Component {
         <Image source={require('../asset/02-guanzhu.png')} style={styles.commonImage}/>
         <Text>我的關注</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.commonItem} onPress={this._commonItemClick}>
+      <TouchableOpacity style={styles.commonItem} onPress={() => this._commonItemClick('policy')}>
         <Image source={require('../asset/03-renzheng.png')} style={styles.commonImage}/>
         <Text>隱私政策</Text>
       </TouchableOpacity>
@@ -94,25 +97,28 @@ export default class PeopleView extends Component {
 
   _renderCommonListView = () => {
     const _data = [
-      {name:'關於我們',icon:'md-people',func:() => this._showModal(`Goforeat作為香港餐廳互聯網化的技術服務公司，力圖打造為每個香港餐廳量身定制網站和應用程序。網站不僅只限於展示熱門菜式、優惠，還包括餐廳招聘，數據分析等功能，為餐廳處理好每一個細節。讓商家能夠更專注于營運，做出更優質美食。`)},
-        {name:'允許使用政策',icon:'md-log-in',func:() => this._showModal(`允許使用政策側`)},
-        {name:'刪除內容政策',icon:'md-log-out',func:() => this._showModal(`刪除使用政策側`)},
+      {name:'關於我們',icon:'md-people',func:() => this._commonItemClick('about')},
+        {name:'允許使用政策',icon:'md-log-in',func:() => this._commonItemClick('allowPolicy')},
+        {name:'刪除內容政策',icon:'md-log-out',func:() => this._commonItemClick('deletePolicy')},
         {name:'系統設置',icon:'md-settings',func:() => this.props.navigation.navigate('Setting')}
     ]
     return (
     <List>
       {_data.map((item,idx) => (
-        <ListItem key={idx} style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10,marginBottom:10}} icon onPress={() => item.func()}>
-          <Left>
-            <Icon style={{color: this.props.theme,fontSize:22}} name={item.icon}></Icon>
-          </Left>
-          <Body>
-            <Text>{item.name}</Text>
-          </Body>
-          <Right>
-            <Icon name="arrow-forward" />
-          </Right>
-        </ListItem>
+        <View key={idx} >
+          <ListItem style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10}} icon onPress={() => item.func()}>
+            <Left>
+              <Icon style={{color: this.props.theme,fontSize:22}} name={item.icon}></Icon>
+            </Left>
+            <Body>
+              <Text>{item.name}</Text>
+            </Body>
+            <Right>
+              <Icon name="arrow-forward" />
+            </Right>
+          </ListItem>
+          <Divider />
+        </View>
       ))}
     </List>
   )}
@@ -141,6 +147,7 @@ export default class PeopleView extends Component {
 
   _renderModalView = () => (
     <CommonModal content={this.state.modalContent}
+      title={this.state.modalTitle}
        modalVisible={this.state.modalVisible}
        closeFunc={() => this.setState({modalVisible:false})}
        {...this['props']}/>
@@ -153,8 +160,10 @@ export default class PeopleView extends Component {
         <View style={{flex:1}}>
           {this._renderPersonDetailHeader()}
           {this._renderCommonItemView()}
-          {this._renderCommonListView()}
-          {this.props.user !== null ? this._renderListFooterView() : null}
+          <ScrollView style={{paddingBottom:10}}>
+            {this._renderCommonListView()}
+            {this.props.user !== null ? this._renderListFooterView() : null}
+          </ScrollView>
         </View>
       </Container>
     );

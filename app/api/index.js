@@ -79,10 +79,10 @@ const api = {
     return axios.post(api_url + "/passport/logout")
   },
   // article
-  getArticleList() {
+  getArticleList(offset) {
     return axios.post(api_url + '/cms/getNewsList', qs.stringify({
-      limit: 15,
-      offset: 0
+      limit: 5,
+      offset: offset
     }),{
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"

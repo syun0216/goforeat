@@ -1,5 +1,13 @@
 import {bindActionCreators} from 'redux';
 
+export const statementStateAndDispatch = {
+  mapStateToProps: state => {
+    return {
+      theme: state.theme.theme
+    };
+  }
+}
+
 export const searchStateAndDispatch = {
   mapStateToProps: state => {
     return {

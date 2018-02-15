@@ -97,10 +97,13 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
+//    aaptOptions.cruncherEnabled = false
+//    aaptOptions.useNewCruncher = false
+
     defaultConfig {
         applicationId "com.goforeat_app"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         ndk {

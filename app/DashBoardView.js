@@ -16,6 +16,7 @@ import GoodsListPageView from './views/GoodsListPageView'
 import ArticleView from './views/ArticleView'
 import PersonView from './views/PersonView'
 import MyFavoriteView from './views/MyFavoriteVIew'
+import StatementView from './views/StatementView'
 //api
 import api from './api'
 //utils
@@ -34,7 +35,8 @@ import {userStateAndDispatch,
       personStateAndDispatch,
       myFavoriteStateAndDispatch,
       settingsStateAndDispatch,
-      searchStateAndDispatch} from './utils/mapStateAndDispatch'
+      searchStateAndDispatch,
+      statementStateAndDispatch} from './utils/mapStateAndDispatch'
 //store
 import store from './store'
 
@@ -101,9 +103,9 @@ const darwerView = DrawerNavigator({
         marginTop: 100,
         marginBottom: 100
       }}>
-      <Text>Goforeat v1.0.0</Text>
+      <Text style={{color:'#fff'}}>Goforeat v1.0.0</Text>
     </View>
-    <ScrollView style={{marginLeft:-50}} showsVerticalScrollIndicator={false}>
+    {/* <ScrollView style={{marginLeft:-50}} showsVerticalScrollIndicator={false}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
           <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/Law.png')}/>
           <Text style={{fontSize:22}}>法律聲明</Text>
@@ -120,7 +122,7 @@ const darwerView = DrawerNavigator({
           <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/about.png')}/>
           <Text style={{fontSize:22}}>關於我們</Text>
         </View>
-    </ScrollView>
+    </ScrollView> */}
     <TouchableOpacity style={{
         position: 'absolute',
         bottom: 30,
@@ -128,7 +130,7 @@ const darwerView = DrawerNavigator({
       }} onPress={() => LinkingUtils.dialPhoneWithNumber('97926095')}>
       <View>
         <Text style={{
-            fontSize: 18
+            fontSize: 18,color: '#fff'
           }}>聯繫電話:97926095</Text>
       </View>
     </TouchableOpacity>
@@ -136,9 +138,9 @@ const darwerView = DrawerNavigator({
 })
 
 let MainView = StackNavigator({
-  Splash: {
-    screen: SplashPageView
-  },
+  // Splash: {
+  //   screen: SplashPageView
+  // },
   Home: {
     screen: darwerView
   },
@@ -171,6 +173,9 @@ let MainView = StackNavigator({
   },
   MyFavorite: {
     screen: connect(myFavoriteStateAndDispatch.mapStateToProps,myFavoriteStateAndDispatch.mapDispatchToProps)(MyFavoriteView)
+  },
+  Statement: {
+    screen: connect(statementStateAndDispatch.mapStateToProps)(StatementView)
   }
 }, {headerMode: 'none'})
 

@@ -56,7 +56,7 @@ const SplashPageView = (props) => {
             });
             props.navigation.dispatch(resetAction);
           }}>
-            <Text style={styles.text}>Go to Home Page</Text>
+            <Text style={styles.text}>進入主頁</Text>
           </TouchableOpacity>
         </View>
       </Swiper>

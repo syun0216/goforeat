@@ -8,9 +8,6 @@ import Colors from './utils/Colors'
 import CommonHeader from './components/CommonHeader'
 
 export default class SettingView extends PureComponent{
-  componentDidMount = () => {
-    console.log(this.props)
-  }
   _currentItemClick = theme => {
     console.log(theme)
     if(theme === this.props.theme) return;
@@ -29,6 +26,9 @@ export default class SettingView extends PureComponent{
       {bgColor:Colors.main_green,name:'綠'},
       {bgColor:Colors.main_blue,name:'藍'},
       {bgColor:Colors.main_orange,name:'橙'},
+      {bgColor:Colors.main_black,name:'暗'},
+      {bgColor:Colors.main_purple,name:'紫'},
+      {bgColor:Colors.main_red,name:'紅'},
     ]
     return (
       <Container>
