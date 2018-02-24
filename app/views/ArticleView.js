@@ -18,6 +18,7 @@ import Colors from '../utils/Colors'
 import GLOBAL_PARAMS from '../utils/global_params'
 //api
 import api from '../api'
+import source from '../api/CancelToken'
 //components
 import ErrorPage from '../components/ErrorPage'
 import CommonHeader from '../components/CommonHeader'
@@ -50,6 +51,9 @@ export default class ArticleView extends Component {
     this._onRequestFirstPageData()
   }
 
+  componentWillUnmount() {
+    source.cancel()
+  }
   //common functions
 
   _onRequestFirstPageData = () => {
@@ -67,7 +71,7 @@ export default class ArticleView extends Component {
         this.setState({
           articleList: data.data.data,
           loadingStatus:{
-            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
+            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
           }
         })
       }
@@ -79,6 +83,15 @@ export default class ArticleView extends Component {
         }
       })
     })
+  }
+
+  _onErrorRequestFirstPage = () => {
+    this.setState({
+      loadingStatus: {
+        firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
+      }
+    })
+    this._onRequestFirstPageData()
   }
 
   // _onRefreshFirstPage = () => {
@@ -192,7 +205,7 @@ export default class ArticleView extends Component {
     return (<View>
       {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
         <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
-          <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onRequestFirstPageData}/> : null)}
+          <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
       <CommonHeader title="文章詳情"/>
           {
             this.state.articleList !== null

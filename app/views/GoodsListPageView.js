@@ -4,6 +4,7 @@ import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,
 
 //api
 import api from '../api'
+import source from '../api/CancelToken'
 //components
 import GoodsSwiper from '../components/Swiper'
 import Dropdownfilter from '../components/Dropdownfilter'
@@ -56,6 +57,10 @@ export default class GoodsListPageView extends Component{
     this.getCanteenOption()
   }
 
+  componentWillUnmount = () => {
+    source.cancel()
+  }
+
   componentWillReceiveProps(nextProps) {
     // console.log('nextprops',nextProps)
     this._onRequestFirstPageData()
@@ -75,9 +80,9 @@ export default class GoodsListPageView extends Component{
       }
       else{
         this.setState({
-          canteenDetail: data.data.data,
+          // canteenDetail: data.data.data,
           loadingStatus:{
-            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
+            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
           }
         })
       }
@@ -132,6 +137,15 @@ export default class GoodsListPageView extends Component{
       // }
       // console.log(sview.nativeEvent.contentOffset.y);
   // }
+
+  _onErrorRequestFirstPage = () => {
+    this.setState({
+      loadingStatus: {
+        firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
+      }
+    })
+    this._onRequestFirstPageData()
+  }
 
   _requestNextDetailList() {
     if(this.state.loadingStatus.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
@@ -387,10 +401,11 @@ export default class GoodsListPageView extends Component{
       <Container>
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
           <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
-          <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onRequestFirstPageData}/> : null)}
+          <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
         {this.state.showFilterList ? this._renderPreventClickView() : null}
         {this.state.canteenOptions ? this._renderFilterView() : null}
-        {this.state.canteenDetail.length === 0 ? <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
+        {this.state.canteenDetail.length === 0 ?
+          <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
         <Header style={{backgroundColor:'#fff'}}>
           <Left>

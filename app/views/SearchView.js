@@ -3,12 +3,17 @@ import { Container, Header, Item, Input, Icon, Button, Text, ListItem, Thumbnail
 import {NavigationActions} from 'react-navigation'
 //api
 import api from '../api'
+import source from '../api/CancelToken'
 //utils
 import ToastUtil from '../utils/ToastUtil'
 
 export default class SearchView extends Component{
   state = {
     searchData:null
+  }
+
+  componentWillUnmount = () => {
+    source.cancel()
   }
   //common functions
   _onSubmitSearch = (content) => {

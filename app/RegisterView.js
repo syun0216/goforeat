@@ -22,6 +22,7 @@ import GLOBAL_PARAMS from './utils/global_params'
 import ToastUtil from './utils/ToastUtil'
 //api
 import api from './api'
+import source from './api/CancelToken'
 //components
 import CommonHeader from './components/CommonHeader'
 
@@ -60,6 +61,7 @@ export default class RegisterView extends PureComponent {
 
   componentWillUnmount() {
     Picker.hide()
+    source.cancel()
     clearInterval(this.interval)
   }
 

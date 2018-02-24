@@ -1,6 +1,7 @@
 import axios from 'axios'
 import md5 from 'js-md5'
 import qs from 'qs'
+import source from './CancelToken'
 
 const root_url = 'http://goforeat.hk'
 const api_url = 'http://api.goforeat.hk'
@@ -23,18 +24,21 @@ const api = {
     }
     return axios.get(api_url + '/guide/queryCanteen', {
       params: params,
-      timeout: 4500
+      timeout: 4500,
+      cancelToken: source.token
     })
   },
   getCanteenOptions() {
-    return axios.get(api_url + '/guide/getCanteenOption')
+    return axios.get(api_url + '/guide/getCanteenOption',{
+      cancelToken: source.token
+    })
   },
   getCanteenDetail(canteenId){
     // let params = new URLSearchParams();
     // params.append('canteenId', canteenId);
     return axios.post(api_url + "/guide/getCanteenDetail", qs.stringify({
       canteenId
-    }), {
+    },{cancelToken: source.token}), {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }
@@ -45,7 +49,7 @@ const api = {
     return axios.post(api_url + "/passport/register" ,qs.stringify({
       mobile,
       type
-    }), {
+    },{cancelToken: source.token}), {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }
@@ -58,7 +62,7 @@ const api = {
       token,
       code,
       password
-    }),{
+    },{cancelToken: source.token}),{
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }
@@ -69,7 +73,7 @@ const api = {
       mobile,
       type,
       password
-    }),{
+    },{cancelToken: source.token}),{
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }
@@ -83,7 +87,7 @@ const api = {
     return axios.post(api_url + '/cms/getNewsList', qs.stringify({
       limit: 5,
       offset: offset
-    }),{
+    },{cancelToken: source.token,timeout: 4500}),{
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }
@@ -92,7 +96,7 @@ const api = {
   searchCanteenWithName(name) {
     return axios.post(api_url + '/guide/matchCanteenByName', qs.stringify({
       name
-    }),{
+    },{cancelToken: source.token}),{
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }

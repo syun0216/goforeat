@@ -30,6 +30,7 @@ export function auth(state=initialState.userState,action) {
       username: action.username
     };
     case LOGOUT:
+    appStorage.removeStoreUser()
     return {
       ...state,
       username: null

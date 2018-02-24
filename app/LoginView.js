@@ -38,6 +38,7 @@ import ToastUtil from "./utils/ToastUtil"
 import appStorage from './cache/appStorage'
 //api
 import api from './api/index'
+import source from './api/CancelToken'
 
 // const
 
@@ -69,6 +70,7 @@ export default class LoginView extends Component {
 
   componentWillUnmount() {
     Picker.hide()
+    source.cancel()
   }
 
 
