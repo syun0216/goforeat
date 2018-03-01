@@ -12,13 +12,15 @@ import {Provider} from 'react-redux'
 import MainView from './app/DashBoardView'
 //cache
 import appStorage from './app/cache/appStorage'
+//hot reload
+import codePush from 'react-native-code-push'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android: 'Double tap R on your keyboard to reload,\n' + 'Shake or press menu button for dev menu'
 });
 
-export default class App extends Component < {} > {
+class App extends Component < {} > {
   componentDidMount = () => {
     AppState.addEventListener('change', this._handleAppStateChange)
 
@@ -69,3 +71,5 @@ export default class App extends Component < {} > {
     </Root>);
   }
 }
+
+export default codePush(App)

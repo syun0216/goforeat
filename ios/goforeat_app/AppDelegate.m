@@ -8,6 +8,8 @@
  */
 
 #import "AppDelegate.h"
+#import <AppCenterReactNativePush/AppCenterReactNativePush.h>
+#import <CodePush/CodePush.h>
 #import "SplashScreen.h"  // here
 
 #import <React/RCTBundleURLProvider.h>
@@ -19,7 +21,14 @@
 {
   NSURL *jsCodeLocation;
 
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  [AppCenterReactNativePush register];  // Initialize AppCenter push
+
+  
+    #ifdef DEBUG
+        jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+    #else
+        jsCodeLocation = [CodePush bundleURL];
+    #endif
 //  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation

@@ -138,9 +138,9 @@ const darwerView = DrawerNavigator({
 })
 
 let MainView = StackNavigator({
-  // Splash: {
-  //   screen: SplashPageView
-  // },
+  Splash: {
+    screen: SplashPageView
+  },
   Home: {
     screen: darwerView
   },

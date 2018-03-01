@@ -9,11 +9,13 @@
     "bundle-android": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.jsbundle --platform android --assets-dest ./android/app/src/main/res/ --dev false"
   },
   "dependencies": {
+    "appcenter-push": "^1.3.0",
     "axios": "^0.17.1",
     "js-md5": "^0.7.3",
     "native-base": "^2.3.7",
     "react": "16.2.0",
     "react-native": "0.52.2",
+    "react-native-code-push": "^5.2.1",
     "react-native-interactable": "^0.1.10",
     "react-native-picker": "^4.3.5",
     "react-native-splash-screen": "^3.0.6",
