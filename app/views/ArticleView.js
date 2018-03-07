@@ -26,6 +26,7 @@ import Divider from '../components/Divider'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
 import ArticleSwiper from '../components/Swiper'
+import carouselSwiper from '../components/carouselSwiper'
 
 let requestParams = {
   status: {

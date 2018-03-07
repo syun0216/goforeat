@@ -360,7 +360,7 @@ export default class GoodsListPageView extends Component{
           renderItem={({item,index}) => this._renderSectionListItem(item,index)}
           keyExtractor={(item, index) => index} // 消除SectionList warning
           renderSectionHeader={({section}) => this._renderSubHeader(section)}
-          refreshing={true}
+          // refreshing={true}
           initialNumToRender={7}
           getItemLayout={(data,index) => ({length: 75, offset: 75 * index + 175, index: index})}
           // onRefresh={() => alert('onRefresh: nothing to refresh :P')}

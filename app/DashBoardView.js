@@ -17,6 +17,7 @@ import ArticleView from './views/ArticleView'
 import PersonView from './views/PersonView'
 import MyFavoriteView from './views/MyFavoriteVIew'
 import StatementView from './views/StatementView'
+import SwiperablePage from './views/SwiperablePage'
 //api
 import api from './api'
 //utils
@@ -52,7 +53,7 @@ const tabView = TabNavigator({
     }
   },
   ShopTab: {
-    screen: connect(articleStateAndDispatch.mapStateToProps,articleStateAndDispatch.mapDispatchToProps)(ArticleView),
+    screen: SwiperablePage,
     navigationOptions: {
       tabBarLabel: '商家',
       tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-basket" style={{
@@ -89,7 +90,7 @@ const tabView = TabNavigator({
   }
 }, {
   animationEnabled: false,
-  swipeEnabled:true,
+  swipeEnabled:false,
   tabBarPosition: 'bottom',
   lazy:true, //该属性只会加载tab的当前view
   tabBarOptions: {
