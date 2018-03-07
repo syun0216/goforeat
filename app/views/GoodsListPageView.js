@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {View,SectionList,Image,StyleSheet,Platform,ScrollView,TouchableWithoutFeedback,ActivityIndicator,TouchableOpacity,Animated,Easing} from 'react-native'
+import {View,SectionList,TextInput,Image,StyleSheet,Platform,ScrollView,TouchableWithoutFeedback,ActivityIndicator,TouchableOpacity,Animated,Easing} from 'react-native'
 import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text,Spinner,Icon} from 'native-base'
 
 //api
@@ -38,6 +38,7 @@ export default class GoodsListPageView extends Component{
   sectionList = null
   sview = null // 滾動視圖
   onEndReachedCalledDuringMomentum = false
+  textInput = null
 
   state = {
     loading: false,
@@ -407,18 +408,26 @@ export default class GoodsListPageView extends Component{
         {this.state.canteenDetail.length === 0 ?
           <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
-        <Header style={{backgroundColor:'#fff'}}>
+        <Header style={{backgroundColor:this.props.theme}}>
           <Left>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('DrawerOpen')}>
               <View>
-                <Icon name="md-apps" size={20} style={{color:this.props.theme}}/>
+                <Icon name="md-apps" size={20} style={{color:'#fff'}}/>
               </View>
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text>Goforeat</Text>
+            <View style={styles.searchContainer}>
+              <TextInput ref={(t) => this.textInput = t} style={styles.searchText}
+                onFocus={() => {this.props.navigation.navigate('Search');this.textInput.blur()}}
+                placeholder="请输入商店名称"/>
+              <Icon name="md-search" size={20} style={styles.searchIcon}/>
+            </View>
           </Body>
-          <Right><Icon onPress={() => this.props.navigation.navigate('Search')} name="ios-search" size={25} style={{color: this.props.theme}} /></Right>
+          <Right>
+            <Icon onPress={() => this.props.navigation.navigate('Search')}
+              name="md-compass" size={25} style={{color: Colors.main_white}} />
+          </Right>
         </Header>
         <View  style={{backgroundColor:'#fff',marginBottom:diffplatform.bottomDistance}}>
           {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}
@@ -437,5 +446,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     backgroundColor: 'rgba(247,247,247,1.0)',
+  },
+  searchContainer:{
+    position: 'relative',
+  },
+  searchText: {
+    height:38,
+    width:240,
+    backgroundColor: Colors.main_white,
+    borderRadius:20,
+    paddingLeft:20
+  },
+  searchIcon: {
+    color: Colors.deep_gray,
+    position:'absolute',
+    top:5,
+    right:15
   }
 })

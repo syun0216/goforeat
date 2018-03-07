@@ -27,6 +27,7 @@ import Colors from './utils/Colors'
 //react-redux
 import {connect} from 'react-redux'
 import {userStateAndDispatch,
+      articleStateAndDispatch,
       contentStateAndDispatch,
       goodsListStateAndDispatch,
       loginStateAndDispatch,
@@ -51,7 +52,7 @@ const tabView = TabNavigator({
     }
   },
   ArticleTab: {
-    screen: ArticleView,
+    screen: connect(articleStateAndDispatch.mapStateToProps,articleStateAndDispatch.mapDispatchToProps)(ArticleView),
     navigationOptions: {
       tabBarLabel: '文章',
       tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-images" style={{
@@ -96,16 +97,16 @@ const darwerView = DrawerNavigator({
   contentComponent: props => (<View style={{
       position: 'relative',
       flex: 1,
-      backgroundColor: store.getState().theme.theme
+      backgroundColor: Colors.main_white
     }}>
     <View style={{
         alignSelf: 'center',
         marginTop: 100,
         marginBottom: 100
       }}>
-      <Text style={{color:'#fff'}}>Goforeat v1.0.0</Text>
+      <Text style={{color:Colors.fontBlack}}>Goforeat v1.0.0</Text>
     </View>
-    {/* <ScrollView style={{marginLeft:-50}} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{marginLeft:-50}} showsVerticalScrollIndicator={false}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
           <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/Law.png')}/>
           <Text style={{fontSize:22}}>法律聲明</Text>
@@ -122,7 +123,7 @@ const darwerView = DrawerNavigator({
           <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/about.png')}/>
           <Text style={{fontSize:22}}>關於我們</Text>
         </View>
-    </ScrollView> */}
+    </ScrollView>
     <TouchableOpacity style={{
         position: 'absolute',
         bottom: 30,
@@ -130,7 +131,7 @@ const darwerView = DrawerNavigator({
       }} onPress={() => LinkingUtils.dialPhoneWithNumber('97926095')}>
       <View>
         <Text style={{
-            fontSize: 18,color: '#fff'
+            fontSize: 18,color: Colors.fontBlack
           }}>聯繫電話:97926095</Text>
       </View>
     </TouchableOpacity>
@@ -138,9 +139,9 @@ const darwerView = DrawerNavigator({
 })
 
 let MainView = StackNavigator({
-  Splash: {
-    screen: SplashPageView
-  },
+  // Splash: {
+  //   screen: SplashPageView
+  // },
   Home: {
     screen: darwerView
   },

@@ -8,6 +8,14 @@ export const statementStateAndDispatch = {
   }
 }
 
+export const articleStateAndDispatch = {
+  mapStateToProps: state => {
+    return {
+      theme: state.theme.theme
+    };
+  }
+}
+
 export const searchStateAndDispatch = {
   mapStateToProps: state => {
     return {

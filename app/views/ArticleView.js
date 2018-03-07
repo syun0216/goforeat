@@ -206,7 +206,7 @@ export default class ArticleView extends Component {
       {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
         <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
-      <CommonHeader title="文章詳情"/>
+      <CommonHeader title="文章詳情" {...this['props']}/>
           {
             this.state.articleList !== null
             ? this._renderArticleListView()

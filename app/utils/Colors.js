@@ -13,7 +13,10 @@ let colors = {
     main_orange:'#ef7344',
     main_green: '#00beac',
     main_black:'#334681',
-    main_purple:'#673ab7'
+    main_purple:'#673ab7',
+    main_gray: '#ccc',
+    deep_gray: '#959595',
+    main_white: '#fff'
 };
 
 module.exports = colors;

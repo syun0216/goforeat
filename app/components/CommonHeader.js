@@ -5,22 +5,22 @@ import {Header,Left,Body,Right,Icon,Button,Text} from 'native-base'
 import Colors from '../utils/Colors'
 
 const CommonHeader = (props) => (
-  <Header style={{backgroundColor:'#fff'}}>
+  <Header style={{backgroundColor:props.theme}}>
     <Left>
       {props.canBack ? (props.leftElement !== null ? (<props.leftElement {...props}/>) : (
         <Button transparent onPress={() => props.navigation.goBack()}>
           <Icon
             size={20}
             name="ios-arrow-back"
-            style={{ fontSize: 25, color: props.theme }}
+            style={{ fontSize: 25, color: Colors.main_white }}
           />
         </Button>
       )) : null}
     </Left>
-    <Body><Text>{props.title}</Text></Body>
+    <Body><Text style={{color: Colors.main_white}}>{props.title}</Text></Body>
     <Right>
       {props.hasRight ? (props.rightElement !== null ? <props.rightElement {...props}/> : (
-        <Icon onPress={() => props.rightClick} name={props.rightIcon} size={25} style={{color: Colors.main_orange}} />
+        <Icon onPress={() => props.rightClick} name={props.rightIcon} size={25} style={{color: Colors.main_white}} />
       )) : null}
     </Right>
   </Header>
