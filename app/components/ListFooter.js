@@ -5,7 +5,7 @@ import GLOBAL_PARAMS from '../utils/global_params'
 
 const styles = StyleSheet.create({
   commonContainer:{
-    height:50,flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'
+    height:50,flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:'#fff'
   }
 })
 

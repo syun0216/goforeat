@@ -51,11 +51,29 @@ const tabView = TabNavigator({
         }}/>)
     }
   },
+  ShopTab: {
+    screen: connect(articleStateAndDispatch.mapStateToProps,articleStateAndDispatch.mapDispatchToProps)(ArticleView),
+    navigationOptions: {
+      tabBarLabel: '商家',
+      tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-basket" style={{
+          color:  focused ? store.getState().theme.theme : tintColor
+        }}/>)
+    }
+  },
   ArticleTab: {
     screen: connect(articleStateAndDispatch.mapStateToProps,articleStateAndDispatch.mapDispatchToProps)(ArticleView),
     navigationOptions: {
       tabBarLabel: '文章',
       tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-images" style={{
+          color:  focused ? store.getState().theme.theme : tintColor
+        }}/>)
+    }
+  },
+  AtivityTab: {
+    screen: connect(articleStateAndDispatch.mapStateToProps,articleStateAndDispatch.mapDispatchToProps)(ArticleView),
+    navigationOptions: {
+      tabBarLabel: '活動',
+      tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-hand" style={{
           color:  focused ? store.getState().theme.theme : tintColor
         }}/>)
     }
@@ -70,11 +88,11 @@ const tabView = TabNavigator({
     }
   }
 }, {
-  animationEnabled: true,
+  animationEnabled: false,
   tabBarPosition: 'bottom',
   lazy:true, //该属性只会加载tab的当前view
   tabBarOptions: {
-    showLabel: false,
+    showLabel: true,
     showIcon: true,
     inactiveTintColor: '#707070',
     activeTintColor: store.getState().theme.theme,

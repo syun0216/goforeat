@@ -117,18 +117,18 @@ export default class ContentView extends Component {
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: "#fff" }}>
+        <Header style={{ backgroundColor: this.props.theme }}>
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon
                 size={20}
                 name="ios-arrow-back"
-                style={{ fontSize: 25, color: this.props.theme }}
+                style={{ fontSize: 25, color: Colors.main_white }}
               />
             </Button>
           </Left>
           <Body>
-            <Title style={{ color: "#707070" }}>
+            <Title style={{ color: Colors.main_white }}>
               {this.props.navigation.state.params.kind === 'canteen' ? this.props.navigation.state.params.data.name :
               this.props.navigation.state.params.data.title}
             </Title>
@@ -138,12 +138,12 @@ export default class ContentView extends Component {
               {this.state.favoriteChecked ? (
                 <Icon
                   name="md-heart"
-                  style={{ fontSize: 20, color: this.props.theme }}
+                  style={{ fontSize: 20, color: Colors.main_white }}
                 />
               ) : (
                 <Icon
                   name="md-heart-outline"
-                  style={{ color: this.props.theme, fontSize: 20 }}
+                  style={{ color: Colors.main_white, fontSize: 20 }}
                 />
               )}
             </Button>

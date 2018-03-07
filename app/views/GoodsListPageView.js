@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {View,SectionList,TextInput,Image,StyleSheet,Platform,ScrollView,TouchableWithoutFeedback,ActivityIndicator,TouchableOpacity,Animated,Easing} from 'react-native'
+import {View,SectionList,StatusBar,TextInput,Image,StyleSheet,Platform,ScrollView,TouchableWithoutFeedback,ActivityIndicator,TouchableOpacity,Animated,Easing} from 'react-native'
 import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text,Spinner,Icon} from 'native-base'
 
 //api
@@ -10,6 +10,7 @@ import GoodsSwiper from '../components/Swiper'
 import Dropdownfilter from '../components/Dropdownfilter'
 import Loading from '../components/Loading'
 import ErrorPage from '../components/ErrorPage'
+import Divider from '../components/Divider'
 //utils
 import GLOBAL_PARAMS from '../utils/global_params'
 import Colors from '../utils/Colors'
@@ -278,32 +279,32 @@ export default class GoodsListPageView extends Component{
   }
 //views
   _renderSubHeader = (section) => {
-    return (<View style={{
-      // position:'absolute',
-      // top:diffplatform.subHeaderTop,
-      borderColor:'#ccc',
-      borderBottomWidth:1,
-      zIndex:100,
-      width:GLOBAL_PARAMS._winWidth,
-      height:50,
-      display:'flex',
-      justifyContent:'center',
-      backgroundColor:'#fff',
-      flexDirection:'row'}}>
-      <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-        {/* <Icon name='md-compass' style={{fontSize:20,color:this.props.theme,marginRight:5}}/> */}
-        <Text>餐廳列表</Text>
+    return (
+      // <View style={{
+      //   borderColor:'#ccc',
+      //   borderBottomWidth:1,
+      //   zIndex:100,
+      //   width:GLOBAL_PARAMS._winWidth,
+      //   height:50,
+      //   display:'flex',
+      //   justifyContent:'center',
+      //   backgroundColor:'#fff',
+      //   flexDirection:'row'}}>
+      //   <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+      //     <Text>餐廳列表</Text>
+      //   </View>
+      //   <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+      //   </View>
+      //   <TouchableOpacity onPress={() => this._toToggleFilterListView()}
+      //     style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+      //     {/* <Icon name='md-menu' style={{fontSize:20,color:this.props.theme,marginRight:5}}/> */}
+      //     <Text style={{color:this.props.theme}}>篩選分類</Text>
+      //   </TouchableOpacity>
+      // </View>
+      <View style={{paddingTop:15,paddingBottom:15,backgroundColor:Colors.main_white,borderBottomWidth:1,borderColor:Colors.main_gray}}>
+        <Text style={{textAlign:'center',fontSize:16}}>- 為您推薦 -</Text>
       </View>
-      <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-        {/* <Icon name='md-funnel' style={{fontSize:20,color:this.props.theme,marginRight:5}}/>
-        <Text>分類</Text> */}
-      </View>
-      <TouchableOpacity onPress={() => this._toToggleFilterListView()}
-        style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-        {/* <Icon name='md-menu' style={{fontSize:20,color:this.props.theme,marginRight:5}}/> */}
-        <Text style={{color:this.props.theme}}>篩選分類</Text>
-      </TouchableOpacity>
-    </View>)
+    )
   }
 
   _renderFilterView= () => {
@@ -379,22 +380,33 @@ export default class GoodsListPageView extends Component{
   }
 
   _renderSectionListItem = (item,index) => (
-      <ListItem avatar key={index} onPress={() =>this.props.navigation.navigate('Content',{
-        data:item,
-        kind:'canteen'
-      })}>
-        <Left>
-          <Thumbnail size={10}  source={{uri:item.image}} />
-        </Left>
-        <Body>
-          <Text>{item.name}</Text>
-          <Text note style={{fontSize:13}}>地址：{item.address}</Text>
-          <Text note>评分：{item.rate}</Text>
-        </Body>
-        <Right>
-          <Text note style={{color:this.props.theme,fontSize:18}}>${item.price}</Text>
-        </Right>
-      </ListItem>
+      <View>
+        <ListItem
+          style={{backgroundColor:Colors.main_white,marginLeft:0,paddingLeft:10}}
+          avatar key={index} onPress={() =>this.props.navigation.navigate('Content',{
+            data:item,
+            kind:'canteen'
+          })}>
+          <Left>
+            <Image style={{width:90,height:90,borderRadius:45}} source={{uri:item.image}} />
+          </Left>
+          <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
+            <Text style={{marginBottom:10,fontSize:18}}>{item.name}</Text>
+            {/* <Text note style={{fontSize:13,marginBottom:10}}>地址：{item.address}</Text> */}
+            <Text note style={{marginBottom:10}}>评分：{item.rate}</Text>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <View style={{backgroundColor:'#b3b3b3',borderRadius:10,width:80,padding:5,marginRight:10}}>
+                <Text style={{color:'#fff',textAlign:'center'}}>0.5公里</Text>
+              </View>
+              <Text>距離當前位置</Text>
+            </View>
+          </Body>
+          <Right style={{borderBottomWidth:0}}>
+            <Text note style={{color:this.props.theme,fontSize:25,fontWeight:'bold'}}>${item.price}</Text>
+          </Right>
+        </ListItem>
+        {this.state.canteenDetail.length-1 === index ? null : <Divider height={10} bgColor='transparent'/>}
+      </View>
   )
 
   render(){
@@ -403,8 +415,8 @@ export default class GoodsListPageView extends Component{
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
           <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
-        {this.state.showFilterList ? this._renderPreventClickView() : null}
-        {this.state.canteenOptions ? this._renderFilterView() : null}
+        {/* {this.state.showFilterList ? this._renderPreventClickView() : null}
+        {this.state.canteenOptions ? this._renderFilterView() : null} */}
         {this.state.canteenDetail.length === 0 ?
           <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
@@ -429,7 +441,7 @@ export default class GoodsListPageView extends Component{
               name="md-compass" size={25} style={{color: Colors.main_white}} />
           </Right>
         </Header>
-        <View  style={{backgroundColor:'#fff',marginBottom:diffplatform.bottomDistance}}>
+        <View  style={{marginBottom:diffplatform.bottomDistance}}>
           {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}
         </View>
       </Container>
@@ -460,6 +472,7 @@ const styles = StyleSheet.create({
   searchIcon: {
     color: Colors.deep_gray,
     position:'absolute',
+    fontSize: 25,
     top:5,
     right:15
   }

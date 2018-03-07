@@ -182,7 +182,7 @@ export default class ArticleView extends Component {
   _renderArticleListView = () => (
     <FlatList
       data = {this.state.articleList}
-      renderItem = {({item}) => this._renderArticleListItemView(item)}
+      renderItem = {({item,index}) => this._renderArticleListItemView(item,index)}
       keyExtractor={(item, index) => item.title}
       onEndReachedThreshold={10}
       onEndReached={() => this._onEndReach()}
@@ -190,7 +190,7 @@ export default class ArticleView extends Component {
     />
   )
 
-  _renderArticleListItemView = (item) => (
+  _renderArticleListItemView = (item,index) => (
       <TouchableOpacity style={styles.articleItemContainer}
         onPress={() => this.props.navigation.navigate('Content', {data: item,kind:'article'})}>
         <View><Image style={styles.articleImage} source={{uri:item.pic}} /></View>
@@ -198,6 +198,7 @@ export default class ArticleView extends Component {
           <Text style={styles.articleTitle}>{item.title}</Text>
           <Text style={styles.articleSubTitle}>{item.brief}</Text>
         </View>
+        {this.state.articleList.length -1 === index ? null : <Divider height={10} bgColor="transparent"/>}
       </TouchableOpacity>
     )
 
@@ -221,17 +222,16 @@ const styles = StyleSheet.create({
   articleItemContainer:{
     height:250,
     flex:1,
-    backgroundColor:'#fff',
-    marginBottom:15
   },
   articleImage: {
     width:GLOBAL_PARAMS._winWidth,
-    height:190
+    height:180
   },
   articleDesc: {
     flex:1,
     justifyContent:'center',
-    paddingLeft:10
+    paddingLeft:10,
+    backgroundColor: '#fff'
   },
   articleTitle: {
     fontSize:18,

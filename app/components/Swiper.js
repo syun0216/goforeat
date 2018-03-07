@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {View,Text,StyleSheet,Image} from 'react-native'
 import Swiper from 'react-native-swiper'
 import GLOBAL_PARAMS from '../utils/global_params'
-
+import Colors from '../utils/Colors'
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -28,30 +28,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#92BBD9',
   },
   img: {
-    width:GLOBAL_PARAMS._winWidth,
-    height:250
+    width:GLOBAL_PARAMS._winWidth-20,
+    height:240,
+    borderRadius:15
   },
   activeDot:{}
 })
+
+const img_arr = [
+  {style:styles.img,position: require('../asset/s1.png')},
+  {style:styles.img,position: require('../asset/s2.png')},
+  {style:styles.img,position: require('../asset/s3.png')},
+  {style:styles.img,position: require('../asset/s4.png')},
+]
 
 const GoodsSwiper = () => (
   <Swiper style={styles.wrapper} autoplay
     paginationStyle={{position:'absolute',bottom:15,marginLeft:200}}
     dotStyle={{width: 10, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.5}}
     dotColor="#fafafa" activeDotColor="white" activeDotStyle={{width: 25, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.8}}>
-    <View>
-      <Image style={styles.img} source={require('../asset/s1.png')}/>
-      {/* <Text style={styles.text}>Hello Swiper</Text> */}
-    </View>
-    <View>
-      <Image style={styles.img} source={require('../asset/s2.png')}/>
-    </View>
-    <View>
-      <Image style={styles.img} source={require('../asset/s3.png')}/>
-    </View>
-    <View>
-      <Image style={styles.img} source={require('../asset/s4.png')}/>
-    </View>
+    {img_arr.map((item,idx) => (
+      <View key={idx} style={{padding:10,backgroundColor:Colors.main_white}}>
+        <Image style={styles.img} source={item.position}/>
+      </View>
+    ))}
   </Swiper>
 )
 
