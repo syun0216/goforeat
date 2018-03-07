@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View,Text,Image, TouchableOpacity, Platform, FlatList,StyleSheet} from 'react-native'
+import {View,Text,Image, TouchableOpacity, Platform, SectionList,StyleSheet} from 'react-native'
 import {
   Container,
   Header,
@@ -25,6 +25,7 @@ import CommonHeader from '../components/CommonHeader'
 import Divider from '../components/Divider'
 import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
+import ArticleSwiper from '../components/Swiper'
 
 let requestParams = {
   status: {
@@ -180,12 +181,16 @@ export default class ArticleView extends Component {
   }
 
   _renderArticleListView = () => (
-    <FlatList
-      data = {this.state.articleList}
+    <SectionList
+      sections={[
+        {title:'餐廳列表',data:this.state.articleList},
+      ]}
       renderItem = {({item,index}) => this._renderArticleListItemView(item,index)}
+      renderSectionHeader= {() => (<View style={{height:20}}></View>)}
       keyExtractor={(item, index) => item.title}
       onEndReachedThreshold={10}
       onEndReached={() => this._onEndReach()}
+      ListHeaderComponent={() => <ArticleSwiper />}
       ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}
     />
   )
@@ -203,11 +208,12 @@ export default class ArticleView extends Component {
     )
 
   render() {
-    return (<View>
+    return (<View style={{position:'relative',backgroundColor:Colors.main_white}}>
       {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
         <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
       <CommonHeader title="文章詳情" {...this['props']}/>
+      {/* <View style={{height:150,backgroundColor:this.props.theme,width:GLOBAL_PARAMS._winWidth}} /> */}
           {
             this.state.articleList !== null
             ? this._renderArticleListView()
@@ -222,6 +228,7 @@ const styles = StyleSheet.create({
   articleItemContainer:{
     height:250,
     flex:1,
+    borderRadius: 20,
   },
   articleImage: {
     width:GLOBAL_PARAMS._winWidth,

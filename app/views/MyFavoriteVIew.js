@@ -6,6 +6,7 @@ import CommonHeader from '../components/CommonHeader'
 import Row from '../components/Row'
 //utils
 import GLOBAL_PARAMS from '../utils/global_params'
+import Colors from '../utils/Colors'
 
 const Screen = Dimensions.get('window');
 
@@ -22,7 +23,7 @@ export default class MyFavoriteView extends PureComponent {
         renderItem={({item,index}) => this._renderSectionListItem(item,index)}
         keyExtractor={(item, index) => index} // 消除SectionList warning
         renderSectionHeader={({section}) => (
-          <View style={{padding:10,borderBottomWidth:1,borderColor:'#ddd'}}><Text style={{fontSize:12}}>{section.title}</Text></View>
+          <View style={{padding:10,borderBottomWidth:1,borderColor:'#ddd',backgroundColor:Colors.main_white}}><Text style={{fontSize:12}}>{section.title}</Text></View>
         )}
         ListEmptyComponent={() => (
           <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
@@ -53,33 +54,6 @@ export default class MyFavoriteView extends PureComponent {
       <Container>
         <CommonHeader canBack title="我的關注" {...this['props']}/>
         {this._renderSectionList()}
-        {/* <View style={styles.playground}>
-          <Text style={styles.playgroundLabel}>Change spring damping:</Text>
-          <Slider
-            key='damping'
-            style={styles.slider}
-            value={this.state.damping}
-            minimumValue={0.1}
-            maximumValue={0.6}
-            minimumTrackTintColor={'#007AFF'}
-            maximumTrackTintColor={'white'}
-            thumbTintColor={'white'}
-            onSlidingComplete={(value) => this.setState({damping: value})}
-          />
-          <Text style={styles.playgroundLabel}>Change spring tension:</Text>
-          <Slider
-            key='tension'
-            style={styles.slider}
-            value={this.state.tension}
-            minimumValue={0.0}
-            maximumValue={1000.0}
-            minimumTrackTintColor={'#007AFF'}
-            maximumTrackTintColor={'white'}
-            thumbTintColor={'white'}
-            onSlidingComplete={(value) => this.setState({tension: value})}
-          />
-        </View> */}
-
       </Container>
     );
   }

@@ -117,7 +117,7 @@ export default class ContentView extends Component {
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: this.props.theme }}>
+        <Header style={{ backgroundColor: this.props.theme }} iosBarStyle="light-content">
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon

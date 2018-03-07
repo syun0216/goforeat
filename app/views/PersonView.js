@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,Modal,ScrollView } from "react-native";
+import { View, StatusBar, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,Modal,ScrollView } from "react-native";
 import {
   Container,
   Header,
@@ -52,6 +52,9 @@ export default class PeopleView extends Component {
   }
 
   _commonItemClick = (name) => {
+    if(name === 'integral' || name === 'upload') {
+      ToastUtil.show("暫未開放", 1000, "bottom","warning")
+    }
     if(this.props.user === null) {
       this.props.navigation.navigate('Login')
     }else {
@@ -81,9 +84,9 @@ export default class PeopleView extends Component {
 
   _renderCommonItemView = () => (
     <View style={{display:'flex',flexDirection:'row',borderBottomWidth:1,borderColor:'#ddd',backgroundColor:'#fff',height:70,marginBottom:10}}>
-      <TouchableOpacity style={styles.commonItem} onPress={() => this._commonItemClick('service')}>
+      <TouchableOpacity style={styles.commonItem} onPress={() => this._commonItemClick('integral')}>
         <Image source={require('../asset/01-guanli.png')} style={styles.commonImage}/>
-        <Text>服務條款</Text>
+        <Text>積分兌換</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.commonItem} onPress={() => {
         this.props.user !== null ? this.props.navigation.navigate('MyFavorite') : this.props.navigation.navigate('Login')
@@ -91,19 +94,21 @@ export default class PeopleView extends Component {
         <Image source={require('../asset/02-guanzhu.png')} style={styles.commonImage}/>
         <Text>我的關注</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.commonItem} onPress={() => this._commonItemClick('policy')}>
+      <TouchableOpacity style={styles.commonItem} onPress={() => this._commonItemClick('upload')}>
         <Image source={require('../asset/03-renzheng.png')} style={styles.commonImage}/>
-        <Text>隱私政策</Text>
+        <Text>上傳發票</Text>
       </TouchableOpacity>
     </View>
   )
 
   _renderCommonListView = () => {
     const _data = [
-      {name:'關於我們',icon:'md-people',func:() => this._commonItemClick('about')},
+      // {name:'關於我們',icon:'md-people',func:() => this._commonItemClick('about')},
         {name:'允許使用政策',icon:'md-log-in',func:() => this._commonItemClick('allowPolicy')},
         {name:'刪除內容政策',icon:'md-log-out',func:() => this._commonItemClick('deletePolicy')},
-        {name:'系統設置',icon:'md-settings',func:() => this.props.navigation.navigate('Setting')}
+        {name:'系統設置',icon:'md-settings',func:() => this.props.navigation.navigate('Setting')},
+        // {name:'上傳發票',icon:'md-cloud-upload',func:() => this.props.navigation.navigate('Setting')},
+        // {name:'積分兌換',icon:'md-attach',func:() => this.props.navigation.navigate('Setting')},
     ]
     return (
     <List>
@@ -113,10 +118,10 @@ export default class PeopleView extends Component {
             <Left>
               <Icon style={{color: this.props.theme,fontSize:22}} name={item.icon}></Icon>
             </Left>
-            <Body>
+            <Body style={{borderBottomWidth:0}}>
               <Text>{item.name}</Text>
             </Body>
-            <Right>
+            <Right style={{borderBottomWidth:0}}>
               <Icon name="arrow-forward" />
             </Right>
           </ListItem>
@@ -160,6 +165,7 @@ export default class PeopleView extends Component {
     return (
       <Container>
         {this._renderModalView()}
+        <StatusBar />
         <View style={{flex:1}}>
           {this._renderPersonDetailHeader()}
           {this._renderCommonItemView()}

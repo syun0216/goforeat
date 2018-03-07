@@ -89,12 +89,16 @@ const tabView = TabNavigator({
   }
 }, {
   animationEnabled: false,
+  swipeEnabled:true,
   tabBarPosition: 'bottom',
   lazy:true, //该属性只会加载tab的当前view
   tabBarOptions: {
-    showLabel: true,
+    showLabel: false,
     showIcon: true,
     inactiveTintColor: '#707070',
+    labelStyle: {
+      color: store.getState().theme.theme
+    },
     activeTintColor: store.getState().theme.theme,
     style: {
       backgroundColor: '#fff'
@@ -120,31 +124,39 @@ const darwerView = DrawerNavigator({
     <View style={{
         alignSelf: 'center',
         marginTop: 100,
-        marginBottom: 100
+        marginBottom: 130
       }}>
       <Text style={{color:Colors.fontBlack}}>Goforeat v1.0.0</Text>
     </View>
     <ScrollView style={{marginLeft:-50}} showsVerticalScrollIndicator={false}>
+      {/* <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'法律聲明'})}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
           <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/Law.png')}/>
           <Text style={{fontSize:22}}>法律聲明</Text>
         </View>
+      </TouchableOpacity> */}
+      <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'service'})}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
           <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/Service.png')}/>
           <Text style={{fontSize:22}}>服務條款</Text>
         </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'policy'})}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
           <Image style={{width:28,height:33,marginRight:30}} source={require('./asset/Privacy.png')}/>
           <Text style={{fontSize:22}}>隱私政策</Text>
         </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'about'})}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
           <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/about.png')}/>
           <Text style={{fontSize:22}}>關於我們</Text>
         </View>
+      </TouchableOpacity>
     </ScrollView>
     <TouchableOpacity style={{
         position: 'absolute',
-        bottom: 30,
+        bottom: 60,
         right: 50
       }} onPress={() => LinkingUtils.dialPhoneWithNumber('97926095')}>
       <View>

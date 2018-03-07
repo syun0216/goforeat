@@ -420,7 +420,7 @@ export default class GoodsListPageView extends Component{
         {this.state.canteenDetail.length === 0 ?
           <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
-        <Header style={{backgroundColor:this.props.theme}}>
+        <Header style={{backgroundColor:this.props.theme}} iosBarStyle="light-content">
           <Left>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('DrawerOpen')}>
               <View>
