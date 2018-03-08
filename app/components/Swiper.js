@@ -29,8 +29,10 @@ const styles = StyleSheet.create({
   },
   img: {
     width:GLOBAL_PARAMS._winWidth-20,
-    height:240,
-    borderRadius:15
+    height:230,
+    borderRadius:15,
+    borderWidth: 1,
+    borderColor:Colors.main_gray
   },
   activeDot:{}
 })
@@ -48,7 +50,7 @@ const GoodsSwiper = () => (
     dotStyle={{width: 10, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.5}}
     dotColor="#fafafa" activeDotColor="white" activeDotStyle={{width: 25, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.8}}>
     {img_arr.map((item,idx) => (
-      <View key={idx} style={{padding:10,backgroundColor:Colors.main_white}}>
+      <View key={idx} style={{padding:10}}>
         <Image style={styles.img} source={item.position}/>
       </View>
     ))}

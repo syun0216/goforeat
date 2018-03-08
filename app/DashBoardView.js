@@ -18,6 +18,7 @@ import PersonView from './views/PersonView'
 import MyFavoriteView from './views/MyFavoriteVIew'
 import StatementView from './views/StatementView'
 import ShopSwiperablePage from './views/ShopSwiperablePage'
+import ActivitySwiperablePage from './views/ActivitySwiperablePage'
 //api
 import api from './api'
 //utils
@@ -72,7 +73,7 @@ const tabView = TabNavigator({
     }
   },
   AtivityTab: {
-    screen: connect(articleStateAndDispatch.mapStateToProps,articleStateAndDispatch.mapDispatchToProps)(ArticleView),
+    screen: connect(shopStateAndDispatch.mapStateToProps)(ActivitySwiperablePage),
     navigationOptions: {
       tabBarLabel: '活動',
       tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-hand" style={{

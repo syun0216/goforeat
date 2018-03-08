@@ -15,7 +15,7 @@ let colors = {
     main_black:'#334681',
     main_purple:'#673ab7',
     main_gray: '#ccc',
-    deep_gray: '#959595',
+    deep_gray: '#888888',
     main_white: '#fff'
 };
 
