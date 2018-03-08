@@ -17,7 +17,7 @@ import ArticleView from './views/ArticleView'
 import PersonView from './views/PersonView'
 import MyFavoriteView from './views/MyFavoriteVIew'
 import StatementView from './views/StatementView'
-import SwiperablePage from './views/SwiperablePage'
+import ShopSwiperablePage from './views/ShopSwiperablePage'
 //api
 import api from './api'
 //utils
@@ -28,6 +28,7 @@ import Colors from './utils/Colors'
 //react-redux
 import {connect} from 'react-redux'
 import {userStateAndDispatch,
+      shopStateAndDispatch,
       articleStateAndDispatch,
       contentStateAndDispatch,
       goodsListStateAndDispatch,
@@ -53,7 +54,7 @@ const tabView = TabNavigator({
     }
   },
   ShopTab: {
-    screen: SwiperablePage,
+    screen: connect(shopStateAndDispatch.mapStateToProps)(ShopSwiperablePage),
     navigationOptions: {
       tabBarLabel: '商家',
       tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-basket" style={{

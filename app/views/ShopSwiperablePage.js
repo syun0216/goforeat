@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { Platform, View, ScrollView, Text, StatusBar, SafeAreaView } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { Platform, View, ScrollView, Text, StatusBar, SafeAreaView,Image } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { sliderWidth, itemWidth } from '../styles/SliderEntry.style';
 import SliderEntry from '../components/SliderEntry';
 import styles, { colors } from '../styles/index.style';
 import { ENTRIES1, ENTRIES2 } from '../static/entries';
 import { scrollInterpolators, animatedStyles } from '../utils/animations';
+import Colors from '../utils/Colors'
 
 const IS_ANDROID = Platform.OS === 'android';
 const SLIDER_1_FIRST_ITEM = 1;
 
-export default class example extends Component {
+export default class ShopSwiperablePage extends Component {
 
     constructor (props) {
         super(props);
@@ -116,7 +116,7 @@ export default class example extends Component {
         const isTinder = type === 'tinder';
         return (
             <View style={[styles.exampleContainer, isTinder ? styles.exampleContainerDark : styles.exampleContainerLight]}>
-                <Text style={[styles.title, isTinder ? {} : styles.titleDark]}>{`Example ${number}`}</Text>
+                <Text style={[styles.title, isTinder ? {} : styles.titleDark]}>商家列表</Text>
                 <Text style={[styles.subtitle, isTinder ? {} : styles.titleDark]}>{title}</Text>
                 <Carousel
                   data={isTinder ? ENTRIES2 : ENTRIES1}
@@ -169,7 +169,7 @@ export default class example extends Component {
     render () {
         const example1 = this.mainExample(1, 'Default layout | Loop | Autoplay | Parallax | Scale | Opacity | Pagination with tappable dots');
         const example2 = this.momentumExample(2, 'Momentum | Left-aligned | Active animation');
-        const example3 = this.layoutExample(3, '"Stack of cards" layout | Loop', 'stack');
+        const example3 = this.layoutExample(3, '- 為您推薦 -');
         const example4 = this.layoutExample(4, '"Tinder-like" layout | Loop', 'tinder');
         const example5 = this.customExample(5, 'Custom animation 1', 1, this._renderItem);
         const example6 = this.customExample(6, 'Custom animation 2', 2, this._renderLightItem);
@@ -190,14 +190,15 @@ export default class example extends Component {
                       scrollEventThrottle={200}
                       directionalLockEnabled={true}
                     >
-                        { example1 }
-                        { example2 }
                         { example3 }
-                        { example4 }
-                        { example5 }
-                        { example6 }
-                        { example7 }
-                        { example8 }
+                        <View style={{height:150,flexDirection:'row',backgroundColor:this.props.theme}}>
+                          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                            <Image style={{width:80,height:80}} source={{uri:'dislike'}}/>
+                          </View>
+                          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                            <Image style={{width:80,height:80}} source={{uri:'like'}}/>
+                          </View>
+                        </View>
                     </ScrollView>
                 </View>
             </SafeAreaView>

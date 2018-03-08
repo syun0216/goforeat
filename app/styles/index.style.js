@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import store from '../store'
 
 export const colors = {
     black: '#1a1917',
@@ -10,11 +11,11 @@ export const colors = {
 export default StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: colors.black
+        backgroundColor: colors.black,
     },
     container: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: colors.gray
     },
     gradient: {
         ...StyleSheet.absoluteFillObject

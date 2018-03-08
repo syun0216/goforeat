@@ -188,7 +188,7 @@ export default class ArticleView extends Component {
       ]}
       renderItem = {({item,index}) => this._renderArticleListItemView(item,index)}
       renderSectionHeader= {() => (<View style={{height:20}}></View>)}
-      keyExtractor={(item, index) => item.title}
+      keyExtractor={(item, index) => index}
       onEndReachedThreshold={10}
       onEndReached={() => this._onEndReach()}
       ListHeaderComponent={() => <ArticleSwiper />}
@@ -209,7 +209,7 @@ export default class ArticleView extends Component {
     )
 
   render() {
-    return (<View style={{position:'relative',backgroundColor:Colors.main_white}}>
+    return (<View style={{position:'relative'}}>
       {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
         <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
@@ -230,9 +230,10 @@ const styles = StyleSheet.create({
     height:250,
     flex:1,
     borderRadius: 20,
+    margin: 10,
   },
   articleImage: {
-    width:GLOBAL_PARAMS._winWidth,
+    width:GLOBAL_PARAMS._winWidth -20,
     height:180
   },
   articleDesc: {
