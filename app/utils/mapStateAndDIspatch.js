@@ -1,5 +1,21 @@
 import {bindActionCreators} from 'redux';
 
+export const integralStateAndDispatch  = {
+  mapStateToProps: state => {
+    return {
+      theme: state.theme.theme
+    }
+  }
+}
+
+export const uploadStateAndDispatch = {
+  mapStateToProps: state => {
+    return {
+      theme: state.theme.theme
+    }
+  }
+}
+
 export const statementStateAndDispatch = {
   mapStateToProps: state => {
     return {

@@ -190,7 +190,7 @@ export default class ActivitySwiperablePage extends Component {
                       scrollEventThrottle={200}
                       directionalLockEnabled={true}
                     >
-                        {example5}
+                        {example3}
                         <View style={{height:150,flexDirection:'row',backgroundColor:this.props.theme}}>
                           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:80,height:80}} source={{uri:'dislike'}}/>
