@@ -52,13 +52,17 @@ export default class PeopleView extends Component {
   }
 
   _commonItemClick = (name) => {
-    if(name === 'integral' || name === 'upload') {
-      ToastUtil.show("暫未開放", 1000, "bottom","warning")
-    }
+    let {navigate} = this.props.navigation;
     if(this.props.user === null) {
-      this.props.navigation.navigate('Login')
+      navigate('Login')
     }else {
-      this.props.navigation.navigate('Statement',{name:name})
+      if(name === 'integral') {
+        navigate('Integral');
+      }else if(name === 'upload'){
+        navigate('Upload');
+      }else{
+        navigate('Statement',{name:name})
+      }
     }
   }
 

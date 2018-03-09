@@ -252,7 +252,7 @@ export default class LoginView extends Component {
                 >
                   <Input
                     style={{
-                      color: "white",
+                      color: Colors.fontBlack,
                       width: GLOBAL_PARAMS._winWidth * 0.55
                     }}
                     onChangeText={phone => this._getPhone(phone)}
@@ -293,7 +293,7 @@ export default class LoginView extends Component {
                 >
                   <Input
                     style={{
-                      color: "white",
+                      color: Colors.fontBlack,
                       width: GLOBAL_PARAMS._winWidth * 0.55
                     }}
                     onChangeText={password => this._getPassword(password)}

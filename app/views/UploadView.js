@@ -7,7 +7,7 @@ export default class UploadView extends PureComponent {
   render() {
     return (
       <Container>
-        <CommonHeader canBack {...this['props']}/>
+        <CommonHeader canBack {...this['props']} title="上傳發票"/>
       </Container>
     )
   }

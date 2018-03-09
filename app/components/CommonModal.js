@@ -34,4 +34,8 @@ CommonModal.propsType = {
   title: PropTypes.string
 }
 
+CommonModal.defaultProps = {
+  content: 'This is a modal'
+}
+
 export default CommonModal
