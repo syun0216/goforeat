@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View,Text,Image, TouchableOpacity, Platform, SectionList,StyleSheet} from 'react-native'
+import {View,Text,Image, TouchableOpacity,TouchableWithoutFeedback, Platform, SectionList,StyleSheet} from 'react-native'
 import {
   Container,
   Header,
@@ -191,46 +191,53 @@ export default class ArticleView extends Component {
       keyExtractor={(item, index) => index}
       onEndReachedThreshold={10}
       onEndReached={() => this._onEndReach()}
-      ListHeaderComponent={() => <ArticleSwiper />}
+      // ListHeaderComponent={() => <ArticleSwiper />}
       ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}
     />
   )
 
   _renderArticleListItemView = (item,index) => (
-      <TouchableOpacity style={styles.articleItemContainer}
+      <TouchableWithoutFeedback style={styles.articleItemContainer}
         onPress={() => this.props.navigation.navigate('Content', {data: item,kind:'article'})}>
-        <View><Image style={styles.articleImage} source={{uri:item.pic}} /></View>
-        <View style={styles.articleDesc}>
-          <Text style={styles.articleTitle}>{item.title}</Text>
-          <Text style={styles.articleSubTitle}>{item.brief}</Text>
+        <View style={styles.artivleItemInnerContainer}>
+          <View><Image style={styles.articleImage} source={{uri:item.pic}} /></View>
+          <View style={styles.articleDesc}>
+            <Text style={styles.articleTitle}>{item.title}</Text>
+          </View>
         </View>
-        {this.state.articleList.length -1 === index ? null : <Divider height={10} bgColor="transparent"/>}
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     )
 
   render() {
-    return (<View style={{position:'relative'}}>
+    return (<Container style={{position:'relative'}}>
       {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
         <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
       <CommonHeader title="文章詳情" {...this['props']}/>
       {/* <View style={{height:150,backgroundColor:this.props.theme,width:GLOBAL_PARAMS._winWidth}} /> */}
-          {
+      <View style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
+        {
             this.state.articleList !== null
             ? this._renderArticleListView()
             : null
-          }
+        }
+      </View>    
 
-    </View>)
+    </Container>)
+    }
   }
-}
 
 const styles = StyleSheet.create({
   articleItemContainer:{
     height:250,
     flex:1,
     borderRadius: 20,
-    margin: 10,
+  },
+  artivleItemInnerContainer: {
+    borderRadius: 20,
+    flex:1,
+    padding:10,
+    paddingBottom: 0,
   },
   articleImage: {
     width:GLOBAL_PARAMS._winWidth -20,
@@ -239,8 +246,11 @@ const styles = StyleSheet.create({
   articleDesc: {
     flex:1,
     justifyContent:'center',
+    alignItems: 'center',
     paddingLeft:10,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    paddingTop:10,
+    paddingBottom:10
   },
   articleTitle: {
     fontSize:18,

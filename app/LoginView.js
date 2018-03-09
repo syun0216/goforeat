@@ -128,21 +128,21 @@ export default class LoginView extends Component {
           <Image
             resizeMode="cover"
             style={{
-              height: GLOBAL_PARAMS._winHeight,
+              height: 250,
               width: GLOBAL_PARAMS._winWidth,
               position: "absolute",
               top: 0,
               left: 0,
               zIndex: 0
             }}
-            source={{ uri: "loginbg" }}
+            source={{ uri: "loginNewBg" }}
           />
           <View
             style={{
               width: GLOBAL_PARAMS._winWidth,
               height: GLOBAL_PARAMS._winHeight,
               backgroundColor: Colors.fontBlack,
-              opacity: 0.6,
+              opacity: 0,
               position: "absolute",
               top: 0,
               left: 0,
@@ -196,7 +196,7 @@ export default class LoginView extends Component {
                   height: 30
                 }}
               >
-                <Text style={{ color: "#fff", fontSize: 25 }}>Goforeat</Text>
+                {/*<Text style={{ color: "#fff", fontSize: 25 }}>Goforeat</Text>*/}
               </View>
             </View>
 
@@ -220,25 +220,25 @@ export default class LoginView extends Component {
                   flex: 1,
                   width: 0.8 * GLOBAL_PARAMS._winWidth,
                   height: 50,
-                  backgroundColor: "#000",
+                  borderBottomWidth: 1,
                   marginBottom: 10,
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  opacity: 0.6
+                  borderBottomColor: Colors.main_orange
                 }}
               >
                 <View style={{ width: 40, paddingLeft: 10 }}>
-                  {/* <Icon name="md-phone-portrait"
-                    style={{color:Colors.main_orange}} /> */}
-                  <Image
+                  <Icon name="md-phone-portrait"
+                    style={{color:Colors.main_orange,fontSize:28}} />
+                  {/*<Image
                     source={require("./asset/phone.png")}
                     style={{
                       width: 22,
                       height: 22,
                       marginTop: -2
                     }}
-                  />
+                  />*/}
                 </View>
                 <Button transparent style={{marginLeft:-9,marginTop:2}} onPress={() => Picker.show()}>
                   <Text style={{color:'gray'}}>{this.state.selectedValue.label}</Text>
@@ -272,20 +272,17 @@ export default class LoginView extends Component {
                   flex: 1,
                   width: 0.8 * GLOBAL_PARAMS._winWidth,
                   height: 50,
-                  backgroundColor: "#000",
+                  borderBottomWidth:1,
                   marginBottom: 5,
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  opacity: 0.6
+                  borderBottomColor: Colors.main_orange
                 }}
               >
                 <View style={{ width: 40, paddingLeft: 10 }}>
-                  <Image
-                    source={require("./asset/password.png")}
-                    style={{ width: 20, height: 20, marginTop: -2 }}
-                  />
-                  {/* <Icon name="md-lock" style={{color:Colors.main_orange,margin}}/> */}
+
+                   <Icon name="md-lock" style={{fontSize: 28,color: Colors.main_orange}}/>
                 </View>
                 <View
                   style={{
@@ -355,7 +352,7 @@ export default class LoginView extends Component {
                   }}
                   >
                     <Text
-                      style={{ textAlign: "center", fontSize: 14, color: "#fff" }}
+                      style={{ textAlign: "center", fontSize: 14, color: Colors.deep_gray }}
                       >
                         新用戶?點擊註冊
                       </Text>

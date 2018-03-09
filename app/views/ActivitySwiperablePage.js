@@ -116,7 +116,7 @@ export default class ActivitySwiperablePage extends Component {
         const isTinder = type === 'tinder';
         return (
             <View style={[styles.exampleContainer, isTinder ? styles.exampleContainerDark : styles.exampleContainerLight]}>
-                <Text style={[styles.title, isTinder ? {} : styles.titleDark]}>活動列表</Text>
+                <Text style={[styles.title, isTinder ? {} : styles.titleDark]}>猜您喜歡</Text>
                 <Text style={[styles.subtitle, isTinder ? {} : styles.titleDark]}>{title}</Text>
                 <Carousel
                   data={isTinder ? ENTRIES2 : ENTRIES1}

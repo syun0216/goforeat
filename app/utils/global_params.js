@@ -1,4 +1,4 @@
-import {Dimensions} from 'react-native'
+import {Dimensions,Platform} from 'react-native'
 
 const GLOBAL_PARAMS = {
   _winWidth:Dimensions.get('window').width,
@@ -12,7 +12,8 @@ const GLOBAL_PARAMS = {
   phoneType: {
     CHN:{label:'CHN +86',value:2},
     HK:{label:'HK +852',value:1}
-  }
+  },
+  bottomDistance:Platform.select({ios: 65, android: 60})
 }
 
 module.exports = GLOBAL_PARAMS

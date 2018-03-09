@@ -16,7 +16,8 @@ let colors = {
     main_purple:'#673ab7',
     main_gray: '#ccc',
     deep_gray: '#888888',
-    main_white: '#fff'
+    main_white: '#fff',
+    bgGray: '#e5e9ea'
 };
 
 module.exports = colors;

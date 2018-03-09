@@ -30,8 +30,7 @@ let requestParams = {
 }
 
 const diffplatform = {
-  preventViewTop:Platform.select({ios: 56, android: 0}),
-  bottomDistance:Platform.select({ios: 65, android: 60})
+  preventViewTop:Platform.select({ios: 60, android: 0}),
 }
 
 export default class GoodsListPageView extends Component{
@@ -280,30 +279,30 @@ export default class GoodsListPageView extends Component{
 //views
   _renderSubHeader = (section) => {
     return (
-      // <View style={{
-      //   borderColor:'#ccc',
-      //   borderBottomWidth:1,
-      //   zIndex:100,
-      //   width:GLOBAL_PARAMS._winWidth,
-      //   height:50,
-      //   display:'flex',
-      //   justifyContent:'center',
-      //   backgroundColor:'#fff',
-      //   flexDirection:'row'}}>
-      //   <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-      //     <Text>餐廳列表</Text>
-      //   </View>
-      //   <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-      //   </View>
-      //   <TouchableOpacity onPress={() => this._toToggleFilterListView()}
-      //     style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-      //     {/* <Icon name='md-menu' style={{fontSize:20,color:this.props.theme,marginRight:5}}/> */}
-      //     <Text style={{color:this.props.theme}}>篩選分類</Text>
-      //   </TouchableOpacity>
-      // </View>
-      <View style={{paddingTop:15,paddingBottom:15,backgroundColor:Colors.main_white,borderBottomWidth:1,borderColor:Colors.main_gray}}>
-        <Text style={{textAlign:'center',fontSize:16}}>- 為您推薦 -</Text>
+      <View style={{
+        borderColor:'#ccc',
+        borderBottomWidth:1,
+        zIndex:100,
+        width:GLOBAL_PARAMS._winWidth,
+        height:50,
+        display:'flex',
+        justifyContent:'center',
+        backgroundColor:'#fff',
+        flexDirection:'row'}}>
+        <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+          <Text>- 为您推薦 -</Text>
+        </View>
+        <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+        </View>
+        <TouchableOpacity onPress={() => this._toToggleFilterListView()}
+          style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+          {/* <Icon name='md-menu' style={{fontSize:20,color:this.props.theme,marginRight:5}}/> */}
+          <Text style={{color:this.props.theme}}>篩選分類</Text>
+        </TouchableOpacity>
       </View>
+      // <View style={{paddingTop:15,paddingBottom:15,backgroundColor:Colors.main_white,borderBottomWidth:1,borderColor:Colors.main_gray}}>
+      //   <Text style={{textAlign:'center',fontSize:16}}>- 為您推薦 -</Text>
+      // </View>
     )
   }
 
@@ -321,7 +320,7 @@ export default class GoodsListPageView extends Component{
         height: 400,
         top: this.state.positionTop.interpolate({
             inputRange: [0, 1],
-            outputRange: [-420, 56]
+            outputRange: [-420, 60]
         })
       }}>
         <Dropdownfilter filterData={this.state.canteenOptions}
@@ -374,7 +373,9 @@ export default class GoodsListPageView extends Component{
               <Text>沒有數據了...</Text>
             </View>
           )}
-          ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}
+          ListFooterComponent={() => (<ListFooter style={{backgroundColor:Colors.main_white}} 
+            loadingStatus={this.state.loadingStatus.pullUpLoading}
+            errorToDo={() => this._onErrorToRequestNextPage()}/>)}
         />
     )
   }
@@ -411,12 +412,12 @@ export default class GoodsListPageView extends Component{
 
   render(){
     return (
-      <Container>
+      <Container style={{backgroundColor:Colors.bgColor}}>
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
           <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
-        {/* {this.state.showFilterList ? this._renderPreventClickView() : null}
-        {this.state.canteenOptions ? this._renderFilterView() : null} */}
+        {this.state.showFilterList ? this._renderPreventClickView() : null}
+        {this.state.canteenOptions ? this._renderFilterView() : null}
         {this.state.canteenDetail.length === 0 ?
           <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
@@ -441,7 +442,7 @@ export default class GoodsListPageView extends Component{
               name="md-compass" size={25} style={{color: Colors.main_white}} />
           </Right>
         </Header>
-        <View  style={{marginBottom:diffplatform.bottomDistance}}>
+        <View  style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
           {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}
         </View>
       </Container>

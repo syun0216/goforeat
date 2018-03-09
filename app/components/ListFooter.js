@@ -5,7 +5,7 @@ import GLOBAL_PARAMS from '../utils/global_params'
 
 const styles = StyleSheet.create({
   commonContainer:{
-    height:50,flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:'#fff'
+    height:50,flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center',
   }
 })
 
@@ -31,9 +31,9 @@ const ListFooter = ({loadingStatus,errorToDo}) => {
     case GLOBAL_PARAMS.httpStatus.NO_MORE_DATA: {
       return (
         <View style={[styles.commonContainer]}>
-          <View style={{width:GLOBAL_PARAMS._winWidth*0.4,height:1,marginLeft:10,marginRight:10,backgroundColor:'#ddd'}}></View>
-          <View style={{width:5,height:5,borderRadius:50,backgroundColor:'#ccc'}}></View>
-          <View style={{width:GLOBAL_PARAMS._winWidth*0.4,height:1,marginLeft:10,marginRight:10,backgroundColor:'#ddd'}}></View>
+          <View style={{width:GLOBAL_PARAMS._winWidth*0.3,height:1,marginLeft:10,marginRight:20,backgroundColor:'#959595'}}></View>
+          <View><Text style={{color: '#959595'}}>我是有底線的</Text></View>
+          <View style={{width:GLOBAL_PARAMS._winWidth*0.3,height:1,marginLeft:20,marginRight:10,backgroundColor:'#959595'}}></View>
         </View>
       )
     }

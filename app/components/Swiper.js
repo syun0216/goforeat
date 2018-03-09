@@ -45,7 +45,7 @@ const img_arr = [
 ]
 
 const GoodsSwiper = () => (
-  <Swiper style={styles.wrapper} autoplay
+  <Swiper style={styles.wrapper}
     paginationStyle={{position:'absolute',bottom:15,marginLeft:200}}
     dotStyle={{width: 10, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.5}}
     dotColor="#fafafa" activeDotColor="white" activeDotStyle={{width: 25, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.8}}>

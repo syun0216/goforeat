@@ -106,7 +106,7 @@ export default class ContentView extends Component {
 
   _renderContentView = () => (
     <Content>
-      <Card style={{ flex: 0,margin:0 ,borderWidth:0}}>
+      <Card style={{ flex:1,margin:0 ,borderWidth:0}}>
         <CardItem>
           <Left>
             <Thumbnail source={{ uri: this.state.canteenData.image }} />

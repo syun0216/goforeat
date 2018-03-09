@@ -19,6 +19,8 @@ import MyFavoriteView from './views/MyFavoriteVIew'
 import StatementView from './views/StatementView'
 import ShopSwiperablePage from './views/ShopSwiperablePage'
 import ActivitySwiperablePage from './views/ActivitySwiperablePage'
+import IntegralView from './views/IntegralView'
+import UploadView from './views/UploadView'
 //api
 import api from './api'
 //utils
@@ -29,6 +31,8 @@ import Colors from './utils/Colors'
 //react-redux
 import {connect} from 'react-redux'
 import {userStateAndDispatch,
+      integralStateAndDispatch,
+      uploadStateAndDispatch,
       shopStateAndDispatch,
       articleStateAndDispatch,
       contentStateAndDispatch,
@@ -210,6 +214,12 @@ let MainView = StackNavigator({
   },
   Statement: {
     screen: connect(statementStateAndDispatch.mapStateToProps)(StatementView)
+  },
+  Upload: {
+    screen: connect(uploadStateAndDispatch.mapStateToProps)(UploadView)
+  },
+  Integral: {
+    screen: connect(integralStateAndDispatch.mapStateToProps)(IntegralView)
   }
 }, {headerMode: 'none'})
 
