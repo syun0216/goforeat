@@ -100,12 +100,9 @@ const tabView = TabNavigator({
   tabBarPosition: 'bottom',
   lazy:true, //该属性只会加载tab的当前view
   tabBarOptions: {
-    showLabel: false,
+    showLabel: true,
     showIcon: true,
     inactiveTintColor: '#707070',
-    labelStyle: {
-      color: store.getState().theme.theme
-    },
     activeTintColor: store.getState().theme.theme,
     style: {
       backgroundColor: '#fff'

@@ -18,6 +18,7 @@
     "react-native-code-push": "^5.2.1",
     "react-native-interactable": "^0.1.10",
     "react-native-linear-gradient": "^2.4.0",
+    "react-native-photo-upload": "^1.2.0",
     "react-native-picker": "^4.3.5",
     "react-native-snap-carousel": "^3.6.0",
     "react-native-splash-screen": "^3.0.6",

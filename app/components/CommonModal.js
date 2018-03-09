@@ -35,7 +35,8 @@ CommonModal.propsType = {
 }
 
 CommonModal.defaultProps = {
-  content: 'This is a modal'
+  content: 'This is a modal',
+  title: 'map'
 }
 
 export default CommonModal

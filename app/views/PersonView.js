@@ -110,7 +110,7 @@ export default class PeopleView extends Component {
       // {name:'關於我們',icon:'md-people',func:() => this._commonItemClick('about')},
         {name:'允許使用政策',icon:'md-log-in',func:() => this._commonItemClick('allowPolicy')},
         {name:'刪除內容政策',icon:'md-log-out',func:() => this._commonItemClick('deletePolicy')},
-        {name:'系統設置',icon:'md-settings',func:() => this.props.navigation.navigate('Setting')},
+        // {name:'系統設置',icon:'md-settings',func:() => this.props.navigation.navigate('Setting')},
         // {name:'上傳發票',icon:'md-cloud-upload',func:() => this.props.navigation.navigate('Setting')},
         // {name:'積分兌換',icon:'md-attach',func:() => this.props.navigation.navigate('Setting')},
     ]

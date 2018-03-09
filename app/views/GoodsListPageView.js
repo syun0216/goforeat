@@ -3,20 +3,21 @@ import {View,SectionList,StatusBar,TextInput,Image,StyleSheet,Platform,ScrollVie
 import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text,Spinner,Icon} from 'native-base'
 
 //api
-import api from '../api'
-import source from '../api/CancelToken'
+import api from '../api';
+import source from '../api/CancelToken';
 //components
-import GoodsSwiper from '../components/Swiper'
-import Dropdownfilter from '../components/Dropdownfilter'
-import Loading from '../components/Loading'
-import ErrorPage from '../components/ErrorPage'
-import Divider from '../components/Divider'
+import GoodsSwiper from '../components/Swiper';
+import Dropdownfilter from '../components/Dropdownfilter';
+import Loading from '../components/Loading';
+import ErrorPage from '../components/ErrorPage';
+import Divider from '../components/Divider';
+import MapModal from '../components/CommonModal';
 //utils
-import GLOBAL_PARAMS from '../utils/global_params'
-import Colors from '../utils/Colors'
-import ToastUtil from '../utils/ToastUtil'
-import ListFooter from '../components/ListFooter'
-import _ from 'lodash'
+import GLOBAL_PARAMS from '../utils/global_params';
+import Colors from '../utils/Colors';
+import ToastUtil from '../utils/ToastUtil';
+import ListFooter from '../components/ListFooter';
+import _ from 'lodash';
 
 let requestParams = {
   status: {
@@ -46,6 +47,7 @@ export default class GoodsListPageView extends Component{
     canteenDetail: [],
     canteenOptions: null,
     showFilterList: false,
+    isMapModalShow: false,
     loadingStatus:{
       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING
@@ -276,7 +278,21 @@ export default class GoodsListPageView extends Component{
       this.getCanteenList(data)
     },0)
   }
+
+  _openMapModal = () => {
+    this.setState({
+      isMapModalShow: true
+    })
+  }
+
 //views
+  _renderModalView = () => (
+    <MapModal
+      modalVisible={this.state.isMapModalShow}
+      closeFunc={() => this.setState({isMapModalShow:false})}
+      {...this['props']}/>
+  )
+
   _renderSubHeader = (section) => {
     return (
       <View style={{
@@ -413,6 +429,7 @@ export default class GoodsListPageView extends Component{
   render(){
     return (
       <Container style={{backgroundColor:Colors.bgColor}}>
+        {this._renderModalView()}
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
           <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
@@ -438,7 +455,7 @@ export default class GoodsListPageView extends Component{
             </View>
           </Body>
           <Right>
-            <Icon onPress={() => this.props.navigation.navigate('Search')}
+            <Icon onPress={() => this._openMapModal()}
               name="md-compass" size={25} style={{color: Colors.main_white}} />
           </Right>
         </Header>

@@ -101,6 +101,9 @@ const api = {
         "Content-Type": "application/x-www-form-urlencoded"
       }
     })
+  },
+  getIntegralProjectListData() {
+    return axios.get(api_url + '/point/getProjects')
   }
 }
 
