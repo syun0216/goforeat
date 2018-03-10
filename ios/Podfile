@@ -1,8 +1,8 @@
-# Uncomment this line to define a global platform for your project
+# Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
 target 'goforeat_app' do
-  # Uncomment this line if you're using Swift or would like to use dynamic frameworks
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
   # Pods for goforeat_app
@@ -10,4 +10,9 @@ target 'goforeat_app' do
   pod 'AppCenter/Push', '~> 1.4.0'
 
   platform :ios, '9.0'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'Picker', :path => '../node_modules/react-native-picker'
+
 end

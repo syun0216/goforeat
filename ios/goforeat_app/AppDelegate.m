@@ -8,9 +8,9 @@
  */
 
 #import "AppDelegate.h"
-#import <AppCenterReactNativePush/AppCenterReactNativePush.h>
+//#import <AppCenterReactNativePush/AppCenterReactNativePush.h>
 #import <CodePush/CodePush.h>
-#import "SplashScreen.h"  // here
+//#import "SplashScreen.h"  // here
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -21,7 +21,7 @@
 {
   NSURL *jsCodeLocation;
 
-  [AppCenterReactNativePush register];  // Initialize AppCenter push
+//  [AppCenterReactNativePush register];  // Initialize AppCenter push
 
   
     #ifdef DEBUG

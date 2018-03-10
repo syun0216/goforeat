@@ -3,12 +3,12 @@ package com.goforeat_app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.beefe.picker.PickerViewPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.microsoft.appcenter.reactnative.push.AppCenterReactNativePushPackage;
+import com.rnfs.RNFSPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.wix.interactable.Interactable;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.beefe.picker.PickerViewPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -35,12 +35,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new AppCenterReactNativePushPackage(MainApplication.this),
-            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
-            new Interactable(),
-            new SplashScreenReactPackage(),
+            new PickerViewPackage(),
             new VectorIconsPackage(),
-            new PickerViewPackage()
+            new AppCenterReactNativePushPackage(MainApplication.this),
+            new RNFSPackage(),
+            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+            new Interactable()
       );
     }
 

@@ -77,89 +77,89 @@
 // export default SplashPageView
 //
 //
-import React from 'react';
-import {
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet
-} from 'react-native';
+// import React from 'react';
+// import {
+//   Text,
+//   View,
+//   ScrollView,
+//   TouchableOpacity,
+//   StyleSheet
+// } from 'react-native';
 
-import Push from 'appcenter-push';
+// import Push from 'appcenter-push';
 
-export default class SplashPageView extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      pushEnabled: false
-    };
-    this.toggleEnabled = this.toggleEnabled.bind(this);
-  }
+// export default class SplashPageView extends React.Component {
+//   constructor() {
+//     super();
+//     this.state = {
+//       pushEnabled: false
+//     };
+//     this.toggleEnabled = this.toggleEnabled.bind(this);
+//   }
 
-  async componentDidMount() {
-    const component = this;
+//   async componentDidMount() {
+//     const component = this;
 
-    const pushEnabled = await Push.isEnabled();
-    component.setState({ pushEnabled });
-  }
+//     const pushEnabled = await Push.isEnabled();
+//     component.setState({ pushEnabled });
+//   }
 
-  async toggleEnabled() {
-    await Push.setEnabled(!this.state.pushEnabled);
+//   async toggleEnabled() {
+//     await Push.setEnabled(!this.state.pushEnabled);
 
-    const pushEnabled = await Push.isEnabled();
-    this.setState({ pushEnabled });
-  }
+//     const pushEnabled = await Push.isEnabled();
+//     this.setState({ pushEnabled });
+//   }
 
-  render() {
-    return (
-      <View style={SharedStyles.container}>
-        <ScrollView >
-          <Text style={SharedStyles.heading}>
-            Test Push
-          </Text>
+//   render() {
+//     return (
+//       <View style={SharedStyles.container}>
+//         <ScrollView >
+//           <Text style={SharedStyles.heading}>
+//             Test Push
+//           </Text>
 
-          <Text style={SharedStyles.enabledText}>
-            Push enabled: {this.state.pushEnabled ? 'yes' : 'no'}
-          </Text>
-          <TouchableOpacity onPress={this.toggleEnabled}>
-            <Text style={SharedStyles.toggleEnabled}>
-              toggle
-            </Text>
-          </TouchableOpacity>
+//           <Text style={SharedStyles.enabledText}>
+//             Push enabled: {this.state.pushEnabled ? 'yes' : 'no'}
+//           </Text>
+//           <TouchableOpacity onPress={this.toggleEnabled}>
+//             <Text style={SharedStyles.toggleEnabled}>
+//               toggle
+//             </Text>
+//           </TouchableOpacity>
 
-        </ScrollView>
-      </View>
-    );
-  }
-}
+//         </ScrollView>
+//       </View>
+//     );
+//   }
+// }
 
-const SharedStyles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  button: {
-    color: '#4444FF',
-    fontSize: 18,
-    textAlign: 'center',
-    margin: 10,
-  },
-  enabledText: {
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  toggleEnabled: {
-    color: '#4444FF',
-    fontSize: 14,
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-});
+// const SharedStyles = StyleSheet.create({
+//   heading: {
+//     fontSize: 24,
+//     textAlign: 'center',
+//     marginBottom: 20,
+//   },
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#F5FCFF',
+//   },
+//   button: {
+//     color: '#4444FF',
+//     fontSize: 18,
+//     textAlign: 'center',
+//     margin: 10,
+//   },
+//   enabledText: {
+//     fontSize: 14,
+//     textAlign: 'center',
+//   },
+//   toggleEnabled: {
+//     color: '#4444FF',
+//     fontSize: 14,
+//     textAlign: 'center',
+//     marginBottom: 10,
+//   },
+// });

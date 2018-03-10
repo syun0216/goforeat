@@ -17,8 +17,6 @@
     "react-native": "0.52.2",
     "react-native-code-push": "^5.2.1",
     "react-native-interactable": "^0.1.10",
-    "react-native-linear-gradient": "^2.4.0",
-    "react-native-photo-upload": "^1.2.0",
     "react-native-picker": "^4.3.5",
     "react-native-snap-carousel": "^3.6.0",
     "react-native-splash-screen": "^3.0.6",
@@ -26,7 +24,8 @@
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.0.0-beta.27",
     "react-redux": "^5.0.6",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "babel-jest": "22.1.0",
