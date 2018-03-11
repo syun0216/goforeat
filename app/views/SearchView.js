@@ -54,19 +54,19 @@ export default class SearchView extends Component{
 
   _renderSearchListView = () => (
     this.state.searchData.map((item,index) => (
-      <ListItem avatar key={index} onPress={() =>this.props.navigation.navigate('Content',{
+      <ListItem avatar key={index} style={{backgroundColor:'#fff',marginLeft:0}} onPress={() =>this.props.navigation.navigate('Content',{
         data:item,
         kind:'canteen'
       })}>
         <Left>
           <Thumbnail size={10}  source={{uri:item.image}} />
         </Left>
-        <Body>
+        <Body style={{borderBottomWidth:0}}>
           <Text>{item.name}</Text>
           <Text note style={{fontSize:13}}>地址：{item.address}</Text>
           <Text note>评分：{item.rate}</Text>
         </Body>
-        <Right>
+        <Right style={{borderBottomWidth:0}}>
           <Text note style={{color:'#ff5858',fontSize:18}}>${item.price}</Text>
         </Right>
       </ListItem>

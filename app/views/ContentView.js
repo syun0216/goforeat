@@ -45,6 +45,9 @@ export default class ContentView extends Component {
   };
 
   componentDidMount() {
+    if(this.props.navigation.state.params.kind === "article") {
+      return;
+    }
     for (let item of this.props.shopList.data) {
       if (
         item !== null &&

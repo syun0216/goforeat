@@ -104,6 +104,37 @@ const api = {
   },
   getIntegralProjectListData() {
     return axios.get(api_url + '/point/getProjects')
+  },
+  getIntegralProjectDetail() {
+    return axios.get(api_url + '/guide/getProjectDetail')
+  },
+  getProjectComments(projectId) { //獲取項目留言
+    return axios.post(api_url + '/guide/getProjectComment', qs.stringify({
+      projectId
+    },{cancelToken: source.token}),{
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
+  },
+  uploadBillImg(billImg) { // 上傳發票
+    return axios.post(api_url + '/member/uploadBillImg', qs.stringify({
+      billImg
+    },{cancelToken: source.token}),{
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    })
+  },
+  recommendShop(limit=10,offset) {
+    return axios.post(api_url + '/guide/canteenRecommend', qs.stringify({
+      limit,
+      offset
+    },{cancelToken: source.token}),{
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    })
   }
 }
 

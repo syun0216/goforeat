@@ -69,7 +69,7 @@ export default class IntegralView extends PureComponent {
   _renderProjectItemView = (item,idx) => {
     return (
       <View style={{height:350,flex:1,
-        borderTopWidth:1,borderBottomWidth:1,
+        borderTopWidth:1,
         borderColor:Colors.main_gray,marginBottom:10,backgroundColor:Colors.main_white}}>
         <Image source={{uri:item.image}} style={{width:GLOBAL_PARAMS._winWidth,height:230}}/>
         <View style={{flex: 1,flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',borderBottomWidth:1,borderBottomColor:Colors.main_gray}}>
@@ -93,7 +93,9 @@ export default class IntegralView extends PureComponent {
     return (
       <Container>
         <CommonHeader canBack {...this['props']} title="積分禮遇" />
-        <View>{this.state.projectList !== null ? this._renderProjectSectionList() : null}</View>  
+        <Content>
+          <View>{this.state.projectList !== null ? this._renderProjectSectionList() : null}</View>  
+        </Content>
       </Container>
     )
   }

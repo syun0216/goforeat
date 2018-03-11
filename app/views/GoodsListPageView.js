@@ -31,7 +31,7 @@ let requestParams = {
 }
 
 const diffplatform = {
-  preventViewTop:Platform.select({ios: 60, android: 0}),
+  preventViewTop:Platform.select({ios: 62, android: 0}),
 }
 
 export default class GoodsListPageView extends Component{
@@ -336,7 +336,7 @@ export default class GoodsListPageView extends Component{
         height: 400,
         top: this.state.positionTop.interpolate({
             inputRange: [0, 1],
-            outputRange: [-420, 60]
+            outputRange: [-420, 62]
         })
       }}>
         <Dropdownfilter filterData={this.state.canteenOptions}

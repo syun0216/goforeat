@@ -141,8 +141,9 @@ export default class LoginView extends Component {
             style={{
               width: GLOBAL_PARAMS._winWidth,
               height: GLOBAL_PARAMS._winHeight,
-              backgroundColor: Colors.fontBlack,
-              opacity: 0,
+              marginTop: 250,
+              backgroundColor: Colors.main_white,
+              opacity: 1,
               position: "absolute",
               top: 0,
               left: 0,
