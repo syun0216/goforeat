@@ -4069,6 +4069,10 @@ react-native-easy-grid@0.1.15:
   dependencies:
     lodash "^4.11.1"
 
+react-native-image-picker@^0.26.7:
+  version "0.26.7"
+  resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-0.26.7.tgz#ad2ee957f7f6cc01396893ea03d84cb2adb2e376"
+
 react-native-interactable@^0.1.10:
   version "0.1.10"
   resolved "https://registry.npmjs.org/react-native-interactable/-/react-native-interactable-0.1.10.tgz#65b9a68f6a84ba1c0e2ad5478b1f22ffb29c0526"

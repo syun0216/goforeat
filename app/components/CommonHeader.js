@@ -5,7 +5,7 @@ import {Header,Left,Body,Right,Icon,Button,Text} from 'native-base'
 import Colors from '../utils/Colors'
 
 const CommonHeader = (props) => (
-  <Header style={{backgroundColor:props.theme}} iosBarStyle="light-content">
+  <Header style={[{backgroundColor:props.theme},props.style]} iosBarStyle="light-content">
     <Left>
       {props.canBack ? (props.leftElement !== null ? (<props.leftElement {...props}/>) : (
         <Button transparent onPress={() => props.navigation.goBack()}>
@@ -31,7 +31,8 @@ CommonHeader.defaultProps = {
   canBack:false,
   hasRight: false,
   leftElement: null,
-  rightElement: null
+  rightElement: null,
+  style:{}
 }
 
 CommonHeader.propsType = {
@@ -42,6 +43,7 @@ CommonHeader.propsType = {
   rightClick: PropTypes.func,
   leftElement: PropTypes.element, // 优先级高于前面的left right
   rightElement: PropTypes.element,  // 优先级高于前面的left right
+  style: PropTypes.object
 }
 
 export default CommonHeader

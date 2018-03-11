@@ -20,6 +20,7 @@ import StatementView from './views/StatementView'
 import ShopSwiperablePage from './views/ShopSwiperablePage'
 import ActivitySwiperablePage from './views/ActivitySwiperablePage'
 import IntegralView from './views/IntegralView'
+import IntegralDetailView from './views/IntegralDetailView'
 import UploadView from './views/UploadView'
 //api
 import api from './api'
@@ -217,6 +218,9 @@ let MainView = StackNavigator({
   },
   Integral: {
     screen: connect(integralStateAndDispatch.mapStateToProps)(IntegralView)
+  },
+  IntegralDetail: {
+    screen: connect(integralStateAndDispatch.mapStateToProps)(IntegralDetailView)
   }
 }, {headerMode: 'none'})
 
