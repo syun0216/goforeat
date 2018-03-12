@@ -105,11 +105,17 @@ const api = {
   getIntegralProjectListData() {
     return axios.get(api_url + '/point/getProjects')
   },
-  getIntegralProjectDetail() {
-    return axios.get(api_url + '/guide/getProjectDetail')
+  getIntegralProjectDetail(projectId) {
+    return axios.post(api_url + '/point/getProjectDetail', qs.stringify({
+      projectId
+    },{cancelToken: source.token}),{
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
   },
   getProjectComments(projectId) { //獲取項目留言
-    return axios.post(api_url + '/guide/getProjectComment', qs.stringify({
+    return axios.post(api_url + '/point/getProjectComment', qs.stringify({
       projectId
     },{cancelToken: source.token}),{
       headers: {

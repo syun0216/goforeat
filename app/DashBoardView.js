@@ -134,12 +134,12 @@ const darwerView = DrawerNavigator({
       <Text style={{color:Colors.fontBlack}}>Goforeat v1.0.0</Text>
     </View>
     <ScrollView style={{marginLeft:-50}} showsVerticalScrollIndicator={false}>
-      {/* <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'法律聲明'})}>
+      {/* <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'service'})}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
           <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/Law.png')}/>
           <Text style={{fontSize:22}}>法律聲明</Text>
         </View>
-      </TouchableOpacity> */}
+    </TouchableOpacity> */}
       <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'service'})}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
           <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/Service.png')}/>
