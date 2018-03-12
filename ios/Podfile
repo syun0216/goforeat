@@ -14,5 +14,9 @@ target 'goforeat_app' do
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   pod 'Picker', :path => '../node_modules/react-native-picker'
+  
+  pod 'React', path: '../node_modules/react-native', subspecs: [
+  'ART',
+  ]
 
 end

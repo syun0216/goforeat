@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import {Container, Content,Button} from 'native-base';
-import { View, Text,SectionList,StyleSheet,Image } from 'react-native';
+import { View, Text,SectionList,StyleSheet,TouchableOpacity } from 'react-native';
+import Image from 'react-native-image-progress';
+import ProgressBar from 'react-native-progress/Bar'
 // components
 import CommonHeader from '../components/CommonHeader';
 // api
@@ -68,10 +70,10 @@ export default class IntegralView extends PureComponent {
 
   _renderProjectItemView = (item,idx) => {
     return (
-      <View style={{height:350,flex:1,
+      <View style={{height:300,flex:1,
         borderTopWidth:1,
         borderColor:Colors.main_gray,marginBottom:10,backgroundColor:Colors.main_white}}>
-        <Image source={{uri:item.image}} style={{width:GLOBAL_PARAMS._winWidth,height:230}}/>
+        <Image source={{uri:item.image}} style={{width:GLOBAL_PARAMS._winWidth,height:190,}} indicator={ProgressBar} indicatorProps={{color:this.props.theme}}/>
         <View style={{flex: 1,flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',borderBottomWidth:1,borderBottomColor:Colors.main_gray}}>
           <Text style={{marginLeft:10}}>{item.title}</Text>
           <Text style={{marginRight:10}}>限量{item.currentPoint}件</Text>
@@ -79,10 +81,10 @@ export default class IntegralView extends PureComponent {
         <View style={{flex: 1,flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',borderBottomWidth:1,borderBottomColor:Colors.main_gray}}>
           <Text style={{marginLeft:10}}>{item.requirePoint}-{item.leastPoint}積分</Text>
           <View>
-            <Button rounded onPress={() => this.props.navigation.navigate('IntegralDetail',{data:item})}
-              style={{backgroundColor: this.props.theme,padding:0,paddingRight:30,paddingLeft:30,marginRight:10}}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('IntegralDetail',{data:item})}
+              style={{backgroundColor: this.props.theme,marginRight:10,borderRadius:20,width:120,padding:10,paddingLeft:20,paddingRight:20}}>
               <Text style={{color: Colors.main_white,textAlign:'center'}}>立即兌換</Text>
-            </Button>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

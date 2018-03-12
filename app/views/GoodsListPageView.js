@@ -383,7 +383,7 @@ export default class GoodsListPageView extends Component{
           onEndReachedThreshold={10}
           onEndReached={() => this._onEndReached()}
           // onEndReached={this._onEndReached.bind(this)}
-          ListHeaderComponent={() => <GoodsSwiper />}
+          ListHeaderComponent={() => <GoodsSwiper {...this['props']}/>}
           ListEmptyComponent={() => (
             <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
               <Text>沒有數據了...</Text>

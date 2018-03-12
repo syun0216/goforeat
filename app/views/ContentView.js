@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   View,
-  Image,
   TouchableOpacity,
   WebView,
   SafeAreaView,
@@ -25,6 +24,8 @@ import {
   Body,
   Footer
 } from "native-base";
+import Image from 'react-native-image-progress';
+import ProgressBar from 'react-native-progress/Bar'
 //utils
 import ToastUtil from "../utils/ToastUtil";
 import Colors from "../utils/Colors";
@@ -132,6 +133,8 @@ export default class ContentView extends Component {
                     marginTop: 10,
                     marginBottom: 10
                   }}
+                  indicator={ProgressBar}
+                  indicatorProps={{color:this.props.theme}}
                   source={{ uri: item.foodImage }}
                 />
               ))

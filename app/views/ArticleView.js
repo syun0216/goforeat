@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View,Text,Image, TouchableOpacity,TouchableWithoutFeedback, Platform, SectionList,StyleSheet} from 'react-native'
+import {View,Text, TouchableOpacity,TouchableWithoutFeedback, Platform, SectionList,StyleSheet} from 'react-native'
 import {
   Container,
   Header,
@@ -12,6 +12,8 @@ import {
   Body,
   Icon
 } from 'native-base';
+import Image from 'react-native-image-progress';
+import ProgressBar from 'react-native-progress/Bar'
 //utils
 import ToastUtil from '../utils/ToastUtil'
 import Colors from '../utils/Colors'
@@ -200,7 +202,9 @@ export default class ArticleView extends Component {
       <TouchableWithoutFeedback style={styles.articleItemContainer}
         onPress={() => this.props.navigation.navigate('Content', {data: item,kind:'article'})}>
         <View style={styles.artivleItemInnerContainer}>
-          <View><Image style={styles.articleImage} source={{uri:item.pic}} /></View>
+          <View><Image style={styles.articleImage} source={{uri:item.pic}} 
+          indicator={ProgressBar}
+          indicatorProps={{color:this.props.theme}}/></View>
           <View style={styles.articleDesc}>
             <Text style={styles.articleTitle}>{item.title}</Text>
           </View>

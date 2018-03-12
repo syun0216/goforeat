@@ -4073,6 +4073,12 @@ react-native-image-picker@^0.26.7:
   version "0.26.7"
   resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-0.26.7.tgz#ad2ee957f7f6cc01396893ea03d84cb2adb2e376"
 
+react-native-image-progress@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/react-native-image-progress/-/react-native-image-progress-1.1.0.tgz#737140d699fb3fb107ec70615736dfdc2eef7b35"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-interactable@^0.1.10:
   version "0.1.10"
   resolved "https://registry.npmjs.org/react-native-interactable/-/react-native-interactable-0.1.10.tgz#65b9a68f6a84ba1c0e2ad5478b1f22ffb29c0526"
@@ -4091,6 +4097,12 @@ react-native-keyboard-aware-scroll-view@0.4.2:
 react-native-picker@^4.3.5:
   version "4.3.5"
   resolved "https://registry.npmjs.org/react-native-picker/-/react-native-picker-4.3.5.tgz#bf791dde6908028a11aacb3fdc7c6b2bdb2cd3f3"
+
+react-native-progress@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.npmjs.org/react-native-progress/-/react-native-progress-3.4.0.tgz#c002e6efb2f0b82dd6889510e669c492da2718ac"
+  dependencies:
+    prop-types "^15.5.8"
 
 react-native-snap-carousel@^3.6.0:
   version "3.6.0"
