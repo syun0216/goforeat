@@ -124,9 +124,9 @@ const api = {
     })
   },
   uploadBillImg(billImg) { // 上傳發票
-    return axios.post(api_url + '/member/uploadBillImg', qs.stringify({
-      billImg
-    },{cancelToken: source.token}),{
+    let params = new FormData();
+    params.append('file',billImg)
+    return axios.post(api_url + '/member/uploadBillImg', params,{
       headers: {
         "Content-Type": "multipart/form-data"
       }
@@ -138,7 +138,7 @@ const api = {
       offset
     },{cancelToken: source.token}),{
       headers: {
-        "Content-Type": "multipart/form-data"
+        "Content-Type": "application/x-www-form-urlencoded"
       }
     })
   }

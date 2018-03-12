@@ -1,20 +1,30 @@
 import React, { PureComponent } from "react";
-import { Container, Content } from "native-base";
+import { Container, Content,Button } from "native-base";
 import {
   StyleSheet,
   Text,
   View,
   PixelRatio,
   TouchableOpacity,
-  Image
+  Image,
+  Platform
 } from "react-native";
 import CommonHeader from "../components/CommonHeader";
 import ImagePicker from "react-native-image-picker";
+import RNFS from 'react-native-fs';
+//api
+import api from '../api';
+//utils
+import GLOBAL_PARAMS from '../utils/global_params';
+import ToastUtil from '../utils/ToastUtil';
+import Colors from '../utils/Colors';
+//components
+import Loading from '../components/Loading';
 
 export default class UploadView extends PureComponent {
   state = {
-    avatarSource: null,
-    videoSource: null
+    photoData: null,
+    isUpload: false
   };
 
   selectPhotoTapped() {
@@ -27,7 +37,7 @@ export default class UploadView extends PureComponent {
       }
     };
 
-    ImagePicker.showImagePicker(options, (response) => {
+    ImagePicker.showImagePicker(options, async (response) => {
       console.log('Response = ', response);
 
       if (response.didCancel) {
@@ -40,58 +50,54 @@ export default class UploadView extends PureComponent {
         console.log('User tapped custom button: ', response.customButton);
       }
       else {
-        let source = { uri: response.uri };
-
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         this.setState({
-          avatarSource: source
+          photoData: response
         });
       }
     });
   }
 
-  selectVideoTapped() {
-    const options = {
-      title: 'Video Picker',
-      takePhotoButtonTitle: 'Take Video...',
-      mediaType: 'video',
-      videoQuality: 'medium'
-    };
-
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled video picker');
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
+  uploadImage = () => {
+    if(this.state.photoData === null) {
+      ToastUtil.show("請先選擇圖片", 1000, "bottom", "warning");
+      return;
+    }
+    this.setState({
+      isUpload: true
+    })
+    api.uploadBillImg(this.state.avatarSource).then(data => {
+      if(data.status === 200 && data.data.ro.ok) {
+        ToastUtil.show("上傳成功", 1000, "bottom", "success");
         this.setState({
-          videoSource: response.uri
-        });
+          isUpload: false,
+          photoData: null,
+          avatarSource: null
+        })
       }
-    });
+    },() => {
+      ToastUtil.show("上傳失敗，請點擊重試", 1000, "bottom", "warning");
+    })
   }
 
   render() {
     return (
       <Container>
+        {this.state.isUpload ? <Loading message="正在上傳中..."/> : null}
         <CommonHeader title="上傳發票" canBack {...this['props']}/>
         <View style={styles.container}>
           <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
             <View style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
-            { this.state.avatarSource === null ? <Text>Select a Photo</Text> :
-              <Image style={styles.avatar} source={this.state.avatarSource} />
+            { this.state.photoData === null ? <Text>點擊選擇圖片</Text> :
+              <Image style={styles.avatar} source={{uri: this.state.photoData.uri}} />
             }
             </View>
           </TouchableOpacity>
+          <Button block style={{margin:10,backgroundColor: this.props.theme}} onPress={this.uploadImage}>
+            <Text style={{color: Colors.main_white}}>上傳</Text>
+          </Button>
         </View>
       </Container>
     );
@@ -102,7 +108,7 @@ export default class UploadView extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#F5FCFF'
   },
@@ -113,8 +119,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   avatar: {
-    borderRadius: 75,
-    width: 150,
-    height: 150
+    width: GLOBAL_PARAMS._winWidth,
+    height: GLOBAL_PARAMS._winWidth
   }
 });
