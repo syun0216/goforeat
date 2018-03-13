@@ -41,6 +41,7 @@ const initialState = {
 }
 
 export function nav(state=initialState.navState,action) {
+  console.log(state,action);
   const nextState = MainView.router.getStateForAction(action,state);
     if(typeof state !== 'undefined' && state.routes[state.routes.length - 1].routeName === 'Search'){
     const routes = state.routes.slice(0,state.routes.length - 1)

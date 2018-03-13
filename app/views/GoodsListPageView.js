@@ -291,7 +291,7 @@ export default class GoodsListPageView extends Component{
     <MapModal
       modalVisible={this.state.isMapModalShow}
       closeFunc={() => this.setState({isMapModalShow:false})}
-      {...this['props']}/>
+      {...this['props']['screenProps']}/>
   )
 
   _renderSubHeader = (section) => {

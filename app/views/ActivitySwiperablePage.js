@@ -47,12 +47,12 @@ export default class ActivitySwiperablePage extends Component {
         const { slider1ActiveSlide } = this.state;
 
         return (
-            <View style={styles.exampleContainer}>
-                <Text style={styles.title}>{`Example ${number}`}</Text>
-                <Text style={styles.subtitle}>{title}</Text>
+            <View style={[styles.exampleContainer,{marginTop: -15}]}>
+                <Text style={[styles.title,{color:'#1a1917'}]}>商家列表</Text>
+                <Text style={[styles.subtitle,{color:'#1a1917'}]}>{title}</Text>
                 <Carousel
                   ref={c => this._slider1Ref = c}
-                  data={ENTRIES1}
+                  data={ENTRIES2}
                   renderItem={this._renderItemWithParallax}
                   sliderWidth={sliderWidth}
                   itemWidth={itemWidth}
@@ -71,10 +71,10 @@ export default class ActivitySwiperablePage extends Component {
                   onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
                 />
                 <Pagination
-                  dotsLength={ENTRIES1.length}
+                  dotsLength={ENTRIES2.length}
                   activeDotIndex={slider1ActiveSlide}
                   containerStyle={styles.paginationContainer}
-                  dotColor={'rgba(255, 255, 255, 0.92)'}
+                  dotColor={'rgba(0, 0, 0, 0.92)'}
                   dotStyle={styles.paginationDot}
                   inactiveDotColor={colors.black}
                   inactiveDotOpacity={0.4}
@@ -167,7 +167,7 @@ export default class ActivitySwiperablePage extends Component {
     // }
 
     render () {
-        const example1 = this.mainExample(1, 'Default layout | Loop | Autoplay | Parallax | Scale | Opacity | Pagination with tappable dots');
+        const example1 = this.mainExample(1, '- 為您推薦 -');
         const example2 = this.momentumExample(2, 'Momentum | Left-aligned | Active animation');
         const example3 = this.layoutExample(3, '- 為您推薦 -');
         const example4 = this.layoutExample(4, '"Tinder-like" layout | Loop', 'tinder');
@@ -190,7 +190,7 @@ export default class ActivitySwiperablePage extends Component {
                       scrollEventThrottle={200}
                       directionalLockEnabled={true}
                     >
-                        {example3}
+                        {example1}
                         <View style={{height:150,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
                           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:80,height:80}} source={{uri:'dislike'}}/>

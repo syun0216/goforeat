@@ -59,9 +59,7 @@ const DashboardViewWithNav = connect(dashboardStateToProps,dashboardmapDispatchT
 
 
 class App extends Component < {} > {
-  componentDidMount = () => {
-    AppState.addEventListener('change', this._handleAppStateChange)
-
+  componentWillMount = () => {
     appStorage.getLoginUserJsonData((error, data) => {
       if (error === null) {
         if (store.getState().auth.username === null) {
@@ -81,11 +79,16 @@ class App extends Component < {} > {
     appStorage.getTheme((error, data) => {
       if (error === null) {
         if (data !== null) {
-          console.log(data)
+          // console.log(data)
           store.dispatch({type: 'CHANGE_THEME', theme: data})
         }
       }
     })
+  }
+
+
+  componentDidMount = () => {
+    AppState.addEventListener('change', this._handleAppStateChange)
   }
 
   componentWillUnmount = () => {

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Platform, View, Text, TouchableOpacity,ScrollView,Image} from 'react-native'
 import {Icon} from 'native-base'
 //navigation
-import {addNavigationHelpers,StackNavigator, TabNavigator, DrawerNavigator,DrawerItems} from 'react-navigation'
+import {addNavigationHelpers,StackNavigator, TabNavigator, DrawerNavigator,DrawerItems,TabBarBottom} from 'react-navigation'
 //views
 import LoginView from './LoginView'
 import RegisterView from './RegisterView'
@@ -49,6 +49,18 @@ import {userStateAndDispatch,
       statementStateAndDispatch} from './utils/mapStateAndDispatch'
 //store
 import store from './store'
+
+class CustomTabBar extends Component {
+  componentDidMount() {
+    // console.log(222,this.props);
+  }
+  render() {
+    return (
+      <TabBarBottom 
+        {...this['props']} activeTintColor={this.props.screenProps.theme}/>
+    )
+  }
+}
 
 const tabView = TabNavigator({
   GoodsListTab: {
@@ -101,14 +113,13 @@ const tabView = TabNavigator({
   swipeEnabled:false,
   tabBarPosition: 'bottom',
   lazy:true, //该属性只会加载tab的当前view
+  tabBarComponent: CustomTabBar,
   tabBarOptions: {
     showLabel: true,
     showIcon: true,
-    inactiveTintColor: '#707070',
-    activeTintColor: Colors.main_orange,
-    style: {
-      backgroundColor: '#fff'
-    },
+    // inactiveTintColor: '#707070',
+    // activeTintColor: Colors.main_orange,
+    
     // tabStyle: {
     //   height:100
     // }
@@ -123,7 +134,7 @@ const darwerView = DrawerNavigator({
   drawerWidth: 240,
   drawerPosition: 'left',
   contentComponent: props => {
-    console.log('darwer', props)
+    // console.log('darwer', props)
     return (<View style={{
       position: 'relative',
       flex: 1,
