@@ -46,10 +46,11 @@ export default class ContentView extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props);
     if(this.props.navigation.state.params.kind === "article") {
       return;
     }
-    for (let item of this.props.shopList.data) {
+    for (let item of this.props.screenProps.shopList.data) {
       if (
         item !== null &&
         item.id === this.props.navigation.state.params.data.id
@@ -85,7 +86,7 @@ export default class ContentView extends Component {
   }
 
   _addNewsToFavorite() {
-    if (this.props.user === null) {
+    if (this.props.screenProps.user === null) {
       ToastUtil.show("請先登錄哦", 1000, "bottom", "warning");
       return;
     }
@@ -93,17 +94,17 @@ export default class ContentView extends Component {
       ToastUtil.show("暫未開放收藏文章", 1000, "bottom", "warning");
       return;
     }
-    if (!this.state.favoriteChecked) {
+    if (!this.state.screenProps.favoriteChecked) {
       this.setState({
         favoriteChecked: true
       });
-      this.props.stockShop(this.props.navigation.state.params.data);
+      this.props.screenProps.stockShop(this.props.navigation.state.params.data);
       ToastUtil.show("收藏成功", 1000, "bottom", "success");
     } else {
       this.setState({
         favoriteChecked: false
       });
-      this.props.deleteShop(this.props.navigation.state.params.data.id);
+      this.props.screenProps.deleteShop(this.props.navigation.state.params.data.id);
       ToastUtil.show("取消收藏", 1000, "bottom", "warning");
     }
   }
@@ -134,7 +135,7 @@ export default class ContentView extends Component {
                     marginBottom: 10
                   }}
                   indicator={ProgressBar}
-                  indicatorProps={{color:this.props.theme}}
+                  indicatorProps={{color:this.props.screenProps.theme}}
                   source={{ uri: item.foodImage }}
                 />
               ))
@@ -187,7 +188,7 @@ export default class ContentView extends Component {
           <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={{flex:1,justifyContent:'center',alignItems:'flex-start',marginLeft:20}}><Icon
           size={20}
           name="ios-arrow-back"
-          style={{ fontSize: 25, color: this.props.theme }}
+          style={{ fontSize: 25, color: this.props.screenProps.theme }}
           /></TouchableOpacity>
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>
           {this.props.navigation.state.params.kind === 'canteen' ? '餐廳詳情' : '文章詳情'}
@@ -196,12 +197,12 @@ export default class ContentView extends Component {
               {this.state.favoriteChecked ? (
                 <Icon
                   name="md-heart"
-                  style={{ fontSize: 20, color: this.props.theme }}
+                  style={{ fontSize: 20, color: this.props.screenProps.theme }}
                 />
               ) : (
                 <Icon
                   name="md-heart-outline"
-                  style={{ color: this.props.theme, fontSize: 20 }}
+                  style={{ color: this.props.screenProps.theme, fontSize: 20 }}
                 />
               )}
             </TouchableOpacity>

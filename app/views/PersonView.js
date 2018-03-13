@@ -34,13 +34,13 @@ export default class PeopleView extends Component {
   }
   //common function
   _logout = () => {
-    // this.props.userLogout();
+    // this.props.screenProps.userLogout();
     // this.props.refreshReset();
     api.logout().then(data => {
       if(data.status === 200 && data.data.ro.ok){
         ToastUtil.show("登出成功", 1000, "bottom","success")
-        this.props.userLogout();
-        this.props.refreshReset();
+        this.props.screenProps.userLogout();
+        // this.props.refreshReset();
       }
       else{
         ToastUtil.show("登出失敗", 1000, "bottom","warning")
@@ -53,7 +53,7 @@ export default class PeopleView extends Component {
 
   _commonItemClick = (name) => {
     let {navigate} = this.props.navigation;
-    if(this.props.user === null) {
+    if(this.props.screenProps.user === null) {
       navigate('Login')
     }else {
       if(name === 'integral') {
@@ -76,10 +76,10 @@ export default class PeopleView extends Component {
   }
 
   _renderPersonDetailHeader = () => (
-    <View style={[styles.loginHeader,{backgroundColor:this.props.theme}]}>
-      {this.props.user !== null ? (<Image style={styles.personAvatar} source={require('../asset/eat.png')}/>) :
+    <View style={[styles.loginHeader,{backgroundColor:this.props.screenProps.theme}]}>
+      {this.props.screenProps.user !== null ? (<Image style={styles.personAvatar} source={require('../asset/eat.png')}/>) :
     (<Image style={styles.personAvatar} source={require('../asset/touxiang.png')}/>)}
-      {this.props.user !== null ? (<Text style={{fontSize:16,color:'#fff',marginTop:10}}>用戶:{this.props.user}</Text>) :
+      {this.props.screenProps.user !== null ? (<Text style={{fontSize:16,color:'#fff',marginTop:10}}>用戶:{this.props.screenProps.user}</Text>) :
     (<TouchableOpacity style={{marginTop:10}} onPress={() => this.props.navigation.navigate("Login")}>
       <Text style={{fontSize:16,color:'#fff'}}>登錄/註冊</Text>
     </TouchableOpacity>)}
@@ -93,7 +93,7 @@ export default class PeopleView extends Component {
         <Text>積分兌換</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.commonItem} onPress={() => {
-        this.props.user !== null ? this.props.navigation.navigate('MyFavorite') : this.props.navigation.navigate('Login')
+        this.props.screenProps.user !== null ? this.props.navigation.navigate('MyFavorite') : this.props.navigation.navigate('Login')
       }}>
         <Image source={require('../asset/02-guanzhu.png')} style={styles.commonImage}/>
         <Text>我的關注</Text>
@@ -110,7 +110,7 @@ export default class PeopleView extends Component {
       // {name:'關於我們',icon:'md-people',func:() => this._commonItemClick('about')},
         {name:'允許使用政策',icon:'md-log-in',func:() => this._commonItemClick('allowPolicy')},
         {name:'刪除內容政策',icon:'md-log-out',func:() => this._commonItemClick('deletePolicy')},
-        // {name:'系統設置',icon:'md-settings',func:() => this.props.navigation.navigate('Setting')},
+        {name:'系統設置',icon:'md-settings',func:() => this.props.navigation.navigate('Setting')},
         // {name:'上傳發票',icon:'md-cloud-upload',func:() => this.props.navigation.navigate('Setting')},
         // {name:'積分兌換',icon:'md-attach',func:() => this.props.navigation.navigate('Setting')},
     ]
@@ -120,7 +120,7 @@ export default class PeopleView extends Component {
         <View key={idx} >
           <ListItem style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10}} icon onPress={() => item.func()}>
             <Left>
-              <Icon style={{color: this.props.theme,fontSize:22}} name={item.icon}></Icon>
+              <Icon style={{color: this.props.screenProps.theme,fontSize:22}} name={item.icon}></Icon>
             </Left>
             <Body style={{borderBottomWidth:0}}>
               <Text>{item.name}</Text>
@@ -151,7 +151,7 @@ export default class PeopleView extends Component {
         marginTop: 10,
         marginLeft: 10,
         marginRight: 10,
-        backgroundColor:this.props.theme
+        backgroundColor:this.props.screenProps.theme
       }}>
       <Text style={{color:'#fff',fontSize:16}}>登出</Text>
     </Button>
@@ -175,7 +175,7 @@ export default class PeopleView extends Component {
           {this._renderCommonItemView()}
           <ScrollView style={{paddingBottom:10}}>
             {this._renderCommonListView()}
-            {this.props.user !== null ? this._renderListFooterView() : null}
+            {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
           </ScrollView>
         </View>
       </Container>

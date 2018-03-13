@@ -95,7 +95,7 @@ export default class UploadView extends PureComponent {
             }
             </View>
           </TouchableOpacity>
-          <Button block style={{margin:10,backgroundColor: this.props.theme}} onPress={this.uploadImage}>
+          <Button block style={{margin:10,backgroundColor: this.props.screenProps.theme}} onPress={this.uploadImage}>
             <Text style={{color: Colors.main_white}}>上傳</Text>
           </Button>
         </View>

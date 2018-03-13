@@ -89,7 +89,7 @@ export default class SearchView extends Component{
            {/* <Icon name="ios-people" /> */}
          </Item>
          <Button transparent onPress={() => this.props.navigation.goBack()}>
-           <Text style={{color:this.props.theme}}>取消</Text>
+           <Text style={{color:this.props.screenProps.theme}}>取消</Text>
          </Button>
        </Header>
        <Content>

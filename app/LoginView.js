@@ -254,7 +254,7 @@ export default class LoginView extends Component {
                   <Input
                     style={{
                       color: Colors.fontBlack,
-                      width: GLOBAL_PARAMS._winWidth * 0.55
+                      width: GLOBAL_PARAMS._winWidth * 0.45
                     }}
                     onChangeText={phone => this._getPhone(phone)}
                     multiline={false}

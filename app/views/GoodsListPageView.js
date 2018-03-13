@@ -56,6 +56,7 @@ export default class GoodsListPageView extends Component{
   }
 
   componentDidMount() {
+    console.log(111,this.props);
     this.getCanteenList()
     this.getCanteenOption()
   }
@@ -66,13 +67,13 @@ export default class GoodsListPageView extends Component{
 
   componentWillReceiveProps(nextProps) {
     // console.log('nextprops',nextProps)
-    this._onRequestFirstPageData()
+    // this._onRequestFirstPageData()
   }
 
   //api function
   getCanteenList = (filter) => {
     api.getCanteenList(requestParams.currentPage,filter).then(data => {
-      // console.log(data)
+      console.log(data)
       if(data.status === 200) {
         this.setState({
           canteenDetail: data.data.data,
@@ -232,7 +233,7 @@ export default class GoodsListPageView extends Component{
   _onFilterEmptyData = () => {
     requestParams.currentPage = 1
     this.getCanteenList()
-    this.props.resetFilter()
+    this.props.screenProps.resetFilter()
   }
 
   _toToggleFilterListView= () => {
@@ -313,7 +314,7 @@ export default class GoodsListPageView extends Component{
         <TouchableOpacity onPress={() => this._toToggleFilterListView()}
           style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
           {/* <Icon name='md-menu' style={{fontSize:20,color:this.props.theme,marginRight:5}}/> */}
-          <Text style={{color:this.props.theme}}>篩選分類</Text>
+          <Text style={{color:this.props.screenProps.theme}}>篩選分類</Text>
         </TouchableOpacity>
       </View>
       // <View style={{paddingTop:15,paddingBottom:15,backgroundColor:Colors.main_white,borderBottomWidth:1,borderColor:Colors.main_gray}}>
@@ -419,7 +420,7 @@ export default class GoodsListPageView extends Component{
             </View>
           </Body>
           <Right style={{borderBottomWidth:0}}>
-            <Text note style={{color:this.props.theme,fontSize:25,fontWeight:'bold'}}>${item.price}</Text>
+            <Text note style={{color:this.props.screenProps.theme,fontSize:25,fontWeight:'bold'}}>${item.price}</Text>
           </Right>
         </ListItem>
         {this.state.canteenDetail.length-1 === index ? null : <Divider height={10} bgColor='transparent'/>}
@@ -438,7 +439,7 @@ export default class GoodsListPageView extends Component{
         {this.state.canteenDetail.length === 0 ?
           <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
-        <Header style={{backgroundColor:this.props.theme}} iosBarStyle="light-content">
+        <Header style={{backgroundColor:this.props.screenProps.theme}} iosBarStyle="light-content">
           <Left>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('DrawerOpen')}>
               <View>

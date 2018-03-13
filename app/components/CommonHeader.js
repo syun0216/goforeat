@@ -5,7 +5,7 @@ import {Header,Left,Body,Right,Icon,Button,Text} from 'native-base'
 import Colors from '../utils/Colors'
 
 const CommonHeader = (props) => (
-  <Header style={[{backgroundColor:props.theme},props.style]} iosBarStyle="light-content">
+  <Header style={[{backgroundColor:props.screenProps.theme},props.style]} iosBarStyle="light-content">
     <Left>
       {props.canBack ? (props.leftElement !== null ? (<props.leftElement {...props}/>) : (
         <Button transparent onPress={() => props.navigation.goBack()}>

@@ -10,15 +10,15 @@ import CommonHeader from './components/CommonHeader'
 export default class SettingView extends PureComponent{
   _currentItemClick = theme => {
     console.log(theme)
-    if(theme === this.props.theme) return;
-    this.props.changeTheme(theme)
-    const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [
-            NavigationActions.navigate( { routeName: 'Home',params:{refresh:123}} )
-        ],
-    });
-    this.props.navigation.dispatch(resetAction);
+    if(theme === this.props.screenProps.theme) return;
+    this.props.screenProps.changeTheme(theme)
+    // const resetAction = NavigationActions.reset({
+    //     index: 0,
+    //     actions: [
+    //         NavigationActions.navigate( { routeName: 'Home',params:{refresh:123}} )
+    //     ],
+    // });
+    // this.props.navigation.dispatch(resetAction);
   }
 
   render() {
@@ -44,7 +44,7 @@ export default class SettingView extends PureComponent{
                 flexDirection:'row',alignItems:'center'}}
                 onPress={() => this._currentItemClick(item.bgColor)}>
                 <Text style={{color:'#fff',fontSize:18}}>{item.name}</Text>
-                {this.props.theme === item.bgColor ? (<Icon name="md-checkmark-circle" style={{fontSize:20,color:'#fff'}}/>)
+                {this.props.screenProps.theme === item.bgColor ? (<Icon name="md-checkmark-circle" style={{fontSize:20,color:'#fff'}}/>)
                 : null }
               </TouchableOpacity>
             ))

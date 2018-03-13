@@ -1,11 +1,30 @@
 import {LOGIN,LOGOUT,STOCK_ARTICLE,STOCK_SHOP,DELETE_ARTICLE,DELETE_SHOP} from '../actions'
+import MainView from '../DashBoardView'
+import {NavigationActions} from 'react-navigation';
 //cache
 import appStorage from '../cache/appStorage'
 //utils
 import ToastUtil from '../utils/ToastUtil'
 import Colors from '../utils/Colors'
 
+// const initialNavState=MainView.router.getStateForAction(NavigationActions.reset({
+// 	index: 0,
+// 	actions: [
+// 	  NavigationActions.navigate({
+// 		routeName: 'Home',
+// 	  }),
+// 	],
+// }))
+
 const initialState = {
+  navState: MainView.router.getStateForAction(NavigationActions.reset({
+    index: 0,
+    actions: [
+      NavigationActions.navigate({
+      routeName: 'Home',
+      }),
+    ],
+  })),
   userState:{
     username:null
   },
@@ -19,6 +38,21 @@ const initialState = {
   themeState: {
     theme: Colors.main_orange
   }
+}
+
+export function nav(state=initialState.navState,action) {
+  const nextState = MainView.router.getStateForAction(action,state);
+    if(typeof state !== 'undefined' && state.routes[state.routes.length - 1].routeName === 'Search'){
+    const routes = state.routes.slice(0,state.routes.length - 1)
+    const defaultGetStateForAction = MainView.router.getStateForAction
+    // routes.push(action)
+    return defaultGetStateForAction(action, {
+      ...state,
+      routes,
+      index:routes.length - 1
+    })
+  }
+  return nextState || state;
 }
 
 export function auth(state=initialState.userState,action) {

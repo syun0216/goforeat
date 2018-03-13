@@ -264,7 +264,7 @@ export default class IntegralDetailView extends PureComponent {
         <Button
           block
           style={{
-            backgroundColor: this.props.theme,
+            backgroundColor: this.props.screenProps.theme,
           }}
         >
           <Text style={{ color: Colors.main_white }}>立即兌換</Text>

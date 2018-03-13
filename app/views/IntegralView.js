@@ -73,7 +73,7 @@ export default class IntegralView extends PureComponent {
       <View style={{height:300,flex:1,
         borderTopWidth:1,
         borderColor:Colors.main_gray,marginBottom:10,backgroundColor:Colors.main_white}}>
-        <Image source={{uri:item.image}} style={{width:GLOBAL_PARAMS._winWidth,height:190,}} indicator={ProgressBar} indicatorProps={{color:this.props.theme}}/>
+        <Image source={{uri:item.image}} style={{width:GLOBAL_PARAMS._winWidth,height:190,}} indicator={ProgressBar} indicatorProps={{color:this.props.screenProps.theme}}/>
         <View style={{flex: 1,flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',borderBottomWidth:1,borderBottomColor:Colors.main_gray}}>
           <Text style={{marginLeft:10}}>{item.title}</Text>
           <Text style={{marginRight:10}}>限量{item.currentPoint}件</Text>
@@ -82,7 +82,7 @@ export default class IntegralView extends PureComponent {
           <Text style={{marginLeft:10}}>{item.requirePoint}-{item.leastPoint}積分</Text>
           <View>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('IntegralDetail',{data:item})}
-              style={{backgroundColor: this.props.theme,marginRight:10,borderRadius:20,width:120,padding:10,paddingLeft:20,paddingRight:20}}>
+              style={{backgroundColor: this.props.screenProps.theme,marginRight:10,borderRadius:20,width:120,padding:10,paddingLeft:20,paddingRight:20}}>
               <Text style={{color: Colors.main_white,textAlign:'center'}}>立即兌換</Text>
             </TouchableOpacity>
           </View>

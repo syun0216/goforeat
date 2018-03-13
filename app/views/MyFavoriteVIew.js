@@ -18,7 +18,7 @@ export default class MyFavoriteView extends PureComponent {
 
     _renderSectionList = () => (
       <SectionList
-        sections={[this.props.shopList]}
+        sections={[this.props.screenProps.shopList]}
         stickySectionHeadersEnabled={true}
         renderItem={({item,index}) => this._renderSectionListItem(item,index)}
         keyExtractor={(item, index) => index} // 消除SectionList warning

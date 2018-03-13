@@ -204,7 +204,7 @@ export default class ArticleView extends Component {
         <View style={styles.artivleItemInnerContainer}>
           <View><Image style={styles.articleImage} source={{uri:item.pic}} 
           indicator={ProgressBar}
-          indicatorProps={{color:this.props.theme}}/></View>
+          indicatorProps={{color:this.props.screenProps.theme}}/></View>
           <View style={styles.articleDesc}>
             <Text style={styles.articleTitle}>{item.title}</Text>
           </View>

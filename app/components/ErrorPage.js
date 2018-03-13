@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     zIndex:10000,
     backgroundColor: '#F1FAFE',
-    height:GLOBAL_PARAMS._winHeight
+    height:GLOBAL_PARAMS._winHeight,
   }
 })
 

@@ -4213,6 +4213,12 @@ react-native@0.52.2:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
+react-navigation-redux-helpers@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/react-navigation-redux-helpers/-/react-navigation-redux-helpers-1.0.3.tgz#46dd9f83bf4ba74ca43d346575c169137f2eaac9"
+  dependencies:
+    invariant "^2.2.2"
+
 react-navigation@^1.0.0-beta.27:
   version "1.0.0-beta.27"
   resolved "https://registry.npmjs.org/react-navigation/-/react-navigation-1.0.0-beta.27.tgz#e6263b01975cd790e32b3711c2eb6cead96c102c"
