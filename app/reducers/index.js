@@ -1,14 +1,15 @@
 import {combineReducers} from 'redux'
-import {nav,auth,refresh,stockShop,theme} from './appReducer'
+import {auth,refresh,stockShop,theme,loading} from './appReducer'
 import {filterSort} from './filterReducer'
 
 const rootReducer = combineReducers({
-  nav,
+  // nav,
   auth,
   refresh,
   stockShop,
   theme,
-  filterSort
+  filterSort,
+  loading
 })
 
 export default rootReducer

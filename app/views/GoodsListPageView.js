@@ -56,7 +56,7 @@ export default class GoodsListPageView extends Component{
   }
 
   componentDidMount() {
-    console.log(111,this.props);
+    // console.log(111,this.props);
     this.getCanteenList()
     this.getCanteenOption()
   }
@@ -482,8 +482,8 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   searchText: {
-    height:38,
-    width:240,
+    height:35,
+    width:GLOBAL_PARAMS._winWidth*0.6,
     backgroundColor: Colors.main_white,
     borderRadius:20,
     paddingLeft:20
@@ -491,7 +491,7 @@ const styles = StyleSheet.create({
   searchIcon: {
     color: Colors.deep_gray,
     position:'absolute',
-    fontSize: 25,
+    fontSize: 22,
     top:5,
     right:15
   }

@@ -107,7 +107,7 @@ export default class LoginView extends Component {
     api.login(this.state.phone,this.state.selectedValue.value,this.state.password).then(data => {
       if(data.status === 200 && data.data.ro.ok){
         ToastUtil.show("登錄成功", 1000, "bottom","success")
-        this.props.userLogin(this.state.phone)
+        this.props.screenProps.userLogin(this.state.phone)
         this.props.navigation.goBack()
       }
       else{

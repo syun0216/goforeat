@@ -20,6 +20,10 @@ export default class ShopSwiperablePage extends Component {
         };
     }
 
+    componentWillReceiveProps() {
+        console.log(this.props)
+    }
+
     _renderItem ({item, index}) {
         return <SliderEntry data={item} even={(index + 1) % 2 === 0} />;
     }

@@ -140,7 +140,7 @@ export default class RegisterView extends PureComponent {
     .then(data => {
       if(data.status === 200 && data.data.ro.ok) {
         ToastUtil.show('註冊成功',1000,'bottom','success')
-          this.props.userLogin(this.state.phone)
+          this.props.screenProps.userLogin(this.state.phone)
           const resetAction = NavigationActions.reset({
               index: 0,
               actions: [
