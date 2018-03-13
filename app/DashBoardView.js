@@ -32,21 +32,6 @@ import Colors from './utils/Colors';
 import {addListener} from './utils/navigationWithRedux'
 //react-redux
 import {connect} from 'react-redux'
-import {userStateAndDispatch,
-      integralStateAndDispatch,
-      uploadStateAndDispatch,
-      shopStateAndDispatch,
-      articleStateAndDispatch,
-      contentStateAndDispatch,
-      goodsListStateAndDispatch,
-      loginStateAndDispatch,
-      registerStateAndDispatch,
-      filterStateAndDispatch,
-      personStateAndDispatch,
-      myFavoriteStateAndDispatch,
-      settingsStateAndDispatch,
-      searchStateAndDispatch,
-      statementStateAndDispatch} from './utils/mapStateAndDispatch'
 //store
 import store from './store'
 
