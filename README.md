@@ -8,22 +8,35 @@ goforear 外卖软件 （react native架构）
 ios的打包方法:
 [https://www.jianshu.com/p/b1b77d804254](https://www.jianshu.com/p/b1b77d804254)
 
-### screen shot
+### screen shot ios
 - 商品页
-- 文章详情页
+- 侧边栏
+- 详情页
 - 登录页
-- 内容页(开发中...)
-- 个人详情页(开发中...)
-- 搜索页(开发中...)
+- 设置页
+- 推荐页
+- 积分详情页
 
 
 <p align="center">
   <img src="./display/s1.png" style="width:300px;">
-  <img src="./display/as1.png" style="width:325px;">
+  <!-- <img src="./display/as1.png" style="width:325px;"> -->
 </p>
 <p align="center">
-  <img src="./display/s2.png">
+  <img src="./display/s2.jpeg" style="width:300px;">
 </p>
 <p align="center">
-  <img src="./display/s3.png">
+  <img src="./display/s3.jpeg" style="width:300px;">
+</p>
+<p align="center">
+  <img src="./display/s4.jpeg" style="width:300px;">
+</p>
+<p align="center">
+  <img src="./display/s5.jpeg" style="width:300px;">
+</p>
+<p align="center">
+  <img src="./display/s6.jpeg" style="width:300px;">
+</p>
+<p align="center">
+  <img src="./display/s7.jpeg" style="width:300px;">
 </p>
