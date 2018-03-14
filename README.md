@@ -19,17 +19,17 @@ ios的打包方法:
 
 
 <p align="center">
-  <img src="./display/s1.png" style="width:300px;">
-  <img src="./display/S2.JPEG" style="width:300px;">
+  <img src="./display/s1.png" width="300">
+  <img src="./display/S2.JPEG" width="300">
 </p>
 <p align="center">
-  <img src="./display/s3.jpeg" style="width:300px;">
-  <img src="./display/s4.jpeg" style="width:300px;">
+  <img src="./display/s3.jpeg" width="300">
+  <img src="./display/s4.jpeg" width="300">
 </p>
 <p align="center">
-  <img src="./display/s5.jpeg" style="width:300px;">
-  <img src="./display/s6.jpeg" style="width:300px;">
+  <img src="./display/s5.jpeg" width="300">
+  <img src="./display/s6.jpeg" width="300">
 </p>
 <p align="center">
-  <img src="./display/s7.jpeg" style="width:300px;">
+  <img src="./display/s7.jpeg" width="300">
 </p>
