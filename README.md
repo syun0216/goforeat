@@ -20,7 +20,7 @@ ios的打包方法:
 
 <p align="center">
   <img src="./display/s1.png" width="300">
-  <img src="./display/S2.JPEG" width="300">
+  <img src="./display/s2.jpeg" width="300">
 </p>
 <p align="center">
   <img src="./display/s3.jpeg" width="300">
