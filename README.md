@@ -20,21 +20,14 @@ ios的打包方法:
 
 <p align="center">
   <img src="./display/s1.png" style="width:300px;">
-  <!-- <img src="./display/as1.png" style="width:325px;"> -->
-</p>
-<p align="center">
-  <img src="./display/s2.jpeg" style="width:300px;">
+  <img src="./display/S2.JPEG" style="width:300px;">
 </p>
 <p align="center">
   <img src="./display/s3.jpeg" style="width:300px;">
-</p>
-<p align="center">
   <img src="./display/s4.jpeg" style="width:300px;">
 </p>
 <p align="center">
   <img src="./display/s5.jpeg" style="width:300px;">
-</p>
-<p align="center">
   <img src="./display/s6.jpeg" style="width:300px;">
 </p>
 <p align="center">
