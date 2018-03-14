@@ -94,7 +94,7 @@ export default class ContentView extends Component {
       ToastUtil.show("暫未開放收藏文章", 1000, "bottom", "warning");
       return;
     }
-    if (!this.state.screenProps.favoriteChecked) {
+    if (!this.state.favoriteChecked) {
       this.setState({
         favoriteChecked: true
       });
@@ -208,7 +208,7 @@ export default class ContentView extends Component {
             </TouchableOpacity>
         </Footer>
     </SafeAreaView>
-      
+
     );
   }
 }
