@@ -189,7 +189,7 @@ export default class ArticleView extends Component {
         {title:'餐廳列表',data:this.state.articleList},
       ]}
       renderItem = {({item,index}) => this._renderArticleListItemView(item,index)}
-      renderSectionHeader= {() => (<View style={{height:20}}></View>)}
+      // renderSectionHeader= {() => (<View style={{height:20}}></View>)}
       keyExtractor={(item, index) => index}
       onEndReachedThreshold={10}
       onEndReached={() => this._onEndReach()}
@@ -240,11 +240,11 @@ const styles = StyleSheet.create({
   artivleItemInnerContainer: {
     borderRadius: 20,
     flex:1,
-    padding:10,
-    paddingBottom: 0,
+    paddingTop:10,
+    // paddingBottom: 0,
   },
   articleImage: {
-    width:GLOBAL_PARAMS._winWidth -20,
+    width:GLOBAL_PARAMS._winWidth,
     height:180
   },
   articleDesc: {
