@@ -1,14 +1,14 @@
 # goforeat_app
 goforear 外卖软件 （react native架构）
 <p align="center">
-  <img width="128" src="./display/emoji_app.png">
+  <img width="128" src="./display/Logo-V2.png">
 </p>
 
 ### 附录
 ios的打包方法:
 [https://www.jianshu.com/p/b1b77d804254](https://www.jianshu.com/p/b1b77d804254)
 
-### screen shot ios
+### screen shot   [ios 下载地址](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
 - 商品页
 - 侧边栏
 - 详情页
