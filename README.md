@@ -16,6 +16,7 @@ ios的打包方法:
 - 设置页
 - 推荐页
 - 积分详情页
+- 我的关注页
 
 
 <p align="center">
@@ -32,4 +33,5 @@ ios的打包方法:
 </p>
 <p align="center">
   <img src="./display/s7.jpeg" width="300">
+  <img src="./display/s9.jpeg" width="300">
 </p>
