@@ -410,14 +410,14 @@ export default class GoodsListPageView extends Component{
           </Left>
           <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
             <Text style={{marginBottom:10,fontSize:18}}>{item.name}</Text>
-            {/* <Text note style={{fontSize:13,marginBottom:10}}>地址：{item.address}</Text> */}
             <Text note style={{marginBottom:10}}>评分：{item.rate}</Text>
-            <View style={{flexDirection:'row',alignItems:'center'}}>
+            <Text note style={{fontSize:13,marginBottom:10}}>地址：{item.address}</Text>
+            {/*<View style={{flexDirection:'row',alignItems:'center'}}>
               <View style={{backgroundColor:'#b3b3b3',borderRadius:10,width:80,padding:5,marginRight:10}}>
                 <Text style={{color:'#fff',textAlign:'center'}}>0.5公里</Text>
               </View>
               <Text>距離當前位置</Text>
-            </View>
+            </View> */}
           </Body>
           <Right style={{borderBottomWidth:0}}>
             <Text note style={{color:this.props.screenProps.theme,fontSize:25,fontWeight:'bold'}}>${item.price}</Text>

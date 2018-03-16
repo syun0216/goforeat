@@ -135,7 +135,7 @@ export default class LoginView extends Component {
               left: 0,
               zIndex: 0
             }}
-            source={{ uri: "loginNewBg" }}
+            source={{ uri: "loginbg" }}
           />
           <View
             style={{
