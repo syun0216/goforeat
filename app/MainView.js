@@ -22,6 +22,7 @@ import ActivitySwiperablePage from './views/ActivitySwiperablePage'
 import IntegralView from './views/IntegralView'
 import IntegralDetailView from './views/IntegralDetailView'
 import UploadView from './views/UploadView'
+import CommentsView from './views/CommentsView'
 //api
 import api from './api'
 //utils
@@ -220,7 +221,10 @@ let MainView = StackNavigator({
   },
   IntegralDetail: {
     screen: IntegralDetailView
-  }
+  },
+  Comment: {
+    screen: CommentsView
+  },
 }, {headerMode: 'none'})
 
 

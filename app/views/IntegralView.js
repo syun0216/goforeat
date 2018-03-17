@@ -10,6 +10,7 @@ import api from '../api';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
+import ToastUtil from '../utils/ToastUtil';
 
 export default class IntegralView extends PureComponent {
   state = {
@@ -22,10 +23,14 @@ export default class IntegralView extends PureComponent {
 
   _getProjectList() {
     api.getIntegralProjectListData().then(data => {
-      if(data.status === 200 && data.data.ro.ok) {
-        this.setState({
-          projectList: data.data.data
-        })
+      if(data.status === 200 ) {
+        if(data.data.ro.ok) {
+          this.setState({
+            projectList: data.data.data
+          })
+        }else {
+          ToastUtil.show(data.data.ro.respMsg, 1000, "bottom", "warning");
+        }
       }
     });
   }
@@ -54,7 +59,7 @@ export default class IntegralView extends PureComponent {
 
   _renderProjectListHeader = () => (
     <View style={styles.projectTopContainer}>
-      <Image style={styles.projectTopImage} source={{uri: 'integralTopTitle'}} resizeMode="contain"/>
+      <Image style={styles.projectTopImage} source={{uri: 'integral_top_title'}} resizeMode="contain"/>
       <View style={styles.projectTopDetails}>
         <View style={[styles.projectTopDetailsInner]}>
         <Text style={styles.projectText}>我的積分:</Text></View>
@@ -113,6 +118,7 @@ const styles = StyleSheet.create({
   projectTopContainer: {
     height:200,
     flex:1,
+    backgroundColor: Colors.main_white
   },
   projectTopImage: {
     width:GLOBAL_PARAMS._winWidth,

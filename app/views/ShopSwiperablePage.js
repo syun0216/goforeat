@@ -6,7 +6,9 @@ import SliderEntry from '../components/SliderEntry';
 import styles, { colors } from '../styles/index.style';
 import { ENTRIES1, ENTRIES2 } from '../static/entries';
 import { scrollInterpolators, animatedStyles } from '../utils/animations';
+// utils
 import Colors from '../utils/Colors'
+import GLOBAL_PARAMS from '../utils/global_params'
 
 const IS_ANDROID = Platform.OS === 'android';
 const SLIDER_1_FIRST_ITEM = 1;
@@ -195,7 +197,7 @@ export default class ShopSwiperablePage extends Component {
                       directionalLockEnabled={true}
                     >
                         { example1 }
-                        <View style={{height:150,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
+                        <View style={{height:GLOBAL_PARAMS._winHeight*0.25,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
                           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:80,height:80}} source={{uri:'dislike'}}/>
                           </View>

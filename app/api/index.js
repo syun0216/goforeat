@@ -125,7 +125,7 @@ const api = {
   },
   uploadBillImg(billImg) { // 上傳發票
     let params = new FormData();
-    params.append('file',billImg)
+    params.append('billImg',billImg)
     return axios.post(api_url + '/member/uploadBillImg', params,{
       headers: {
         "Content-Type": "multipart/form-data"

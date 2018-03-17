@@ -411,7 +411,7 @@ export default class GoodsListPageView extends Component{
           <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
             <Text style={{marginBottom:10,fontSize:18}}>{item.name}</Text>
             <Text note style={{marginBottom:10}}>评分：{item.rate}</Text>
-            <Text note style={{fontSize:13,marginBottom:10}}>地址：{item.address}</Text>
+            <Text note style={{fontSize:13,marginBottom:10}}>地址：{item.address.length > 12 ? item.address.substr(0,11) + '...' : item.address}</Text>
             {/*<View style={{flexDirection:'row',alignItems:'center'}}>
               <View style={{backgroundColor:'#b3b3b3',borderRadius:10,width:80,padding:5,marginRight:10}}>
                 <Text style={{color:'#fff',textAlign:'center'}}>0.5公里</Text>
@@ -451,7 +451,7 @@ export default class GoodsListPageView extends Component{
             <View style={styles.searchContainer}>
               <TextInput ref={(t) => this.textInput = t} style={styles.searchText}
                 onFocus={() => {this.props.navigation.navigate('Search');this.textInput.blur()}}
-                placeholder="请输入商店名称"/>
+                placeholder="请输入商店名称" underlineColorAndroid="transparent"/>
               <Icon name="md-search" size={20} style={styles.searchIcon}/>
             </View>
           </Body>
@@ -486,13 +486,14 @@ const styles = StyleSheet.create({
     width:GLOBAL_PARAMS._winWidth*0.6,
     backgroundColor: Colors.main_white,
     borderRadius:20,
-    paddingLeft:20
+    paddingLeft:20,
+    marginTop: Platform.OS === 'ios' ? 0 : 3
   },
   searchIcon: {
     color: Colors.deep_gray,
     position:'absolute',
     fontSize: 22,
-    top:5,
+    top:Platform.OS === 'ios' ? 5 : 8,
     right:15
   }
 })
