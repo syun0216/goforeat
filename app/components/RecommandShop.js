@@ -26,7 +26,7 @@ const RecommendShop = props => {
       >
         <Image
           source={{ uri: item.image }}
-          style={{ width: GLOBAL_PARAMS._winWidth / 3, height: 150 }}
+          style={{ width: GLOBAL_PARAMS._winWidth / 3, height: 110 }}
           indicator={(ProgressBar)}
           indicatorProps={{ color: props.screenProps.theme, width: GLOBAL_PARAMS._winWidth / 4 }}
         />

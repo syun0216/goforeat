@@ -37,6 +37,7 @@ import api from "../api";
 import Loading from "../components/Loading";
 import CommonHeader from "../components/CommonHeader";
 import RecommendShop from "../components/RecommandShop";
+import BlankPage from '../components/BlankPage';
 //styles
 import index_style from "../styles/index.style";
 
@@ -117,7 +118,7 @@ export default class ContentView extends Component {
       <Card style={{ flex:1,margin:0 ,borderWidth:0}}>
         <CardItem>
           <Left>
-            <Thumbnail size={120} source={{ uri: this.state.canteenData.image }} />
+            <Thumbnail style={{width:100, height:100,borderRadius: 50,}} size={120} source={{ uri: this.state.canteenData.image }} />
             <Body>
               <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.name}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.address}</Text>
@@ -146,12 +147,7 @@ export default class ContentView extends Component {
                   source={{ uri: item.foodImage }}
                 />
               ))
-            ) : (
-              <View style={{ marginTop: 10,minHeight: 300, }}>
-                <Text>暫無菜品數據</Text>
-                <Image source={{uri: 'default_image'}} style={{width: GLOBAL_PARAMS._winWidth,height: 250}}/>
-              </View>
-            )}
+            ) : <BlankPage message="暫無菜品數據"/>}
 
           </Body>
         </CardItem>
