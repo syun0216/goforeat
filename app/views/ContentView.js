@@ -117,12 +117,12 @@ export default class ContentView extends Component {
       <Card style={{ flex:1,margin:0 ,borderWidth:0}}>
         <CardItem>
           <Left>
-            <Thumbnail source={{ uri: this.state.canteenData.image }} />
+            <Thumbnail size={120} source={{ uri: this.state.canteenData.image }} />
             <Body>
-              <Text>{this.state.canteenData.name}</Text>
-              <Text note>{this.state.canteenData.address}</Text>
-              <Text note>價格：${this.state.canteenData.price}</Text>
-              <Text note>評分：{this.state.canteenData.rate}</Text>
+              <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.name}</Text>
+              <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.address}</Text>
+              <Text note style={{marginTop:5,marginBottom: 5}}>價格：${this.state.canteenData.price}</Text>
+              <Text note style={{marginTop:5,marginBottom: 5}}>評分：{this.state.canteenData.rate}</Text>
             </Body>
           </Left>
         </CardItem>
@@ -147,8 +147,9 @@ export default class ContentView extends Component {
                 />
               ))
             ) : (
-              <View style={{ marginTop: 10 }}>
+              <View style={{ marginTop: 10,minHeight: 300, }}>
                 <Text>暫無菜品數據</Text>
+                <Image source={{uri: 'default_image'}} style={{width: GLOBAL_PARAMS._winWidth,height: 250}}/>
               </View>
             )}
 
@@ -160,7 +161,7 @@ export default class ContentView extends Component {
             <Text>餐廳推薦</Text>
           </View>
           {
-            RecommendShop(this.state.canteenData.recommendCanteen)
+            RecommendShop({list: this.state.canteenData.recommendCanteen,...this['props']})
           }
         </Body>
         </CardItem>
@@ -198,12 +199,15 @@ export default class ContentView extends Component {
           ) : (
             <Icon
               name="md-heart-outline"
-              style={{ color: Colors.main_white, fontSize: 20 }}
+              style={{ color: Colors.main_white, fontSize: 25 }}
             />
           )}
           </Button>
           <Button transparent onPress={() => this.props.navigation.navigate('Comment',{comment: this.state.canteenData.comment})}>
-            <Icon name="md-chatboxes" style={{ fontSize: 20, color: Colors.main_white }}/>
+            <Icon name="md-chatboxes" style={{ fontSize: 25, color: Colors.main_white }}/>
+          </Button>
+          <Button transparent onPress={() => ToastUtil.show("分享功能暫未開放...", 1000, "bottom", "warning")}>
+            <Icon name="md-share" style={{ fontSize: 23, color: Colors.main_white }}/>
           </Button>
           </Right>
         </Header>

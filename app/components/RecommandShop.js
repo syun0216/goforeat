@@ -1,36 +1,63 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {View,Text,FlatList,Image} from 'react-native';
-// utils 
-import GLOBAL_PARAMS from '../utils/global_params';
+import React from "react";
+import PropTypes from "prop-types";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { Spinner } from "native-base";
+import Image from "react-native-image-progress";
+import ProgressBar from "react-native-progress/Bar";
+// utils
+import GLOBAL_PARAMS from "../utils/global_params";
 
-const RecommendShop = (props) => {
-  let _recommendShopView = (item,idx) => {
-    console.log(item)
+const RecommendShop = props => {
+  let _toRecommendShopDetail = (item) => {
+    props.navigation.navigate('Content',{
+      data:item,
+      kind:'canteen'
+    })
+  }
+  let _recommendShopView = (item, idx) => {
     return (
-    <View style={{width: GLOBAL_PARAMS._winWidth/3,height: 200,marginRight: idx != props.length ? 10 : 0}}>
-      <Image source={{uri: item.image}} style={{width: GLOBAL_PARAMS._winWidth/3,height:150}}/>
-      <View style={{justifyContent: 'center',alignItems: 'center',}}>
-        <Text>{item.name}</Text>
-      </View>
-    </View>
-  )}
+      <TouchableOpacity
+        style={{
+          width: GLOBAL_PARAMS._winWidth / 3,
+          height: 200,
+          marginRight: idx != props.length - 1 ? 10 : 0
+        }}
+        onPress={() => _toRecommendShopDetail(item)}
+      >
+        <Image
+          source={{ uri: item.image }}
+          style={{ width: GLOBAL_PARAMS._winWidth / 3, height: 150 }}
+          indicator={(ProgressBar)}
+          indicatorProps={{ color: props.screenProps.theme, width: GLOBAL_PARAMS._winWidth / 4 }}
+        />
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 5
+          }}
+        >
+          <Text>{item.name}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   return (
     <FlatList
-      data={props}
+      data={props.list}
       horizontal
-      renderItem={({item,idx}) => _recommendShopView(item,idx)}
+      renderItem={({ item, idx }) => _recommendShopView(item, idx)}
       keyExtractor={(item, index) => index}
-      />
-  )
-}
+    />
+  );
+};
 
 RecommendShop.propsType = {
   list: PropTypes.Array
-}
+};
 
 RecommendShop.defaultProps = {
   list: []
-}
+};
 
 export default RecommendShop;
