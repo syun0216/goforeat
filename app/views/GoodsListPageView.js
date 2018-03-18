@@ -73,7 +73,7 @@ export default class GoodsListPageView extends Component{
   //api function
   getCanteenList = (filter) => {
     api.getCanteenList(requestParams.currentPage,filter).then(data => {
-      console.log(data)
+      // console.log(data)
       if(data.status === 200) {
         this.setState({
           canteenDetail: data.data.data,
@@ -157,7 +157,7 @@ export default class GoodsListPageView extends Component{
     }
     api.getCanteenList(requestParams.currentPage).then(data => {
       if(data.status === 200) {
-        // console.log(data)
+        console.log(data)
         if(data.data.data.length === 0) {
           requestParams.currentPage --
           this.setState({
@@ -397,35 +397,37 @@ export default class GoodsListPageView extends Component{
     )
   }
 
-  _renderSectionListItem = (item,index) => (
-      <View>
-        <ListItem
-          style={{backgroundColor:Colors.main_white,marginLeft:0,paddingLeft:10}}
-          avatar key={index} onPress={() =>this.props.navigation.navigate('Content',{
-            data:item,
-            kind:'canteen'
-          })}>
-          <Left>
-            <Image style={{width:90,height:90,borderRadius:45}} source={{uri:item.image}} />
-          </Left>
-          <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
-            <Text style={{marginBottom:10,fontSize:18}}>{item.name}</Text>
-            <Text note style={{marginBottom:10}}>评分：{item.rate}</Text>
-            <Text note style={{fontSize:13,marginBottom:10}}>地址：{item.address.length > 12 ? item.address.substr(0,11) + '...' : item.address}</Text>
-            {/*<View style={{flexDirection:'row',alignItems:'center'}}>
-              <View style={{backgroundColor:'#b3b3b3',borderRadius:10,width:80,padding:5,marginRight:10}}>
-                <Text style={{color:'#fff',textAlign:'center'}}>0.5公里</Text>
-              </View>
-              <Text>距離當前位置</Text>
-            </View> */}
-          </Body>
-          <Right style={{borderBottomWidth:0}}>
-            <Text note style={{color:this.props.screenProps.theme,fontSize:25,fontWeight:'bold'}}>${item.price}</Text>
-          </Right>
-        </ListItem>
-        {this.state.canteenDetail.length-1 === index ? null : <Divider height={10} bgColor='transparent'/>}
-      </View>
-  )
+_renderSectionListItem = (item,index) => {
+  let hasImage = item.image !== '#';
+  return (
+    <View>
+      <ListItem
+        style={{backgroundColor:Colors.main_white,marginLeft:0,paddingLeft:10}}
+        avatar key={index} onPress={() =>this.props.navigation.navigate('Content',{
+          data:item,
+          kind:'canteen'
+        })}>
+        <Left style={{marginLeft: 10}}>
+          <Image style={{width:90,height:90,borderRadius:45}} source={{uri:!hasImage ? 'default_image' : item.image}} />
+        </Left>
+        <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
+          <Text style={{marginBottom:10,fontSize:18}}>{item.name}</Text>
+          <Text note style={{marginBottom:10}}>评分：{item.rate}</Text>
+          <Text note style={{fontSize:13,marginBottom:10}}>地址：{item.address.length > 12 ? item.address.substr(0,11) + '...' : item.address}</Text>
+          {/*<View style={{flexDirection:'row',alignItems:'center'}}>
+            <View style={{backgroundColor:'#b3b3b3',borderRadius:10,width:80,padding:5,marginRight:10}}>
+              <Text style={{color:'#fff',textAlign:'center'}}>0.5公里</Text>
+            </View>
+            <Text>距離當前位置</Text>
+          </View> */}
+        </Body>
+        <Right style={{borderBottomWidth:0}}>
+          <Text note style={{color:this.props.screenProps.theme,fontSize:25,fontWeight:'bold'}}>${item.price}</Text>
+        </Right>
+      </ListItem>
+      {this.state.canteenDetail.length-1 === index ? null : <Divider height={10} bgColor='transparent'/>}
+    </View>
+)}
 
   render(){
     return (

@@ -5,7 +5,8 @@ import {
   WebView,
   SafeAreaView,
   ScrollView,
-  StatusBar
+  StatusBar,
+  StyleSheet
 } from "react-native";
 import {
   Container,
@@ -35,6 +36,7 @@ import api from "../api";
 //components
 import Loading from "../components/Loading";
 import CommonHeader from "../components/CommonHeader";
+import RecommendShop from "../components/RecommandShop";
 //styles
 import index_style from "../styles/index.style";
 
@@ -46,7 +48,7 @@ export default class ContentView extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
+    // console.log(this.props);
     if(this.props.navigation.state.params.kind === "article") {
       return;
     }
@@ -119,12 +121,16 @@ export default class ContentView extends Component {
             <Body>
               <Text>{this.state.canteenData.name}</Text>
               <Text note>{this.state.canteenData.address}</Text>
+              <Text note>價格：${this.state.canteenData.price}</Text>
+              <Text note>評分：{this.state.canteenData.rate}</Text>
             </Body>
           </Left>
         </CardItem>
         <CardItem>
           <Body>
-            <Text>餐廳菜品</Text>
+            <View style={[styles.subtitle,{borderLeftColor: this.props.screenProps.theme}]}>
+              <Text>餐廳菜品</Text>
+            </View>
             {this.state.canteenData.foods.length > 0 ? (
               this.state.canteenData.foods.map((item, idx) => (
                 <Image
@@ -145,7 +151,18 @@ export default class ContentView extends Component {
                 <Text>暫無菜品數據</Text>
               </View>
             )}
+
           </Body>
+        </CardItem>
+        <CardItem>
+        <Body>
+          <View style={[styles.subtitle,{borderLeftColor: this.props.screenProps.theme,marginBottom: 10}]}>
+            <Text>餐廳推薦</Text>
+          </View>
+          {
+            RecommendShop(this.state.canteenData.recommendCanteen)
+          }
+        </Body>
         </CardItem>
       </Card>
     </Content>
@@ -184,29 +201,28 @@ export default class ContentView extends Component {
               style={{ color: Colors.main_white, fontSize: 20 }}
             />
           )}
-          </Button></Right>
+          </Button>
+          <Button transparent onPress={() => this.props.navigation.navigate('Comment',{comment: this.state.canteenData.comment})}>
+            <Icon name="md-chatboxes" style={{ fontSize: 20, color: Colors.main_white }}/>
+          </Button>
+          </Right>
         </Header>
         <Content>
-           
             {this.props.navigation.state.params.kind === "article"
             ? this._renderArticleContentView()
             : null}
-
           {this.state.canteenData !== null ? this._renderContentView() : null}
-
         </Content>
-        {this.state.canteenData !== null ?(<Footer style={{display:'flex',backgroundColor:'#fff',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>	
-         <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>價格:${this.state.canteenData.price}</Text></View>	
-         <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text>評分:{this.state.canteenData.rate}</Text></View>	
-          <TouchableOpacity style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'center'}}
-          onPress={() => this.props.navigation.navigate('Comment',{comment: this.state.canteenData.comment})}>	
-           <Text style={{color:this.props.screenProps.theme}}>評論:{this.state.canteenData.commentsCount}</Text>	
-           {/* <Badge style={{marginLeft:10,paddiBottom:10}}>	             <Text>2</Text>	
--           </Badge> */}	
-          </TouchableOpacity>	
-        </Footer>) : null}
     </Container>
 
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+  subtitle: {
+    borderLeftWidth: 6,
+    paddingLeft: 10,
+  }
+})

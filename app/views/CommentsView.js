@@ -13,17 +13,15 @@ export default class CommentsView extends PureComponent {
       <Container>
         <CommonHeader canBack title="精彩評論" {...this['props']}/>
         <Content>
-          <List>
           {comment.map((item,idx) => (
-            <ListItem key={idx} style={{backgroundColor: Colors.main_white,marginLeft: 0,paddingLeft: 0}}>
-            <Thumbnail square size={80} source={{ uri: item.image }} />
-            <Body style={{marginLeft: 10}}>
-              <Text style={{marginBottom: 10}}>{item.nickName}</Text>
+            <ListItem avatar key={idx} style={{backgroundColor: Colors.main_white,marginLeft: 0}}>
+            <Thumbnail size={10} source={{ uri: item.image }} />
+            <Body style={{marginLeft: 10,borderBottomWidth: 0,}}>
+              <Text style={{marginBottom: 10,borderBottomWidth: 0}}>{item.nickName}</Text>
               <Text note>{item.info}</Text>
             </Body>
           </ListItem>
           ))}
-          </List>
         </Content>
       </Container>
     )
