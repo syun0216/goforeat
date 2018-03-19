@@ -10,6 +10,8 @@ import {Root} from 'native-base'
 import store from './app/store'
 import {Provider,connect} from 'react-redux'
 import DashboardView from './app/DashboardView'
+//components
+import Loading from './app/components/Loading'
 //cache
 import appStorage from './app/cache/appStorage'
 //hot reload

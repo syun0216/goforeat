@@ -108,6 +108,26 @@ export function stockShop(state = initialState.favoriteStock.shopList, action) {
   }
 }
 
+export function stockArticle(state = initialState.favoriteStock.articleList, action) {
+  switch (action.type) {
+    case STOCK_ARTICLE: {
+      let _data = state.data.concat(action.data);
+      return {
+        ...state,
+        data: _data
+      };
+    }
+    case DELETE_ARTICLE: {
+      return {
+        ...state,
+        data: state.data.filter(item => item.id !== action.id)
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 export function refresh(state = initialState.goodsListState, action) {
   switch (action.type) {
     case "REFRESH":

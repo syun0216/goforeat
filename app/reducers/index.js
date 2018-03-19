@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import {auth,refresh,stockShop,theme,loading} from './appReducer'
+import {auth,refresh,stockShop,stockArticle, theme,loading} from './appReducer'
 import {filterSort} from './filterReducer'
 
 const rootReducer = combineReducers({
@@ -7,6 +7,7 @@ const rootReducer = combineReducers({
   auth,
   refresh,
   stockShop,
+  stockArticle,
   theme,
   filterSort,
   loading

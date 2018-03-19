@@ -25,6 +25,7 @@ const dashboardStateToProps = (state) => ({
   filterSort: state.filterSort,
   refresh: state.refresh.refreshParams,
   shopList: state.stockShop,
+  articleList: state.stockArticle,
   loading: state.loading
 })
 
@@ -36,6 +37,8 @@ const dashboardmapDispatchToProps = dispatch => ({
   refreshReset: () => dispatch({type:'REFRESH',refresh:false}),
   stockShop: (item) => dispatch({type:'STOCK_SHOP',data:item}),
   deleteShop: (id) => dispatch({type:'DELETE_SHOP',id:id}),
+  stockArticle: (item) => dispatch({type:'STOCK_ARTICLE',data:item}),
+  deleteArticle: (id) => dispatch({type:'DELETE_ARTICLE',id:id}),
   changeTheme: (theme) => dispatch({type:'CHANGE_THEME',theme:theme}),
   showLoading: () => dispatch({type:'IS_LOADING'}),
   hideLoading: () => dispatch({type:'IS_NOT_LOADING'}),

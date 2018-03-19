@@ -51,6 +51,16 @@ export default class ContentView extends Component {
   componentDidMount() {
     // console.log(this.props);
     if(this.props.navigation.state.params.kind === "article") {
+      for (let item of this.props.screenProps.articleList.data) {
+        if (
+          item !== null &&
+          item.id === this.props.navigation.state.params.data.id
+        ) {
+          this.setState({
+            favoriteChecked: true
+          });
+        }
+      }
       return;
     }
     for (let item of this.props.screenProps.shopList.data) {
@@ -94,21 +104,24 @@ export default class ContentView extends Component {
       this.props.navigation.navigate('Login');
       return;
     }
-    if (this.props.navigation.state.params.kind === "article") {
-      ToastUtil.show("暫未開放收藏文章", 1000, "bottom", "warning");
-      return;
-    }
+    let {kind,data} = this.props.navigation.state.params;
+    let {stockShop,deleteShop,stockArticle,deleteArticle} = this.props.screenProps;
+
+    // if (this.props.navigation.state.params.kind === "article") {
+    //   ToastUtil.show("暫未開放收藏文章", 1000, "bottom", "warning");
+    //   return;
+    // }
     if (!this.state.favoriteChecked) {
       this.setState({
         favoriteChecked: true
       });
-      this.props.screenProps.stockShop(this.props.navigation.state.params.data);
+      kind === 'article'? stockArticle(data) : stockShop(data);
       ToastUtil.show("收藏成功", 1000, "bottom", "success");
     } else {
       this.setState({
         favoriteChecked: false
       });
-      this.props.screenProps.deleteShop(this.props.navigation.state.params.data.id);
+      kind === 'article'? deleteArticle(data.id) : deleteShop(data.id);
       ToastUtil.show("取消收藏", 1000, "bottom", "warning");
     }
   }
