@@ -19,7 +19,7 @@ const RecommendShop = props => {
       <TouchableOpacity
         style={{
           width: GLOBAL_PARAMS._winWidth / 3,
-          height: 200,
+          height: 140,
           marginRight: idx != props.length - 1 ? 10 : 0
         }}
         onPress={() => _toRecommendShopDetail(item)}

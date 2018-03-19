@@ -118,7 +118,8 @@ export default class ContentView extends Component {
       <Card style={{ flex:1,margin:0 ,borderWidth:0}}>
         <CardItem>
           <Left>
-            <Thumbnail style={{width:100, height:100,borderRadius: 50,}} size={120} source={{ uri: this.state.canteenData.image }} />
+            <Thumbnail style={{width:100, height:100,borderRadius: 50}} size={120} 
+            source={{ uri: this.state.canteenData.image === '#' ? 'default_image' : this.state.canteenData.image }} />
             <Body>
               <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.name}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.address}</Text>

@@ -20,9 +20,9 @@ const ErrorPage = (props) => {
   return (
     <View style={styles.loadingContainer}>
     <View style={{alignSelf:'center'}}>
-      <TouchableOpacity onPress={() => props.errorToDo()}>
+      <TouchableOpacity style={{alignItems: 'center'}} onPress={() => props.errorToDo()}>
         <Image source={{uri: '404'}} style={{width: 128,height: 128}}/>
-        <Text style={{color:'#222'}}>{props.errorTips}</Text>
+        <Text style={{color:'#222',fontSize: 16}}>{props.errorTips}</Text>
       </TouchableOpacity>
     </View>
     </View>

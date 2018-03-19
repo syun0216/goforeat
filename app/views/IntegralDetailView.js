@@ -21,6 +21,7 @@ import {
   Body,
   Thumbnail
 } from "native-base";
+import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
 // components
 import CommonHeader from "../components/CommonHeader";
 // api
@@ -30,9 +31,14 @@ import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 
+const slideAnimation = new SlideAnimation({
+  slideFrom: 'bottom',
+});
+
 export default class IntegralDetailView extends PureComponent {
   sectionList = null;
   _scrollView = null;
+  _popupDialog = null;
   state = {
     projectDetail: null,
     commentsDetail: null,
@@ -238,10 +244,29 @@ export default class IntegralDetailView extends PureComponent {
     </ListItem>
   );
 
+  _renderPopupDiaogView = () => (
+    <PopupDialog
+    width={GLOBAL_PARAMS._winWidth*0.8}
+    ref={(popupDialog) => { this._popupDialog = popupDialog; }}
+    dialogAnimation={slideAnimation}
+    >
+      <View>
+        <Text>Hello</Text>
+      </View>
+    </PopupDialog>
+  )
+
+  //private function
+  _openDialog = () => {
+    this._popupDialog.show(() => {
+      console.log('opened!')
+    })
+  }
+
   render = () => (
     <Container style={{ backgroundColor: Colors.main_white }}>
       <CommonHeader title="積分詳情" canBack {...this["props"]} />
-
+      {this._renderPopupDiaogView()}
       {this.state.projectDetail !== null &&
       this.state.commentsDetail !== null ? (
         <View style={{ marginBottom: GLOBAL_PARAMS.bottomDistance + 60 }}>
@@ -266,6 +291,7 @@ export default class IntegralDetailView extends PureComponent {
           style={{
             backgroundColor: this.props.screenProps.theme,
           }}
+          onPress={() => this._openDialog()}
         >
           <Text style={{ color: Colors.main_white }}>立即兌換</Text>
         </Button>

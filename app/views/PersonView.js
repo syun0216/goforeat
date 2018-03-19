@@ -46,7 +46,6 @@ export default class PeopleView extends Component {
         ToastUtil.show("登出失敗", 1000, "bottom","warning")
       }
     },() => {
-      console.log(123)
         ToastUtil.show("登出失敗,請檢查網絡", 1000, "bottom","warning")
     })
   }

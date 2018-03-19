@@ -5,6 +5,7 @@ import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar'
 // components
 import CommonHeader from '../components/CommonHeader';
+import Loading from '../components/Loading';
 // api
 import api from '../api';
 //utils
@@ -30,6 +31,7 @@ export default class IntegralView extends PureComponent {
           })
         }else {
           ToastUtil.show(data.data.ro.respMsg, 1000, "bottom", "warning");
+          this.props.screenProps.userLogout();
         }
       }
     });

@@ -141,6 +141,16 @@ const api = {
         "Content-Type": "application/x-www-form-urlencoded"
       }
     })
+  },
+  sendPoint(projectId, point) {
+    return axios.post(api_url + '/point/sendPoint', qs.stringify({
+      projectId,
+      point
+    },{cancelToken: source.token}),{
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
   }
 }
 
