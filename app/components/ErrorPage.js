@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View,Text,StyleSheet,TouchableOpacity } from 'react-native';
+import { View,Text,StyleSheet,TouchableOpacity,Image } from 'react-native';
 import GLOBAL_PARAMS from '../utils/global_params'
 
 const styles = StyleSheet.create({
@@ -21,6 +21,7 @@ const ErrorPage = (props) => {
     <View style={styles.loadingContainer}>
     <View style={{alignSelf:'center'}}>
       <TouchableOpacity onPress={() => props.errorToDo()}>
+        <Image source={{uri: '404'}} style={{width: 128,height: 128}}/>
         <Text style={{color:'#222'}}>{props.errorTips}</Text>
       </TouchableOpacity>
     </View>
