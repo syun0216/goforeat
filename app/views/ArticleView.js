@@ -191,7 +191,7 @@ export default class ArticleView extends Component {
       renderItem = {({item,index}) => this._renderArticleListItemView(item,index)}
       // renderSectionHeader= {() => (<View style={{height:20}}></View>)}
       keyExtractor={(item, index) => index}
-      onEndReachedThreshold={10}
+      onEndReachedThreshold={0.01}
       onEndReached={() => this._onEndReach()}
       // ListHeaderComponent={() => <ArticleSwiper />}
       ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}

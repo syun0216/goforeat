@@ -15,7 +15,8 @@ import ToastUtil from '../utils/ToastUtil';
 
 export default class IntegralView extends PureComponent {
   state = {
-    projectList: null
+    projectList: null,
+    isLoading: true
   }
 
   componentDidMount() {
@@ -25,13 +26,14 @@ export default class IntegralView extends PureComponent {
   _getProjectList() {
     api.getIntegralProjectListData().then(data => {
       if(data.status === 200 ) {
+        this.setState({isLoading: false})
         if(data.data.ro.ok) {
           this.setState({
-            projectList: data.data.data
+            projectList: data.data.data,
           })
         }else {
-          ToastUtil.show(data.data.ro.respMsg, 1000, "bottom", "warning");
           this.props.screenProps.userLogout();
+          alert(data.data.ro.respMsg)
         }
       }
     });
@@ -102,6 +104,7 @@ export default class IntegralView extends PureComponent {
     return (
       <Container>
         <CommonHeader canBack {...this['props']} title="積分禮遇" />
+        {this.state.isLoading ? <Loading /> : null}
         <Content>
           <View>{this.state.projectList !== null ? this._renderProjectSectionList() : null}</View>  
         </Content>

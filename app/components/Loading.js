@@ -24,21 +24,21 @@ const Loading = props => {
       <View
         style={{
           alignSelf: "center",
-          backgroundColor: Colors.main_white,
+          backgroundColor: Colors.fontBlack,
           borderRadius: 20,
-          opacity: 0.5,
+          opacity: 0.8,
           padding: 25
         }}
-      >
+        >
         <ActivityIndicator size="small" />
-        <Text style={{ color: "#222", marginTop: 10,fontSize: 14 }}>{props.message}</Text>
+        <Text style={{ color: Colors.main_white, marginTop: 10,fontSize: 14 }}>{props.message}</Text>
       </View>
     </View>
   );
 };
 
 Loading.defaultProps = {
-  message: "正在加載中..."
+  message: "玩命加載中..."
 };
 
 Loading.propTypes = {

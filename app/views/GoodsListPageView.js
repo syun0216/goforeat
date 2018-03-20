@@ -186,6 +186,9 @@ export default class GoodsListPageView extends Component{
   }
 
   _onEndReached = () => {
+    if(this.state.loadingStatus.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
+      return ;
+    }
     requestParams.currentPage ++
     this._requestNextDetailList()
   }
@@ -381,7 +384,7 @@ export default class GoodsListPageView extends Component{
           getItemLayout={(data,index) => ({length: 75, offset: 75 * index + 175, index: index})}
           // onRefresh={() => alert('onRefresh: nothing to refresh :P')}
           // onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
-          onEndReachedThreshold={10}
+          onEndReachedThreshold={0.01}
           onEndReached={() => this._onEndReached()}
           // onEndReached={this._onEndReached.bind(this)}
           ListHeaderComponent={() => <GoodsSwiper {...this['props']}/>}

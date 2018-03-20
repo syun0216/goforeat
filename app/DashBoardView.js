@@ -1,20 +1,23 @@
 import React, { PureComponent } from 'react';
+import {View} from 'react-native'
 import MainView from './MainView'
 import {connect} from 'react-redux'
+import Loading from './components/Loading'
 class DashBoardView extends PureComponent {
   componentDidMount() {
-    // console.log(this.props);
+    console.log(this.props);
   }
   render() {
     return (
-      <MainView 
-      // navigation={addNavigationHelpers({
-      //   dispatch: this.props.dispatch,
-      //   state: this.props.nav,
-      //   // addListener,
-      // })} 
-      screenProps={{...this['props']}}
-      />
+        <MainView 
+        // navigation={addNavigationHelpers({
+        //   dispatch: this.props.dispatch,
+        //   state: this.props.nav,
+        //   // addListener,
+        // })} 
+        screenProps={{...this['props']}}
+        />
+        // {this.props.loading? <Loading message="玩命加載中..."/> : null}
     )
   }
 }

@@ -33,8 +33,9 @@ export default class MyFavoriteView extends PureComponent {
       />
     )
 
-    _renderSectionListItem = (item,index) => (
-
+    _renderSectionListItem = (item,index) => {
+      // console.log()
+      return (
         <Row damping={this.state.damping} tension={this.state.tension} id={item.id} {...this['props']}>
           <TouchableOpacity style={styles.rowContent} onPress={() =>this.props.navigation.navigate('Content',{
             data:item,
@@ -48,7 +49,7 @@ export default class MyFavoriteView extends PureComponent {
           </TouchableOpacity>
         </Row>
     )
-
+}
   render() {
     return (
       <Container>
