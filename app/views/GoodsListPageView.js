@@ -41,7 +41,6 @@ export default class GoodsListPageView extends Component{
   sview = null // 滾動視圖
   onEndReachedCalledDuringMomentum = false
   textInput = null
-  httpRequest = null
 
   state = {
     loading: false,
@@ -54,6 +53,7 @@ export default class GoodsListPageView extends Component{
       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING
     },
+    httpRequest: null,
     positionTop: new Animated.Value(0)
   }
 
@@ -157,7 +157,9 @@ export default class GoodsListPageView extends Component{
     if(this.state.loadingStatus.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
       return;
     }
-    this.httpRequest = api.getCanteenList(requestParams.currentPage);
+    this.setState({
+      httpRequest: api.getCanteenList(requestParams.currentPage)
+    })
     // console.log(this.httpRequest)
     api.getCanteenList(requestParams.currentPage).then(data => {
       this.httpRequest = null;
@@ -177,7 +179,8 @@ export default class GoodsListPageView extends Component{
           canteenDetail:this.state.canteenDetail.concat(data.data.data),
           loadingStatus:{
             pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
-          }
+          },
+          httpRequest: null
         })
       }
     },() => {
@@ -185,13 +188,14 @@ export default class GoodsListPageView extends Component{
       this.setState({
         loadingStatus: {
           pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-        }
+        },
+        httpRequest: null
       })
     })
   }
 
   _onEndReached = () => {
-    if(this.httpRequest !== null) {
+    if(this.state.httpRequest !== null) {
       return ;
     }
     if(this.state.loadingStatus.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {

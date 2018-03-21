@@ -12,7 +12,7 @@ const api = {
     const params = {
       page: page,
       condition: 'default',
-      limit: 12
+      limit: 5
     }
     if (typeof filter !== 'undefined') {
       for (let i in filter) {
