@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { View,Text } from 'react-native';
 import {Container,Content,List,ListItem,Thumbnail,Body} from 'native-base';
+import Image from 'react-native-image-progress'
 // components
 import CommonHeader from '../components/CommonHeader';
 //utils
@@ -15,7 +16,7 @@ export default class CommentsView extends PureComponent {
         <Content>
           {comment.map((item,idx) => (
             <ListItem avatar key={idx} style={{backgroundColor: Colors.main_white,marginLeft: 0}}>
-            <Thumbnail size={10} source={{ uri: item.image }} />
+            <Image style={{width:50,height:50,marginLeft: 10}} imageStyle={{borderRadius: 25,}} source={{ uri: item.image }} />
             <Body style={{marginLeft: 10,borderBottomWidth: 0,}}>
               <Text style={{marginBottom: 10,borderBottomWidth: 0}}>{item.nickName}</Text>
               <Text note>{item.info}</Text>

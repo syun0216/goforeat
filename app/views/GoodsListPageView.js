@@ -1,7 +1,8 @@
 import React,{Component} from 'react'
-import {View,SectionList,StatusBar,TextInput,Image,StyleSheet,Platform,ScrollView,TouchableWithoutFeedback,ActivityIndicator,TouchableOpacity,Animated,Easing} from 'react-native'
+import {View,SectionList,StatusBar,TextInput,StyleSheet,Platform,ScrollView,TouchableWithoutFeedback,ActivityIndicator,TouchableOpacity,Animated,Easing} from 'react-native'
 import {Container,Header,Content,List,ListItem,Left,Body,Right,Thumbnail,Button,Text,Spinner,Icon} from 'native-base'
-
+import Image from 'react-native-image-progress';
+import ProgressBar from 'react-native-progress/Bar'
 //api
 import api from '../api';
 import source from '../api/CancelToken';
@@ -40,6 +41,7 @@ export default class GoodsListPageView extends Component{
   sview = null // 滾動視圖
   onEndReachedCalledDuringMomentum = false
   textInput = null
+  httpRequest = null
 
   state = {
     loading: false,
@@ -155,7 +157,10 @@ export default class GoodsListPageView extends Component{
     if(this.state.loadingStatus.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
       return;
     }
+    this.httpRequest = api.getCanteenList(requestParams.currentPage);
+    // console.log(this.httpRequest)
     api.getCanteenList(requestParams.currentPage).then(data => {
+      this.httpRequest = null;
       if(data.status === 200) {
         console.log(data)
         if(data.data.data.length === 0) {
@@ -186,6 +191,9 @@ export default class GoodsListPageView extends Component{
   }
 
   _onEndReached = () => {
+    if(this.httpRequest !== null) {
+      return ;
+    }
     if(this.state.loadingStatus.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
       return ;
     }
@@ -411,7 +419,7 @@ _renderSectionListItem = (item,index) => {
           kind:'canteen'
         })}>
         <Left style={{marginLeft: 10}}>
-          <Image style={{width:90,height:90,borderRadius:45}} source={{uri:!hasImage ? 'default_image' : item.image}} />
+          <Image style={{width:90,height:90,borderRadius:45}} imageStyle={{borderRadius: 45}} source={{uri:!hasImage ? 'default_image' : item.image}} />
         </Left>
         <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
           <Text style={{marginBottom:10,fontSize:18}}>{item.name}</Text>
