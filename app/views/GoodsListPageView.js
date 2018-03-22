@@ -357,7 +357,7 @@ _renderSectionListItem = (item,index) => {
           <Image style={{width:90,height:90,borderRadius:45}} imageStyle={{borderRadius: 45}} source={{uri:!hasImage ? 'default_image' : item.image}} />
         </Left>
         <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
-          <Text style={{marginBottom:10,fontSize:18}}>{item.name}</Text>
+          <Text style={{marginBottom:10,fontSize:18}} numberOfLines={1}>{item.name}</Text>
           <Text note style={{fontSize:13,marginBottom:10}}>地址：{item.address.length > 12 ? item.address.substr(0,11) + '...' : item.address}</Text>
           <Rating rate={item.rate} {...this['props']}/>
           {/*<View style={{flexDirection:'row',alignItems:'center'}}>
