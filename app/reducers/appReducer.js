@@ -58,7 +58,6 @@ const initialState = {
 // }
 
 export function loading(state = initialState.loading, action) {
-  console.log(state);
   switch (action.type) {
     case IS_LOADING:
       return true

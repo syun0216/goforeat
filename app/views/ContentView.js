@@ -38,6 +38,7 @@ import Loading from "../components/Loading";
 import CommonHeader from "../components/CommonHeader";
 import RecommendShop from "../components/RecommandShop";
 import BlankPage from '../components/BlankPage';
+import Rating from '../components/Rating';
 //styles
 import index_style from "../styles/index.style";
 
@@ -137,7 +138,7 @@ export default class ContentView extends Component {
               <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.name}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.address}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>價格：${this.state.canteenData.price}</Text>
-              <Text note style={{marginTop:5,marginBottom: 5}}>評分：{this.state.canteenData.rate}</Text>
+              <Rating rate={this.state.canteenData.rate} {...this['props']}/>
             </Body>
           </Left>
         </CardItem>

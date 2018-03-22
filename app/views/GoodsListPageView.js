@@ -6,6 +6,7 @@ import ProgressBar from 'react-native-progress/Bar'
 //api
 import api from '../api';
 import source from '../api/CancelToken';
+import {cancel_goods_list_request} from '../api';
 //components
 import GoodsSwiper from '../components/Swiper';
 import Dropdownfilter from '../components/Dropdownfilter';
@@ -13,6 +14,7 @@ import Loading from '../components/Loading';
 import ErrorPage from '../components/ErrorPage';
 import Divider from '../components/Divider';
 import MapModal from '../components/CommonModal';
+import Rating from '../components/Rating';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
@@ -43,18 +45,15 @@ export default class GoodsListPageView extends Component{
   textInput = null
 
   state = {
-    loading: false,
-    bottomRequestStatus:GLOBAL_PARAMS.httpStatus.LOADING,
-    canteenDetail: [],
-    canteenOptions: null,
-    showFilterList: false,
-    isMapModalShow: false,
-    loadingStatus:{
+      loading: false,
+      canteenDetail: [],
+      canteenOptions: null,
+      showFilterList: false,
+      isMapModalShow: false,
+      httpRequest: null,
+      positionTop: new Animated.Value(0),
       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
-      pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING
-    },
-    httpRequest: null,
-    positionTop: new Animated.Value(0)
+      pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS,
   }
 
   componentDidMount() {
@@ -79,25 +78,19 @@ export default class GoodsListPageView extends Component{
       if(data.status === 200) {
         this.setState({
           canteenDetail: data.data.data,
-          loadingStatus:{
-            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
-          }
+          firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
         })
       }
       else{
         this.setState({
           // canteenDetail: data.data.data,
-          loadingStatus:{
-            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-          }
+          firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
         })
       }
     },() => {
       ToastUtil.show('网络请求出错',1000,'bottom','warning')
       this.setState({
-        loadingStatus:{
           firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-        }
       })
     })
   }
@@ -125,91 +118,53 @@ export default class GoodsListPageView extends Component{
   }
 
   // common function
-  // _getListViewData(sview) {
-    // console.log(sview.nativeEvent.contentOffset.y)
-      // if (sview.nativeEvent.contentOffset.y > 100) {
-      //     Animated.spring(this.state.positionBottom, {
-      //         toValue: 1,
-      //         duration: 500,
-      //         easing: Easing.linear
-      //     }).start();
-      // }
-      // else {
-      //     Animated.timing(this.state.positionBottom, {
-      //         toValue: 0,
-      //         duration: 200,
-      //         easing: Easing.linear
-      //     }).start();
-      // }
-      // console.log(sview.nativeEvent.contentOffset.y);
-  // }
 
   _onErrorRequestFirstPage = () => {
     this.setState({
-      loadingStatus: {
         firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
-      }
     })
     this._onRequestFirstPageData()
   }
 
   _requestNextDetailList() {
-    if(this.state.loadingStatus.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
-      return;
-    }
-    this.setState({
-      httpRequest: api.getCanteenList(requestParams.currentPage)
-    })
-    // console.log(this.httpRequest)
     api.getCanteenList(requestParams.currentPage).then(data => {
-      this.httpRequest = null;
       if(data.status === 200) {
         console.log(data)
         if(data.data.data.length === 0) {
           requestParams.currentPage --
           this.setState({
             canteenDetail:this.state.canteenDetail.concat(data.data.data),
-            loadingStatus: {
-              pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
-            }
+            pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
           })
           return
         }
         this.setState({
           canteenDetail:this.state.canteenDetail.concat(data.data.data),
-          loadingStatus:{
-            pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
-          },
-          httpRequest: null
+          pullUpLoading:GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
         })
       }
     },() => {
       requestParams.currentPage --
       this.setState({
-        loadingStatus: {
-          pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-        },
-        httpRequest: null
+        pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
       })
     })
   }
 
   _onEndReached = () => {
-    if(this.state.httpRequest !== null) {
+    if(this.state.pullUpLoading !== GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS) {
       return ;
     }
-    if(this.state.loadingStatus.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
-      return ;
-    }
+    this.setState({
+      pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING
+    })
     requestParams.currentPage ++
     this._requestNextDetailList()
   }
 
   _onErrorToRequestNextPage() {
     this.setState({
-      loadingStatus:{
-        pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
-      }
+      pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
     })
     requestParams.currentPage ++;
     this._requestNextDetailList()
@@ -218,31 +173,6 @@ export default class GoodsListPageView extends Component{
   _onRequestFirstPageData = () => {
     requestParams.currentPage = 1
     this.getCanteenList()
-    // const successCallBack = (data) => {
-    //   this.setState({
-    //     canteenDetail: data.data.data,
-    //     loadingStatus:{
-    //       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
-    //     }
-    //   })
-    // }
-    // const successButNoDataCallBack = (data) => {
-    //   this.setState({
-    //     canteenDetail: data.data.data,
-    //     loadingStatus:{
-    //       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
-    //     }
-    //   })
-    // }
-    // const failCallBack = () => {
-    //   ToastUtil.show('网络请求出错','bottom',1000,'warning')
-    //   this.setState({
-    //     loadingStatus:{
-    //       firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-    //     }
-    //   })
-    // }
-    // this.getCanteenList(successCallBack,failCallBack,successButNoDataCallBack)
   }
 
   _onFilterEmptyData = () => {
@@ -284,9 +214,7 @@ export default class GoodsListPageView extends Component{
     // console.log('data',data)
     requestParams.currentPage = 1
     this.setState({
-      loadingStatus:{
-        firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
-      }
+      firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
     })
     this._toToggleFilterListView(0)
     let timer = setTimeout(() => {
@@ -387,16 +315,19 @@ export default class GoodsListPageView extends Component{
           sections={[
             {title:'餐廳列表',data:this.state.canteenDetail},
           ]}
+          shouldItemUpdate = {(props,nextProps) => {
+            return props.item !== nextProps.item
+          }}
           stickySectionHeadersEnabled={true}
           renderItem={({item,index}) => this._renderSectionListItem(item,index)}
           keyExtractor={(item, index) => index} // 消除SectionList warning
           renderSectionHeader={({section}) => this._renderSubHeader(section)}
           // refreshing={true}
-          initialNumToRender={7}
+          initialNumToRender={6}
           getItemLayout={(data,index) => ({length: 75, offset: 75 * index + 175, index: index})}
           // onRefresh={() => alert('onRefresh: nothing to refresh :P')}
           // onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
-          onEndReachedThreshold={0.01}
+          onEndReachedThreshold={1}
           onEndReached={() => this._onEndReached()}
           // onEndReached={this._onEndReached.bind(this)}
           ListHeaderComponent={() => <GoodsSwiper {...this['props']}/>}
@@ -406,7 +337,7 @@ export default class GoodsListPageView extends Component{
             </View>
           )}
           ListFooterComponent={() => (<ListFooter style={{backgroundColor:Colors.main_white}} 
-            loadingStatus={this.state.loadingStatus.pullUpLoading}
+            loadingStatus={this.state.pullUpLoading}
             errorToDo={() => this._onErrorToRequestNextPage()}/>)}
         />
     )
@@ -427,8 +358,8 @@ _renderSectionListItem = (item,index) => {
         </Left>
         <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
           <Text style={{marginBottom:10,fontSize:18}}>{item.name}</Text>
-          <Text note style={{marginBottom:10}}>评分：{item.rate}</Text>
           <Text note style={{fontSize:13,marginBottom:10}}>地址：{item.address.length > 12 ? item.address.substr(0,11) + '...' : item.address}</Text>
+          <Rating rate={item.rate} {...this['props']}/>
           {/*<View style={{flexDirection:'row',alignItems:'center'}}>
             <View style={{backgroundColor:'#b3b3b3',borderRadius:10,width:80,padding:5,marginRight:10}}>
               <Text style={{color:'#fff',textAlign:'center'}}>0.5公里</Text>
@@ -448,8 +379,8 @@ _renderSectionListItem = (item,index) => {
     return (
       <Container style={{backgroundColor:Colors.bgColor}}>
         {this._renderModalView()}
-        {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
-          <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+        {this.state.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
+          <Loading message="玩命加載中..."/> : (this.state.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
         {this.state.showFilterList ? this._renderPreventClickView() : null}
         {this.state.canteenOptions ? this._renderFilterView() : null}

@@ -25,6 +25,7 @@ import UploadView from './views/UploadView'
 import CommentsView from './views/CommentsView'
 //api
 import api from './api'
+import source from './api/CancelToken'
 //utils
 import ToastUtil from './utils/ToastUtil'
 import LinkingUtils from './utils/LinkingUtils'
@@ -233,8 +234,11 @@ let MainView = StackNavigator({
 const defaultGetStateForAction = MainView.router.getStateForAction
 
 MainView.router.getStateForAction = (action, state) => {
-  console.log('action', action)
-  console.log('state', state)
+  // console.log('action', action)
+  // console.log('state', state)
+  if(action.type === 'Navigation/NAVIGATE') {
+    source.cancel();
+  }
   if (action.type === 'Navigation/NAVIGATE' && action.routeName === 'Login' && store.getState().auth.username !== null) {
     ToastUtil.show('你不能进入', 1000, 'bottom', 'danger')
     return null

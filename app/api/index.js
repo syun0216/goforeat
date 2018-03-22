@@ -2,9 +2,11 @@ import axios from 'axios'
 import md5 from 'js-md5'
 import qs from 'qs'
 import source from './CancelToken'
-
+const CancelToken = axios.CancelToken;
 const root_url = 'http://goforeat.hk'
 const api_url = 'http://api.goforeat.hk'
+
+export let cancel_goods_list_request = null;
 
 const api = {
   getCanteenList(page, filter) {
@@ -12,7 +14,7 @@ const api = {
     const params = {
       page: page,
       condition: 'default',
-      limit: 5
+      limit: 4
     }
     if (typeof filter !== 'undefined') {
       for (let i in filter) {
@@ -25,7 +27,10 @@ const api = {
     return axios.get(api_url + '/guide/queryCanteen', {
       params: params,
       timeout: 4500,
-      cancelToken: source.token
+      cancelToken: new CancelToken(function executor(c) {
+        // An executor function receives a cancel function as a parameter
+        cancel_goods_list_request = c;
+      })
     })
   },
   getCanteenOptions() {
