@@ -4,12 +4,11 @@ import {View,TouchableOpacity,StyleSheet} from 'react-native'
 import {Container,Content,Footer,Button,Text,Badge} from 'native-base'
 //utils
 import Colors from '../utils/Colors'
-import {filterStateAndDispatch} from '../utils/mapStateAndDispatch'
 //react-redux
 import {connect} from 'react-redux'
 
 
-class Dropdownfilter extends PureComponent{
+export default class Dropdownfilter extends PureComponent{
   static defaultProps = {
     filterData: []
   }
@@ -22,7 +21,7 @@ class Dropdownfilter extends PureComponent{
     console.log(this.props)
   }
   state = {
-    currentSelect:this.props.filterSort
+    currentSelect:this.props.screenProps.filterSort
   }
 
   _selectCurrent(index) {
@@ -52,8 +51,8 @@ class Dropdownfilter extends PureComponent{
       {citem.map((btn,btnkey) => (
         <Button key={btnkey} onPress={() => this._filterClick(btn,itemEnName)}
            transparent key={btnkey} style={styles.filterItemChildrenBtn}>
-          <Text style={this.props.filterSort[itemEnName] === btn[0] ?
-            {color:this.props.theme} : {color:Colors.fontBlack}}>{btn[1]}</Text>
+          <Text style={this.props.screenProps.filterSort[itemEnName] === btn[0] ?
+            {color:this.props.screenProps.theme} : {color:Colors.fontBlack}}>{btn[1]}</Text>
         </Button>
       ))}
     </View>
@@ -62,11 +61,11 @@ class Dropdownfilter extends PureComponent{
   //common functions
   _filterClick = (btn,itemEnName) =>{
     // console.log(btn[0])
-    if(btn[0] === this.props.filterSort[itemEnName]){
+    if(btn[0] === this.props.screenProps.filterSort[itemEnName]){
       return ;
     }
     let _obj = {
-      ...this.props.filterSort
+      ...this.props.screenProps.filterSort
     }
     _obj[itemEnName] = btn[0]
     this.props.saveFilter(_obj)
@@ -81,7 +80,7 @@ class Dropdownfilter extends PureComponent{
     //     this.setState({currentSelect:{seats:btn[0]}});break
     //   }
     // }
-    console.log(this.props.filterSort)
+    // console.log(this.props.filterSort)
   }
 
   render() {
@@ -93,10 +92,10 @@ class Dropdownfilter extends PureComponent{
         <View style={styles.footerContainer}>
           <Button transparent danger onPress={() => this.props.cancleToDo()}
             style={[styles.footerBtn,{borderRightWidth:1,borderColor:'#ddd',borderRadius:0}]}>
-            <Text style={{color:this.props.theme}}>取消</Text>
+            <Text style={{color:this.props.screenProps.theme}}>取消</Text>
           </Button>
           <Button onPress={() => this.props.confirmToDo(this.props.filterSort)}
-             transparent style={[styles.footerBtn,{backgroundColor:this.props.theme}]}>
+             transparent style={[styles.footerBtn,{backgroundColor:this.props.screenProps.theme}]}>
             <Text style={{color:'#fff'}}>確定</Text>
           </Button>
         </View>
@@ -170,5 +169,3 @@ const styles = StyleSheet.create({
     color:Colors.main_orange
   }
 })
-
-export default connect(filterStateAndDispatch.mapStateToProps,filterStateAndDispatch.mapDispatchToProps)(Dropdownfilter)

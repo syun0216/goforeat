@@ -45,7 +45,7 @@ const img_arr = [
 ]
 
 const GoodsSwiper = (props) => {
-  console.log(props);
+  // console.log(props);
   return (<Swiper style={styles.wrapper}
     paginationStyle={{position:'absolute',bottom:15,marginLeft:200}}
     dotStyle={{width: 10, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.5}}

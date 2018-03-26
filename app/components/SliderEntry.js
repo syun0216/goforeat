@@ -10,15 +10,15 @@ export default class SliderEntry extends Component {
         data: PropTypes.object.isRequired,
         even: PropTypes.bool,
         parallax: PropTypes.bool,
-        parallaxProps: PropTypes.object
+        parallaxProps: PropTypes.object,
     };
 
     get image () {
-        const { data: { illustration }, parallax, parallaxProps, even } = this.props;
+        const { data: { image }, parallax, parallaxProps, even } = this.props;
 
         return parallax ? (
             <ParallaxImage
-              source={{ uri: illustration }}
+              source={{ uri: image }}
               containerStyle={[styles.imageContainer, even ? styles.imageContainerEven : {}]}
               style={styles.image}
               parallaxFactor={0.35}
@@ -28,21 +28,21 @@ export default class SliderEntry extends Component {
             />
         ) : (
             <Image
-              source={{ uri: illustration }}
+              source={{ uri: image }}
               style={styles.image}
             />
         );
     }
 
     render () {
-        const { data: { title, subtitle }, even } = this.props;
+        const { data: { name, address }, even } = this.props;
 
-        const uppercaseTitle = title ? (
+        const uppercaseTitle = name ? (
             <Text
               style={[styles.title, even ? styles.titleEven : {}]}
               numberOfLines={2}
             >
-                { title.toUpperCase() }
+                { name.toUpperCase() }
             </Text>
         ) : false;
 
@@ -50,7 +50,13 @@ export default class SliderEntry extends Component {
             <TouchableOpacity
               activeOpacity={1}
               style={styles.slideInnerContainer}
-              onPress={() => { alert(`You've clicked '${title}'`); }}
+              onPress={() =>
+                // this.props.navigation.navigate("Content", {
+                //   data: this.props.data,
+                //   kind: 'canteen'
+                // })
+                console.log(this.props)
+              }
               >
                 <View style={styles.shadow} />
                 <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
@@ -63,7 +69,7 @@ export default class SliderEntry extends Component {
                       style={[styles.subtitle, even ? styles.subtitleEven : {}]}
                       numberOfLines={2}
                     >
-                        { subtitle }
+                        { address }
                     </Text>
                 </View>
             </TouchableOpacity>

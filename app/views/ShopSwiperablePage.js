@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, View, ScrollView, Text, StatusBar, SafeAreaView,Image } from 'react-native';
+import {Container} from 'native-base';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { sliderWidth, itemWidth } from '../styles/SliderEntry.style';
 import SliderEntry from '../components/SliderEntry';
@@ -9,6 +10,9 @@ import { scrollInterpolators, animatedStyles } from '../utils/animations';
 // utils
 import Colors from '../utils/Colors'
 import GLOBAL_PARAMS from '../utils/global_params'
+import CommonHeader from '../components/CommonHeader';
+//api
+import api from '../api';
 
 const IS_ANDROID = Platform.OS === 'android';
 const SLIDER_1_FIRST_ITEM = 1;
@@ -18,16 +22,33 @@ export default class ShopSwiperablePage extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            slider1ActiveSlide: SLIDER_1_FIRST_ITEM
+            slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
+            shopDetail: null
         };
     }
+     
 
     componentWillReceiveProps() {
         console.log(this.props)
     }
 
+    componentDidMount = () => {
+        this.getRecommendList();
+      };
+      //api
+      getRecommendList = () => {
+        api.recommendShop().then(data => {
+          console.log(data);
+          if (data.status === 200 && data.data.ro.ok) {
+            this.setState({
+              shopDetail: data.data.data
+            });
+          }
+        });
+      };
+
     _renderItem ({item, index}) {
-        return <SliderEntry data={item} even={(index + 1) % 2 === 0} />;
+        return <SliderEntry data={item} even={(index + 1) % 2 === 0} {...this['props']}/>;
     }
 
     _renderItemWithParallax ({item, index}, parallaxProps) {
@@ -37,28 +58,29 @@ export default class ShopSwiperablePage extends Component {
               even={(index + 1) % 2 === 0}
               parallax={true}
               parallaxProps={parallaxProps}
+              {...this['props']}
             />
         );
     }
 
     _renderLightItem ({item, index}) {
-        return <SliderEntry data={item} even={false} />;
+        return <SliderEntry data={item} even={false} {...this['props']}/>;
     }
 
     _renderDarkItem ({item, index}) {
-        return <SliderEntry data={item} even={true} />;
+        return <SliderEntry data={item} even={true} {...this['props']}/>;
     }
 
     mainExample (number, title) {
         const { slider1ActiveSlide } = this.state;
 
-        return (
+        return this.state.shopDetail !== null ? (
             <View style={[styles.exampleContainer,{marginTop: -15}]}>
-                <Text style={[styles.title,{color:'#1a1917'}]}>商家列表</Text>
+                {/*<Text style={[styles.title,{color:'#1a1917'}]}>商家列表</Text>*/}
                 <Text style={[styles.subtitle,{color:'#1a1917'}]}>{title}</Text>
                 <Carousel
                   ref={c => this._slider1Ref = c}
-                  data={ENTRIES1}
+                  data={this.state.shopDetail}
                   renderItem={this._renderItemWithParallax}
                   sliderWidth={sliderWidth}
                   itemWidth={itemWidth}
@@ -77,7 +99,7 @@ export default class ShopSwiperablePage extends Component {
                   onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
                 />
                 <Pagination
-                  dotsLength={ENTRIES1.length}
+                  dotsLength={this.state.shopDetail.length}
                   activeDotIndex={slider1ActiveSlide}
                   containerStyle={styles.paginationContainer}
                   dotColor={'rgba(0, 0, 0, 0.92)'}
@@ -89,7 +111,7 @@ export default class ShopSwiperablePage extends Component {
                   tappableDots={!!this._slider1Ref}
                 />
             </View>
-        );
+        ) : null
     }
 
     momentumExample (number, title) {
@@ -183,21 +205,26 @@ export default class ShopSwiperablePage extends Component {
         const example8 = this.customExample(8, 'Custom animation 4', 4, this._renderLightItem);
 
         return (
-            <SafeAreaView style={styles.safeArea}>
-                <View style={styles.container}>
-                    <StatusBar
-                      translucent={true}
-                      backgroundColor={'rgba(0, 0, 0, 0.3)'}
-                      barStyle={'light-content'}
-                    />
+            // <SafeAreaView style={styles.safeArea}>
+            //     <View style={styles.container}>
+            //         <StatusBar
+            //           translucent={true}
+            //           backgroundColor={'rgba(0, 0, 0, 0.3)'}
+            //           barStyle={'light-content'}
+            //         />
 
-                    <ScrollView
+                    
+            //     </View>
+            // </SafeAreaView>
+            <Container>
+                <CommonHeader title="商家推薦" {...this['props']}/>
+                <ScrollView
                       style={styles.scrollview}
                       scrollEventThrottle={200}
                       directionalLockEnabled={true}
                     >
                         { example1 }
-                        <View style={{height:GLOBAL_PARAMS._winHeight*0.25,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
+                        <View style={{height:GLOBAL_PARAMS._winHeight*0.15,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
                           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:80,height:80}} source={{uri:'dislike'}}/>
                           </View>
@@ -206,8 +233,7 @@ export default class ShopSwiperablePage extends Component {
                           </View>
                         </View>
                     </ScrollView>
-                </View>
-            </SafeAreaView>
+            </Container>
         );
     }
 }

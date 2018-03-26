@@ -299,7 +299,7 @@ export default class GoodsListPageView extends Component{
           confirmToDo={(data) => this._confirmToFilter(data)}
           cancleToDo={() =>{
             this._toToggleFilterListView(0)
-          }}/>
+          }} {...this['props']}/>
       </Animated.View>
     )
   }
@@ -331,7 +331,7 @@ export default class GoodsListPageView extends Component{
             return props.item !== nextProps.item
           }}
           stickySectionHeadersEnabled={true}
-          renderItem={({item,index}) => this._renderSectionListItem(item,index)}
+          renderItem={({item,index}) => {return this.state.canteenDetail.length > 0 ? this._renderSectionListItem(item,index) : null}}
           keyExtractor={(item, index) => index} // 消除SectionList warning
           renderSectionHeader={({section}) => this._renderSubHeader(section)}
           // refreshing={true}
@@ -342,7 +342,7 @@ export default class GoodsListPageView extends Component{
           onEndReachedThreshold={1}
           onEndReached={() => this._onEndReached()}
           // onEndReached={this._onEndReached.bind(this)}
-          ListHeaderComponent={() => {return this.state.adDetail === null ? null : <GoodsSwiper {...this['props']} adDetail={this.state.adDetail}/>}}
+          ListHeaderComponent={() => {return this.state.adDetail === null && this.state.canteenDetail.length > 0 ? null : <GoodsSwiper {...this['props']} adDetail={this.state.adDetail}/>}}
           ListEmptyComponent={() => (
             <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
               <Text>沒有數據了...</Text>
@@ -421,7 +421,7 @@ _renderSectionListItem = (item,index) => {
           </Right>
         </Header>
         <View  style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
-          {this.state.canteenDetail.length > 0 ? this._renderSectionList() : null}
+          {this._renderSectionList()}
         </View>
       </Container>
     )

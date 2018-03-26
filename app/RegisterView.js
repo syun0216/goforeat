@@ -100,19 +100,19 @@ export default class RegisterView extends PureComponent {
   }
 
   _getPhone = (phone) => {
-    let reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
-    if (reg.test(phone)) {
-        this.setState({
-          isBtnDisabled: false,
-          phone
-        })
-    }
-    else{
+    // let reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+    // if (reg.test(phone)) {
+    //     this.setState({
+    //       isBtnDisabled: false,
+    //       phone
+    //     })
+    // }
+    // else{
       this.setState({
         isBtnDisabled: true,
         phone: null
       })
-    }
+    // }
   }
 
   _getCode = (code) => {
