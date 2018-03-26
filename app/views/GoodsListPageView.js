@@ -47,6 +47,7 @@ export default class GoodsListPageView extends Component{
   state = {
       loading: false,
       canteenDetail: [],
+      adDetail: [],
       canteenOptions: null,
       showFilterList: false,
       isMapModalShow: false,
@@ -58,8 +59,9 @@ export default class GoodsListPageView extends Component{
 
   componentDidMount() {
     // console.log(111,this.props);
-    this.getCanteenList()
     this.getCanteenOption()
+    this.getAd()
+    this.getCanteenList()
   }
 
   componentWillUnmount = () => {
@@ -114,6 +116,16 @@ export default class GoodsListPageView extends Component{
       }
     },() => {
       ToastUtil.show('网络请求出错','bottom',1000,'warning')
+    })
+  }
+
+  getAd = () => {
+    api.adSpace().then(data => {
+      if(data.status === 200) {
+        this.setState({
+          adDetail: data.data.data
+        })
+      }
     })
   }
 
@@ -330,7 +342,7 @@ export default class GoodsListPageView extends Component{
           onEndReachedThreshold={1}
           onEndReached={() => this._onEndReached()}
           // onEndReached={this._onEndReached.bind(this)}
-          ListHeaderComponent={() => <GoodsSwiper {...this['props']}/>}
+          ListHeaderComponent={() => {return this.state.adDetail === null ? null : <GoodsSwiper {...this['props']} adDetail={this.state.adDetail}/>}}
           ListEmptyComponent={() => (
             <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
               <Text>沒有數據了...</Text>

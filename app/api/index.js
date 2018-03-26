@@ -156,6 +156,9 @@ const api = {
         "Content-Type": "application/x-www-form-urlencoded"
       }
     })
+  },
+  adSpace() { // 广告位接口
+    return axios.get(api_url + '/adSpace/list')
   }
 }
 
