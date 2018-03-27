@@ -261,4 +261,4 @@ MainView.router.getStateForAction = (action, state) => {
   return defaultGetStateForAction(action, state)
 }
 
-export default MainView
+export default MainView;

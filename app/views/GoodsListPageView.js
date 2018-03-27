@@ -141,7 +141,7 @@ export default class GoodsListPageView extends Component{
   _requestNextDetailList() {
     api.getCanteenList(requestParams.currentPage).then(data => {
       if(data.status === 200) {
-        console.log(data)
+        // console.log(data)
         if(data.data.data.length === 0) {
           requestParams.currentPage --
           this.setState({

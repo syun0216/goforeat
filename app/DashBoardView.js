@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import {View} from 'react-native'
+import {withNavigationFocus} from 'react-navigation'
 import MainView from './MainView'
 import {connect} from 'react-redux'
 import Loading from './components/Loading'
 class DashBoardView extends PureComponent {
   componentDidMount() {
-    // console.log(this.props);
+    console.log('dash',this.props);
   }
   render() {
     return (
@@ -48,4 +49,4 @@ const dashboardmapDispatchToProps = dispatch => ({
   dispatch: dispatch
 })
 
-export default connect(dashboardStateToProps,dashboardmapDispatchToProps)(DashBoardView)
+export default connect(dashboardStateToProps,dashboardmapDispatchToProps)(withNavigationFocus(DashBoardView))

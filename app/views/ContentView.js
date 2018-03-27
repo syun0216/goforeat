@@ -6,7 +6,12 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
-  StyleSheet
+  StyleSheet,
+  NativeModules,
+  AlertIOS,
+  ToastAndroid,
+  Clipboard,
+  Platform
 } from "react-native";
 import {
   Container,
@@ -27,6 +32,7 @@ import {
 } from "native-base";
 import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar'
+import Share, {ShareSheet, Button as SButton} from 'react-native-share';
 //utils
 import ToastUtil from "../utils/ToastUtil";
 import Colors from "../utils/Colors";
@@ -46,7 +52,8 @@ export default class ContentView extends Component {
   state = {
     favoriteChecked: false,
     canteenData: null,
-    loading: true
+    loading: true,
+    shareboxVisible: false
   };
 
   componentDidMount() {
@@ -127,6 +134,70 @@ export default class ContentView extends Component {
     }
   }
 
+  openShare = () => {
+    if (this.props.navigation.state.params.kind === "canteen") {
+      ToastUtil.show("暫未開放分享店鋪", 1000, "bottom", "warning");
+      return;
+    }
+    this.setState({shareboxVisible: true})
+  }
+
+  cancelShare = () => this.setState({shareboxVisible: false})
+
+  _shareLink = (type) => {
+    let {data,kind} = this.props.navigation.state.params;
+    const shareOptions = {
+      url: kind === 'canteen' ? 'http://goforeat.hk' : data.url,
+      message: 'goforeat',
+      title: data.title
+    };
+    this.cancelShare();
+    if(type !== 'url') {
+      setTimeout(() => {
+        Share.shareSingle(Object.assign(shareOptions, {
+          "social": type
+        })).catch((err) => { 
+          return;
+        });
+      },300);
+    }else {
+      setTimeout(() => {
+        if(typeof shareOptions["url"] !== undefined) {
+          Clipboard.setString(shareOptions["url"]);
+          if (Platform.OS === "android") {
+            ToastAndroid.show('找不到該鏈接', ToastAndroid.SHORT);
+          } else if (Platform.OS === "ios") {
+            AlertIOS.alert('找不到該鏈接');
+          }
+        }
+      },300);
+    }
+  }
+
+  _renderShareSheet = () => {
+    return (<ShareSheet visible={this.state.shareboxVisible} onCancel={this.cancelShare.bind(this)}>
+          <SButton iconSrc={require('../asset/Twitter.png')}
+                  onPress={()=>this._shareLink('twitter')}><Text style={{marginTop:3}}>Twitter</Text></SButton>
+          <SButton iconSrc={require('../asset/facebook.png')}
+                  onPress={()=>this._shareLink('facebook')}><Text style={{marginTop:3}}>Facebook</Text></SButton>
+          <SButton iconSrc={require('../asset/whatsapp.png')}
+                  onPress={()=>this._shareLink('whatsapp')}><Text style={{marginTop:3}}>Whatsapp</Text></SButton>
+          <SButton iconSrc={require('../asset/googleplus.png')}
+                  onPress={()=>this._shareLink('googleplus')}><Text style={{marginTop:3}}>Google</Text> +</SButton>
+          <SButton iconSrc={require('../asset/email.png')}
+                  onPress={()=>this._shareLink('email')}><Text style={{marginTop:3}}>Email</Text></SButton>
+          <SButton iconSrc={require('../asset/link.png')}
+            onPress={()=>this._shareLink('url')}><Text style={{marginTop:3}}>Copy Link</Text></SButton>
+          <SButton iconSrc={require('../asset/more.png')}
+          onPress={()=>{
+            this.onCancel();
+            setTimeout(() => {
+              Share.open(shareOptions)
+            },300);
+          }}><Text style={{marginTop:3}}>More</Text></SButton>
+        </ShareSheet>
+  )}
+
   _renderContentView = () => (
     <Content>
       <Card style={{ flex:1,margin:0 ,borderWidth:0}}>
@@ -195,6 +266,7 @@ export default class ContentView extends Component {
   render() {
     return (
       <Container>
+      
         <Header style={{backgroundColor: this.props.screenProps.theme}} iosBarStyle="light-content">
           <Left>
           <Button transparent onPress={() => this.props.navigation.goBack()}>
@@ -217,17 +289,18 @@ export default class ContentView extends Component {
           <Button transparent onPress={() => this.props.navigation.navigate('Comment',{comment: this.state.canteenData.comment})}>
             <Icon name="md-chatboxes" style={{ fontSize: 25, color: Colors.main_white }}/>
           </Button>
-          <Button transparent onPress={() => ToastUtil.show("分享功能暫未開放...", 1000, "bottom", "warning")}>
+          <Button transparent onPress={() => this.setState({shareboxVisible: true})}>
             <Icon name="md-share" style={{ fontSize: 23, color: Colors.main_white }}/>
           </Button>
           </Right>
         </Header>
-        <Content>
+        <View style={{flex:1}}>
             {this.props.navigation.state.params.kind === "article"
             ? this._renderArticleContentView()
             : null}
           {this.state.canteenData !== null ? this._renderContentView() : null}
-        </Content>
+          {this._renderShareSheet()}
+        </View>
     </Container>
 
     );

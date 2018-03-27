@@ -21,6 +21,7 @@ export default class ShopSwiperablePage extends Component {
 
     constructor (props) {
         super(props);
+        console.log('props', props);
         this.state = {
             slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
             shopDetail: null
@@ -38,7 +39,7 @@ export default class ShopSwiperablePage extends Component {
       //api
       getRecommendList = () => {
         api.recommendShop().then(data => {
-          console.log(data);
+        //   console.log(data);
           if (data.status === 200 && data.data.ro.ok) {
             this.setState({
               shopDetail: data.data.data
@@ -226,10 +227,10 @@ export default class ShopSwiperablePage extends Component {
                         { example1 }
                         <View style={{height:GLOBAL_PARAMS._winHeight*0.15,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
                           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                            <Image style={{width:80,height:80}} source={{uri:'dislike'}}/>
+                            <Image style={{width:72,height:72}} source={{uri:'dislike'}}/>
                           </View>
                           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                            <Image style={{width:80,height:80}} source={{uri:'like'}}/>
+                            <Image style={{width:72,height:72}} source={{uri:'like'}}/>
                           </View>
                         </View>
                     </ScrollView>

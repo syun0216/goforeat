@@ -31,9 +31,9 @@ const ListFooter = ({loadingStatus,errorToDo}) => {
     case GLOBAL_PARAMS.httpStatus.NO_MORE_DATA: {
       return (
         <View style={[styles.commonContainer]}>
-          <View style={{width:GLOBAL_PARAMS._winWidth*0.3,height:1,marginLeft:10,marginRight:20,backgroundColor:'#959595'}}></View>
-          <View><Text style={{color: '#959595'}}>我是有底線的</Text></View>
-          <View style={{width:GLOBAL_PARAMS._winWidth*0.3,height:1,marginLeft:20,marginRight:10,backgroundColor:'#959595'}}></View>
+          {/*<View style={{width:GLOBAL_PARAMS._winWidth*0.3,height:1,marginLeft:10,marginRight:20,backgroundColor:'#959595'}}></View>*/}
+          <View><Text style={{color: '#959595'}}>已經全部加載完畢</Text></View>
+          {/*<View style={{width:GLOBAL_PARAMS._winWidth*0.3,height:1,marginLeft:20,marginRight:10,backgroundColor:'#959595'}}></View>*/}
         </View>
       )
     }

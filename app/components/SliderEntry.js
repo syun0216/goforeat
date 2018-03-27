@@ -58,7 +58,7 @@ export default class SliderEntry extends Component {
                 console.log(this.props)
               }
               >
-                <View style={styles.shadow} />
+
                 <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
                     { this.image }
                     <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />
