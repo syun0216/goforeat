@@ -14,7 +14,7 @@ const api = {
     const params = {
       page: page,
       condition: 'default',
-      limit: 4
+      limit: 10
     }
     if (typeof filter !== 'undefined') {
       for (let i in filter) {

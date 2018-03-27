@@ -29,6 +29,13 @@ export default class SettingView extends PureComponent{
       {bgColor:Colors.main_black,name:'暗'},
       {bgColor:Colors.main_purple,name:'紫'},
       {bgColor:Colors.main_red,name:'紅'},
+      {bgColor:Colors.ionBlue,name:'鐵藍'},
+      {bgColor:Colors.main_brown,name:'咖啡'},
+      {bgColor:Colors.blue_green,name:'青綠'},
+      {bgColor:Colors.deep_green,name:'深綠'},
+      {bgColor:Colors.middle_red,name:'緋紅'},
+      {bgColor:Colors.middle_gray,name:'中灰'},
+      
     ]
     return (
       <Container>

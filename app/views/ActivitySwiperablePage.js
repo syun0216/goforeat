@@ -91,8 +91,8 @@ export default class ArticleView extends Component {
             iconLeft
             onPress={() => this._deckSwiper._root.swipeLeft()}
           >
-            <Icon name="arrow-back" />
-            <Text>上一篇</Text>
+            <Icon style={{color: this.props.screenProps.theme}} name="arrow-back" />
+            <Text style={{color: this.props.screenProps.theme}}>上一篇</Text>
           </Button>
           <Button
             transparent
@@ -103,15 +103,15 @@ export default class ArticleView extends Component {
               })
             }
           >
-            <Text>點擊查看詳情</Text>
+            <Text style={{color: this.props.screenProps.theme}}>點擊查看詳情</Text>
           </Button>
           <Button
             transparent
             iconRight
             onPress={() => this._deckSwiper._root.swipeRight()}
           >
-            <Text>下一篇</Text>
-            <Icon name="arrow-forward" />
+            <Text style={{color: this.props.screenProps.theme}}>下一篇</Text>
+            <Icon style={{color: this.props.screenProps.theme}} name="arrow-forward" />
           </Button>
         </View>
       </Container>

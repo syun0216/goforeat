@@ -15,6 +15,7 @@ export default class SearchView extends Component{
   componentWillUnmount = () => {
     source.cancel()
   }
+
   //common functions
   _onSubmitSearch = (content) => {
     api.searchCanteenWithName(content).then(data => {

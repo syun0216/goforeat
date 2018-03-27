@@ -38,7 +38,7 @@ const diffplatform = {
 }
 
 export default class GoodsListPageView extends Component{
-
+  _isMounted = false // 監測組件是否加載完畢
   sectionList = null
   sview = null // 滾動視圖
   onEndReachedCalledDuringMomentum = false
@@ -57,14 +57,20 @@ export default class GoodsListPageView extends Component{
       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS,
   }
 
-  componentDidMount() {
-    // console.log(111,this.props);
-    this.getCanteenOption()
-    this.getAd()
+  componentWillMount = () => {
     this.getCanteenList()
   }
 
+
+  componentDidMount() {
+    // console.log(111,this.props);
+    this._isMounted = true
+    this.getCanteenOption()
+    this.getAd()
+  }
+
   componentWillUnmount = () => {
+    this._isMounted = false
     source.cancel()
   }
 
@@ -77,17 +83,19 @@ export default class GoodsListPageView extends Component{
   getCanteenList = (filter) => {
     api.getCanteenList(requestParams.currentPage,filter).then(data => {
       // console.log(data)
-      if(data.status === 200) {
-        this.setState({
-          canteenDetail: data.data.data,
-          firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
-        })
-      }
-      else{
-        this.setState({
-          // canteenDetail: data.data.data,
-          firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-        })
+      if(this._isMounted) {
+        if(data.status === 200) {
+          this.setState({
+            canteenDetail: data.data.data,
+            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
+          })
+        }
+        else{
+          this.setState({
+            // canteenDetail: data.data.data,
+            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
+          })
+        }
       }
     },() => {
       ToastUtil.show('网络请求出错',1000,'bottom','warning')
@@ -399,7 +407,7 @@ _renderSectionListItem = (item,index) => {
         {this.state.canteenDetail.length === 0 ?
           <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
-        <Header style={{backgroundColor:this.props.screenProps.theme}} iosBarStyle="light-content">
+        <Header style={{backgroundColor:this.props.screenProps.theme, borderBottomWidth: 0}} iosBarStyle="light-content">
           <Left>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('DrawerOpen')}>
               <View>
