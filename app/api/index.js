@@ -137,8 +137,18 @@ const api = {
       }
     })
   },
-  recommendShop(limit=10,offset) {
+  recommendShop(limit=10,offset) { //线下餐厅推荐
     return axios.post(api_url + '/guide/canteenRecommend', qs.stringify({
+      limit,
+      offset
+    },{cancelToken: source.token}),{
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
+  },
+  recommendOnlineShop(limit=15,offset) {
+    return axios.post(api_url + '/guide/onlineCanteenRecommend', qs.stringify({
       limit,
       offset
     },{cancelToken: source.token}),{

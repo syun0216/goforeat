@@ -54,7 +54,7 @@ const tabView = TabNavigator({
     screen: GoodsListPageView,
     navigationOptions: {
       tabBarLabel: '商品',
-      tabBarIcon: ({tintColor,focused}) => (<Icon size={35} name="md-list-box" style={{
+      tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-happy" style={{
           color:  tintColor
         }}/>)
     }
@@ -62,8 +62,8 @@ const tabView = TabNavigator({
   ShopTab: {
     screen: ShopSwiperablePage,
     navigationOptions: {
-      tabBarLabel: '商家',
-      tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-basket" style={{
+      tabBarLabel: '線上',
+      tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-globe" style={{
           color:  tintColor
         }}/>)
     }
@@ -80,8 +80,8 @@ const tabView = TabNavigator({
   AtivityTab: {
     screen: ActivitySwiperablePage,
     navigationOptions: {
-      tabBarLabel: '活動',
-      tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-hand" style={{
+      tabBarLabel: '線下',
+      tabBarIcon: ({tintColor,focused}) => (<Icon size={28} name="md-aperture" style={{
           color:  tintColor
         }}/>)
     }

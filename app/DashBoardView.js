@@ -49,4 +49,4 @@ const dashboardmapDispatchToProps = dispatch => ({
   dispatch: dispatch
 })
 
-export default connect(dashboardStateToProps,dashboardmapDispatchToProps)(withNavigationFocus(DashBoardView))
+export default connect(dashboardStateToProps,dashboardmapDispatchToProps)(DashBoardView)

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Image, TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity,ScrollView } from "react-native";
 import {
   Container,
+  Content,
   Header,
   View,
   DeckSwiper,
@@ -18,6 +19,8 @@ import {
 import CommonHeader from "../components/CommonHeader";
 //api
 import api from "../api";
+//utils
+import GLOBAL_PARAMS from '../utils/global_params';
 
 export default class ArticleView extends Component {
   state = {
@@ -71,29 +74,31 @@ export default class ArticleView extends Component {
   render() {
     return (
       <Container>
-        <CommonHeader title="活動列表" {...this["props"]} />
-        <View style={{ backgroundColor: "#fafafa" }} />
+        <CommonHeader title="線下餐廳" {...this["props"]} />
         {this.state.shopDetail !== null ? this._renderDeskSwiper() : null}
+
         <View
           style={{
             flexDirection: "row",
             flex: 1,
             position: "absolute",
-            bottom: 30,
+            bottom: 0,
             left: 0,
             right: 0,
-            justifyContent: "space-between",
-            padding: 15
+            justifyContent: "space-around",
+            alignItems:'center',
+            padding: 15,
+            // backgroundColor: this.props.screenProps.theme,
+            height: GLOBAL_PARAMS._winHeight *0.15
           }}
         >
-          <Button
-            transparent
-            iconLeft
-            onPress={() => this._deckSwiper._root.swipeLeft()}
-          >
-            <Icon style={{color: this.props.screenProps.theme}} name="arrow-back" />
-            <Text style={{color: this.props.screenProps.theme}}>上一篇</Text>
-          </Button>
+        <Button
+        transparent
+        iconRight
+        onPress={() => this._deckSwiper._root.swipeRight()}
+      >
+      <Image style={{width:72,height:72}} source={{uri:'dislike'}}/>
+      </Button>
           <Button
             transparent
             onPress={() =>
@@ -103,17 +108,10 @@ export default class ArticleView extends Component {
               })
             }
           >
-            <Text style={{color: this.props.screenProps.theme}}>點擊查看詳情</Text>
+            <Image style={{width:72,height:72}} source={{uri:'like'}}/>
           </Button>
-          <Button
-            transparent
-            iconRight
-            onPress={() => this._deckSwiper._root.swipeRight()}
-          >
-            <Text style={{color: this.props.screenProps.theme}}>下一篇</Text>
-            <Icon style={{color: this.props.screenProps.theme}} name="arrow-forward" />
-          </Button>
-        </View>
+         
+          </View>
       </Container>
     );
   }

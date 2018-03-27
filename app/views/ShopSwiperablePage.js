@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, View, ScrollView, Text, StatusBar, SafeAreaView,Image } from 'react-native';
+import { Platform, View, ScrollView, Text, StatusBar, SafeAreaView,Image,TouchableOpacity } from 'react-native';
 import {Container} from 'native-base';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { sliderWidth, itemWidth } from '../styles/SliderEntry.style';
@@ -21,7 +21,6 @@ export default class ShopSwiperablePage extends Component {
 
     constructor (props) {
         super(props);
-        console.log('props', props);
         this.state = {
             slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
             shopDetail: null
@@ -38,7 +37,7 @@ export default class ShopSwiperablePage extends Component {
       };
       //api
       getRecommendList = () => {
-        api.recommendShop().then(data => {
+        api.recommendOnlineShop().then(data => {
         //   console.log(data);
           if (data.status === 200 && data.data.ro.ok) {
             this.setState({
@@ -59,7 +58,7 @@ export default class ShopSwiperablePage extends Component {
               even={(index + 1) % 2 === 0}
               parallax={true}
               parallaxProps={parallaxProps}
-              {...this['props']}
+              
             />
         );
     }
@@ -197,13 +196,13 @@ export default class ShopSwiperablePage extends Component {
 
     render () {
         const example1 = this.mainExample(1, '- 為您推薦 -');
-        const example2 = this.momentumExample(2, 'Momentum | Left-aligned | Active animation');
-        const example3 = this.layoutExample(3, '- 為您推薦 -');
-        const example4 = this.layoutExample(4, '"Tinder-like" layout | Loop', 'tinder');
-        const example5 = this.customExample(5, 'Custom animation 1', 1, this._renderItem);
-        const example6 = this.customExample(6, 'Custom animation 2', 2, this._renderLightItem);
-        const example7 = this.customExample(7, 'Custom animation 3', 3, this._renderDarkItem);
-        const example8 = this.customExample(8, 'Custom animation 4', 4, this._renderLightItem);
+        // const example2 = this.momentumExample(2, 'Momentum | Left-aligned | Active animation');
+        // const example3 = this.layoutExample(3, '- 為您推薦 -');
+        // const example4 = this.layoutExample(4, '"Tinder-like" layout | Loop', 'tinder');
+        // const example5 = this.customExample(5, 'Custom animation 1', 1, this._renderItem);
+        // const example6 = this.customExample(6, 'Custom animation 2', 2, this._renderLightItem);
+        // const example7 = this.customExample(7, 'Custom animation 3', 3, this._renderDarkItem);
+        // const example8 = this.customExample(8, 'Custom animation 4', 4, this._renderLightItem);
 
         return (
             // <SafeAreaView style={styles.safeArea}>
@@ -218,21 +217,21 @@ export default class ShopSwiperablePage extends Component {
             //     </View>
             // </SafeAreaView>
             <Container>
-                <CommonHeader title="商家推薦" {...this['props']}/>
+                <CommonHeader title="線上推薦" {...this['props']}/>
                 <ScrollView
                       style={styles.scrollview}
                       scrollEventThrottle={200}
                       directionalLockEnabled={true}
                     >
                         { example1 }
-                        <View style={{height:GLOBAL_PARAMS._winHeight*0.15,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
-                          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                        {/*<View style={{height:GLOBAL_PARAMS._winHeight*0.15,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
+                          <TouchableOpacity style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:72,height:72}} source={{uri:'dislike'}}/>
-                          </View>
-                          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:72,height:72}} source={{uri:'like'}}/>
-                          </View>
-                        </View>
+                          </TouchableOpacity>
+                        </View>*/}
                     </ScrollView>
             </Container>
         );

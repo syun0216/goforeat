@@ -9,7 +9,7 @@ import {Platform, StyleSheet, View, AppState} from 'react-native';
 import {Root} from 'native-base'
 import store from './app/store'
 import {Provider,connect} from 'react-redux'
-import DashboardView from './app/DashboardView'
+import DashboardView from './app/DashBoardView'
 //components
 import Loading from './app/components/Loading'
 //cache
