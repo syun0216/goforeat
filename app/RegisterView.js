@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react'
 import {View, Image} from 'react-native'
-import Picker from 'react-native-picker'
 import {
   Container,
   Content,
@@ -13,7 +12,8 @@ import {
   Text,
   Icon,
   Left,
-  Right
+  Right,
+  ActionSheet
 } from 'native-base';
 import {NavigationActions} from 'react-navigation'
 //utils
@@ -25,6 +25,10 @@ import api from './api'
 import source from './api/CancelToken'
 //components
 import CommonHeader from './components/CommonHeader'
+
+const BUTTONS = [GLOBAL_PARAMS.phoneType.HK.label,GLOBAL_PARAMS.phoneType.CHN.label];
+const DESTRUCTIVE_INDEX = 3;
+const CANCEL_INDEX = 4;
 
 export default class RegisterView extends PureComponent {
   token = null
@@ -40,27 +44,7 @@ export default class RegisterView extends PureComponent {
     password: null
   }
 
-  componentDidMount() {
-    Picker.init({
-      pickerData: [
-        'HK +852', 'CHN +86'
-      ],
-      selectedValue: ['HK: +852'],
-      pickerTitleText: '選擇電話類型',
-      pickerConfirmBtnText: '確定',
-      pickerCancelBtnText: '取消',
-      pickerRowHeight:30,
-      onPickerConfirm: data => {
-        switch(data[0]){
-          case GLOBAL_PARAMS.phoneType.HK.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.HK});break
-          case GLOBAL_PARAMS.phoneType.CHN.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.CHN});break
-        }
-      }
-    });
-  }
-
   componentWillUnmount() {
-    Picker.hide()
     source.cancel()
     clearInterval(this.interval)
   }
@@ -109,7 +93,7 @@ export default class RegisterView extends PureComponent {
     // }
     // else{
       this.setState({
-        isBtnDisabled: true,
+        isBtnDisabled: false,
         phone: phone
       })
     // }
@@ -157,6 +141,23 @@ export default class RegisterView extends PureComponent {
     })
   }
 
+  _showActionSheet = () => {
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: CANCEL_INDEX,
+        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        title: "選擇電話類型"
+      },
+      buttonIndex => {
+        switch(BUTTONS[buttonIndex]){
+          case GLOBAL_PARAMS.phoneType.HK.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.HK});break
+          case GLOBAL_PARAMS.phoneType.CHN.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.CHN});break
+        }
+      }
+    )
+  }
+
   render() {
     return (<Container>
       <CommonHeader canBack title="用戶註冊" {...this['props']} />
@@ -164,8 +165,9 @@ export default class RegisterView extends PureComponent {
         <Form>
           <Item>
             <Label>選擇區域</Label>
-            <Button transparent onPress={() => Picker.show()}>
+            <Button transparent onPress={() => this._showActionSheet()}>
               <Text style={{color:this.props.screenProps.theme}}>{this.state.selectedValue.label}</Text>
+              <Text style={{color:this.props.screenProps.theme}}>{this.state.clicked}</Text>
             </Button>
           </Item>
           <Item inlineLabel>

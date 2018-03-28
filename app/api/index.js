@@ -103,7 +103,7 @@ const api = {
       name
     },{cancelToken: source.token}),{
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
       }
     })
   },
