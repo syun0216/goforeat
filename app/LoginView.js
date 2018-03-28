@@ -84,7 +84,7 @@ export default class LoginView extends Component {
     // }
     // else{
       this.setState({
-        phone: null
+        phone: phone
       })
     // }
   }

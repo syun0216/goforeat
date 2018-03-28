@@ -18,7 +18,7 @@ export default class Dropdownfilter extends PureComponent{
     cancleToDo:PropTypes.func
   }
   componentDidMount() {
-    console.log(this.props)
+  //   console.log(this.props)
   }
   state = {
     currentSelect:this.props.screenProps.filterSort
@@ -68,7 +68,7 @@ export default class Dropdownfilter extends PureComponent{
       ...this.props.screenProps.filterSort
     }
     _obj[itemEnName] = btn[0]
-    this.props.saveFilter(_obj)
+    this.props.screenProps.saveFilter(_obj)
     // switch(itemEnName){
     //   case 'areas': {
     //     this.setState({currentSelect:{...thiareas:btn[0]}});break
@@ -94,7 +94,7 @@ export default class Dropdownfilter extends PureComponent{
             style={[styles.footerBtn,{borderRightWidth:1,borderColor:'#ddd',borderRadius:0}]}>
             <Text style={{color:this.props.screenProps.theme}}>取消</Text>
           </Button>
-          <Button onPress={() => this.props.confirmToDo(this.props.filterSort)}
+          <Button onPress={() => this.props.confirmToDo(this.props.screenProps.filterSort)}
              transparent style={[styles.footerBtn,{backgroundColor:this.props.screenProps.theme}]}>
             <Text style={{color:'#fff'}}>確定</Text>
           </Button>

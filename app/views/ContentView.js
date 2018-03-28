@@ -37,6 +37,7 @@ import Share, {ShareSheet, Button as SButton} from 'react-native-share';
 import ToastUtil from "../utils/ToastUtil";
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
+import LinkingUtils from '../utils/LinkingUtils';
 //api
 import api from "../api";
 import source from '../api/CancelToken';
@@ -176,8 +177,12 @@ export default class ContentView extends Component {
     }
   }
 
+  _phonecall = () => {
+    LinkingUtils.dialPhoneWithNumber(this.state.canteenData.phone)
+  }
+
   _renderShareSheet = () => {
-    return (<ShareSheet visible={this.state.shareboxVisible} onCancel={this.cancelShare.bind(this)}>
+    return (<ShareSheet visible={this.state.shareboxVisible} onCancel={this.cancelShare.bind(this)} style={{zIndex:999}}>
           <SButton iconSrc={require('../asset/Twitter.png')}
                   onPress={()=>this._shareLink('twitter')}><Text style={{marginTop:3}}>Twitter</Text></SButton>
           <SButton iconSrc={require('../asset/facebook.png')}
@@ -192,7 +197,7 @@ export default class ContentView extends Component {
             onPress={()=>this._shareLink('url')}><Text style={{marginTop:3}}>Copy Link</Text></SButton>
           <SButton iconSrc={require('../asset/more.png')}
           onPress={()=>{
-            this.onCancel();
+            this.cancelShare();
             setTimeout(() => {
               Share.open(shareOptions)
             },300);
@@ -266,6 +271,7 @@ export default class ContentView extends Component {
   );
 
   render() {
+    let {kind} = this.props.navigation.state.params;
     return (
       <Container>
       
@@ -275,24 +281,8 @@ export default class ContentView extends Component {
             <Icon size={20} name="ios-arrow-back" style={{fontSize:25,color: Colors.main_white}}/>
           </Button></Left>
           <Body><Text style={{color: Colors.main_white}}>{this.props.navigation.state.params.kind === 'canteen' ? '餐廳詳情' : '文章詳情'}</Text></Body>
-          <Right><Button transparent onPress={() => this._addNewsToFavorite()}>
-          {this.state.favoriteChecked ? (
-            <Icon
-              name="md-heart"
-              style={{ fontSize: 20, color: Colors.main_white }}
-            />
-          ) : (
-            <Icon
-              name="md-heart-outline"
-              style={{ color: Colors.main_white, fontSize: 25 }}
-            />
-          )}
-          </Button>
-          <Button transparent onPress={() => this.props.navigation.navigate('Comment',{comment: this.state.canteenData.comment})}>
-            <Icon name="md-chatboxes" style={{ fontSize: 25, color: Colors.main_white }}/>
-          </Button>
-          <Button transparent onPress={() => this.setState({shareboxVisible: true})}>
-            <Icon name="md-share" style={{ fontSize: 23, color: Colors.main_white }}/>
+          <Right><Button transparent onPress={() => this.setState({shareboxVisible: true})}>
+            <Icon name="md-share-alt" style={{ fontSize: 23, color: Colors.main_white }}/>
           </Button>
           </Right>
         </Header>
@@ -303,6 +293,38 @@ export default class ContentView extends Component {
           {this.state.canteenData !== null ? this._renderContentView() : null}
           {this._renderShareSheet()}
         </View>
+        {kind === 'canteen' ? <Footer style={{zIndex:1}}>
+            <TouchableOpacity 
+            style={{height:60,width:GLOBAL_PARAMS._winWidth*0.25,flexDirection:'row',justifyContent:'center',alignItems:'center'}} 
+            onPress={() => this._addNewsToFavorite()}>
+            {this.state.favoriteChecked ? (
+              <Icon
+                name="md-heart"
+                style={{ fontSize: 20, color: this.props.screenProps.theme }}
+              />
+            ) : (
+              <Icon
+                name="md-heart-outline"
+                style={{ color: this.props.screenProps.theme, fontSize: 25 }}
+              />
+            )}
+            <Text style={{marginLeft: 10,color: this.props.screenProps.theme}}>關注</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+            onPress={() => this._phonecall()}
+            style={{height:60,width:GLOBAL_PARAMS._winWidth*0.35,backgroundColor:Colors.main_blue,
+              flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
+                <Icon name="md-call" style={{fontSize:20,color:Colors.main_white}}/>
+                <Text style={{color:Colors.main_white,marginLeft:10}}>撥打電話</Text>  
+            </TouchableOpacity>
+            <TouchableOpacity 
+            onPress={() => this.props.navigation.navigate('Comment',{comment: this.state.canteenData.comment})}
+            style={{height:60,width:GLOBAL_PARAMS._winWidth*0.4,backgroundColor:Colors.middle_green,
+              flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                <Icon name="ios-chatbubbles" style={{fontSize: 20,color:Colors.main_white}}/>
+                <Text style={{color:Colors.main_white,marginLeft:10}}>查看評論</Text>
+            </TouchableOpacity>
+        </Footer> : null}
     </Container>
 
     );

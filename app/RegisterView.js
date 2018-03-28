@@ -110,7 +110,7 @@ export default class RegisterView extends PureComponent {
     // else{
       this.setState({
         isBtnDisabled: true,
-        phone: null
+        phone: phone
       })
     // }
   }
