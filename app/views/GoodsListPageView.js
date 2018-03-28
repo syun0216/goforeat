@@ -66,7 +66,6 @@ export default class GoodsListPageView extends Component{
     // console.log(111,this.props);
     this._isMounted = true
     this.getCanteenOption()
-    this.getAd()
   }
 
   componentWillUnmount = () => {
@@ -83,6 +82,7 @@ export default class GoodsListPageView extends Component{
   getCanteenList = (filter) => {
     api.getCanteenList(requestParams.currentPage,filter).then(data => {
       // console.log(data)
+      this.getAd();
       if(this._isMounted) {
         if(data.status === 200) {
           this.setState({

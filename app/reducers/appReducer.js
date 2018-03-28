@@ -42,8 +42,8 @@ const initialState = {
     refreshParams: null //註冊后返回首頁強刷
   },
   favoriteStock: {
-    articleList: { title: "文章收藏", data: [] },
-    shopList: { title: "商店收藏", data: [] }
+    articleList: { title: "關注的文章", data: [] },
+    shopList: { title: "關注的商店", data: [] }
   },
   themeState: {
     theme: Colors.main_orange
