@@ -98,18 +98,6 @@ export default class ShopSwiperablePage extends Component {
                   autoplayInterval={3000}
                   onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
                 />
-                <Pagination
-                  dotsLength={this.state.shopDetail.length}
-                  activeDotIndex={slider1ActiveSlide}
-                  containerStyle={styles.paginationContainer}
-                  dotColor={'rgba(0, 0, 0, 0.92)'}
-                  dotStyle={styles.paginationDot}
-                  inactiveDotColor={colors.black}
-                  inactiveDotOpacity={0.4}
-                  inactiveDotScale={0.6}
-                  carouselRef={this._slider1Ref}
-                  tappableDots={!!this._slider1Ref}
-                />
             </View>
         ) : null
     }

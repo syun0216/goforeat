@@ -127,13 +127,13 @@ export default class ContentView extends Component {
         favoriteChecked: true
       });
       kind === 'article'? stockArticle(data) : stockShop(data);
-      ToastUtil.showWithMessage("收藏成功");
+      ToastUtil.showWithMessage("關注成功");
     } else {
       this.setState({
         favoriteChecked: false
       });
       kind === 'article'? deleteArticle(data.id) : deleteShop(data.id);
-      ToastUtil.showWithMessage("取消收藏");
+      ToastUtil.showWithMessage("取消關注成功");
     }
   }
 
@@ -178,6 +178,10 @@ export default class ContentView extends Component {
   }
 
   _phonecall = () => {
+    if(!this.state.canteenData.phone) {
+      ToastUtil.showWithMessage('暫無商店電話');
+      return;
+    }
     LinkingUtils.dialPhoneWithNumber(this.state.canteenData.phone)
   }
 
@@ -295,7 +299,7 @@ export default class ContentView extends Component {
         </View>
         {kind === 'canteen' ? <Footer style={{zIndex:1}}>
             <TouchableOpacity 
-            style={{height:60,width:GLOBAL_PARAMS._winWidth*0.25,flexDirection:'row',justifyContent:'center',alignItems:'center'}} 
+            style={{height:60,width:GLOBAL_PARAMS._winWidth*0.3,flexDirection:'row',justifyContent:'center',alignItems:'center'}} 
             onPress={() => this._addNewsToFavorite()}>
             {this.state.favoriteChecked ? (
               <Icon
@@ -308,7 +312,8 @@ export default class ContentView extends Component {
                 style={{ color: this.props.screenProps.theme, fontSize: 25 }}
               />
             )}
-            <Text style={{marginLeft: 10,color: this.props.screenProps.theme}}>關注</Text>
+            {this.state.favoriteChecked? (<Text style={{marginLeft: 10,color: this.props.screenProps.theme}}>已關注</Text>) : 
+            (<Text style={{marginLeft: 10,color: this.props.screenProps.theme}}>關注</Text>)}
             </TouchableOpacity>
             <TouchableOpacity 
             onPress={() => this._phonecall()}
@@ -319,7 +324,7 @@ export default class ContentView extends Component {
             </TouchableOpacity>
             <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('Comment',{comment: this.state.canteenData.comment})}
-            style={{height:60,width:GLOBAL_PARAMS._winWidth*0.4,backgroundColor:Colors.middle_green,
+            style={{height:60,width:GLOBAL_PARAMS._winWidth*0.35,backgroundColor:Colors.middle_green,
               flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
                 <Icon name="ios-chatbubbles" style={{fontSize: 20,color:Colors.main_white}}/>
                 <Text style={{color:Colors.main_white,marginLeft:10}}>查看評論</Text>
