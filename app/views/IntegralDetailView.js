@@ -70,7 +70,7 @@ export default class IntegralDetailView extends PureComponent {
         }
       },
       () => {
-        ToastUtil.show("獲取數據失敗", 1000, "bottom", "warning");
+        ToastUtil.showWithMessage("獲取數據失敗");
       }
     );
   };

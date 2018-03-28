@@ -98,7 +98,7 @@ export default class GoodsListPageView extends Component{
         }
       }
     },() => {
-      ToastUtil.show('网络请求出错',1000,'bottom','warning')
+      ToastUtil.showWithMessage('网络请求出错')
       this.setState({
           firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
       })
@@ -123,7 +123,7 @@ export default class GoodsListPageView extends Component{
         })
       }
     },() => {
-      ToastUtil.show('网络请求出错','bottom',1000,'warning')
+      ToastUtil.showWithMessage('网络请求出错',)
     })
   }
 

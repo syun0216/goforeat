@@ -33,7 +33,7 @@ class CommonModal extends Component{
         currentSelect: item.cityName
       })
     }else {
-      ToastUtil.show("已到最后一級了", 1000, "bottom", "success");
+      ToastUtil.showWithMessage("已到最后一級了");
     }
   }
 

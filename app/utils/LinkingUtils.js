@@ -9,10 +9,10 @@ const LinkingUtils = {
 
       if (Platform.OS == 'ios'){
           Alert.alert(null
-              , '是否拨打电话:' + phoneNumber + '?'
+              , '是否撥打電話:' + phoneNumber + '?'
               , [
                   {text: '取消'},
-                  {text: '确定', onPress: () => this._dialPhone(phoneNumber)}
+                  {text: '確定', onPress: () => this._dialPhone(phoneNumber)}
               ]
           );
       } else {
@@ -24,12 +24,12 @@ const LinkingUtils = {
       let dialPhoneUrl = "tel:" + phone;
       Linking.canOpenURL(dialPhoneUrl).then(supported => {
           if (!supported) {
-              ToastUtil.show("不支持拨打电话",1000,'bottom','warning');
+              ToastUtil.showWithMessage("不支持撥打電話");
           } else {
               return Linking.openURL(dialPhoneUrl);
           }
       }).catch(error => {
-          ToastUtil.show("拨打用户号码失败",1000,'bottom','warning');
+          ToastUtil.showWithMessage("撥打用戶號碼失敗");
       });
   },
 }

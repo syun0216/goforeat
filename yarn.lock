@@ -4131,6 +4131,19 @@ react-native-progress@^3.4.0:
   dependencies:
     prop-types "^15.5.8"
 
+react-native-root-siblings@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/react-native-root-siblings/-/react-native-root-siblings-3.0.0.tgz#049f584f83ec5c18f16c5cfe1ef9aada26f685bf"
+  dependencies:
+    static-container "^1.0.0"
+
+react-native-root-toast@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/react-native-root-toast/-/react-native-root-toast-3.0.1.tgz#ad0a37c46bc72971a229c7784df25147004e5538"
+  dependencies:
+    prop-types "^15.5.10"
+    react-native-root-siblings "^3.0.0"
+
 react-native-share@^1.0.27:
   version "1.0.27"
   resolved "https://registry.npmjs.org/react-native-share/-/react-native-share-1.0.27.tgz#1861afe0d1256bde95d19520ca5d5c3cd348ffad"
@@ -4875,6 +4888,10 @@ stack-utils@^1.0.1:
 stacktrace-parser@^0.1.3:
   version "0.1.4"
   resolved "https://registry.npmjs.org/stacktrace-parser/-/stacktrace-parser-0.1.4.tgz#01397922e5f62ecf30845522c95c4fe1d25e7d4e"
+
+static-container@^1.0.0:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/static-container/-/static-container-1.2.0.tgz#1c6e92b869da47d32abe47f45f50bf39661d9c2f"
 
 statuses@1, "statuses@>= 1.3.1 < 2":
   version "1.4.0"

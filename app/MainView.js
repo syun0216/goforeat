@@ -240,7 +240,7 @@ MainView.router.getStateForAction = (action, state) => {
     source.cancel();
   }
   if (action.type === 'Navigation/NAVIGATE' && action.routeName === 'Login' && store.getState().auth.username !== null) {
-    ToastUtil.show('你不能进入', 1000, 'bottom', 'danger')
+    ToastUtil.showWithMessage('你不能进入')
     return null
   }
   // if (action.type === 'Navigation/RESET') {

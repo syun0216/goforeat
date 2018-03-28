@@ -38,15 +38,15 @@ export default class PeopleView extends Component {
     // this.props.refreshReset();
     api.logout().then(data => {
       if(data.status === 200 && data.data.ro.ok){
-        ToastUtil.show("登出成功", 1000, "bottom","success")
+        ToastUtil.showWithMessage("登出成功")
         this.props.screenProps.userLogout();
         // this.props.refreshReset();
       }
       else{
-        ToastUtil.show("登出失敗", 1000, "bottom","warning")
+        ToastUtil.showWithMessage("登出失敗")
       }
     },() => {
-        ToastUtil.show("登出失敗,請檢查網絡", 1000, "bottom","warning")
+        ToastUtil.showWithMessage("登出失敗,請檢查網絡")
     })
   }
 

@@ -80,7 +80,7 @@ export default class ArticleView extends Component {
         })
       }
     },() => {
-      ToastUtil.show('网络请求出错',1000,'bottom','warning')
+      ToastUtil.showWithMessage('网络请求出错')
       this.setState({
         loadingStatus:{
           firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
@@ -150,7 +150,7 @@ export default class ArticleView extends Component {
         })
         requestParams.currentOffset = requestParams.nextOffset
       }else{
-        ToastUtil.show('加載文章失敗',1000,'bottom','warning')
+        ToastUtil.showWithMessage('加載文章失敗')
         requestParams.nextOffset = requestParams.currentOffset
         this.setState({
           loadingStatus: {

@@ -23,6 +23,7 @@
     "react-native-picker": "^4.3.5",
     "react-native-popup-dialog": "^0.11.46",
     "react-native-progress": "^3.4.0",
+    "react-native-root-toast": "^3.0.1",
     "react-native-share": "^1.0.27",
     "react-native-snap-carousel": "^3.6.0",
     "react-native-splash-screen": "^3.0.6",

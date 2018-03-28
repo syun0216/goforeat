@@ -68,19 +68,19 @@ export default class RegisterView extends PureComponent {
   //common function
   _sendPhoneAndGetCode = () => {
     if(this.state.phone === null) {
-      ToastUtil.show('手機號格式有誤',1000,'bottom','warning')
+      ToastUtil.showWithMessage('手機號格式有誤')
       return;
     }
     api.getCode(this.state.phone,this.state.selectedValue.value).then(data => {
       if(data.status === 200 && data.data.ro.ok) {
         this.token = data.data.data.token
-        ToastUtil.show('驗證碼發送成功',1000,'bottom','success')
+        ToastUtil.showWithMessage('驗證碼發送成功')
       }
       else{
-        ToastUtil.show('驗證碼發送失敗',1000,'bottom','warning')
+        ToastUtil.showWithMessage('驗證碼發送失敗')
       }
     },() => {
-      ToastUtil.show('驗證碼發送失敗',1000,'bottom','warning')
+      ToastUtil.showWithMessage('驗證碼發送失敗')
     })
     let _during = 60
     this.interval = setInterval(() => {
@@ -129,17 +129,17 @@ export default class RegisterView extends PureComponent {
 
   _register = () => {
     if(this.state.password === null) {
-      ToastUtil.show('請輸入密碼',1000,'bottom','warning')
+      ToastUtil.showWithMessage('請輸入密碼')
       return
     }
     if(this.state.code === null){
-      ToastUtil.show('請輸入6位驗證碼',1000,'bottom','warning')
+      ToastUtil.showWithMessage('請輸入6位驗證碼')
       return
     }
     api.register(this.state.phone, this.state.selectedValue.value, this.token, this.state.code, this.state.password)
     .then(data => {
       if(data.status === 200 && data.data.ro.ok) {
-        ToastUtil.show('註冊成功',1000,'bottom','success')
+        ToastUtil.showWithMessage('註冊成功')
           this.props.screenProps.userLogin(this.state.phone)
           const resetAction = NavigationActions.reset({
               index: 0,
@@ -150,10 +150,10 @@ export default class RegisterView extends PureComponent {
           this.props.navigation.dispatch(resetAction);
       }
       else{
-        ToastUtil.show('註冊失敗',1000,'bottom','warning')
+        ToastUtil.showWithMessage('註冊失敗')
       }
     },() => {
-      ToastUtil.show('註冊失敗',1000,'bottom','warning')
+      ToastUtil.showWithMessage('註冊失敗')
     })
   }
 

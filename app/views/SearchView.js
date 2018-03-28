@@ -21,17 +21,17 @@ export default class SearchView extends Component{
     api.searchCanteenWithName(content).then(data => {
       if(data.status === 200 && data.data.ro.ok) {
         if(data.data.data.length === 0) {
-          ToastUtil.show('暫無篩選數據哦',1000,'bottom','warning')
+          ToastUtil.showWithMessage('暫無篩選數據哦')
           return
         }
         this.setState({
           searchData: data.data.data
         })
       }else{
-        ToastUtil.show('獲取數據失敗',1000,'bottom','warning')
+        ToastUtil.showWithMessage('獲取數據失敗')
       }
     },() => {
-      ToastUtil.show('獲取數據失敗',1000,'bottom','warning')
+      ToastUtil.showWithMessage('獲取數據失敗')
     })
   }
 

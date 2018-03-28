@@ -111,7 +111,7 @@ export default class ContentView extends Component {
 
   _addNewsToFavorite() {
     if (this.props.screenProps.user === null) {
-      ToastUtil.show("請先登錄哦", 1000, "bottom", "warning");
+      ToastUtil.showWithMessage("請先登錄哦");
       this.props.navigation.navigate('Login');
       return;
     }
@@ -119,7 +119,7 @@ export default class ContentView extends Component {
     let {stockShop,deleteShop,stockArticle,deleteArticle} = this.props.screenProps;
 
     // if (this.props.navigation.state.params.kind === "article") {
-    //   ToastUtil.show("暫未開放收藏文章", 1000, "bottom", "warning");
+    //   ToastUtil.showWithMessage("暫未開放收藏文章");
     //   return;
     // }
     if (!this.state.favoriteChecked) {
@@ -127,19 +127,19 @@ export default class ContentView extends Component {
         favoriteChecked: true
       });
       kind === 'article'? stockArticle(data) : stockShop(data);
-      ToastUtil.show("收藏成功", 1000, "bottom", "success");
+      ToastUtil.showWithMessage("收藏成功");
     } else {
       this.setState({
         favoriteChecked: false
       });
       kind === 'article'? deleteArticle(data.id) : deleteShop(data.id);
-      ToastUtil.show("取消收藏", 1000, "bottom", "warning");
+      ToastUtil.showWithMessage("取消收藏");
     }
   }
 
   openShare = () => {
     if (this.props.navigation.state.params.kind === "canteen") {
-      ToastUtil.show("暫未開放分享店鋪", 1000, "bottom", "warning");
+      ToastUtil.showWithMessage("暫未開放分享店鋪");
       return;
     }
     this.setState({shareboxVisible: true})
@@ -314,7 +314,7 @@ export default class ContentView extends Component {
             onPress={() => this._phonecall()}
             style={{height:60,width:GLOBAL_PARAMS._winWidth*0.35,backgroundColor:Colors.main_blue,
               flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
-                <Icon name="md-call" style={{fontSize:20,color:Colors.main_white}}/>
+                <Icon name="md-call" style={{fontSize:18,color:Colors.main_white}}/>
                 <Text style={{color:Colors.main_white,marginLeft:10}}>撥打電話</Text>  
             </TouchableOpacity>
             <TouchableOpacity 

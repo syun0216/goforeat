@@ -50,15 +50,14 @@ export default class SliderEntry extends Component {
             <TouchableOpacity
               activeOpacity={1}
               style={styles.slideInnerContainer}
-              onPress={() =>
+            //   onPress={() =>
                 // this.props.navigation.navigate("Content", {
                 //   data: this.props.data,
                 //   kind: 'canteen'
                 // })
-                console.log(this.props)
-              }
+                // console.log(this.props)
+            //   }
               >
-
                 <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
                     { this.image }
                     <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />

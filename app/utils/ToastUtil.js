@@ -1,21 +1,32 @@
-import React,{Component} from 'react';
-import {Toast} from 'native-base';
+/**
+ * 通用toast
+ */
 
-const ToastUtil = {
-  show(message,duration,position,type,buttonText){
-    let _message = message === null ? '发生未知错误' : message;
-    let _duration = duration === null ? 1000 : duration;
-    let _position = position === null ? 'bottom' : position;
-    let _type = type === null ? '-' : type;
-    let _buttonText = buttonText === null ? '-' : buttonText;
-    Toast.show({
-        text: _message,
-        position: _position,
-        // buttonText: _buttonText,
-        type:_type,
-        duration:_duration
-    });
-  }
+// 'use strict';
+
+ import Toast from 'react-native-root-toast';
+
+let ToastUtil = {
+
+    showWithMessage(message) {
+        Toast.show(message, {duration: Toast.durations.SHORT,position:Toast.positions.CENTER});
+    },
+
+    showHttpRequestFailWithMessage(message) {
+        if (message == null || message.length == 0) {
+            message = '请检查网络连接状态,稍后再试';
+        }
+
+        this.showWithMessage(message);
+    },
+
+    showHttpRequestFail() {
+        this.showHttpRequestFailWithMessage(null);
+    },
+
+    showAccountIsNotLogin() {
+        this.showWithMessage("请确认已登录");
+    },
 };
 
 module.exports = ToastUtil;
