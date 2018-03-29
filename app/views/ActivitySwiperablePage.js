@@ -17,29 +17,58 @@ import {
 } from "native-base";
 //components
 import CommonHeader from "../components/CommonHeader";
+import Loading from '../components/Loading';
+import ErrorPage from "../components/ErrorPage";
 //api
 import api from "../api";
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
+import ToastUtil from '../utils/ToastUtil';
 
 export default class ArticleView extends Component {
+  _current_offset = 0
   state = {
-    shopDetail: null
+    shopDetail: null,
+    loading: false,
+    isError: false
   };
   componentDidMount = () => {
+    this._current_offset = 0;
     this.getRecommendList();
   };
   //api
   getRecommendList = () => {
-    api.recommendShop().then(data => {
+    api.recommendShop(10,this._current_offset).then(data => {
       // console.log(data);
       if (data.status === 200 && data.data.ro.ok) {
+        if(data.data.data.length === 0) {
+          ToastUtil.showWithMessage('沒有更多數據了...');
+          this.setState({
+            loading: false
+          });
+          return;
+        }
         this.setState({
-          shopDetail: data.data.data
+          shopDetail: data.data.data,
+          loading: false
         });
       }
+    },() => {
+      if(this._current_offset > 0) {
+        this._current_offset -= 10;
+      } 
+      this.setState({ isError: true,loading: false });
     });
   };
+
+  _refresh = () => {
+    this._current_offset += 10;
+    this.setState({
+        loading: true
+    });
+    this.getRecommendList();
+  }
+
   _renderDeskSwiper = () => (
     <DeckSwiper
       ref={c => (this._deckSwiper = c)}
@@ -75,6 +104,10 @@ export default class ArticleView extends Component {
     return (
       <Container>
         <CommonHeader title="線下餐廳" {...this["props"]} />
+        {this.state.loading ? <Loading /> : null}
+        {this.state.isError ? (
+          <ErrorPage errorToDo={this.getRecommendList} />
+        ) : null}
         {this.state.shopDetail !== null ? this._renderDeskSwiper() : null}
 
         <View
@@ -99,6 +132,19 @@ export default class ArticleView extends Component {
       >
       <Image style={Platform.OS==='ios'?{width:72,height:72}:{width:50,height:50}} source={{uri:'dislike'}}/>
       </Button>
+      <Button
+            transparent
+            style={{ flexDirection: "row" }}
+            onPress={() => this._refresh()}
+          >
+            <Icon
+              name="md-refresh"
+              style={{ fontSize: 40, color: this.props.screenProps.theme }}
+            />
+            <Text style={{ fontSize: 20, color: this.props.screenProps.theme }}>
+              換一批
+            </Text>
+          </Button>
           <Button
             style={{}}
             transparent
