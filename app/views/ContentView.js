@@ -59,12 +59,12 @@ export default class ContentView extends Component {
   };
 
   componentDidMount() {
-    // console.log(this.props);
+    console.log(this.props);
     if(this.props.navigation.state.params.kind === "article") {
       for (let item of this.props.screenProps.articleList.data) {
         if (
           item !== null &&
-          item.id === this.props.navigation.state.params.data.id
+          item.id == this.props.navigation.state.params.data.id
         ) {
           this.setState({
             favoriteChecked: true
@@ -76,7 +76,7 @@ export default class ContentView extends Component {
     for (let item of this.props.screenProps.shopList.data) {
       if (
         item !== null &&
-        item.id === this.props.navigation.state.params.data.id
+        item.id == this.props.navigation.state.params.data.id
       ) {
         this.setState({
           favoriteChecked: true
@@ -255,9 +255,7 @@ export default class ContentView extends Component {
           <View style={[styles.subtitle,{borderLeftColor: this.props.screenProps.theme,marginBottom: 10}]}>
             <Text>餐廳推薦</Text>
           </View>
-          {
-            RecommendShop({list: this.state.canteenData.recommendCanteen,...this['props']})
-          }
+          {this.state.canteenData!== null ?<RecommendShop list={this.state.canteenData.recommendCanteen} {...this['props']}/> : null}
         </Body>
         </CardItem>
       </Card>

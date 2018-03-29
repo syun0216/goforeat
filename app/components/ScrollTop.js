@@ -18,7 +18,6 @@ export default class ScrollTop extends PureComponent {
                     style={{fontSize: 40,color:this.props.color}}/>
                 </Button>
             </Animated.View>
-            
         )
     }
 }

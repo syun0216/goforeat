@@ -7,6 +7,7 @@ import ProgressBar from 'react-native-progress/Bar'
 import CommonHeader from '../components/CommonHeader';
 import Loading from '../components/Loading';
 import ErrorPage from '../components/ErrorPage';
+import BlankPage from '../components/BlankPage';
 // api
 import api from '../api';
 //utils
@@ -18,7 +19,9 @@ export default class IntegralView extends PureComponent {
   state = {
     projectList: null,
     isLoading: true,
-    isError:false
+    isError:false,
+    isExpired: false,
+    expiredMessage: null
   }
 
   componentDidMount() {
@@ -35,14 +38,11 @@ export default class IntegralView extends PureComponent {
           })
         }else {
           this.props.screenProps.userLogout();
-          alert(data.data.ro.respMsg)
-          Alert.alert(null
-            , data.data.ro.respMsgse
-            , [
-                {text: '取消'},
-                {text: '確定', onPress: () => this.props.navigation.navigate('Login')}
-            ]
-        );
+          alert(data.data.ro.respMsg);
+          this.setState({
+            isExpired: true,
+            expiredMessage: data.data.ro.respMsg
+          });
         }
       }
     },() => {
@@ -120,12 +120,12 @@ export default class IntegralView extends PureComponent {
         {this.state.isLoading ? <Loading /> : null}
         {this.state.isError ? <ErrorPage errorToDo={this._getProjectList}/> : null}
         <Content>
+          {this.state.isExpired ? <BlankPage message={this.state.expiredMessage}/> : null}
           <View>{this.state.projectList !== null ? this._renderProjectSectionList() : null}</View>  
         </Content>
       </Container>
     )
   }
-
 }
 
 const styles = StyleSheet.create({
