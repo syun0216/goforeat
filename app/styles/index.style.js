@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import store from '../store'
+import GLOBAL_PARAMS from '../utils/global_params';
 
 export const colors = {
     black: '#1a1917',
@@ -21,10 +22,10 @@ export default StyleSheet.create({
         ...StyleSheet.absoluteFillObject
     },
     scrollview: {
-        flex: 1
+        flex: 1,
     },
     exampleContainer: {
-        paddingVertical: 30
+        paddingVertical: 18
     },
     exampleContainerDark: {
         backgroundColor: colors.black
@@ -53,7 +54,7 @@ export default StyleSheet.create({
         textAlign: 'center'
     },
     slider: {
-        marginTop: 15,
+        marginTop: 10,
         overflow: 'visible' // for custom animations
     },
     sliderContentContainer: {

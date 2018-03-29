@@ -403,7 +403,9 @@ _renderSectionListItem = (item,index) => {
           kind:'canteen'
         })}>
         <Left style={{marginLeft: 10}}>
-          <Image style={{width:90,height:90,borderRadius:45}} imageStyle={{borderRadius: 45}} source={{uri:!hasImage ? 'default_image' : item.image}} />
+          <View style={{width:90,height:90,borderRadius:45}}>
+            <Image style={{width:90,height:90,borderRadius:45}} imageStyle={{borderRadius: 45}} source={{uri:!hasImage ? 'default_image' : item.image}} />
+          </View>
         </Left>
         <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
           <Text style={{marginBottom:10,fontSize:18}} numberOfLines={1}>{item.name}</Text>

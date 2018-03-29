@@ -25,7 +25,7 @@ export default class Row extends PureComponent {
               }]
             }
           ]}>
-            <TouchableOpacity onPress={() => this.props.deleteShop(this.props.id)} style={styles.button}>
+            <TouchableOpacity onPress={() => this.props.screenProps.deleteShop(this.props.id)} style={styles.button}>
               <Image style={styles.button} source={require('../asset/icon-trash.png')} />
             </TouchableOpacity>
           </Animated.View>
