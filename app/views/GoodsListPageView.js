@@ -485,7 +485,7 @@ const styles = StyleSheet.create({
     height:Platform.OS === 'android' ? 40 : 35,
     width:GLOBAL_PARAMS._winWidth*0.6,
     backgroundColor: Colors.main_white,
-    borderRadius:Platform.OS === 'android' ? 0 : 20,
+    borderRadius: 20,
     paddingLeft:20,
     marginTop: Platform.OS === 'ios' ? 0 : 3
   },
@@ -493,7 +493,7 @@ const styles = StyleSheet.create({
     color: Colors.deep_gray,
     position:'absolute',
     fontSize: 22,
-    top:Platform.OS === 'ios' ? 5 : 8,
+    top:Platform.OS === 'ios' ? 5 : 10,
     right:15
   }
 })

@@ -141,7 +141,7 @@ export default class ArticleView extends Component {
               name="md-refresh"
               style={{ fontSize: 40, color: this.props.screenProps.theme }}
             />
-            <Text style={{ fontSize: 20, color: this.props.screenProps.theme }}>
+            <Text style={{ fontSize: 18, color: this.props.screenProps.theme,textAlignVertical:'center' }}>
               換一批
             </Text>
           </Button>

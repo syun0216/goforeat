@@ -7,7 +7,8 @@ import {
   Animated,
   Easing,
   ScrollView,
-  TextInput
+  TextInput,
+  Platform
 } from "react-native";
 import {
   Container,
@@ -20,7 +21,8 @@ import {
   Left,
   Right,
   Body,
-  Thumbnail
+  Thumbnail,
+  Input
 } from "native-base";
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
 // components
@@ -263,8 +265,8 @@ export default class IntegralDetailView extends PureComponent {
     dialogAnimation={slideAnimation}
     >
       <View style={{flex:1,justifyContent:'space-around',alignItems:'center',position: 'relative',}}>
-        <TextInput style={{width:100,height:150,borderBottomWidth:1,borderColor:Colors.main_gray,
-          paddingLeft:33,paddingTop:30,fontSize:60,justifyContent:'center',borderRadius:5}}
+        <Input style={{width:100,height:150,borderBottomWidth:1,borderColor:Colors.main_gray,
+          paddingLeft:33,paddingTop:Platform.OS === 'android'?80:30,fontSize:60,justifyContent:'center',borderRadius:5}}
         numberOfLines={1} maxLength={2} keyboardType="numeric" editable={false} defaultValue="5"/>
         <Text style={{position:'absolute',right:60,bottom:100}}>積分</Text>
         <Button transparent block onPress={() => this._sendPoint()}><Text style={{color:this.props.screenProps.theme}}>點擊捐獻</Text></Button>

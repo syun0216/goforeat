@@ -175,7 +175,9 @@ export default class LoginView extends Component {
                 position: "absolute",
                 top: GLOBAL_PARAMS._winHeight * 0.15,
                 left: 0
-              } : null ]}
+              } : {
+                marginTop: 80
+              } ]}
             >
               {/* <Animated.View style={{
                           transform: [{
