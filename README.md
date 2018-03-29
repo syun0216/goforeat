@@ -29,21 +29,19 @@ ios的打包方法:
   <img src="./display/s5.jpeg" width="250">
   <img src="./display/s6.jpeg" width="250">
 </p>
-<p align="center">
-  <img src="./display/s7.jpeg" width="300">
-  <img src="./display/s9.jpeg" width="300">
+<p align="left">
+  <img src="./display/s7.jpeg" width="250">
+  <img src="./display/s9.jpeg" width="250">
 </p>
 
 ### screen shot android
-<p align="center">
-  <img src="./display/as1.png" width="300">
-  <img src="./display/as2.png" width="300">
+<p align="left">
+  <img src="./display/as1.png" width="250">
+  <img src="./display/as2.png" width="250">
+  <img src="./display/as3.png" width="250">
 </p>
 <p align="center">
-  <img src="./display/as3.png" width="300">
-  <img src="./display/as4.png" width="300">
-</p>
-<p align="center">
-  <img src="./display/as5.png" width="300">
-  <img src="./display/as6.png" width="300">
+  <img src="./display/as4.png" width="250">
+  <img src="./display/as5.png" width="250">
+  <img src="./display/as6.png" width="250">
 </p>
