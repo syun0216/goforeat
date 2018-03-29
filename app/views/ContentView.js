@@ -155,15 +155,7 @@ export default class ContentView extends Component {
       title: data.title
     };
     this.cancelShare();
-    if(type !== 'url') {
-      setTimeout(() => {
-        Share.shareSingle(Object.assign(shareOptions, {
-          "social": type
-        })).catch((err) => { 
-          return;
-        });
-      },300);
-    }else {
+    if(type === 'url') {
       setTimeout(() => {
         if(typeof shareOptions["url"] !== undefined) {
           Clipboard.setString(shareOptions["url"]);
@@ -173,6 +165,19 @@ export default class ContentView extends Component {
             AlertIOS.alert('找不到該鏈接');
           }
         }
+      },300);
+    }else if(type === 'more') {
+      setTimeout(() => {
+        Share.open(shareOptions)
+      },300);
+    }
+    else {
+      setTimeout(() => {
+        Share.shareSingle(Object.assign(shareOptions, {
+          "social": type
+        })).catch((err) => { 
+          return;
+        });
       },300);
     }
   }
@@ -201,10 +206,7 @@ export default class ContentView extends Component {
             onPress={()=>this._shareLink('url')}><Text style={{marginTop:3}}>Copy Link</Text></SButton>
           <SButton iconSrc={require('../asset/more.png')}
           onPress={()=>{
-            this.cancelShare();
-            setTimeout(() => {
-              Share.open(shareOptions)
-            },300);
+            this._shareLink('more')
           }}><Text style={{marginTop:3}}>More</Text></SButton>
         </ShareSheet>
   )}
@@ -299,7 +301,7 @@ export default class ContentView extends Component {
         </View>
         {kind === 'canteen' ? <Footer style={{zIndex:1}}>
             <TouchableOpacity 
-            style={{height:60,width:GLOBAL_PARAMS._winWidth*0.3,flexDirection:'row',justifyContent:'center',alignItems:'center'}} 
+            style={{backgroundColor:Colors.main_white,height:60,width:GLOBAL_PARAMS._winWidth*0.3,flexDirection:'row',justifyContent:'center',alignItems:'center'}} 
             onPress={() => this._addNewsToFavorite()}>
             {this.state.favoriteChecked ? (
               <Icon
@@ -319,14 +321,14 @@ export default class ContentView extends Component {
             onPress={() => this._phonecall()}
             style={{height:60,width:GLOBAL_PARAMS._winWidth*0.35,backgroundColor:Colors.main_blue,
               flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
-                <Icon name="md-call" style={{fontSize:18,color:Colors.main_white}}/>
+                <Icon name="md-call" style={{fontSize:20,color:Colors.main_white}}/>
                 <Text style={{marginTop:-2,color:Colors.main_white,marginLeft:10}}>撥打電話</Text>  
             </TouchableOpacity>
             <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('Comment',{comment: this.state.canteenData.comment})}
             style={{height:60,width:GLOBAL_PARAMS._winWidth*0.35,backgroundColor:Colors.middle_green,
               flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                <Icon name="ios-chatbubbles" style={{fontSize: 20,color:Colors.main_white}}/>
+                <Icon name="ios-chatbubbles" style={{fontSize: 22,color:Colors.main_white}}/>
                 <Text style={{marginTop:-2,color:Colors.main_white,marginLeft:10}}>查看評論</Text>
             </TouchableOpacity>
         </Footer> : null}

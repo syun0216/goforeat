@@ -7,8 +7,8 @@ import GLOBAL_PARAMS from '../utils/global_params';
 const BlankPage = ({message}) => {
   return (
     <View style={{width: GLOBAL_PARAMS._winWidth, marginTop: 10,minHeight: 250, justifyContent: 'center', alignItems: 'center', }}>
-      <Image source={{uri: '404'}} style={{width: 128,height: 128}}/>
-      <Text style={{fontSize: 16,}}>{message}</Text>
+      <Image source={require('../asset/cry.png')} style={{width: 120,height: 120}}/>
+      <Text style={{fontSize: 16,marginTop:10,color:'#cdcdcd',fontWeight:'bold'}}>{message}</Text>
     </View>
   )
 }

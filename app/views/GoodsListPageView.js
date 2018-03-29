@@ -244,6 +244,8 @@ export default class GoodsListPageView extends Component{
   }
 
   _openMapModal = () => {
+    ToastUtil.showWithMessage('定位功能暫未開放');
+    return;
     this.setState({
       isMapModalShow: true
     })
@@ -425,7 +427,7 @@ _renderSectionListItem = (item,index) => {
           </Body>
           <Right>
             <Icon onPress={() => this._openMapModal()}
-              name="md-compass" size={25} style={{color: Colors.main_white}} />
+              name="md-compass" style={{color: Colors.main_white,fontSize: 28}} />
           </Right>
         </Header>
         <View  style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
@@ -450,10 +452,10 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   searchText: {
-    height:35,
+    height:Platform.OS === 'android' ? 40 : 35,
     width:GLOBAL_PARAMS._winWidth*0.6,
     backgroundColor: Colors.main_white,
-    borderRadius:20,
+    borderRadius:Platform.OS === 'android' ? 0 : 20,
     paddingLeft:20,
     marginTop: Platform.OS === 'ios' ? 0 : 3
   },

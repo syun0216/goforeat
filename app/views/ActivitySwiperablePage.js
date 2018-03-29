@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, TouchableOpacity,ScrollView } from "react-native";
+import { Image, TouchableOpacity,ScrollView,Platform } from "react-native";
 import {
   Container,
   Content,
@@ -97,9 +97,10 @@ export default class ArticleView extends Component {
         iconRight
         onPress={() => this._deckSwiper._root.swipeRight()}
       >
-      <Image style={{width:72,height:72}} source={{uri:'dislike'}}/>
+      <Image style={Platform.OS==='ios'?{width:72,height:72}:{width:50,height:50}} source={{uri:'dislike'}}/>
       </Button>
           <Button
+            style={{}}
             transparent
             onPress={() =>
               this.props.navigation.navigate("Content", {
@@ -108,7 +109,7 @@ export default class ArticleView extends Component {
               })
             }
           >
-            <Image style={{width:72,height:72}} source={{uri:'like'}}/>
+            <Image style={Platform.OS==='ios'?{width:72,height:72}:{width:50,height:50}} source={{uri:'like'}}/>
           </Button>
          
           </View>

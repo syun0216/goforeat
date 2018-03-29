@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Animated,
   Easing,
-  ScrollView
+  ScrollView,
+  TextInput
 } from "react-native";
 import {
   Container,
@@ -103,6 +104,16 @@ export default class IntegralDetailView extends PureComponent {
         this._scrollView.scrollToEnd({ animated: true });
       });
     }
+  }
+
+  _sendPoint = () => {
+    let {id} = this.props.navigation.state.params.data;
+    api.sendPoint(id, 5).then(data => {
+      if(data.status === 200) {
+        ToastUtil.showWithMessage(data.data.ro.respMsg);
+        this._popupDialog.dismiss();
+      }
+    })
   }
 
   _renderProjectDetail() {
@@ -247,11 +258,16 @@ export default class IntegralDetailView extends PureComponent {
   _renderPopupDiaogView = () => (
     <PopupDialog
     width={GLOBAL_PARAMS._winWidth*0.8}
+    height={220}
     ref={(popupDialog) => { this._popupDialog = popupDialog; }}
     dialogAnimation={slideAnimation}
     >
-      <View>
-        <Text>Hello</Text>
+      <View style={{flex:1,justifyContent:'space-around',alignItems:'center',position: 'relative',}}>
+        <TextInput style={{width:100,height:150,borderBottomWidth:1,borderColor:Colors.main_gray,
+          paddingLeft:33,paddingTop:30,fontSize:60,justifyContent:'center',borderRadius:5}}
+        numberOfLines={1} maxLength={2} keyboardType="numeric" editable={false} defaultValue="5"/>
+        <Text style={{position:'absolute',right:60,bottom:100}}>積分</Text>
+        <Button transparent block onPress={() => this._sendPoint()}><Text style={{color:this.props.screenProps.theme}}>點擊捐獻</Text></Button>
       </View>
     </PopupDialog>
   )

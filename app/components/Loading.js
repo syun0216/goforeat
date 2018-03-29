@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator,Platform } from "react-native";
 // utils
 import GLOBAL_PARAMS from "../utils/global_params";
 import Colors from "../utils/Colors";
@@ -15,12 +15,22 @@ const styles = StyleSheet.create({
     zIndex: 10000,
     backgroundColor: "transparent",
     height: GLOBAL_PARAMS._winHeight
+  },
+  loadingContainerAndroid: {
+    position:'absolute',
+    top:0,
+    left:0,
+    flex:1,
+    justifyContent: "center",
+    backgroundColor: Colors.main_white,
+    width: GLOBAL_PARAMS._winWidth,
+    height: GLOBAL_PARAMS._winHeight
   }
 });
 
 const Loading = props => {
   return (
-    <View style={styles.loadingContainer}>
+    <View style={Platform.OS === 'ios' ? styles.loadingContainer : styles.loadingContainerAndroid}>
       <View
         style={{
           alignSelf: "center",

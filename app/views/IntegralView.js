@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import {Container, Content,Button} from 'native-base';
-import { View, Text,SectionList,StyleSheet,TouchableOpacity } from 'react-native';
+import { View, Text,SectionList,StyleSheet,TouchableOpacity,Alert } from 'react-native';
 import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar'
 // components
 import CommonHeader from '../components/CommonHeader';
 import Loading from '../components/Loading';
+import ErrorPage from '../components/ErrorPage';
 // api
 import api from '../api';
 //utils
@@ -16,7 +17,8 @@ import ToastUtil from '../utils/ToastUtil';
 export default class IntegralView extends PureComponent {
   state = {
     projectList: null,
-    isLoading: true
+    isLoading: true,
+    isError:false
   }
 
   componentDidMount() {
@@ -34,8 +36,19 @@ export default class IntegralView extends PureComponent {
         }else {
           this.props.screenProps.userLogout();
           alert(data.data.ro.respMsg)
+          Alert.alert(null
+            , data.data.ro.respMsgse
+            , [
+                {text: '取消'},
+                {text: '確定', onPress: () => this.props.navigation.navigate('Login')}
+            ]
+        );
         }
       }
+    },() => {
+      this.setState({
+        isError: true
+      })
     });
   }
 
@@ -105,6 +118,7 @@ export default class IntegralView extends PureComponent {
       <Container>
         <CommonHeader canBack {...this['props']} title="積分禮遇" />
         {this.state.isLoading ? <Loading /> : null}
+        {this.state.isError ? <ErrorPage errorToDo={this._getProjectList}/> : null}
         <Content>
           <View>{this.state.projectList !== null ? this._renderProjectSectionList() : null}</View>  
         </Content>
