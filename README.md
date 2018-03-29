@@ -40,7 +40,7 @@ ios的打包方法:
   <img src="./display/as2.png" width="250">
   <img src="./display/as3.png" width="250">
 </p>
-<p align="center">
+<p align="left">
   <img src="./display/as4.png" width="250">
   <img src="./display/as5.png" width="250">
   <img src="./display/as6.png" width="250">
