@@ -32,7 +32,7 @@ export default class ArticleView extends Component {
   //api
   getRecommendList = () => {
     api.recommendShop().then(data => {
-      console.log(data);
+      // console.log(data);
       if (data.status === 200 && data.data.ro.ok) {
         this.setState({
           shopDetail: data.data.data

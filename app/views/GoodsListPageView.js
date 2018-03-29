@@ -15,6 +15,7 @@ import ErrorPage from '../components/ErrorPage';
 import Divider from '../components/Divider';
 import MapModal from '../components/CommonModal';
 import Rating from '../components/Rating';
+import ScrollTop from '../components/ScrollTop';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
@@ -53,8 +54,9 @@ export default class GoodsListPageView extends Component{
       isMapModalShow: false,
       httpRequest: null,
       positionTop: new Animated.Value(0),
+      positionBottom: new Animated.Value(0),
       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
-      pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS,
+      pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
   }
 
   componentWillMount = () => {
@@ -146,6 +148,23 @@ export default class GoodsListPageView extends Component{
     this._onRequestFirstPageData()
   }
 
+  _getListViewData(sview) {
+    if (sview.nativeEvent.contentOffset.y > 300) {
+        Animated.spring(this.state.positionBottom, {
+            toValue: 1,
+            duration: 500,
+            easing: Easing.linear
+        }).start();
+    }
+    else {
+        Animated.timing(this.state.positionBottom, {
+            toValue: 0,
+            duration: 200,
+            easing: Easing.linear
+        }).start();
+    }
+}
+
   _requestNextDetailList() {
     api.getCanteenList(requestParams.currentPage).then(data => {
       if(data.status === 200) {
@@ -153,14 +172,15 @@ export default class GoodsListPageView extends Component{
         if(data.data.data.length === 0) {
           requestParams.currentPage --
           this.setState({
-            canteenDetail:this.state.canteenDetail.concat(data.data.data),
+            // canteenDetail:this.state.canteenDetail.concat(data.data.data),
             pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
           })
           return
         }
+        let _data = this.state.canteenDetail.concat(data.data.data);
         this.setState({
-          canteenDetail:this.state.canteenDetail.concat(data.data.data),
-          pullUpLoading:GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
+          canteenDetail:_data,
+          pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
         })
       }
     },() => {
@@ -172,12 +192,9 @@ export default class GoodsListPageView extends Component{
   }
 
   _onEndReached = () => {
-    if(this.state.pullUpLoading !== GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS) {
-      return ;
+    if(this.state.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
+      return;
     }
-    this.setState({
-      pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING
-    })
     requestParams.currentPage ++
     this._requestNextDetailList()
   }
@@ -252,11 +269,21 @@ export default class GoodsListPageView extends Component{
   }
 
 //views
+  _renderScrollTopView = () => {
+    return this.state.canteenDetail !== null ? <ScrollTop toTop={() => {
+      this.sectionList.scrollToLocation({
+        sectionIndex: 0,
+        itemIndex: 0,
+        viewPosition: 0,
+        viewOffset: 250,
+      })
+  }} positionBottom={this.state.positionBottom} {...this['props']} color={this.props.screenProps.theme}/> : null;
+  }
+
   _renderModalView = () => (
     <MapModal
       modalVisible={this.state.isMapModalShow}
-      closeFunc={() => this.setState({isMapModalShow:false})}
-      {...this['props']['screenProps']}/>
+      closeFunc={() => this.setState({isMapModalShow:false})}/>
   )
 
   _renderSubHeader = (section) => {
@@ -333,7 +360,7 @@ export default class GoodsListPageView extends Component{
     return (
         <SectionList
           ref={(sectionList) => this.sectionList = sectionList}
-          // onScroll={(sview) => this._getListViewData(sview)}
+          onScroll={(sview) => this._getListViewData(sview)}
           sections={[
             {title:'餐廳列表',data:this.state.canteenDetail},
           ]}
@@ -349,7 +376,7 @@ export default class GoodsListPageView extends Component{
           getItemLayout={(data,index) => ({length: 75, offset: 75 * index + 175, index: index})}
           // onRefresh={() => alert('onRefresh: nothing to refresh :P')}
           // onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
-          onEndReachedThreshold={1}
+          onEndReachedThreshold={0.5}
           onEndReached={() => this._onEndReached()}
           // onEndReached={this._onEndReached.bind(this)}
           ListHeaderComponent={() => {return this.state.adDetail === null && this.state.canteenDetail.length > 0 ? null : <GoodsSwiper {...this['props']} adDetail={this.state.adDetail}/>}}
@@ -433,6 +460,7 @@ _renderSectionListItem = (item,index) => {
         <View  style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
           {this._renderSectionList()}
         </View>
+        {this._renderScrollTopView()}
       </Container>
     )
   }

@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import Loading from './components/Loading'
 class DashBoardView extends PureComponent {
   componentDidMount() {
-    console.log('dash',this.props);
+    // console.log('dash',this.props);
   }
   render() {
     return (

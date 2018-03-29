@@ -36,6 +36,8 @@ import {addListener} from './utils/navigationWithRedux'
 import {connect} from 'react-redux'
 //store
 import store from './store'
+//event 
+import EventEmitter from 'EventEmitter';
 
 class CustomTabBar extends Component {
   componentDidMount() {
@@ -234,8 +236,8 @@ let MainView = StackNavigator({
 const defaultGetStateForAction = MainView.router.getStateForAction
 
 MainView.router.getStateForAction = (action, state) => {
-  // console.log('action', action)
-  // console.log('state', state)
+  console.log('action', action)
+  console.log('state', state)
   if(action.type === 'Navigation/NAVIGATE') {
     source.cancel();
   }
