@@ -132,7 +132,7 @@ const darwerView = DrawerNavigator({
         marginTop: 100,
         marginBottom: 130
       }}>
-      <Text style={{color:Colors.main_white}}>Goforeat v1.0.0</Text>
+      <Text style={{color:Colors.main_white}}>Goforeat v1.0.3</Text>
     </View>
     <ScrollView style={{marginLeft:-50}} showsVerticalScrollIndicator={false}>
       {/* <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'service'})}>
@@ -143,19 +143,19 @@ const darwerView = DrawerNavigator({
     </TouchableOpacity> */}
       <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'service'})}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-          <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/Service.png')}/>
+          <Image style={{width:26,height:26,marginRight:30}} source={require('./asset/Service.png')}/>
           <Text style={{fontSize:22,color:Colors.main_white}}>服務條款</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'policy'})}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-          <Image style={{width:28,height:33,marginRight:30}} source={require('./asset/Privacy.png')}/>
+          <Image style={{width:26,height:26,marginRight:30}} source={require('./asset/Privacy.png')}/>
           <Text style={{fontSize:22,color:Colors.main_white}}>隱私政策</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => props.navigation.navigate('Statement',{name:'about'})}>
         <View style={{height:50,flex:1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-          <Image style={{width:28,height:28,marginRight:30}} source={require('./asset/about.png')}/>
+          <Image style={{width:26,height:26,marginRight:30}} source={require('./asset/about.png')}/>
           <Text style={{fontSize:22,color:Colors.main_white}}>關於我們</Text>
         </View>
       </TouchableOpacity>

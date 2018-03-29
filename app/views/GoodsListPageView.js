@@ -405,7 +405,7 @@ _renderSectionListItem = (item,index) => {
           <Loading message="玩命加載中..."/> : (this.state.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
         {this.state.showFilterList ? this._renderPreventClickView() : null}
-        {this.state.canteenOptions ? this._renderFilterView() : null}
+        {this.state.canteenOptions&&this.state.showFilterList ? this._renderFilterView() : null}
         {this.state.canteenDetail.length === 0 ?
           <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
