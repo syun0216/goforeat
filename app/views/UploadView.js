@@ -70,15 +70,22 @@ export default class UploadView extends PureComponent {
     })
     api.uploadBillImg(this.state.avatarSource).then(data => {
       if(data.status === 200 && data.data.ro.ok) {
-        console.log(data)
         ToastUtil.showWithMessage("上傳成功");
         this.setState({
           isUpload: false,
           photoData: null,
           avatarSource: null
         })
+      }else {
+        ToastUtil.showWithMessage("上傳失敗，請點擊重試");
+        this.setState({
+          isUpload: false
+        })
       }
     },() => {
+      this.setState({
+        isUpload: false,
+      })
       ToastUtil.showWithMessage("上傳失敗，請點擊重試");
     })
   }
