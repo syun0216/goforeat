@@ -227,7 +227,7 @@ let MainView = StackNavigator({
   },
   Comment: {
     screen: CommentsView
-  },
+  }
 }, {headerMode: 'none'})
 
 

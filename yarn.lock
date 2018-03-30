@@ -4042,6 +4042,13 @@ react-devtools-core@3.0.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-mixin@^3.0.5:
+  version "3.1.1"
+  resolved "https://registry.npmjs.org/react-mixin/-/react-mixin-3.1.1.tgz#68749756bfe32699e561372a4aeecb926db72b7f"
+  dependencies:
+    object-assign "^4.0.1"
+    smart-mixin "^2.0.0"
+
 react-native-code-push@^5.2.1:
   version "5.2.1"
   resolved "https://registry.npmjs.org/react-native-code-push/-/react-native-code-push-5.2.1.tgz#b96cabf4be74e0caac8d55d1126aa48dba695490"
@@ -4088,6 +4095,14 @@ react-native-fs@^2.9.11:
   dependencies:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
+
+react-native-image-gallery@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.npmjs.org/react-native-image-gallery/-/react-native-image-gallery-2.1.5.tgz#f524b92ef7284d30ffbbd63f93019e0647e23229"
+  dependencies:
+    prop-types "^15.6.0"
+    react-mixin "^3.0.5"
+    react-timer-mixin "^0.13.3"
 
 react-native-image-picker@^0.26.7:
   version "0.26.7"
@@ -4290,7 +4305,7 @@ react-test-renderer@16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-timer-mixin@^0.13.2:
+react-timer-mixin@^0.13.2, react-timer-mixin@^0.13.3:
   version "0.13.3"
   resolved "https://registry.npmjs.org/react-timer-mixin/-/react-timer-mixin-0.13.3.tgz#0da8b9f807ec07dc3e854d082c737c65605b3d22"
 
@@ -4785,6 +4800,10 @@ slide@^1.1.5:
 smart-buffer@^1.0.13:
   version "1.1.15"
   resolved "https://registry.npmjs.org/smart-buffer/-/smart-buffer-1.1.15.tgz#7f114b5b65fab3e2a35aa775bb12f0d1c649bf16"
+
+smart-mixin@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/smart-mixin/-/smart-mixin-2.0.0.tgz#a34a1055e32a75b30d2b4e3ca323dc99cb53f437"
 
 sntp@1.x.x:
   version "1.0.9"

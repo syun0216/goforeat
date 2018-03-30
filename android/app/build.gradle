@@ -121,7 +121,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('/Users/sujunwen/Desktop/证书/android/goforeat.jks')
+            storeFile file('/Users/sujunwen/Desktop/goforeatandroid/android/goforeat.jks')
             storePassword 'junwen'
             keyAlias 'Goforeat'
             keyPassword 'junwen'

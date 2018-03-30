@@ -11,7 +11,8 @@ import {
   AlertIOS,
   ToastAndroid,
   Clipboard,
-  Platform
+  Platform,
+  Modal
 } from "react-native";
 import {
   Container,
@@ -47,6 +48,7 @@ import CommonHeader from "../components/CommonHeader";
 import RecommendShop from "../components/RecommandShop";
 import BlankPage from '../components/BlankPage';
 import Rating from '../components/Rating';
+import ImageGallery from '../components/ImageGallery';
 //styles
 import index_style from "../styles/index.style";
 
@@ -54,8 +56,10 @@ export default class ContentView extends Component {
   state = {
     favoriteChecked: false,
     canteenData: null,
+    overlookImages: [],
     loading: true,
-    shareboxVisible: false
+    shareboxVisible: false,
+    modalVisible: false
   };
 
   componentDidMount() {
@@ -101,8 +105,14 @@ export default class ContentView extends Component {
       .getCanteenDetail(this.props.navigation.state.params.data.id)
       .then(data => {
         if (data.status === 200 && data.data.ro.ok) {
-          console.log(data.data);
+          let _images_arr = [];
+          if(data.data.data.foods.length > 0) {
+            for(let item of data.data.data.foods) {
+              _images_arr.push({caption:`圖片${data.data.data.foods.indexOf(item) + 1}`,source:{uri:item.foodBigImg}});
+            }
+          }
           this.setState({
+            overlookImages: _images_arr,
             canteenData: data.data.data
           });
         }
@@ -211,6 +221,17 @@ export default class ContentView extends Component {
         </ShareSheet>
   )}
 
+  _renderOverLookImageView = () => (
+    <Modal
+      animationType={"slide"}
+      transparent={false}
+      visible={this.state.modalVisible}
+      onRequestClose={() => {alert("Modal has been closed.")}}
+      >
+        <ImageGallery onClose={() => this.setState({modalVisible: false})} images={this.state.overlookImages}/>
+    </Modal>
+  )
+
   _renderContentView = () => (
     <Content>
       <Card style={{ flex:1,margin:0 ,borderWidth:0}}>
@@ -233,18 +254,19 @@ export default class ContentView extends Component {
             </View>
             {this.state.canteenData.foods.length > 0 ? (
               this.state.canteenData.foods.map((item, idx) => (
-                <Image
-                  key={idx}
-                  style={{
-                    width: GLOBAL_PARAMS._winWidth * 0.91,
-                    height: 200,
-                    marginTop: 10,
-                    marginBottom: 10
-                  }}
-                  indicator={ProgressBar}
-                  indicatorProps={{color:this.props.screenProps.theme}}
-                  source={{ uri: item.foodImage }}
-                />
+                <TouchableOpacity key={idx} onPress={() => this.setState({modalVisible: true})}>
+                  <Image
+                    style={{
+                      width: GLOBAL_PARAMS._winWidth * 0.91,
+                      height: 200,
+                      marginTop: 10,
+                      marginBottom: 10
+                    }}
+                    indicator={ProgressBar}
+                    indicatorProps={{color:this.props.screenProps.theme}}
+                    source={{ uri: item.foodImage }}
+                  />
+                </TouchableOpacity>
               ))
             ) : <BlankPage message="暫無菜品數據"/>}
 
@@ -278,7 +300,7 @@ export default class ContentView extends Component {
     let {kind} = this.props.navigation.state.params;
     return (
       <Container>
-      
+        {this.state.overlookImages.length > 0 ? this._renderOverLookImageView() : null} 
         <Header style={{backgroundColor: this.props.screenProps.theme}} iosBarStyle="light-content">
           <Left>
           <Button transparent onPress={() => this.props.navigation.goBack()}>
