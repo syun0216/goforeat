@@ -34,6 +34,7 @@ android的打包方法:
 <p align="left">
   <img src="./display/s7.jpeg" width="250">
   <img src="./display/s9.jpeg" width="250">
+  <img src="./display/s10.jpeg" width="250">
 </p>
 
 ### screen shot [android 下载地址](https://www.pgyer.com/TBnS)
