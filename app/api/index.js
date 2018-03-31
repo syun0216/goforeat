@@ -169,6 +169,21 @@ const api = {
   },
   adSpace() { // 广告位接口
     return axios.get(api_url + '/adSpace/list')
+  },
+  getNotifications() {
+    return axios.get('https://api.appcenter.ms/v0.1/apps/junewensu/Goforeat/push/notifications', {
+      params: {
+        top: 1,
+        orderby: 'count desc',
+        owner_name: 'junewensu',
+        app_name: 'Goforeat',
+        inlinecount: 'none'
+      },
+      headers: {
+        "Content-Type": "application/json",
+        'X-API-Token': '1c49db9b101bb9ce4217d56206879e7f22a600db'
+      }
+    })
   }
 }
 

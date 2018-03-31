@@ -43,7 +43,7 @@ export default class ShopSwiperablePage extends Component {
   }
 
   componentWillReceiveProps() {
-    console.log(this.props);
+    // console.log(this.props);
   }
 
   componentDidMount = () => {

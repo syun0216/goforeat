@@ -12,7 +12,7 @@
 // //hot reload
 // import codePush from 'react-native-code-push'
 // import Push from 'appcenter-push'
-//
+
 // const styles = StyleSheet.create({
 //   wrapper: {
 //   },
@@ -40,7 +40,7 @@
 //     fontWeight: 'bold',
 //   }
 // })
-//
+
 // const SplashPageView = (props) => {
 //   codePush.getUpdateMetadata().then(localPackage => {
 //             if (localPackage == null) {
@@ -73,93 +73,93 @@
 //       </Swiper>
 //     )
 // }
-//
+
 // export default SplashPageView
-//
-//
-// import React from 'react';
-// import {
-//   Text,
-//   View,
-//   ScrollView,
-//   TouchableOpacity,
-//   StyleSheet
-// } from 'react-native';
 
-// import Push from 'appcenter-push';
 
-// export default class SplashPageView extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       pushEnabled: false
-//     };
-//     this.toggleEnabled = this.toggleEnabled.bind(this);
-//   }
+import React from 'react';
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native';
 
-//   async componentDidMount() {
-//     const component = this;
+import Push from 'appcenter-push';
 
-//     const pushEnabled = await Push.isEnabled();
-//     component.setState({ pushEnabled });
-//   }
+export default class SplashPageView extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      pushEnabled: false
+    };
+    this.toggleEnabled = this.toggleEnabled.bind(this);
+  }
 
-//   async toggleEnabled() {
-//     await Push.setEnabled(!this.state.pushEnabled);
+  async componentDidMount() {
+    const component = this;
 
-//     const pushEnabled = await Push.isEnabled();
-//     this.setState({ pushEnabled });
-//   }
+    const pushEnabled = await Push.isEnabled();
+    component.setState({ pushEnabled });
+  }
 
-//   render() {
-//     return (
-//       <View style={SharedStyles.container}>
-//         <ScrollView >
-//           <Text style={SharedStyles.heading}>
-//             Test Push
-//           </Text>
+  async toggleEnabled() {
+    await Push.setEnabled(!this.state.pushEnabled);
 
-//           <Text style={SharedStyles.enabledText}>
-//             Push enabled: {this.state.pushEnabled ? 'yes' : 'no'}
-//           </Text>
-//           <TouchableOpacity onPress={this.toggleEnabled}>
-//             <Text style={SharedStyles.toggleEnabled}>
-//               toggle
-//             </Text>
-//           </TouchableOpacity>
+    const pushEnabled = await Push.isEnabled();
+    this.setState({ pushEnabled });
+  }
 
-//         </ScrollView>
-//       </View>
-//     );
-//   }
-// }
+  render() {
+    return (
+      <View style={SharedStyles.container}>
+        <ScrollView >
+          <Text style={SharedStyles.heading}>
+            Test Push
+          </Text>
 
-// const SharedStyles = StyleSheet.create({
-//   heading: {
-//     fontSize: 24,
-//     textAlign: 'center',
-//     marginBottom: 20,
-//   },
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#F5FCFF',
-//   },
-//   button: {
-//     color: '#4444FF',
-//     fontSize: 18,
-//     textAlign: 'center',
-//     margin: 10,
-//   },
-//   enabledText: {
-//     fontSize: 14,
-//     textAlign: 'center',
-//   },
-//   toggleEnabled: {
-//     color: '#4444FF',
-//     fontSize: 14,
-//     textAlign: 'center',
-//     marginBottom: 10,
-//   },
-// });
+          <Text style={SharedStyles.enabledText}>
+            Push enabled: {this.state.pushEnabled ? 'yes' : 'no'}
+          </Text>
+          <TouchableOpacity onPress={this.toggleEnabled}>
+            <Text style={SharedStyles.toggleEnabled}>
+              toggle
+            </Text>
+          </TouchableOpacity>
+
+        </ScrollView>
+      </View>
+    );
+  }
+}
+
+const SharedStyles = StyleSheet.create({
+  heading: {
+    fontSize: 24,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  button: {
+    color: '#4444FF',
+    fontSize: 18,
+    textAlign: 'center',
+    margin: 10,
+  },
+  enabledText: {
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  toggleEnabled: {
+    color: '#4444FF',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+});

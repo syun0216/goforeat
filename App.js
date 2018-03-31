@@ -9,6 +9,7 @@ import {Platform, StyleSheet, View, AppState} from 'react-native';
 import {Root} from 'native-base'
 import store from './app/store'
 import {Provider,connect} from 'react-redux'
+import Push from 'appcenter-push';
 import DashboardView from './app/DashBoardView'
 //components
 import Loading from './app/components/Loading'
@@ -17,12 +18,19 @@ import appStorage from './app/cache/appStorage'
 //hot reload
 import codePush from 'react-native-code-push'
 import {addListener} from './app/utils/navigationWithRedux'
+//api
+import api from './app/api';
 
 
 
 
 class App extends Component < {} > {
-  componentWillMount = () => {
+  componentWillMount = async () => {
+    await Push.setEnabled(true);
+    const pushEnabled = await Push.isEnabled();
+    // console.log(Push);
+    // alert(pushEnabled);
+    // api.getNotifications().then(data => console.log(data));
     appStorage.getLoginUserJsonData((error, data) => {
       if (error === null) {
         if (store.getState().auth.username === null) {
@@ -75,5 +83,7 @@ class App extends Component < {} > {
     </Root>);
   }
 }
+
+
 
 export default codePush(App)
