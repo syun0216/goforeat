@@ -31,7 +31,8 @@ const ErrorPage = (props) => {
 }
 
 ErrorPage.defaultProps = {
-  errorTips:'正在加載中...'
+  errorTips:'正在加載中...',
+  errorToDo: () => {return }
 };
 
 ErrorPage.propTypes = {

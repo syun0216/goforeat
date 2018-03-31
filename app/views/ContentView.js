@@ -49,6 +49,7 @@ import RecommendShop from "../components/RecommandShop";
 import BlankPage from '../components/BlankPage';
 import Rating from '../components/Rating';
 import ImageGallery from '../components/ImageGallery';
+import ErrorPage from '../components/ErrorPage';
 //styles
 import index_style from "../styles/index.style";
 
@@ -57,13 +58,13 @@ export default class ContentView extends Component {
     favoriteChecked: false,
     canteenData: null,
     overlookImages: [],
-    loading: true,
     shareboxVisible: false,
-    modalVisible: false
-  };
+    modalVisible: false,
+    loading: false,
+    isError: false
+  }
 
   componentDidMount() {
-    console.log(this.props);
     if(this.props.navigation.state.params.kind === "article") {
       for (let item of this.props.screenProps.articleList.data) {
         if (
@@ -88,6 +89,9 @@ export default class ContentView extends Component {
       }
     }
     if (this.props.navigation.state.params.kind === "canteen") {
+      this.setState({
+        loading: true
+      });
       this.getCanteenDetail();
     }
   }
@@ -113,9 +117,15 @@ export default class ContentView extends Component {
           }
           this.setState({
             overlookImages: _images_arr,
-            canteenData: data.data.data
+            canteenData: data.data.data,
+            loading: false
           });
         }
+      },() => {
+        this.setState({
+          isError: true,
+          loading: false
+        })
       });
   }
 
@@ -289,6 +299,7 @@ export default class ContentView extends Component {
       bounces={true}
       scalesPageToFit={true}
       source={{ uri: this.props.navigation.state.params.data.url }}
+      onError={() => this.setState({isError: true})}
       style={{
         width: GLOBAL_PARAMS._winWidth,
         height: GLOBAL_PARAMS._winHeight
@@ -301,7 +312,9 @@ export default class ContentView extends Component {
     return (
       <Container>
         {this.state.overlookImages.length > 0 ? this._renderOverLookImageView() : null} 
-        <Header style={{backgroundColor: this.props.screenProps.theme}} iosBarStyle="light-content">
+        {this.state.loading ? <Loading /> : null}
+        {this.state.isError ? <ErrorPage errorTips="網絡飛走了"/> : null}
+        <Header style={{backgroundColor: this.props.screenProps.theme,borderBottomWidth:0}} iosBarStyle="light-content">
           <Left>
           <Button transparent onPress={() => this.props.navigation.goBack()}>
             <Icon size={20} name="ios-arrow-back" style={{fontSize:25,color: Colors.main_white}}/>

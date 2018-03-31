@@ -90,7 +90,7 @@ export default class ArticleView extends Component {
             </Left>
           </CardItem>
           <CardItem cardBody>
-            <Image style={{ height: 210, flex: 1 }} source={{uri: item.image}} />
+            <Image style={{ height: GLOBAL_PARAMS._winHeight*0.38, flex: 1 }} source={{uri: item.image}} />
           </CardItem>
           <CardItem>
             <Icon name="md-card" style={{ color: this.props.screenProps.theme }} />

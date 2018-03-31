@@ -224,7 +224,7 @@ export default class IntegralDetailView extends PureComponent {
                 ]
               }
             ]}
-            source={{ uri: "arrowDown" }}
+            source={require('../asset/arrowup.png')}
           />
         </Button>
       )}
@@ -277,7 +277,7 @@ export default class IntegralDetailView extends PureComponent {
   //private function
   _openDialog = () => {
     this._popupDialog.show(() => {
-      console.log('opened!')
+      // console.log('opened!')
     })
   }
 
