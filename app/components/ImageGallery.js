@@ -18,32 +18,6 @@ export default class ImageGallery extends Component {
         super(props);
         this.state = {
             index: 0,
-            images: [
-                // {
-                //     caption: 'This image is bundled with the app, so you must provide dimensions for it',
-                //     source: require('./static/images/placehold.jpg'),
-                //     dimensions: { width: 540, height: 720 }
-                // },
-                {
-                    caption: 'This image has a broken URL',
-                    source: { uri: 'http://wrongdomain.tld/images/wrongimage.jpg' }
-                },
-                {
-                    caption: 'Remote image with supplied dimensions',
-                    source: { uri: 'http://i.imgur.com/gSmWCJF.jpg' },
-                    dimensions: { width: 1200, height: 800 }
-                },
-                { caption: 'Caption 4', source: { uri: 'http://i.imgur.com/XP2BE7q.jpg' } },
-                { caption: 'Caption 5', source: { uri: 'http://i.imgur.com/5nltiUd.jpg' } },
-                { caption: 'Caption 6', source: { uri: 'http://i.imgur.com/6vOahbP.jpg' } },
-                { caption: 'Caption 7', source: { uri: 'http://i.imgur.com/kj5VXtG.jpg' } },
-                { caption: 'Caption 8', source: { uri: 'http://i.imgur.com/BN8RVGa.jpg' } },
-                { caption: 'Caption 9', source: { uri: 'http://i.imgur.com/jXbhTbv.jpg' } },
-                { caption: 'Caption 10', source: { uri: 'http://i.imgur.com/30s12Qj.jpg' } },
-                { caption: 'Caption 11', source: { uri: 'http://i.imgur.com/4A1Q49y.jpg' } },
-                { caption: 'Caption 12', source: { uri: 'http://i.imgur.com/JfVDTF9.jpg' } },
-                { caption: 'Caption 13', source: { uri: 'http://i.imgur.com/Vv4bmwR.jpg' } }
-            ]
         };
         this.onChangeImage = this.onChangeImage.bind(this);
 

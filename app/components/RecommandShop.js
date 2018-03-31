@@ -37,7 +37,7 @@ const RecommendShop = props => {
             marginTop: 5
           }}
         >
-          <Text>{item.name}</Text>
+          <Text numberOfLines={1}>{item.name}</Text>
         </View>
       </TouchableOpacity>
     );

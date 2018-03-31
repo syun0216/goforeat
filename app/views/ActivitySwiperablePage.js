@@ -74,12 +74,12 @@ export default class ArticleView extends Component {
       ref={c => (this._deckSwiper = c)}
       dataSource={this.state.shopDetail}
       renderEmpty={() => (
-        <View style={{ alignSelf: "center" }}>
+        <View style={{ alignSelf: "center",marginTop: 100 }}>
           <Text>沒有更多了</Text>
         </View>
       )}
       renderItem={item => (
-        <Card style={{ elevation: 3 }}>
+        <Card style={{ elevation: 3,width: 320,height:50,left: 25,top:30 }}>
           <CardItem>
             <Left>
               <Thumbnail source={{uri: item.image}} />
@@ -90,7 +90,7 @@ export default class ArticleView extends Component {
             </Left>
           </CardItem>
           <CardItem cardBody>
-            <Image style={{ height: 300, flex: 1 }} source={{uri: item.image}} />
+            <Image style={{ height: 210, flex: 1 }} source={{uri: item.image}} />
           </CardItem>
           <CardItem>
             <Icon name="md-card" style={{ color: this.props.screenProps.theme }} />

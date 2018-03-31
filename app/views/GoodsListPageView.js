@@ -402,15 +402,17 @@ _renderSectionListItem = (item,index) => {
           data:item,
           kind:'canteen'
         })}>
-        <Left style={{marginLeft: 10}}>
-          <View style={{width:90,height:90,borderRadius:45}}>
-            <Image style={{width:90,height:90,borderRadius:45}} imageStyle={{borderRadius: 45}} source={{uri:!hasImage ? 'default_image' : item.image}} />
+        <Left style={{marginLeft: 5}}>
+          <View style={{width:80,height:80,borderRadius:40}}>
+            <Image  style={{width:80,height:80,borderRadius:40}} imageStyle={{borderRadius: 40}} source={{uri:!hasImage ? 'default_image' : item.image,cache: 'force-cache'}} />
           </View>
         </Left>
         <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
-          <Text style={{marginBottom:10,fontSize:18}} numberOfLines={1}>{item.name}</Text>
-          <Text note style={{fontSize:13,marginBottom:10}}>地址：{item.address.length > 12 ? item.address.substr(0,11) + '...' : item.address}</Text>
+          <Text style={{marginBottom:10,fontSize:20}} numberOfLines={1}>{item.name}
+          </Text>
+          
           <Rating rate={item.rate} {...this['props']}/>
+          <Text note style={{fontSize:13,marginBottom:10}}>{item.address.length > 12 ? item.address.substr(0,11) + '...' : item.address}</Text>
           {/*<View style={{flexDirection:'row',alignItems:'center'}}>
             <View style={{backgroundColor:'#b3b3b3',borderRadius:10,width:80,padding:5,marginRight:10}}>
               <Text style={{color:'#fff',textAlign:'center'}}>0.5公里</Text>
@@ -418,8 +420,8 @@ _renderSectionListItem = (item,index) => {
             <Text>距離當前位置</Text>
           </View> */}
         </Body>
-        <Right style={{borderBottomWidth:0}}>
-          <Text note style={{color:this.props.screenProps.theme,fontSize:25,fontWeight:'bold'}}>${item.price}</Text>
+        <Right style={{borderBottomWidth:0,justifyContent:'center'}}>
+          <Text note style={{color:this.props.screenProps.theme,fontSize:20,fontWeight:'bold'}}>${item.price}/人</Text>
         </Right>
       </ListItem>
       {this.state.canteenDetail.length-1 === index ? null : <Divider height={10} bgColor='transparent'/>}

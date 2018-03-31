@@ -23,7 +23,8 @@ let colors = {
     deep_green: '#1d953f',
     middle_red: '#d93a49',
     blue_green: '#00ae9d',
-    middle_green: '#7fb80e'
+    middle_green: '#7fb80e',
+    rate_yellow: '#f7ba2a'
 };
 
 module.exports = colors;
