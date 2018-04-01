@@ -250,7 +250,7 @@ export default class ContentView extends Component {
             <Image style={{width:100, height:100,borderRadius: 50}} imageStyle={{borderRadius: 50}}
             source={{ uri: this.state.canteenData.image === '#' ? 'default_image' : this.state.canteenData.image,cache: 'force-cache' }} />
             <Body>
-              <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.name}</Text>
+              <Text note style={{marginTop:5,marginBottom: 5,color:Colors.fontBlack,fontSize:16}}>{this.state.canteenData.name}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.address}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>價格：${this.state.canteenData.price}</Text>
               <Rating rate={this.state.canteenData.rate} {...this['props']}/>

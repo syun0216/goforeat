@@ -16,7 +16,7 @@ import Loading from './app/components/Loading'
 //cache
 import appStorage from './app/cache/appStorage'
 //hot reload
-import codePush from 'react-native-code-push'
+import CodePush from 'react-native-code-push'
 import {addListener} from './app/utils/navigationWithRedux'
 //api
 import api from './app/api';
@@ -59,6 +59,7 @@ class App extends Component < {} > {
 
 
   componentDidMount = () => {
+    
     AppState.addEventListener('change', this._handleAppStateChange)
   }
 
@@ -86,4 +87,4 @@ class App extends Component < {} > {
 
 
 
-export default codePush(App)
+export default CodePush(App)

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>zh_CN</string>
 	<key>CFBundleDisplayName</key>
 	<string>Goforeat</string>
 	<key>CFBundleExecutable</key>
@@ -27,7 +27,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CodePushDeploymentKey</key>
-	<string>deployment-key-here</string>
+	<string>$(CODEPUSH_KEY)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
   <key>LSApplicationQueriesSchemes</key>

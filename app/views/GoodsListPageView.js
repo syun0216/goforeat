@@ -16,6 +16,7 @@ import Divider from '../components/Divider';
 import MapModal from '../components/CommonModal';
 import Rating from '../components/Rating';
 import ScrollTop from '../components/ScrollTop';
+import Tags from '../components/Tags';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
@@ -408,8 +409,11 @@ _renderSectionListItem = (item,index) => {
           </View>
         </Left>
         <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
-          <Text style={{marginBottom:10,fontSize:20}} numberOfLines={1}>{item.name}
-          </Text>
+          <View style={{flexDirection:'row',alignItems:'center'}}>
+            <Text style={{marginBottom:10,fontSize:20}} numberOfLines={1}>{item.name}</Text>
+            {item.takeOut === 1 ? <Tags style={{marginTop:-10}}/> : null}
+            {item.isCooperative === 1 ? <Tags style={{marginTop:-10,marginLeft:10}} message="積" color='#45b97c'/> : null}
+          </View>
           
           <Rating rate={item.rate} {...this['props']}/>
           <Text note style={{fontSize:13,marginBottom:10}}>{item.address.length > 12 ? item.address.substr(0,11) + '...' : item.address}</Text>
@@ -421,7 +425,7 @@ _renderSectionListItem = (item,index) => {
           </View> */}
         </Body>
         <Right style={{borderBottomWidth:0,justifyContent:'center'}}>
-          <Text note style={{color:this.props.screenProps.theme,fontSize:20,fontWeight:'bold'}}>${item.price}/人</Text>
+          <Text note style={{color:Colors.fontBlack,fontSize:20,fontWeight:'bold'}}>${item.price}/人</Text>
         </Right>
       </ListItem>
       {this.state.canteenDetail.length-1 === index ? null : <Divider height={10} bgColor='transparent'/>}

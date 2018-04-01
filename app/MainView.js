@@ -23,6 +23,7 @@ import IntegralView from './views/IntegralView'
 import IntegralDetailView from './views/IntegralDetailView'
 import UploadView from './views/UploadView'
 import CommentsView from './views/CommentsView'
+import MandatoryUpdateView from './MandatoryUpdateView'
 //api
 import api from './api'
 import source from './api/CancelToken'
@@ -179,6 +180,9 @@ const darwerView = DrawerNavigator({
 let MainView = StackNavigator({
   // Splash: {
   //   screen: SplashPageView
+  // },
+  // Mandatory: {
+  //   screen: MandatoryUpdateView
   // },
   Home: {
     screen: darwerView
