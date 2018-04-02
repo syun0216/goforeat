@@ -17,6 +17,7 @@ import MapModal from '../components/CommonModal';
 import Rating from '../components/Rating';
 import ScrollTop from '../components/ScrollTop';
 import Tags from '../components/Tags';
+import DropdownModal from '../components/DropdownModal';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
@@ -53,6 +54,7 @@ export default class GoodsListPageView extends Component{
       canteenOptions: null,
       showFilterList: false,
       isMapModalShow: false,
+      isDropdownModalShow: false,
       httpRequest: null,
       positionTop: new Animated.Value(0),
       positionBottom: new Animated.Value(0),
@@ -252,13 +254,14 @@ export default class GoodsListPageView extends Component{
     // console.log('data',data)
     requestParams.currentPage = 1
     this.setState({
-      firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
+      isDropdownModalShow: false
     })
-    this._toToggleFilterListView(0)
+    // this._toToggleFilterListView(0)
     let timer = setTimeout(() => {
       clearTimeout(timer)
+      this.setState({ firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING});
       this.getCanteenList(data)
-    },0)
+    },100)
   }
 
   _openMapModal = () => {
@@ -269,7 +272,23 @@ export default class GoodsListPageView extends Component{
     })
   }
 
+  _openFilterModal = () => {
+    this.setState({
+      isDropdownModalShow: true
+    });
+  }
+
 //views
+  _renderDropDownModal = () => (
+    <DropdownModal
+      {...this['props']} 
+      filterData={this.state.canteenOptions}
+      modalVisible={this.state.isDropdownModalShow} 
+      cancleToDo={() => this.setState({isDropdownModalShow: false})}
+      confirmToDo={(data) => this._confirmToFilter(data)}
+      />
+  )
+
   _renderScrollTopView = () => {
     return this.state.canteenDetail !== null ? <ScrollTop toTop={() => {
       this.sectionList.scrollToLocation({
@@ -304,9 +323,13 @@ export default class GoodsListPageView extends Component{
         </View>
         <View style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
         </View>
-        <TouchableOpacity onPress={() => this._toToggleFilterListView()}
+        {/*<TouchableOpacity onPress={() => this._toToggleFilterListView()}
           style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-          {/* <Icon name='md-menu' style={{fontSize:20,color:this.props.theme,marginRight:5}}/> */}
+           <Icon name='md-menu' style={{fontSize:20,color:this.props.theme,marginRight:5}}/> 
+          <Text style={{color:this.props.screenProps.theme}}>篩選分類</Text>
+        </TouchableOpacity>*/}
+        <TouchableOpacity onPress={() => this._openFilterModal()}
+          style={{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
           <Text style={{color:this.props.screenProps.theme}}>篩選分類</Text>
         </TouchableOpacity>
       </View>
@@ -433,15 +456,17 @@ _renderSectionListItem = (item,index) => {
 )}
 
   render(){
+    let {firstPageLoading,showFilterList,canteenDetail,canteenOptions,isDropdownModalShow} = this.state;
     return (
       <Container style={{backgroundColor:Colors.bgColor}}>
         {this._renderModalView()}
-        {this.state.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
-          <Loading message="玩命加載中..."/> : (this.state.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+        {canteenOptions&&isDropdownModalShow?this._renderDropDownModal():null}
+        {firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
+          <Loading message="玩命加載中..."/> : (firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
-        {this.state.showFilterList ? this._renderPreventClickView() : null}
-        {this.state.canteenOptions&&this.state.showFilterList ? this._renderFilterView() : null}
-        {this.state.canteenDetail.length === 0 ?
+        {showFilterList ? this._renderPreventClickView() : null}
+        {canteenOptions&&showFilterList ? this._renderFilterView() : null}
+        {canteenDetail.length === 0 ?
           <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
         <Header style={{backgroundColor:this.props.screenProps.theme, borderBottomWidth: 0}} iosBarStyle="light-content">
