@@ -71,11 +71,11 @@ export default class DropdownModal extends PureComponent {
           <Header>
             <Left />
             <Body>
-              <Text>篩選分類</Text>
+              <Text style={{fontSize:16}}>篩選分類</Text>
             </Body>
             <Right>
               <TouchableOpacity onPress={this.props.cancleToDo.bind(this)}>
-                <Text>取消</Text>
+                <Text style={{fontSize:16}}>取消</Text>
               </TouchableOpacity>
             </Right>
           </Header>
@@ -83,7 +83,7 @@ export default class DropdownModal extends PureComponent {
             {this.props.filterData.map((item,idx) => this._renderFilterItem(item,idx))}
           </Content>
           <Footer style={{flexDirection:'row'}}>
-            <TouchableOpacity style={{flex: 1,borderLeftWidth: 1,borderLeftColor: Colors.main_gray,justifyContent:'center',alignItems:'center'}}
+            <TouchableOpacity style={{flex: 1,justifyContent:'center',alignItems:'center'}}
               onPress={this.props.screenProps.resetFilter.bind(this)}>
               <Text style={styles.bottomBtn}>重置</Text>
             </TouchableOpacity>
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   },
   filterItemContainerTitle:{
     color: Colors.fontBlack,
-    marginLeft:21,
+    paddingLeft:21,
     width: GLOBAL_PARAMS._winWidth,
     backgroundColor: '#fafafa',
     paddingTop:10,

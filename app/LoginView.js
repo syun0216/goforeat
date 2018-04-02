@@ -28,7 +28,6 @@ import {
   Icon,
   ActionSheet
 } from "native-base";
-import Picker from 'react-native-picker'
 
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
@@ -41,7 +40,12 @@ import api from './api/index'
 import source from './api/CancelToken'
 
 // const
-
+const BUTTONS = [
+  GLOBAL_PARAMS.phoneType.HK.label,
+  GLOBAL_PARAMS.phoneType.CHN.label
+];
+const DESTRUCTIVE_INDEX = 3;
+const CANCEL_INDEX = 4;
 export default class LoginView extends Component {
   state = {
     phone: null,
@@ -49,27 +53,7 @@ export default class LoginView extends Component {
     selectedValue:GLOBAL_PARAMS.phoneType.HK,
   };
 
-  componentDidMount() {
-    Picker.init({
-      pickerData: [
-        'HK +852', 'CHN +86'
-      ],
-      selectedValue: ['HK: +852'],
-      pickerTitleText: '選擇電話類型',
-      pickerConfirmBtnText: '確定',
-      pickerCancelBtnText: '取消',
-      pickerRowHeight:30,
-      onPickerConfirm: data => {
-        switch(data[0]){
-          case GLOBAL_PARAMS.phoneType.HK.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.HK});break
-          case GLOBAL_PARAMS.phoneType.CHN.label:this.setState({selectedValue:GLOBAL_PARAMS.phoneType.CHN});break
-        }
-      }
-    });
-  }
-
   componentWillUnmount() {
-    Picker.hide()
     source.cancel()
   }
 
@@ -117,6 +101,27 @@ export default class LoginView extends Component {
       ToastUtil.showWithMessage("登錄失敗")
     })
   }
+
+  _showActionSheet = () => {
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: CANCEL_INDEX,
+        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        title: "選擇電話類型"
+      },
+      buttonIndex => {
+        switch (BUTTONS[buttonIndex]) {
+          case GLOBAL_PARAMS.phoneType.HK.label:
+            this.setState({ selectedValue: GLOBAL_PARAMS.phoneType.HK });
+            break;
+          case GLOBAL_PARAMS.phoneType.CHN.label:
+            this.setState({ selectedValue: GLOBAL_PARAMS.phoneType.CHN });
+            break;
+        }
+      }
+    );
+  };
 
   //views
 
@@ -243,7 +248,7 @@ export default class LoginView extends Component {
                     }}
                   />*/}
                 </View>
-                <Button transparent style={{marginLeft:-9,marginTop:2}} onPress={() => Picker.show()}>
+                <Button transparent style={{marginLeft:-9,marginTop:2}} onPress={() => this._showActionSheet()}>
                   <Text style={{color:'gray'}}>{this.state.selectedValue.label}</Text>
                 </Button>
                 <View
