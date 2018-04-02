@@ -9,6 +9,17 @@ ios的打包方法:
 [https://www.jianshu.com/p/b1b77d804254](https://www.jianshu.com/p/b1b77d804254) <br>
 android的打包方法:
 [https://www.jianshu.com/p/61e27d9b02f2](https://www.jianshu.com/p/61e27d9b02f2)
+### android平台
+* 运行: 用Android studio导入android文件夹下的项目 -> run 
+* 打包: 在项目文件夹下, $ cd android && ./gradlew assembleRelease
+
+### ios平台
+* 运行: Xcode(打开goforeat_app.xcworkspace项目) -> run
+* 打包:
+    * 使用离线数据:取消注释jsCodeLocation = [[NSBundle mainBundle] ...这一行
+    * 选择'Generic iOS Device'
+    * Product->Archive
+    
 
 ### screen shot   [ios 下载地址](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
 - 商品页
@@ -35,6 +46,9 @@ android的打包方法:
   <img src="./display/s7.jpeg" width="250">
   <img src="./display/s9.jpeg" width="250">
   <img src="./display/s10.jpeg" width="250">
+</p>
+<p align="left">
+  <img src="./display/s11.png" width="250">
 </p>
 
 ### screen shot [android 下载地址](https://www.pgyer.com/TBnS)
