@@ -11,12 +11,12 @@ target 'goforeat_app' do
 
   platform :ios, '9.0'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+#  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'Picker', :path => '../node_modules/react-native-picker'
-  
-  pod 'React', path: '../node_modules/react-native', subspecs: [
-  'ART',
-  ]
+#  pod 'Picker', :path => '../node_modules/react-native-picker'
+
+#  pod 'React', path: '../node_modules/react-native', subspecs: [
+#  'ART',
+#  ]
 
 end

@@ -5,10 +5,10 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, View, AppState} from 'react-native';
+import {Platform, StyleSheet, View, AppState,Alert} from 'react-native';
 import {Root} from 'native-base'
 import store from './app/store'
-import {Provider,connect} from 'react-redux'
+import {Provider,connect} from 'react-redux';
 import Push from 'appcenter-push';
 import DashboardView from './app/DashBoardView'
 //components
@@ -29,7 +29,7 @@ class App extends Component < {} > {
     await Push.setEnabled(true);
     const pushEnabled = await Push.isEnabled();
     // console.log(Push);
-    // alert(pushEnabled);
+    console.log(pushEnabled);
     // api.getNotifications().then(data => console.log(data));
     appStorage.getLoginUserJsonData((error, data) => {
       if (error === null) {
@@ -84,7 +84,6 @@ class App extends Component < {} > {
     </Root>);
   }
 }
-
 
 
 export default CodePush(App)

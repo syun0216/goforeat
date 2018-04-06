@@ -58,9 +58,8 @@ export default class IntegralDetailView extends PureComponent {
       data => {
         for (let idx in data) {
           if (data[idx].status === 200 && data[idx].data.ro.ok) {
-            console.log(idx);
+            // console.log(idx);
             if (idx == 0) {
-              console.log(123);
               this.setState({
                 projectDetail: data[idx].data.data
               });

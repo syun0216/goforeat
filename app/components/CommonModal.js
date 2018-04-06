@@ -26,7 +26,7 @@ class CommonModal extends Component{
   //private function
   _nextCityClick = (item) => {
     let _data = this.state.totalData.filter(v => item.cityName === v.cityName);
-    console.log(_data)
+    // console.log(_data)
     if(typeof _data[0].city !== 'undefined') {
       this.setState({
         totalData: _data[0].city,
@@ -38,7 +38,6 @@ class CommonModal extends Component{
   }
 
   _lastCityClick = () => {
-    console.log(123)
     this.setState({
       totalData: CityData.cityData
     })

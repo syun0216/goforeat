@@ -47,7 +47,7 @@ export default class SplashPageView extends Component {
 
   componentDidMount = () => {
     CodePush.getUpdateMetadata().then(localPackage => {
-      console.log(localPackage);
+      // console.log(localPackage);
       if (localPackage == null) {
           this._checkForUpdate();
           
@@ -69,19 +69,20 @@ export default class SplashPageView extends Component {
         if (remotePackage == null) {
             return;
         }
-        if (TextUtils.isEmpty(remotePackage.description)) {
-            this._syncInSilent(remotePackage);
-        } else {
-            JSONUtils.parseJSONFromString(remotePackage.description, (resultJSON) => {
-                if (resultJSON.isSilentSync != null && !resultJSON.isSilentSync) {
-                    _syncInNonSilent(remotePackage);
-                } else {
-                    this._syncInSilent(remotePackage);
-                }
-            }, (error) => {
-                this._syncInSilent(remotePackage);
-            });
-        }
+        this._syncInNonSilent(remotePackage);
+        // if (TextUtils.isEmpty(remotePackage.description)) {
+        //     this._syncInSilent(remotePackage);
+        // } else {
+        //     JSONUtils.parseJSONFromString(remotePackage.description, (resultJSON) => {
+        //         if (resultJSON.isSilentSync != null && !resultJSON.isSilentSync) {
+        //             this._syncInNonSilent(remotePackage);
+        //         } else {
+        //             this._syncInSilent(remotePackage);
+        //         }
+        //     }, (error) => {
+        //         this._syncInSilent(remotePackage);
+        //     });
+        // }
     })
 }
   // logic - update - silent

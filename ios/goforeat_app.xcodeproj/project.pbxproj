@@ -37,6 +37,7 @@
 		9B3843FE77E51B4E703ECC37 /* libPods-goforeat_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 369F73E9388FCF7AC3177177 /* libPods-goforeat_app.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C199B0039AD94996BE1FDABE /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F70CF1BBF6934453B8C723CD /* SimpleLineIcons.ttf */; };
+		C73491FA207218FE0072B529 /* libAppCenterReactNativePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A603A02052D6F900389B91 /* libAppCenterReactNativePush.a */; };
 		C7639D672069D523000A02BB /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D662069D50A000A02BB /* libRNShare.a */; };
 		C7639D692069D56E000A02BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D682069D56E000A02BB /* Social.framework */; };
 		C7639D6B2069D578000A02BB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D6A2069D578000A02BB /* MessageUI.framework */; };
@@ -456,6 +457,7 @@
 			files = (
 				48B1C9E41DF9451597A85CB9 /* libz.tbd in Frameworks */,
 				C7A34573206F8B1D002B63D1 /* libAppCenterReactNative.a in Frameworks */,
+				C73491FA207218FE0072B529 /* libAppCenterReactNativePush.a in Frameworks */,
 				C7639D6B2069D578000A02BB /* MessageUI.framework in Frameworks */,
 				C7639D692069D56E000A02BB /* Social.framework in Frameworks */,
 				C7639D672069D523000A02BB /* libRNShare.a in Frameworks */,

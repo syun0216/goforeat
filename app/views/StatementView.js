@@ -15,7 +15,7 @@ import CommonHeader from '../components/CommonHeader'
 import Colors from '../utils/Colors'
 
 const StatementView = (props) => {
-  console.log('statement', props)
+  // console.log('statement', props)
   const _content = {
     service: {
       title: '服務條款',

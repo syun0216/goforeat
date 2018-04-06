@@ -38,16 +38,16 @@ export default class UploadView extends PureComponent {
     };
 
     ImagePicker.showImagePicker(options, async (response) => {
-      console.log('Response = ', response);
+      // console.log('Response = ', response);
 
       if (response.didCancel) {
-        console.log('User cancelled photo picker');
+        // console.log('User cancelled photo picker');
       }
       else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        // console.log('ImagePicker Error: ', response.error);
       }
       else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+        // console.log('User tapped custom button: ', response.customButton);
       }
       else {
         // You can also display the image using data:
@@ -68,16 +68,17 @@ export default class UploadView extends PureComponent {
     this.setState({
       isUpload: true
     })
-    api.uploadBillImg(this.state.avatarSource).then(data => {
+    // console.log(this.state.photoData)
+    api.uploadBillImg(this.state.photoData).then(data => {
+      // console.log(data);
       if(data.status === 200 && data.data.ro.ok) {
         ToastUtil.showWithMessage("上傳成功");
         this.setState({
           isUpload: false,
-          photoData: null,
-          avatarSource: null
+          photoData: null
         })
       }else {
-        ToastUtil.showWithMessage("上傳失敗，請點擊重試");
+        ToastUtil.showWithMessage(data.data.ro.respMsg);
         this.setState({
           isUpload: false
         })

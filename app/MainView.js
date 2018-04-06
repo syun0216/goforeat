@@ -240,8 +240,8 @@ let MainView = StackNavigator({
 const defaultGetStateForAction = MainView.router.getStateForAction
 
 MainView.router.getStateForAction = (action, state) => {
-  console.log('action', action)
-  console.log('state', state)
+  // console.log('action', action)
+  // console.log('state', state)
   if(action.type === 'Navigation/NAVIGATE') {
     source.cancel();
   }

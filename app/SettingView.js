@@ -9,7 +9,7 @@ import CommonHeader from './components/CommonHeader'
 
 export default class SettingView extends PureComponent{
   _currentItemClick = theme => {
-    console.log(theme)
+    // console.log(theme)
     if(theme === this.props.screenProps.theme) return;
     this.props.screenProps.changeTheme(theme)
     // const resetAction = NavigationActions.reset({

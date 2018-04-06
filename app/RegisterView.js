@@ -60,7 +60,7 @@ export default class RegisterView extends PureComponent {
     }
     api.getCode(this.state.phone, this.state.selectedValue.value).then(
       data => {
-        console.log(data);
+        // console.log(data);
         if (data.status === 200 && data.data.ro.ok) {
           this.token = data.data.data.token;
           ToastUtil.showWithMessage("驗證碼發送成功");
@@ -136,7 +136,7 @@ export default class RegisterView extends PureComponent {
       )
       .then(
         data => {
-          console.log(data);
+          // console.log(data);
           if (data.status === 200 && data.data.ro.ok) {
             ToastUtil.showWithMessage("註冊成功");
             this.props.screenProps.userLogin(this.state.phone);
