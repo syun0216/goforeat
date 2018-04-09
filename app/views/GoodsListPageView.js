@@ -419,7 +419,7 @@ export default class GoodsListPageView extends Component{
 
 _renderSectionListItem = (item,index) => {
   let hasImage = item.image !== '#';
-  let _imgWidth = GLOBAL_PARAMS._winWidth < 400 ? GLOBAL_PARAMS._winWidth*0.2 : 80;
+  let _imgWidth = GLOBAL_PARAMS._winWidth < 350 ? GLOBAL_PARAMS._winWidth*0.2 : 80;
   return (
     <View>
       <ListItem

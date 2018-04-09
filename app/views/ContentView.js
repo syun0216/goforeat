@@ -244,7 +244,7 @@ export default class ContentView extends Component {
 
   _renderContentView = () => 
   {
-    let _imgWidth = GLOBAL_PARAMS._winWidth < 400 ? GLOBAL_PARAMS._winWidth*0.2 : 100;
+    let _imgWidth = GLOBAL_PARAMS._winWidth < 350 ? GLOBAL_PARAMS._winWidth*0.2 : 100;
     return (<Content>
       <Card style={{ flex:1,margin:0 ,borderWidth:0}}>
         <CardItem>
@@ -280,7 +280,7 @@ export default class ContentView extends Component {
                   />
                 </TouchableOpacity>
               ))
-            ) : <BlankPage message="暫無菜品數據"/>}
+            ) : <BlankPage message="暫無菜品數據" style={{marginLeft: -10}}/>}
 
           </Body>
         </CardItem>

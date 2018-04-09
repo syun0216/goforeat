@@ -129,19 +129,13 @@ const api = {
     })
   },
   uploadBillImg(billImg) { // 上傳發票
+    let _img = {
+      name: billImg.fileName,
+      uri: billImg.uri
+    }
     let params = new FormData();
-    // let blob = new Blob(billImg.uri,{type: 'image/*'});
-    // console.log(blob);
-    // params.append('billImg',new Blob(billImg.uri))
-    params.append('billImg',billImg.uri)
-    let instance = axios.create({
-      withCredentials: true
-    })
-    return instance.post(api_url + '/member/uploadBillImg', params,{
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    })
+    params.append('billImg', _img);
+    return axios.post(api_url + '/member/uploadBillImg', params)
   },
   recommendShop(limit=10,offset) { //线下餐厅推荐
     return axios.post(api_url + '/guide/canteenRecommend', qs.stringify({
