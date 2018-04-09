@@ -126,6 +126,7 @@ export default class LoginView extends Component {
   //views
 
   render() {
+    let _imgHeight = GLOBAL_PARAMS._winWidth < 400 ?  GLOBAL_PARAMS._winHeight*0.35 : 250;
     return (
       <View style={{ flex: 1, backgroundColor: "#fafafa" }}>
         <StatusBar barStyle="light-content" />
@@ -133,7 +134,7 @@ export default class LoginView extends Component {
           <Image
             resizeMode="cover"
             style={{
-              height: 250,
+              height: _imgHeight,
               width: GLOBAL_PARAMS._winWidth,
               position: "absolute",
               top: 0,

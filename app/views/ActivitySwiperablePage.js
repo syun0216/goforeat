@@ -69,7 +69,9 @@ export default class ArticleView extends Component {
     this.getRecommendList();
   }
 
-  _renderDeskSwiper = () => (
+  _renderDeskSwiper = () => {
+    let _imgHeight = GLOBAL_PARAMS._winWidth < 400 ? GLOBAL_PARAMS._winHeight*0.34 : GLOBAL_PARAMS._winHeight*0.38;
+    return (
     <DeckSwiper
       ref={c => (this._deckSwiper = c)}
       dataSource={this.state.shopDetail}
@@ -79,7 +81,7 @@ export default class ArticleView extends Component {
         </View>
       )}
       renderItem={item => (
-        <Card style={{ elevation: 3,width: 320,height:50,left: 25,top:30 }}>
+        <Card style={{ elevation: 3,width: GLOBAL_PARAMS._winWidth*0.85,height:50,left: 25,top:30 }}>
           <CardItem>
             <Left>
               <Thumbnail source={{uri: item.image}} />
@@ -90,7 +92,7 @@ export default class ArticleView extends Component {
             </Left>
           </CardItem>
           <CardItem cardBody>
-            <Image style={{ height: GLOBAL_PARAMS._winHeight*0.38, flex: 1 }} source={{uri: item.image}} />
+            <Image style={{ height: _imgHeight, flex: 1 }} source={{uri: item.image}} />
           </CardItem>
           <CardItem>
             <Icon name="md-card" style={{ color: this.props.screenProps.theme }} />
@@ -99,7 +101,7 @@ export default class ArticleView extends Component {
         </Card>
       )}
     />
-  );
+  );}
   render() {
     return (
       <Container>

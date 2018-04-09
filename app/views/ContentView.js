@@ -242,14 +242,16 @@ export default class ContentView extends Component {
     </Modal>
   )
 
-  _renderContentView = () => (
-    <Content>
+  _renderContentView = () => 
+  {
+    let _imgWidth = GLOBAL_PARAMS._winWidth < 400 ? GLOBAL_PARAMS._winWidth*0.2 : 100;
+    return (<Content>
       <Card style={{ flex:1,margin:0 ,borderWidth:0}}>
         <CardItem>
           <Left>
-            <Image style={{width:100, height:100,borderRadius: 50}} imageStyle={{borderRadius: 50}}
+            <Image style={{width:_imgWidth, height:_imgWidth}} imageStyle={{borderRadius: _imgWidth/2}}
             source={{ uri: this.state.canteenData.image === '#' ? 'default_image' : this.state.canteenData.image,cache: 'force-cache' }} />
-            <Body>
+            <Body style={{marginLeft:20}}>
               <Text note style={{marginTop:5,marginBottom: 5,color:Colors.fontBlack,fontSize:16}}>{this.state.canteenData.name}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.address}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>價格：${this.state.canteenData.price}</Text>
@@ -292,7 +294,7 @@ export default class ContentView extends Component {
         </CardItem>
       </Card>
     </Content>
-  );
+  )};
 
   _renderArticleContentView = () => (
     <WebView

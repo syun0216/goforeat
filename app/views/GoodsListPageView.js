@@ -64,6 +64,7 @@ export default class GoodsListPageView extends Component{
 
   componentWillMount = () => {
     this.getCanteenList()
+    console.log(GLOBAL_PARAMS._winWidth)
   }
 
 
@@ -418,6 +419,7 @@ export default class GoodsListPageView extends Component{
 
 _renderSectionListItem = (item,index) => {
   let hasImage = item.image !== '#';
+  let _imgWidth = GLOBAL_PARAMS._winWidth < 400 ? GLOBAL_PARAMS._winWidth*0.2 : 80;
   return (
     <View>
       <ListItem
@@ -427,8 +429,8 @@ _renderSectionListItem = (item,index) => {
           kind:'canteen'
         })}>
         <Left style={{marginLeft: 5}}>
-          <View style={{width:80,height:80,borderRadius:40}}>
-            <Image  style={{width:80,height:80,borderRadius:40}} imageStyle={{borderRadius: 40}} source={{uri:!hasImage ? 'default_image' : item.image,cache: 'force-cache'}} />
+          <View style={{width:_imgWidth,height:_imgWidth}}>
+            <Image  style={{width:_imgWidth,height:_imgWidth}} imageStyle={{borderRadius: _imgWidth/2}} source={{uri:!hasImage ? 'default_image' : item.image,cache: 'force-cache'}} />
           </View>
         </Left>
         <Body style={{height:120,borderBottomWidth:0,justifyContent:'center'}}>
@@ -447,8 +449,8 @@ _renderSectionListItem = (item,index) => {
             <Text>距離當前位置</Text>
           </View> */}
         </Body>
-        <Right style={{borderBottomWidth:0,justifyContent:'center'}}>
-          <Text note style={{color:Colors.fontBlack,fontSize:20,fontWeight:'bold'}}>${item.price}/人</Text>
+        <Right style={{borderBottomWidth:0,justifyContent:'space-around'}}>
+          <Text note style={{color:Colors.fontBlack,fontSize:16,fontWeight:'bold'}}>${item.price}/人</Text>
         </Right>
       </ListItem>
       {this.state.canteenDetail.length-1 === index ? null : <Divider height={10} bgColor='transparent'/>}
