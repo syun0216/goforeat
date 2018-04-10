@@ -1,5 +1,5 @@
 # goforeat_app
-goforear 外卖软件 （react native架构）
+Flogger 外卖软件 （react native架构）
 <p align="center">
   <img width="128" src="./display/Logo-V2.png">
 </p>
@@ -61,4 +61,14 @@ android的打包方法:
   <img src="./display/as4.png" width="250">
   <img src="./display/as5.png" width="250">
   <img src="./display/as6.png" width="250">
+</p>
+
+# goforeat_website
+使用vue框架架构
+<p align="center">
+  <img width="128" src="./display/1513159482.png">
+</p>
+
+<p align="center">
+  <img src="./display/ws1.png">
 </p>
