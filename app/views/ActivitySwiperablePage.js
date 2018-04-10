@@ -71,6 +71,7 @@ export default class ArticleView extends Component {
 
   _renderDeskSwiper = () => {
     let _imgHeight = GLOBAL_PARAMS._winWidth < 400 ? GLOBAL_PARAMS._winHeight*0.34 : GLOBAL_PARAMS._winHeight*0.38;
+    _imgHeight = Platform.OS === 'android' ? GLOBAL_PARAMS._winHeight*0.6 : _imgHeight;
     return (
     <DeckSwiper
       ref={c => (this._deckSwiper = c)}
@@ -81,7 +82,7 @@ export default class ArticleView extends Component {
         </View>
       )}
       renderItem={item => (
-        <Card style={{ elevation: 3,width: GLOBAL_PARAMS._winWidth*0.85,height:50,left: 25,top:30 }}>
+        <Card style={{ elevation: 3,width: GLOBAL_PARAMS._winWidth*0.85,height:_imgHeight,left: 25,top:30 }}>
           <CardItem>
             <Left>
               <Thumbnail source={{uri: item.image}} />

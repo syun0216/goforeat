@@ -68,7 +68,7 @@ export default class DropdownModal extends PureComponent {
       transparent={false}
       visible={this.props.modalVisible}>
         <Container>
-          <Header>
+          <Header style={{backgroundColor: Colors.main_white}}>
             <Left />
             <Body>
               <Text style={{fontSize:16}}>篩選分類</Text>
@@ -83,7 +83,7 @@ export default class DropdownModal extends PureComponent {
             {this.props.filterData.map((item,idx) => this._renderFilterItem(item,idx))}
           </Content>
           <Footer style={{flexDirection:'row'}}>
-            <TouchableOpacity style={{flex: 1,justifyContent:'center',alignItems:'center'}}
+            <TouchableOpacity style={{flex: 1,justifyContent:'center',alignItems:'center',backgroundColor: Colors.main_white}}
               onPress={this.props.screenProps.resetFilter.bind(this)}>
               <Text style={styles.bottomBtn}>重置</Text>
             </TouchableOpacity>
