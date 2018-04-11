@@ -4,39 +4,40 @@ import {Icon} from 'native-base'
 //navigation
 import {addNavigationHelpers,StackNavigator, TabNavigator, DrawerNavigator,DrawerItems,TabBarBottom} from 'react-navigation'
 //views
-import LoginView from './LoginView'
-import RegisterView from './RegisterView'
-import SettingView from './SettingView'
-import SplashPageView from './SplashPageView'
+import LoginView from './LoginView';
+import RegisterView from './RegisterView';
+import SettingView from './SettingView';
+import SplashPageView from './SplashPageView';
 
-import ContentView from './views/ContentView'
+import ContentView from './views/ContentView';
 
-import SearchView from './views/SearchView'
-import GoodsListPageView from './views/GoodsListPageView'
-import ArticleView from './views/ArticleView'
-import PersonView from './views/PersonView'
-import MyFavoriteView from './views/MyFavoriteVIew'
-import StatementView from './views/StatementView'
-import ShopSwiperablePage from './views/ShopSwiperablePage'
-import ActivitySwiperablePage from './views/ActivitySwiperablePage'
-import IntegralView from './views/IntegralView'
-import IntegralDetailView from './views/IntegralDetailView'
-import UploadView from './views/UploadView'
-import CommentsView from './views/CommentsView'
-import MandatoryUpdateView from './MandatoryUpdateView'
+import SearchView from './views/SearchView';
+import GoodsListPageView from './views/GoodsListPageView';
+import ArticleView from './views/ArticleView';
+import PersonView from './views/PersonView';
+import MyFavoriteView from './views/MyFavoriteVIew';
+import StatementView from './views/StatementView';
+import ShopSwiperablePage from './views/ShopSwiperablePage';
+import ActivitySwiperablePage from './views/ActivitySwiperablePage';
+import IntegralView from './views/IntegralView';
+import IntegralDetailView from './views/IntegralDetailView';
+import UploadView from './views/UploadView';
+import CommentsView from './views/CommentsView';
+import MandatoryUpdateView from './MandatoryUpdateView';
+import ConfirmOrderView from './views/ConfirmOrderView';
 //api
-import api from './api'
-import source from './api/CancelToken'
+import api from './api';
+import source from './api/CancelToken';
 //utils
-import ToastUtil from './utils/ToastUtil'
-import LinkingUtils from './utils/LinkingUtils'
-import GLOBAL_PARAMS from './utils/global_params'
+import ToastUtil from './utils/ToastUtil';
+import LinkingUtils from './utils/LinkingUtils';
+import GLOBAL_PARAMS from './utils/global_params';
 import Colors from './utils/Colors';
-import {addListener} from './utils/navigationWithRedux'
+import {addListener} from './utils/navigationWithRedux';
 //react-redux
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 //store
-import store from './store'
+import store from './store';
 //event 
 import EventEmitter from 'EventEmitter';
 
@@ -231,7 +232,10 @@ let MainView = StackNavigator({
   },
   Comment: {
     screen: CommentsView
-  }
+  },
+  Order: {
+      screen: ConfirmOrderView
+  },
 }, {headerMode: 'none'})
 
 

@@ -55,12 +55,13 @@ class SliderEntry extends Component {
             <TouchableOpacity
               activeOpacity={1}
               style={styles.slideInnerContainer}
-              onPress={() =>
-                this.props.navigation.navigate("Content", {
-                  data: this.props.data,
-                  kind: 'canteen'
-                })
-              }
+            //   onPress={() =>
+            //     this.props.navigation.navigate("Content", {
+            //       data: this.props.data,
+            //       kind: 'canteen'
+            //     })
+            //   }
+            onPress={() => this.props.navigation.navigate("Order")}
               >
                 <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
                     { this.image }
