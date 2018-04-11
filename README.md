@@ -1,4 +1,4 @@
-# goforeat_app
+# goforeat （新版本更名为Flogger）
 Flogger 外卖软件 （react native架构）
 <p align="center">
   <img width="128" src="./display/Logo-V2.png">
