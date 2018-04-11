@@ -47,7 +47,6 @@
 		C79D3DA220271B0E00645736 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C79D3D9F20271B0E00645736 /* assets */; };
 		C7A34573206F8B1D002B63D1 /* libAppCenterReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A34544206F8A98002B63D1 /* libAppCenterReactNative.a */; };
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
-		C7B10B74202C92C60098FAA2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B72202C92C60098FAA2 /* LaunchScreen.xib */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
 		C7E0085F20542CF9008024BF /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E0083C20542354008024BF /* libRCTBEEPickerManager.a */; };
 		C7E008662054B20A008024BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E008652054B186008024BF /* libRNImagePicker.a */; };
@@ -1310,7 +1309,6 @@
 				364BC426419C465A9BCFE408 /* Roboto_medium.ttf in Resources */,
 				40C0034B7C17480D8CA297A5 /* Roboto.ttf in Resources */,
 				5F1077B99DBB4D64909FB78C /* rubicon-icon-font.ttf in Resources */,
-				C7B10B74202C92C60098FAA2 /* LaunchScreen.xib in Resources */,
 				C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */,
 				CA1272DB3BF84043BEA26782 /* AppCenter-Config.plist in Resources */,
 				4B4BF9B7B0154D2681211246 /* Entypo.ttf in Resources */,

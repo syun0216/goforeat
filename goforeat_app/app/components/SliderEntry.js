@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
 import styles from '../styles/SliderEntry.style';
 import {withNavigation} from 'react-navigation';
+import {connect} from 'react-redux'
+
 
 class SliderEntry extends Component {
-
+    isLogin = false;
     static propTypes = {
         data: PropTypes.object.isRequired,
         even: PropTypes.bool,
@@ -15,15 +17,15 @@ class SliderEntry extends Component {
     };
 
     componentDidMount = () => {
-        // console.log(123,this.props);
+        // console.log(123, this.props);
     }
 
     get image () {
-        const { data: { image }, parallax, parallaxProps, even } = this.props;
+        const { data: { foodImage }, parallax, parallaxProps, even } = this.props;
 
         return parallax ? (
             <ParallaxImage
-              source={{ uri: image }}
+              source={{ uri: foodImage }}
               containerStyle={[styles.imageContainer, even ? styles.imageContainerEven : {}]}
               style={styles.image}
               parallaxFactor={0.35}
@@ -33,21 +35,22 @@ class SliderEntry extends Component {
             />
         ) : (
             <Image
-              source={{ uri: image }}
+              source={{ uri: foodImage }}
               style={styles.image}
             />
         );
     }
 
     render () {
-        const { data: { name, address }, even } = this.props;
+        const { data: { foodName, foodBrief,foodId }, even } = this.props;
 
-        const uppercaseTitle = name ? (
+
+        const uppercaseTitle = foodName ? (
             <Text
               style={[styles.title, even ? styles.titleEven : {}]}
               numberOfLines={2}
             >
-                { name.toUpperCase() }
+                { foodName.toUpperCase() }
             </Text>
         ) : false;
 
@@ -61,7 +64,15 @@ class SliderEntry extends Component {
             //       kind: 'canteen'
             //     })
             //   }
-            onPress={() => this.props.navigation.navigate("Order")}
+            onPress={() => {
+                if(this.props.user !== null) {
+                    this.props.navigation.navigate("Order", {
+                        foodId
+                    })
+                }else {
+                    this.props.navigation.navigate("Login");
+                }
+            }}
               >
                 <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
                     { this.image }
@@ -73,7 +84,7 @@ class SliderEntry extends Component {
                       style={[styles.subtitle, even ? styles.subtitleEven : {}]}
                       numberOfLines={2}
                     >
-                        { address }
+                        { foodBrief }
                     </Text>
                 </View>
             </TouchableOpacity>
@@ -81,4 +92,8 @@ class SliderEntry extends Component {
     }
 }
 
-export default withNavigation(SliderEntry)
+const userStateToProps = (state) => ({
+    user: state.auth.username,
+})
+
+export default connect(userStateToProps)(withNavigation(SliderEntry))
