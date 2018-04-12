@@ -151,7 +151,7 @@ export default class ShopSwiperablePage extends Component {
                     renderItem={this._renderItemWithParallax}
                     sliderWidth={sliderWidth}
                     itemWidth={itemWidth}
-                    hasParallaxImages={true}
+                    hasParallaxImages={false}
                     firstItem={SLIDER_1_FIRST_ITEM}
                     inactiveSlideScale={0.94}
                     inactiveSlideOpacity={0.7}
@@ -161,8 +161,8 @@ export default class ShopSwiperablePage extends Component {
                     loop={true}
                     loopClonesPerSide={2}
                     autoplay={true}
-                    autoplayDelay={500}
-                    autoplayInterval={3000}
+                    autoplayDelay={1000}
+                    autoplayInterval={2500}
                     onSnapToItem={index => this.setState({slider1ActiveSlide: index})}
                 />
             </View>

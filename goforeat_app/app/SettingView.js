@@ -24,12 +24,12 @@ export default class SettingView extends PureComponent{
   render() {
     const _data = [
       {bgColor:Colors.main_orange,name:'橙'},
+      {bgColor:Colors.main_purple,name:'紫'},
       {bgColor:Colors.main_green,name:'綠'},
       {bgColor:Colors.main_blue,name:'藍'},
       {bgColor:Colors.main_black,name:'暗'},
-      {bgColor:Colors.main_purple,name:'紫'},
-      {bgColor:Colors.main_red,name:'紅'},
-      {bgColor:Colors.ionBlue,name:'鐵藍'},
+      // {bgColor:Colors.main_red,name:'紅'},
+      // {bgColor:Colors.ionBlue,name:'鐵藍'},
       {bgColor:Colors.main_brown,name:'咖啡'},
       {bgColor:Colors.blue_green,name:'青綠'},
       {bgColor:Colors.deep_green,name:'深綠'},

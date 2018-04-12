@@ -84,7 +84,7 @@ export default class DropdownModal extends PureComponent {
           </Content>
           <Footer style={{flexDirection:'row'}}>
             <TouchableOpacity style={{flex: 1,justifyContent:'center',alignItems:'center',backgroundColor: Colors.main_white}}
-              onPress={this.props.screenProps.resetFilter.bind(this)}>
+              onPress={() => {this.props.screenProps.resetFilter();this.props.confirmToDo(this.props.screenProps.filterSort)}}>
               <Text style={styles.bottomBtn}>重置</Text>
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1,justifyContent:'center',alignItems:'center',backgroundColor: Colors.rate_yellow}} 

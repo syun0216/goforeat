@@ -13,7 +13,7 @@ let colors = {
     main_orange:'#ef7344',
     main_green: '#5c7a29',
     main_black:'#334681',
-    main_purple:'#673ab7',
+    main_purple:'#3B254B',
     main_gray: '#ccc',
     deep_gray: '#888888',
     main_white: '#fff',

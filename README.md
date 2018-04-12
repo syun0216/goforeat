@@ -49,6 +49,8 @@ android的打包方法:
 </p>
 <p align="left">
   <img src="./display/s11.png" width="250">
+  <img src="./display/s13.png" width="250">
+  <img src="./display/s12.png" width="250">
 </p>
 
 ### screen shot [android 下载地址](https://www.pgyer.com/TBnS)

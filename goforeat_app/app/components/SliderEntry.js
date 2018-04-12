@@ -22,15 +22,15 @@ class SliderEntry extends Component {
 
     get image () {
         const { data: { foodImage }, parallax, parallaxProps, even } = this.props;
-
+        
         return parallax ? (
             <ParallaxImage
               source={{ uri: foodImage }}
-              containerStyle={[styles.imageContainer, even ? styles.imageContainerEven : {}]}
+              containerStyle={[styles.imageContainer,]}
               style={styles.image}
               parallaxFactor={0.35}
               showSpinner={true}
-              spinnerColor={even ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.25)'}
+              spinnerColor={'rgba(0, 0, 0, 0.25)'}
               {...parallaxProps}
             />
         ) : (
@@ -42,7 +42,7 @@ class SliderEntry extends Component {
     }
 
     render () {
-        const { data: { foodName, foodBrief,foodId }, even } = this.props;
+        const { data: { foodName, foodBrief,foodId,foodImage }, even } = this.props;
 
 
         const uppercaseTitle = foodName ? (

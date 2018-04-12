@@ -105,6 +105,10 @@ export default class ConfirmOrderView extends PureComponent {
 
   //private function
   _openDialog = () => {
+    if(this.state.orderDetail === null) {
+        ToastUtil.showWithMessage("下單失敗");
+        return;
+    }
     this._popupDialog.show(() => {
       // console.log('opened!')
     });
@@ -157,7 +161,7 @@ export default class ConfirmOrderView extends PureComponent {
             <Text>訂單詳情</Text>
           </Separator>
           <ListItem>
-            <Text>{orderDetail[0].foodName}{'\n'}HKD {orderDetail[0].foodMoney}{'\n'}數量{orderDetail[0].foodNum}</Text>
+            <Text>菜品名稱:{orderDetail[0].foodName}{'\n'}HKD {orderDetail[0].foodMoney}{'\n'}數量{orderDetail[0].foodNum}</Text>
           </ListItem>
           <ListItem>
             <Text>{takeAddress}{'\n'}{takeAddressDetail}{'\n'}{takeDate}{'\n'}{takeTime}</Text>
@@ -170,7 +174,7 @@ export default class ConfirmOrderView extends PureComponent {
           </ListItem>
         </Content>
         <Footer
-          style={{backgroundColor:Colors.main_white, borderTopWidth: 0, borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}
+          style={{backgroundColor:Colors.main_white, borderTopWidth: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}
         >
           <Button
             onPress={() => this._confirmOrder()}
@@ -178,7 +182,7 @@ export default class ConfirmOrderView extends PureComponent {
             style={{
               flex: 1,
               marginTop: 5,
-              backgroundColor: "#3B254B",
+              backgroundColor: this.props.screenProps.theme,
               marginLeft: 40,
               marginRight: 40
             }}
@@ -304,7 +308,7 @@ export default class ConfirmOrderView extends PureComponent {
         />
         <Content style={{ backgroundColor: Colors.main_white }} padder>
           {this.state.isExpired ? (
-            <BlankPage message={this.state.expiredMessage} />
+            <BlankPage message={this.state.expiredMessage} style={{marginLeft: -10}}/>
           ) : null}
           {this.state.orderDetail !== null ? this._renderOrderView() : null}
         </Content>
@@ -317,7 +321,7 @@ export default class ConfirmOrderView extends PureComponent {
             style={{
               flex: 1,
               marginTop: 5,
-              backgroundColor: "#3B254B",
+              backgroundColor: this.props.screenProps.theme,
               marginLeft: 40,
               marginRight: 40
             }}

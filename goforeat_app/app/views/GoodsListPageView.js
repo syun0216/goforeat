@@ -481,10 +481,14 @@ _renderSectionListItem = (item,index) => {
           </Left>
           <Body>
             <View style={styles.searchContainer}>
-              <TextInput ref={(t) => this.textInput = t} style={styles.searchText}
+            <Button iconRight light style={styles.searchText} onPress={() => this.props.navigation.navigate('Search')}>
+              <Text style={{color: Colors.fontBlack,textAlignVertical:'center'}}>请输入商店名称</Text>
+              <Icon name="md-search" size={20} style={styles.searchIcon}/>
+            </Button>
+              {/*<TextInput ref={(t) => this.textInput = t} style={styles.searchText}
                 onFocus={() => {this.props.navigation.navigate('Search');this.textInput.blur()}}
                 placeholder="请输入商店名称" underlineColorAndroid="transparent"/>
-              <Icon name="md-search" size={20} style={styles.searchIcon}/>
+        <Icon name="md-search" size={20} style={styles.searchIcon}/>*/}
             </View>
           </Body>
           <Right>
@@ -520,13 +524,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.main_white,
     borderRadius: 20,
     paddingLeft:20,
-    marginTop: Platform.OS === 'ios' ? 0 : 3
+    marginTop: Platform.OS === 'ios' ? 0 : 3.
+
   },
   searchIcon: {
     color: Colors.deep_gray,
     position:'absolute',
     fontSize: 22,
     top:Platform.OS === 'ios' ? 5 : 10,
-    right:15
+    right:10
   }
 })

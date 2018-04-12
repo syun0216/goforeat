@@ -65,8 +65,8 @@ const tabView = TabNavigator({
     GoodsListTab: {
         screen: GoodsListPageView,
         navigationOptions: {
-            tabBarLabel: '商品',
-            tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-happy" style={{
+            tabBarLabel: '餐廳',
+            tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-restaurant" style={{
                 color: tintColor
             }}/>)
         }
@@ -74,8 +74,8 @@ const tabView = TabNavigator({
     ShopTab: {
         screen: ShopSwiperablePage,
         navigationOptions: {
-            tabBarLabel: '線上',
-            tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-globe" style={{
+            tabBarLabel: '訂餐',
+            tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-pizza" style={{
                 color: tintColor
             }}/>)
         }
