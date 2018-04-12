@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
 import styles from '../styles/SliderEntry.style';
 import {withNavigation} from 'react-navigation';
-import {connect} from 'react-redux'
-
+import {connect} from 'react-redux';
+import ToastUtil from '../utils/ToastUtil';
 
 class SliderEntry extends Component {
     isLogin = false;
@@ -47,7 +47,7 @@ class SliderEntry extends Component {
 
         const uppercaseTitle = foodName ? (
             <Text
-              style={[styles.title, even ? styles.titleEven : {}]}
+              style={[styles.title]}
               numberOfLines={2}
             >
                 { foodName.toUpperCase() }
@@ -70,18 +70,18 @@ class SliderEntry extends Component {
                         foodId
                     })
                 }else {
-                    this.props.navigation.navigate("Login");
+                    ToastUtil.showWithMessage("請先登錄");
                 }
             }}
               >
-                <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
+                <View style={[styles.imageContainer]}>
                     { this.image }
-                    <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />
+                    <View style={[styles.radiusMask]} />
                 </View>
-                <View style={[styles.textContainer, even ? styles.textContainerEven : {}]}>
+                <View style={[styles.textContainer]}>
                     { uppercaseTitle }
                     <Text
-                      style={[styles.subtitle, even ? styles.subtitleEven : {}]}
+                      style={[styles.subtitle]}
                       numberOfLines={2}
                     >
                         { foodBrief }

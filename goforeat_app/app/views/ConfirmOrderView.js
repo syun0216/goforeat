@@ -20,10 +20,15 @@ import {
 import PopupDialog, {SlideAnimation,DialogTitle} from 'react-native-popup-dialog';
 //components
 import CommonHeader from '../components/CommonHeader';
+import BlankPage from '../components/BlankPage';
+import Loading from '../components/Loading';
+import ErrorPage from '../components/ErrorPage';
 //utils
 import Colors from '../utils/Colors';
 import GLOBAL_PARAMS from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
+//api
+import api from '../api/index';
 
 const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
@@ -33,8 +38,59 @@ export default class ConfirmOrderView extends PureComponent {
     _popupDialog = null;
     state = {
         _name: '',
-        _phone: ''
+        _phone: '',
+        orderDetail: null,
+        loading: true,
+        isError: false,
+        isExpired: false
     }
+
+    componentDidMount() {
+        this._createOrder();
+    }
+
+    componentWillReceiveProps(a,b) {
+        console.log(a,b)
+    }
+
+    _createOrder = () => {
+        api.createOrder(this.props.navigation.state.params.foodId).then(data => {
+            console.log(data);
+            if(data.status === 200 && data.data.ro.ok) {
+                this.setState({
+                    orderDetail: data.data.data
+                })
+            }else {
+                this.props.screenProps.userLogout();
+                alert(data.data.ro.respMsg);
+                this.setState({
+                    isExpired: true,
+                    expiredMessage: data.data.ro.respMsg
+                });
+            }
+        },() => {
+            ToastUtil.showWithMessage("獲取訂單信息失敗")
+        })
+    }
+
+    _confirmOrder = () => {
+        if(this.state.orderDetail === null) {
+            ToastUtil.showWithMessage("確認訂單失敗");
+            return;
+        }
+        api.confirmOrder(this.state.orderDetail.orderId).then(data => {
+            console.log(data);
+            if(data.status === 200 && data.data.ro.ok) {
+                ToastUtil.showWithMessage("下單成功");
+                this.props.navigation.goBack();
+            }else{
+                ToastUtil.showWithMessage(data.data.ro.respMsg);
+            }
+        },() => {
+            ToastUtil.showWithMessage("下單失敗");
+        })
+    }
+
     //private function
     _openDialog = () => {
         this._popupDialog.show(() => {
@@ -77,89 +133,80 @@ export default class ConfirmOrderView extends PureComponent {
             onDismissed={() => {console.log(this._username)}}
         >
             <View style={{flex: 1}}>
-                <Form>
-                    <Item floatingLabel>
-                        <Label>訂餐人姓名</Label>
-                        <Input ref={(t) => this._username = t}/>
-                    </Item>
-                    <Item floatingLabel last>
-                        <Label>取餐電話號碼</Label>
-                        <Input ref={(f) => this._phone = f}/>
-                    </Item>
-                </Form>
+                <Text>下單成功</Text>
             </View>
         </PopupDialog>
     )
+
+    _renderOrderView = () => {
+        let {orderDetail} = this.state;
+        return (<View>
+            <Card>
+                <CardItem style={{backgroundColor: '#fafafa'}}>
+                    <Body style={{borderBottomColor: '#ccc', borderBottomWidth: 1, paddingBottom: 10}}>
+                    <Text style={styles.commonTitleText}>
+                        {orderDetail.orderDetail[0].foodName} {'\n'}
+                        HKD {orderDetail.orderDetail[0].foodMoney}
+                    </Text>
+                    <Text style={styles.commonDecText}>Quantity: {orderDetail.orderDetail[0].foodNum}</Text>
+                    </Body>
+                </CardItem>
+                <CardItem style={{backgroundColor: '#fafafa', marginTop: -10}}>
+                    <Body>
+                    {/*<Text style={styles.commonTitleText}>*/}
+                    {/*NativeBase builds a layer on top of React Native that provides*/}
+                    {/*you with*/}
+                    {/*</Text>*/}
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Text style={styles.commonDecText}>TOTAL</Text>
+                        <Text style={styles.commonPriceText}>HKD {orderDetail.totalMoney}</Text>
+                    </View>
+                    </Body>
+                </CardItem>
+            </Card>
+            <View style={{padding: 5}}>
+                <Text style={styles.commonDetailText}>Delivery Details</Text>
+                <Form style={{marginLeft: -15}}>
+                    <Item stackedLabel>
+                        <Label style={styles.commonLabel}>取餐日期</Label>
+                        <Input placeholder={orderDetail.takeDate} disabled placeholderTextColor="#777777"/>
+                    </Item>
+                    <Item stackedLabel>
+                        <Label style={styles.commonLabel}>選擇點</Label>
+                        <Input placeholder={orderDetail.takeAddress} disabled placeholderTextColor="#777777"/>
+                    </Item>
+                    <Item stackedLabel>
+                        <Label style={styles.commonLabel}>取餐點</Label>
+                        <Input placeholder={orderDetail.takeAddressDetail} disabled
+                               placeholderTextColor="#777777"/>
+                    </Item>
+                    <Item stackedLabel>
+                        <Label style={styles.commonLabel}>取餐時間</Label>
+                        <Input placeholder={orderDetail.takeTime} disabled
+                               placeholderTextColor="#777777"/>
+                    </Item>
+                </Form>
+            </View>
+        </View>
+    )}
 
     render() {
         return (
             <Container>
                 {this._renderPopupDiaogView()}
+                {this.state.isLoading ? <Loading /> : null}
+                {this.state.isError ? <ErrorPage errorToDo={this._createOrder()}/> : null}
                 <CommonHeader canBack title="訂單詳情頁" textColor={Colors.fontBlack}
                               headerStyle={{backgroundColor: Colors.main_white, borderBottomWidth: 0,}}
                               iosBarStyle="dark-content"
                               titleStyle={{fontSize: 18, fontWeight: 'bold',}}
                               {...this['props']}/>
                 <Content style={{backgroundColor: Colors.main_white}} padder>
-                    <Card>
-                        <CardItem style={{backgroundColor: '#fafafa'}}>
-                            <Body style={{borderBottomColor: '#ccc', borderBottomWidth: 1, paddingBottom: 10}}>
-                            <Text style={styles.commonTitleText}>
-                                Michelin-Recommended Mie{'\n'}
-                                Gomak | 米芝蓮推介 印尼椰汁咖喱雞肉炒麵 HKD 89.00
-                            </Text>
-                            <Text style={styles.commonDecText}>Quantity: 1</Text>
-                            </Body>
-                        </CardItem>
-                        <CardItem style={{backgroundColor: '#fafafa', marginTop: -10}}>
-                            <Body>
-                            {/*<Text style={styles.commonTitleText}>*/}
-                            {/*NativeBase builds a layer on top of React Native that provides*/}
-                            {/*you with*/}
-                            {/*</Text>*/}
-                            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                                <Text style={styles.commonDecText}>TOTAL</Text>
-                                <Text style={styles.commonPriceText}>HKD 89.0</Text>
-                            </View>
-                            </Body>
-                        </CardItem>
-                    </Card>
-                    <View style={{padding: 5}}>
-                        <Text style={styles.commonDetailText}>Delivery Details</Text>
-                        <Form style={{marginLeft: -15}}>
-                            <Item stackedLabel>
-                                <Label style={styles.commonLabel}>訂餐人姓名 <Text>(必填)</Text></Label>
-                                <Input placeholderTextColor="#777777" multiline={false}
-                                       onChangeText={name => this._getName(name)}/>
-                            </Item>
-                            <Item stackedLabel>
-                                <Label style={styles.commonLabel}>聯繫電話</Label>
-                                <Input placeholderTextColor="#777777" multiline={false}
-                                    onChangeText={phone => this._getPhone(phone)}/>
-                            </Item>
-                            <Item stackedLabel>
-                                <Label style={styles.commonLabel}>取餐日期</Label>
-                                <Input placeholder="Tomorrow afternoon" disabled placeholderTextColor="#777777"/>
-                            </Item>
-                            <Item stackedLabel>
-                                <Label style={styles.commonLabel}>選擇點</Label>
-                                <Input placeholder="Three Exchange Square" disabled placeholderTextColor="#777777"/>
-                            </Item>
-                            <Item stackedLabel>
-                                <Label style={styles.commonLabel}>取餐點</Label>
-                                <Input placeholder="Exchange Square There Pedestrian Bridge" disabled
-                                       placeholderTextColor="#777777"/>
-                            </Item>
-                            <Item stackedLabel>
-                                <Label style={styles.commonLabel}>取餐時間</Label>
-                                <Input placeholder="~ 12:00-12:30 (we'll send you a Push Noti)" disabled
-                                       placeholderTextColor="#777777"/>
-                            </Item>
-                        </Form>
-                    </View>
+                    {this.state.isExpired ? <BlankPage message={this.state.expiredMessage}/> : null}
+                    {this.state.orderDetail !== null ? this._renderOrderView() : null}
                 </Content>
                 <Footer style={{borderTopWidth: 0}}>
-                    <Button onPress={() => this._onSubmit()} block style={{flex: 1,marginTop:5,backgroundColor: '#3B254B', marginLeft: 40, marginRight: 40}}>
+                    <Button onPress={() => this._confirmOrder()} block style={{flex: 1,marginTop:5,backgroundColor: '#3B254B', marginLeft: 40, marginRight: 40}}>
                         <Text style={{color: Colors.main_white, fontWeight: '600', fontSize: 16}}>確認訂單</Text>
                     </Button>
                 </Footer>
