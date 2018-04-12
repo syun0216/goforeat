@@ -205,7 +205,7 @@ export default class ConfirmOrderView extends PureComponent {
                     {this.state.isExpired ? <BlankPage message={this.state.expiredMessage}/> : null}
                     {this.state.orderDetail !== null ? this._renderOrderView() : null}
                 </Content>
-                <Footer style={{borderTopWidth: 0}}>
+                <Footer style={{borderTopWidth: 0,backgroundColor: Colors.main_white}}>
                     <Button onPress={() => this._confirmOrder()} block style={{flex: 1,marginTop:5,backgroundColor: '#3B254B', marginLeft: 40, marginRight: 40}}>
                         <Text style={{color: Colors.main_white, fontWeight: '600', fontSize: 16}}>確認訂單</Text>
                     </Button>
