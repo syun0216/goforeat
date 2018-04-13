@@ -9,10 +9,11 @@ const styles = StyleSheet.create({
     // top:0,
     // left:0,
     // flex:1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     zIndex:10000,
     backgroundColor: '#F1FAFE',
     height:GLOBAL_PARAMS._winHeight,
+    paddingTop: 60,
   }
 })
 
@@ -22,7 +23,7 @@ const ErrorPage = (props) => {
     <View style={{alignSelf:'center'}}>
       <TouchableOpacity style={{alignItems: 'center'}} onPress={() => props.errorToDo()}>
         {Platform.OS === 'android' ? (<Image source={{uri: 'notfound'}} style={{width: 128,height: 128}}/>) :
-        (<Image source={{uri: '404'}} style={{width: 128,height: 128}}/>)}
+        (<Image source={{uri: '404'}} style={{width: 80,height: 80,marginBottom: 10,}}/>)}
         <Text style={{color:'#222',fontSize: 16}}>{props.errorTips}</Text>
       </TouchableOpacity>
     </View>

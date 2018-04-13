@@ -109,7 +109,7 @@ export default class ArticleView extends Component {
         <CommonHeader title="線下餐廳" {...this["props"]} />
         {this.state.loading ? <Loading /> : null}
         {this.state.isError ? (
-          <ErrorPage errorToDo={this.getRecommendList} />
+          <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this.getRecommendList} />
         ) : null}
         {this.state.shopDetail !== null ? this._renderDeskSwiper() : null}
 

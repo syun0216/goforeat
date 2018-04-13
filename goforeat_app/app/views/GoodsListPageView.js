@@ -463,11 +463,9 @@ _renderSectionListItem = (item,index) => {
       <Container style={{backgroundColor:Colors.bgColor}}>
         {this._renderModalView()}
         {canteenOptions&&isDropdownModalShow?this._renderDropDownModal():null}
-        {firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
-          <Loading message="玩命加載中..."/> : (firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
-          <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
-        {showFilterList ? this._renderPreventClickView() : null}
-        {canteenOptions&&showFilterList ? this._renderFilterView() : null}
+        
+        {/*showFilterList ? this._renderPreventClickView() : null*/}
+        {/*canteenOptions&&showFilterList ? this._renderFilterView() : null*/}
         {/* {this._renderSubHeader()} */}
         <Header style={{backgroundColor:this.props.screenProps.theme, borderBottomWidth: 0}} iosBarStyle="light-content">
           <Left>
@@ -494,10 +492,13 @@ _renderSectionListItem = (item,index) => {
               name="md-compass" style={{color: Colors.main_white,fontSize: 28}} />
           </Right>
         </Header>
-        {canteenDetail.length === 0 ?
-          <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
+        {firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
+          <Loading message="玩命加載中..."/> : (firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+          <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
+          {canteenDetail.length === 0 ?
+            <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         <View  style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
-          {this._renderSectionList()}
+        {this._renderSectionList()}
         </View>
         {this._renderScrollTopView()}
       </Container>

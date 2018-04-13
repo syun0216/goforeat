@@ -40,7 +40,7 @@ export default class ShopSwiperablePage extends Component {
             shopDetail: null,
             foodDetails: null,
             isError: false,
-            loading: false
+            loading: true
         };
     }
 
@@ -100,6 +100,13 @@ export default class ShopSwiperablePage extends Component {
             }
         );
     };
+
+    _onErrorToRetry = () => {
+        this.setState({
+            loading: true
+        })
+        this.getRecomendFoodList();
+    }
 
     _refresh = () => {
         this._current_offset += 15;
@@ -176,9 +183,9 @@ export default class ShopSwiperablePage extends Component {
             <Container>
                 <CommonHeader title="推薦菜品" {...this["props"]} />
                 {this.state.isError ? (
-                    <ErrorPage errorToDo={this._getRecommendList} message="沒有數據哦,請點擊重試？"/>
+                    <ErrorPage errorToDo={this._onErrorToRetry} errorTips="加載失败,請點擊重試"/>
                 ) : null}
-                {this.state.loading ? <Loading/> : null}
+                {this.state.loading ? <Loading message="玩命加載中..."/> : null}
                 <ScrollView
                     style={styles.scrollview}
                     scrollEventThrottle={200}
