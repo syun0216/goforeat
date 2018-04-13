@@ -74,7 +74,7 @@ const tabView = TabNavigator({
     ShopTab: {
         screen: ShopSwiperablePage,
         navigationOptions: {
-            tabBarLabel: '訂餐',
+            tabBarLabel: '外卖',
             tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-pizza" style={{
                 color: tintColor
             }}/>)

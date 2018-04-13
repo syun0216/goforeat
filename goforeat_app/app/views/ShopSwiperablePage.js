@@ -124,8 +124,8 @@ export default class ShopSwiperablePage extends Component {
             <SliderEntry
                 data={item}
                 even={(index + 1) % 2 === 0}
-                parallax={true}
-                parallaxProps={parallaxProps}
+                // parallax={true}
+                // parallaxProps={parallaxProps}
             />
         );
     }
@@ -176,7 +176,7 @@ export default class ShopSwiperablePage extends Component {
             <Container>
                 <CommonHeader title="推薦菜品" {...this["props"]} />
                 {this.state.isError ? (
-                    <ErrorPage errorToDo={this._getRecommendList}/>
+                    <ErrorPage errorToDo={this._getRecommendList} message="沒有數據哦,請點擊重試？"/>
                 ) : null}
                 {this.state.loading ? <Loading/> : null}
                 <ScrollView

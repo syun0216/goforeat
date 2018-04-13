@@ -42,7 +42,7 @@ export default class DropdownModal extends PureComponent {
         <Button key={btnkey} onPress={() => this._filterClick(btn,itemEnName)}
            transparent key={btnkey} style={styles.filterItemChildrenBtn}>
           <Text style={[this.props.screenProps.filterSort[itemEnName] === btn[0] ?
-            {color:this.props.screenProps.theme} : {color:Colors.fontBlack},{fontSize: 16}]}>{btn[1]}</Text>
+            {color:Colors.rate_yellow} : {color:Colors.fontBlack},{fontSize: 16}]}>{btn[1]}</Text>
         </Button>
       ))}
     </View>

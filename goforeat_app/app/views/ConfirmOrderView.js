@@ -55,13 +55,13 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   componentWillReceiveProps(a, b) {
-    console.log(a, b);
+    // console.log(a, b);
   }
 
   _createOrder = () => {
     api.createOrder(this.props.navigation.state.params.foodId).then(
       data => {
-        console.log(data);
+        // console.log(data);
         if (data.status === 200 && data.data.ro.ok) {
           this.setState({
             orderDetail: data.data.data
@@ -88,7 +88,7 @@ export default class ConfirmOrderView extends PureComponent {
     }
     api.confirmOrder(this.state.orderDetail.orderId).then(
       data => {
-        console.log(data);
+        // console.log(data);
         if (data.status === 200 && data.data.ro.ok) {
           ToastUtil.showWithMessage("下單成功");
           this._popupDialog.dismiss();
@@ -149,7 +149,7 @@ export default class ConfirmOrderView extends PureComponent {
       }}
       dialogAnimation={slideAnimation}
       onDismissed={() => {
-        console.log(this._username);
+        // console.log(this._username);
       }}
     >
       <Container>
@@ -182,7 +182,7 @@ export default class ConfirmOrderView extends PureComponent {
             style={{
               flex: 1,
               marginTop: 5,
-              backgroundColor: this.props.screenProps.theme,
+              backgroundColor: "#3B254B",
               marginLeft: 40,
               marginRight: 40
             }}
@@ -321,7 +321,7 @@ export default class ConfirmOrderView extends PureComponent {
             style={{
               flex: 1,
               marginTop: 5,
-              backgroundColor: this.props.screenProps.theme,
+              backgroundColor: "#3B254B",
               marginLeft: 40,
               marginRight: 40
             }}

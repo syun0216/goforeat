@@ -47,7 +47,7 @@ export default class ImageGallery extends Component {
         // Debugging helper : keep removing the last slide of the gallery.
         setInterval(() => {
             const { images } = this.state;
-            console.log(images.length);
+            // console.log(images.length);
             if (images.length <= 1) {
                 return;
             }

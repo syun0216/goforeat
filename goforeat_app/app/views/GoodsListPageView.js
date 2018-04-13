@@ -64,7 +64,7 @@ export default class GoodsListPageView extends Component{
 
   componentWillMount = () => {
     this.getCanteenList()
-    console.log(GLOBAL_PARAMS._winWidth)
+    // console.log(GLOBAL_PARAMS._winWidth)
   }
 
 
@@ -468,8 +468,6 @@ _renderSectionListItem = (item,index) => {
           <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
         {showFilterList ? this._renderPreventClickView() : null}
         {canteenOptions&&showFilterList ? this._renderFilterView() : null}
-        {canteenDetail.length === 0 ?
-          <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         {/* {this._renderSubHeader()} */}
         <Header style={{backgroundColor:this.props.screenProps.theme, borderBottomWidth: 0}} iosBarStyle="light-content">
           <Left>
@@ -482,7 +480,7 @@ _renderSectionListItem = (item,index) => {
           <Body>
             <View style={styles.searchContainer}>
             <Button iconRight light style={styles.searchText} onPress={() => this.props.navigation.navigate('Search')}>
-              <Text style={{color: Colors.fontBlack,textAlignVertical:'center'}}>请输入商店名称</Text>
+              <Text style={{color: Colors.deep_gray,textAlignVertical:'center',marginTop: -3}}>点击搜索</Text>
               <Icon name="md-search" size={20} style={styles.searchIcon}/>
             </Button>
               {/*<TextInput ref={(t) => this.textInput = t} style={styles.searchText}
@@ -496,6 +494,8 @@ _renderSectionListItem = (item,index) => {
               name="md-compass" style={{color: Colors.main_white,fontSize: 28}} />
           </Right>
         </Header>
+        {canteenDetail.length === 0 ?
+          <ErrorPage style={{marginTop:-15}} errorToDo={this._onFilterEmptyData} errorTips="沒有數據哦,請點擊重試？"/> : null}
         <View  style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
           {this._renderSectionList()}
         </View>
@@ -530,8 +530,8 @@ const styles = StyleSheet.create({
   searchIcon: {
     color: Colors.deep_gray,
     position:'absolute',
-    fontSize: 22,
-    top:Platform.OS === 'ios' ? 5 : 10,
+    fontSize: 18,
+    top:Platform.OS === 'ios' ? 6 : 11,
     right:10
   }
 })
