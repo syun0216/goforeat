@@ -105,6 +105,10 @@ export default class ContentView extends Component {
 
   //api
   getCanteenDetail() {
+    if(!this.props.hasOwnProperty('navigation')) {
+      ToastUtil.showWithMessage("網絡飛走了...");
+      return;
+    }
     api
       .getCanteenDetail(this.props.navigation.state.params.data.id)
       .then(data => {
@@ -314,8 +318,7 @@ export default class ContentView extends Component {
     return (
       <Container>
         {this.state.overlookImages.length > 0 ? this._renderOverLookImageView() : null} 
-        {this.state.loading ? <Loading /> : null}
-        {this.state.isError ? <ErrorPage errorTips="網絡飛走了"/> : null}
+        
         <Header style={{backgroundColor: this.props.screenProps.theme,borderBottomWidth:0}} iosBarStyle="light-content">
           <Left>
           <Button transparent onPress={() => this.props.navigation.goBack()}>
@@ -327,6 +330,8 @@ export default class ContentView extends Component {
           </Button>
           </Right>
         </Header>
+        {this.state.loading ? <Loading /> : null}
+        {this.state.isError ? <ErrorPage errorTips="加載數據失敗,請點擊重試" errorToDo={this.getCanteenDetail}/> : null}
         <View style={{flex:1}}>
             {this.props.navigation.state.params.kind === "article"
             ? this._renderArticleContentView()

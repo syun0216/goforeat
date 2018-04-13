@@ -64,18 +64,21 @@ export default class ConfirmOrderView extends PureComponent {
         // console.log(data);
         if (data.status === 200 && data.data.ro.ok) {
           this.setState({
+            loading: false,
             orderDetail: data.data.data
           });
         } else {
           this.props.screenProps.userLogout();
           alert(data.data.ro.respMsg);
           this.setState({
+            loading: false,
             isExpired: true,
             expiredMessage: data.data.ro.respMsg
           });
         }
       },
       () => {
+        this.setState({loading: false,isError: true});
         ToastUtil.showWithMessage("獲取訂單信息失敗");
       }
     );
@@ -290,10 +293,6 @@ export default class ConfirmOrderView extends PureComponent {
     return (
       <Container>
         {this.state.orderDetail !== null ? this._renderPopupDiaogView() : null}
-        {this.state.isLoading ? <Loading /> : null}
-        {this.state.isError ? (
-          <ErrorPage errorToDo={this._createOrder()} />
-        ) : null}
         <CommonHeader
           canBack
           title="訂單詳情頁"
@@ -306,6 +305,10 @@ export default class ConfirmOrderView extends PureComponent {
           titleStyle={{ fontSize: 18, fontWeight: "bold" }}
           {...this["props"]}
         />
+        {this.state.loading ? <Loading message="玩命加載中..."/> : null}
+        {this.state.isError ? (
+          <ErrorPage errorToDo={this._createOrder} errorTips="加載失敗,請點擊重試"/>
+        ) : null}
         <Content style={{ backgroundColor: Colors.main_white }} padder>
           {this.state.isExpired ? (
             <BlankPage message={this.state.expiredMessage} style={{marginLeft: -10}}/>

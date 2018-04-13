@@ -665,7 +665,7 @@ export default class GoodsListPageView extends Component {
                     marginTop: -3
                   }}
                 >
-                  点击搜索
+                  點擊搜索
                 </Text>
                 <Icon name="md-search" size={20} style={styles.searchIcon} />
               </Button>
