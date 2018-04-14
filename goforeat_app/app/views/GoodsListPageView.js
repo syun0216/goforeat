@@ -497,7 +497,7 @@ export default class GoodsListPageView extends Component {
         })}
         // onRefresh={() => alert('onRefresh: nothing to refresh :P')}
         // onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.01}
         onEndReached={() => this._onEndReached()}
         // onEndReached={this._onEndReached.bind(this)}
         ListHeaderComponent={() => {
@@ -641,16 +641,20 @@ export default class GoodsListPageView extends Component {
           }}
           iosBarStyle="light-content"
         >
-          <Left>
-            <TouchableOpacity
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <Icon
               onPress={() => this.props.navigation.navigate("DrawerOpen")}
-            >
-              <View>
-                <Icon name="md-apps" size={20} style={{ color: "#fff" }} />
-              </View>
-            </TouchableOpacity>
-          </Left>
-          <Body>
+              name="md-apps"
+              size={20}
+              style={{ color: "#fff" }}
+            />
+          </View>
+          <View
+            style={{
+              width: GLOBAL_PARAMS._winWidth * 0.6,
+              justifyContent: "center"
+            }}
+          >
             <View style={styles.searchContainer}>
               <Button
                 iconRight
@@ -674,15 +678,22 @@ export default class GoodsListPageView extends Component {
                 placeholder="请输入商店名称" underlineColorAndroid="transparent"/>
         <Icon name="md-search" size={20} style={styles.searchIcon}/>*/}
             </View>
-          </Body>
-          <Right>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "flex-end"
+            }}
+          >
             <Icon
               onPress={() => this._openMapModal()}
               name="md-compass"
               style={{ color: Colors.main_white, fontSize: 28 }}
             />
-          </Right>
+          </View>
         </Header>
+
         {firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ? (
           <Loading message="玩命加載中..." />
         ) : firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ? (
@@ -722,7 +733,7 @@ const styles = StyleSheet.create({
   },
   searchText: {
     height: Platform.OS === "android" ? 40 : 35,
-    width: GLOBAL_PARAMS._winWidth * 0.6,
+    width: GLOBAL_PARAMS._winWidth * 0.7,
     backgroundColor: Colors.main_white,
     borderRadius: 20,
     paddingLeft: 20,

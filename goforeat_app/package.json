@@ -17,6 +17,7 @@
     "react-native": "0.52.2",
     "react-native-code-push": "^5.3.2",
     "react-native-fs": "^2.9.11",
+    "react-native-i18n": "^2.0.12",
     "react-native-image-gallery": "^2.1.5",
     "react-native-image-picker": "^0.26.7",
     "react-native-image-progress": "^1.1.0",

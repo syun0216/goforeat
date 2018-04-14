@@ -2348,6 +2348,10 @@ https-proxy-agent@^1.0.0:
     debug "2"
     extend "3"
 
+i18n-js@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npmjs.org/i18n-js/-/i18n-js-3.0.3.tgz#f537b2bd1e2801eee4f4728a17189ef0991c0270"
+
 iconv-lite@0.4.11:
   version "0.4.11"
   resolved "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.11.tgz#2ecb42fd294744922209a2e7c404dac8793d8ade"
@@ -4094,6 +4098,12 @@ react-native-fs@^2.9.11:
   dependencies:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
+
+react-native-i18n@^2.0.12:
+  version "2.0.12"
+  resolved "https://registry.npmjs.org/react-native-i18n/-/react-native-i18n-2.0.12.tgz#4a503cc73b2fe55e8518f6d4a1340d3b449d8d1a"
+  dependencies:
+    i18n-js "^3.0.3"
 
 react-native-image-gallery@^2.1.5:
   version "2.1.5"

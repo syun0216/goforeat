@@ -6,7 +6,8 @@ import {
   DELETE_ARTICLE,
   DELETE_SHOP,
   IS_LOADING,
-  IS_NOT_LOADING
+  IS_NOT_LOADING,
+  CHANGE_LANGUAGE
 } from "../actions";
 import { NavigationActions } from "react-navigation";
 //cache
@@ -48,7 +49,8 @@ const initialState = {
   themeState: {
     theme: Colors.main_orange
   },
-  loading: false
+  loading: false,
+  isEn: false
 };
 
 // export function nav(state = initialState.navState, action) {
@@ -153,3 +155,10 @@ export function theme(state = initialState.themeState, action) {
 }
 
 export function http() {}
+
+export function language(state=initialState.isEn,action) {
+  switch(action.type) {
+    case CHANGE_LANGUAGE: return {...state,isEn: action.isEn};break;
+    default: return state
+  }
+}

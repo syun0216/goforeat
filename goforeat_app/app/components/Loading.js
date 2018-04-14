@@ -50,11 +50,13 @@ const Loading = props => {
 };
 
 Loading.defaultProps = {
-  message: "玩命加載中..."
+  message: "玩命加載中...",
+  style: {}
 };
 
 Loading.propTypes = {
-  message: PropTypes.string
+  message: PropTypes.string,
+  style: PropTypes.object
 };
 
 export default Loading;

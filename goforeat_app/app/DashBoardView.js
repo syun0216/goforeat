@@ -30,7 +30,8 @@ const dashboardStateToProps = (state) => ({
   refresh: state.refresh.refreshParams,
   shopList: state.stockShop,
   articleList: state.stockArticle,
-  loading: state.loading
+  loading: state.loading,
+  isEn: state.language.isEn
 })
 
 const dashboardmapDispatchToProps = dispatch => ({
@@ -46,6 +47,7 @@ const dashboardmapDispatchToProps = dispatch => ({
   changeTheme: (theme) => dispatch({type:'CHANGE_THEME',theme:theme}),
   showLoading: () => dispatch({type:'IS_LOADING'}),
   hideLoading: () => dispatch({type:'IS_NOT_LOADING'}),
+  changeLanguage: (isEn) => dispatch({type: 'CHANGE_LANGUAGE',isEn}),
   dispatch: dispatch
 })
 
