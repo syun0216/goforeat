@@ -6,11 +6,14 @@ import {NavigationActions} from 'react-navigation'
 import Colors from './utils/Colors';
 import GLOBAL_PARAMS from './utils/global_params';
 //components
-import CommonHeader from './components/CommonHeader'
+import CommonHeader from './components/CommonHeader';
+//language
+import i18n from './language/i18n';
 
 export default class SettingView extends PureComponent{
   state = {
-    isEnglish: false
+    isEnglish: false,
+    i18n: i18n[this.props.screenProps.language]
   }
   _currentItemClick = theme => {
     if(theme === this.props.screenProps.theme) return;
@@ -27,17 +30,22 @@ export default class SettingView extends PureComponent{
   componentDidMount = () => {
     console.log(this.props);
     this.setState({
-      isEnglish: this.props.screenProps.isEn
+      isEnglish: this.props.screenProps.language === 'en'
+    })
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    this.setState({
+      i18n: i18n[nextProps.screenProps.language]
     })
   }
   
-  _changeLanguage = () => {
-    this.setState({
-      isEnglish: !this.state.isEnglish
-    })
-    
-    this.props.screenProps.changeLanguage(!this.state.isEnglish)
-    console.log(this.props);
+  _changeLanguage = (value) => {
+    this.props.screenProps.changeLanguage(language = value ? 'en' : 'zh')
+      this.setState({
+        isEnglish: value,
+        i18n: i18n[this.props.screenProps.language]
+      });
   }
 
   render() {
@@ -54,23 +62,23 @@ export default class SettingView extends PureComponent{
       {bgColor:Colors.deep_green,name:'深綠'},
       {bgColor:Colors.middle_red,name:'緋紅'}, 
       {bgColor:Colors.rate_yellow,name:'黃'}]}     
-    ]
+    ];
+    const {i18n} = this.state;
     return (
       <Container>
-        <CommonHeader title="系統設置" canBack {...this['props']}/>
+        <CommonHeader title={i18n.setting_title} canBack {...this['props']}/>
         <Content>
           <View style={styles.title}>
-            <Text>選擇主題</Text>
+            <Text>{i18n.theme}</Text>
           </View>
           {
             _data.map((item,idx) => (
               <View style={{flex: 1,flexDirection: 'row'}} key={idx}>
                 {item.data.map((ditem,didx) => (
                   <TouchableOpacity key={didx} style={{height:50,backgroundColor:ditem.bgColor,
-                    flex:1,justifyContent:'space-between',paddingLeft:10,paddingRight:10,
+                    flex:1,justifyContent:'center',paddingLeft:10,paddingRight:10,
                     flexDirection:'row',alignItems:'center',width:GLOBAL_PARAMS._winWidth*0.5}}
                     onPress={() => this._currentItemClick(ditem.bgColor)}>
-                    <Text style={{color:'#fff',fontSize:18}}>{ditem.name}</Text>
                     {this.props.screenProps.theme === ditem.bgColor ? (<Icon name="md-checkmark-circle" style={{fontSize:20,color:'#fff'}}/>)
                     : null }
                   </TouchableOpacity>
@@ -79,18 +87,18 @@ export default class SettingView extends PureComponent{
             ))
           }    
           <View style={styles.title}>
-            <Text>選擇語言</Text>
+            <Text>{i18n.language}</Text>
           </View>
           <ListItem style={{backgroundColor: Colors.main_white,marginLeft: 0}}>
               <Body>
                 <Text style={{paddingLeft:10}}>for English</Text>
               </Body>
               <Right>
-                <Switch  value={this.state.isEnglish} onValueChange={(value) => this._changeLanguage()}/>
+                <Switch  value={this.state.isEnglish} onValueChange={(value) => this._changeLanguage(value)}/>
               </Right>
             </ListItem>
             <View style={styles.title}>
-              <Text>清除緩存</Text>
+              <Text>{i18n.cache}</Text>
             </View>
         </Content>
       </Container>

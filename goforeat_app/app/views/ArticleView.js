@@ -29,6 +29,8 @@ import ListFooter from '../components/ListFooter'
 import Loading from '../components/Loading'
 import ArticleSwiper from '../components/Swiper'
 import carouselSwiper from '../components/carouselSwiper'
+//language
+import i18n from '../language/i18n';
 
 let requestParams = {
   status: {
@@ -49,6 +51,7 @@ export default class ArticleView extends Component {
       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
       refresh:false
     },
+    i18n: i18n[this.props.screenProps.language]
   }
 
   componentDidMount() {
@@ -57,6 +60,12 @@ export default class ArticleView extends Component {
 
   componentWillUnmount() {
     source.cancel()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: i18n[nextProps.screenProps.language]
+    })
   }
   //common functions
 
@@ -214,7 +223,7 @@ export default class ArticleView extends Component {
 
   render() {
     return (<Container style={{position:'relative'}}>
-    <CommonHeader title="文章詳情" {...this['props']}/>
+    <CommonHeader title={this.state.i18n.article_title} {...this['props']}/>
     {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
       <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
         <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}

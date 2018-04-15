@@ -51,6 +51,7 @@ import Colors from "../utils/Colors";
 import ToastUtil from "../utils/ToastUtil";
 import ListFooter from "../components/ListFooter";
 import _ from "lodash";
+import i18n from '../language/i18n';
 
 let requestParams = {
   status: {
@@ -86,7 +87,8 @@ export default class GoodsListPageView extends Component {
     positionTop: new Animated.Value(0),
     positionBottom: new Animated.Value(0),
     firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
-    pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING
+    pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
+    i18n: i18n[this.props.screenProps.language]
   };
 
   componentWillMount = () => {
@@ -106,8 +108,9 @@ export default class GoodsListPageView extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    // console.log('nextprops',nextProps)
-    // this._onRequestFirstPageData()
+    this.setState({
+      i18n: i18n[nextProps.screenProps.language]
+    })
   }
 
   //api function
@@ -388,7 +391,7 @@ export default class GoodsListPageView extends Component {
             flexDirection: "row"
           }}
         >
-          <Text>- 为您推薦 -</Text>
+          <Text>- {this.state.i18n.recommend_text} -</Text>
         </View>
         <View
           style={{
@@ -412,7 +415,7 @@ export default class GoodsListPageView extends Component {
             flexDirection: "row"
           }}
         >
-          <Text style={{ color: this.props.screenProps.theme }}>篩選分類</Text>
+          <Text style={{ color: this.props.screenProps.theme }}>{this.state.i18n.filter_text}</Text>
         </TouchableOpacity>
       </View>
       // <View style={{paddingTop:15,paddingBottom:15,backgroundColor:Colors.main_white,borderBottomWidth:1,borderColor:Colors.main_gray}}>
@@ -510,7 +513,7 @@ export default class GoodsListPageView extends Component {
           <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
           >
-            <Text>沒有數據了...</Text>
+            <Text>{this.state.i18n.nodata_text}</Text>
           </View>
         )}
         ListFooterComponent={() => (
@@ -617,6 +620,7 @@ export default class GoodsListPageView extends Component {
   };
 
   render() {
+    const {i18n} = this.state;
     let {
       firstPageLoading,
       showFilterList,
@@ -669,7 +673,7 @@ export default class GoodsListPageView extends Component {
                     marginTop: -3
                   }}
                 >
-                  點擊搜索
+                  {i18n.search_text}
                 </Text>
                 <Icon name="md-search" size={20} style={styles.searchIcon} />
               </Button>
@@ -695,10 +699,10 @@ export default class GoodsListPageView extends Component {
         </Header>
 
         {firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ? (
-          <Loading message="玩命加載中..." />
+          <Loading message={i18n.loading_text} />
         ) : firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ? (
           <ErrorPage
-            errorTips="加載失敗,請點擊重試"
+            errorTips={i18n.load_failed}
             errorToDo={this._onErrorRequestFirstPage}
           />
         ) : null}
@@ -706,7 +710,7 @@ export default class GoodsListPageView extends Component {
           <ErrorPage
             style={{ marginTop: -15 }}
             errorToDo={this._onFilterEmptyData}
-            errorTips="沒有數據哦,請點擊重試？"
+            errorTips={i18n.nodata}
           />
         ) : null}
         <View style={{ marginBottom: GLOBAL_PARAMS.bottomDistance }}>

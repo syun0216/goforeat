@@ -24,14 +24,25 @@ import ToastUtil from '../utils/ToastUtil'
 import api from '../api'
 //components
 import CommonModal from '../components/CommonModal'
-import Divider from '../components/Divider'
+import Divider from '../components/Divider';
+//language
+import i18n from '../language/i18n';
 
 export default class PeopleView extends Component {
   state = {
     modalVisible: false,
     modalContent: '',
-    modalTitle:''
+    modalTitle:'',
+    i18n: i18n[this.props.screenProps.language]
   }
+
+
+  componentWillReceiveProps = (nextProps) => {
+    this.setState({
+      i18n: i18n[nextProps.screenProps.language]
+    })
+  }
+
   //common function
   _logout = () => {
     // this.props.screenProps.userLogout();
@@ -80,7 +91,7 @@ export default class PeopleView extends Component {
     (<Image style={styles.personAvatar} source={require('../asset/touxiang.png')}/>)}
       {this.props.screenProps.user !== null ? (<Text style={{fontSize:16,color:'#fff',marginTop:10}}>用戶:{this.props.screenProps.user}</Text>) :
     (<TouchableOpacity style={{marginTop:10}} onPress={() => this.props.navigation.navigate("Login")}>
-      <Text style={{fontSize:16,color:'#fff'}}>登錄/註冊</Text>
+      <Text style={{fontSize:16,color:'#fff'}}>{this.state.i18n.login_text}</Text>
     </TouchableOpacity>)}
     </View>
   )
@@ -89,27 +100,28 @@ export default class PeopleView extends Component {
     <View style={{display:'flex',flexDirection:'row',borderBottomWidth:1,borderColor:'#ddd',backgroundColor:'#fff',height:70,marginBottom:10}}>
       <TouchableOpacity style={styles.commonItem} onPress={() => this._commonItemClick('integral')}>
         <Image source={require('../asset/01-guanli.png')} style={styles.commonImage}/>
-        <Text>積分兌換</Text>
+        <Text>{this.state.i18n.integral_text}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.commonItem} onPress={() => {
         this.props.screenProps.user !== null ? this.props.navigation.navigate('MyFavorite') : this.props.navigation.navigate('Login')
       }}>
         <Image source={require('../asset/02-guanzhu.png')} style={styles.commonImage}/>
-        <Text>我的關注</Text>
+        <Text>{this.state.i18n.myfavorite_text}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.commonItem} onPress={() => this._commonItemClick('upload')}>
         <Image source={require('../asset/03-renzheng.png')} style={styles.commonImage}/>
-        <Text>上傳發票</Text>
+        <Text>{this.state.i18n.upload_text}</Text>
       </TouchableOpacity>
     </View>
   )
 
   _renderCommonListView = () => {
+    const {i18n} = this.state;
     const _data = [
       // {name:'關於我們',icon:'md-people',func:() => this._commonItemClick('about')},
-        {name:'允許使用政策',icon:'md-log-in',func:() => this._commonItemClick('allowPolicy')},
-        {name:'刪除內容政策',icon:'md-log-out',func:() => this._commonItemClick('deletePolicy')},
-        {name:'系統設置',icon:'md-settings',func:() => this.props.navigation.navigate('Setting')},
+        {name:i18n.use_policy,icon:'md-log-in',func:() => this._commonItemClick('allowPolicy')},
+        {name:i18n.del_policy,icon:'md-log-out',func:() => this._commonItemClick('deletePolicy')},
+        {name:i18n.setting_title,icon:'md-settings',func:() => this.props.navigation.navigate('Setting')},
         // {name:'上傳發票',icon:'md-cloud-upload',func:() => this.props.navigation.navigate('Setting')},
         // {name:'積分兌換',icon:'md-attach',func:() => this.props.navigation.navigate('Setting')},
     ]
@@ -152,7 +164,7 @@ export default class PeopleView extends Component {
         marginRight: 10,
         backgroundColor:this.props.screenProps.theme
       }}>
-      <Text style={{color:'#fff',fontSize:16}}>登出</Text>
+      <Text style={{color:'#fff',fontSize:16}}>{this.state.i18n.logout}</Text>
     </Button>
   )
 

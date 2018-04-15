@@ -50,7 +50,9 @@ const initialState = {
     theme: Colors.main_orange
   },
   loading: false,
-  isEn: false
+  languageState: {
+    language: 'zh'
+  }
 };
 
 // export function nav(state = initialState.navState, action) {
@@ -156,9 +158,9 @@ export function theme(state = initialState.themeState, action) {
 
 export function http() {}
 
-export function language(state=initialState.isEn,action) {
+export function language(state=initialState.languageState,action) {
   switch(action.type) {
-    case CHANGE_LANGUAGE: return {...state,isEn: action.isEn};break;
+    case CHANGE_LANGUAGE: return {...state,language: action.language};
     default: return state
   }
 }

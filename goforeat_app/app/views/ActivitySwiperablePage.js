@@ -24,18 +24,27 @@ import api from "../api";
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
+//language
+import i18n from '../language/i18n';
 
 export default class ArticleView extends Component {
   _current_offset = 0
   state = {
     shopDetail: null,
     loading: false,
-    isError: false
+    isError: false,
+    i18n: i18n[this.props.screenProps.language]
   };
   componentDidMount = () => {
     this._current_offset = 0;
     this.getRecommendList();
   };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+        i18n: i18n[nextProps.screenProps.language]
+      })
+  }
   //api
   getRecommendList = () => {
     api.recommendShop(10,this._current_offset).then(data => {
@@ -78,7 +87,7 @@ export default class ArticleView extends Component {
       dataSource={this.state.shopDetail}
       renderEmpty={() => (
         <View style={{ alignSelf: "center",marginTop: 100 }}>
-          <Text>沒有更多了</Text>
+          <Text>{this.state.i18n.nodata_text}</Text>
         </View>
       )}
       renderItem={item => (
@@ -104,12 +113,13 @@ export default class ArticleView extends Component {
     />
   );}
   render() {
+    const {i18n} = this.state;
     return (
       <Container>
-        <CommonHeader title="線下餐廳" {...this["props"]} />
+        <CommonHeader title={i18n.offline_title} {...this["props"]} />
         {this.state.loading ? <Loading /> : null}
         {this.state.isError ? (
-          <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this.getRecommendList} />
+          <ErrorPage errorTips={i18n.load_failed} errorToDo={this.getRecommendList} />
         ) : null}
         {this.state.shopDetail !== null ? this._renderDeskSwiper() : null}
 
@@ -145,7 +155,7 @@ export default class ArticleView extends Component {
               style={{ fontSize: 40, color: this.props.screenProps.theme }}
             />
             <Text style={{ fontSize: 18, color: this.props.screenProps.theme,textAlignVertical:'center' }}>
-              換一批
+              {i18n.change_other}
             </Text>
           </Button>
           <Button

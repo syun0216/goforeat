@@ -26,6 +26,8 @@ import api from "../api";
 import CommonHeader from "../components/CommonHeader";
 import ErrorPage from "../components/ErrorPage";
 import Loading from '../components/Loading';
+//language
+import i18n from '../language/i18n';
 
 const IS_ANDROID = Platform.OS === "android";
 const SLIDER_1_FIRST_ITEM = 1;
@@ -40,12 +42,15 @@ export default class ShopSwiperablePage extends Component {
             shopDetail: null,
             foodDetails: null,
             isError: false,
-            loading: true
+            loading: true,
+            i18n: i18n[this.props.screenProps.language]
         };
     }
 
-    componentWillReceiveProps() {
-        // console.log(this.props);
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            i18n: i18n[nextProps.screenProps.language]
+          })
     }
 
     componentDidMount = () => {
@@ -177,11 +182,11 @@ export default class ShopSwiperablePage extends Component {
     }
 
     render() {
-        const example1 = this.mainExample(1, "- 為您推薦 -");
+        const example1 = this.mainExample(1, `- ${this.state.i18n.recommend_text} -`);
 
         return (
             <Container>
-                <CommonHeader title="推薦菜品" {...this["props"]} />
+                <CommonHeader title={this.state.i18n.takeout_title} {...this["props"]} />
                 {this.state.isError ? (
                     <ErrorPage errorToDo={this._onErrorToRetry} errorTips="加載失败,請點擊重試"/>
                 ) : null}
