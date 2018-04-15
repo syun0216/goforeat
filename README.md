@@ -39,7 +39,7 @@ android的打包方法:
 </p>
 <p align="left">
   <img src="./display/s4.jpeg" width="250">
-  <img src="./display/s5.jpeg" width="250">
+  <img src="./display/s14.jpeg" width="250">
   <img src="./display/s6.jpeg" width="250">
 </p>
 <p align="left">
