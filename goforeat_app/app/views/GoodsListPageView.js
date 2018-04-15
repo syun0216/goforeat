@@ -253,8 +253,11 @@ export default class GoodsListPageView extends Component {
     if (this.state.pullUpLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
       return;
     }
-    requestParams.currentPage++;
-    this._requestNextDetailList();
+    let _timer = setTimeout(() => {
+      requestParams.currentPage++;
+      this._requestNextDetailList();
+      clearTimeout(_timer);
+    }, 1000)
   };
 
   _onErrorToRequestNextPage() {
@@ -351,7 +354,7 @@ export default class GoodsListPageView extends Component {
             sectionIndex: 0,
             itemIndex: 0,
             viewPosition: 0,
-            viewOffset: 250
+            viewOffset: 430
           });
         }}
         positionBottom={this.state.positionBottom}
@@ -492,10 +495,10 @@ export default class GoodsListPageView extends Component {
         keyExtractor={(item, index) => index} // 消除SectionList warning
         renderSectionHeader={({ section }) => this._renderSubHeader(section)}
         // refreshing={true}
-        initialNumToRender={6}
+        initialNumToRender={8}
         getItemLayout={(data, index) => ({
-          length: 75,
-          offset: 75 * index + 175,
+          length: 130,
+          offset: 130 * index + 300,
           index: index
         })}
         // onRefresh={() => alert('onRefresh: nothing to refresh :P')}
@@ -532,7 +535,9 @@ export default class GoodsListPageView extends Component {
     let _imgWidth =
       GLOBAL_PARAMS._winWidth < 350 ? GLOBAL_PARAMS._winWidth * 0.2 : 80;
     return (
-      <View>
+      <View
+          // onLayout={(event)=>console.log('event',event.nativeEvent.layout)} //计算view的高度宽度
+      >
         <ListItem
           style={{
             backgroundColor: Colors.main_white,

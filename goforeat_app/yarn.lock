@@ -4092,6 +4092,12 @@ react-native-easy-grid@0.1.15:
   dependencies:
     lodash "^4.11.1"
 
+react-native-fast-image@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-4.0.0.tgz#54f4013c9e0a5e9e649fc00e50028c79c7eacbea"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-fs@^2.9.11:
   version "2.9.11"
   resolved "https://registry.npmjs.org/react-native-fs/-/react-native-fs-2.9.11.tgz#0fd134ecc8ae53fe8023267f51463eb77287c93a"

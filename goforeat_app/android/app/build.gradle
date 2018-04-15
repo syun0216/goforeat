@@ -150,6 +150,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fast-image')
     compile project(':react-native-i18n')
     compile project(':react-native-code-push')
     compile project(':react-native-share')

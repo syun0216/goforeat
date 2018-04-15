@@ -14,12 +14,13 @@ import {
   Right,
   Content
 } from "native-base";
-import { NavigationActions } from "react-navigation";
+import Image from "react-native-image-progress";
 //api
 import api from "../api";
 import source from "../api/CancelToken";
 //utils
 import ToastUtil from "../utils/ToastUtil";
+import GLOBAL_PARAMS from '../utils/global_params';
 
 export default class SearchView extends Component {
   _textInput = null;
@@ -96,7 +97,13 @@ export default class SearchView extends Component {
         }
       >
         <Left>
-          <Thumbnail size={10} source={{ uri: item.image }} />
+          <Image
+              style={{ width: GLOBAL_PARAMS._winWidth*0.2, height: GLOBAL_PARAMS._winHeight*0.2 }}
+              imageStyle={{ borderRadius: GLOBAL_PARAMS._winWidth*0.2 / 2 }}
+              source={{
+                  uri: item.image,
+              }}
+          />
         </Left>
         <Body style={{ borderBottomWidth: 0 }}>
           <Text>{item.name}</Text>
@@ -105,7 +112,7 @@ export default class SearchView extends Component {
           </Text>
           <Text note>评分：{item.rate}</Text>
         </Body>
-        <Right style={{ borderBottomWidth: 0 }}>
+        <Right style={{ borderBottomWidth: 0 ,justifyContent:'center'}}>
           <Text note style={{ color: "#ff5858", fontSize: 18 }}>
             ${item.price}
           </Text>
