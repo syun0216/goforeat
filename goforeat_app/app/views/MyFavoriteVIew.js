@@ -7,15 +7,23 @@ import Row from '../components/Row'
 //utils
 import GLOBAL_PARAMS from '../utils/global_params'
 import Colors from '../utils/Colors'
+//language
+import i18n from '../language/i18n';
 
 const Screen = Dimensions.get('window');
 
 export default class MyFavoriteView extends PureComponent {
   state = {
       damping: 1-0.7,
-      tension: 300
+      tension: 300,
+      i18n: i18n[this.props.screenProps.language]
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: i18n[nextProps.screenProps.language]
+    })
+  }
     _renderSectionList = () => (
       <SectionList
         sections={[this.props.screenProps.shopList]}
@@ -27,7 +35,7 @@ export default class MyFavoriteView extends PureComponent {
         )}
         ListEmptyComponent={() => (
           <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-            <Text>沒有數據了...</Text>
+            <Text>{this.state.nodata_text}</Text>
           </View>
         )}
       />
@@ -53,7 +61,7 @@ export default class MyFavoriteView extends PureComponent {
   render() {
     return (
       <Container>
-        <CommonHeader canBack title="我的關注" {...this['props']}/>
+        <CommonHeader canBack title={this.state.i18n.myfavorite_text} {...this['props']}/>
         {this._renderSectionList()}
       </Container>
     );

@@ -6,6 +6,7 @@ let _language = {
     load_failed: '加載失敗,請點擊重試',
     nodata: '沒有數據哦,請點擊重試?',
     nodata_text: '沒有數據了',
+    nonetwork: '網絡飛走了...',
     filter_text: '篩選分類',
     tab1: '餐廳',
     tab2: '外賣',
@@ -21,12 +22,19 @@ let _language = {
     offline_title:'線下餐廳',
     login_text: '登錄/註冊',
     integral_text: '積分兌換',
+    integral_top_title: '小積分兌換大慈善',
+    integral_title: '積分禮遇',
     myfavorite_text: '我的關注',
     upload_text: '上傳發票',
     use_policy: '允許使用政策',
     del_policy: '刪除使用政策',
     logout: '登出',
-    change_other: '換一批'
+    change_other: '換一批',
+    canteenDish: '餐廳菜品',
+    canteenRec: '餐廳推薦',
+    canteenDetail: '餐廳詳情',
+    articleDetail: '文章詳情',
+
   },
   en: {
     search_text: 'click search',
@@ -35,6 +43,7 @@ let _language = {
     load_failed: 'load failed',
     nodata: 'No data, click to try again',
     nodata_text: 'no data',
+    nonetwork: 'nonetwork',
     filter_text: 'filter',
     tab1: 'canteen',
     tab2: 'takeout',
@@ -50,12 +59,18 @@ let _language = {
     offline_title:'offline',
     login_text: 'login/register',
     integral_text: 'integral',
+    integral_title: 'integral gift',
+    integral_top_title: '小積分兌換大慈善',
     myfavorite_text: 'myfavorite',
     upload_text: 'upload',
     use_policy: 'Allowed use policy',
     del_policy: 'Delete usage policy',
     logout: 'logout',
-    change_other: 'change'
+    change_other: 'change',
+    canteenDish: 'canteen dishes',
+    canteenRec: 'canteen recommend',
+    canteenDetail: 'canteen detail',
+    articleDetail: 'article detail',
   }
 }
 

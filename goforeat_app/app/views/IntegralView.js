@@ -14,6 +14,8 @@ import api from '../api';
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
 import ToastUtil from '../utils/ToastUtil';
+//language
+import i18n from '../language/i18n';
 
 export default class IntegralView extends PureComponent {
   state = {
@@ -21,11 +23,18 @@ export default class IntegralView extends PureComponent {
     isLoading: true,
     isError:false,
     isExpired: false,
-    expiredMessage: null
+    expiredMessage: null,
+    i18n: i18n[this.props.screenProps.language]
   }
 
   componentDidMount() {
     this._getProjectList();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: i18n[nextProps.screenProps.language]
+    })
   }
 
   _getProjectList() {
@@ -57,13 +66,13 @@ export default class IntegralView extends PureComponent {
     <SectionList
       style={styles.projectContainer}
       sections={[
-        {title:'小積分兌換大慈善',data:this.state.projectList.list},
+        {title:this.state.i18n.integral_top_title,data:this.state.projectList.list},
       ]}
       renderItem = {({item,index}) => this._renderProjectItemView(item,index)}
       renderSectionHeader= {() => (
         <View style={{height:50,backgroundColor: Colors.main_white,paddingLeft:10,
           justifyContent:'center'}}>
-          <Text>小積分兌換大慈善</Text>
+          <Text>{this.state.i18n.integral_top_title}</Text>
         </View>
       )}
       keyExtractor={(item, index) => index}
@@ -116,7 +125,7 @@ export default class IntegralView extends PureComponent {
   render() {
     return (
       <Container>
-        <CommonHeader canBack {...this['props']} title="積分禮遇" />
+        <CommonHeader canBack {...this['props']} title={this.state.i18n.integral_title} />
         {this.state.isLoading ? <Loading /> : null}
         {this.state.isError ? <ErrorPage errorToDo={this._getProjectList}/> : null}
         <Content>

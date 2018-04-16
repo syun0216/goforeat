@@ -350,12 +350,13 @@ export default class GoodsListPageView extends Component {
     return this.state.canteenDetail !== null ? (
       <ScrollTop
         toTop={() => {
-          this.sectionList.scrollToLocation({
-            sectionIndex: 0,
-            itemIndex: 0,
-            viewPosition: 0,
-            viewOffset: 430
-          });
+          // this.sectionList.scrollToLocation({
+          //   sectionIndex: 0,
+          //   itemIndex: 0,
+          //   viewPosition: 0,
+          //   viewOffset: 430
+          // });
+          this.sectionList._wrapperListRef._listRef.scrollToOffset({offset: 0})
         }}
         positionBottom={this.state.positionBottom}
         {...this["props"]}
@@ -495,12 +496,12 @@ export default class GoodsListPageView extends Component {
         keyExtractor={(item, index) => index} // 消除SectionList warning
         renderSectionHeader={({ section }) => this._renderSubHeader(section)}
         // refreshing={true}
-        initialNumToRender={8}
-        getItemLayout={(data, index) => ({
-          length: 130,
-          offset: 130 * index + 300,
-          index: index
-        })}
+        initialNumToRender={12}
+        // getItemLayout={(data, index) => ({
+        //   length: 130,
+        //   offset: 130 * index + 300,
+        //   index: index
+        // })}
         // onRefresh={() => alert('onRefresh: nothing to refresh :P')}
         // onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
         onEndReachedThreshold={0.01}

@@ -52,6 +52,8 @@ import ImageGallery from '../components/ImageGallery';
 import ErrorPage from '../components/ErrorPage';
 //styles
 import index_style from "../styles/index.style";
+//language
+import i18n from '../language/i18n'
 
 export default class ContentView extends Component {
   state = {
@@ -61,7 +63,14 @@ export default class ContentView extends Component {
     shareboxVisible: false,
     modalVisible: false,
     loading: false,
-    isError: false
+    isError: false,
+    i18n: i18n[this.props.screenProps.language]
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: i18n[nextProps.screenProps.language]
+    })
   }
 
   componentDidMount() {
@@ -248,6 +257,7 @@ export default class ContentView extends Component {
 
   _renderContentView = () => 
   {
+    let {i18n} = this.state;
     let _imgWidth = GLOBAL_PARAMS._winWidth < 350 ? GLOBAL_PARAMS._winWidth*0.2 : 100;
     return (<Content>
       <Card style={{ flex:1,margin:0 ,borderWidth:0}}>
@@ -266,7 +276,7 @@ export default class ContentView extends Component {
         <CardItem>
           <Body>
             <View style={[styles.subtitle,{borderLeftColor: this.props.screenProps.theme}]}>
-              <Text>餐廳菜品</Text>
+              <Text>{i18n.canteenDish}</Text>
             </View>
             {this.state.canteenData.foods.length > 0 ? (
               this.state.canteenData.foods.map((item, idx) => (
@@ -291,7 +301,7 @@ export default class ContentView extends Component {
         <CardItem>
         <Body>
           <View style={[styles.subtitle,{borderLeftColor: this.props.screenProps.theme,marginBottom: 10}]}>
-            <Text>餐廳推薦</Text>
+            <Text>{i18n.canteenRec}</Text>
           </View>
           {this.state.canteenData!== null ?<RecommendShop list={this.state.canteenData.recommendCanteen} {...this['props']}/> : null}
         </Body>
@@ -315,6 +325,7 @@ export default class ContentView extends Component {
 
   render() {
     let {kind} = this.props.navigation.state.params;
+    let {i18n} = this.state;
     return (
       <Container>
         {this.state.overlookImages.length > 0 ? this._renderOverLookImageView() : null} 
@@ -324,7 +335,7 @@ export default class ContentView extends Component {
           <Button transparent onPress={() => this.props.navigation.goBack()}>
             <Icon size={20} name="ios-arrow-back" style={{fontSize:25,color: Colors.main_white}}/>
           </Button></Left>
-          <Body><Text style={{color: Colors.main_white}}>{this.props.navigation.state.params.kind === 'canteen' ? '餐廳詳情' : '文章詳情'}</Text></Body>
+          <Body><Text style={{color: Colors.main_white}}>{this.props.navigation.state.params.kind === 'canteen' ? i18n.canteenDetail : i18n.articleDetail}</Text></Body>
           <Right><Button transparent onPress={() => this.setState({shareboxVisible: true})}>
             <Icon name="md-share-alt" style={{ fontSize: 23, color: Colors.main_white }}/>
           </Button>
