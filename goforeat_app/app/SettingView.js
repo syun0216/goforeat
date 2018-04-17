@@ -39,6 +39,23 @@ export default class SettingView extends PureComponent{
       i18n: i18n[nextProps.screenProps.language]
     })
   }
+
+  _logout = () => {
+    // this.props.screenProps.userLogout();
+    // this.props.refreshReset();
+    api.logout().then(data => {
+      if(data.status === 200 && data.data.ro.ok){
+        ToastUtil.showWithMessage("登出成功")
+        this.props.screenProps.userLogout();
+        // this.props.refreshReset();
+      }
+      else{
+        ToastUtil.showWithMessage("登出失敗")
+      }
+    },() => {
+        ToastUtil.showWithMessage("登出失敗,請檢查網絡")
+    })
+  }
   
   _changeLanguage = (value) => {
     this.props.screenProps.changeLanguage(language = value ? 'en' : 'zh')
@@ -47,6 +64,30 @@ export default class SettingView extends PureComponent{
         i18n: i18n[this.props.screenProps.language]
       });
   }
+
+  _renderListFooterView = () => (
+    <Button onPress={() => {
+      Alert.alert(
+        '提示',
+        '確定要登出嗎？',
+        [
+          {text: '取消', onPress: () => {return null}, style: 'cancel'},
+          {text: '確定', onPress: () => this._logout()},
+        ],
+        { cancelable: false }
+      )
+    }}
+      block style={{
+        marginTop: 30,
+        marginLeft: 10,
+        marginRight: 10,
+        borderColor: Colors.main_red,
+        borderWidth: 1,
+        backgroundColor: Colors.main_white
+      }}>
+      <Text style={{color: Colors.main_red,fontSize:16}}>{this.state.i18n.logout}</Text>
+    </Button>
+  )
 
   render() {
     const _data = [
@@ -85,7 +126,7 @@ export default class SettingView extends PureComponent{
     return (
       <Container>
         <CommonHeader title={i18n.setting_title} canBack {...this['props']}/>
-        <Content>
+        <Content style={{backgroundColor: Colors.main_white}}>
           <View style={styles.title}>
             <Text>{i18n.theme}</Text>
           </View>
@@ -115,9 +156,7 @@ export default class SettingView extends PureComponent{
                 <Switch  value={this.state.isEnglish} onValueChange={(value) => this._changeLanguage(value)}/>
               </Right>
             </ListItem>
-            <View style={styles.title}>
-              <Text>{i18n.cache}</Text>
-            </View>
+            {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
         </Content>
       </Container>
     )
@@ -127,6 +166,6 @@ export default class SettingView extends PureComponent{
 const styles = StyleSheet.create({
   title: {
     height:40,
-    padding:10
+    padding:10,
   }
 })

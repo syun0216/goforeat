@@ -15,7 +15,6 @@ const ListFooter = ({loadingStatus,errorToDo}) => {
       return (
         <View style={styles.commonContainer}>
           <ActivityIndicator style={{flex:1,}} size='small' color='#000'/>
-          {/* <Text style={{flex:1}}>正在加載中...</Text> */}
         </View>
       )
     }

@@ -44,22 +44,6 @@ export default class PeopleView extends Component {
   }
 
   //common function
-  _logout = () => {
-    // this.props.screenProps.userLogout();
-    // this.props.refreshReset();
-    api.logout().then(data => {
-      if(data.status === 200 && data.data.ro.ok){
-        ToastUtil.showWithMessage("登出成功")
-        this.props.screenProps.userLogout();
-        // this.props.refreshReset();
-      }
-      else{
-        ToastUtil.showWithMessage("登出失敗")
-      }
-    },() => {
-        ToastUtil.showWithMessage("登出失敗,請檢查網絡")
-    })
-  }
 
   _commonItemClick = (name) => {
     let {navigate} = this.props.navigation;
@@ -146,27 +130,7 @@ export default class PeopleView extends Component {
     </List>
   )}
 
-  _renderListFooterView = () => (
-    <Button onPress={() => {
-      Alert.alert(
-        '提示',
-        '確定要登出嗎？',
-        [
-          {text: '取消', onPress: () => {return null}, style: 'cancel'},
-          {text: '確定', onPress: () => this._logout()},
-        ],
-        { cancelable: false }
-      )
-    }}
-      block style={{
-        marginTop: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        backgroundColor:this.props.screenProps.theme
-      }}>
-      <Text style={{color:'#fff',fontSize:16}}>{this.state.i18n.logout}</Text>
-    </Button>
-  )
+ 
 
   _renderModalView = () => (
     <CommonModal content={this.state.modalContent}
@@ -186,7 +150,6 @@ export default class PeopleView extends Component {
           {this._renderCommonItemView()}
           <ScrollView style={{paddingBottom:10}}>
             {this._renderCommonListView()}
-            {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
           </ScrollView>
         </View>
       </Container>

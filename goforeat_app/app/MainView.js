@@ -80,24 +80,24 @@ const tabView = TabNavigator({
             }}/>)
         }
     },
-    ArticleTab: {
-        screen: ArticleView,
-        navigationOptions: {
-            tabBarLabel: '文章',
-            tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-images" style={{
-                color: tintColor
-            }}/>)
-        }
-    },
-    AtivityTab: {
-        screen: ActivitySwiperablePage,
-        navigationOptions: {
-            tabBarLabel: '線下',
-            tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-aperture" style={{
-                color: tintColor
-            }}/>)
-        }
-    },
+    // ArticleTab: {
+    //     screen: ArticleView,
+    //     navigationOptions: {
+    //         tabBarLabel: '文章',
+    //         tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-images" style={{
+    //             color: tintColor
+    //         }}/>)
+    //     }
+    // },
+    // AtivityTab: {
+    //     screen: ActivitySwiperablePage,
+    //     navigationOptions: {
+    //         tabBarLabel: '線下',
+    //         tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-aperture" style={{
+    //             color: tintColor
+    //         }}/>)
+    //     }
+    // },
     PersonTab: {
         screen: PersonView,
         navigationOptions: {

@@ -17,7 +17,7 @@ let _language = {
     theme: '選擇主題',
     language: '選擇語言',
     cache: '清除緩存',
-    takeout_title: '推薦菜品',
+    takeout_title: '外賣菜品',
     article_title: '文章詳情',
     offline_title:'線下餐廳',
     login_text: '登錄/註冊',

@@ -73,7 +73,7 @@ class SliderEntry extends Component {
                         foodId
                     })
                 }else {
-                    ToastUtil.showWithMessage("請先登錄");
+                    this.props.navigation.navigate("Login");
                 }
             }}
               >

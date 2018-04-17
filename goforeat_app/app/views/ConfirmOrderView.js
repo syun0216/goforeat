@@ -144,7 +144,7 @@ export default class ConfirmOrderView extends PureComponent {
       let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
       return (<PopupDialog
       dialogTitle={<DialogTitle title="您的訂單" />}
-      width={GLOBAL_PARAMS._winWidth * 0.8}
+      width={GLOBAL_PARAMS._winWidth * 0.9}
       height={GLOBAL_PARAMS._winHeight * 0.65}
       // height={220}
       ref={popupDialog => {
@@ -158,22 +158,22 @@ export default class ConfirmOrderView extends PureComponent {
       <Container>
         <Content>
           <ListItem>
-            <Text>下單電話: {this.props.screenProps.user}</Text>
+            <Text style={styles.commonText}>下單電話: {this.props.screenProps.user}</Text>
           </ListItem>
           <Separator bordered>
-            <Text>訂單詳情</Text>
+            <Text style={styles.commonText}>訂單詳情</Text>
           </Separator>
           <ListItem>
-            <Text>菜品名稱:{orderDetail[0].foodName}{'\n'}HKD {orderDetail[0].foodMoney}{'\n'}數量{orderDetail[0].foodNum}</Text>
+            <Text style={styles.commonText}>菜品名稱:{orderDetail[0].foodName}{'\n'}HKD {orderDetail[0].foodMoney}{'      '}數量{orderDetail[0].foodNum}</Text>
           </ListItem>
           <ListItem>
-            <Text>{takeAddress}{'\n'}{takeAddressDetail}{'\n'}{takeDate}{'\n'}{takeTime}</Text>
+            <Text style={styles.commonText}>{takeDate}{'     '}{takeTime}{'\n'}{takeAddressDetail}</Text>
           </ListItem>
           <Separator bordered>
-            <Text>總計</Text>
+            <Text style={styles.commonText}>總計</Text>
           </Separator>
           <ListItem last>
-            <Text>HKD {totalMoney}</Text>
+            <Text style={styles.commonText}>HKD {totalMoney}</Text>
           </ListItem>
         </Content>
         <Footer
@@ -379,5 +379,8 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     fontWeight: "200",
     color: Colors.fontBlack
+  },
+  commonText: {
+    fontSize: 18
   }
 });

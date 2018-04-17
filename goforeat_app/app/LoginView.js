@@ -51,14 +51,54 @@ export default class LoginView extends Component {
     phone: null,
     password: null,
     selectedValue:GLOBAL_PARAMS.phoneType.HK,
+    codeContent: "點擊發送",
+    isCodeDisabled: false,
   };
 
   componentWillUnmount() {
-    source.cancel()
+    source.cancel();
+    clearInterval(this.interval);
   }
 
 
   //common function
+
+  _sendPhoneAndGetCode = () => {
+    if (this.state.phone === null) {
+      ToastUtil.showWithMessage("手機號格式有誤");
+      return;
+    }
+    api.getCode(this.state.phone, this.state.selectedValue.value).then(
+      data => {
+        console.log(data);
+        if (data.status === 200 && data.data.ro.ok) {
+          this.token = data.data.data.token;
+          ToastUtil.showWithMessage("驗證碼發送成功");
+          let _during = 60;
+          this.interval = setInterval(() => {
+            _during--;
+            this.setState({
+              codeContent: `${_during}秒后重發`,
+              isCodeDisabled: true
+            });
+            if (_during === 0) {
+              this.setState({
+                codeContent: "重新發送",
+                isCodeDisabled: false
+              });
+              clearInterval(interval);
+            }
+          }, 1000);
+        } else {
+          ToastUtil.showWithMessage(data.data.ro.respMsg);
+        }
+      },
+      () => {
+        ToastUtil.showWithMessage("驗證碼發送失敗");
+      }
+    );
+  };
+
   _getPhone(phone) {
     // let reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
     // if (reg.test(phone)) {
@@ -297,7 +337,8 @@ export default class LoginView extends Component {
                   style={{
                     flex: 1,
                     alignItems: "flex-start",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    position:'relative'
                   }}
                 >
                   <Input
@@ -308,12 +349,28 @@ export default class LoginView extends Component {
                     onChangeText={password => this._getPassword(password)}
                     multiline={false}
                     autoFocus={false}
-                    placeholder="請輸入密碼"
+                    placeholder="請輸入驗證碼"
                     clearButtonMode="while-editing"
                     placeholderTextColor="gray"
                     returnKeyType="done"
                     secureTextEntry={true}
                   />
+                  <Button
+                style={{position: 'absolute',right:10,top: -1}}
+                disabled={this.state.isCodeDisabled}
+                transparent
+                onPress={() => this._sendPhoneAndGetCode()}
+              >
+                <Text
+                  style={
+                    this.state.isCodeDisabled
+                      ? { color: "#959595" }
+                      : { color: Colors.main_orange }
+                  }
+                >
+                  {this.state.codeContent}
+                </Text>
+              </Button>
                 </View>
               </View>
               <View
