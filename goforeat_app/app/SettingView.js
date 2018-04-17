@@ -1,14 +1,17 @@
 import React,{PureComponent} from 'react'
-import {View,Text,StyleSheet,TouchableOpacity,Switch} from 'react-native'
+import {View,Text,StyleSheet,TouchableOpacity,Switch,Alert} from 'react-native'
 import {Container,Body,Button,Icon,Content,ListItem,Left,Right} from 'native-base'
-import {NavigationActions} from 'react-navigation'
+import {NavigationActions} from 'react-navigation';
 //utils
 import Colors from './utils/Colors';
 import GLOBAL_PARAMS from './utils/global_params';
+import ToastUtil from './utils/ToastUtil';
 //components
 import CommonHeader from './components/CommonHeader';
 //language
 import i18n from './language/i18n';
+//api
+import api from './api/index'
 
 export default class SettingView extends PureComponent{
   state = {
