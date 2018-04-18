@@ -116,7 +116,7 @@ export default class ArticleView extends Component {
     const {i18n} = this.state;
     return (
       <Container>
-        <CommonHeader title={i18n.offline_title} {...this["props"]} />
+        <CommonHeader title={i18n.offline_title} canBack {...this["props"]} />
         {this.state.loading ? <Loading /> : null}
         {this.state.isError ? (
           <ErrorPage errorTips={i18n.load_failed} errorToDo={this.getRecommendList} />
