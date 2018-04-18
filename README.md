@@ -34,7 +34,7 @@ android的打包方法:
 
 <p align="left">
   <img src="./display/s1.png" width="250">
-  <img src="./display/s2.jpeg" width="250">
+  <img src="./display/s2.png" width="250">
   <img src="./display/s3.jpeg" width="250">
 </p>
 <p align="left">
