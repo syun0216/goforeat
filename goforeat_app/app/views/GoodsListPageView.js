@@ -28,8 +28,7 @@ import {
   Spinner,
   Icon
 } from "native-base";
-import Image from "react-native-image-progress";
-import ProgressBar from "react-native-progress/Bar";
+import FastImage from 'react-native-fast-image';
 //api
 import api from "../api";
 import source from "../api/CancelToken";
@@ -188,6 +187,7 @@ export default class GoodsListPageView extends Component {
   getAd = () => {
     api.adSpace().then(data => {
       if (data.status === 200) {
+        console.log(data);
         this.setState({
           adDetail: data.data.data
         });
@@ -224,7 +224,6 @@ export default class GoodsListPageView extends Component {
     api.getCanteenList(requestParams.currentPage).then(
       data => {
         if (data.status === 200) {
-          // console.log(data)
           if (data.data.data.length === 0) {
             requestParams.currentPage--;
             this.setState({
@@ -496,7 +495,7 @@ export default class GoodsListPageView extends Component {
         keyExtractor={(item, index) => index} // 消除SectionList warning
         renderSectionHeader={({ section }) => this._renderSubHeader(section)}
         // refreshing={true}
-        initialNumToRender={12}
+        initialNumToRender={6}
         // getItemLayout={(data, index) => ({
         //   length: 130,
         //   offset: 130 * index + 300,
@@ -556,14 +555,22 @@ export default class GoodsListPageView extends Component {
         >
           <Left style={{ marginLeft: 5 }}>
             <View style={{ width: _imgWidth, height: _imgWidth }}>
-              <Image
-                style={{ width: _imgWidth, height: _imgWidth }}
-                imageStyle={{ borderRadius: _imgWidth / 2 }}
+              {/*<Image*/}
+                {/*style={{ width: _imgWidth, height: _imgWidth }}*/}
+                {/*imageStyle={{ borderRadius: _imgWidth / 2 }}*/}
+                {/*source={{*/}
+                  {/*uri: !hasImage ? "default_image" : item.image,*/}
+                  {/*cache: "force-cache"*/}
+                {/*}}*/}
+              {/*/>*/}
+              <FastImage 
+                style={{ width: _imgWidth, height: _imgWidth,borderRadius: _imgWidth / 2 }}
                 source={{
                   uri: !hasImage ? "default_image" : item.image,
-                  cache: "force-cache"
+                  cache: "force-cache",
+                  priority: FastImage.priority.low,
                 }}
-              />
+                />
             </View>
           </Left>
           <Body

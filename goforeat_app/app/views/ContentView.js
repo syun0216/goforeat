@@ -31,6 +31,7 @@ import {
   Body,
   Footer
 } from "native-base";
+import FastImage from 'react-native-fast-image';
 import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar'
 import Share, {ShareSheet, Button as SButton} from 'react-native-share';
@@ -258,13 +259,17 @@ export default class ContentView extends Component {
   _renderContentView = () => 
   {
     let {i18n} = this.state;
-    let _imgWidth = GLOBAL_PARAMS._winWidth < 350 ? GLOBAL_PARAMS._winWidth*0.2 : 100;
+    let _imgWidth = GLOBAL_PARAMS._winWidth < 350 ? GLOBAL_PARAMS._winWidth*0.2 : 80;
     return (<Content>
       <Card style={{ flex:1,margin:0 ,borderWidth:0}}>
         <CardItem>
           <Left>
-            <Image style={{width:_imgWidth, height:_imgWidth}} imageStyle={{borderRadius: _imgWidth/2}}
-            source={{ uri: this.state.canteenData.image === '#' ? 'default_image' : this.state.canteenData.image,cache: 'force-cache' }} />
+            <FastImage
+                style={{ width: _imgWidth, height: _imgWidth,borderRadius: _imgWidth / 2 }}
+                source={{ uri: this.state.canteenData.image === '#' ? 'default_image' : this.state.canteenData.image,priority: FastImage.priority.low, }}
+            />
+            {/*<Image style={{width:_imgWidth, height:_imgWidth}} imageStyle={{borderRadius: _imgWidth/2}}*/}
+            {/*source={{ uri: this.state.canteenData.image === '#' ? 'default_image' : this.state.canteenData.image,cache: 'force-cache' }} />*/}
             <Body style={{marginLeft:20}}>
               <Text note style={{marginTop:5,marginBottom: 5,color:Colors.fontBlack,fontSize:16}}>{this.state.canteenData.name}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.address}</Text>

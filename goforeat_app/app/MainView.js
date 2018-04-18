@@ -180,7 +180,7 @@ const darwerView = DrawerNavigator(
                  style={{height:GLOBAL_PARAMS._winHeight*0.2,alignItems:'center',flexDirection:'row',justifyContent:'flex-start',paddingLeft:20,backgroundColor:props.screenProps.theme}}>
                     {props.screenProps.user ? (<Image style={drawer_style.drawer_avatar} source={require('./asset/eat.png')}/>) :
                     (<Image style={drawer_style.drawer_avatar} source={require('./asset/touxiang.png')}/>)}
-                    <Text style={{marginLeft: 10,fontSize: 16,color:Colors.main_white}}>{props.screenProps.user || '登錄/註冊'}</Text>
+                    <Text style={{marginLeft: 15,fontSize: 18,color:Colors.main_white}}>{props.screenProps.user || '登錄/註冊'}</Text>
                     <Icon name='ios-arrow-forward-outline' style={{fontSize:20,color: Colors.main_white,position: 'absolute',right:20}}/>
                 </TouchableOpacity>
                 <Divider height={10} bgColor="#f0f0ee" />

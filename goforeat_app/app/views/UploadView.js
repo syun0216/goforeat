@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import CommonHeader from "../components/CommonHeader";
 import ImagePicker from "react-native-image-picker";
-import RNFS from 'react-native-fs';
 //api
 import api from '../api';
 //utils
