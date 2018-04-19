@@ -85,7 +85,7 @@ class SliderEntry extends Component {
                     { uppercaseTitle }
                     <Text
                       style={[styles.subtitle]}
-                      numberOfLines={2}
+                      numberOfLines={5}
                     >
                         { foodBrief }
                     </Text>

@@ -114,10 +114,10 @@ const tabView = TabNavigator(
             }}/>)
         }
     },
-    // AtivityTab: {
-    //     screen: ActivitySwiperablePage,
+    // test: {
+    //     screen: TestView,
     //     navigationOptions: {
-    //         tabBarLabel: '線下',
+    //         tabBarLabel: 'test',
     //         tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-aperture" style={{
     //             color: tintColor
     //         }}/>)
@@ -169,9 +169,9 @@ const darwerView = DrawerNavigator(
     drawerPosition: "left",
     contentComponent: props => {
       // console.log('darwer', props)
-      componentWillReceiveProps = (nextProps) => {
-        alert(123);
-      };
+      // componentWillReceiveProps = (nextProps) => {
+      //   alert(123);
+      // };
       
       return (
           <Container>
@@ -275,8 +275,8 @@ const drawer_style = StyleSheet.create({
         paddingTop:30
     },
     drawer_avatar: {
-        width: 55,
-        height: 55
+        width: 60,
+        height: 60
     },
     commonImage: {
         width:32,

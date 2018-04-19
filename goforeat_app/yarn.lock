@@ -4144,6 +4144,12 @@ react-native-keyboard-aware-scroll-view@0.4.2:
     prop-types "^15.6.0"
     react-native-iphone-x-helper "^1.0.1"
 
+react-native-largelist@^1.2.12:
+  version "1.2.12"
+  resolved "https://registry.npmjs.org/react-native-largelist/-/react-native-largelist-1.2.12.tgz#05a94cdf47ca0c63b102348a1b6c4ae566ce2ecc"
+  dependencies:
+    prop-types "^15.6.0"
+
 react-native-picker@^4.3.5:
   version "4.3.5"
   resolved "https://registry.npmjs.org/react-native-picker/-/react-native-picker-4.3.5.tgz#bf791dde6908028a11aacb3fdc7c6b2bdb2cd3f3"

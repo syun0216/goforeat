@@ -64,9 +64,11 @@ const GoodsSwiper = (props) => {
     ])
   return (<Swiper style={styles.wrapper}
     autoplay
+    loop
     paginationStyle={{position:'absolute',bottom:15,marginLeft:200}}
     dotStyle={{width: 10, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.5}}
-    dotColor="#fafafa" activeDotColor="white" activeDotStyle={{width: 25, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.8}}>
+    dotColor="#fafafa" activeDotColor="white" activeDotStyle={{width: 25, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.8}}
+    showsPagination={false}>
     {props.adDetail.map((item,idx) => (
       <View key={idx}>
         <FastImage style={styles.img} source={{uri: item.image,priority: FastImage.priority.low}}/>
