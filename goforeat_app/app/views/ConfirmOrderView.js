@@ -336,7 +336,7 @@ export default class ConfirmOrderView extends PureComponent {
                 fontSize: 16
               }}
             >
-              立即下单
+              立即下單
             </Text>
           </Button>
         </Footer>

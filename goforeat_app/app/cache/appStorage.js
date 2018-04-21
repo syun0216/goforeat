@@ -2,18 +2,20 @@ import { AsyncStorage } from "react-native";
 import store from '../store'
 
 let user_name = null;
-
+let sid = null;
 let userStorage = {
   _STORAGE_KEY_USER_DATA: "storage_key_user_data",
   isLogin: user_name,
+  sid: null,
   /**
    * 存储用户信息
    * @param userInfo("id":"xxxxx","name":"xxxxx")
    */
-  setLoginUserJsonData(username) {
+  setLoginUserJsonData(username,_sid) {
     "use strict";
     user_name = username;
-    AsyncStorage.setItem(this._STORAGE_KEY_USER_DATA, JSON.stringify(username));
+    sid = _sid;
+    AsyncStorage.setItem(this._STORAGE_KEY_USER_DATA, JSON.stringify({username:username,sid: sid}));
   },
   /**
    * 获取登录用户信息
@@ -35,8 +37,7 @@ let userStorage = {
         return;
       }
       this.isLogin = !!user_name;
-      user_name = JSON.parse(value);
-      callBack(null, user_name);
+      callBack(null, JSON.parse(value));
     });
   },
   /**
@@ -44,6 +45,7 @@ let userStorage = {
    */
   removeStoreUser() {
     user_name = null;
+    sid = null;
     AsyncStorage.removeItem(this._STORAGE_KEY_USER_DATA);
   }
 };

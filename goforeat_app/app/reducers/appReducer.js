@@ -37,7 +37,8 @@ const initialState = {
   //   })
   // ),
   userState: {
-    username: null
+    username: null,
+    sid: null
   },
   goodsListState: {
     refreshParams: null //註冊后返回首頁強刷
@@ -75,17 +76,18 @@ export function loading(state = initialState.loading, action) {
 export function auth(state = initialState.userState, action) {
   switch (action.type) {
     case LOGIN:
-      appStorage.setLoginUserJsonData(action.username);
       return {
         ...state,
-        username: action.username
+        username: action.username,
+        sid: action.sid
+
       };
     case LOGOUT:
       appStorage.removeStoreUser();
       return {
         ...state,
         username: null
-      };
+      };  
     default:
       return state;
   }

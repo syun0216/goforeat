@@ -2,6 +2,7 @@ import axios from 'axios'
 import md5 from 'js-md5'
 import qs from 'qs'
 import source from './CancelToken'
+import store from '../store'
 
 const CancelToken = axios.CancelToken;
 const root_url = 'http://goforeat.hk'
@@ -183,7 +184,8 @@ const api = {
     createOrder(foodId) {
         return axios.get(api_url + '/order/create', {
             params: {
-                foodId
+                foodId,
+                sid:store.getState().auth.sid
             },
             timeout: 4500
         })
@@ -191,6 +193,7 @@ const api = {
     confirmOrder(orderId) {
         return axios.post(api_url + '/order/confirm',qs.stringify({
             orderId,
+            sid:store.getState().auth.sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -209,6 +212,25 @@ const api = {
             headers: {
                 "Content-Type": "application/json",
                 'X-API-Token': '1c49db9b101bb9ce4217d56206879e7f22a600db'
+            }
+        })
+    },
+    checkCode(mobile,type,token,code) {
+        return axios.post( api_url + '/passport/checkCode',qs.stringify({
+            mobile,type,token,code
+        }, {cancelToken: source.token}), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        });
+    },
+    myOrder(offset) {
+        return axios.post(api_url + '/order/myOrders', qs.stringify({
+            limit: 5,
+            offset: offset
+        }, {cancelToken: source.token, timeout: 4500}), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
             }
         })
     }

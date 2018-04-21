@@ -28,7 +28,7 @@ import {
   Icon,
   ActionSheet
 } from "native-base";
-
+import {NavigationActions} from 'react-navigation';
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
 import Colors from "./utils/Colors";
@@ -47,6 +47,7 @@ const BUTTONS = [
 const DESTRUCTIVE_INDEX = 3;
 const CANCEL_INDEX = 4;
 export default class LoginView extends Component {
+  token = 'null';
   state = {
     phone: null,
     password: null,
@@ -60,6 +61,10 @@ export default class LoginView extends Component {
     clearInterval(this.interval);
   }
 
+  componentDidMount() {
+    console.log(this.props.navigation.state.params);
+  }
+
 
   //common function
 
@@ -70,9 +75,9 @@ export default class LoginView extends Component {
     }
     api.getCode(this.state.phone, this.state.selectedValue.value).then(
       data => {
-        console.log(data);
         if (data.status === 200 && data.data.ro.ok) {
           this.token = data.data.data.token;
+          console.log(this.token);
           ToastUtil.showWithMessage("驗證碼發送成功");
           let _during = 60;
           this.interval = setInterval(() => {
@@ -86,7 +91,7 @@ export default class LoginView extends Component {
                 codeContent: "重新發送",
                 isCodeDisabled: false
               });
-              clearInterval(interval);
+              clearInterval(this.interval);
             }
           }, 1000);
         } else {
@@ -120,19 +125,31 @@ export default class LoginView extends Component {
   }
 
   _login() {
+    let {params} = this.props.navigation.state;
     if(this.state.phone === null){
       ToastUtil.showWithMessage("請填寫手機號")
       return
     }
     if(this.state.password === null){
-      ToastUtil.showWithMessage("請填寫密碼")
+      ToastUtil.showWithMessage("請填寫驗證碼")
       return
     }
-    api.login(this.state.phone,this.state.selectedValue.value,this.state.password).then(data => {
+    api.checkCode(this.state.phone,this.state.selectedValue.value,this.token,this.state.password).then(data => {
       if(data.status === 200 && data.data.ro.ok){
+        // console.log(data);
         ToastUtil.showWithMessage("登錄成功")
-        this.props.screenProps.userLogin(this.state.phone)
-        this.props.navigation.goBack()
+        appStorage.setLoginUserJsonData(this.state.phone,data.data.data.sid);
+        this.props.screenProps.userLogin(this.state.phone,data.data.data.sid);
+        if(typeof params === 'undefined') {
+          this.props.navigation.goBack()
+        }else {
+          this.props.navigation.navigate('Order',
+            {
+                replaceRoute: true,
+                foodId: params.foodId
+            }
+        );
+        }
       }
       else{
         ToastUtil.showWithMessage("登錄失敗")
@@ -344,7 +361,7 @@ export default class LoginView extends Component {
                   <Input
                     style={{
                       color: Colors.fontBlack,
-                      width: GLOBAL_PARAMS._winWidth * 0.55
+                      width: GLOBAL_PARAMS._winWidth * 0.35
                     }}
                     onChangeText={password => this._getPassword(password)}
                     multiline={false}
@@ -354,6 +371,7 @@ export default class LoginView extends Component {
                     placeholderTextColor="gray"
                     returnKeyType="done"
                     secureTextEntry={true}
+                    maxLength={6}
                   />
                   <Button
                 style={{position: 'absolute',right:10,top: -1}}
@@ -409,51 +427,9 @@ export default class LoginView extends Component {
                   </View>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
-                <View
-                  style={{
-                    width: GLOBAL_PARAMS._winWidth,
-                    height: 20,
-                    marginTop: 15
-                  }}
-                  >
-                    <Text
-                      style={{ textAlign: "center", fontSize: 14, color: Colors.deep_gray }}
-                      >
-                        新用戶?點擊註冊
-                      </Text>
-                  </View>
-              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
-        {/* <View
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0.1 * GLOBAL_PARAMS._winWidth,
-            opacity: 0.9
-          }}
-        >
-          <View
-            style={{
-              width: 0.8 * GLOBAL_PARAMS._winWidth,
-              borderTopColor: "#fff",
-              borderTopWidth: 1
-            }}
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                color: "#fff",
-                padding: 10,
-                fontSize: 12
-              }}
-            >
-              新用戶?點擊註冊
-            </Text>
-          </View>
-        </View> */}
       </View>
     );
   }

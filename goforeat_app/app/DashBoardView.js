@@ -37,7 +37,7 @@ const dashboardStateToProps = (state) => ({
 const dashboardmapDispatchToProps = dispatch => ({
   saveFilter: (data) => dispatch({type:'SAVE_FILTER_PARAMS',data:data}),
   resetFilter: () => dispatch({type:'RESET_FILTER_PARAMS'}),
-  userLogin: (username) => dispatch({type:'LOGIN',username:username}),
+  userLogin: (username,sid) => dispatch({type:'LOGIN',username:username,sid:sid}),
   userLogout: () => dispatch({type:'LOGOUT'}),
   refreshReset: () => dispatch({type:'REFRESH',refresh:false}),
   stockShop: (item) => dispatch({type:'STOCK_SHOP',data:item}),

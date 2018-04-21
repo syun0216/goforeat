@@ -8,7 +8,7 @@ import {
   Image,
   StyleSheet
 } from "react-native";
-import { Icon,Container,Content,Footer } from "native-base";
+import { Icon, Container, Content, Footer } from "native-base";
 //navigation
 import {
   addNavigationHelpers,
@@ -16,7 +16,8 @@ import {
   TabNavigator,
   DrawerNavigator,
   DrawerItems,
-  TabBarBottom
+  TabBarBottom,
+  NavigationActions
 } from "react-navigation";
 //views
 import LoginView from "./LoginView";
@@ -53,8 +54,8 @@ import { addListener } from "./utils/navigationWithRedux";
 import { connect } from "react-redux";
 //store
 import store from "./store";
-//components 
-import Divider from './components/Divider';
+//components
+import Divider from "./components/Divider";
 //event
 import EventEmitter from "EventEmitter";
 
@@ -106,14 +107,20 @@ const tabView = TabNavigator(
       }
     },
     ArticleTab: {
-        screen: ArticleView,
-        navigationOptions: {
-            tabBarLabel: '文章',
-            tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-images" style={{
-                color: tintColor
-            }}/>)
-        }
-    },
+      screen: ArticleView,
+      navigationOptions: {
+        tabBarLabel: "文章",
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon
+            size={28}
+            name="md-images"
+            style={{
+              color: tintColor
+            }}
+          />
+        )
+      }
+    }
     // test: {
     //     screen: TestView,
     //     navigationOptions: {
@@ -172,117 +179,351 @@ const darwerView = DrawerNavigator(
       // componentWillReceiveProps = (nextProps) => {
       //   alert(123);
       // };
-      
+
       return (
-          <Container>
-            <Content style={{backgroundColor: props.screenProps.theme}}>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Login')}
-                 style={{height:GLOBAL_PARAMS._winHeight*0.2,alignItems:'center',flexDirection:'row',justifyContent:'flex-start',paddingLeft:20,backgroundColor:props.screenProps.theme}}>
-                    {props.screenProps.user ? (<Image style={drawer_style.drawer_avatar} source={require('./asset/eat.png')}/>) :
-                    (<Image style={drawer_style.drawer_avatar} source={require('./asset/touxiang.png')}/>)}
-                    <Text style={{marginLeft: 15,fontSize: 18,color:Colors.main_white}}>{props.screenProps.user || '登錄/註冊'}</Text>
-                    <Icon name='ios-arrow-forward-outline' style={{fontSize:20,color: Colors.main_white,position: 'absolute',right:20}}/>
+        <Container>
+          <Content style={{ backgroundColor: props.screenProps.theme }}>
+            <TouchableOpacity
+              onPress={() => {
+                if(props.screenProps.user === null) {
+                  props.navigation.navigate("Login");
+                }else {
+                  props.navigation.navigate('Person');
+                }
+              }}
+              style={{
+                height: GLOBAL_PARAMS._winHeight * 0.2,
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                paddingLeft: 20,
+                backgroundColor: props.screenProps.theme
+              }}
+            >
+              {props.screenProps.user ? (
+                <Image
+                  style={drawer_style.drawer_avatar}
+                  source={require("./asset/eat.png")}
+                />
+              ) : (
+                <Image
+                  style={drawer_style.drawer_avatar}
+                  source={require("./asset/touxiang.png")}
+                />
+              )}
+              <Text
+                style={{
+                  marginLeft: 15,
+                  fontSize: 18,
+                  color: Colors.main_white
+                }}
+              >
+                {props.screenProps.user || "登錄/註冊"}
+              </Text>
+              <Icon
+                name="ios-arrow-forward-outline"
+                style={{
+                  fontSize: 20,
+                  color: Colors.main_white,
+                  position: "absolute",
+                  right: 20
+                }}
+              />
+            </TouchableOpacity>
+            <Divider height={10} bgColor="#f0f0ee" />
+            <View style={{ height: 219, backgroundColor: Colors.main_white }}>
+              <TouchableOpacity
+                onPress={() => {
+                  props.screenProps.user
+                    ? props.navigation.navigate("MyFavorite")
+                    : props.navigation.navigate("Login");
+                }}
+                style={{
+                  padding: 20,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#ccc"
+                }}
+              >
+                <Image
+                  source={require("./asset/02-guanzhu.png")}
+                  style={drawer_style.commonImage}
+                />
+                <Text
+                  style={{
+                    fontSize: 23,
+                    textAlignVertical: "center",
+                    marginLeft: 26,
+                    color: Colors.fontBlack
+                  }}
+                >
+                  我的關注
+                </Text>
+                <Icon
+                  name="ios-arrow-forward-outline"
+                  style={{
+                    fontSize: 20,
+                    color: Colors.fontBlack,
+                    position: "absolute",
+                    right: 20
+                  }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  props.screenProps.user
+                    ? props.navigation.navigate("Upload")
+                    : props.navigation.navigate("Login");
+                }}
+                style={{
+                  padding: 20,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#ccc"
+                }}
+              >
+                <Image
+                  source={require("./asset/03-renzheng.png")}
+                  style={drawer_style.commonImage}
+                />
+                <Text
+                  style={{
+                    fontSize: 23,
+                    textAlignVertical: "center",
+                    marginLeft: 26,
+                    color: Colors.fontBlack
+                  }}
+                >
+                  上傳發票
+                </Text>
+                <Icon
+                  name="ios-arrow-forward-outline"
+                  style={{
+                    fontSize: 20,
+                    color: Colors.fontBlack,
+                    position: "absolute",
+                    right: 20
+                  }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  props.screenProps.user
+                    ? props.navigation.navigate("Integral")
+                    : props.navigation.navigate("Login");
+                }}
+                style={{
+                  padding: 20,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#ccc"
+                }}
+              >
+                <Image
+                  source={require("./asset/01-guanli.png")}
+                  style={drawer_style.commonImage}
+                />
+                <Text
+                  style={{
+                    fontSize: 23,
+                    textAlignVertical: "center",
+                    marginLeft: 26,
+                    color: Colors.fontBlack
+                  }}
+                >
+                  積分禮遇
+                </Text>
+                <Icon
+                  name="ios-arrow-forward-outline"
+                  style={{
+                    fontSize: 20,
+                    color: Colors.fontBlack,
+                    position: "absolute",
+                    right: 20
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+            <Divider height={10} bgColor="#f0f0ee" />
+            <View style={drawer_style.drawer_container}>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("Statement", { name: "service" })
+                  }
+                  style={{ alignItems: "center", flex: 1 }}
+                >
+                  <Image
+                    style={{ width: 50, height: 50 }}
+                    source={require("./asset/Service.png")}
+                  />
+                  <Text
+                    style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
+                  >
+                    服務條款
+                  </Text>
                 </TouchableOpacity>
-                <Divider height={10} bgColor="#f0f0ee" />
-                <View style={{height:219,backgroundColor:Colors.main_white}} >
-                    <TouchableOpacity onPress={() => {props.screenProps.user ? props.navigation.navigate('MyFavorite') : props.navigation.navigate('Login')}}
-                        style={{padding:20,flexDirection:'row',alignItems:'center',borderBottomWidth: 1,borderBottomColor:'#ccc'}}>
-                        <Image source={require('./asset/02-guanzhu.png')} style={drawer_style.commonImage}/>
-                        <Text style={{fontSize: 23,textAlignVertical:'center',marginLeft: 26,color: Colors.fontBlack}}>我的關注</Text>
-                        <Icon name='ios-arrow-forward-outline' style={{fontSize:20,color: Colors.fontBlack,position: 'absolute',right:20}}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {props.screenProps.user ? props.navigation.navigate('Upload') : props.navigation.navigate('Login')}}
-                        style={{padding:20,flexDirection:'row',alignItems:'center',borderBottomWidth: 1,borderBottomColor:'#ccc'}}>
-                        <Image source={require('./asset/03-renzheng.png')} style={drawer_style.commonImage}/>
-                        <Text style={{fontSize: 23,textAlignVertical:'center',marginLeft: 26,color: Colors.fontBlack}}>上傳發票</Text>
-                        <Icon name='ios-arrow-forward-outline' style={{fontSize:20,color: Colors.fontBlack,position: 'absolute',right:20}}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {props.screenProps.user ? props.navigation.navigate('Integral') : props.navigation.navigate('Login')}}
-                        style={{padding:20,flexDirection:'row',alignItems:'center',borderBottomWidth: 1,borderBottomColor:'#ccc'}}>
-                        <Image source={require('./asset/01-guanli.png')} style={drawer_style.commonImage}/>
-                        <Text style={{fontSize: 23,textAlignVertical:'center',marginLeft: 26,color: Colors.fontBlack}}>積分禮遇</Text>
-                        <Icon name='ios-arrow-forward-outline' style={{fontSize:20,color: Colors.fontBlack,position: 'absolute',right:20}}/>
-                    </TouchableOpacity>
-                </View>
-                <Divider height={10} bgColor="#f0f0ee" />
-                <View style={drawer_style.drawer_container}>
-                    <View style={{flex:1,flexDirection:'row',justifyContent:'center'}}>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Statement', {name: 'service'})}
-                            style={{alignItems: 'center',flex: 1}}>
-                            <Image style={{width: 50, height: 50}}
-                                source={require('./asset/Service.png')}/>
-                            <Text style={{fontSize: 12, color: '#8a8a8a',marginTop: 10}}>服務條款</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Statement', {name: 'policy'})}
-                            style={{alignItems: 'center',flex: 1}}>
-                            <Image style={{width: 50, height: 50}}
-                                source={require('./asset/Privacy.png')}/>
-                            <Text style={{fontSize: 12, color: '#8a8a8a',marginTop: 10}}>隱私政策</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Statement', {name: 'about'})}
-                            style={{alignItems: 'center',flex: 1}}>
-                            <Image style={{width: 50, height: 50}}
-                                source={require('./asset/about.png')}/>
-                            <Text style={{fontSize: 12, color: '#8a8a8a',marginTop: 10}}>關於我們</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{flex:1,flexDirection:'row',justifyContent:'center'}}>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Statement', {name: 'allowPolicy'})}
-                            style={{alignItems: 'center',flex: 1}}>
-                            <Image style={{width: 50, height: 50}}
-                                source={require('./asset/allow.png')}/>
-                            <Text style={{fontSize: 12, color: '#8a8a8a',marginTop: 10}}>允許使用政策</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Statement', {name: 'deletePolicy'})}
-                            style={{alignItems: 'center',flex: 1}}>
-                            <Image style={{width: 50, height: 50}}
-                                source={require('./asset/delete.png')}/>
-                            <Text style={{fontSize: 12, color: '#8a8a8a',marginTop: 10}}>刪除使用政策</Text>
-                        </TouchableOpacity>
-                        <View style={{alignItems: 'center',flex: 1}}/>
-                    </View>
-                </View>
-                </Content>
-                <Footer style={{flexDirection: 'row',backgroundColor: Colors.main_white}}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Ativity')}
-                        style={{flex: 1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-                        <Icon name="md-cloud-download" style={{fontSize: 18,color:'#8a8a8a'}}/>
-                        <Text style={{marginLeft:5}}>線下</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Search')}
-                        style={{flex: 1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-                        <Icon name="md-search" style={{fontSize: 18,color:'#8a8a8a'}}/>
-                        <Text style={{marginLeft:5}}>搜索</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Setting')}
-                        style={{flex: 1,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-                        <Icon name="md-settings" style={{fontSize: 18,color:'#8a8a8a'}}/>
-                        <Text style={{marginLeft:5}}>設置</Text>
-                    </TouchableOpacity>
-                </Footer>
-          </Container>
-        );
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("Statement", { name: "policy" })
+                  }
+                  style={{ alignItems: "center", flex: 1 }}
+                >
+                  <Image
+                    style={{ width: 50, height: 50 }}
+                    source={require("./asset/Privacy.png")}
+                  />
+                  <Text
+                    style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
+                  >
+                    隱私政策
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("Statement", { name: "about" })
+                  }
+                  style={{ alignItems: "center", flex: 1 }}
+                >
+                  <Image
+                    style={{ width: 50, height: 50 }}
+                    source={require("./asset/about.png")}
+                  />
+                  <Text
+                    style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
+                  >
+                    關於我們
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("Statement", {
+                      name: "allowPolicy"
+                    })
+                  }
+                  style={{ alignItems: "center", flex: 1 }}
+                >
+                  <Image
+                    style={{ width: 50, height: 50 }}
+                    source={require("./asset/allow.png")}
+                  />
+                  <Text
+                    style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
+                  >
+                    允許使用政策
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("Statement", {
+                      name: "deletePolicy"
+                    })
+                  }
+                  style={{ alignItems: "center", flex: 1 }}
+                >
+                  <Image
+                    style={{ width: 50, height: 50 }}
+                    source={require("./asset/delete.png")}
+                  />
+                  <Text
+                    style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
+                  >
+                    刪除使用政策
+                  </Text>
+                </TouchableOpacity>
+                <View style={{ alignItems: "center", flex: 1 }} />
+              </View>
+            </View>
+          </Content>
+          <Footer
+            style={{ flexDirection: "row", backgroundColor: Colors.main_white }}
+          >
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate("Ativity")}
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row"
+              }}
+            >
+              <Icon
+                name="md-cloud-download"
+                style={{ fontSize: 18, color: "#8a8a8a" }}
+              />
+              <Text style={{ marginLeft: 5 }}>線下</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate("Search")}
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row"
+              }}
+            >
+              <Icon
+                name="md-search"
+                style={{ fontSize: 18, color: "#8a8a8a" }}
+              />
+              <Text style={{ marginLeft: 5 }}>搜索</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate("Setting")}
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row"
+              }}
+            >
+              <Icon
+                name="md-settings"
+                style={{ fontSize: 18, color: "#8a8a8a" }}
+              />
+              <Text style={{ marginLeft: 5 }}>設置</Text>
+            </TouchableOpacity>
+          </Footer>
+        </Container>
+      );
     }
   }
 );
 
 const drawer_style = StyleSheet.create({
-    drawer_container: {
-        height: GLOBAL_PARAMS._winHeight*0.4,
-        backgroundColor: Colors.main_white,
-        flex: 1,
-        padding:10,
-        paddingTop:30
-    },
-    drawer_avatar: {
-        width: 60,
-        height: 60
-    },
-    commonImage: {
-        width:32,
-        height:32,
-      }
-})
+  drawer_container: {
+    height: GLOBAL_PARAMS._winHeight * 0.4,
+    backgroundColor: Colors.main_white,
+    flex: 1,
+    padding: 10,
+    paddingTop: 30
+  },
+  drawer_avatar: {
+    width: 60,
+    height: 60
+  },
+  commonImage: {
+    width: 32,
+    height: 32
+  }
+});
 
 let MainView = StackNavigator(
   {
@@ -344,8 +585,11 @@ let MainView = StackNavigator(
       screen: ConfirmOrderView
     },
     Ativity: {
-        screen: ActivitySwiperablePage,
+      screen: ActivitySwiperablePage
     },
+    Person: {
+      screen: PersonView
+    }
   },
   { headerMode: "none" }
 );
@@ -359,19 +603,14 @@ MainView.router.getStateForAction = (action, state) => {
   if (action.type === "Navigation/NAVIGATE") {
     source.cancel();
   }
-  if (
-    action.type === "Navigation/NAVIGATE" &&
-    action.routeName === "Login" &&
-    store.getState().auth.username !== null
-  ) {
-    ToastUtil.showWithMessage("個人中心暫未開放...");
-    return null;
-  }
-  // if (action.type === 'Navigation/RESET') {
-  //   store.dispatch({type: 'REFRESH', refresh: action.actions[0].params.refresh})
-  // }
-  // if(typeof action.routeName !== 'undefined' && (action.routeName === 'ShopTab' || action.routeName === 'AtivityTab')) {
-  //   store.dispatch({type: 'IS_LOADING'})
+  // if (
+  //   action.type === "Navigation/NAVIGATE" &&
+  //   action.routeName === "Login" &&
+  //   store.getState().auth.username !== null
+  // ) {
+  //   ToastUtil.showWithMessage("個人中心暫未開放...");
+    
+  //   return null;
   // }
   if (
     typeof state !== "undefined" &&
@@ -385,6 +624,22 @@ MainView.router.getStateForAction = (action, state) => {
       index: routes.length - 1
     });
   }
+  if (state && action.type === NavigationActions.NAVIGATE) {
+    if (action.params && action.params.replaceRoute) {
+      //replaceRoute值 仅仅作为一个标识，进到这个方法之后就没有作用了
+      delete action.params.replaceRoute;
+      if (state.routes.length > 1 && state.index > 0) {
+          const routes = state.routes.slice(0, state.routes.length - 1);
+      // routes.push(action)
+          return defaultGetStateForAction(action, {
+            ...state,
+            routes,
+            index: routes.length - 1
+          });
+      }
+    }
+  }
+
   return defaultGetStateForAction(action, state);
 };
 

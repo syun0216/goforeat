@@ -45,32 +45,16 @@ export default class PeopleView extends Component {
 
   //common function
 
-  _commonItemClick = (name) => {
-    let {navigate} = this.props.navigation;
-    if(this.props.screenProps.user === null) {
-      navigate('Login')
-    }else {
-      if(name === 'integral') {
-        navigate('Integral');
-      }else if(name === 'upload'){
-        navigate('Upload');
-      }else{
-        navigate('Statement',{name:name})
-      }
-    }
-  }
-
-  _showModal = (title,content) => {
-    this.setState({
-      modalVisible: true,
-      modalContent: content,
-      modalTitle: title
-    })
-    // console.log(123)
-  }
-
   _renderPersonDetailHeader = () => (
     <View style={[styles.loginHeader,{backgroundColor:this.props.screenProps.theme}]}>
+      <Button transparent onPress={() => this.props.navigation.goBack()} 
+      style={{position: 'absolute',top: 90,left: 10}}>
+      <Icon
+        size={30}
+        name="ios-arrow-back"
+        style={[{ fontSize: 25, color: Colors.main_white }]}
+      />
+    </Button>
       {this.props.screenProps.user !== null ? (<Image style={styles.personAvatar} source={require('../asset/eat.png')}/>) :
     (<Image style={styles.personAvatar} source={require('../asset/touxiang.png')}/>)}
       {this.props.screenProps.user !== null ? (<Text style={{fontSize:16,color:'#fff',marginTop:10}}>用戶:{this.props.screenProps.user}</Text>) :
@@ -80,76 +64,13 @@ export default class PeopleView extends Component {
     </View>
   )
 
-  _renderCommonItemView = () => (
-    <View style={{display:'flex',flexDirection:'row',borderBottomWidth:1,borderColor:'#ddd',backgroundColor:'#fff',height:70,marginBottom:10}}>
-      <TouchableOpacity style={styles.commonItem} onPress={() => this._commonItemClick('integral')}>
-        <Image source={require('../asset/01-guanli.png')} style={styles.commonImage}/>
-        <Text>{this.state.i18n.integral_text}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.commonItem} onPress={() => {
-        this.props.screenProps.user !== null ? this.props.navigation.navigate('MyFavorite') : this.props.navigation.navigate('Login')
-      }}>
-        <Image source={require('../asset/02-guanzhu.png')} style={styles.commonImage}/>
-        <Text>{this.state.i18n.myfavorite_text}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.commonItem} onPress={() => this._commonItemClick('upload')}>
-        <Image source={require('../asset/03-renzheng.png')} style={styles.commonImage}/>
-        <Text>{this.state.i18n.upload_text}</Text>
-      </TouchableOpacity>
-    </View>
-  )
-
-  _renderCommonListView = () => {
-    const {i18n} = this.state;
-    const _data = [
-      // {name:'關於我們',icon:'md-people',func:() => this._commonItemClick('about')},
-        {name:i18n.use_policy,icon:'md-log-in',func:() => this._commonItemClick('allowPolicy')},
-        {name:i18n.del_policy,icon:'md-log-out',func:() => this._commonItemClick('deletePolicy')},
-        {name:i18n.setting_title,icon:'md-settings',func:() => this.props.navigation.navigate('Setting')},
-        // {name:'上傳發票',icon:'md-cloud-upload',func:() => this.props.navigation.navigate('Setting')},
-        // {name:'積分兌換',icon:'md-attach',func:() => this.props.navigation.navigate('Setting')},
-    ]
-    return (
-    <List>
-      {_data.map((item,idx) => (
-        <View key={idx} >
-          <ListItem style={{backgroundColor:'#fff',marginLeft:0,paddingLeft:10}} icon onPress={() => item.func()}>
-            <Left>
-              <Icon style={{color: this.props.screenProps.theme,fontSize:22}} name={item.icon}></Icon>
-            </Left>
-            <Body style={{borderBottomWidth:0}}>
-              <Text>{item.name}</Text>
-            </Body>
-            <Right style={{borderBottomWidth:0}}>
-              <Icon name="arrow-forward" />
-            </Right>
-          </ListItem>
-          <Divider />
-        </View>
-      ))}
-    </List>
-  )}
-
- 
-
-  _renderModalView = () => (
-    <CommonModal content={this.state.modalContent}
-      title={this.state.modalTitle}
-       modalVisible={this.state.modalVisible}
-       closeFunc={() => this.setState({modalVisible:false})}
-       {...this['props']}/>
-  )
-
   render() {
     return (
       <Container>
-        {this._renderModalView()}
         <StatusBar />
         <View style={{flex:1}}>
           {this._renderPersonDetailHeader()}
-          {this._renderCommonItemView()}
           <ScrollView style={{paddingBottom:10}}>
-            {this._renderCommonListView()}
           </ScrollView>
         </View>
       </Container>
@@ -166,7 +87,8 @@ const styles = StyleSheet.create({
     height: 200,
     display:'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'relative'
   },
   personAvatar: {
     width:65,

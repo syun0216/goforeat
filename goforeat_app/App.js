@@ -29,16 +29,17 @@ class App extends Component < {} > {
     await Push.setEnabled(true);
     const pushEnabled = await Push.isEnabled();
     // console.log(Push);
-    console.log(pushEnabled);
+    // console.log(pushEnabled);
     // api.getNotifications().then(data => console.log(data));
+    // appStorage.removeAll()
     appStorage.getLoginUserJsonData((error, data) => {
-      if (error === null) {
+      if (error === null && data != null) {
         if (store.getState().auth.username === null) {
-          store.dispatch({type: 'LOGIN', username: data})
+          store.dispatch({type: 'LOGIN', username: data.username,sid:data.sid})
         }
       }
     })
-    // appStorage.removeAll()
+    
     appStorage.getShopListData((error, data) => {
       if (error === null) {
         if (data !== null) {

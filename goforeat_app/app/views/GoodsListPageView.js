@@ -388,8 +388,8 @@ export default class GoodsListPageView extends Component {
         <View
           style={{
             flex: 1,
-            marginTop: 15,
-            marginLeft: 10
+            marginTop: Platform.OS === 'android' ? 0 : 15,
+            marginLeft: 10,
           }}
         >
           <Text>- {this.state.i18n.recommend_text} -</Text>
@@ -398,7 +398,7 @@ export default class GoodsListPageView extends Component {
           onPress={() => this._openFilterModal()}
           style={{
             flex: 1,
-            marginBottom: 21,
+            marginBottom: Platform.OS === 'android' ? 0 : 21,
             marginRight: 10,
             alignItems: "center",
             justifyContent: "flex-end",

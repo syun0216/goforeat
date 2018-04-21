@@ -73,7 +73,7 @@ class SliderEntry extends Component {
                         foodId
                     })
                 }else {
-                    this.props.navigation.navigate("Login");
+                    this.props.navigation.navigate("Login",{foodId});
                 }
             }}
               >
