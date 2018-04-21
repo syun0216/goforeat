@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 //utils
 import Colors from '../utils/Colors';
 
-const Rating = ({rate,screenProps}) => {
+const Rating = ({rate,screenProps,style}) => {
   let _rate_arr = ((num) => {
     let _arr = []
     for(let i = 0;i<5;i++) {
@@ -21,7 +21,7 @@ const Rating = ({rate,screenProps}) => {
     return _arr;
   })(rate);
   return (
-    <View style={{flexDirection: 'row',marginBottom: 10,alignItems: 'center',}}>
+    <View style={[{flexDirection: 'row',marginBottom: 10,alignItems: 'center',},style]}>
       <View style={{flexDirection: 'row',marginTop: -5,}}>
         {_rate_arr.map((item,idx) => (<Icon key={idx}  name={item} style={{width:26,height:26,color: Colors.rate_yellow,marginRight:1}}/>))}
       </View>
@@ -31,11 +31,13 @@ const Rating = ({rate,screenProps}) => {
 }
 
 Rating.defaultProps = {
-  rate: 0
+  rate: 0,
+  style: {}
 }
 
 Rating.propTypes = {
-  rate: PropTypes.number
+  rate: PropTypes.number,
+  style: PropTypes.object
 }
 
 export default Rating;

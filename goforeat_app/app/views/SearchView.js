@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {View} from 'react-native';
 import {
   Container,
   Header,
@@ -21,6 +22,9 @@ import source from "../api/CancelToken";
 //utils
 import ToastUtil from "../utils/ToastUtil";
 import GLOBAL_PARAMS from '../utils/global_params';
+//components
+import Divider from "../components/Divider";
+import Rating from "../components/Rating";
 
 export default class SearchView extends Component {
   _textInput = null;
@@ -85,39 +89,41 @@ export default class SearchView extends Component {
 
   _renderSearchListView = () =>
     this.state.searchData.map((item, index) => (
-      <ListItem
-        avatar
-        key={index}
-        style={{ backgroundColor: "#fff", marginLeft: 0 }}
-        onPress={() =>
-          this.props.navigation.navigate("Content", {
-            data: item,
-            kind: "canteen"
-          })
-        }
-      >
-        <Left>
-          <Image
-              style={{ width: GLOBAL_PARAMS._winWidth*0.2, height: GLOBAL_PARAMS._winHeight*0.2 }}
-              imageStyle={{ borderRadius: GLOBAL_PARAMS._winWidth*0.2 / 2 }}
-              source={{
-                  uri: item.image,
-              }}
-          />
-        </Left>
-        <Body style={{ borderBottomWidth: 0 }}>
-          <Text>{item.name}</Text>
-          <Text note style={{ fontSize: 13 }}>
-            地址：{item.address}
-          </Text>
-          <Text note>评分：{item.rate}</Text>
-        </Body>
-        <Right style={{ borderBottomWidth: 0 ,justifyContent:'center'}}>
-          <Text note style={{ color: "#ff5858", fontSize: 18 }}>
-            ${item.price}
-          </Text>
-        </Right>
-      </ListItem>
+      <View key={index}>
+        <ListItem
+          avatar
+          style={{ backgroundColor: "#fff", marginLeft: 0 }}
+          onPress={() =>
+            this.props.navigation.navigate("Content", {
+              data: item,
+              kind: "canteen"
+            })
+          }
+        >
+          <Left style={{paddingLeft: 10}}>
+            <Image
+                style={{ width: GLOBAL_PARAMS._winWidth*0.15, height: GLOBAL_PARAMS._winWidth*0.15 }}
+                imageStyle={{ borderRadius: GLOBAL_PARAMS._winWidth*0.15 / 2 }}
+                source={{
+                    uri: item.image,
+                }}
+            />
+          </Left>
+          <Body style={{ borderBottomWidth: 0 }}>
+            <Text>{item.name}</Text>
+            <Rating style={{marginTop: 5,}} rate={item.rate} {...this["props"]} />
+            <Text note style={{ fontSize: 13 }} numberOfLines={1}>
+              地址：{item.address}
+            </Text>
+          </Body>
+          <Right style={{ borderBottomWidth: 0 ,justifyContent:'center'}}>
+            <Text note style={{ color: "#ff5858", fontSize: 18 }}>
+              ${item.price}
+            </Text>
+          </Right>
+        </ListItem>
+        {index == this.state.searchData.length -1 ? null : <Divider height={10} bgColor="#f0f0ee" />}
+      </View>
     ));
 
   render() {

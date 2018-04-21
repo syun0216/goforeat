@@ -16,7 +16,8 @@ const api = {
         const params = {
             page: page,
             condition: 'default',
-            limit: 8
+            limit: 8,
+            sid:store.getState().auth.sid
         }
         if (typeof filter !== 'undefined') {
             for (let i in filter) {
@@ -44,7 +45,8 @@ const api = {
         // let params = new URLSearchParams();
         // params.append('canteenId', canteenId);
         return axios.post(api_url + "/guide/getCanteenDetail", qs.stringify({
-            canteenId
+            canteenId,
+            sid:store.getState().auth.sid
         }, {cancelToken: source.token,timeout: 4500,}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -87,13 +89,14 @@ const api = {
         })
     },
     logout() {
-        return axios.post(api_url + "/passport/logout")
+        return axios.post(api_url + "/passport/logout", qs.stringify({sid:store.getState().auth.sid}))
     },
     // article
     getArticleList(offset) {
         return axios.post(api_url + '/cms/getNewsList', qs.stringify({
             limit: 5,
-            offset: offset
+            offset: offset,
+            sid:store.getState().auth.sid
         }, {cancelToken: source.token, timeout: 4500}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -102,7 +105,8 @@ const api = {
     },
     searchCanteenWithName(name) {
         return axios.post(api_url + '/guide/matchCanteenByName', qs.stringify({
-            name
+            name,
+            sid:store.getState().auth.sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
@@ -110,11 +114,16 @@ const api = {
         })
     },
     getIntegralProjectListData() {
-        return axios.get(api_url + '/point/getProjects')
+        return axios.get(api_url + '/point/getProjects',{
+            params:{
+                sid:store.getState().auth.sid
+            }
+        })
     },
     getIntegralProjectDetail(projectId) {
         return axios.post(api_url + '/point/getProjectDetail', qs.stringify({
-            projectId
+            projectId,
+            sid:store.getState().auth.sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -123,7 +132,8 @@ const api = {
     },
     getProjectComments(projectId) { //獲取項目留言
         return axios.post(api_url + '/point/getProjectComment', qs.stringify({
-            projectId
+            projectId,
+            sid:store.getState().auth.sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -142,7 +152,8 @@ const api = {
     recommendShop(limit = 10, offset) { //线下餐厅推荐
         return axios.post(api_url + '/guide/canteenRecommend', qs.stringify({
             limit,
-            offset
+            offset,
+            sid:store.getState().auth.sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -152,7 +163,8 @@ const api = {
     recommendOnlineShop(limit = 15, offset) {
         return axios.post(api_url + '/guide/onlineCanteenRecommend', qs.stringify({
             limit,
-            offset
+            offset,
+            sid:store.getState().auth.sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -162,7 +174,8 @@ const api = {
     sendPoint(projectId, point) {
         return axios.post(api_url + '/point/sendPoint', qs.stringify({
             projectId,
-            point
+            point,
+            sid:store.getState().auth.sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -227,7 +240,8 @@ const api = {
     myOrder(offset) {
         return axios.post(api_url + '/order/myOrders', qs.stringify({
             limit: 5,
-            offset: offset
+            offset: offset,
+            sid:store.getState().auth.sid
         }, {cancelToken: source.token, timeout: 4500}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
