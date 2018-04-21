@@ -11,7 +11,9 @@ import {
   Title,
   Content,
   ListItem,
-  List
+  List,
+  Card,
+  CardItem,
 } from "native-base";
 //cache
 import appStorage from "../cache/appStorage";
@@ -23,17 +25,35 @@ import ToastUtil from '../utils/ToastUtil'
 //api
 import api from '../api'
 //components
-import CommonModal from '../components/CommonModal'
+import CommonModal from '../components/CommonModal';
 import Divider from '../components/Divider';
+import ListFooter from '../components/ListFooter';
+import ErrorPage from '../components/ErrorPage';
+import Loading from '../components/Loading';
 //language
 import i18n from '../language/i18n';
 
+let requestParams = {
+  status: {
+    LOADING: 0,
+    LOAD_SUCCESS: 1,
+    LOAD_FAILED: 2,
+    NO_MORE_DATA: 3
+  },
+  nextOffset: 0,
+  currentOffset: 0
+}
+
 export default class PeopleView extends Component {
   state = {
-    modalVisible: false,
-    modalContent: '',
-    modalTitle:'',
-    i18n: i18n[this.props.screenProps.language]
+    orderlist: [],
+    orderTips: '沒有您的訂單哦~',
+    i18n: i18n[this.props.screenProps.language],
+    loadingStatus:{
+      firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
+      pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
+      refresh:false
+    }
   }
 
 
@@ -43,18 +63,69 @@ export default class PeopleView extends Component {
     })
   }
 
+  componentDidMount = () => {
+    this._getMyOrder();
+  }
+
+  
   //common function
+  _getMyOrder = (offset) => {
+    api.myOrder(offset).then(data => {
+      if (data.status === 200 && data.data.ro.ok) {
+        console.log(data.data.data)
+        if(data.data.data.length === 0){
+          requestParams.nextOffset = requestParams.currentOffset
+          this.setState({
+            orderlist: this.state.orderlist.concat(data.data.data),
+            loadingStatus: {
+              pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
+            }
+          })
+          return
+        }
+        this.setState({
+          orderlist: this.state.orderlist.concat(data.data.data),
+          loadingStatus: {
+            pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
+          }
+        })
+        requestParams.currentOffset = requestParams.nextOffset
+      }else{
+        ToastUtil.showWithMessage('加載文章失敗')
+        requestParams.nextOffset = requestParams.currentOffset
+        this.setState({
+          loadingStatus: {
+            pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
+          }
+        })
+      }
+    },() => {
+      requestParams.nextOffset = requestParams.currentOffset
+      this.setState({
+        loadingStatus: {
+          pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
+        }
+      })
+    })
+  }
+
+  _onEndReach = () => {
+    requestParams.nextOffset += 5
+    this._getMyOrder(requestParams.nextOffset)
+  }
+
+  _onErrorToRequestNextPage() {
+    this.setState({
+      loadingStatus:{
+        pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
+      }
+    })
+    requestParams.nextOffset += 5
+    this._getMyOrder(requestParams.nextOffset)
+  }
 
   _renderPersonDetailHeader = () => (
     <View style={[styles.loginHeader,{backgroundColor:this.props.screenProps.theme}]}>
-      <Button transparent onPress={() => this.props.navigation.goBack()} 
-      style={{position: 'absolute',top: 90,left: 10}}>
-      <Icon
-        size={30}
-        name="ios-arrow-back"
-        style={[{ fontSize: 25, color: Colors.main_white }]}
-      />
-    </Button>
       {this.props.screenProps.user !== null ? (<Image style={styles.personAvatar} source={require('../asset/eat.png')}/>) :
     (<Image style={styles.personAvatar} source={require('../asset/touxiang.png')}/>)}
       {this.props.screenProps.user !== null ? (<Text style={{fontSize:16,color:'#fff',marginTop:10}}>用戶:{this.props.screenProps.user}</Text>) :
@@ -64,14 +135,83 @@ export default class PeopleView extends Component {
     </View>
   )
 
+  _renderOrderListView = () => (
+    <SectionList
+      sections={[
+        {title:'餐廳列表',data:this.state.orderlist},
+      ]}
+      renderItem = {({item,index}) => this._renderOrderListItemView(item,index)}
+      renderSectionHeader= {() => (<View style={{borderBottomWidth: 1,padding:10,paddingTop: 20,backgroundColor: Colors.main_white,borderBottomColor:'#ccc'}}><Text>我的訂單</Text></View>)}
+      keyExtractor={(item, index) => index}
+      onEndReachedThreshold={0.01}
+      onEndReached={() => this._onEndReach()}
+      ListHeaderComponent={() => this._renderPersonDetailHeader()}
+      ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}
+    />
+  )
+
+  _renderOrderListItemView = (item,index) => (
+    <Card key={index}>
+          <CardItem style={{ backgroundColor: "#fafafa" }}>
+            <Body
+              style={{
+                borderBottomColor: "#ccc",
+                borderBottomWidth: 1,
+                paddingBottom: 10
+              }}
+            >
+              <Text style={styles.commonTitleText}>
+                {item.orderName} {"\n"}
+                取餐點 {item.takeAddressDetail} {"\n"}
+                取餐日期 {item.takeDate} {"\n"}
+                取餐時間 {item.takeTime} {"\n"}
+              </Text>
+            </Body>
+          </CardItem>
+          <CardItem style={{ backgroundColor: "#fafafa", marginTop: -10 }}>
+            <Body>
+              {/*<Text style={styles.commonTitleText}>*/}
+              {/*NativeBase builds a layer on top of React Native that provides*/}
+              {/*you with*/}
+              {/*</Text>*/}
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <Text style={styles.commonDecText}>TOTAL</Text>
+                <Text style={styles.commonPriceText}>
+                  HKD {item.totalMoney}
+                </Text>
+              </View>
+            </Body>
+          </CardItem>
+        </Card>
+  )
+
   render() {
     return (
-      <Container>
-        <StatusBar />
+      <Container style={{position: 'relative'}}>
+        <Button transparent onPress={() => this.props.navigation.goBack()} 
+        style={{position: 'absolute',top: 80,left: 10,width:40,height:40,borderRadius: 20,backgroundColor:Colors.fontBlack,opacity:0.5,zIndex:10}}>
+        <Icon
+          size={20}
+          name="ios-arrow-back"
+          style={[{ fontSize: 25, color: Colors.main_white }]}
+        />
+      </Button>
+        <StatusBar barStyle="dark-content"/>
+        {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
+          <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+            <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
         <View style={{flex:1}}>
-          {this._renderPersonDetailHeader()}
-          <ScrollView style={{paddingBottom:10}}>
-          </ScrollView>
+          {
+            this.state.orderlist.length > 0
+            ? this._renderOrderListView()
+            : null
+          }
         </View>
       </Container>
     );
@@ -112,5 +252,40 @@ const styles = StyleSheet.create({
     width:28,
     height:28,
     marginBottom:10
+  },
+  commonTitleText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    fontFamily: "AvenirNext-UltraLightItalic"
+  },
+  commonDecText: {
+    // fontFamily: 'AvenirNext-UltraLightItalic',
+    color: Colors.fontBlack,
+    fontWeight: "normal",
+    fontSize: 16,
+    // marginTop: 5,
+    flex: 1
+  },
+  commonPriceText: {
+    fontWeight: "bold",
+    fontSize: 16
+    // marginTop: 5,
+  },
+  commonDetailText: {
+    fontWeight: "700",
+    color: Colors.fontBlack,
+    fontSize: 20
+    // fontFamily:'AvenirNext-Regular',
+    // textShadowColor:'#C0C0C0',
+    // textShadowRadius:2,
+    // textShadowOffset:{width:2,height:2},
+  },
+  commonLabel: {
+    letterSpacing: 2,
+    fontWeight: "200",
+    color: Colors.fontBlack
+  },
+  commonText: {
+    fontSize: 18
   }
 })
