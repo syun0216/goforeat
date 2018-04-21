@@ -398,7 +398,7 @@ export default class GoodsListPageView extends Component {
           onPress={() => this._openFilterModal()}
           style={{
             flex: 1,
-            marginBottom: Platform.OS === 'android' ? 0 : 21,
+            marginBottom: Platform.OS === 'android' ? 0 : 22,
             marginRight: 10,
             alignItems: "center",
             justifyContent: "flex-end",

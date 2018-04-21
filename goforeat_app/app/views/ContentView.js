@@ -370,22 +370,22 @@ export default class ContentView extends Component {
                 style={{ color: this.props.screenProps.theme, fontSize: 25 }}
               />
             )}
-            {this.state.favoriteChecked? (<Text style={{marginTop:-2,marginLeft: 10,color: this.props.screenProps.theme}}>已關注</Text>) : 
-            (<Text style={{marginTop:-2,marginLeft: 10,color: this.props.screenProps.theme}}>關注</Text>)}
+            {this.state.favoriteChecked? (<Text style={{marginTop:-2,marginLeft: 10,color: this.props.screenProps.theme}}>{i18n.is_focus}</Text>) : 
+            (<Text style={{marginTop:-2,marginLeft: 10,color: this.props.screenProps.theme}}>{i18n.focus}</Text>)}
             </TouchableOpacity>
             <TouchableOpacity 
             onPress={() => this._phonecall()}
             style={{height:60,width:GLOBAL_PARAMS._winWidth*0.35,backgroundColor:Colors.main_blue,
               flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
                 <Icon name="md-call" style={{fontSize:20,color:Colors.main_white}}/>
-                <Text style={{marginTop:-2,color:Colors.main_white,marginLeft:10}}>撥打電話</Text>  
+                <Text style={{marginTop:-2,color:Colors.main_white,marginLeft:10}}>{i18n.call}</Text>  
             </TouchableOpacity>
             <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('Comment',{comment: this.state.canteenData.comment})}
             style={{height:60,width:GLOBAL_PARAMS._winWidth*0.35,backgroundColor:Colors.middle_green,
               flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
                 <Icon name="ios-chatbubbles" style={{fontSize: 22,color:Colors.main_white}}/>
-                <Text style={{marginTop:-2,color:Colors.main_white,marginLeft:10}}>查看評論</Text>
+                <Text style={{marginTop:-2,color:Colors.main_white,marginLeft:10}}>{i18n.comments}</Text>
             </TouchableOpacity>
         </Footer> : null}
     </Container>

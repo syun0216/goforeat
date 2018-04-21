@@ -370,7 +370,7 @@ export default class LoginView extends Component {
                     clearButtonMode="while-editing"
                     placeholderTextColor="gray"
                     returnKeyType="done"
-                    secureTextEntry={true}
+                    keyboardType="numeric"
                     maxLength={6}
                   />
                   <Button

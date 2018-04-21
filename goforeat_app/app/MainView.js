@@ -58,6 +58,8 @@ import store from "./store";
 import Divider from "./components/Divider";
 //event
 import EventEmitter from "EventEmitter";
+//language
+import i18n from './language/i18n';
 
 class CustomTabBar extends Component {
   componentDidMount() {
@@ -147,11 +149,13 @@ const tabView = TabNavigator(
     // }
   },
   {
-    animationEnabled: false,
+    animationEnabled: true,
     swipeEnabled: false,
     tabBarPosition: "bottom",
-    lazy: true, //该属性只会加载tab的当前view
+    lazy: false, //该属性只会加载tab的当前view
     tabBarComponent: CustomTabBar,
+    backBehavior:"none",
+    removeClippedSubviews: false,
     tabBarOptions: {
       showLabel: true,
       showIcon: true
@@ -175,11 +179,7 @@ const darwerView = DrawerNavigator(
     drawerWidth: GLOBAL_PARAMS._winWidth * 0.8,
     drawerPosition: "left",
     contentComponent: props => {
-      // console.log('darwer', props)
-      // componentWillReceiveProps = (nextProps) => {
-      //   alert(123);
-      // };
-
+      let _language = i18n[props.screenProps.language];
       return (
         <Container>
           <Content style={{ backgroundColor: props.screenProps.theme }}>
@@ -218,7 +218,7 @@ const darwerView = DrawerNavigator(
                   color: Colors.main_white
                 }}
               >
-                {props.screenProps.user || "登錄/註冊"}
+                {props.screenProps.user || _language.login_text}
               </Text>
               <Icon
                 name="ios-arrow-forward-outline"
@@ -258,7 +258,7 @@ const darwerView = DrawerNavigator(
                     color: Colors.fontBlack
                   }}
                 >
-                  我的關注
+                  {i18n[props.screenProps.language].myfavorite_text}
                 </Text>
                 <Icon
                   name="ios-arrow-forward-outline"
@@ -296,7 +296,7 @@ const darwerView = DrawerNavigator(
                     color: Colors.fontBlack
                   }}
                 >
-                  上傳發票
+                  {_language.upload_text}
                 </Text>
                 <Icon
                   name="ios-arrow-forward-outline"
@@ -334,7 +334,7 @@ const darwerView = DrawerNavigator(
                     color: Colors.fontBlack
                   }}
                 >
-                  積分禮遇
+                  {_language.integral_text}
                 </Text>
                 <Icon
                   name="ios-arrow-forward-outline"
@@ -369,7 +369,7 @@ const darwerView = DrawerNavigator(
                   <Text
                     style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
                   >
-                    服務條款
+                    {_language.service_text}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -385,7 +385,7 @@ const darwerView = DrawerNavigator(
                   <Text
                     style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
                   >
-                    隱私政策
+                    {_language.privacy_text}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -401,7 +401,7 @@ const darwerView = DrawerNavigator(
                   <Text
                     style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
                   >
-                    關於我們
+                    {_language.about_text}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -427,7 +427,7 @@ const darwerView = DrawerNavigator(
                   <Text
                     style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
                   >
-                    允許使用政策
+                    {_language.use_policy}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -445,7 +445,7 @@ const darwerView = DrawerNavigator(
                   <Text
                     style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
                   >
-                    刪除使用政策
+                    {_language.del_policy}
                   </Text>
                 </TouchableOpacity>
                 <View style={{ alignItems: "center", flex: 1 }} />
@@ -468,7 +468,7 @@ const darwerView = DrawerNavigator(
                 name="md-cloud-download"
                 style={{ fontSize: 18, color: "#8a8a8a" }}
               />
-              <Text style={{ marginLeft: 5 }}>線下</Text>
+              <Text style={{ marginLeft: 5 }}>{_language.tab4}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => props.navigation.navigate("Search")}
@@ -483,7 +483,7 @@ const darwerView = DrawerNavigator(
                 name="md-search"
                 style={{ fontSize: 18, color: "#8a8a8a" }}
               />
-              <Text style={{ marginLeft: 5 }}>搜索</Text>
+              <Text style={{ marginLeft: 5 }}>{_language.search2}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => props.navigation.navigate("Setting")}
@@ -498,7 +498,7 @@ const darwerView = DrawerNavigator(
                 name="md-settings"
                 style={{ fontSize: 18, color: "#8a8a8a" }}
               />
-              <Text style={{ marginLeft: 5 }}>設置</Text>
+              <Text style={{ marginLeft: 5 }}>{_language.setting_title}</Text>
             </TouchableOpacity>
           </Footer>
         </Container>

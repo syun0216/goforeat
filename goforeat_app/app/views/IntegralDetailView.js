@@ -33,6 +33,8 @@ import api from "../api";
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
+//language
+import i18n from '../language/i18n';
 
 const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
@@ -46,7 +48,8 @@ export default class IntegralDetailView extends PureComponent {
     projectDetail: null,
     commentsDetail: null,
     isShortCommentsShow: true,
-    arrow: new Animated.Value(1)
+    arrow: new Animated.Value(1),
+    i18n: i18n[this.props.screenProps.language]
   };
 
   componentDidMount = () => {
@@ -76,6 +79,12 @@ export default class IntegralDetailView extends PureComponent {
       }
     );
   };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: i18n[nextProps.screenProps.language]
+    })
+  }
 
   // private function
   _onShowShortComments() {
@@ -282,7 +291,7 @@ export default class IntegralDetailView extends PureComponent {
 
   render = () => (
     <Container style={{ backgroundColor: Colors.main_white }}>
-      <CommonHeader title="積分詳情" canBack {...this["props"]} />
+      <CommonHeader title={this.state.i18n.integral_detail} canBack {...this["props"]} />
       {this._renderPopupDiaogView()}
       {this.state.projectDetail !== null &&
       this.state.commentsDetail !== null ? (

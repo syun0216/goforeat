@@ -91,7 +91,7 @@ export default class PeopleView extends Component {
         })
         requestParams.currentOffset = requestParams.nextOffset
       }else{
-        ToastUtil.showWithMessage('加載文章失敗')
+        ToastUtil.showWithMessage('加載訂單失敗...')
         requestParams.nextOffset = requestParams.currentOffset
         this.setState({
           loadingStatus: {

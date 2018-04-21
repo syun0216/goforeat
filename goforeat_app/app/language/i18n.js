@@ -1,6 +1,7 @@
 let _language = {
   zh: {
     search_text: '點擊搜索',
+    search2: '搜索',
     recommend_text: '為您推薦',
     loading_text: '玩命加載中...',
     load_failed: '加載失敗,請點擊重試',
@@ -13,7 +14,7 @@ let _language = {
     tab3: '文章',
     tab4: '線下',
     tab5: '個人中心',
-    setting_title: '系統設置',
+    setting_title: '設置',
     theme: '選擇主題',
     language: '選擇語言',
     cache: '清除緩存',
@@ -24,6 +25,7 @@ let _language = {
     integral_text: '積分兌換',
     integral_top_title: '小積分兌換大慈善',
     integral_title: '積分禮遇',
+    integral_detail: '積分詳情',
     myfavorite_text: '我的關注',
     upload_text: '上傳發票',
     use_policy: '允許使用政策',
@@ -34,10 +36,17 @@ let _language = {
     canteenRec: '餐廳推薦',
     canteenDetail: '餐廳詳情',
     articleDetail: '文章詳情',
-
+    service_text: '服務條款',
+    privacy_text: '隱私政策',
+    about_text: '關於我們',
+    focus: '關注',
+    call: '撥打電話',
+    comments: '查看評論',
+    is_focus: '已關注'
   },
   en: {
     search_text: 'click search',
+    search2: 'search',
     recommend_text: 'recommend',
     loading_text: 'loading...',
     load_failed: 'load failed',
@@ -61,6 +70,7 @@ let _language = {
     integral_text: 'integral',
     integral_title: 'integral gift',
     integral_top_title: '小積分兌換大慈善',
+    integral_detail: 'integral detail',
     myfavorite_text: 'myfavorite',
     upload_text: 'upload',
     use_policy: 'Allowed use policy',
@@ -71,6 +81,13 @@ let _language = {
     canteenRec: 'canteen recommend',
     canteenDetail: 'canteen detail',
     articleDetail: 'article detail',
+    service_text: 'service',
+    privacy_text: 'privacy',
+    about_text: 'about us',
+    focus: 'focus',
+    call: 'call us',
+    comments: 'comments',
+    is_focus: 'focused'
   }
 }
 
