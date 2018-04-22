@@ -207,7 +207,7 @@ export default class GoodsListPageView extends Component {
   getAd = () => {
     api.adSpace().then(data => {
       if (data.status === 200) {
-        console.log(data);
+        // console.log(data);
         this.setState({
           adDetail: data.data.data
         });

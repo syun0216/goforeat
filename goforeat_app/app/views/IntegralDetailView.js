@@ -54,9 +54,10 @@ export default class IntegralDetailView extends PureComponent {
 
   componentDidMount = () => {
     let { id } = this.props.navigation.state.params.data;
+    let {sid} = this.props.screenProps;
     Promise.all([
-      api.getIntegralProjectDetail(id),
-      api.getProjectComments(id)
+      api.getIntegralProjectDetail(id,sid),
+      api.getProjectComments(id,sid)
     ]).then(
       data => {
         for (let idx in data) {
@@ -118,7 +119,7 @@ export default class IntegralDetailView extends PureComponent {
 
   _sendPoint = () => {
     let {id} = this.props.navigation.state.params.data;
-    api.sendPoint(id, 5).then(data => {
+    api.sendPoint(id, 5 ,this.props.screenProps.sid).then(data => {
       if(data.status === 200) {
         ToastUtil.showWithMessage(data.data.ro.respMsg);
         this._popupDialog.dismiss();

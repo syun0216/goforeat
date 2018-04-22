@@ -38,7 +38,7 @@ export default class IntegralView extends PureComponent {
   }
 
   _getProjectList() {
-    api.getIntegralProjectListData().then(data => {
+    api.getIntegralProjectListData(this.props.screenProps.sid).then(data => {
       if(data.status === 200 ) {
         this.setState({isLoading: false})
         if(data.data.ro.ok) {

@@ -65,7 +65,7 @@ export default class SplashPageView extends Component {
 
   _checkForUpdate = () => {
     CodePush.checkForUpdate(CodePushUtils.getDeploymentKey('staging')).then(remotePackage => {
-      console.log(remotePackage);
+      // console.log(remotePackage);
         if (remotePackage == null) {
             return;
         }

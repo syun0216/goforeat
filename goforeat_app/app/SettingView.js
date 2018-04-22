@@ -31,7 +31,7 @@ export default class SettingView extends PureComponent{
   }
 
   componentDidMount = () => {
-    console.log(this.props);
+    // console.log(this.props);
     this.setState({
       isEnglish: this.props.screenProps.language === 'en'
     })

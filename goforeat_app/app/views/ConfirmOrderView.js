@@ -59,7 +59,7 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _createOrder = () => {
-    api.createOrder(this.props.navigation.state.params.foodId).then(
+    api.createOrder(this.props.navigation.state.params.foodId,this.props.screenProps.sid).then(
       data => {
         // console.log(data);
         if (data.status === 200 && data.data.ro.ok) {
@@ -89,7 +89,7 @@ export default class ConfirmOrderView extends PureComponent {
       ToastUtil.showWithMessage("確認訂單失敗");
       return;
     }
-    api.confirmOrder(this.state.orderDetail.orderId).then(
+    api.confirmOrder(this.state.orderDetail.orderId,this.props.screenProps.sid).then(
       data => {
         // console.log(data);
         if (data.status === 200 && data.data.ro.ok) {

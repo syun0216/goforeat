@@ -70,9 +70,9 @@ export default class PeopleView extends Component {
   
   //common function
   _getMyOrder = (offset) => {
-    api.myOrder(offset).then(data => {
+    api.myOrder(offset,this.props.screenProps.sid).then(data => {
       if (data.status === 200 && data.data.ro.ok) {
-        console.log(data.data.data)
+        // console.log(data.data.data)
         if(data.data.data.length === 0){
           requestParams.nextOffset = requestParams.currentOffset
           this.setState({

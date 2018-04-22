@@ -62,7 +62,7 @@ export default class LoginView extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.navigation.state.params);
+    // console.log(this.props.navigation.state.params);
   }
 
 
@@ -77,7 +77,7 @@ export default class LoginView extends Component {
       data => {
         if (data.status === 200 && data.data.ro.ok) {
           this.token = data.data.data.token;
-          console.log(this.token);
+          // console.log(this.token);
           ToastUtil.showWithMessage("驗證碼發送成功");
           let _during = 60;
           this.interval = setInterval(() => {

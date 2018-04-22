@@ -42,7 +42,8 @@ let _language = {
     focus: '關注',
     call: '撥打電話',
     comments: '查看評論',
-    is_focus: '已關注'
+    is_focus: '已關注',
+    my_order: '我的訂單'
   },
   en: {
     search_text: 'click search',
@@ -87,7 +88,8 @@ let _language = {
     focus: 'focus',
     call: 'call us',
     comments: 'comments',
-    is_focus: 'focused'
+    is_focus: 'focused',
+    my_order: 'my order'
   }
 }
 

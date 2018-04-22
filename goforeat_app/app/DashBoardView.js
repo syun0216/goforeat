@@ -26,6 +26,7 @@ const dashboardStateToProps = (state) => ({
   nav: state.nav,
   theme: state.theme.theme,
   user: state.auth.username,
+  sid: state.auth.sid,
   filterSort: state.filterSort,
   refresh: state.refresh.refreshParams,
   shopList: state.stockShop,

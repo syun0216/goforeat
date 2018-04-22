@@ -35,6 +35,7 @@ class App extends Component < {} > {
     appStorage.getLoginUserJsonData((error, data) => {
       if (error === null && data != null) {
         if (store.getState().auth.username === null) {
+          console.log(data);
           store.dispatch({type: 'LOGIN', username: data.username,sid:data.sid})
         }
       }

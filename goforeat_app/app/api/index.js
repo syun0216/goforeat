@@ -17,7 +17,6 @@ const api = {
             page: page,
             condition: 'default',
             limit: 8,
-            sid:store.getState().auth.sid
         }
         if (typeof filter !== 'undefined') {
             for (let i in filter) {
@@ -46,7 +45,6 @@ const api = {
         // params.append('canteenId', canteenId);
         return axios.post(api_url + "/guide/getCanteenDetail", qs.stringify({
             canteenId,
-            sid:store.getState().auth.sid
         }, {cancelToken: source.token,timeout: 4500,}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -96,7 +94,6 @@ const api = {
         return axios.post(api_url + '/cms/getNewsList', qs.stringify({
             limit: 5,
             offset: offset,
-            sid:store.getState().auth.sid
         }, {cancelToken: source.token, timeout: 4500}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -106,34 +103,33 @@ const api = {
     searchCanteenWithName(name) {
         return axios.post(api_url + '/guide/matchCanteenByName', qs.stringify({
             name,
-            sid:store.getState().auth.sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
             }
         })
     },
-    getIntegralProjectListData() {
+    getIntegralProjectListData(sid) {
         return axios.get(api_url + '/point/getProjects',{
             params:{
-                sid:store.getState().auth.sid
+                sid
             }
         })
     },
-    getIntegralProjectDetail(projectId) {
+    getIntegralProjectDetail(projectId, sid) {
         return axios.post(api_url + '/point/getProjectDetail', qs.stringify({
             projectId,
-            sid:store.getState().auth.sid
+            sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         })
     },
-    getProjectComments(projectId) { //獲取項目留言
+    getProjectComments(projectId,sid) { //獲取項目留言
         return axios.post(api_url + '/point/getProjectComment', qs.stringify({
             projectId,
-            sid:store.getState().auth.sid
+            sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -153,7 +149,6 @@ const api = {
         return axios.post(api_url + '/guide/canteenRecommend', qs.stringify({
             limit,
             offset,
-            sid:store.getState().auth.sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -164,18 +159,17 @@ const api = {
         return axios.post(api_url + '/guide/onlineCanteenRecommend', qs.stringify({
             limit,
             offset,
-            sid:store.getState().auth.sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         })
     },
-    sendPoint(projectId, point) {
+    sendPoint(projectId, point ,sid) {
         return axios.post(api_url + '/point/sendPoint', qs.stringify({
             projectId,
             point,
-            sid:store.getState().auth.sid
+            sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -185,28 +179,29 @@ const api = {
     adSpace() { // 广告位接口
         return axios.get(api_url + '/adSpace/list')
     },
-    getFoodRecommend() {
+    getFoodRecommend(sid) {
         return axios.get(api_url + '/food/getFoodRecommend', {
             params: {
                 limit: 15,
-                offset: 0
+                offset: 0,
+                sid
             },
             timeout: 4500
         })
     },
-    createOrder(foodId) {
+    createOrder(foodId,sid) {
         return axios.get(api_url + '/order/create', {
             params: {
                 foodId,
-                sid:store.getState().auth.sid
+                sid
             },
             timeout: 4500
         })
     },
-    confirmOrder(orderId) {
+    confirmOrder(orderId,sid) {
         return axios.post(api_url + '/order/confirm',qs.stringify({
             orderId,
-            sid:store.getState().auth.sid
+            sid
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -237,11 +232,11 @@ const api = {
             }
         });
     },
-    myOrder(offset) {
+    myOrder(offset,sid) {
         return axios.post(api_url + '/order/myOrders', qs.stringify({
             limit: 5,
             offset: offset,
-            sid:store.getState().auth.sid
+            sid
         }, {cancelToken: source.token, timeout: 4500}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"

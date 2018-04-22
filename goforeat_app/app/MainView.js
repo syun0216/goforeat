@@ -218,7 +218,7 @@ const darwerView = DrawerNavigator(
                   color: Colors.main_white
                 }}
               >
-                {props.screenProps.user || _language.login_text}
+                {props.screenProps.user ? _language.my_order : _language.login_text}
               </Text>
               <Icon
                 name="ios-arrow-forward-outline"

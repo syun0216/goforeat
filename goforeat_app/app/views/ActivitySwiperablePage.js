@@ -79,7 +79,7 @@ export default class ArticleView extends Component {
   }
 
   _renderDeskSwiper = () => {
-    let _imgHeight = GLOBAL_PARAMS._winWidth < 350 ? GLOBAL_PARAMS._winHeight*0.34 : GLOBAL_PARAMS._winHeight*0.4;
+    let _imgHeight = GLOBAL_PARAMS._winWidth < 350 ? GLOBAL_PARAMS._winHeight*0.34 : GLOBAL_PARAMS._winHeight*0.5;
     _imgHeight = Platform.OS === 'android' ? GLOBAL_PARAMS._winHeight*0.6 : _imgHeight;
     return (
     <DeckSwiper

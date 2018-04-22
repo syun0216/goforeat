@@ -60,7 +60,7 @@ export default class ShopSwiperablePage extends Component {
     };
     //api
     getRecomendFoodList = () => {
-        api.getFoodRecommend().then(data => {
+        api.getFoodRecommend(this.props.screenProps.sid).then(data => {
             if(data.status === 200 && data.data.ro.ok) {
                 // if (data.data.data.length === 0) {
                 //     ToastUtil.showWithMessage('沒有更多數據了...');
