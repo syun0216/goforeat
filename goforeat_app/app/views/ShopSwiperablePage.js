@@ -53,13 +53,12 @@ export default class ShopSwiperablePage extends Component {
           })
     }
 
-    componentDidMount = () => {
+    componentDidMount(){
         this._current_offset = 0;
-        this.getRecommendList();
-        this.getRecomendFoodList();
-    };
+        this._getRecomendFoodList();
+    }
     //api
-    getRecomendFoodList = () => {
+    _getRecomendFoodList = () => {
         api.getFoodRecommend(this.props.screenProps.sid).then(data => {
             if(data.status === 200 && data.data.ro.ok) {
                 // if (data.data.data.length === 0) {
@@ -79,44 +78,18 @@ export default class ShopSwiperablePage extends Component {
         })
     }
 
-    getRecommendList = () => {
-        api.recommendOnlineShop(15, this._current_offset).then(
-            data => {
-                //   console.log(data);
-                if (data.status === 200 && data.data.ro.ok) {
-                    if (data.data.data.length === 0) {
-                        ToastUtil.showWithMessage('沒有更多數據了...');
-                        this.setState({
-                            loading: false
-                        })
-                        return;
-                    }
-                    this.setState({
-                        shopDetail: data.data.data,
-                        loading: false
-                    });
-                }
-            },
-            () => {
-                if (this._current_offset > 0) {
-                    this._current_offset -= 15;
-                }
-                this.setState({isError: true, loading: false});
-            }
-        );
-    };
-
     _onErrorToRetry = () => {
         this.setState({
-            loading: true
+            loading: true,
+            isError: false
         })
-        this.getRecomendFoodList();
-    }
+        this._getRecomendFoodList();
+    }   
 
     _refresh = () => {
         this._current_offset += 15;
         this.setState({
-            loading: true
+            loading: true,
         });
         this.getRecommendList();
     }

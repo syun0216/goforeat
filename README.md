@@ -40,7 +40,7 @@ android的打包方法:
 <p align="left">
   <img src="./display/s4.jpeg" width="250">
   <img src="./display/s14.jpeg" width="250">
-  <img src="./display/s6.jpeg" width="250">
+  <img src="./display/s6.png" width="250">
 </p>
 <p align="left">
   <img src="./display/s7.jpeg" width="250">
@@ -55,14 +55,24 @@ android的打包方法:
 
 ### screen shot [android 下载地址](https://www.pgyer.com/TBnS)
 <p align="left">
-  <img src="./display/as1.png" width="250">
-  <img src="./display/as2.png" width="250">
-  <img src="./display/as3.png" width="250">
+  <img src="./display/as1.jpg" width="250">
+  <img src="./display/as2.jpg" width="250">
+  <img src="./display/as3.jpg" width="250">
 </p>
 <p align="left">
-  <img src="./display/as4.png" width="250">
-  <img src="./display/as5.png" width="250">
-  <img src="./display/as6.png" width="250">
+  <img src="./display/as4.jpg" width="250">
+  <img src="./display/as5.jpg" width="250">
+  <img src="./display/as6.jpg" width="250">
+</p>
+<p align="left">
+  <img src="./display/as7.jpg" width="250">
+  <img src="./display/as8.jpg" width="250">
+  <img src="./display/as9.jpg" width="250">
+</p>
+<p align="left">
+  <img src="./display/as10.jpg" width="250">
+  <img src="./display/as11.jpg" width="250">
+  <img src="./display/as12.jpg" width="250">
 </p>
 
 # goforeat_website
