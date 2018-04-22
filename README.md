@@ -33,46 +33,46 @@ android的打包方法:
 
 
 <p align="left">
-  <img src="./display/s1.png" width="250">
-  <img src="./display/s2.png" width="250">
-  <img src="./display/s3.jpeg" width="250">
+  <img src="./display/s1.png" width="280">
+  <img src="./display/s2.png" width="280">
+  <img src="./display/s3.jpeg" width="280">
 </p>
 <p align="left">
-  <img src="./display/s4.jpeg" width="250">
-  <img src="./display/s14.jpeg" width="250">
-  <img src="./display/s6.png" width="250">
+  <img src="./display/s4.jpeg" width="280">
+  <img src="./display/s14.jpeg" width="280">
+  <img src="./display/s6.png" width="280">
 </p>
 <p align="left">
-  <img src="./display/s7.jpeg" width="250">
-  <img src="./display/s9.jpeg" width="250">
-  <img src="./display/s10.jpeg" width="250">
+  <img src="./display/s7.jpeg" width="280">
+  <img src="./display/s9.jpeg" width="280">
+  <img src="./display/s10.jpeg" width="280">
 </p>
 <p align="left">
-  <img src="./display/s11.png" width="250">
-  <img src="./display/s13.png" width="250">
-  <img src="./display/s12.png" width="250">
+  <img src="./display/s11.png" width="280">
+  <img src="./display/s13.png" width="280">
+  <img src="./display/s12.png" width="280">
 </p>
 
 ### screen shot [android 下载地址](https://www.pgyer.com/TBnS)
 <p align="left">
-  <img src="./display/as1.jpg" width="250">
-  <img src="./display/as2.jpg" width="250">
-  <img src="./display/as3.jpg" width="250">
+  <img src="./display/as1.jpg" width="280">
+  <img src="./display/as2.jpg" width="280">
+  <img src="./display/as3.jpg" width="280">
 </p>
 <p align="left">
-  <img src="./display/as4.jpg" width="250">
-  <img src="./display/as5.jpg" width="250">
-  <img src="./display/as6.jpg" width="250">
+  <img src="./display/as4.jpg" width="280">
+  <img src="./display/as5.jpg" width="280">
+  <img src="./display/as6.jpg" width="280">
 </p>
 <p align="left">
-  <img src="./display/as7.jpg" width="250">
-  <img src="./display/as8.jpg" width="250">
-  <img src="./display/as9.jpg" width="250">
+  <img src="./display/as7.jpg" width="280">
+  <img src="./display/as8.jpg" width="280">
+  <img src="./display/as9.jpg" width="280">
 </p>
 <p align="left">
-  <img src="./display/as10.jpg" width="250">
-  <img src="./display/as11.jpg" width="250">
-  <img src="./display/as12.jpg" width="250">
+  <img src="./display/as10.jpg" width="280">
+  <img src="./display/as11.jpg" width="280">
+  <img src="./display/as12.jpg" width="280">
 </p>
 
 # goforeat_website
