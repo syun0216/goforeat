@@ -25,6 +25,8 @@ import api from "./api";
 import source from "./api/CancelToken";
 //components
 import CommonHeader from "./components/CommonHeader";
+//cache
+import appStorage from './cache/appStorage';
 
 const BUTTONS = [
   GLOBAL_PARAMS.phoneType.HK.label,
@@ -111,35 +113,22 @@ export default class RegisterView extends PureComponent {
     });
   };
 
-  _getPassword = password => {
-    this.setState({
-      password
-    });
-  };
-
   _register = () => {
-    if (this.state.password === null) {
-      ToastUtil.showWithMessage("請輸入密碼");
+    if (this.state.phone === null) {
+      ToastUtil.showWithMessage("請輸入手機號碼");
       return;
     }
     if (this.state.code === null) {
       ToastUtil.showWithMessage("請輸入6位驗證碼");
       return;
     }
-    api
-      .register(
-        this.state.phone,
-        this.state.selectedValue.value,
-        this.token,
-        this.state.code,
-        this.state.password
-      )
-      .then(
-        data => {
-          // console.log(data);
-          if (data.status === 200 && data.data.ro.ok) {
-            ToastUtil.showWithMessage("註冊成功");
-            this.props.screenProps.userLogin(this.state.phone);
+    api.checkCode(this.state.phone,this.state.selectedValue.value,this.token,this.state.code).then(data => {
+      if(data.status === 200 && data.data.ro.ok){
+        // console.log(data);
+        ToastUtil.showWithMessage("註冊成功")
+        appStorage.setLoginUserJsonData(this.state.phone,data.data.data.sid);
+        this.props.screenProps.userLogin(this.state.phone,data.data.data.sid);
+        this.props.screenProps.userLogin(this.state.phone);
             const resetAction = NavigationActions.reset({
               index: 0,
               actions: [
@@ -150,14 +139,13 @@ export default class RegisterView extends PureComponent {
               ]
             });
             this.props.navigation.dispatch(resetAction);
-          } else {
-            ToastUtil.showWithMessage(data.data.ro.respMsg);
-          }
-        },
-        () => {
-          ToastUtil.showWithMessage("註冊失敗");
-        }
-      );
+      }
+      else{
+        ToastUtil.showWithMessage(data.data.ro.respMsg);
+      }
+    },() => {
+      ToastUtil.showWithMessage("註冊失敗")
+    })
   };
 
   _showActionSheet = () => {
@@ -185,7 +173,7 @@ export default class RegisterView extends PureComponent {
     return (
       <Container>
         <CommonHeader canBack title="用戶註冊" {...this["props"]} />
-        <Content>
+        <Content style={{backgroundColor: Colors.main_white}}>
           <Form>
             <Item>
               <Label>選擇區域</Label>
@@ -208,15 +196,6 @@ export default class RegisterView extends PureComponent {
                 clearButtonMode="while-editing"
                 maxLength={11}
                 returnKeyType="done"
-              />
-            </Item>
-            <Item inlineLabel>
-              <Input
-                placeholder="填寫密碼"
-                returnKeyType="done"
-                maxLength={12}
-                secureTextEntry={true}
-                onChangeText={password => this._getPassword(password)}
               />
             </Item>
             <Item inlineLabel last>

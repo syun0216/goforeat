@@ -55,6 +55,7 @@ import ToastUtil from "../utils/ToastUtil";
 import ListFooter from "../components/ListFooter";
 import _ from "lodash";
 import i18n from "../language/i18n";
+import filterData from '../utils/filterData';
 
 let requestParams = {
   status: {
@@ -103,13 +104,14 @@ export default class GoodsListPageView extends Component {
 
   componentWillMount = () => {
     this.getCanteenList();
+    this.getCanteenOption();
     // console.log(GLOBAL_PARAMS._winWidth)
   };
 
   componentDidMount() {
     // console.log(111,this.props);
     this._isMounted = true;
-    this.getCanteenOption();
+    
   }
 
   componentWillUnmount = () => {
@@ -161,34 +163,75 @@ export default class GoodsListPageView extends Component {
     );
   };
 
+  // getCanteenOption = () => {
+  //   api.getCanteenOptions().then(
+  //     data => {
+  //       if (data.status === 200) {
+  //         const _newCanteenOptionsArr = [];
+  //         for (let i in data.data) {
+  //           data.data[i].unshift(["default", "全部"]);
+  //           data.data[i] = _.chunk(data.data[i], 3);
+  //           switch (i) {
+  //             case "areas":
+  //               _newCanteenOptionsArr.push({
+  //                 name: "地區",
+  //                 enName: "areas",
+  //                 value: data.data[i]
+  //               });
+  //               break;
+  //             case "categories":
+  //               _newCanteenOptionsArr.push({
+  //                 name: "分類",
+  //                 enName: "categories",
+  //                 value: data.data[i]
+  //               });
+  //               break;
+  //             case "seats":
+  //               _newCanteenOptionsArr.push({
+  //                 name: "人數",
+  //                 enName: "seats",
+  //                 value: data.data[i]
+  //               });
+  //               break;
+  //           }
+  //         }
+  //         this.setState({
+  //           canteenOptions: _newCanteenOptionsArr
+  //         });
+  //       }
+  //     },
+  //     () => {
+  //       ToastUtil.showWithMessage("网络请求出错");
+  //     }
+  //   );
+  // };
+
   getCanteenOption = () => {
-    api.getCanteenOptions().then(
-      data => {
-        if (data.status === 200) {
-          const _newCanteenOptionsArr = [];
-          for (let i in data.data) {
-            data.data[i].unshift(["default", "全部"]);
-            data.data[i] = _.chunk(data.data[i], 3);
+     const _newCanteenOptionsArr = [];
+     let _deepFilter = JSON.parse(JSON.stringify(filterData));
+          for (let i in _deepFilter) {
+            _deepFilter[i].unshift(["default", "全部"]);
+            _deepFilter[i] = _.chunk(_deepFilter[i], 3);
             switch (i) {
               case "areas":
                 _newCanteenOptionsArr.push({
                   name: "地區",
                   enName: "areas",
-                  value: data.data[i]
+                  value: _deepFilter[i]
                 });
                 break;
               case "categories":
                 _newCanteenOptionsArr.push({
                   name: "分類",
                   enName: "categories",
-                  value: data.data[i]
+                  value: _deepFilter[i]
                 });
                 break;
               case "seats":
                 _newCanteenOptionsArr.push({
                   name: "人數",
                   enName: "seats",
-                  value: data.data[i]
+                  value: _deepFilter[i]
                 });
                 break;
             }
@@ -196,12 +239,6 @@ export default class GoodsListPageView extends Component {
           this.setState({
             canteenOptions: _newCanteenOptionsArr
           });
-        }
-      },
-      () => {
-        ToastUtil.showWithMessage("网络请求出错");
-      }
-    );
   };
 
   getAd = () => {
