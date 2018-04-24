@@ -152,7 +152,7 @@ export default class LoginView extends Component {
         }
       }
       else{
-        ToastUtil.showWithMessage("登錄失敗")
+        ToastUtil.showWithMessage(data.data.ro.respMsg);
       }
     },() => {
       ToastUtil.showWithMessage("登錄失敗")
