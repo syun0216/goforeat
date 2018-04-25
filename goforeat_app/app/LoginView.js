@@ -422,27 +422,12 @@ export default class LoginView extends Component {
                         fontWeight: "500"
                       }}
                     >
-                      登录
+                      登錄/註冊
                     </Text>
                   </View>
                 </TouchableOpacity>
                 
               </View>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
-              <View
-                style={{
-                  width: GLOBAL_PARAMS._winWidth,
-                  height: 20,
-                  marginTop: 15
-                }}
-                >
-                  <Text
-                    style={{ textAlign: "center", fontSize: 14, color: Colors.deep_gray }}
-                    >
-                      新用戶?點擊註冊
-                    </Text>
-                </View>
-            </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
