@@ -4167,6 +4167,10 @@ react-native-progress@^3.4.0:
   dependencies:
     prop-types "^15.5.8"
 
+react-native-push-notification@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.npmjs.org/react-native-push-notification/-/react-native-push-notification-3.0.2.tgz#3fa7d654cfd915436597b0dd5ba8b0f898c4b0f5"
+
 react-native-root-siblings@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/react-native-root-siblings/-/react-native-root-siblings-3.0.0.tgz#049f584f83ec5c18f16c5cfe1ef9aada26f685bf"

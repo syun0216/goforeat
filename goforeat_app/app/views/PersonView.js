@@ -64,12 +64,25 @@ export default class PeopleView extends Component {
   }
 
   componentDidMount = () => {
-    this._getMyOrder();
+    this._getMyOrder(0);
   }
 
+  componentWillUnmount = () => {
+    requestParams = {
+      status: {
+        LOADING: 0,
+        LOAD_SUCCESS: 1,
+        LOAD_FAILED: 2,
+        NO_MORE_DATA: 3
+      },
+      nextOffset: 0,
+      currentOffset: 0
+    }
+  }
   
   //common function
   _getMyOrder = (offset) => {
+    // console.log(offset);
     api.myOrder(offset,this.props.screenProps.sid).then(data => {
       if (data.status === 200 && data.data.ro.ok) {
         // console.log(data.data.data)

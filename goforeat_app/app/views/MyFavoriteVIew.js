@@ -4,6 +4,7 @@ import {Container,Content,ListItem,Left,Body,Right,Text,Thumbnail} from 'native-
 //components
 import CommonHeader from '../components/CommonHeader'
 import Row from '../components/Row'
+import BlankPage from '../components/BlankPage';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params'
 import Colors from '../utils/Colors'
@@ -62,7 +63,7 @@ export default class MyFavoriteView extends PureComponent {
     return (
       <Container>
         <CommonHeader canBack title={this.state.i18n.myfavorite_text} {...this['props']}/>
-        {this._renderSectionList()}
+        {this.props.screenProps.shopList.data.length === 0 ? <BlankPage message="暫無關注餐廳，請到餐廳詳情關注吧"/> : this._renderSectionList()}
       </Container>
     );
   }
