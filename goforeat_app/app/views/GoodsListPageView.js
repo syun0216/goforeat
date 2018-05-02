@@ -30,7 +30,6 @@ import {
   Spinner,
   Icon
 } from "native-base";
-import { LargeList } from "react-native-largelist";
 import FastImage from "react-native-fast-image";
 import Image from 'react-native-image-progress';
 //api
@@ -618,10 +617,10 @@ export default class GoodsListPageView extends Component {
         >
           <View style={{ flex: 1, justifyContent: "center" }}>
             <Icon
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
-              name="md-apps"
+              onPress={() => this.props.navigation.goBack()}
+              name="ios-arrow-back"
               size={20}
-              style={{ color: "#fff" }}
+              style={{ color: "#fff",fontSize: 25, }}
             />
           </View>
           <View
@@ -687,6 +686,7 @@ export default class GoodsListPageView extends Component {
         <View style={{ marginBottom: GLOBAL_PARAMS.bottomDistance }}>
           {this._renderSectionList()}
         </View>
+        {this._renderScrollTopView()}
       </Container>
     );
   }

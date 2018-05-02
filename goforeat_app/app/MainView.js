@@ -78,25 +78,25 @@ class CustomTabBar extends Component {
 
 const tabView = TabNavigator(
   {
-    GoodsListTab: {
-      screen: GoodsListPageView,
-      navigationOptions: {
-        tabBarLabel: "餐廳",
-        tabBarIcon: ({ tintColor, focused }) => (
-          <Icon
-            size={28}
-            name="md-restaurant"
-            style={{
-              color: tintColor
-            }}
-          />
-        )
-      }
-    },
+    // GoodsListTab: {
+    //   screen: GoodsListPageView,
+    //   navigationOptions: {
+    //     tabBarLabel: "餐廳",
+    //     tabBarIcon: ({ tintColor, focused }) => (
+    //       <Icon
+    //         size={28}
+    //         name="md-restaurant"
+    //         style={{
+    //           color: tintColor
+    //         }}
+    //       />
+    //     )
+    //   }
+    // },
     ShopTab: {
       screen: ShopSwiperablePage,
       navigationOptions: {
-        tabBarLabel: "外卖",
+        tabBarLabel: "每日精選",
         tabBarIcon: ({ tintColor, focused }) => (
           <Icon
             size={28}
@@ -111,7 +111,7 @@ const tabView = TabNavigator(
     ArticleTab: {
       screen: ArticleView,
       navigationOptions: {
-        tabBarLabel: "文章",
+        tabBarLabel: "本月菜單",
         tabBarIcon: ({ tintColor, focused }) => (
           <Icon
             size={28}
@@ -122,16 +122,7 @@ const tabView = TabNavigator(
           />
         )
       }
-    }
-    // test: {
-    //     screen: TestView,
-    //     navigationOptions: {
-    //         tabBarLabel: 'test',
-    //         tabBarIcon: ({tintColor, focused}) => (<Icon size={28} name="md-aperture" style={{
-    //             color: tintColor
-    //         }}/>)
-    //     }
-    // },
+    },
     // PersonTab: {
     //   screen: PersonView,
     //   navigationOptions: {
@@ -157,7 +148,7 @@ const tabView = TabNavigator(
     backBehavior:"none",
     removeClippedSubviews: false,
     tabBarOptions: {
-      showLabel: true,
+      showLabel: false,
       showIcon: true
       // inactiveTintColor: '#707070',
       // activeTintColor: Colors.main_orange,
@@ -471,7 +462,7 @@ const darwerView = DrawerNavigator(
               <Text style={{ marginLeft: 5 }}>{_language.tab4}</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate("Search")}
+              onPress={() => props.navigation.navigate("GoodsList")}
               style={{
                 flex: 1,
                 justifyContent: "center",
@@ -480,10 +471,10 @@ const darwerView = DrawerNavigator(
               }}
             >
               <Icon
-                name="md-search"
+                name="md-restaurant"
                 style={{ fontSize: 18, color: "#8a8a8a" }}
               />
-              <Text style={{ marginLeft: 5 }}>{_language.search2}</Text>
+              <Text style={{ marginLeft: 5 }}>{_language.tab1}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => props.navigation.navigate("Setting")}
@@ -535,6 +526,9 @@ let MainView = StackNavigator(
     // },
     Home: {
       screen: darwerView
+    },
+    GoodsList:{
+      screen: GoodsListPageView
     },
     Content: {
       screen: ContentView,

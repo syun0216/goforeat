@@ -18,8 +18,8 @@ let _language = {
     theme: '選擇主題',
     language: '選擇語言',
     cache: '清除緩存',
-    takeout_title: '外賣菜品',
-    article_title: '文章詳情',
+    takeout_title: '每日精選',
+    article_title: '本月菜單',
     offline_title:'線下餐廳',
     login_text: '登錄/註冊',
     integral_text: '積分兌換',
@@ -35,7 +35,7 @@ let _language = {
     canteenDish: '餐廳菜品',
     canteenRec: '餐廳推薦',
     canteenDetail: '餐廳詳情',
-    articleDetail: '文章詳情',
+    articleDetail: '菜品詳情',
     service_text: '服務條款',
     privacy_text: '隱私政策',
     about_text: '關於我們',
@@ -43,7 +43,13 @@ let _language = {
     call: '撥打電話',
     comments: '查看評論',
     is_focus: '已關注',
-    my_order: '我的訂單'
+    my_order: '我的訂單',
+    login_phone:'請輸入手機號',
+    login_code: '請輸入驗證碼',
+    send_code: '點擊發送',
+    retry_code: '重新發送',
+    second:'秒后重發'
+
   },
   en: {
     search_text: 'click search',
@@ -64,8 +70,8 @@ let _language = {
     theme: 'theme',
     language: 'language',
     cache: 'remove cache',
-    takeout_title: 'recommend',
-    article_title: 'article',
+    takeout_title: 'Food of the day',
+    article_title: 'Month \'s menu ',
     offline_title:'offline',
     login_text: 'login/register',
     integral_text: 'integral',
@@ -89,7 +95,13 @@ let _language = {
     call: 'call us',
     comments: 'comments',
     is_focus: 'focused',
-    my_order: 'my order'
+    my_order: 'my order',
+    login_phone:'for phone number',
+    login_code: 'for code',
+    send_code: 'send',
+    retry_code: 'retry',
+    second:'s'
+
   }
 }
 

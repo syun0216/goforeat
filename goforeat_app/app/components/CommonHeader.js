@@ -18,7 +18,7 @@ const CommonHeader = (props) => {
         </Button>
       )) : null}
     </Left>
-    <Body><Text style={[{color: props.textColor},props.titleStyle]}>{props.title}</Text></Body>
+    <Body><Text style={[{color: props.textColor},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
     <Right>
       {props.hasRight ? (props.rightElement !== null ? <props.rightElement {...props}/> : (
         <Icon onPress={() => props.rightClick} name={props.rightIcon} size={25} style={{color: Colors.main_white}} />

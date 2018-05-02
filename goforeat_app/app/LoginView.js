@@ -32,12 +32,15 @@ import {NavigationActions} from 'react-navigation';
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
 import Colors from "./utils/Colors";
-import ToastUtil from "./utils/ToastUtil"
+import ToastUtil from "./utils/ToastUtil";
 //cache
-import appStorage from './cache/appStorage'
+import appStorage from './cache/appStorage';
 //api
-import api from './api/index'
-import source from './api/CancelToken'
+import api from './api/index';
+import source from './api/CancelToken';
+//language
+import i18n from './language/i18n';
+
 
 // const
 const BUTTONS = [
@@ -52,8 +55,9 @@ export default class LoginView extends Component {
     phone: null,
     password: null,
     selectedValue:GLOBAL_PARAMS.phoneType.HK,
-    codeContent: "點擊發送",
+    codeContent: i18n[this.props.screenProps.language].send_code,
     isCodeDisabled: false,
+    i18n: i18n[this.props.screenProps.language],
   };
 
   componentWillUnmount() {
@@ -61,9 +65,12 @@ export default class LoginView extends Component {
     clearInterval(this.interval);
   }
 
-  componentDidMount() {
-    // console.log(this.props.navigation.state.params);
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: i18n[nextProps.screenProps.language]
+    });
   }
+
 
 
   //common function
@@ -83,12 +90,12 @@ export default class LoginView extends Component {
           this.interval = setInterval(() => {
             _during--;
             this.setState({
-              codeContent: `${_during}秒后重發`,
+              codeContent: `${_during}${i18n[nextProps.screenProps.language].second}`,
               isCodeDisabled: true
             });
             if (_during === 0) {
               this.setState({
-                codeContent: "重新發送",
+                codeContent: i18n[nextProps.screenProps.language].retry_code,
                 isCodeDisabled: false
               });
               clearInterval(this.interval);
@@ -183,6 +190,7 @@ export default class LoginView extends Component {
   //views
 
   render() {
+    const {i18n} = this.state;
     let _imgHeight = GLOBAL_PARAMS._winWidth < 350 ?  GLOBAL_PARAMS._winHeight*0.35 : 250;
     return (
       <View style={{ flex: 1, backgroundColor: "#fafafa" }}>
@@ -324,7 +332,7 @@ export default class LoginView extends Component {
                     onChangeText={phone => this._getPhone(phone)}
                     multiline={false}
                     autoFocus={false}
-                    placeholder="請輸入手機號"
+                    placeholder={i18n.login_phone}
                     keyboardType="numeric"
                     clearButtonMode="while-editing"
                     placeholderTextColor="gray"
@@ -366,7 +374,7 @@ export default class LoginView extends Component {
                     onChangeText={password => this._getPassword(password)}
                     multiline={false}
                     autoFocus={false}
-                    placeholder="請輸入驗證碼"
+                    placeholder={i18n.login_code}
                     clearButtonMode="while-editing"
                     placeholderTextColor="gray"
                     returnKeyType="done"
@@ -422,7 +430,7 @@ export default class LoginView extends Component {
                         fontWeight: "500"
                       }}
                     >
-                      登錄/註冊
+                    {i18n.login_text}
                     </Text>
                   </View>
                 </TouchableOpacity>

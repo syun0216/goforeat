@@ -30,6 +30,7 @@ import Divider from '../components/Divider';
 import ListFooter from '../components/ListFooter';
 import ErrorPage from '../components/ErrorPage';
 import Loading from '../components/Loading';
+import BlankPage from '../components/BlankPage';
 //language
 import i18n from '../language/i18n';
 
@@ -53,7 +54,9 @@ export default class PeopleView extends Component {
       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
       refresh:false
-    }
+    },
+    isExpired: false,
+    expiredMessage: null,
   }
 
 
@@ -104,8 +107,13 @@ export default class PeopleView extends Component {
         })
         requestParams.currentOffset = requestParams.nextOffset
       }else{
-        ToastUtil.showWithMessage('加載訂單失敗...')
-        requestParams.nextOffset = requestParams.currentOffset
+        ToastUtil.showWithMessage(data.data.ro.respMsg)
+        this.props.screenProps.userLogout();
+        this.setState({
+          isExpired: true,
+          expiredMessage: data.data.ro.respMsg
+        });
+
         this.setState({
           loadingStatus: {
             pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
@@ -220,6 +228,7 @@ export default class PeopleView extends Component {
           <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
             <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
         <View style={{flex:1}}>
+        {this.state.isExpired ? <BlankPage style={{marginTop:50}} message={this.state.expiredMessage}/> : null}
           {
             this.state.orderlist.length > 0
             ? this._renderOrderListView()

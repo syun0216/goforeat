@@ -13,22 +13,20 @@ import {
   Icon
 } from 'native-base';
 import Image from 'react-native-image-progress';
-import ProgressBar from 'react-native-progress/Bar'
+import ProgressBar from 'react-native-progress/Bar';
 //utils
-import ToastUtil from '../utils/ToastUtil'
-import Colors from '../utils/Colors'
-import GLOBAL_PARAMS from '../utils/global_params'
+import ToastUtil from '../utils/ToastUtil';
+import Colors from '../utils/Colors';
+import GLOBAL_PARAMS from '../utils/global_params';
 //api
-import api from '../api'
-import source from '../api/CancelToken'
+import api from '../api';
+import source from '../api/CancelToken';
 //components
-import ErrorPage from '../components/ErrorPage'
-import CommonHeader from '../components/CommonHeader'
-import Divider from '../components/Divider'
-import ListFooter from '../components/ListFooter'
-import Loading from '../components/Loading'
-import ArticleSwiper from '../components/Swiper'
-import carouselSwiper from '../components/carouselSwiper'
+import ErrorPage from '../components/ErrorPage';
+import CommonHeader from '../components/CommonHeader';
+import Divider from '../components/Divider';
+import ListFooter from '../components/ListFooter';
+import Loading from '../components/Loading';
 //language
 import i18n from '../language/i18n';
 
@@ -73,6 +71,12 @@ export default class ArticleView extends Component {
     api.getArticleList(0).then(data => {
       // console.log(data)
       if(data.status === 200) {
+        data.data.data = data.data.data.map((v,i) => ({
+          ...v,
+          date_title: v.title.split(' ')[0],
+          food_title: v.title.split(' ')[1]
+        }))
+
         this.setState({
           articleList: data.data.data,
           loadingStatus:{
@@ -140,7 +144,6 @@ export default class ArticleView extends Component {
   _onRequestNextPage = (offset) => {
     api.getArticleList(offset).then(data => {
       if (data.status === 200 && data.data.ro.ok) {
-        // console.log(data.data.data)
         if(data.data.data.length === 0){
           requestParams.nextOffset = requestParams.currentOffset
           this.setState({
@@ -151,6 +154,12 @@ export default class ArticleView extends Component {
           })
           return
         }
+        data.data.data = data.data.data.map((v,i) => ({
+          ...v,
+          date_title: v.title.split(' ')[0],
+          food_title: v.title.split(' ')[1]
+        }))
+
         this.setState({
           articleList: this.state.articleList.concat(data.data.data),
           loadingStatus: {
@@ -215,8 +224,9 @@ export default class ArticleView extends Component {
           indicator={ProgressBar}
           indicatorProps={{color:this.props.screenProps.theme}}/></View>
           <View style={styles.articleDesc}>
-            <Text style={styles.articleTitle}>{item.title}</Text>
+            <Text style={styles.articleTitle}>{item.date_title}{'\n'}{item.food_title}</Text>
           </View>
+          <Divider height={10} bgColor="transparent" />
         </View>
       </TouchableWithoutFeedback>
     )
@@ -249,7 +259,7 @@ const styles = StyleSheet.create({
   artivleItemInnerContainer: {
     borderRadius: 20,
     flex:1,
-    paddingTop:10,
+    // paddingTop:10,
     // paddingBottom: 0,
   },
   articleImage: {
@@ -267,7 +277,8 @@ const styles = StyleSheet.create({
   },
   articleTitle: {
     fontSize:18,
-    marginBottom:5
+    marginBottom:5,
+    textAlign:'center'
   },
   articleSubTitle: {
     fontSize:14,

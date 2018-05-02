@@ -12,13 +12,17 @@ import {
 //components
 import CommonHeader from '../components/CommonHeader'
 //utils
-import Colors from '../utils/Colors'
+import Colors from '../utils/Colors';
+//language
+import i18n from '../language/i18n';
+
+
 
 const StatementView = (props) => {
   // console.log('statement', props)
   const _content = {
     service: {
-      title: '服務條款',
+      title: i18n[props.screenProps.language].service_text,
       content: `《 服務條款 》
       最近修訂日期：2018年2月11日
       介紹
@@ -144,7 +148,7 @@ const StatementView = (props) => {
       · 對服務而言，再次提供服務或支付再次提供服務的費用。`
     },
     policy: {
-      title: '隱私政策',
+      title: i18n[props.screenProps.language].privacy_text,
       content: `《私隱政策》
       最近修訂日期：2018年2月11日
       引言
@@ -244,7 +248,7 @@ const StatementView = (props) => {
       `
     },
     allowPolicy: {
-      title: '允許使用政策',
+      title: i18n[props.screenProps.language].use_policy,
       content: `《允許使用政策》
       最近修訂日期：2018年2月11日
       引言
@@ -293,7 +297,7 @@ const StatementView = (props) => {
       `
     },
     deletePolicy: {
-      title: '刪除內容政策',
+      title: i18n[props.screenProps.language].del_policy,
       content: `IPICK TAKE-DOWN POLICY
       INTRODUCTION
       At Tencent, we respect intellectual property rights and the owners of such rights.
@@ -325,7 +329,7 @@ const StatementView = (props) => {
       `
     },
     about: {
-      title: '關於我們',
+      title: i18n[props.screenProps.language].about_text,
       content: `聲明
 
         此版本適用於Apple iOS系列操作系統的iPhone、iPod touch等設備。本軟件的安裝使用受Goforeat Technoloy Limited《服務條款、私隱政策、允許使用政策及iPick刪除內容政策》的約束。
