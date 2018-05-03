@@ -90,12 +90,12 @@ export default class LoginView extends Component {
           this.interval = setInterval(() => {
             _during--;
             this.setState({
-              codeContent: `${_during}${i18n[nextProps.screenProps.language].second}`,
+              codeContent: `${_during}${i18n[this.props.screenProps.language].second}`,
               isCodeDisabled: true
             });
             if (_during === 0) {
               this.setState({
-                codeContent: i18n[nextProps.screenProps.language].retry_code,
+                codeContent: i18n[this.props.screenProps.language].retry_code,
                 isCodeDisabled: false
               });
               clearInterval(this.interval);
