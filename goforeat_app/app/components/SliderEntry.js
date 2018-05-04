@@ -51,7 +51,7 @@ class SliderEntry extends Component {
         const uppercaseTitle = foodName ? (
             <Text
               style={[styles.title]}
-              numberOfLines={2}
+              numberOfLines={1}
             >
                 { foodName.toUpperCase() }
             </Text>

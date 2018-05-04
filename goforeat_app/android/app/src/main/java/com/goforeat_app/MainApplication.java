@@ -4,14 +4,12 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.dylanvann.fastimage.FastImageViewPackage;
-import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.microsoft.codepush.react.CodePush;
 import cl.json.RNSharePackage;
 import com.imagepicker.ImagePickerPackage;
 import com.beefe.picker.PickerViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.microsoft.appcenter.reactnative.push.AppCenterReactNativePushPackage;
-import com.rnfs.RNFSPackage;
 import com.wix.interactable.Interactable;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -40,14 +38,12 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new FastImageViewPackage(),
-            new RNI18nPackage(),
             new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
             new RNSharePackage(),
             new ImagePickerPackage(),
             new PickerViewPackage(),
             new VectorIconsPackage(),
             new AppCenterReactNativePushPackage(MainApplication.this),
-            new RNFSPackage(),
             new Interactable()
       );
     }

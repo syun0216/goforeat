@@ -148,7 +148,7 @@ const tabView = TabNavigator(
     backBehavior:"none",
     removeClippedSubviews: false,
     tabBarOptions: {
-      showLabel: false,
+      showLabel: true,
       showIcon: true
       // inactiveTintColor: '#707070',
       // activeTintColor: Colors.main_orange,
