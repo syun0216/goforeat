@@ -565,10 +565,10 @@
 		13B07FAE1A68108700A75B9A /* goforeat_app */ = {
 			isa = PBXGroup;
 			children = (
-				C7D5CAF32041104000B9BB87 /* goforeat_app.entitlements */,
 				C79D3D9F20271B0E00645736 /* assets */,
 				C79D3D9E20271B0D00645736 /* main.jsbundle */,
 				C79D3D9D20271B0D00645736 /* main.jsbundle.meta */,
+				C7D5CAF32041104000B9BB87 /* goforeat_app.entitlements */,
 				C7B10B75202C93380098FAA2 /* Images.xcassets */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1419,6 +1419,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODEPUSH_KEY = "y5mK05OSrYUfX9dfqMBWnJiRhkm3d261912e-873f-4270-b887-25c360664c8c";
 				CODE_SIGN_ENTITLEMENTS = goforeat_app/goforeat_app.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -1458,6 +1459,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODEPUSH_KEY = "loe6czezecl4T5wIpFxONddIqmCMd261912e-873f-4270-b887-25c360664c8c";
 				CODE_SIGN_ENTITLEMENTS = goforeat_app/goforeat_app.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: YE MA (DAG7VQ4V72)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: YE MA (DAG7VQ4V72)";

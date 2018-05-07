@@ -10,17 +10,23 @@ import {
     Platform,
 } from 'react-native'
 
+let DebugStatus = true;
 
-let _DEPLOYMENT_KEY_PRODUCTION = "0i_dbmC1qWlt2auwdgMGue2L98OcSyMGMDAPz";
-let _DEPLOYMENT_KEY_STAGING = "aOVmD8X5ZYW8SSa0u_UmBKiP6m3OBJzMzDAwG";
+
+let _DEPLOYMENT_KEY_PRODUCTION_ON_IOS = "loe6czezecl4T5wIpFxONddIqmCMd261912e-873f-4270-b887-25c360664c8c";
+let _DEPLOYMENT_KEY_STAGING_ON_IOS_DEV = "y5mK05OSrYUfX9dfqMBWnJiRhkm3d261912e-873f-4270-b887-25c360664c8c";
+let _DEPLOYMENT_KEY_PRODUCTION_ON_ANDROID = "tbisaS3TKf-Bo3vwCkzIC-TJPf4cd261912e-873f-4270-b887-25c360664c8c";
+let _DEPLOYMENT_KEY_STAGING_ON_ANDROID_DEV = "fMXsr1oL8ExCRlmMZD2nLEWHY0-rd261912e-873f-4270-b887-25c360664c8c";
 
 var CodePushUtils = {
 
-    getDeploymentKey(type) {
-        if (type == 'production') {
-            return _DEPLOYMENT_KEY_PRODUCTION;
+    getDeploymentKey() {
+        if (Platform.OS == 'ios') {
+            return this._getDeploymentKeyOnIOSPlatform();
+        } else if (Platform.OS == 'android') {
+            return this._getDeploymentKeyOnAndroidPlatform();
         } else {
-          return _DEPLOYMENT_KEY_STAGING;
+            return null;
         }
     },
 
@@ -29,21 +35,21 @@ var CodePushUtils = {
      private methods
      */
 
-    // _getDeploymentKeyOnIOSPlatform() {
-    //     if (!DebugStatus.isDebug()) {
-    //         return _DEPLOYMENT_KEY_PRODUCTION_ON_IOS;
-    //     } else {
-    //         return _DEPLOYMENT_KEY_STAGING_ON_IOS_QA;
-    //     }
-    // },
+    _getDeploymentKeyOnIOSPlatform() {
+        if (!DebugStatus) {
+            return _DEPLOYMENT_KEY_PRODUCTION_ON_IOS;
+        } else {
+            return _DEPLOYMENT_KEY_STAGING_ON_IOS_DEV;
+        }
+    },
 
-    // _getDeploymentKeyOnAndroidPlatform() {
-    //     if (!DebugStatus.isDebug()) {
-    //         return _DEPLOYMENT_KEY_PRODUCTION_ON_ANDROID;
-    //     } else {
-    //         return _DEPLOYMENT_KEY_STAGING_ON_ANDROID_QA;
-    //     }
-    // }
+    _getDeploymentKeyOnAndroidPlatform() {
+        if (!DebugStatus) {
+            return _DEPLOYMENT_KEY_PRODUCTION_ON_ANDROID;
+        } else {
+            return _DEPLOYMENT_KEY_STAGING_ON_ANDROID_DEV;
+        }
+    }
 }
 
 module.exports = CodePushUtils;

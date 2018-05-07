@@ -2,7 +2,7 @@
 
 import React,{Component} from 'react'
 import PropTypes from 'prop-types';
-
+import {Container,Content} from 'native-base';
 import {
     View,
     ActivityIndicator,
@@ -18,6 +18,8 @@ import CodePush from 'react-native-code-push';
 import Colors from "./utils/Colors";
 import * as ViewStatus from "./utils/ViewStatus";
 import GLOBAL_PARAMS from './utils/global_params';
+import ToastUtils from './utils/ToastUtil';
+import CommonHeader from './components/CommonHeader';
 
 //TODO: 在用户量较大情况下,更新逻辑优化
 export default class MandatoryUpdateView extends Component {
@@ -34,6 +36,7 @@ export default class MandatoryUpdateView extends Component {
 
         this._viewWidth = GLOBAL_PARAMS._winWidth / 3 * 2;
         this._remotePackage = props.remotePackage;
+        alert(props.remotePackage);
         this.state = {
             progress: 0.0,
             viewStatus: ViewStatus.VIEW_STATUS_DATA,
@@ -46,7 +49,9 @@ export default class MandatoryUpdateView extends Component {
 
     render() {
         return (
-            <View style={{flex: 1,justifyContent: "center", alignItems: 'center'}}>
+            <Container>
+            <CommonHeader canBack title="更新界面" {...this['props']}/>
+            <View style={{flex: 1,justifyContent:'center',alignItems:'center'}}>
                 {this._renderDownloadMessage()}
                 {
                     this.state.viewStatus == ViewStatus.VIEW_STATUS_DATA ? this._renderLoadingProgressView() : null
@@ -55,6 +60,7 @@ export default class MandatoryUpdateView extends Component {
                     this.state.viewStatus == ViewStatus.VIEW_STATUS_REQUEST_NETWORK_ERROR ? this._renderRetryView() : null
                 }
             </View>
+            </Container>
         )
     }
 
@@ -107,6 +113,10 @@ export default class MandatoryUpdateView extends Component {
     // logic - download
 
     _startDownload() {
+        if(this._remotePackage == null) {
+            ToastUtils.showWithMessage('找不到安裝包...')
+            return;
+        }
         this.setState({progress: 0.0, viewStatus: ViewStatus.VIEW_STATUS_DATA});
 
         this._remotePackage.download((progress) => this._downloadProgressHasChange(progress)).then(localPackage => {

@@ -35,10 +35,11 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
+      String deploymentKey = BuildConfig.DEBUG ? "fMXsr1oL8ExCRlmMZD2nLEWHY0-rd261912e-873f-4270-b887-25c360664c8c" : "tbisaS3TKf-Bo3vwCkzIC-TJPf4cd261912e-873f-4270-b887-25c360664c8c";
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new FastImageViewPackage(),
-            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+            new CodePush(deploymentKey, getApplicationContext(), BuildConfig.RELEASE),
             new RNSharePackage(),
             new ImagePickerPackage(),
             new PickerViewPackage(),

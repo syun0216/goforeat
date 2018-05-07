@@ -15,6 +15,7 @@ import CodePushUtils from "./utils/CodePushUtils";
 import Push from "appcenter-push";
 import * as TextUtils from "./utils/TextUtils";
 import * as JSONUtils from "./utils/JSONUtils";
+import ToastUtils from './utils/ToastUtil';
 
 const styles = StyleSheet.create({
   wrapper: {},
@@ -45,6 +46,10 @@ const styles = StyleSheet.create({
 
 export default class SplashPageView extends Component {
 
+  codePushDownloadDidProgress(progress) {
+    console.log(progress.receivedBytes + " of " + progress.totalBytes + " received.");
+  }
+
   componentDidMount = () => {
     CodePush.getUpdateMetadata().then(localPackage => {
       // console.log(localPackage);
@@ -64,7 +69,7 @@ export default class SplashPageView extends Component {
   // logic - update
 
   _checkForUpdate = () => {
-    CodePush.checkForUpdate(CodePushUtils.getDeploymentKey('staging')).then(remotePackage => {
+    CodePush.checkForUpdate(CodePushUtils.getDeploymentKey()).then(remotePackage => {
       // console.log(remotePackage);
         if (remotePackage == null) {
             return;
@@ -101,14 +106,17 @@ export default class SplashPageView extends Component {
     if (remotePackage.isMandatory) {
       Alert.alert(null, "更新到最新版本", [
         {
-          text: "明白"
+          text: "明白",
+          onPress: () => {
+            this._downloadMandatoryNewVersionWithRemotePackage(remotePackage)
+          }
         }
       ]);
 
-      setTimeout(
-        () => this._downloadMandatoryNewVersionWithRemotePackage(remotePackage),
-        1000
-      );
+      // setTimeout(
+      //   () => this._downloadMandatoryNewVersionWithRemotePackage(remotePackage),
+      //   1000
+      // );
       return;
     } else {
       Alert.alert(null, "有新功能,是否现在更新？", [
@@ -122,6 +130,8 @@ export default class SplashPageView extends Component {
       ]);
     }
   };
+
+
 
   _downloadNewVersionWithRemotePackage = remotePackage => {
     ToastUtils.showWithMessage("新版本正在下载,请稍等...");
@@ -150,7 +160,7 @@ export default class SplashPageView extends Component {
   };
 
   _downloadMandatoryNewVersionWithRemotePackage = remotePackage => {
-    props.navigation.navigate('Mandatory',{
+    this.props.navigation.navigate('Mandatory',{
       remotePackage: remotePackage
     })
   }
@@ -179,7 +189,7 @@ export default class SplashPageView extends Component {
               this.props.navigation.dispatch(resetAction);
             }}
           >
-            <Text style={styles.text}>進入主頁</Text>
+            <Text style={styles.text}>進入主頁 hello world123</Text>
           </TouchableOpacity>
         </View>
       </Swiper>

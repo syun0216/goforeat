@@ -518,12 +518,12 @@ const drawer_style = StyleSheet.create({
 
 let MainView = StackNavigator(
   {
-    // Splash: {
-    //   screen: SplashPageView
-    // },
-    // Mandatory: {
-    //   screen: MandatoryUpdateView
-    // },
+    Splash: {
+      screen: SplashPageView
+    },
+    Mandatory: {
+      screen: MandatoryUpdateView
+    },
     Home: {
       screen: darwerView
     },
