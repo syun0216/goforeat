@@ -42,11 +42,11 @@
 		C7639D672069D523000A02BB /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D662069D50A000A02BB /* libRNShare.a */; };
 		C7639D692069D56E000A02BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D682069D56E000A02BB /* Social.framework */; };
 		C7639D6B2069D578000A02BB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D6A2069D578000A02BB /* MessageUI.framework */; };
-		C79D3DA020271B0E00645736 /* main.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = C79D3D9D20271B0D00645736 /* main.jsbundle.meta */; };
-		C79D3DA120271B0E00645736 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C79D3D9E20271B0D00645736 /* main.jsbundle */; };
-		C79D3DA220271B0E00645736 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C79D3D9F20271B0E00645736 /* assets */; };
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
+		C7DDDD8820A0A25C00BD8639 /* index.ios.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */; };
+		C7DDDD8920A0A25C00BD8639 /* index.ios.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8620A0A25B00BD8639 /* index.ios.jsbundle.meta */; };
+		C7DDDD8A20A0A25C00BD8639 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8720A0A25B00BD8639 /* assets */; };
 		C7E008662054B20A008024BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E008652054B186008024BF /* libRNImagePicker.a */; };
 		CA1272DB3BF84043BEA26782 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA769471ABD14C6D9D8C56BB /* AppCenter-Config.plist */; };
 		DBF148A91C4F498687FC96AC /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE04579D78AE4C0CB6FB5E78 /* MaterialIcons.ttf */; };
@@ -431,14 +431,14 @@
 		C7639D342069D50A000A02BB /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
 		C7639D682069D56E000A02BB /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C7639D6A2069D578000A02BB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		C79D3D9D20271B0D00645736 /* main.jsbundle.meta */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle.meta; path = bundle/main.jsbundle.meta; sourceTree = "<group>"; };
-		C79D3D9E20271B0D00645736 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = bundle/main.jsbundle; sourceTree = "<group>"; };
-		C79D3D9F20271B0E00645736 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = bundle/assets; sourceTree = "<group>"; };
 		C7A3453F206F8A98002B63D1 /* AppCenterReactNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterReactNative.xcodeproj; path = ../node_modules/appcenter/ios/AppCenterReactNative.xcodeproj; sourceTree = "<group>"; };
 		C7A69A12207089D700E06981 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		C7B10B73202C92C60098FAA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../../../../reactnativeproject/zhihuapp/ios/zhihurn/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C7B10B75202C93380098FAA2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = goforeat_app/Images.xcassets; sourceTree = "<group>"; };
 		C7D5CAF32041104000B9BB87 /* goforeat_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = goforeat_app.entitlements; path = goforeat_app/goforeat_app.entitlements; sourceTree = "<group>"; };
+		C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = index.ios.jsbundle; path = bundle/index.ios.jsbundle; sourceTree = "<group>"; };
+		C7DDDD8620A0A25B00BD8639 /* index.ios.jsbundle.meta */ = {isa = PBXFileReference; lastKnownFileType = file; name = index.ios.jsbundle.meta; path = bundle/index.ios.jsbundle.meta; sourceTree = "<group>"; };
+		C7DDDD8720A0A25B00BD8639 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = bundle/assets; sourceTree = "<group>"; };
 		C7E008602054B185008024BF /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		DC1A7DC5F6AF4FFA106522FB /* Pods-goforeat_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-goforeat_app.debug.xcconfig"; path = "Pods/Target Support Files/Pods-goforeat_app/Pods-goforeat_app.debug.xcconfig"; sourceTree = "<group>"; };
 		EE04579D78AE4C0CB6FB5E78 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
@@ -565,9 +565,9 @@
 		13B07FAE1A68108700A75B9A /* goforeat_app */ = {
 			isa = PBXGroup;
 			children = (
-				C79D3D9F20271B0E00645736 /* assets */,
-				C79D3D9E20271B0D00645736 /* main.jsbundle */,
-				C79D3D9D20271B0D00645736 /* main.jsbundle.meta */,
+				C7DDDD8720A0A25B00BD8639 /* assets */,
+				C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */,
+				C7DDDD8620A0A25B00BD8639 /* index.ios.jsbundle.meta */,
 				C7D5CAF32041104000B9BB87 /* goforeat_app.entitlements */,
 				C7B10B75202C93380098FAA2 /* Images.xcassets */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -1299,9 +1299,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C79D3DA120271B0E00645736 /* main.jsbundle in Resources */,
-				C79D3DA020271B0E00645736 /* main.jsbundle.meta in Resources */,
-				C79D3DA220271B0E00645736 /* assets in Resources */,
 				364BC426419C465A9BCFE408 /* Roboto_medium.ttf in Resources */,
 				40C0034B7C17480D8CA297A5 /* Roboto.ttf in Resources */,
 				5F1077B99DBB4D64909FB78C /* rubicon-icon-font.ttf in Resources */,
@@ -1313,11 +1310,14 @@
 				1A907FA3B3AA45C7AD5084D1 /* FontAwesome.ttf in Resources */,
 				7D0FF676BE8841F588308476 /* Foundation.ttf in Resources */,
 				F9A053B485B44437AF6713A3 /* Ionicons.ttf in Resources */,
+				C7DDDD8A20A0A25C00BD8639 /* assets in Resources */,
 				56EDFD5108CD46B2B7678F58 /* MaterialCommunityIcons.ttf in Resources */,
 				DBF148A91C4F498687FC96AC /* MaterialIcons.ttf in Resources */,
 				EEAADBBDC2E14921A67D4672 /* Octicons.ttf in Resources */,
 				C199B0039AD94996BE1FDABE /* SimpleLineIcons.ttf in Resources */,
 				2A8AB0A9F66240D89FE697AA /* Zocial.ttf in Resources */,
+				C7DDDD8920A0A25C00BD8639 /* index.ios.jsbundle.meta in Resources */,
+				C7DDDD8820A0A25C00BD8639 /* index.ios.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

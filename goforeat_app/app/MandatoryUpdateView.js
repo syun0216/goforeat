@@ -35,8 +35,7 @@ export default class MandatoryUpdateView extends Component {
         super(props)
 
         this._viewWidth = GLOBAL_PARAMS._winWidth / 3 * 2;
-        this._remotePackage = props.remotePackage;
-        alert(props.remotePackage);
+        this._remotePackage = props.navigation.state.params.remotePackage;
         this.state = {
             progress: 0.0,
             viewStatus: ViewStatus.VIEW_STATUS_DATA,
@@ -97,6 +96,7 @@ export default class MandatoryUpdateView extends Component {
                                             indeterminate={false}
                                             progress={this.state.progress}/> : null
                 }
+                <Text>{this.state.progress.toFixed(2)*100} %</Text>
             </View>
         )
     }

@@ -189,7 +189,7 @@ export default class SplashPageView extends Component {
               this.props.navigation.dispatch(resetAction);
             }}
           >
-            <Text style={styles.text}>進入主頁 hello world123</Text>
+            <Text style={styles.text}>進入主頁</Text>
           </TouchableOpacity>
         </View>
       </Swiper>
