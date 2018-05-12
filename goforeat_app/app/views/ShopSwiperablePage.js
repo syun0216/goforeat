@@ -7,7 +7,9 @@ import {
   StatusBar,
   SafeAreaView,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  AppState,
+  Alert
 } from "react-native";
 import {
   Container,
@@ -34,8 +36,15 @@ import api from "../api";
 import CommonHeader from "../components/CommonHeader";
 import ErrorPage from "../components/ErrorPage";
 import Loading from "../components/Loading";
+import PlacePicker from '../components/PlacePicker';
+import BlankPage from '../components/BlankPage';
 //language
 import i18n from "../language/i18n";
+//codepush
+import CodePush from "react-native-code-push";
+import CodePushUtils from "../utils/CodePushUtils";
+import * as TextUtils from "../utils/TextUtils";
+import * as JSONUtils from "../utils/JSONUtils";
 
 const IS_ANDROID = Platform.OS === "android";
 const SLIDER_1_FIRST_ITEM = 1;
@@ -51,7 +60,8 @@ export default class ShopSwiperablePage extends Component {
       foodDetails: null,
       isError: false,
       loading: true,
-      i18n: i18n[this.props.screenProps.language]
+      i18n: i18n[this.props.screenProps.language],
+      placeSelected: null
     };
   }
 
@@ -62,14 +72,125 @@ export default class ShopSwiperablePage extends Component {
   }
 
   componentDidMount() {
+    CodePush.getUpdateMetadata().then(localPackage => {
+            // console.log(localPackage);
+            if (localPackage == null) {
+                this._checkForUpdate();
+                
+            } else {
+                if (localPackage.isPending) {
+                    localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME)
+                } else {
+                    this._checkForUpdate();
+                }
+            }
+        })
     this._current_offset = 0;
-    this._getRecomendFoodList();
   }
+
+  // logic - update
+
+  _checkForUpdate = () => {
+    CodePush.checkForUpdate(CodePushUtils.getDeploymentKey()).then(remotePackage => {
+      // console.log(remotePackage);
+        if (remotePackage == null) {
+            return;
+        }
+        this._syncInNonSilent(remotePackage);
+        // if (TextUtils.isEmpty(remotePackage.description)) {
+        //     this._syncInSilent(remotePackage);
+        // } else {
+        //     JSONUtils.parseJSONFromString(remotePackage.description, (resultJSON) => {
+        //         if (resultJSON.isSilentSync != null && !resultJSON.isSilentSync) {
+        //             this._syncInNonSilent(remotePackage);
+        //         } else {
+        //             this._syncInSilent(remotePackage);
+        //         }
+        //     }, (error) => {
+        //         this._syncInSilent(remotePackage);
+        //     });
+        // }
+    })
+}
+  // logic - update - silent
+  _syncInSilent = remotePackage => {
+    remotePackage.download().then(localPackage => {
+      if (localPackage != null) {
+        localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME);
+      } else {
+      }
+    });
+  };
+  // logic - update - no silent
+
+  _syncInNonSilent = remotePackage => {
+    if (remotePackage.isMandatory) {
+      Alert.alert(null, `更新到最新版本,更新內容為：\n ${remotePackage.description}`, [
+        {
+          text: "明白",
+          onPress: () => {
+            this._downloadMandatoryNewVersionWithRemotePackage(remotePackage)
+          }
+        }
+      ]);
+
+      // setTimeout(
+      //   () => this._downloadMandatoryNewVersionWithRemotePackage(remotePackage),
+      //   1000
+      // );
+      return;
+    } else {
+      Alert.alert(null, "有新功能,是否現在立即更新？", [
+        { text: "以後再說" },
+        {
+          text: "立即更新",
+          onPress: () => {
+            this._downloadNewVersionWithRemotePackage(remotePackage);
+          }
+        }
+      ]);
+    }
+  };
+
+  _downloadNewVersionWithRemotePackage = remotePackage => {
+    ToastUtils.showWithMessage("新版本正在下載,請稍候...");
+    remotePackage.download().then(localPackage => {
+      if (localPackage != null) {
+        Alert.alert(null, "下載完成,是否立即安裝?", [
+          {
+            text: "下次安裝",
+            onPress: () => {
+              localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME);
+            }
+          },
+          {
+            text: "現在安裝",
+            onPress: () => {
+              localPackage.install(CodePush.InstallMode.IMMEDIATE);
+            }
+          }
+        ]);
+      } else {
+        // if (DebugStatus.isDebug()) {
+        //     console.log("新版本下载失败");
+        // }
+      }
+    });
+  };
+
+  _downloadMandatoryNewVersionWithRemotePackage = remotePackage => {
+    this.props.navigation.navigate('Mandatory',{
+      remotePackage: remotePackage
+    })
+  }
+
   //api
-  _getRecomendFoodList = () => {
-    api.getFoodRecommend(this.props.screenProps.sid).then(
+  _getRecomendFoodList = (placeId) => {
+    console.log(placeId);
+    api.getFoodRecommend(placeId, this.props.screenProps.sid).then(
       data => {
         if (data.status === 200 && data.data.ro.ok) {
+          console.log(data.data.data);
           // if (data.data.data.length === 0) {
           //     ToastUtil.showWithMessage('沒有更多數據了...');
           //     this.setState({
@@ -105,6 +226,13 @@ export default class ShopSwiperablePage extends Component {
     this.getRecommendList();
   };
 
+  getSeletedValue = (val) => {
+    this.setState({
+      placeSelected: val
+    })
+    this._getRecomendFoodList(val);
+  }
+
   _renderItem({ item, index }) {
     return (
       <SliderEntry
@@ -117,34 +245,28 @@ export default class ShopSwiperablePage extends Component {
 
   _renderItemWithParallax({ item, index }, parallaxProps) {
     return (
+      this.state.placeSelected != null ?
       <SliderEntry
         data={item}
         even={(index + 1) % 2 === 0}
+        placeId={this.state.placeSelected}
         // parallax={true}
         // parallaxProps={parallaxProps}
-      />
+      /> : null
     );
   }
 
-  _renderLightItem({ item, index }) {
-    return <SliderEntry data={item} even={false} {...this["props"]} />;
-  }
-
-  _renderDarkItem({ item, index }) {
-    return <SliderEntry data={item} even={true} {...this["props"]} />;
-  }
-
   mainExample(number, title) {
-    const { slider1ActiveSlide } = this.state;
+    const { slider1ActiveSlide,foodDetails } = this.state;
 
-    return this.state.foodDetails !== null ? (
+    return foodDetails !== null  ? (
       <View style={[styles.exampleContainer, { marginTop: -15 }]}>
         {/*<Text style={[styles.title,{color:'#1a1917'}]}>商家列表</Text>*/}
         <Text style={[styles.subtitle, { color: "#1a1917" }]}>{title}</Text>
         <Carousel
           ref={c => (this._slider1Ref = c)}
           data={this.state.foodDetails}
-          renderItem={this._renderItemWithParallax}
+          renderItem={this._renderItemWithParallax.bind(this)}
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
           hasParallaxImages={false}
@@ -154,9 +276,9 @@ export default class ShopSwiperablePage extends Component {
           // inactiveSlideShift={20}
           containerCustomStyle={styles.slider}
           contentContainerCustomStyle={styles.sliderContentContainer}
-          loop={true}
+          loop={false}
           loopClonesPerSide={2}
-          autoplay={true}
+          autoplay={false}
           autoplayDelay={3000}
           autoplayInterval={4000}
           onSnapToItem={index => this.setState({ slider1ActiveSlide: index })}
@@ -188,12 +310,12 @@ export default class ShopSwiperablePage extends Component {
               style={{ color: "#fff" }}
             />
           </Left>
-          <Body>
-            <Text style={{ color: Colors.main_white, fontSize: 16 }}>
+          <View style={{flex: 5,alignItems:'flex-start'}}>
+            {/*<Text style={{ color: Colors.main_white, fontSize: 16 }}>
               {this.state.i18n.takeout_title}
-            </Text>
-          </Body>
-          <Right />
+        </Text>*/}
+          <PlacePicker getSeletedValue={this.getSeletedValue}/>
+          </View>
         </Header>
 
         {this.state.isError ? (
@@ -204,11 +326,12 @@ export default class ShopSwiperablePage extends Component {
         ) : null}
         {this.state.loading ? <Loading message="玩命加載中..." /> : null}
         <ScrollView
-          style={styles.scrollview}
-          scrollEventThrottle={200}
-          directionalLockEnabled={true}
+        style={styles.scrollview}
+        scrollEventThrottle={200}
+        directionalLockEnabled={true}
         >
-          {example1}
+        {example1}
+        {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
           {/*<View style={{height:GLOBAL_PARAMS._winHeight*0.15,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
                           <TouchableOpacity style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:72,height:72}} source={{uri:'dislike'}}/>

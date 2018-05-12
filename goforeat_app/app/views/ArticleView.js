@@ -224,7 +224,8 @@ export default class ArticleView extends Component {
           indicator={ProgressBar}
           indicatorProps={{color:this.props.screenProps.theme}}/></View>
           <View style={styles.articleDesc}>
-            <Text style={styles.articleTitle}>{item.date_title}{'\n'}{item.food_title}</Text>
+            <Text style={styles.articleTitle}>{item.date_title}</Text>
+            <Text style={[styles.articleTitle,{marginTop:3}]}>{item.food_title}</Text>
           </View>
           <Divider height={10} bgColor="transparent" />
         </View>

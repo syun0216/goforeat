@@ -14,6 +14,7 @@ class SliderEntry extends Component {
         even: PropTypes.bool,
         parallax: PropTypes.bool,
         parallaxProps: PropTypes.object,
+        placeId: PropTypes.number.isRequired
     };
 
     componentDidMount = () => {
@@ -45,8 +46,7 @@ class SliderEntry extends Component {
     }
 
     render () {
-        const { data: { foodName, foodBrief,foodId,foodImage }, even } = this.props;
-
+        const { data: { foodName, foodBrief,foodId,foodImage }, even ,placeId } = this.props;
 
         const uppercaseTitle = foodName ? (
             <Text
@@ -70,10 +70,11 @@ class SliderEntry extends Component {
             onPress={() => {
                 if(this.props.user !== null) {
                     this.props.navigation.navigate("Order", {
-                        foodId
+                        foodId,
+                        placeId
                     })
                 }else {
-                    this.props.navigation.navigate("Login",{foodId});
+                    this.props.navigation.navigate("Login",{foodId,placeId});
                 }
             }}
               >

@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
-import {View} from 'react-native'
-import {withNavigationFocus} from 'react-navigation'
-import MainView from './MainView'
-import {connect} from 'react-redux'
-import Loading from './components/Loading'
+import {View,StyleSheet,Text} from 'react-native';
+import {withNavigationFocus} from 'react-navigation';
+import MainView from './MainView';
+import {connect} from 'react-redux';
+import Loading from './components/Loading';
+import ToastUtils from './utils/ToastUtil';
+
 class DashBoardView extends PureComponent {
   componentDidMount() {
     // console.log('dash',this.props);

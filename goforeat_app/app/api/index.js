@@ -179,21 +179,21 @@ const api = {
     adSpace() { // 广告位接口
         return axios.get(api_url + '/adSpace/list')
     },
-    getFoodRecommend(sid) {
+    getFoodRecommend(placeId, sid) {
         return axios.get(api_url + '/food/getFoodRecommend', {
             params: {
-                limit: 15,
-                offset: 0,
+                placeId,
                 sid
             },
             timeout: 4500
         })
     },
-    createOrder(foodId,sid) {
+    createOrder(foodId,sid,placeId) {
         return axios.get(api_url + '/order/create', {
             params: {
                 foodId,
-                sid
+                sid,
+                placeId
             },
             timeout: 4500
         })
@@ -242,6 +242,9 @@ const api = {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         })
+    },
+    foodPlaces() {
+        return axios.get(api_url + '/food/getDeliveryPlace', {timeout: 4500})
     }
 }
 
