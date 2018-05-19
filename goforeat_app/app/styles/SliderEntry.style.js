@@ -49,7 +49,7 @@ export default StyleSheet.create({
     },
     image: {
         ...StyleSheet.absoluteFillObject,
-        resizeMode: 'cover',
+        resizeMode: 'stretch',
         borderRadius: IS_IOS ? entryBorderRadius : 0,
         borderTopLeftRadius: entryBorderRadius,
         borderTopRightRadius: entryBorderRadius
@@ -91,7 +91,8 @@ export default StyleSheet.create({
         marginTop: 6,
         color: colors.gray,
         fontSize: 16,
-        fontStyle: 'italic'
+        fontStyle: 'italic',
+        textAlign:'justify'
     },
     subtitleEven: {
         color: 'rgba(255, 255, 255, 0.7)'
