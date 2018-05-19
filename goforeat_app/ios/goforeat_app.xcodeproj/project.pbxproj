@@ -37,7 +37,6 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C199B0039AD94996BE1FDABE /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F70CF1BBF6934453B8C723CD /* SimpleLineIcons.ttf */; };
 		C73491FA207218FE0072B529 /* libAppCenterReactNativePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A603A02052D6F900389B91 /* libAppCenterReactNativePush.a */; };
-		C7483A9220874DEE006E201A /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7483A9120874DE2006E201A /* libFastImage.a */; };
 		C75DE5BE208185F10045D872 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C75DE5B9208185E20045D872 /* libRNI18n.a */; };
 		C7639D672069D523000A02BB /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D662069D50A000A02BB /* libRNShare.a */; };
 		C7639D692069D56E000A02BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D682069D56E000A02BB /* Social.framework */; };
@@ -321,13 +320,6 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
-		C7483A9020874DE2006E201A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C7483A8A20874DE2006E201A /* FastImage.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A287971D1DE0C0A60081BDFA;
-			remoteInfo = FastImage;
-		};
 		C75DE5B8208185E20045D872 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C75DE586208185E20045D872 /* RNI18n.xcodeproj */;
@@ -426,7 +418,6 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B620EC70262E4FA195E7529A /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		BA769471ABD14C6D9D8C56BB /* AppCenter-Config.plist */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "goforeat_app/AppCenter-Config.plist"; sourceTree = "<group>"; };
-		C7483A8A20874DE2006E201A /* FastImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
 		C75DE586208185E20045D872 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		C7639D342069D50A000A02BB /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
 		C7639D682069D56E000A02BB /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -437,7 +428,7 @@
 		C7B10B75202C93380098FAA2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = goforeat_app/Images.xcassets; sourceTree = "<group>"; };
 		C7D5CAF32041104000B9BB87 /* goforeat_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = goforeat_app.entitlements; path = goforeat_app/goforeat_app.entitlements; sourceTree = "<group>"; };
 		C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = index.ios.jsbundle; path = bundle/index.ios.jsbundle; sourceTree = "<group>"; };
-		C7DDDD8620A0A25B00BD8639 /* index.ios.jsbundle.meta */ = {isa = PBXFileReference; lastKnownFileType = file; name = index.ios.jsbundle.meta; path = bundle/index.ios.jsbundle.meta; sourceTree = "<group>"; };
+		C7DDDD8620A0A25B00BD8639 /* index.ios.jsbundle.meta */ = {isa = PBXFileReference; lastKnownFileType = text; name = index.ios.jsbundle.meta; path = bundle/index.ios.jsbundle.meta; sourceTree = "<group>"; };
 		C7DDDD8720A0A25B00BD8639 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = bundle/assets; sourceTree = "<group>"; };
 		C7E008602054B185008024BF /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		DC1A7DC5F6AF4FFA106522FB /* Pods-goforeat_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-goforeat_app.debug.xcconfig"; path = "Pods/Target Support Files/Pods-goforeat_app/Pods-goforeat_app.debug.xcconfig"; sourceTree = "<group>"; };
@@ -452,7 +443,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7483A9220874DEE006E201A /* libFastImage.a in Frameworks */,
 				C75DE5BE208185F10045D872 /* libRNI18n.a in Frameworks */,
 				C73491FA207218FE0072B529 /* libAppCenterReactNativePush.a in Frameworks */,
 				C7639D6B2069D578000A02BB /* MessageUI.framework in Frameworks */,
@@ -665,7 +655,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				C7483A8A20874DE2006E201A /* FastImage.xcodeproj */,
 				C75DE586208185E20045D872 /* RNI18n.xcodeproj */,
 				C7A69A12207089D700E06981 /* CodePush.xcodeproj */,
 				C7A3453F206F8A98002B63D1 /* AppCenterReactNative.xcodeproj */,
@@ -749,14 +738,6 @@
 				74B056FC7429408ABD5A9F51 /* libAppCenterReactNativePush.a */,
 			);
 			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		C7483A8B20874DE2006E201A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C7483A9120874DE2006E201A /* libFastImage.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		C75DE587208185E20045D872 /* Products */ = {
@@ -885,10 +866,6 @@
 				{
 					ProductGroup = C7A69A13207089D700E06981 /* Products */;
 					ProjectRef = C7A69A12207089D700E06981 /* CodePush.xcodeproj */;
-				},
-				{
-					ProductGroup = C7483A8B20874DE2006E201A /* Products */;
-					ProjectRef = C7483A8A20874DE2006E201A /* FastImage.xcodeproj */;
 				},
 				{
 					ProductGroup = C72A41D9202DEF210081D503 /* Products */;
@@ -1229,13 +1206,6 @@
 			remoteRef = C7457BF0201EF1B30025CBD5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C7483A9120874DE2006E201A /* libFastImage.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libFastImage.a;
-			remoteRef = C7483A9020874DE2006E201A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C75DE5B9208185E20045D872 /* libRNI18n.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1439,7 +1409,10 @@
 				INFOPLIST_FILE = goforeat_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/JPush/lib\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1478,7 +1451,10 @@
 				INFOPLIST_FILE = goforeat_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/JPush/lib\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

@@ -4,15 +4,21 @@ PODS:
     - AppCenter/Core
   - AppCenterReactNativeShared (1.3.0):
     - AppCenter/Core (= 1.4.0)
+  - JCore (1.1.7)
+  - JPush (3.0.8):
+    - JCore (~> 1.1.7)
 
 DEPENDENCIES:
   - AppCenter/Push (~> 1.4.0)
   - AppCenterReactNativeShared (~> 1.3.0)
+  - JPush
 
 SPEC CHECKSUMS:
   AppCenter: 2f5890b60944971b8c3767269a9d693205a91fef
   AppCenterReactNativeShared: 784f42fbb8f12c9bc587527a650c48d8f001295f
+  JCore: f7459c81c135281a874a6beafdd321666adcc834
+  JPush: 9574d072cc37e93fa293ba69b43ce763c440943a
 
-PODFILE CHECKSUM: 787c49b2e182fee5d1dc39960a1453431353fec8
+PODFILE CHECKSUM: 0b4a95abb44428524a0805338af3b487b23b7e59
 
 COCOAPODS: 1.4.0

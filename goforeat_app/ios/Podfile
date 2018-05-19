@@ -8,6 +8,7 @@ target 'goforeat_app' do
   # Pods for goforeat_app
   pod 'AppCenterReactNativeShared', '~> 1.3.0'
   pod 'AppCenter/Push', '~> 1.4.0'
+  pod 'JPush'
 
   platform :ios, '9.0'
 
@@ -19,6 +20,6 @@ target 'goforeat_app' do
 #  'ART',
 #  ]
 
-  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+#  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
 
 end

@@ -61,7 +61,11 @@ export default class ShopSwiperablePage extends Component {
       isError: false,
       loading: true,
       i18n: i18n[this.props.screenProps.language],
-      placeSelected: null
+      placeSelected: null,
+      formatDate: {
+        date: '',
+        week: ''
+      }
     };
   }
 
@@ -86,11 +90,35 @@ export default class ShopSwiperablePage extends Component {
             }
         })
     this._current_offset = 0;
+    this._formatDate();
+  }
+
+  _formatDate() {
+    let _Date = new Date();
+    let _date_format = [_Date.getFullYear(),_Date.getMonth()+1,_Date.getDate()].join('-');
+    let _week_day = null;
+    switch(_Date.getDay()) 
+      { 
+      case 0:_week_day = "星期日";break; 
+      case 1:_week_day = "星期一";break; 
+      case 2:_week_day = "星期二";break; 
+      case 3:_week_day = "星期三";break; 
+      case 4:_week_day = "星期四";break; 
+      case 5:_week_day = "星期五";break; 
+      case 6:_week_day = "星期六";break; 
+      default:_week_day = "系统错误！" 
+      } 
+    this.setState({
+      formatDate: {
+        date: _date_format,
+        week: _week_day
+      }
+    });
   }
 
   // logic - update
 
-  _checkForUpdate = () => {
+  _checkForUpdate() {
     CodePush.checkForUpdate(CodePushUtils.getDeploymentKey()).then(remotePackage => {
       // console.log(remotePackage);
         if (remotePackage == null) {
@@ -186,7 +214,6 @@ export default class ShopSwiperablePage extends Component {
 
   //api
   _getRecomendFoodList = (placeId) => {
-    console.log(placeId);
     api.getFoodRecommend(placeId, this.props.screenProps.sid).then(
       data => {
         if (data.status === 200 && data.data.ro.ok) {
@@ -233,6 +260,16 @@ export default class ShopSwiperablePage extends Component {
     this._getRecomendFoodList(val);
   }
 
+  _renderDateFormat() {
+    return (
+      <View style={{marginTop:16,marginLeft:16}}>
+        <Text style={{color: this.props.screenProps.theme,fontSize: 18}}>
+        {this.state.formatDate.week}的餐單</Text>
+        <Text style={{color: this.props.screenProps.theme,fontSize: 13}}>{this.state.formatDate.date}</Text>
+      </View>
+    )
+  }
+
   _renderItem({ item, index }) {
     return (
       <SliderEntry
@@ -262,7 +299,7 @@ export default class ShopSwiperablePage extends Component {
     return foodDetails !== null  ? (
       <View style={[styles.exampleContainer, { marginTop: -15 }]}>
         {/*<Text style={[styles.title,{color:'#1a1917'}]}>商家列表</Text>*/}
-        <Text style={[styles.subtitle, { color: "#1a1917" }]}>{title}</Text>
+
         <Carousel
           ref={c => (this._slider1Ref = c)}
           data={this.state.foodDetails}
@@ -330,6 +367,7 @@ export default class ShopSwiperablePage extends Component {
         scrollEventThrottle={200}
         directionalLockEnabled={true}
         >
+        {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
         {example1}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
           {/*<View style={{height:GLOBAL_PARAMS._winHeight*0.15,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
@@ -340,19 +378,6 @@ export default class ShopSwiperablePage extends Component {
                             <Image style={{width:72,height:72}} source={{uri:'like'}}/>
                           </TouchableOpacity>
                         </View>*/}
-          <Button
-            transparent
-            style={{ alignSelf: "center", flexDirection: "row" }}
-            onPress={() => this._refresh()}
-          >
-            {/*<Icon*/}
-            {/*name="md-refresh"*/}
-            {/*style={{fontSize: 40, color: this.props.screenProps.theme}}*/}
-            {/*/>*/}
-            {/*<Text style={{fontSize: 20, color: this.props.screenProps.theme}}>*/}
-            {/*換一批*/}
-            {/*</Text>*/}
-          </Button>
         </ScrollView>
       </Container>
     );
