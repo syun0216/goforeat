@@ -30,7 +30,6 @@ import {
   Spinner,
   Icon
 } from "native-base";
-import FastImage from "react-native-fast-image";
 import Image from 'react-native-image-progress';
 //api
 import api from "../api";

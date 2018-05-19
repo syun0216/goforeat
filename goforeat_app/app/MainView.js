@@ -96,7 +96,7 @@ const tabView = TabNavigator(
     ShopTab: {
       screen: ShopSwiperablePage,
       navigationOptions: {
-        tabBarLabel: "每日精選",
+        tabBarLabel: "外卖",
         tabBarIcon: ({ tintColor, focused }) => (
           <Icon
             size={28}

@@ -40,10 +40,10 @@ export default class PlacePicker extends PureComponent {
   getPlace = () => {
     api.foodPlaces().then(data => {
       if(data.status === 200 && data.data.ro.ok) {
-        data.data.data = data.data.data.map((v,i) => ({
-          ...v,
-          name: v.name.length> 10 ? v.name.substring(0,10) + '...' : v.name
-        }))
+        // data.data.data = data.data.data.map((v,i) => ({
+        //   ...v,
+        //   name: v.name.length> 10 ? v.name.substring(0,10) + '...' : v.name
+        // }))
         this.setState({
           placeList: data.data.data,
           selected: data.data.data[0].id
@@ -61,7 +61,7 @@ export default class PlacePicker extends PureComponent {
     return this.state.placeList != null ? (
       <Picker mode = "dropdown"
       iosHeader = "選擇取餐地點"
-      iosIcon = { < Icon  name = "ios-arrow-down-outline"/ >}
+      // iosIcon = { < Icon  name = "ios-arrow-down-outline"/ >}
       headerBackButtonText="返回"
       style = {
         {

@@ -175,7 +175,7 @@ export default class ConfirmOrderView extends PureComponent {
             <Text style={styles.commonText}>菜品名稱:{orderDetail[0].foodName}{'\n'}HKD {orderDetail[0].foodMoney}{'      '}數量{orderDetail[0].foodNum}</Text>
           </ListItem>
           <ListItem>
-            <Text style={styles.commonText}>{takeDate}{'     '}{takeTime}{'\n'}{takeAddressDetail}</Text>
+            <Text style={styles.commonText}>{takeDate}{" "}{takeTime}{'\n'}{takeAddressDetail}</Text>
           </ListItem>
           <Separator bordered>
             <Text style={styles.commonText}>總計</Text>

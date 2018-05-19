@@ -262,8 +262,8 @@ export default class ShopSwiperablePage extends Component {
 
   _renderDateFormat() {
     return (
-      <View style={{marginTop:16,marginLeft:16}}>
-        <Text style={{color: this.props.screenProps.theme,fontSize: 18}}>
+      <View style={{marginTop:10,marginLeft:GLOBAL_PARAMS._winWidth*0.120}}>
+        <Text style={{color: this.props.screenProps.theme,fontSize: 20}}>
         {this.state.formatDate.week}的餐單</Text>
         <Text style={{color: this.props.screenProps.theme,fontSize: 13}}>{this.state.formatDate.date}</Text>
       </View>
@@ -339,18 +339,19 @@ export default class ShopSwiperablePage extends Component {
           }}
           iosBarStyle="light-content"
         >
-          <Left>
+          <View style={{width: 30,justifyContent:'center',alignItems:'center'}}>
             <Icon
               onPress={() => this.props.navigation.navigate("DrawerOpen")}
-              name="md-apps"
+              name="md-menu"
               size={20}
               style={{ color: "#fff" }}
             />
-          </Left>
-          <View style={{flex: 5,alignItems:'flex-start'}}>
+          </View>
+          <View style={{flex: 1,alignItems:'center',flexDirection:'row',justifyContent:'center'}}>
             {/*<Text style={{ color: Colors.main_white, fontSize: 16 }}>
               {this.state.i18n.takeout_title}
         </Text>*/}
+          <Icon name="md-locate" style={{fontSize:20,color:'#fff'}}/>
           <PlacePicker getSeletedValue={this.getSeletedValue}/>
           </View>
         </Header>
