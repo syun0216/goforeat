@@ -507,8 +507,8 @@ const drawer_style = StyleSheet.create({
     paddingTop: 30
   },
   drawer_avatar: {
-    width: 60,
-    height: 60
+    width: 45,
+    height: 45
   },
   commonImage: {
     width: 32,

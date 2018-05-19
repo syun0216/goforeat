@@ -41,6 +41,7 @@ const slideAnimation = new SlideAnimation({
 
 export default class ConfirmOrderView extends PureComponent {
   _popupDialog = null;
+  timer = null;
   state = {
     _name: "",
     _phone: "",
@@ -51,7 +52,14 @@ export default class ConfirmOrderView extends PureComponent {
   };
 
   componentDidMount() {
-    this._createOrder();
+    this.timer = setTimeout(() => {
+      this._createOrder();
+      clearTimeout(this.timer);
+    },500);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   componentWillReceiveProps(a, b) {
@@ -60,7 +68,6 @@ export default class ConfirmOrderView extends PureComponent {
 
   _createOrder = () => {
     let {foodId,placeId} = this.props.navigation.state.params;
-    console.log(placeId);
     api.createOrder(foodId,this.props.screenProps.sid,placeId).then(
       data => {
         if (data.status === 200 && data.data.ro.ok) {

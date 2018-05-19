@@ -46,6 +46,8 @@ let requestParams = {
 }
 
 export default class PeopleView extends Component {
+  timer = null;
+
   state = {
     orderlist: [],
     orderTips: '沒有您的訂單哦~',
@@ -67,10 +69,14 @@ export default class PeopleView extends Component {
   }
 
   componentDidMount = () => {
-    this._getMyOrder(0);
+    this.timer = setTimeout(() => {
+      this._getMyOrder(0);
+      clearTimeout(this.timer);
+    },500)
   }
 
   componentWillUnmount = () => {
+    clearTimeout(this.timer);
     requestParams = {
       status: {
         LOADING: 0,

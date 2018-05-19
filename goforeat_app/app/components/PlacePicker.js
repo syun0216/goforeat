@@ -40,6 +40,10 @@ export default class PlacePicker extends PureComponent {
   getPlace = () => {
     api.foodPlaces().then(data => {
       if(data.status === 200 && data.data.ro.ok) {
+        data.data.data = data.data.data.map((v,i) => ({
+          ...v,
+          name: v.name.length> 10 ? v.name.substring(0,10) + '...' : v.name
+        }))
         this.setState({
           placeList: data.data.data,
           selected: data.data.data[0].id

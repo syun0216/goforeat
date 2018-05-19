@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     // top:0,
     // left:0,
     // flex:1,
+    backgroundColor: Colors.main_white,
     justifyContent: "flex-start",
     padding: 60,
     zIndex: 10000,
