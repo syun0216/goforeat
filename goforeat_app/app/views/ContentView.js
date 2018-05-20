@@ -12,7 +12,8 @@ import {
   ToastAndroid,
   Clipboard,
   Platform,
-  Modal
+  Modal,
+  ActivityIndicator
 } from "react-native";
 import {
   Container,
@@ -315,12 +316,26 @@ export default class ContentView extends Component {
     </Content>
   )};
 
+  _activityIndicatorLoadingView() {
+    return (
+      <View style={{flex: 1,justifyContent: 'center',alignItems:'center'}}>
+        <ActivityIndicator
+          size='small'
+          color={this.props.screenProps.theme}
+        />
+        <Text></Text>
+      </View>
+    );
+  }
+
   _renderArticleContentView = () => (
     <WebView
       bounces={true}
       scalesPageToFit={true}
       source={{ uri: this.props.navigation.state.params.data.url }}
       onError={() => this.setState({isError: true})}
+      renderLoading={() => <Loading />}
+      startInLoadingState={true}
       style={{
         width: GLOBAL_PARAMS._winWidth,
         height: GLOBAL_PARAMS._winHeight
