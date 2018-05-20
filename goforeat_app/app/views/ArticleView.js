@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View,Text, TouchableOpacity,TouchableWithoutFeedback, Platform, SectionList,StyleSheet} from 'react-native'
+import {View,Text, TouchableOpacity,TouchableWithoutFeedback, Platform, SectionList,StyleSheet,ActivityIndicator,RefreshControl} from 'react-native'
 import {
   Container,
   Header,
@@ -10,7 +10,7 @@ import {
   Thumbnail,
   Left,
   Body,
-  Icon
+  Icon,
 } from 'native-base';
 import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
@@ -47,9 +47,9 @@ export default class ArticleView extends Component {
     loadingStatus:{
       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
-      refresh:false
     },
-    i18n: i18n[this.props.screenProps.language]
+    i18n: i18n[this.props.screenProps.language],
+    refreshing: false
   }
 
   componentDidMount() {
@@ -70,6 +70,9 @@ export default class ArticleView extends Component {
   _onRequestFirstPageData = () => {
     api.getArticleList(0).then(data => {
       // console.log(data)
+      this.setState({
+        refreshing: false
+      })
       if(data.status === 200) {
         data.data.data = data.data.data.map((v,i) => ({
           ...v,
@@ -87,6 +90,7 @@ export default class ArticleView extends Component {
       else{
         this.setState({
           articleList: data.data.data,
+          refreshing: false,
           loadingStatus:{
             firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
           }
@@ -186,6 +190,14 @@ export default class ArticleView extends Component {
     })
   }
 
+  _onRefreshToRequestFirstPageData() {
+    this.setState({
+      refreshing: true
+    });
+    requestParams.currentOffset = 1;
+    this._onRequestFirstPageData();
+  }
+
   _onEndReach = () => {
     requestParams.nextOffset += 5
     this._onRequestNextPage(requestParams.nextOffset)
@@ -213,13 +225,19 @@ export default class ArticleView extends Component {
       onEndReached={() => this._onEndReach()}
       // ListHeaderComponent={() => <ArticleSwiper />}
       ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}
+      refreshControl={
+        <RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={() => this._onRefreshToRequestFirstPageData()}
+        />
+      }
     />
   )
 
   _renderArticleListItemView = (item,index) => (
       <TouchableWithoutFeedback style={styles.articleItemContainer}
         onPress={() => this.props.navigation.navigate('Content', {data: item,kind:'article'})}>
-        <View style={styles.artivleItemInnerContainer}>
+        {/*<View style={styles.artivleItemInnerContainer}>
           <View><Image style={styles.articleImage} source={{uri:item.pic}} 
           indicator={ProgressBar}
           indicatorProps={{color:this.props.screenProps.theme}}/></View>
@@ -228,7 +246,18 @@ export default class ArticleView extends Component {
             <Text style={[styles.articleTitle,{marginTop:3}]}>{item.food_title}</Text>
           </View>
           <Divider height={10} bgColor="transparent" />
-        </View>
+        </View>*/}
+        <Card style={{width: GLOBAL_PARAMS._winWidth*0.95,alignSelf: 'center',}}>
+          <CardItem cardBody>
+            <Image source={{uri: item.pic}} style={{height: 200, width: null, flex: 1}}/>
+          </CardItem>
+          <CardItem>
+              <View style={styles.articleDesc}>
+              <Text style={[styles.articleTitle,{fontSize: 20,color:this.props.screenProps.theme}]}>{item.date_title}</Text>
+              <Text style={[styles.articleTitle,{marginTop:3,fontSize: 15,}]}>{item.food_title}</Text>
+          </View>
+            </CardItem>
+        </Card>
       </TouchableWithoutFeedback>
     )
 
@@ -256,12 +285,17 @@ const styles = StyleSheet.create({
     height:250,
     flex:1,
     borderRadius: 20,
+    margin: 10,
+    borderRadius :5
   },
   artivleItemInnerContainer: {
-    borderRadius: 20,
     flex:1,
+    alignItems: 'center',
     // paddingTop:10,
     // paddingBottom: 0,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
   },
   articleImage: {
     width:GLOBAL_PARAMS._winWidth,
@@ -270,11 +304,13 @@ const styles = StyleSheet.create({
   articleDesc: {
     flex:1,
     justifyContent:'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingLeft:10,
     backgroundColor: '#fff',
     paddingTop:10,
-    paddingBottom:10
+    paddingBottom:10,
+    borderTopColor: '#eee',
+    borderTopWidth: 1,
   },
   articleTitle: {
     fontSize:18,
