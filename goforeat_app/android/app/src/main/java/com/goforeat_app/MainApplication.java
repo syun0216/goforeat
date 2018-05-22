@@ -3,12 +3,9 @@ package com.goforeat_app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.dylanvann.fastimage.FastImageViewPackage;
 import com.microsoft.codepush.react.CodePush;
 import cl.json.RNSharePackage;
 import com.imagepicker.ImagePickerPackage;
-import com.beefe.picker.PickerViewPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.microsoft.appcenter.reactnative.push.AppCenterReactNativePushPackage;
 import com.wix.interactable.Interactable;
 import com.facebook.react.ReactNativeHost;
@@ -38,12 +35,9 @@ public class MainApplication extends Application implements ReactApplication {
       String deploymentKey = BuildConfig.DEBUG ? "fMXsr1oL8ExCRlmMZD2nLEWHY0-rd261912e-873f-4270-b887-25c360664c8c" : "tbisaS3TKf-Bo3vwCkzIC-TJPf4cd261912e-873f-4270-b887-25c360664c8c";
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new FastImageViewPackage(),
             new CodePush(deploymentKey, getApplicationContext(), BuildConfig.RELEASE),
             new RNSharePackage(),
             new ImagePickerPackage(),
-            new PickerViewPackage(),
-            new VectorIconsPackage(),
             new AppCenterReactNativePushPackage(MainApplication.this),
             new Interactable()
       );

@@ -10,7 +10,7 @@ function wp (percentage) {
 }
 
 const slideHeight = viewportHeight * 0.70;
-const slideWidth = wp(80);
+const slideWidth = wp(90);
 const itemHorizontalMargin = wp(2);
 
 export const sliderWidth = viewportWidth;
@@ -23,7 +23,8 @@ export default StyleSheet.create({
         width: itemWidth,
         height: slideHeight,
         paddingHorizontal: itemHorizontalMargin,
-        paddingBottom: 18 // needed for shadow
+        paddingBottom: 18, // needed for shadow
+        // backgroundColor: '#fff'
     },
     shadow: {
         position: 'absolute',

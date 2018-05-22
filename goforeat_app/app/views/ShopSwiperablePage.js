@@ -9,7 +9,8 @@ import {
   Image,
   TouchableOpacity,
   AppState,
-  Alert
+  Alert,
+  Animated
 } from "react-native";
 import {
   Container,
@@ -38,6 +39,7 @@ import ErrorPage from "../components/ErrorPage";
 import Loading from "../components/Loading";
 import PlacePicker from '../components/PlacePicker';
 import BlankPage from '../components/BlankPage';
+import BottomOrderConfirm from '../components/BottomOrderConfirm';
 //language
 import i18n from "../language/i18n";
 //codepush
@@ -65,7 +67,9 @@ export default class ShopSwiperablePage extends Component {
       formatDate: {
         date: '',
         week: ''
-      }
+      },
+      isBottomContainerShow: false,
+      foodCount: 0
     };
   }
 
@@ -262,7 +266,7 @@ export default class ShopSwiperablePage extends Component {
 
   _renderDateFormat() {
     return (
-      <View style={{marginTop:10,marginLeft:GLOBAL_PARAMS._winWidth*0.120}}>
+      <View style={{marginTop:10,marginLeft:GLOBAL_PARAMS._winWidth*0.1}}>
         <Text style={{color: this.props.screenProps.theme,fontSize: 20}}>
         {this.state.formatDate.week}的餐單</Text>
         <Text style={{color: this.props.screenProps.theme,fontSize: 13}}>{this.state.formatDate.date}</Text>
@@ -287,6 +291,20 @@ export default class ShopSwiperablePage extends Component {
         data={item}
         even={(index + 1) % 2 === 0}
         placeId={this.state.placeSelected}
+        getCount={(count) => {
+          if(count > 0) {
+            this.setState({
+              isBottomContainerShow: true,
+              foodCount: count
+            })
+          }else {
+            this.setState({
+              isBottomContainerShow: false,
+              foodCount: 0
+            })
+          }
+        }}
+        {...this['props']}
         // parallax={true}
         // parallaxProps={parallaxProps}
       /> : null
@@ -363,6 +381,7 @@ export default class ShopSwiperablePage extends Component {
           />
         ) : null}
         {this.state.loading ? <Loading message="玩命加載中..." /> : null}
+        <BottomOrderConfirm {...this['props']} isShow={this.state.isBottomContainerShow}/>
         <ScrollView
         style={styles.scrollview}
         scrollEventThrottle={200}

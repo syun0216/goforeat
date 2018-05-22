@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {View,Text,StyleSheet} from 'react-native'
-import FastImage from 'react-native-fast-image';
 import Image from "react-native-image-progress";
 import Swiper from 'react-native-swiper'
 import GLOBAL_PARAMS from '../utils/global_params'
@@ -48,20 +47,6 @@ const img_arr = [
 
 const GoodsSwiper = (props) => {
   // console.log(props);
-    FastImage.preload([
-        {
-            uri: 'https://img.xiumi.us/xmi/ua/18Wf8/i/ab6735c0cc5086…c70c16efab58-sz_152698.jpg?x-oss-process=style/xm',
-        },
-        {
-            uri: "https://img.xiumi.us/xmi/ua/18Wf8/i/e024cabf203aea…051f54687bf4-sz_138698.jpg?x-oss-process=style/xm",
-        },
-        {
-            uri: "https://img.xiumi.us/xmi/ua/18Wf8/i/9d41f0eb2f21db…0564b70931b3-sz_192840.jpg?x-oss-process=style/xm",
-        },
-        {
-            uri: "https://img.xiumi.us/xmi/ua/18Wf8/i/61d0cd33f6c546…3e542051a37a-sz_177244.jpg?x-oss-process=style/xm",
-        },
-    ])
   return (<Swiper style={styles.wrapper}
     autoplay
     loop
@@ -71,7 +56,7 @@ const GoodsSwiper = (props) => {
     showsPagination={false}>
     {props.adDetail.map((item,idx) => (
       <View key={idx}>
-        <FastImage style={styles.img} source={{uri: item.image,priority: FastImage.priority.low}}/>
+        <Image style={styles.img} source={{uri: item.image}}/>
       </View>
     ))}
     {

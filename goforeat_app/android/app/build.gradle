@@ -155,12 +155,9 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-fast-image')
     compile project(':react-native-code-push')
     compile project(':react-native-share')
     compile project(':react-native-image-picker')
-    compile project(':react-native-picker')
-    compile project(':react-native-vector-icons')
     compile project(':appcenter-push')
     compile project(':react-native-interactable')
     compile fileTree(include: ['*.jar'], dir: 'libs')

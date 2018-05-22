@@ -1,11 +1,53 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity,StyleSheet } from 'react-native';
+import {Icon} from 'native-base';
 import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
-import styles from '../styles/SliderEntry.style';
+import styles,{slideWidth} from '../styles/SliderEntry.style';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import ToastUtil from '../utils/ToastUtil';
+//utils
+import GLOBAL_PARAMS from '../utils/global_params';
+
+const _styles = StyleSheet.create({
+    countContainer:{
+        width: GLOBAL_PARAMS._winWidth*0.9,
+        backgroundColor:'#fff'
+    },
+    countInnerContainer: {
+        height: 40,
+        width: GLOBAL_PARAMS._winWidth*0.80,
+        borderRadius: 20,
+        marginLeft: GLOBAL_PARAMS._winWidth*0.055,
+        marginTop: -30,
+        zIndex: 999,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    count: {
+        flexDirection:'row',
+        justifyContent: 'center',
+        flex: 1
+    },
+    common_text: {
+        color: '#fff',
+        fontSize: 16,
+        maxWidth: 120
+    },
+    common_icon: {
+        color: '#fff',
+        fontSize: 20,
+        marginLeft: 25,
+        marginRight: 25,
+    },
+    common_view:{
+        width: GLOBAL_PARAMS._winWidth*0.45,
+        flexDirection: 'row',
+        justifyContent: 'center',
+    }
+})
 
 class SliderEntry extends Component {
     isLogin = false;
@@ -14,8 +56,13 @@ class SliderEntry extends Component {
         even: PropTypes.bool,
         parallax: PropTypes.bool,
         parallaxProps: PropTypes.object,
-        placeId: PropTypes.number.isRequired
+        placeId: PropTypes.number.isRequired,
+        getCount: PropTypes.func
     };
+
+    state = {
+        count: 0
+    }
 
     componentDidMount = () => {
         // console.log(123, this.props);
@@ -43,6 +90,46 @@ class SliderEntry extends Component {
               style={styles.image}
             />
         );
+    }
+
+    _add() {
+        this.setState({
+            count: this.state.count + 1
+        });
+        this.props.getCount(this.state.count + 1);
+    }
+
+    _remove() {
+        if(this.state.count == 0) {
+            return;
+        }
+        this.setState({
+            count: this.state.count - 1
+        })
+        this.props.getCount(this.state.count - 1);
+    }
+
+    _renderCountView() {
+        const { data: { foodName, foodBrief,foodId,foodImage } } = this.props;
+        return (
+            <View style={_styles.countContainer}>
+                <View style={[_styles.countInnerContainer,{backgroundColor: this.props.screenProps.theme}]}>
+                    <View style={_styles.common_view}>
+                        <Text style={_styles.common_text} numberOfLines={1}>{foodName}12321</Text>
+                        <Text style={[_styles.common_text,{marginLeft: 10}]}>{" "}|{" "}</Text>
+                    </View>
+                    <View style={_styles.count}>
+                        <TouchableOpacity onPress={() => this._remove()}>
+                            <Icon name="md-remove" style={_styles.common_icon}/>
+                        </TouchableOpacity>
+                        <Text style={_styles.common_text}>{this.state.count}</Text>
+                        <TouchableOpacity onPress={() => this._add()}>
+                            <Icon name="md-add" style={_styles.common_icon}/>
+                        </TouchableOpacity>    
+                    </View>
+                </View>
+            </View>
+        )
     }
 
     render () {
@@ -82,6 +169,7 @@ class SliderEntry extends Component {
                     { this.image }
                     <View style={[styles.radiusMask]} />
                 </View>
+                {this._renderCountView()}
                 <View style={[styles.textContainer]}>
                     { uppercaseTitle }
                     <Text
