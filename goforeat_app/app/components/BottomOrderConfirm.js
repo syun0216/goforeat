@@ -67,7 +67,7 @@ export default class BottomOrderConfirm extends PureComponent {
         outputRange: [-50, 0]
       })}]}>
         <View style={styles.commonView}>
-          <TouchableOpacity onPress={this._cancelOrder}>
+          <TouchableOpacity style={{width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50, alignItems:'center'}} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,{color: theme,fontSize:28,marginTop: 3}]}/>
           </TouchableOpacity>
           <Text style={{marginLeft: 10}}>HKD{" "}</Text>

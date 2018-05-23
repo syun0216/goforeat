@@ -12,12 +12,12 @@ import GLOBAL_PARAMS from '../utils/global_params';
 
 const _styles = StyleSheet.create({
     countContainer:{
-        width: GLOBAL_PARAMS._winWidth*0.9,
+        width: GLOBAL_PARAMS._winWidth*0.8,
         backgroundColor:'#fff'
     },
     countInnerContainer: {
         height: 40,
-        width: GLOBAL_PARAMS._winWidth*0.901,
+        width: GLOBAL_PARAMS._winWidth*0.801,
         opacity:0.9,
         // borderRadius: 20,
         marginTop: -48,
@@ -34,7 +34,7 @@ const _styles = StyleSheet.create({
     common_text: {
         color: '#fff',
         fontSize: 16,
-        maxWidth: 170
+        maxWidth: GLOBAL_PARAMS._winWidth < 350 ? 130 : 170
     },
     common_icon: {
         color: '#fff',
@@ -43,7 +43,7 @@ const _styles = StyleSheet.create({
         // marginRight: 25,
     },
     common_view:{
-        width: GLOBAL_PARAMS._winWidth*0.55,
+        width: GLOBAL_PARAMS._winWidth*0.50,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems:'center'
@@ -121,11 +121,11 @@ class SliderEntry extends Component {
                         <Text style={[_styles.common_text,{marginLeft: 10}]}>{" "}|{" "}</Text>
                     </View>
                     <View style={_styles.count}>
-                        <TouchableOpacity onPress={() => this._remove()}>
+                        <TouchableOpacity style={{width: 40,alignItems:'center'}} onPress={() => this._remove()}>
                             <Icon name="md-remove" style={_styles.common_icon}/>
                         </TouchableOpacity>
                         <Text style={_styles.common_text}>{this.props.count}</Text>
-                        <TouchableOpacity onPress={() => this._add()}>
+                        <TouchableOpacity style={{width: 40,alignItems:'center'}} onPress={() => this._add()}>
                             <Icon name="md-add" style={_styles.common_icon}/>
                         </TouchableOpacity>    
                     </View>
