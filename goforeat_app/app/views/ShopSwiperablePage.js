@@ -92,7 +92,7 @@ export default class ShopSwiperablePage extends Component {
                     this._checkForUpdate();
                 }
             }
-        })
+        });
     this._current_offset = 0;
     this._formatDate();
   }
@@ -259,21 +259,24 @@ export default class ShopSwiperablePage extends Component {
 
   getSeletedValue = (val) => {
     this.setState({
-      placeSelected: val
+      placeSelected: val,
+      foodCount: 0,
+      isBottomContainerShow: false
     })
     this._getRecomendFoodList(val);
   }
 
   _goToOrder = () => {
     let {foodId} = this.state.foodDetails[0];
-    let {placeSelected} = this.state.placeSelected;
-    if(this.props.user !== null) {
+    let {placeSelected,foodCount} = this.state;
+    if(this.props.screenProps.user !== null) {
       this.props.navigation.navigate("Order", {
           foodId,
-          placeId: placeSelected
+          placeId: placeSelected,
+          amount: foodCount
       })
   }else {
-      this.props.navigation.navigate("Login",{foodId,placeId: placeSelected});
+      this.props.navigation.navigate("Login",{foodId,placeId: placeSelected,amount: foodCount});
   }
   }
 
@@ -404,11 +407,11 @@ export default class ShopSwiperablePage extends Component {
           />
         ) : null}
         {this.state.loading ? <Loading message="玩命加載中..." /> : null}
-        <BottomOrderConfirm {...this['props']} 
+        {this.state.foodDetails != null && this.state.foodDetails.length >0  ? <BottomOrderConfirm {...this['props']} 
         isShow={this.state.isBottomContainerShow} 
-        total={this.state.foodCount*30}
+        total={this.state.foodCount*this.state.foodDetails[0].price}
         goToOrder={this._goToOrder}
-        cancelOrder={this._cancelOrder}/>
+        cancelOrder={this._cancelOrder}/> : null}
         <ScrollView
         style={styles.scrollview}
         scrollEventThrottle={200}

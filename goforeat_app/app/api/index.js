@@ -188,12 +188,13 @@ const api = {
             timeout: 4500
         })
     },
-    createOrder(foodId,sid,placeId) {
+    createOrder(foodId,sid,placeId,amount) {
         return axios.get(api_url + '/order/create', {
             params: {
                 foodId,
                 sid,
-                placeId
+                placeId,
+                amount
             },
             timeout: 4500
         })

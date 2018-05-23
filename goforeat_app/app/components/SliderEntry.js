@@ -17,10 +17,10 @@ const _styles = StyleSheet.create({
     },
     countInnerContainer: {
         height: 40,
-        width: GLOBAL_PARAMS._winWidth*0.80,
-        borderRadius: 20,
-        marginLeft: GLOBAL_PARAMS._winWidth*0.055,
-        marginTop: -30,
+        width: GLOBAL_PARAMS._winWidth*0.901,
+        opacity:0.9,
+        // borderRadius: 20,
+        marginTop: -48,
         zIndex: 999,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -28,24 +28,25 @@ const _styles = StyleSheet.create({
     },
     count: {
         flexDirection:'row',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         flex: 1
     },
     common_text: {
         color: '#fff',
         fontSize: 16,
-        maxWidth: 120
+        maxWidth: 170
     },
     common_icon: {
         color: '#fff',
         fontSize: 20,
-        marginLeft: 25,
-        marginRight: 25,
+        // marginLeft: 25,
+        // marginRight: 25,
     },
     common_view:{
-        width: GLOBAL_PARAMS._winWidth*0.45,
+        width: GLOBAL_PARAMS._winWidth*0.55,
         flexDirection: 'row',
         justifyContent: 'center',
+        alignItems:'center'
     }
 })
 
@@ -111,12 +112,12 @@ class SliderEntry extends Component {
     }
 
     _renderCountView() {
-        const { data: { foodName, foodBrief,foodId,foodImage } } = this.props;
+        const { data: { foodName, foodBrief,foodId,foodImage,price } } = this.props;
         return (
             <View style={_styles.countContainer}>
                 <View style={[_styles.countInnerContainer,{backgroundColor: this.props.screenProps.theme}]}>
                     <View style={_styles.common_view}>
-                        <Text style={_styles.common_text} numberOfLines={1}>{foodName}12321</Text>
+                        <Text style={_styles.common_text} numberOfLines={1}>{foodName}</Text>
                         <Text style={[_styles.common_text,{marginLeft: 10}]}>{" "}|{" "}</Text>
                     </View>
                     <View style={_styles.count}>
@@ -166,7 +167,7 @@ class SliderEntry extends Component {
                 </View>
                 {this._renderCountView()}
                 <View style={[styles.textContainer]}>
-                    { uppercaseTitle }
+                    
                     <Text
                       style={[styles.subtitle]}
                       numberOfLines={5}

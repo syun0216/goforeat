@@ -153,7 +153,8 @@ export default class LoginView extends Component {
           this.props.navigation.navigate('Order',
             {
                 replaceRoute: true,
-                foodId: params.foodId
+                foodId: params.foodId,
+                amount: params.amount
             }
         );
         }
