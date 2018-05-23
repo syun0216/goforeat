@@ -53,7 +53,7 @@ const SLIDER_1_FIRST_ITEM = 1;
 
 export default class ShopSwiperablePage extends Component {
   _current_offset = 0;
-
+  _SliderEntry = null;
   constructor(props) {
     super(props);
     this.state = {
@@ -264,6 +264,27 @@ export default class ShopSwiperablePage extends Component {
     this._getRecomendFoodList(val);
   }
 
+  _goToOrder = () => {
+    let {foodId} = this.state.foodDetails[0];
+    let {placeSelected} = this.state.placeSelected;
+    if(this.props.user !== null) {
+      this.props.navigation.navigate("Order", {
+          foodId,
+          placeId: placeSelected
+      })
+  }else {
+      this.props.navigation.navigate("Login",{foodId,placeId: placeSelected});
+  }
+  }
+
+  _cancelOrder = () => {
+    this.setState({
+      isBottomContainerShow: false,
+      foodCount: 0
+    })
+    
+  }
+
   _renderDateFormat() {
     return (
       <View style={{marginTop:10,marginLeft:GLOBAL_PARAMS._winWidth*0.1}}>
@@ -288,6 +309,7 @@ export default class ShopSwiperablePage extends Component {
     return (
       this.state.placeSelected != null ?
       <SliderEntry
+        ref={(se) => this._SliderEntry = se}
         data={item}
         even={(index + 1) % 2 === 0}
         placeId={this.state.placeSelected}
@@ -304,6 +326,7 @@ export default class ShopSwiperablePage extends Component {
             })
           }
         }}
+        count={this.state.foodCount}
         {...this['props']}
         // parallax={true}
         // parallaxProps={parallaxProps}
@@ -381,7 +404,11 @@ export default class ShopSwiperablePage extends Component {
           />
         ) : null}
         {this.state.loading ? <Loading message="玩命加載中..." /> : null}
-        <BottomOrderConfirm {...this['props']} isShow={this.state.isBottomContainerShow}/>
+        <BottomOrderConfirm {...this['props']} 
+        isShow={this.state.isBottomContainerShow} 
+        total={this.state.foodCount*30}
+        goToOrder={this._goToOrder}
+        cancelOrder={this._cancelOrder}/>
         <ScrollView
         style={styles.scrollview}
         scrollEventThrottle={200}

@@ -57,7 +57,8 @@ class SliderEntry extends Component {
         parallax: PropTypes.bool,
         parallaxProps: PropTypes.object,
         placeId: PropTypes.number.isRequired,
-        getCount: PropTypes.func
+        getCount: PropTypes.func,
+        count: PropTypes.number
     };
 
     state = {
@@ -93,20 +94,20 @@ class SliderEntry extends Component {
     }
 
     _add() {
-        this.setState({
-            count: this.state.count + 1
-        });
-        this.props.getCount(this.state.count + 1);
+        this.props.getCount(this.props.count + 1);
     }
 
     _remove() {
-        if(this.state.count == 0) {
+        if(this.props.count == 0) {
             return;
         }
+        this.props.getCount(this.props.count - 1);
+    }
+
+    reInit() {
         this.setState({
-            count: this.state.count - 1
+            count: 0
         })
-        this.props.getCount(this.state.count - 1);
     }
 
     _renderCountView() {
@@ -122,7 +123,7 @@ class SliderEntry extends Component {
                         <TouchableOpacity onPress={() => this._remove()}>
                             <Icon name="md-remove" style={_styles.common_icon}/>
                         </TouchableOpacity>
-                        <Text style={_styles.common_text}>{this.state.count}</Text>
+                        <Text style={_styles.common_text}>{this.props.count}</Text>
                         <TouchableOpacity onPress={() => this._add()}>
                             <Icon name="md-add" style={_styles.common_icon}/>
                         </TouchableOpacity>    
@@ -148,22 +149,16 @@ class SliderEntry extends Component {
             <TouchableOpacity
               activeOpacity={1}
               style={styles.slideInnerContainer}
-            //   onPress={() =>
-            //     this.props.navigation.navigate("Content", {
-            //       data: this.props.data,
-            //       kind: 'canteen'
-            //     })
-            //   }
-            onPress={() => {
-                if(this.props.user !== null) {
-                    this.props.navigation.navigate("Order", {
-                        foodId,
-                        placeId
-                    })
-                }else {
-                    this.props.navigation.navigate("Login",{foodId,placeId});
-                }
-            }}
+            // onPress={() => {
+            //     if(this.props.user !== null) {
+            //         this.props.navigation.navigate("Order", {
+            //             foodId,
+            //             placeId
+            //         })
+            //     }else {
+            //         this.props.navigation.navigate("Login",{foodId,placeId});
+            //     }
+            // }}
               >
                 <View style={[styles.imageContainer]}>
                     { this.image }
