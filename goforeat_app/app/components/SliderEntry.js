@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity,StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity,StyleSheet,Platform } from 'react-native';
 import {Icon} from 'native-base';
 import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
@@ -13,14 +13,15 @@ import GLOBAL_PARAMS from '../utils/global_params';
 const _styles = StyleSheet.create({
     countContainer:{
         width: GLOBAL_PARAMS._winWidth*0.8,
-        backgroundColor:'#fff'
+        backgroundColor:'#fff',
+        marginTop:Platform.OS == 'android'?-10:0
     },
     countInnerContainer: {
         height: 40,
         width: GLOBAL_PARAMS._winWidth*0.801,
         opacity:0.9,
         // borderRadius: 20,
-        marginTop: -48,
+        marginTop: Platform.OS == 'android'? 0:-48,
         zIndex: 999,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -29,7 +30,7 @@ const _styles = StyleSheet.create({
     count: {
         flexDirection:'row',
         justifyContent: 'space-around',
-        flex: 1
+        flex: 1,
     },
     common_text: {
         color: '#fff',
