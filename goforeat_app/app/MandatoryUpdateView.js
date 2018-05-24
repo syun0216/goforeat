@@ -74,7 +74,7 @@ export default class MandatoryUpdateView extends Component {
     // view
 
     _renderDownloadMessage() {
-        let message = this.state.viewStatus == ViewStatus.VIEW_STATUS_REQUEST_NETWORK_ERROR ? "更新失败,请重试" : '正在更新...'
+        let message = this.state.viewStatus == ViewStatus.VIEW_STATUS_REQUEST_NETWORK_ERROR ? "更新失敗,請重試" : '正在更新...'
         return (
             <Text style={{fontSize: 14, color: Colors.fontBlack, paddingBottom: 35}}>{message}</Text>
         )

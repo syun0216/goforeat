@@ -43,7 +43,7 @@ const _styles = StyleSheet.create({
         // marginRight: 25,
     },
     common_view:{
-        width: GLOBAL_PARAMS._winWidth*0.50,
+        width: GLOBAL_PARAMS._winWidth*0.52,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems:'center'
