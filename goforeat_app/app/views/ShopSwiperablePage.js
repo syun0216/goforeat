@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   AppState,
   Alert,
-  Animated
+  Animated,
+  ActivityIndicator
 } from "react-native";
 import {
   Container,
@@ -37,7 +38,7 @@ import api from "../api";
 import CommonHeader from "../components/CommonHeader";
 import ErrorPage from "../components/ErrorPage";
 import Loading from "../components/Loading";
-import PlacePicker from '../components/PlacePicker';
+import PlacePickerModel from '../components/PlacePickerModel';
 import BlankPage from '../components/BlankPage';
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
 //language
@@ -69,7 +70,8 @@ export default class ShopSwiperablePage extends Component {
         week: ''
       },
       isBottomContainerShow: false,
-      foodCount: 0
+      foodCount: 0,
+      showPlacePicker: false
     };
   }
 
@@ -258,12 +260,13 @@ export default class ShopSwiperablePage extends Component {
   };
 
   getSeletedValue = (val) => {
+    console.log(123, val);
     this.setState({
       placeSelected: val,
       foodCount: 0,
       isBottomContainerShow: false
     })
-    this._getRecomendFoodList(val);
+    this._getRecomendFoodList(val.id);
   }
 
   _goToOrder = () => {
@@ -272,11 +275,11 @@ export default class ShopSwiperablePage extends Component {
     if(this.props.screenProps.user !== null) {
       this.props.navigation.navigate("Order", {
           foodId,
-          placeId: placeSelected,
+          placeId: placeSelected.id,
           amount: foodCount
       })
   }else {
-      this.props.navigation.navigate("Login",{foodId,placeId: placeSelected,amount: foodCount});
+      this.props.navigation.navigate("Login",{foodId,placeId: placeSelected.id,amount: foodCount});
   }
   }
 
@@ -315,7 +318,7 @@ export default class ShopSwiperablePage extends Component {
         ref={(se) => this._SliderEntry = se}
         data={item}
         even={(index + 1) % 2 === 0}
-        placeId={this.state.placeSelected}
+        placeId={this.state.placeSelected.id}
         getCount={(count) => {
           if(count > 0) {
             this.setState({
@@ -370,9 +373,15 @@ export default class ShopSwiperablePage extends Component {
 
   _renderPlacePickerBtn() {
     return (
-      <TouchableOpacity style={{flexDirection:'row',maxWidth:120}}>
-        <Icon name="md-locate" style={{fontSize:20,color:'#fff'}}/>
-        <Text style={{color: Colors.main_white,marginLeft: 10}} numberOfLines={1}>1231238091283901283283021</Text>
+      <TouchableOpacity style={{flexDirection:'row',marginLeft:-30}} onPress={() => this.setState({showPlacePicker: true})}>
+        <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20}}/>
+        <Text style={{color: Colors.main_white,marginLeft: 10}} numberOfLines={1}>
+          {this.state.placeSelected != null ?this.state.placeSelected.name : <ActivityIndicator
+            style={{width:20,height: 20}}
+            color={Colors.main_white}
+            size="small"
+          />}
+        </Text>
       </TouchableOpacity>
     )
   }
@@ -385,6 +394,7 @@ export default class ShopSwiperablePage extends Component {
 
     return (
       <Container>
+        <PlacePickerModel modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
         <Header
           style={{
             backgroundColor: this.props.screenProps.theme,
@@ -400,14 +410,13 @@ export default class ShopSwiperablePage extends Component {
               style={{ color: "#fff" }}
             />
           </View>
-          <View style={{flex: 1,alignItems:'center',flexDirection:'row',justifyContent:'center'}}>
+          <View style={{flex: 1,alignItems:'center',flexDirection:'row',justifyContent:'center',}}>
             {/*<Text style={{ color: Colors.main_white, fontSize: 16 }}>
               {this.state.i18n.takeout_title}
         </Text>*/}
           {this._renderPlacePickerBtn()}
           </View>
         </Header>
-
         {this.state.isError ? (
           <ErrorPage
             errorToDo={this._onErrorToRetry}
