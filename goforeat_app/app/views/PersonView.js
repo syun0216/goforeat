@@ -25,7 +25,6 @@ import ToastUtil from '../utils/ToastUtil'
 //api
 import api from '../api'
 //components
-import CommonModal from '../components/CommonModal';
 import Divider from '../components/Divider';
 import ListFooter from '../components/ListFooter';
 import ErrorPage from '../components/ErrorPage';

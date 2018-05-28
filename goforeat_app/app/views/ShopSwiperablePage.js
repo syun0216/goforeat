@@ -368,6 +368,15 @@ export default class ShopSwiperablePage extends Component {
     ) : null;
   }
 
+  _renderPlacePickerBtn() {
+    return (
+      <TouchableOpacity style={{flexDirection:'row',maxWidth:120}}>
+        <Icon name="md-locate" style={{fontSize:20,color:'#fff'}}/>
+        <Text style={{color: Colors.main_white,marginLeft: 10}} numberOfLines={1}>1231238091283901283283021</Text>
+      </TouchableOpacity>
+    )
+  }
+
   render() {
     const example1 = this.mainExample(
       1,
@@ -395,8 +404,7 @@ export default class ShopSwiperablePage extends Component {
             {/*<Text style={{ color: Colors.main_white, fontSize: 16 }}>
               {this.state.i18n.takeout_title}
         </Text>*/}
-          <Icon name="md-locate" style={{fontSize:20,color:'#fff'}}/>
-          <PlacePicker getSeletedValue={this.getSeletedValue}/>
+          {this._renderPlacePickerBtn()}
           </View>
         </Header>
 

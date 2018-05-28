@@ -41,7 +41,6 @@ import Dropdownfilter from "../components/Dropdownfilter";
 import Loading from "../components/Loading";
 import ErrorPage from "../components/ErrorPage";
 import Divider from "../components/Divider";
-import MapModal from "../components/CommonModal";
 import Rating from "../components/Rating";
 import ScrollTop from "../components/ScrollTop";
 import Tags from "../components/Tags";
@@ -88,7 +87,6 @@ export default class GoodsListPageView extends Component {
       adDetail: [],
       canteenOptions: null,
       showFilterList: false,
-      isMapModalShow: false,
       isDropdownModalShow: false,
       httpRequest: null,
       positionTop: new Animated.Value(0),
@@ -355,14 +353,6 @@ export default class GoodsListPageView extends Component {
     }, 100);
   };
 
-  _openMapModal = () => {
-    ToastUtil.showWithMessage("定位功能暫未開放");
-    return;
-    this.setState({
-      isMapModalShow: true
-    });
-  };
-
   _openFilterModal = () => {
     this.setState({
       isDropdownModalShow: true
@@ -398,13 +388,6 @@ export default class GoodsListPageView extends Component {
       />
     ) : null;
   };
-
-  _renderModalView = () => (
-    <MapModal
-      modalVisible={this.state.isMapModalShow}
-      closeFunc={() => this.setState({ isMapModalShow: false })}
-    />
-  );
 
   _renderSubHeader = () => {
     return (
@@ -651,19 +634,6 @@ export default class GoodsListPageView extends Component {
                 placeholder="请输入商店名称" underlineColorAndroid="transparent"/>
         <Icon name="md-search" size={20} style={styles.searchIcon}/>*/}
             </View>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "flex-end"
-            }}
-          >
-            <Icon
-              onPress={() => this._openMapModal()}
-              name="md-compass"
-              style={{ color: Colors.main_white, fontSize: 28 }}
-            />
           </View>
         </Header>
 
