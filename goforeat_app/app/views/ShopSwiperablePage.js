@@ -373,14 +373,10 @@ export default class ShopSwiperablePage extends Component {
 
   _renderPlacePickerBtn() {
     return (
-      <TouchableOpacity style={{flexDirection:'row',marginLeft:-30}} onPress={() => this.setState({showPlacePicker: true})}>
+      <TouchableOpacity style={{flexDirection:'row',marginLeft:-30,maxWidth: 200}} onPress={() => this.setState({showPlacePicker: true})}>
         <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20}}/>
-        <Text style={{color: Colors.main_white,marginLeft: 10}} numberOfLines={1}>
-          {this.state.placeSelected != null ?this.state.placeSelected.name : <ActivityIndicator
-            style={{width:20,height: 20}}
-            color={Colors.main_white}
-            size="small"
-          />}
+        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16}} numberOfLines={1}>
+          {this.state.placeSelected.name}
         </Text>
       </TouchableOpacity>
     )
@@ -414,7 +410,7 @@ export default class ShopSwiperablePage extends Component {
             {/*<Text style={{ color: Colors.main_white, fontSize: 16 }}>
               {this.state.i18n.takeout_title}
         </Text>*/}
-          {this._renderPlacePickerBtn()}
+          {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} size="small"/>}
           </View>
         </Header>
         {this.state.isError ? (

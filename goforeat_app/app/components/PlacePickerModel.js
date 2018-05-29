@@ -61,13 +61,13 @@ class PlacePickerModel extends Component{
   
   render() {
     return (<Modal
-      animationType={"slide"}
+      animationType={"fade"}
       transparent={false}
       visible={this.props.modalVisible}
       onRequestClose={() => {alert("Modal has been closed.")}}
       >
        <Container>
-          <Header>
+          <Header style={{backgroundColor: '#fff'}}>
             <Left>
               <TouchableOpacity onPress={this.props.closeFunc}>
                 <Icon name="md-close" style={[{ fontSize: 22, color: this.props.screenProps.theme }]}/>
