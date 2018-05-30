@@ -70,13 +70,16 @@ export default class ConfirmOrderView extends PureComponent {
     let {foodId,placeId,amount} = this.props.navigation.state.params;
     api.createOrder(foodId,this.props.screenProps.sid,placeId,amount).then(
       data => {
+        console.log(data);
         if (data.status === 200 && data.data.ro.ok) {
           this.setState({
             loading: false,
             orderDetail: data.data.data
           });
         } else {
-          this.props.screenProps.userLogout();
+          if(data.data.ro.respCode == "10006" || data.data.ro.respCode == "10007") {
+            this.props.screenProps.userLogout();
+          }
           alert(data.data.ro.respMsg);
           this.setState({
             loading: false,

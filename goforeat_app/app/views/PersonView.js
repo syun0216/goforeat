@@ -113,7 +113,9 @@ export default class PeopleView extends Component {
         requestParams.currentOffset = requestParams.nextOffset
       }else{
         ToastUtil.showWithMessage(data.data.ro.respMsg)
-        this.props.screenProps.userLogout();
+        if(data.data.ro.respCode == "10006" || data.data.ro.respCode == "10007") {
+          this.props.screenProps.userLogout();
+        }
         this.setState({
           isExpired: true,
           expiredMessage: data.data.ro.respMsg
