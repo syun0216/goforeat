@@ -53,7 +53,7 @@ android的打包方法:
   <img src="./display/s12.png" width="280">
 </p>
 
-### screen shot [android 下载地址](https://www.pgyer.com/TBnS)
+### screen shot [android 下载地址](https://play.google.com/store/apps/details?id=com.goforeat_app)
 <p align="left">
   <img src="./display/as1.jpg" width="280">
   <img src="./display/as2.jpg" width="280">
