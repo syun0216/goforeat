@@ -260,7 +260,6 @@ export default class ShopSwiperablePage extends Component {
   };
 
   getSeletedValue = (val) => {
-    console.log(123, val);
     this.setState({
       placeSelected: val,
       foodCount: 0,
@@ -410,7 +409,7 @@ export default class ShopSwiperablePage extends Component {
             {/*<Text style={{ color: Colors.main_white, fontSize: 16 }}>
               {this.state.i18n.takeout_title}
         </Text>*/}
-          {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} size="small"/>}
+          {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} style={{marginLeft:-30,}} size="small"/>}
           </View>
         </Header>
         {this.state.isError ? (

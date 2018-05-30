@@ -582,7 +582,6 @@ export default class GoodsListPageView extends Component {
     } = this.state;
     return (
       <Container style={{ backgroundColor: Colors.bgColor }}>
-        {this._renderModalView()}
         {canteenOptions && isDropdownModalShow
           ? this._renderDropDownModal()
           : null}
@@ -634,7 +633,7 @@ export default class GoodsListPageView extends Component {
                 placeholder="请输入商店名称" underlineColorAndroid="transparent"/>
         <Icon name="md-search" size={20} style={styles.searchIcon}/>*/}
             </View>
-          </View>
+          </View><Right/>
         </Header>
 
         {firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ? (

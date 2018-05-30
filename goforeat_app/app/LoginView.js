@@ -192,9 +192,10 @@ export default class LoginView extends Component {
 
   render() {
     const {i18n} = this.state;
+    let {theme} = this.props.screenProps;
     let _imgHeight = GLOBAL_PARAMS._winWidth < 350 ?  GLOBAL_PARAMS._winHeight*0.35 : 250;
     return (
-      <View style={{ flex: 1, backgroundColor: "#fafafa" }}>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <StatusBar barStyle="light-content" />
         <View>
           <Image
@@ -205,16 +206,16 @@ export default class LoginView extends Component {
               position: "absolute",
               top: 0,
               left: 0,
-              zIndex: 0
+              zIndex: 10
             }}
-            source={{ uri: "loginbg" }}
+            source={require('./asset/loginbg.png')}
           />
           <View
             style={{
               width: GLOBAL_PARAMS._winWidth,
-              height: GLOBAL_PARAMS._winHeight,
-              marginTop: 250,
-              backgroundColor: Colors.main_white,
+              height: _imgHeight,
+              // marginTop: 250,
+              backgroundColor: theme,
               opacity: 1,
               position: "absolute",
               top: 0,
@@ -300,12 +301,12 @@ export default class LoginView extends Component {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  borderBottomColor: Colors.main_orange
+                  borderBottomColor: theme
                 }}
               >
                 <View style={{ width: 40, paddingLeft: 10 }}>
                   <Icon name="md-phone-portrait"
-                    style={{color:Colors.main_orange,fontSize:28}} />
+                    style={{color:theme,fontSize:28}} />
                   {/*<Image
                     source={require("./asset/phone.png")}
                     style={{
@@ -352,12 +353,12 @@ export default class LoginView extends Component {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  borderBottomColor: Colors.main_orange
+                  borderBottomColor: theme
                 }}
               >
                 <View style={{ width: 40, paddingLeft: 10 }}>
 
-                   <Icon name="md-lock" style={{fontSize: 28,color: Colors.main_orange}}/>
+                   <Icon name="md-lock" style={{fontSize: 28,color: theme}}/>
                 </View>
                 <View
                   style={{
@@ -392,7 +393,7 @@ export default class LoginView extends Component {
                   style={
                     this.state.isCodeDisabled
                       ? { color: "#959595" }
-                      : { color: Colors.main_orange }
+                      : { color: theme }
                   }
                 >
                   {this.state.codeContent}
@@ -413,7 +414,7 @@ export default class LoginView extends Component {
                   style={{
                     width: GLOBAL_PARAMS._winWidth * 0.8,
                     height: 50,
-                    borderColor: Colors.main_orange,
+                    borderColor: theme,
                     borderWidth: 2,
                     backgroundColor: "transparent",
                     flex: 1,
@@ -426,7 +427,7 @@ export default class LoginView extends Component {
                   <View>
                     <Text
                       style={{
-                        color: Colors.main_orange,
+                        color: theme,
                         fontSize: 20,
                         fontWeight: "500"
                       }}

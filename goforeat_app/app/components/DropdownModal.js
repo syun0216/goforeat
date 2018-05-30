@@ -42,7 +42,7 @@ export default class DropdownModal extends PureComponent {
         <Button key={btnkey} onPress={() => this._filterClick(btn,itemEnName)}
            transparent key={btnkey} style={styles.filterItemChildrenBtn}>
           <Text style={[this.props.screenProps.filterSort[itemEnName] === btn[0] ?
-            {color:Colors.rate_yellow} : {color:Colors.fontBlack},{fontSize: 16}]}>{btn[1]}</Text>
+            {color:this.props.screenProps.theme} : {color:Colors.fontBlack},{fontSize: 16}]}>{btn[1]}</Text>
         </Button>
       ))}
     </View>
@@ -87,7 +87,7 @@ export default class DropdownModal extends PureComponent {
               onPress={() => {this.props.screenProps.resetFilter();this.props.confirmToDo(this.props.screenProps.filterSort)}}>
               <Text style={styles.bottomBtn}>重置</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 1,justifyContent:'center',alignItems:'center',backgroundColor: Colors.rate_yellow}} 
+            <TouchableOpacity style={{flex: 1,justifyContent:'center',alignItems:'center',backgroundColor: this.props.screenProps.theme}} 
               onPress={() => this.props.confirmToDo(this.props.screenProps.filterSort)}>
               <Text style={[styles.bottomBtn,{color: Colors.main_white}]}>確認</Text>
             </TouchableOpacity>

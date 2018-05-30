@@ -44,10 +44,13 @@ const _styles = StyleSheet.create({
         // marginRight: 25,
     },
     common_view:{
-        width: GLOBAL_PARAMS._winWidth*0.52,
+        // width: GLOBAL_PARAMS._winWidth*0.52,
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems:'center'
+        alignItems:'center',
+        paddingLeft: 10,
+        paddingRight: 10
     }
 })
 
@@ -119,8 +122,8 @@ class SliderEntry extends Component {
                 <View style={[_styles.countInnerContainer,{backgroundColor: this.props.screenProps.theme}]}>
                     <View style={_styles.common_view}>
                         <Text style={_styles.common_text} numberOfLines={1}>{foodName}</Text>
-                        <Text style={[_styles.common_text,{marginLeft: 10}]}>{" "}|{" "}</Text>
                     </View>
+                    <View style={{width: 1,height: 15,backgroundColor: '#fff'}}/>
                     <View style={_styles.count}>
                         <TouchableOpacity style={{width: 40,alignItems:'center'}} onPress={() => this._remove()}>
                             <Icon name="md-remove" style={_styles.common_icon}/>
