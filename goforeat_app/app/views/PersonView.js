@@ -124,7 +124,7 @@ export default class PeopleView extends Component {
           this.setState({
             orderlist: this.state.orderlist.concat(data.data.data),
             loadingStatus: {
-              pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
+              pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA,
             }
           })
           return
@@ -341,10 +341,13 @@ export default class PeopleView extends Component {
     <View style={{flex:1}}>
     {this.state.isExpired ? <BlankPage style={{marginTop:50}} message={this.state.expiredMessage}/> : null}
       {
-        this.state.orderlist.length > 0
+        this.state.orderlist.length > 0 
         ? this._renderOrderListView()
-        : <BlankPage  style={{marginTop:50}} message="暫無訂單數據哦"/>
+        : null
       }
+      {/*
+        this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA ? <BlankPage  style={{marginTop:50}} message="暫無訂單數據哦"/> :null
+      */}
     </View>
   )
 
