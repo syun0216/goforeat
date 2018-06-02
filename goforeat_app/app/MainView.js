@@ -589,8 +589,8 @@ let MainView = StackNavigator(
 const defaultGetStateForAction = MainView.router.getStateForAction;
 
 MainView.router.getStateForAction = (action, state) => {
-  // console.log('action', action)
-  // console.log('state', state)
+  console.log('action', action)
+  console.log('state', state)
   if (action.type === "Navigation/NAVIGATE") {
     source.cancel();
   }
@@ -614,6 +614,9 @@ MainView.router.getStateForAction = (action, state) => {
       routes,
       index: routes.length - 1
     });
+  }
+  if(action.routeName == 'DrawerClose' || action.routeName == 'ShopTab' || (action.type == 'Navigation/BACK' && (state.routes[1].routeName == 'Order' || state.routes[1].routeName == 'Login'))) { //监听首页
+    store.dispatch({type:'REFRESH',refresh:new Date()})
   }
   if (state && action.type === NavigationActions.NAVIGATE) {
     if (action.params && action.params.replaceRoute) {

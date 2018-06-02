@@ -55,6 +55,7 @@ const SLIDER_1_FIRST_ITEM = 1;
 export default class ShopSwiperablePage extends Component {
   _current_offset = 0;
   _SliderEntry = null;
+  _timer = null;
   constructor(props) {
     super(props);
     this.state = {
@@ -79,9 +80,11 @@ export default class ShopSwiperablePage extends Component {
     this.setState({
       i18n: i18n[nextProps.screenProps.language]
     });
+    this._reloadPage();
   }
 
   componentDidMount() {
+    AppState.addEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState))
     CodePush.getUpdateMetadata().then(localPackage => {
             // console.log(localPackage);
             if (localPackage == null) {
@@ -96,6 +99,27 @@ export default class ShopSwiperablePage extends Component {
             }
         });
     this._current_offset = 0;
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState));
+    if(this.timer !== null) {
+      clearTimeout(this.timer);
+    }
+  }
+
+  _handleAppStateChange(nextAppState) {
+    if(nextAppState == 'active') {
+      this._reloadPage();
+    }
+  }
+
+  _reloadPage() {
+    this.setState({loading: true});
+      setTimeout(() => {
+        this._getDailyFoodList(this.state.placeSelected.id);
+        clearTimeout(this.timer);
+      },500)
   }
 
   _formatDate(timestamp) {
