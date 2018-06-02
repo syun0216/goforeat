@@ -32,7 +32,6 @@ import {
   Body,
   Footer
 } from "native-base";
-import FastImage from 'react-native-fast-image';
 import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar'
 import Share, {ShareSheet, Button as SButton} from 'react-native-share';

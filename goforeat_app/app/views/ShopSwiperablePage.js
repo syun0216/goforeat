@@ -11,7 +11,7 @@ import {
   AppState,
   Alert,
   Animated,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import {
   Container,
@@ -96,11 +96,10 @@ export default class ShopSwiperablePage extends Component {
             }
         });
     this._current_offset = 0;
-    this._formatDate();
   }
 
-  _formatDate() {
-    let _Date = new Date();
+  _formatDate(timestamp) {
+    let _Date = new Date(timestamp);
     let _date_format = [_Date.getFullYear(),_Date.getMonth()+1,_Date.getDate()].join('-');
     let _week_day = null;
     switch(_Date.getDay()) 
@@ -246,7 +245,15 @@ export default class ShopSwiperablePage extends Component {
 
   _getDailyFoodList = (placeId) => {
     api.getDailyFoods(placeId, this.props.screenProps.sid).then(data => {
-      console.log(data.data.data);
+      if(data.status === 200 && data.data.ro.ok) {
+        this.setState({
+          foodDetails: data.data.data.foodList,
+          loading: false
+        })
+        this._formatDate(data.data.data.timestamp);
+      }
+    },() => {
+      this.setState({ isError: true, loading: false });
     })
   }
 
@@ -273,7 +280,7 @@ export default class ShopSwiperablePage extends Component {
       isBottomContainerShow: false
     })
     let timer = setTimeout(() => {
-      this._getRecomendFoodList(val.id);
+      // this._getRecomendFoodList(val.id);
       this._getDailyFoodList(val.id);
       clearTimeout(timer);
     },200);

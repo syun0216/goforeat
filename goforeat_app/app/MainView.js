@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import { Icon, Container, Content, Footer } from "native-base";
 //navigation
@@ -174,14 +174,11 @@ const darwerView = DrawerNavigator(
       return (
         <Container>
           <Content style={{ backgroundColor: props.screenProps.theme }}>
-            <TouchableOpacity
-              onPress={() => {
-                if(props.screenProps.user === null) {
-                  props.navigation.navigate("Login");
-                }else {
-                  props.navigation.navigate('Person');
-                }
-              }}
+            <TouchableOpacity onPress={
+              () => props.screenProps.user
+              ? ToastUtil.showWithMessage('用戶中心暫未開放')
+              : props.navigation.navigate("Login")
+            }
               style={{
                 height: GLOBAL_PARAMS._winHeight * 0.2,
                 alignItems: "center",
@@ -209,7 +206,7 @@ const darwerView = DrawerNavigator(
                   color: Colors.main_white
                 }}
               >
-                {props.screenProps.user ? _language.my_order : _language.login_text}
+                {props.screenProps.user ? _language.user_name+ props.screenProps.user : _language.login_text}
               </Text>
               <Icon
                 name="ios-arrow-forward-outline"
@@ -224,11 +221,13 @@ const darwerView = DrawerNavigator(
             <Divider height={10} bgColor="#f0f0ee" />
             <View style={{ height: 219, backgroundColor: Colors.main_white }}>
               <TouchableOpacity
-                onPress={() => {
-                  props.screenProps.user
-                    ? props.navigation.navigate("MyFavorite")
-                    : props.navigation.navigate("Login");
-                }}
+              onPress={() => {
+                if(props.screenProps.user === null) {
+                  props.navigation.navigate("Login");
+                }else {
+                  props.navigation.navigate('Person');
+                }
+              }}
                 style={{
                   padding: 20,
                   flexDirection: "row",
@@ -249,7 +248,7 @@ const darwerView = DrawerNavigator(
                     color: Colors.fontBlack
                   }}
                 >
-                  {i18n[props.screenProps.language].myfavorite_text}
+                  {i18n[props.screenProps.language].my_order}
                 </Text>
                 <Icon
                   name="ios-arrow-forward-outline"
@@ -263,9 +262,7 @@ const darwerView = DrawerNavigator(
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  props.screenProps.user
-                    ? props.navigation.navigate("Upload")
-                    : props.navigation.navigate("Login");
+                  LinkingUtils.dialPhoneWithNumber(52268745);
                 }}
                 style={{
                   padding: 20,
@@ -287,7 +284,7 @@ const darwerView = DrawerNavigator(
                     color: Colors.fontBlack
                   }}
                 >
-                  {_language.upload_text}
+                  {_language.contact_us}
                 </Text>
                 <Icon
                   name="ios-arrow-forward-outline"

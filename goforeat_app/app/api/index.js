@@ -207,7 +207,7 @@ const api = {
             timeout: 4500
         })
     },
-    confirmOrder(orderId,sid) {
+    confirmOrder(orderId, sid) {
         return axios.post(api_url + '/order/confirm',qs.stringify({
             orderId,
             sid
@@ -247,10 +247,11 @@ const api = {
             }
         });
     },
-    myOrder(offset,sid) {
+    myOrder(offset,status,sid) {
         return axios.post(api_url + '/order/myOrders', qs.stringify({
             limit: 5,
-            offset: offset,
+            offset,
+            status,
             sid
         }, {cancelToken: source.token, timeout: 4500}), {
             headers: {

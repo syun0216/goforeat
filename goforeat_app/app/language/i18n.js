@@ -48,8 +48,9 @@ let _language = {
     login_code: '請輸入驗證碼',
     send_code: '點擊發送',
     retry_code: '重新發送',
-    second:'秒后重發'
-
+    second:'秒后重發',
+    user_name: '用戶:',
+    contact_us: '聯繫我們'
   },
   en: {
     search_text: 'click search',
@@ -100,8 +101,9 @@ let _language = {
     login_code: 'for code',
     send_code: 'send',
     retry_code: 'retry',
-    second:'s'
-
+    second:'s',
+    user_name: 'user:',
+    contact_us: 'contact us'
   }
 }
 

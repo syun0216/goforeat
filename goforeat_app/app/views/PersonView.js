@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StatusBar, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,Modal,ScrollView } from "react-native";
+import { View, StatusBar, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,Modal,ScrollView,RefreshControl } from "react-native";
 import {
   Container,
   Header,
@@ -48,6 +48,16 @@ let requestParams = {
   currentOffset: 0
 }
 
+const _ORDER_LIST = {};
+const _TAB_FINISHED = 0;
+const _TAB_DELIVERING = 1;
+const _TAB_CANCEL = 2;
+
+const _ORDER_CANCEL = -1;
+const _ORDER_DELIVERING = 1;
+const _ORDER_FINISHED = 2;
+const _ORDER_ALL = null;
+
 export default class PeopleView extends Component {
   timer = null;
   _tabs = null;
@@ -58,10 +68,12 @@ export default class PeopleView extends Component {
     loadingStatus:{
       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
-      refresh:false
     },
+    refresh:false,
     isExpired: false,
     expiredMessage: null,
+    currentTab: _TAB_FINISHED,
+    currentStatus: _ORDER_ALL
   }
 
 
@@ -75,11 +87,21 @@ export default class PeopleView extends Component {
     this.timer = setTimeout(() => {
       this._getMyOrder(0);
       clearTimeout(this.timer);
-    },500)
+    },700)
   }
 
   componentWillUnmount = () => {
     clearTimeout(this.timer);
+    this._paramsInit();
+  }
+  
+  //common function
+
+  _initOrderList() {
+
+  }
+
+  _paramsInit() {
     requestParams = {
       status: {
         LOADING: 0,
@@ -91,13 +113,12 @@ export default class PeopleView extends Component {
       currentOffset: 0
     }
   }
-  
-  //common function
-  _getMyOrder = (offset) => {
+
+  _getMyOrder = (offset,status=null) => {
     // console.log(offset);
-    api.myOrder(offset,this.props.screenProps.sid).then(data => {
+    api.myOrder(offset,status,this.props.screenProps.sid).then(data => {
       if (data.status === 200 && data.data.ro.ok) {
-        console.log(data.data.data)
+        // console.log(data.data.data)
         if(data.data.data.length === 0){
           requestParams.nextOffset = requestParams.currentOffset
           this.setState({
@@ -141,9 +162,31 @@ export default class PeopleView extends Component {
     })
   }
 
+  _cancelOrder(orderId) {
+    Alert.alert(
+      '提示',
+      '確定要取消訂單嗎？',
+      [
+        {text: '取消', onPress: () => {return null}, style: 'cancel'},
+        {text: '確定', onPress: () => {
+          api.cancelOrder(orderId,this.props.screenProps.sid).then(data => {
+            if(data.status === 200 && data.data.ro.ok) {
+              ToastUtil.showWithMessage('取消訂單成功!');
+              this._onReloadPage();
+              this._getMyOrder(requestParams.offset, this.state.currentStatus);
+            }
+          },() => {
+            ToastUtil.showWithMessage("出錯了");
+          })
+        }},
+      ],
+      { cancelable: false }
+    )
+  }
+
   _onEndReach = () => {
     requestParams.nextOffset += 5
-    this._getMyOrder(requestParams.nextOffset)
+    this._getMyOrder(requestParams.nextOffset, this.state.currentStatus);
   }
 
   _onErrorToRequestNextPage() {
@@ -158,14 +201,49 @@ export default class PeopleView extends Component {
 
   _switchOrderStatus(status) {
     switch(status) {
+      case -1: return '用戶取消';
       case 0: return '未確認';
-      case 1: return '待發貨';
+      case 1: return '待配送';
       case 2: return '已完成';
     }
   }
 
+  _onRefreshToRequestFirstPageData() {
+    this.timer = setTimeout(() => {
+      this._onReloadPage();
+      this._getMyOrder(requestParams.offset, this.state.currentStatus);
+    },500)
+  }
+
+  _onReloadPage() {
+    this._paramsInit();
+    this.setState({
+      refresh:false,
+      orderlist: [],
+      loadingStatus:{
+        firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
+      },
+    })
+  }
+
   _onChangeTabs(val) {
-    console.log(this._tabs);
+    if(this._tabs.state.currentPage == this.state.currentTab) {
+      return;
+    }
+    this._onReloadPage();
+    this.timer = setTimeout(() => {
+      switch(this._tabs.state.currentPage) {
+        case 0: {this._getMyOrder(requestParams.offset,_ORDER_ALL);this.setState({currentStatus:_ORDER_ALL})}break;
+        case 1: {this._getMyOrder(requestParams.offset, _ORDER_DELIVERING);this.setState({currentStatus:_ORDER_DELIVERING})}break;
+        case 2: {this._getMyOrder(requestParams.offset, _ORDER_CANCEL);this.setState({currentStatus:_ORDER_CANCEL})}break;
+      }
+      
+      this.setState({
+        currentTab: this._tabs.state.currentPage
+      })
+      clearTimeout(this.timer);
+    },500)
+    
   }
 
   //render view
@@ -192,6 +270,12 @@ export default class PeopleView extends Component {
       onEndReached={() => this._onEndReach()}
       // ListHeaderComponent={() => this._renderPersonDetailHeader()}
       ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}
+      refreshControl={
+        <RefreshControl
+          refreshing={this.state.refresh}
+          onRefresh={() => this._onRefreshToRequestFirstPageData()}
+        />
+      }
     />
   )
 
@@ -206,13 +290,16 @@ export default class PeopleView extends Component {
               }}
             >
               <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>菜品名稱</Text><Text style={styles.commonTitleText}>{item.orderName}</Text></View>
+              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>數量</Text><Text style={styles.commonTitleText}>×{item.amount}</Text></View>
               <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>取餐日期</Text><Text style={styles.commonTitleText}>{item.takeDate}</Text></View>
               <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>取餐時間</Text><Text style={styles.commonTitleText}>{item.takeTime}</Text></View>
               <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>取餐點</Text><Text style={styles.commonTitleText}>{item.takeAddressDetail}</Text></View>
             </Body>
           </CardItem>
           <CardItem style={{ backgroundColor: "#fafafa", marginTop: -10 }}>
-            <Body>
+            <Body style={[{
+            paddingBottom: 10},item.status == _ORDER_DELIVERING ? {borderBottomColor: "#ccc",
+            borderBottomWidth: 1,} : null]}>
               {/*<Text style={styles.commonTitleText}>*/}
               {/*NativeBase builds a layer on top of React Native that provides*/}
               {/*you with*/}
@@ -231,7 +318,34 @@ export default class PeopleView extends Component {
               </View>
             </Body>
           </CardItem>
+          {item.status == _ORDER_DELIVERING ? <CardItem style={{ backgroundColor: "#fafafa", marginTop: -10 }}>
+          <Body>
+            <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between"
+                  }}
+                >
+              <Text style={styles.commonDecText}>訂單操作</Text>
+              <Button style={{backgroundColor: this.props.screenProps.theme,paddingLeft: 10,paddingRight: 10,justifyContent:'flex-end'}} onPress={() => this._cancelOrder(item.orderId)}>
+                <Text style={{color: Colors.main_white}}>取消訂單</Text>
+              </Button>
+            </View>
+          </Body>
+        </CardItem> : null}
         </Card>
+  )
+
+  _renderCommonListView = () => (
+    <View style={{flex:1}}>
+    {this.state.isExpired ? <BlankPage style={{marginTop:50}} message={this.state.expiredMessage}/> : null}
+      {
+        this.state.orderlist.length > 0
+        ? this._renderOrderListView()
+        : <BlankPage  style={{marginTop:50}} message="暫無訂單數據哦"/>
+      }
+    </View>
   )
 
   render() {
@@ -249,20 +363,13 @@ export default class PeopleView extends Component {
         <Tabs tabBarUnderlineStyle={{backgroundColor: this.props.screenProps.theme}} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
         <Tab heading={ <TabHeading><Text>全部訂單</Text></TabHeading>}>
-        <View style={{flex:1}}>
-        {this.state.isExpired ? <BlankPage style={{marginTop:50}} message={this.state.expiredMessage}/> : null}
-          {
-            this.state.orderlist.length > 0
-            ? this._renderOrderListView()
-            : null
-          }
-        </View>
+          {this._renderCommonListView()}
         </Tab>
-        <Tab heading={ <TabHeading><Text>待完成</Text></TabHeading>}>
-          <Text>123</Text>
+        <Tab heading={ <TabHeading><Text>待配送</Text></TabHeading>}>
+          {this._renderCommonListView()}
         </Tab>
         <Tab heading={ <TabHeading><Text>已取消</Text></TabHeading>}>
-          <Text>123</Text>
+          {this._renderCommonListView()}
         </Tab>
       </Tabs>
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
