@@ -220,6 +220,7 @@ export default class ShopSwiperablePage extends Component {
 
   //api
   _getRecomendFoodList = (placeId) => {
+    this.setState({loading: true});
     api.getFoodRecommend(placeId, this.props.screenProps.sid).then(
       data => {
         if (data.status === 200 && data.data.ro.ok) {
@@ -271,8 +272,11 @@ export default class ShopSwiperablePage extends Component {
       foodCount: 0,
       isBottomContainerShow: false
     })
-    this._getRecomendFoodList(val.id);
-    this._getDailyFoodList(val.id);
+    let timer = setTimeout(() => {
+      this._getRecomendFoodList(val.id);
+      this._getDailyFoodList(val.id);
+      clearTimeout(timer);
+    },200);
   }
 
   _goToOrder = () => {
