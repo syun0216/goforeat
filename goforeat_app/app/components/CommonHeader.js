@@ -6,7 +6,7 @@ import Colors from '../utils/Colors'
 
 const CommonHeader = (props) => {
   return (
-  <Header style={[{backgroundColor:props.screenProps.theme},props.headerStyle]} iosBarStyle={props.iosBarStyle}>
+  <Header style={[{backgroundColor:props.screenProps.theme},props.headerStyle]} hasTabs iosBarStyle={props.iosBarStyle}>
     <Left>
       {props.canBack ? (props.leftElement !== null ? (<props.leftElement {...props}/>) : (
         <Button transparent onPress={() => props.navigation.goBack()}>
@@ -30,6 +30,7 @@ const CommonHeader = (props) => {
 CommonHeader.defaultProps = {
   title: '詳情',
   canBack:false,
+  hasTabs: false,
   hasRight: false,
   leftElement: null,
   rightElement: null,
@@ -42,6 +43,7 @@ CommonHeader.defaultProps = {
 
 CommonHeader.propsType = {
   title: PropTypes.String,
+  hasTabs: PropTypes.bool,
   canBack: PropTypes.bool,
   hasRight: PropTypes.bool,
   rightIcon: PropTypes.String,

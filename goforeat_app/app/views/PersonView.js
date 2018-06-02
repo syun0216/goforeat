@@ -14,6 +14,9 @@ import {
   List,
   Card,
   CardItem,
+  Tabs,
+  Tab,
+  TabHeading
 } from "native-base";
 //cache
 import appStorage from "../cache/appStorage";
@@ -30,6 +33,7 @@ import ListFooter from '../components/ListFooter';
 import ErrorPage from '../components/ErrorPage';
 import Loading from '../components/Loading';
 import BlankPage from '../components/BlankPage';
+import CommonHeader from '../components/CommonHeader';
 //language
 import i18n from '../language/i18n';
 
@@ -46,7 +50,7 @@ let requestParams = {
 
 export default class PeopleView extends Component {
   timer = null;
-
+  _tabs = null;
   state = {
     orderlist: [],
     orderTips: '沒有您的訂單哦~',
@@ -93,7 +97,7 @@ export default class PeopleView extends Component {
     // console.log(offset);
     api.myOrder(offset,this.props.screenProps.sid).then(data => {
       if (data.status === 200 && data.data.ro.ok) {
-        // console.log(data.data.data)
+        console.log(data.data.data)
         if(data.data.data.length === 0){
           requestParams.nextOffset = requestParams.currentOffset
           this.setState({
@@ -152,6 +156,19 @@ export default class PeopleView extends Component {
     this._getMyOrder(requestParams.nextOffset)
   }
 
+  _switchOrderStatus(status) {
+    switch(status) {
+      case 0: return '未確認';
+      case 1: return '待發貨';
+      case 2: return '已完成';
+    }
+  }
+
+  _onChangeTabs(val) {
+    console.log(this._tabs);
+  }
+
+  //render view
   _renderPersonDetailHeader = () => (
     <View style={[styles.loginHeader,{backgroundColor:this.props.screenProps.theme}]}>
       {this.props.screenProps.user !== null ? (<Image style={styles.personAvatar} source={require('../asset/eat.png')}/>) :
@@ -169,11 +186,11 @@ export default class PeopleView extends Component {
         {title:'餐廳列表',data:this.state.orderlist},
       ]}
       renderItem = {({item,index}) => this._renderOrderListItemView(item,index)}
-      renderSectionHeader= {() => (<View style={{borderBottomWidth: 1,padding:10,paddingTop: 20,backgroundColor: Colors.main_white,borderBottomColor:'#ccc'}}><Text>我的訂單</Text></View>)}
+      // renderSectionHeader= {() => (<View style={{borderBottomWidth: 1,padding:10,paddingTop: 20,backgroundColor: Colors.main_white,borderBottomColor:'#ccc'}}><Text>我的訂單</Text></View>)}
       keyExtractor={(item, index) => index}
       onEndReachedThreshold={0.01}
       onEndReached={() => this._onEndReach()}
-      ListHeaderComponent={() => this._renderPersonDetailHeader()}
+      // ListHeaderComponent={() => this._renderPersonDetailHeader()}
       ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}
     />
   )
@@ -188,12 +205,10 @@ export default class PeopleView extends Component {
                 paddingBottom: 10
               }}
             >
-              <Text style={styles.commonTitleText}>
-                {item.orderName} {"\n"}
-                取餐點 {item.takeAddressDetail} {"\n"}
-                取餐日期 {item.takeDate} {"\n"}
-                取餐時間 {item.takeTime} {"\n"}
-              </Text>
+              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>菜品名稱</Text><Text style={styles.commonTitleText}>{item.orderName}</Text></View>
+              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>取餐日期</Text><Text style={styles.commonTitleText}>{item.takeDate}</Text></View>
+              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>取餐時間</Text><Text style={styles.commonTitleText}>{item.takeTime}</Text></View>
+              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>取餐點</Text><Text style={styles.commonTitleText}>{item.takeAddressDetail}</Text></View>
             </Body>
           </CardItem>
           <CardItem style={{ backgroundColor: "#fafafa", marginTop: -10 }}>
@@ -209,9 +224,9 @@ export default class PeopleView extends Component {
                   justifyContent: "space-between"
                 }}
               >
-                <Text style={styles.commonDecText}>TOTAL</Text>
-                <Text style={styles.commonPriceText}>
-                  HKD {item.totalMoney}
+                <Text style={styles.commonDecText}>TOTAL HKD {item.totalMoney}</Text>
+                <Text style={[styles.commonPriceText,{color: this.props.screenProps.theme}]}>
+                  {this._switchOrderStatus(item.status)}
                 </Text>
               </View>
             </Body>
@@ -222,18 +237,18 @@ export default class PeopleView extends Component {
   render() {
     return (
       <Container style={{position: 'relative'}}>
-        <Button transparent onPress={() => this.props.navigation.goBack()} 
+        {/*<Button transparent onPress={() => this.props.navigation.goBack()} 
         style={{position: 'absolute',top: 80,left: 10,width:40,height:40,borderRadius: 20,backgroundColor:Colors.fontBlack,opacity:0.5,zIndex:10}}>
         <Icon
           size={20}
           name="ios-arrow-back"
           style={[{ fontSize: 25, color: Colors.main_white }]}
         />
-      </Button>
-        <StatusBar barStyle="dark-content"/>
-        {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
-          <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
-            <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
+    </Button>*/}
+        <CommonHeader canBack hasTabs title="我的訂單" {...this.props}/>
+        <Tabs tabBarUnderlineStyle={{backgroundColor: this.props.screenProps.theme}} 
+        ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
+        <Tab heading={ <TabHeading><Text>全部訂單</Text></TabHeading>}>
         <View style={{flex:1}}>
         {this.state.isExpired ? <BlankPage style={{marginTop:50}} message={this.state.expiredMessage}/> : null}
           {
@@ -242,6 +257,17 @@ export default class PeopleView extends Component {
             : null
           }
         </View>
+        </Tab>
+        <Tab heading={ <TabHeading><Text>待完成</Text></TabHeading>}>
+          <Text>123</Text>
+        </Tab>
+        <Tab heading={ <TabHeading><Text>已取消</Text></TabHeading>}>
+          <Text>123</Text>
+        </Tab>
+      </Tabs>
+        {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
+          <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+            <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
       </Container>
     );
   }
@@ -282,10 +308,13 @@ const styles = StyleSheet.create({
     height:28,
     marginBottom:10
   },
+  commonFlex:{
+    flex: 1
+  },
   commonTitleText: {
     fontSize: 16,
     fontWeight: "bold",
-    fontFamily: "AvenirNext-UltraLightItalic"
+    fontFamily: "AvenirNext-UltraLightItalic",
   },
   commonDecText: {
     // fontFamily: 'AvenirNext-UltraLightItalic',

@@ -243,6 +243,12 @@ export default class ShopSwiperablePage extends Component {
     );
   };
 
+  _getDailyFoodList = (placeId) => {
+    api.getDailyFoods(placeId, this.props.screenProps.sid).then(data => {
+      console.log(data.data.data);
+    })
+  }
+
   _onErrorToRetry = () => {
     this.setState({
       loading: true,
@@ -266,6 +272,7 @@ export default class ShopSwiperablePage extends Component {
       isBottomContainerShow: false
     })
     this._getRecomendFoodList(val.id);
+    this._getDailyFoodList(val.id);
   }
 
   _goToOrder = () => {
@@ -332,7 +339,7 @@ export default class ShopSwiperablePage extends Component {
           }
         }}
         count={this.state.foodCount}
-        {...this['props']}
+        {...this.props}
         // parallax={true}
         // parallaxProps={parallaxProps}
       /> : null
@@ -419,7 +426,7 @@ export default class ShopSwiperablePage extends Component {
           />
         ) : null}
         {this.state.loading ? <Loading message="玩命加載中..." /> : null}
-        {this.state.foodDetails != null && this.state.foodDetails.length >0  ? <BottomOrderConfirm {...this['props']} 
+        {this.state.foodDetails != null && this.state.foodDetails.length >0  ? <BottomOrderConfirm {...this.props} 
         isShow={this.state.isBottomContainerShow} 
         total={this.state.foodCount*this.state.foodDetails[0].price}
         goToOrder={this._goToOrder}

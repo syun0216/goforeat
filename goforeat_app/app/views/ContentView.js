@@ -275,7 +275,7 @@ export default class ContentView extends Component {
               <Text note style={{marginTop:5,marginBottom: 5,color:Colors.fontBlack,fontSize:16}}>{this.state.canteenData.name}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>{this.state.canteenData.address}</Text>
               <Text note style={{marginTop:5,marginBottom: 5}}>價格：${this.state.canteenData.price}</Text>
-              <Rating rate={this.state.canteenData.rate} {...this['props']}/>
+              <Rating rate={this.state.canteenData.rate} {...this.props}/>
             </Body>
           </Left>
         </CardItem>
@@ -309,7 +309,7 @@ export default class ContentView extends Component {
           <View style={[styles.subtitle,{borderLeftColor: this.props.screenProps.theme,marginBottom: 10}]}>
             <Text>{i18n.canteenRec}</Text>
           </View>
-          {this.state.canteenData!== null ?<RecommendShop list={this.state.canteenData.recommendCanteen} {...this['props']}/> : null}
+          {this.state.canteenData!== null ?<RecommendShop list={this.state.canteenData.recommendCanteen} {...this.props}/> : null}
         </Body>
         </CardItem>
       </Card>

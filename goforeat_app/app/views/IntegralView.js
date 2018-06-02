@@ -125,7 +125,7 @@ export default class IntegralView extends PureComponent {
   render() {
     return (
       <Container>
-        <CommonHeader canBack {...this['props']} title={this.state.i18n.integral_title} />
+        <CommonHeader canBack {...this.props} title={this.state.i18n.integral_title} />
         {this.state.isLoading ? <Loading /> : null}
         {this.state.isError ? <ErrorPage errorToDo={this._getProjectList}/> : null}
         <Content>

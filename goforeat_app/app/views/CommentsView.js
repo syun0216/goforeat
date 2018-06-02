@@ -12,7 +12,7 @@ export default class CommentsView extends PureComponent {
     let {comment} = this.props.navigation.state.params;
     return (
       <Container>
-        <CommonHeader canBack title="精彩評論" {...this['props']}/>
+        <CommonHeader canBack title="精彩評論" {...this.props}/>
         <Content>
           {comment.map((item,idx) => (
             <ListItem avatar key={idx} style={{backgroundColor: Colors.main_white,marginLeft: 0}}>

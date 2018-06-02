@@ -45,7 +45,7 @@ export default class MyFavoriteView extends PureComponent {
     _renderSectionListItem = (item,index) => {
       // console.log()
       return (
-        <Row damping={this.state.damping} tension={this.state.tension} id={item.id} {...this['props']}>
+        <Row damping={this.state.damping} tension={this.state.tension} id={item.id} {...this.props}>
           <TouchableOpacity style={styles.rowContent} onPress={() =>this.props.navigation.navigate('Content',{
             data:item,
             kind:'canteen'
@@ -62,7 +62,7 @@ export default class MyFavoriteView extends PureComponent {
   render() {
     return (
       <Container>
-        <CommonHeader canBack title={this.state.i18n.myfavorite_text} {...this['props']}/>
+        <CommonHeader canBack title={this.state.i18n.myfavorite_text} {...this.props}/>
         {this.props.screenProps.shopList.data.length === 0 ? <BlankPage message="暫無關注餐廳，請到餐廳詳情關注吧"/> : this._renderSectionList()}
       </Container>
     );

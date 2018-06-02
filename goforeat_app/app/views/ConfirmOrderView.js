@@ -196,7 +196,7 @@ export default class ConfirmOrderView extends PureComponent {
             style={{
               flex: 1,
               marginTop: 5,
-              backgroundColor: "#3B254B",
+              backgroundColor: this.props.screenProps.theme,
               marginLeft: 40,
               marginRight: 40
             }}
@@ -335,7 +335,7 @@ export default class ConfirmOrderView extends PureComponent {
             style={{
               flex: 1,
               marginTop: 5,
-              backgroundColor: "#3B254B",
+              backgroundColor: this.props.screenProps.theme,
               marginLeft: 40,
               marginRight: 40
             }}

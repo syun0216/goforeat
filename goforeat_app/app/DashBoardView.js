@@ -18,7 +18,7 @@ class DashBoardView extends PureComponent {
         //   state: this.props.nav,
         //   // addListener,
         // })} 
-        screenProps={{...this['props']}}
+        screenProps={{...this.props}}
         />
         // {this.props.loading? <Loading message="玩命加載中..."/> : null}
     )

@@ -128,7 +128,7 @@ export default class SettingView extends PureComponent{
     const {i18n} = this.state;
     return (
       <Container>
-        <CommonHeader title={i18n.setting_title} canBack {...this['props']}/>
+        <CommonHeader title={i18n.setting_title} canBack {...this.props}/>
         <Content style={{backgroundColor: Colors.main_white}}>
           <View style={styles.title}>
             <Text>{i18n.theme}</Text>

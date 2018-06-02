@@ -188,6 +188,14 @@ const api = {
             timeout: 4500
         })
     },
+    getDailyFoods(placeId, sid) {
+        return axios.get(api_url + '/food/getDailyFood', {
+            params: {
+                placeId
+            },
+            timeout: 4500
+        })
+    }, 
     createOrder(foodId,sid,placeId,amount) {
         return axios.get(api_url + '/order/create', {
             params: {
@@ -208,6 +216,12 @@ const api = {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         })
+    },
+    cancelOrder(orderId, sid) {
+        return axios.post(api_url + '/order/cancel', qs.stringify({
+            orderId,
+            sid
+        }))
     },
     getNotifications() {
         return axios.get('https://api.appcenter.ms/v0.1/apps/junewensu/Goforeat/push/notifications', {
