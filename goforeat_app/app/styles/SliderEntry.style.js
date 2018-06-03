@@ -74,7 +74,8 @@ export default StyleSheet.create({
         paddingHorizontal: 16,
         backgroundColor: 'white',
         borderBottomLeftRadius: entryBorderRadius,
-        borderBottomRightRadius: entryBorderRadius
+        borderBottomRightRadius: entryBorderRadius,
+        minHeight: 120
     },
     textContainerEven: {
         backgroundColor: colors.black

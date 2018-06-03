@@ -25,6 +25,7 @@ import {
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { sliderWidth, itemWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
+import HotReloadHOC from '../components/HotReloadHOC';
 import styles, { colors } from "../styles/index.style";
 import { ENTRIES1, ENTRIES2 } from "../static/entries";
 import { scrollInterpolators, animatedStyles } from "../utils/animations";
@@ -52,7 +53,7 @@ import * as JSONUtils from "../utils/JSONUtils";
 const IS_ANDROID = Platform.OS === "android";
 const SLIDER_1_FIRST_ITEM = 1;
 
-export default class ShopSwiperablePage extends Component {
+class ShopSwiperablePage extends Component {
   _current_offset = 0;
   _SliderEntry = null;
   _timer = null;
@@ -85,19 +86,7 @@ export default class ShopSwiperablePage extends Component {
 
   componentDidMount() {
     AppState.addEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState))
-    CodePush.getUpdateMetadata().then(localPackage => {
-            // console.log(localPackage);
-            if (localPackage == null) {
-                this._checkForUpdate();
-                
-            } else {
-                if (localPackage.isPending) {
-                    localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME)
-                } else {
-                    this._checkForUpdate();
-                }
-            }
-        });
+    
     this._current_offset = 0;
   }
 
@@ -144,129 +133,7 @@ export default class ShopSwiperablePage extends Component {
       }
     });
   }
-
-  // logic - update
-
-  _checkForUpdate() {
-    CodePush.checkForUpdate(CodePushUtils.getDeploymentKey()).then(remotePackage => {
-      // console.log(remotePackage);
-        if (remotePackage == null) {
-            return;
-        }
-        this._syncInNonSilent(remotePackage);
-        // if (TextUtils.isEmpty(remotePackage.description)) {
-        //     this._syncInSilent(remotePackage);
-        // } else {
-        //     JSONUtils.parseJSONFromString(remotePackage.description, (resultJSON) => {
-        //         if (resultJSON.isSilentSync != null && !resultJSON.isSilentSync) {
-        //             this._syncInNonSilent(remotePackage);
-        //         } else {
-        //             this._syncInSilent(remotePackage);
-        //         }
-        //     }, (error) => {
-        //         this._syncInSilent(remotePackage);
-        //     });
-        // }
-    })
-}
-  // logic - update - silent
-  _syncInSilent = remotePackage => {
-    remotePackage.download().then(localPackage => {
-      if (localPackage != null) {
-        localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME);
-      } else {
-      }
-    });
-  };
-  // logic - update - no silent
-
-  _syncInNonSilent = remotePackage => {
-    if (remotePackage.isMandatory) {
-      Alert.alert(null, `更新到最新版本,更新內容為：\n ${remotePackage.description}`, [
-        {
-          text: "明白",
-          onPress: () => {
-            this._downloadMandatoryNewVersionWithRemotePackage(remotePackage)
-          }
-        }
-      ]);
-
-      // setTimeout(
-      //   () => this._downloadMandatoryNewVersionWithRemotePackage(remotePackage),
-      //   1000
-      // );
-      return;
-    } else {
-      Alert.alert(null, "有新功能,是否現在立即更新？", [
-        { text: "以後再說" },
-        {
-          text: "立即更新",
-          onPress: () => {
-            this._downloadNewVersionWithRemotePackage(remotePackage);
-          }
-        }
-      ]);
-    }
-  };
-
-  _downloadNewVersionWithRemotePackage = remotePackage => {
-    ToastUtils.showWithMessage("新版本正在下載,請稍候...");
-    remotePackage.download().then(localPackage => {
-      if (localPackage != null) {
-        Alert.alert(null, "下載完成,是否立即安裝?", [
-          {
-            text: "下次安裝",
-            onPress: () => {
-              localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME);
-            }
-          },
-          {
-            text: "現在安裝",
-            onPress: () => {
-              localPackage.install(CodePush.InstallMode.IMMEDIATE);
-            }
-          }
-        ]);
-      } else {
-        // if (DebugStatus.isDebug()) {
-        //     console.log("新版本下载失败");
-        // }
-      }
-    });
-  };
-
-  _downloadMandatoryNewVersionWithRemotePackage = remotePackage => {
-    this.props.navigation.navigate('Mandatory',{
-      remotePackage: remotePackage
-    })
-  }
-
   //api
-  _getRecomendFoodList = (placeId) => {
-    this.setState({loading: true});
-    api.getFoodRecommend(placeId, this.props.screenProps.sid).then(
-      data => {
-        if (data.status === 200 && data.data.ro.ok) {
-          console.log(data.data.data);
-          // if (data.data.data.length === 0) {
-          //     ToastUtil.showWithMessage('沒有更多數據了...');
-          //     this.setState({
-          //         loading: false
-          //     })
-          //     return;
-          // }
-          this.setState({
-            foodDetails: data.data.data,
-            loading: false
-          });
-        }
-      },
-      () => {
-        this.setState({ isError: true, loading: false });
-      }
-    );
-  };
-
   _getDailyFoodList = (placeId) => {
     api.getDailyFoods(placeId, this.props.screenProps.sid).then(data => {
       if(data.status === 200 && data.data.ro.ok) {
@@ -320,7 +187,9 @@ export default class ShopSwiperablePage extends Component {
           amount: foodCount
       })
   }else {
+    if(placeSelected.id){
       this.props.navigation.navigate("Login",{foodId,placeId: placeSelected.id,amount: foodCount,reloadFunc: () => this._reloadWhenCancelLogin()});
+    }
     }
   }
 
@@ -491,3 +360,5 @@ export default class ShopSwiperablePage extends Component {
     );
   }
 }
+
+export default HotReloadHOC(ShopSwiperablePage);

@@ -170,7 +170,7 @@ const darwerView = DrawerNavigator(
     drawerWidth: GLOBAL_PARAMS._winWidth * 0.8,
     drawerPosition: "left",
     contentComponent: props => {
-      console.log(2222,props);
+      // console.log(2222,props);
       let _language = i18n[props.screenProps.language];
       return (
         <Container>
@@ -444,7 +444,7 @@ const darwerView = DrawerNavigator(
           <Footer
             style={{ flexDirection: "row", backgroundColor: Colors.main_white }}
           >
-            <TouchableOpacity
+            {/*<TouchableOpacity
               onPress={() => props.navigation.navigate("Ativity")}
               style={{
                 flex: 1,
@@ -473,7 +473,7 @@ const darwerView = DrawerNavigator(
                 style={{ fontSize: 18, color: "#8a8a8a" }}
               />
               <Text style={{ marginLeft: 5 }}>{_language.tab1}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
             <TouchableOpacity
               onPress={() => props.navigation.navigate("Setting")}
               style={{
@@ -590,8 +590,8 @@ let MainView = StackNavigator(
 const defaultGetStateForAction = MainView.router.getStateForAction;
 
 MainView.router.getStateForAction = (action, state) => {
-  console.log('action', action)
-  console.log('state', state)
+  // console.log('action', action)
+  // console.log('state', state)
   if (action.type === "Navigation/NAVIGATE") {
     source.cancel();
   }

@@ -56,16 +56,16 @@ const _styles = StyleSheet.create({
     price_view: {
         position: 'absolute',
         width: 'auto',
-        top: 1,
-        right: 1,
+        top: 0,
+        right: 0,
         paddingLeft: 15,
         paddingRight: 15,
         // backgroundColor: '#3B254B',
-        opacity: 0.6,
+        opacity: 0.9,
         flexDirection: 'row',
         zIndex:10,
         alignItems: 'center',
-        borderRadius: 3,
+        borderTopRightRadius: 5,
         height: 40,
         borderBottomLeftRadius: 30,
     },
@@ -171,8 +171,9 @@ class SliderEntry extends Component {
         const { data: { price, originPrice } } = this.props;
         return (
             <View style={[_styles.price_view,{backgroundColor:this.props.screenProps.theme}]}>
-                <Text style={_styles.price_text}>${price}</Text>
-                <Text style={_styles.orgin_price_text}>${originPrice}</Text>
+                <Text style={_styles.price_text}>HKD {price}</Text>
+                <Text style={_styles.orgin_price_text}>
+                HKD {originPrice}</Text>
             </View>
         )
     }
