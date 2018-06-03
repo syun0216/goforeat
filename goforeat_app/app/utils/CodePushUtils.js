@@ -10,7 +10,7 @@ import {
     Platform,
 } from 'react-native'
 
-let DebugStatus = true;
+let DebugStatus = false;
 
 
 let _DEPLOYMENT_KEY_PRODUCTION_ON_IOS = "loe6czezecl4T5wIpFxONddIqmCMd261912e-873f-4270-b887-25c360664c8c";
