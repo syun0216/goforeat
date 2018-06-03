@@ -286,7 +286,7 @@ export default class ShopSwiperablePage extends Component {
       loading: true,
       isError: false
     });
-    this._getRecomendFoodList();
+    this._getDailyFoodList();
   };
 
   _refresh = () => {
@@ -294,7 +294,7 @@ export default class ShopSwiperablePage extends Component {
     this.setState({
       loading: true
     });
-    this.getRecommendList();
+    this._getDailyFoodList();
   };
 
   getSeletedValue = (val) => {
