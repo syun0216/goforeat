@@ -192,7 +192,7 @@ export default class LoginView extends Component {
 
   render() {
     const {i18n} = this.state;
-    let {theme} = this.props.screenProps;
+    let {navigation,screenProps:{theme}} = this.props;
     let _imgHeight = GLOBAL_PARAMS._winWidth < 350 ?  GLOBAL_PARAMS._winHeight*0.35 : 250;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -227,7 +227,9 @@ export default class LoginView extends Component {
         <ScrollView style={{ position: "relative" }}>
           <View style={{ flex: 1 }}>
             <Button
-              onPress={() => this.props.navigation.goBack()}
+              onPress={() => {navigation.goBack();
+              if(navigation.state.params) {navigation.state.params.reloadFunc();}
+            }}
               transparent
               style={{ position: "absolute", top: 35, right: 20, zIndex: 20 }}
             >

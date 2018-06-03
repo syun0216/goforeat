@@ -9,7 +9,7 @@ const CommonHeader = (props) => {
   <Header style={[{backgroundColor:props.screenProps.theme},props.headerStyle]} hasTabs iosBarStyle={props.iosBarStyle}>
     <Left>
       {props.canBack ? (props.leftElement !== null ? (<props.leftElement {...props}/>) : (
-        <Button transparent onPress={() => props.navigation.goBack()}>
+        <Button transparent onPress={() => {props.navigation.goBack();}}>
           <Icon
             size={20}
             name="ios-arrow-back"

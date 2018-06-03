@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 import ToastUtil from '../utils/ToastUtil';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
+import Colors from '../utils/Colors';
 
 const _styles = StyleSheet.create({
     countContainer:{
@@ -51,6 +52,34 @@ const _styles = StyleSheet.create({
         alignItems:'center',
         paddingLeft: 10,
         paddingRight: 10
+    },
+    price_view: {
+        position: 'absolute',
+        width: 'auto',
+        top: 1,
+        right: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
+        // backgroundColor: '#3B254B',
+        opacity: 0.6,
+        flexDirection: 'row',
+        zIndex:10,
+        alignItems: 'center',
+        borderRadius: 3,
+        height: 40,
+        borderBottomLeftRadius: 30,
+    },
+    price_text: {
+        fontSize: 20,
+        color: Colors.main_white,
+        marginLeft: 10,
+        marginRight: 10
+    },
+    orgin_price_text: {
+        fontSize: 14,
+        color: Colors.main_white,
+        textDecorationLine: 'line-through',
+        marginRight: 10
     }
 })
 
@@ -70,7 +99,7 @@ class SliderEntry extends Component {
         count: 0
     }
 
-    componentDidMount = () => {
+    componentDidMount() {
         // console.log(123, this.props);
     }
 
@@ -138,6 +167,16 @@ class SliderEntry extends Component {
         )
     }
 
+    _renderPriceView() {
+        const { data: { price, originPrice } } = this.props;
+        return (
+            <View style={[_styles.price_view,{backgroundColor:this.props.screenProps.theme}]}>
+                <Text style={_styles.price_text}>${price}</Text>
+                <Text style={_styles.orgin_price_text}>${originPrice}</Text>
+            </View>
+        )
+    }
+
     render () {
         const { data: { foodName, foodBrief,foodId,foodImage }, even ,placeId } = this.props;
 
@@ -166,6 +205,7 @@ class SliderEntry extends Component {
             // }}
               >
                 <View style={[styles.imageContainer]}>
+                    {this._renderPriceView()}
                     { this.image }
                     <View style={[styles.radiusMask]} />
                 </View>

@@ -320,8 +320,12 @@ export default class ShopSwiperablePage extends Component {
           amount: foodCount
       })
   }else {
-      this.props.navigation.navigate("Login",{foodId,placeId: placeSelected.id,amount: foodCount});
+      this.props.navigation.navigate("Login",{foodId,placeId: placeSelected.id,amount: foodCount,reloadFunc: () => this._reloadWhenCancelLogin()});
+    }
   }
+
+  _reloadWhenCancelLogin() {
+    this._reloadPage();
   }
 
   _cancelOrder = () => {

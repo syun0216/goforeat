@@ -170,6 +170,7 @@ const darwerView = DrawerNavigator(
     drawerWidth: GLOBAL_PARAMS._winWidth * 0.8,
     drawerPosition: "left",
     contentComponent: props => {
+      console.log(2222,props);
       let _language = i18n[props.screenProps.language];
       return (
         <Container>
@@ -615,7 +616,7 @@ MainView.router.getStateForAction = (action, state) => {
       index: routes.length - 1
     });
   }
-  if(action.routeName == 'DrawerClose' || action.routeName == 'ShopTab' || (action.type == 'Navigation/BACK' && (state.routes[1].routeName == 'Order' || state.routes[1].routeName == 'Login'))) { //监听首页
+  if(action.routeName == 'DrawerClose' || action.routeName == 'ShopTab' || (action.type == 'Navigation/BACK' && (state.routes[1].routeName == 'Order'))) { //监听首页
     store.dispatch({type:'REFRESH',refresh:new Date()})
   }
   if (state && action.type === NavigationActions.NAVIGATE) {
