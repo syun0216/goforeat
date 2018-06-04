@@ -1,4 +1,5 @@
 <resources>
     <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey"></string>
     <string name="app_name">有得食</string>
+    <string name="facebook_app_id">2036279879923166</string>
 </resources>
