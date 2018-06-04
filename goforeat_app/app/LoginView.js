@@ -224,9 +224,7 @@ export default class LoginView extends Component {
             }}
           />
         </View>
-        <ScrollView style={{ position: "relative" }}>
-          <View style={{ flex: 1 }}>
-            <Button
+        <Button
               onPress={() => {navigation.goBack();
               if(navigation.state.params) {navigation.state.params.reloadFunc();}
             }}
@@ -238,6 +236,8 @@ export default class LoginView extends Component {
                 source={require("./asset/close.png")}
               />
             </Button>
+        <ScrollView style={{ position: "relative" }}>
+          <View style={{ flex: 1 }}>
             <View
               style={[{
                 flex: 1,

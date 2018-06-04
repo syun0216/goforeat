@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
     padding: 60,
     backgroundColor: Colors.main_white,
     width: GLOBAL_PARAMS._winWidth,
-    height: GLOBAL_PARAMS._winHeight
+    height: GLOBAL_PARAMS._winHeight,
+    zIndex: 10000
   }
 });
 

@@ -104,8 +104,8 @@ android {
     defaultConfig {
         applicationId "com.goforeat_app"
         minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 2
+        targetSdkVersion 26
+        versionCode 4
         versionName "1.1.3"
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -162,7 +162,7 @@ dependencies {
     compile project(':appcenter-push')
     compile project(':react-native-interactable')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.0.1'
+//    compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.facebook.react:react-native:+'
 //    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 //    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'

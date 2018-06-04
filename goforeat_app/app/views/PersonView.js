@@ -363,15 +363,15 @@ export default class PeopleView extends Component {
         />
     </Button>*/}
         <CommonHeader canBack hasTabs title="我的訂單" {...this.props}/>
-        <Tabs tabBarUnderlineStyle={{backgroundColor: this.props.screenProps.theme}} 
+        <Tabs tabStyle={{backgroundColor: Colors.main_white}} tabBarUnderlineStyle={{backgroundColor: this.props.screenProps.theme}} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
-        <Tab heading={ <TabHeading><Text>全部訂單</Text></TabHeading>}>
+        <Tab tabStyle={{backgroundColor: Colors.main_white}} textStyle={{color: Colors.main_white}} heading={ <TabHeading><Text style={styles.commonText}>全部訂單</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
-        <Tab heading={ <TabHeading><Text>待配送</Text></TabHeading>}>
+        <Tab heading={ <TabHeading><Text style={styles.commonText}>待配送</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
-        <Tab heading={ <TabHeading><Text>已取消</Text></TabHeading>}>
+        <Tab heading={ <TabHeading><Text style={styles.commonText}>已取消</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
       </Tabs>
@@ -454,6 +454,7 @@ const styles = StyleSheet.create({
     color: Colors.fontBlack
   },
   commonText: {
-    fontSize: 18
+    fontSize: 16,
+    color: Colors.main_white
   }
 })
