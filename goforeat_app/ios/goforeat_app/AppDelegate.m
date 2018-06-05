@@ -8,7 +8,6 @@
  */
 
 #import "AppDelegate.h"
-#import <AppCenterReactNativePush/AppCenterReactNativePush.h>
 #import <CodePush/CodePush.h>
 //#import "SplashScreen.h"  // here
 
@@ -23,8 +22,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
-
-  [AppCenterReactNativePush register];  // Initialize AppCenter push
 
 
     #ifdef DEBUG

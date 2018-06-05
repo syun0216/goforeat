@@ -1,9 +1,4 @@
 PODS:
-  - AppCenter/Core (1.4.0)
-  - AppCenter/Push (1.4.0):
-    - AppCenter/Core
-  - AppCenterReactNativeShared (1.3.0):
-    - AppCenter/Core (= 1.4.0)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -16,28 +11,18 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.33.0):
     - FBSDKCoreKit (~> 4.33.0)
-  - JCore (1.1.9)
-  - JPush (3.0.9):
-    - JCore (~> 1.1.7)
 
 DEPENDENCIES:
-  - AppCenter/Push (~> 1.4.0)
-  - AppCenterReactNativeShared (~> 1.3.0)
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
-  - JPush
 
 SPEC CHECKSUMS:
-  AppCenter: 2f5890b60944971b8c3767269a9d693205a91fef
-  AppCenterReactNativeShared: 784f42fbb8f12c9bc587527a650c48d8f001295f
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   FBSDKCoreKit: 572b047a7e029bc44542bcf8a59414e7ff2b543e
   FBSDKLoginKit: 88cb456349cfb3b554427ce4f8b43729d85dfb40
   FBSDKShareKit: 1869cb24db2cea90666a50cb9d568deb38e2d16e
-  JCore: 27598485098d0db99d2812cba048003457d08cfb
-  JPush: 003d9eaef8ba2df76de32573d0c8aa62b92b3c82
 
-PODFILE CHECKSUM: d547bc6a72d30739f038cd972d42f070444d8ffb
+PODFILE CHECKSUM: 9a07db43ad9451a10c69a5627c5a11e86bf12da5
 
 COCOAPODS: 1.4.0
