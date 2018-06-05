@@ -15,7 +15,7 @@ const HotReloadHOC = WarppedComponent => class extends Component {
     AppState.addEventListener('change',(nextState) => {
       if(nextState == 'active') {
         CodePush.getUpdateMetadata().then(localPackage => {
-          console.log(123,localPackage);
+          // console.log(123,localPackage);
           if (localPackage == null) {
               this._checkForUpdate();
               

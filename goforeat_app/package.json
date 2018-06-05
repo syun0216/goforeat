@@ -11,6 +11,8 @@
   "dependencies": {
     "appcenter-push": "^1.3.0",
     "axios": "^0.17.1",
+    "jcore-react-native": "^1.2.6",
+    "jpush-react-native": "^2.2.3",
     "js-md5": "^0.7.3",
     "native-base": "^2.3.7",
     "react": "16.2.0",
