@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StatusBar, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,Modal,ScrollView,RefreshControl } from "react-native";
+import { View, StatusBar, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,Modal,ScrollView,RefreshControl,Platform } from "react-native";
 import {
   Container,
   Header,
@@ -363,9 +363,9 @@ export default class PeopleView extends Component {
         />
     </Button>*/}
         <CommonHeader canBack hasTabs title="我的訂單" {...this.props}/>
-        <Tabs tabStyle={{backgroundColor: Colors.main_white}} tabBarUnderlineStyle={{backgroundColor: this.props.screenProps.theme}} 
+        <Tabs tabBarUnderlineStyle={{backgroundColor: this.props.screenProps.theme}} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
-        <Tab tabStyle={{backgroundColor: Colors.main_white}} textStyle={{color: Colors.main_white}} heading={ <TabHeading><Text style={styles.commonText}>全部訂單</Text></TabHeading>}>
+        <Tab textStyle={{color:Platform.OS == 'android' ? Colors.main_white : '#000'}} heading={ <TabHeading><Text style={styles.commonText}>全部訂單</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
         <Tab heading={ <TabHeading><Text style={styles.commonText}>待配送</Text></TabHeading>}>
@@ -455,6 +455,6 @@ const styles = StyleSheet.create({
   },
   commonText: {
     fontSize: 16,
-    color: Colors.main_white
+    color: Platform.OS === 'android' ? Colors.main_white : Colors.fontBlack
   }
 })
