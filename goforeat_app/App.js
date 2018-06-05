@@ -6,7 +6,6 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, View, AppState,Alert} from 'react-native';
-import Push from 'appcenter-push';
 import {Root} from 'native-base'
 import store from './app/store'
 import {Provider,connect} from 'react-redux';
@@ -23,8 +22,6 @@ import api from './app/api';
 
 class App extends Component < {} > {
   componentWillMount = async () => {
-    await Push.setEnabled(true);
-    const pushEnabled = await Push.isEnabled();
     // console.log(Push);
     // console.log(pushEnabled);
     // api.getNotifications().then(data => console.log(data));

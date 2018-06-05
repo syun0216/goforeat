@@ -7,7 +7,6 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
-  NativeModules,
   AlertIOS,
   ToastAndroid,
   Clipboard,

@@ -913,10 +913,6 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
-base-64@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
-
 base64-js@0.0.8:
   version "0.0.8"
   resolved "https://registry.npmjs.org/base64-js/-/base64-js-0.0.8.tgz#1101e9544f4a76b1bc3b26d452ca96d7a35e7978"
@@ -4264,12 +4260,6 @@ react-native-easy-grid@0.1.15:
   dependencies:
     lodash "^4.11.1"
 
-react-native-fast-image@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-4.0.0.tgz#54f4013c9e0a5e9e649fc00e50028c79c7eacbea"
-  dependencies:
-    prop-types "^15.5.10"
-
 react-native-fbsdk@^0.7.0:
   version "0.7.0"
   resolved "https://registry.npmjs.org/react-native-fbsdk/-/react-native-fbsdk-0.7.0.tgz#263dfe5845205de7b80efb0f18ed5c1ded025291"
@@ -4281,13 +4271,6 @@ react-native-fbsdk@^0.7.0:
     progress "^2.0.0"
     pump "^1.0.2"
     xcode "^0.9.3"
-
-react-native-fs@^2.9.12:
-  version "2.9.12"
-  resolved "https://registry.npmjs.org/react-native-fs/-/react-native-fs-2.9.12.tgz#88d6c1e8eb26acbebca955e1cbd9c47d2c9452ba"
-  dependencies:
-    base-64 "^0.1.0"
-    utf8 "^2.1.1"
 
 react-native-i18n@^2.0.12:
   version "2.0.12"
@@ -4372,10 +4355,6 @@ react-native-snap-carousel@^3.6.0:
   dependencies:
     prop-types "^15.6.0"
     react-addons-shallow-compare "15.6.2"
-
-react-native-splash-screen@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.npmjs.org/react-native-splash-screen/-/react-native-splash-screen-3.0.6.tgz#c0bbf2c8ae40a313c4c7044f55e569414ff68332"
 
 react-native-swiper@^1.5.13:
   version "1.5.13"
@@ -5467,10 +5446,6 @@ url-parse-lax@^1.0.0:
 url-to-options@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/url-to-options/-/url-to-options-1.0.1.tgz#1505a03a289a48cbd7a434efbaeec5055f5633a9"
-
-utf8@^2.1.1:
-  version "2.1.2"
-  resolved "https://registry.npmjs.org/utf8/-/utf8-2.1.2.tgz#1fa0d9270e9be850d9b05027f63519bf46457d96"
 
 util-deprecate@1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"

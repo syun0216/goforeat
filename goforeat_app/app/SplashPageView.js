@@ -12,7 +12,6 @@ import Swiper from "react-native-swiper";
 //hot reload
 import CodePush from "react-native-code-push";
 import CodePushUtils from "./utils/CodePushUtils";
-import Push from "appcenter-push";
 import * as TextUtils from "./utils/TextUtils";
 import * as JSONUtils from "./utils/JSONUtils";
 import ToastUtils from './utils/ToastUtil';
