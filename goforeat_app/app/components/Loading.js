@@ -28,13 +28,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.main_white,
     width: GLOBAL_PARAMS._winWidth,
     height: GLOBAL_PARAMS._winHeight,
-    zIndex: 10000
+    zIndex: 10
   }
 });
 
 const Loading = props => {
   return (
-    <View style={Platform.OS === 'ios' ? styles.loadingContainer : styles.loadingContainerAndroid}>
+    <View style={[Platform.OS === 'ios' ? styles.loadingContainer : styles.loadingContainerAndroid,props.style]}>
       <View
         style={{
           alignSelf: "center",

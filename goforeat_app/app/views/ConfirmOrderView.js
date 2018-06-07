@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput,Platform } from "react-native";
 import {
   Container,
   Content,
@@ -310,9 +310,10 @@ export default class ConfirmOrderView extends PureComponent {
           textColor={Colors.fontBlack}
           headerStyle={{
             backgroundColor: Colors.main_white,
-            borderBottomWidth: 0
+            borderBottomWidth: 0,
+            zIndex: 0,
           }}
-          iosBarStyle="dark-content"
+          iosBarStyle={Platform.OS == 'ios' ? 'dark-content' : 'light-content'}
           titleStyle={{ fontSize: 18, fontWeight: "bold" }}
           {...this["props"]}
         />
@@ -326,8 +327,8 @@ export default class ConfirmOrderView extends PureComponent {
           ) : null}
           {this.state.orderDetail !== null ? this._renderOrderView() : null}
         </Content>
-        <Footer
-          style={{ borderTopWidth: 0, backgroundColor: Colors.main_white }}
+        <View
+          style={{position: 'absolute',bottom: 0,left:0,width:GLOBAL_PARAMS._winWidth,padding: 5, borderTopWidth: 0, backgroundColor: Colors.main_white, zIndex: 0, }}
         >
           <Button
             onPress={() => this._openDialog()}
@@ -350,7 +351,7 @@ export default class ConfirmOrderView extends PureComponent {
               立即下單
             </Text>
           </Button>
-        </Footer>
+        </View>
       </Container>
     );
   }

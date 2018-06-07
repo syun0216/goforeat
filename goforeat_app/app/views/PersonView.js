@@ -365,18 +365,18 @@ export default class PeopleView extends Component {
         <CommonHeader canBack hasTabs title="我的訂單" {...this.props}/>
         <Tabs tabBarUnderlineStyle={{backgroundColor: this.props.screenProps.theme}} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
-        <Tab textStyle={{color:Platform.OS == 'android' ? Colors.main_white : '#000'}} heading={ <TabHeading><Text style={styles.commonText}>全部訂單</Text></TabHeading>}>
+        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text style={styles.commonText}>全部訂單</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
-        <Tab heading={ <TabHeading><Text style={styles.commonText}>待配送</Text></TabHeading>}>
+        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text style={styles.commonText}>待配送</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
-        <Tab heading={ <TabHeading><Text style={styles.commonText}>已取消</Text></TabHeading>}>
+        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text style={styles.commonText}>已取消</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
       </Tabs>
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
-          <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+          <Loading message="玩命加載中..." style={Platform.OS == 'android' ? {marginTop:110} : {}}/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
             <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
       </Container>
     );
@@ -453,8 +453,11 @@ const styles = StyleSheet.create({
     fontWeight: "200",
     color: Colors.fontBlack
   },
+  commonHeadering: {
+    backgroundColor: Platform.OS == 'android' ? Colors.main_white : 'transparent'
+  },
   commonText: {
     fontSize: 16,
-    color: Platform.OS === 'android' ? Colors.main_white : Colors.fontBlack
+    color: Colors.fontBlack
   }
 })
