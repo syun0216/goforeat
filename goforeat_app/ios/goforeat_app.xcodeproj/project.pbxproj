@@ -39,6 +39,9 @@
 		C7639D672069D523000A02BB /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D662069D50A000A02BB /* libRNShare.a */; };
 		C7639D692069D56E000A02BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D682069D56E000A02BB /* Social.framework */; };
 		C7639D6B2069D578000A02BB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D6A2069D578000A02BB /* MessageUI.framework */; };
+		C76B2CA720C8329C00D63293 /* libJPushRN.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CA620C8329C00D63293 /* libJPushRN.a */; };
+		C76B2CD420C832A200D63293 /* libJCoreRN.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CD320C832A200D63293 /* libJCoreRN.a */; };
+		C76B2CE220C8331700D63293 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CE120C8331700D63293 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
 		C7DDDD8820A0A25C00BD8639 /* index.ios.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */; };
@@ -325,6 +328,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNShare;
 		};
+		C76B2CD920C832DD00D63293 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C76B2CD520C832DD00D63293 /* RCTJCoreModule.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6212E9B41F3990DC00BDF51A;
+			remoteInfo = RCTJCoreModule;
+		};
+		C76B2CDF20C832FE00D63293 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C76B2CDB20C832FD00D63293 /* RCTJPushModule.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6280980A1CEDC407000D3A81;
+			remoteInfo = RCTJPushModule;
+		};
 		C7A69A17207089D800E06981 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C7A69A12207089D700E06981 /* CodePush.xcodeproj */;
@@ -398,6 +415,11 @@
 		C7639D342069D50A000A02BB /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
 		C7639D682069D56E000A02BB /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C7639D6A2069D578000A02BB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		C76B2CA620C8329C00D63293 /* libJPushRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJPushRN.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C76B2CD320C832A200D63293 /* libJCoreRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJCoreRN.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C76B2CD520C832DD00D63293 /* RCTJCoreModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJCoreModule.xcodeproj; path = "../node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj"; sourceTree = "<group>"; };
+		C76B2CDB20C832FD00D63293 /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = "../node_modules/jpush-react-native/ios/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; };
+		C76B2CE120C8331700D63293 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		C7A69A12207089D700E06981 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		C7B10B73202C92C60098FAA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../../../../reactnativeproject/zhihuapp/ios/zhihurn/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C7B10B75202C93380098FAA2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = goforeat_app/Images.xcassets; sourceTree = "<group>"; };
@@ -419,6 +441,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C76B2CE220C8331700D63293 /* UserNotifications.framework in Frameworks */,
+				C76B2CD420C832A200D63293 /* libJCoreRN.a in Frameworks */,
+				C76B2CA720C8329C00D63293 /* libJPushRN.a in Frameworks */,
 				C7639D6B2069D578000A02BB /* MessageUI.framework in Frameworks */,
 				C7639D692069D56E000A02BB /* Social.framework in Frameworks */,
 				C7639D672069D523000A02BB /* libRNShare.a in Frameworks */,
@@ -569,6 +594,9 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C76B2CE120C8331700D63293 /* UserNotifications.framework */,
+				C76B2CD320C832A200D63293 /* libJCoreRN.a */,
+				C76B2CA620C8329C00D63293 /* libJPushRN.a */,
 				C7639D6A2069D578000A02BB /* MessageUI.framework */,
 				C7639D682069D56E000A02BB /* Social.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
@@ -629,6 +657,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C76B2CDB20C832FD00D63293 /* RCTJPushModule.xcodeproj */,
+				C76B2CD520C832DD00D63293 /* RCTJCoreModule.xcodeproj */,
 				C7A69A12207089D700E06981 /* CodePush.xcodeproj */,
 				C7639D342069D50A000A02BB /* RNShare.xcodeproj */,
 				C7E008602054B185008024BF /* RNImagePicker.xcodeproj */,
@@ -717,6 +747,22 @@
 			isa = PBXGroup;
 			children = (
 				C7639D662069D50A000A02BB /* libRNShare.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C76B2CD620C832DD00D63293 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C76B2CDA20C832DD00D63293 /* libRCTJCoreModule.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C76B2CDC20C832FD00D63293 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C76B2CE020C832FE00D63293 /* libRCTJPushModule.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -842,6 +888,14 @@
 				{
 					ProductGroup = 00C302BC1ABCB91800DB3ED1 /* Products */;
 					ProjectRef = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
+				},
+				{
+					ProductGroup = C76B2CD620C832DD00D63293 /* Products */;
+					ProjectRef = C76B2CD520C832DD00D63293 /* RCTJCoreModule.xcodeproj */;
+				},
+				{
+					ProductGroup = C76B2CDC20C832FD00D63293 /* Products */;
+					ProjectRef = C76B2CDB20C832FD00D63293 /* RCTJPushModule.xcodeproj */;
 				},
 				{
 					ProductGroup = 78C398B11ACF4ADC00677621 /* Products */;
@@ -1161,6 +1215,20 @@
 			remoteRef = C7639D652069D50A000A02BB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C76B2CDA20C832DD00D63293 /* libRCTJCoreModule.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTJCoreModule.a;
+			remoteRef = C76B2CD920C832DD00D63293 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C76B2CE020C832FE00D63293 /* libRCTJPushModule.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTJPushModule.a;
+			remoteRef = C76B2CDF20C832FE00D63293 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C7A69A18207089D800E06981 /* libCodePush.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1338,7 +1406,6 @@
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/Image",
 					"$(SRCROOT)/../node_modules/react-native/React",
-					"$(SRCROOT)/../node_modules/appcenter-push/ios/AppCenterReactNativePush",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/yoga",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 				);
@@ -1347,7 +1414,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"${PODS_ROOT}/JPush/lib\"",
 					"\"$(SRCROOT)/goforeat_app\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1387,7 +1453,6 @@
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/Image",
 					"$(SRCROOT)/../node_modules/react-native/React",
-					"$(SRCROOT)/../node_modules/appcenter-push/ios/AppCenterReactNativePush",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/yoga",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 				);
@@ -1396,7 +1461,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"${PODS_ROOT}/JPush/lib\"",
 					"\"$(SRCROOT)/goforeat_app\"",
 				);
 				OTHER_LDFLAGS = (

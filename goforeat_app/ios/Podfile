@@ -21,10 +21,29 @@ target 'goforeat_app' do
 
 #  pod 'Picker', :path => '../node_modules/react-native-picker'
 
-#  pod 'React', path: '../node_modules/react-native', subspecs: [
-#  'ART',
-#  ]
+pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
+'Core',
+'ART',
+'RCTActionSheet',
+'RCTGeolocation',
+'RCTImage',
+'RCTNetwork',
+'RCTPushNotification',
+'RCTSettings',
+'RCTText',
+'RCTVibration',
+'RCTWebSocket',
+'RCTLinkingIOS',
+'RCTAnimation',
+'RCTBlob',
+'DevSupport'
+]
 
 #  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+
+  pod 'JCoreRN', :path => '../node_modules/jcore-react-native'
+
+  pod 'JPushRN', :path => '../node_modules/jpush-react-native'
 
 end
