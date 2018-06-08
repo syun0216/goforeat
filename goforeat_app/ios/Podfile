@@ -41,8 +41,6 @@ pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
 'BatchedBridge'
 ]
 
-#  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
-
   pod 'JCoreRN', :path => '../node_modules/jcore-react-native'
 
   pod 'JPushRN', :path => '../node_modules/jpush-react-native'
