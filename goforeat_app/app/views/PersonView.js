@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     color: Colors.fontBlack
   },
   commonHeadering: {
-    backgroundColor: Platform.OS == 'android' ? Colors.main_white : 'transparent'
+    backgroundColor: Colors.main_white
   },
   commonText: {
     fontSize: 16,

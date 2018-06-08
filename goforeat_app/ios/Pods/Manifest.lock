@@ -19,12 +19,20 @@ PODS:
     - React/Core (= 0.52.2)
   - React/ART (0.52.2):
     - React/Core
+  - React/BatchedBridge (0.52.2):
+    - React/Core
+    - React/cxxreact_legacy
   - React/Core (0.52.2):
     - yoga (= 0.52.2.React)
+  - React/cxxreact_legacy (0.52.2):
+    - React/jschelpers_legacy
+    - React/jsinspector_legacy
   - React/DevSupport (0.52.2):
     - React/Core
     - React/RCTWebSocket
   - React/fishhook (0.52.2)
+  - React/jschelpers_legacy (0.52.2)
+  - React/jsinspector_legacy (0.52.2)
   - React/RCTActionSheet (0.52.2):
     - React/Core
   - React/RCTAnimation (0.52.2):
@@ -61,6 +69,7 @@ DEPENDENCIES:
   - JCoreRN (from `../node_modules/jcore-react-native`)
   - JPushRN (from `../node_modules/jpush-react-native`)
   - React/ART (from `../node_modules/react-native`)
+  - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
@@ -97,6 +106,6 @@ SPEC CHECKSUMS:
   React: 43e97926f429d846050880666de1809e22dd5cc5
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 2cc8284be7e9b5155aa50596893c1659a6543579
+PODFILE CHECKSUM: c8bed2a6b61c931151d4fad77a2c1b100728394c
 
 COCOAPODS: 1.4.0

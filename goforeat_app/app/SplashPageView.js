@@ -1,284 +1,590 @@
-import React,{Component} from "react";
+import React, { Component } from 'react'
 import {
+  Alert,
+  Platform,
+  ScrollView,
   StyleSheet,
   Text,
-  View,
-  TouchableOpacity,
-  AppState,
-  Alert
-} from "react-native";
-import { NavigationActions } from "react-navigation";
-import Swiper from "react-native-swiper";
-//hot reload
-import CodePush from "react-native-code-push";
-import CodePushUtils from "./utils/CodePushUtils";
-import * as TextUtils from "./utils/TextUtils";
-import * as JSONUtils from "./utils/JSONUtils";
-import ToastUtils from './utils/ToastUtil';
+  TextInput,
+  TouchableHighlight,
+  View
+} from 'react-native'
 
-const styles = StyleSheet.create({
-  wrapper: {},
-  slide1: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#9DD6EB"
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#97CAE5"
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#92BBD9"
-  },
-  text: {
-    color: "#fff",
-    fontSize: 30,
-    fontWeight: "bold"
-  }
-});
+import JPushModule from 'jpush-react-native'
+
+const receiveCustomMsgEvent = 'receivePushMsg'
+const receiveNotificationEvent = 'receiveNotification'
+const openNotificationEvent = 'openNotification'
+const getRegistrationIdEvent = 'getRegistrationId'
 
 export default class SplashPageView extends Component {
+  constructor (props) {
+    super(props)
 
-  codePushDownloadDidProgress(progress) {
-    console.log(progress.receivedBytes + " of " + progress.totalBytes + " received.");
-  }
-
-  componentDidMount = () => {
-    CodePush.getUpdateMetadata().then(localPackage => {
-      // console.log(localPackage);
-      if (localPackage == null) {
-          this._checkForUpdate();
-          
-      } else {
-          if (localPackage.isPending) {
-              localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME)
-          } else {
-              this._checkForUpdate();
-          }
-      }
-    })
-  }
-
-  // logic - update
-
-  _checkForUpdate = () => {
-    CodePush.checkForUpdate(CodePushUtils.getDeploymentKey()).then(remotePackage => {
-      // console.log(remotePackage);
-        if (remotePackage == null) {
-            return;
-        }
-        this._syncInNonSilent(remotePackage);
-        // if (TextUtils.isEmpty(remotePackage.description)) {
-        //     this._syncInSilent(remotePackage);
-        // } else {
-        //     JSONUtils.parseJSONFromString(remotePackage.description, (resultJSON) => {
-        //         if (resultJSON.isSilentSync != null && !resultJSON.isSilentSync) {
-        //             this._syncInNonSilent(remotePackage);
-        //         } else {
-        //             this._syncInSilent(remotePackage);
-        //         }
-        //     }, (error) => {
-        //         this._syncInSilent(remotePackage);
-        //     });
-        // }
-    })
-}
-  // logic - update - silent
-
-  _syncInSilent = remotePackage => {
-    remotePackage.download().then(localPackage => {
-      if (localPackage != null) {
-        localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME);
-      } else {
-      }
-    });
-  };
-  // logic - update - no silent
-
-  _syncInNonSilent = remotePackage => {
-    if (remotePackage.isMandatory) {
-      Alert.alert(null, "更新到最新版本", [
-        {
-          text: "明白",
-          onPress: () => {
-            this._downloadMandatoryNewVersionWithRemotePackage(remotePackage)
-          }
-        }
-      ]);
-
-      // setTimeout(
-      //   () => this._downloadMandatoryNewVersionWithRemotePackage(remotePackage),
-      //   1000
-      // );
-      return;
-    } else {
-      Alert.alert(null, "有新功能,是否现在更新？", [
-        { text: "以后再说" },
-        {
-          text: "现在更新",
-          onPress: () => {
-            this._downloadNewVersionWithRemotePackage(remotePackage);
-          }
-        }
-      ]);
+    this.state = {
+      bg: '#ffffff',
+      appkey: 'AppKey',
+      imei: 'IMEI',
+      package: 'PackageName',
+      deviceId: 'DeviceId',
+      version: 'Version',
+      pushMsg: 'PushMessage',
+      registrationId: 'registrationId',
+      tag: '',
+      alias: ''
     }
-  };
 
+    this.onInitPress = this.onInitPress.bind(this)
+    this.onStopPress = this.onStopPress.bind(this)
+    this.onResumePress = this.onResumePress.bind(this)
+    this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this)
+    this.jumpSecondActivity = this.jumpSecondActivity.bind(this)
+    this.setTag = this.setTag.bind(this)
+    this.setAlias = this.setAlias.bind(this)
+    this.setBaseStyle = this.setBaseStyle.bind(this)
+    this.setCustomStyle = this.setCustomStyle.bind(this)
+  }
 
+  jumpSecondActivity () {
+    console.log('jump to SecondActivity')
+    // JPushModule.jumpToPushActivityWithParams('SecondActivity', {
+    //   hello: 'world'
+    // })
+    this.props.navigation.navigate('Push')
+  }
 
-  _downloadNewVersionWithRemotePackage = remotePackage => {
-    ToastUtils.showWithMessage("新版本正在下载,请稍等...");
-    remotePackage.download().then(localPackage => {
-      if (localPackage != null) {
-        Alert.alert(null, "下载完成,是否安装?", [
-          {
-            text: "下次安装",
-            onPress: () => {
-              localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME);
-            }
-          },
-          {
-            text: "现在安装",
-            onPress: () => {
-              localPackage.install(CodePush.InstallMode.IMMEDIATE);
-            }
-          }
-        ]);
-      } else {
-        // if (DebugStatus.isDebug()) {
-        //     console.log("新版本下载失败");
-        // }
-      }
-    });
-  };
+  onInitPress () {
+    JPushModule.initPush()
+  }
 
-  _downloadMandatoryNewVersionWithRemotePackage = remotePackage => {
-    this.props.navigation.navigate('Mandatory',{
-      remotePackage: remotePackage
+  onStopPress () {
+    JPushModule.stopPush()
+    console.log('Stop push press')
+  }
+
+  onResumePress () {
+    JPushModule.resumePush()
+    console.log('Resume push press')
+  }
+
+  onGetRegistrationIdPress () {
+    JPushModule.getRegistrationID(registrationId => {
+      this.setState({
+        registrationId: registrationId
+      })
     })
   }
 
-  render() {
+  setTag () {
+    if (this.state.tag) {
+      /**
+       * 请注意这个接口要传一个数组过去，这里只是个简单的示范
+       */
+      JPushModule.setTags(this.state.tag.split(','), map => {
+        if (map.errorCode === 0) {
+          console.log('Tag operate succeed, tags: ' + map.tags)
+        } else {
+          console.log('error code: ' + map.errorCode)
+        }
+      })
+    }
+  }
+
+  addTag = () => {
+    console.log('Adding tag: ' + this.state.tag)
+    JPushModule.addTags(this.state.tag.split(','), map => {
+      if (map.errorCode === 0) {
+        console.log('Add tags succeed, tags: ' + map.tags)
+      } else {
+        console.log('Add tags failed, error code: ' + map.errorCode)
+      }
+    })
+  }
+
+  deleteTags = () => {
+    console.log('Deleting tag: ' + this.state.tag)
+    JPushModule.deleteTags(this.state.tag.split(','), map => {
+      if (map.errorCode === 0) {
+        console.log('Delete tags succeed, tags: ' + map.tags)
+      } else {
+        console.log('Delete tags failed, error code: ' + map.errorCode)
+      }
+    })
+  }
+
+  checkTag = () => {
+    console.log('Checking tag bind state, tag: ' + this.state.tag)
+    JPushModule.checkTagBindState(this.state.tag, map => {
+      if (map.errorCode === 0) {
+        console.log(
+          'Checking tag bind state, tag: ' +
+            map.tag +
+            ' bindState: ' +
+            map.bindState
+        )
+      } else {
+        console.log(
+          'Checking tag bind state failed, error code: ' + map.errorCode
+        )
+      }
+    })
+  }
+
+  getAllTags = () => {
+    JPushModule.getAllTags(map => {
+      if (map.errorCode === 0) {
+        console.log('Get all tags succeed, tags: ' + map.tags)
+      } else {
+        console.log('Get all tags failed, errorCode: ' + map.errorCode)
+      }
+    })
+  }
+
+  cleanAllTags = () => {
+    JPushModule.cleanTags(map => {
+      if (map.errorCode === 0) {
+        console.log('Clean all tags succeed')
+      } else {
+        console.log('Clean all tags failed, errorCode: ' + map.errorCode)
+      }
+    })
+  }
+
+  setAlias () {
+    if (this.state.alias !== undefined) {
+      JPushModule.setAlias(this.state.alias, map => {
+        if (map.errorCode === 0) {
+          console.log('set alias succeed')
+        } else {
+          console.log('set alias failed, errorCode: ' + map.errorCode)
+        }
+      })
+    }
+  }
+
+  deleteAlias = () => {
+    console.log('Deleting alias')
+    JPushModule.deleteAlias(map => {
+      if (map.errorCode === 0) {
+        console.log('delete alias succeed')
+      } else {
+        console.log('delete alias failed, errorCode: ' + map.errorCode)
+      }
+    })
+  }
+
+  getAlias = () => {
+    JPushModule.getAlias(map => {
+      if (map.errorCode === 0) {
+        console.log('Get alias succeed, alias: ' + map.alias)
+      } else {
+        console.log('Get alias failed, errorCode: ' + map.errorCode)
+      }
+    })
+  }
+
+  setBaseStyle () {
+    if (Platform.OS === 'android') {
+      JPushModule.setStyleBasic()
+    } else {
+      Alert.alert('iOS not support this function', '')
+    }
+  }
+
+  setCustomStyle () {
+    if (Platform.OS === 'android') {
+      JPushModule.setStyleCustom()
+    } else {
+      Alert.alert('iOS not support this function', '')
+    }
+  }
+
+  componentWillMount () {}
+
+  componentDidMount () {
+    if (Platform.OS === 'android') {
+      JPushModule.initPush()
+      JPushModule.getInfo(map => {
+        this.setState({
+          appkey: map.myAppKey,
+          imei: map.myImei,
+          package: map.myPackageName,
+          deviceId: map.myDeviceId,
+          version: map.myVersion
+        })
+      })
+      JPushModule.notifyJSDidLoad(resultCode => {
+        if (resultCode === 0) {
+        }
+      })
+    } else {
+      JPushModule.setupPush()
+    }
+
+    JPushModule.addReceiveCustomMsgListener(map => {
+      this.setState({
+        pushMsg: map.message
+      })
+      alert('extras: ' + map.extras)
+    })
+
+    JPushModule.addReceiveNotificationListener(map => {
+      alert('alertContent: ' + map.alertContent)
+      alert('extras: ' + map.extras)
+      // var extra = JSON.parse(map.extras);
+      // console.log(extra.key + ": " + extra.value);
+    })
+
+    JPushModule.addReceiveOpenNotificationListener(map => {
+      console.log('Opening notification!')
+      console.log('map.extra: ' + map.extras)
+      this.jumpSecondActivity()
+      // JPushModule.jumpToPushActivity("SecondActivity");
+    })
+
+    JPushModule.addGetRegistrationIdListener(registrationId => {
+      console.log('Device register succeed, registrationId ' + registrationId)
+    })
+
+    // var notification = {
+    //   buildId: 1,
+    //   id: 5,
+    //   title: 'jpush',
+    //   content: 'This is a test!!!!',
+    //   extra: {
+    //     key1: 'value1',
+    //     key2: 'value2'
+    //   },
+    //   fireTime: 2000
+    // }
+    // JPushModule.sendLocalNotification(notification)
+  }
+
+  componentWillUnmount () {
+    JPushModule.removeReceiveCustomMsgListener(receiveCustomMsgEvent)
+    JPushModule.removeReceiveNotificationListener(receiveNotificationEvent)
+    JPushModule.removeReceiveOpenNotificationListener(openNotificationEvent)
+    JPushModule.removeGetRegistrationIdListener(getRegistrationIdEvent)
+    console.log('Will clear all notifications')
+    JPushModule.clearAllNotifications()
+  }
+
+  render () {
     return (
-      <Swiper style={styles.wrapper} loop={false}>
-        {/*<View style={styles.slide1}>
-          <Text style={styles.text}>Goforeat</Text>
+      <ScrollView style={styles.parent}>
+        <Text style={styles.textStyle}>{this.state.appkey}</Text>
+        <Text style={styles.textStyle}>{this.state.imei}</Text>
+        <Text style={styles.textStyle}>{this.state.package}</Text>
+        <Text style={styles.textStyle}>{this.state.deviceId}</Text>
+        <Text style={styles.textStyle}>{this.state.version}</Text>
+        <TouchableHighlight
+          underlayColor='#0866d9'
+          activeOpacity={0.5}
+          style={styles.btnStyle}
+          onPress={this.onInitPress}
+        >
+          <Text style={styles.btnTextStyle}>INITPUSH</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          underlayColor='#e4083f'
+          activeOpacity={0.5}
+          style={styles.btnStyle}
+          onPress={this.onStopPress}
+        >
+          <Text style={styles.btnTextStyle}>STOPPUSH</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          underlayColor='#f5a402'
+          activeOpacity={0.5}
+          style={styles.btnStyle}
+          onPress={this.onResumePress}
+        >
+          <Text style={styles.btnTextStyle}>RESUMEPUSH</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          underlayColor='#f5a402'
+          activeOpacity={0.5}
+          style={styles.btnStyle}
+          onPress={this.onGetRegistrationIdPress}
+        >
+          <Text style={styles.btnTextStyle}>GET REGISTRATIONID</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          underlayColor='#f5a402'
+          activeOpacity={0.5}
+          style={styles.btnStyle}
+          onPress={this.jumpSecondActivity}
+        >
+          <Text style={styles.btnTextStyle}>Go to SecondActivity</Text>
+        </TouchableHighlight>
+        <Text style={styles.textStyle}>{this.state.pushMsg}</Text>
+        <Text style={styles.textStyle}>{this.state.registrationId}</Text>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>设置Tag和Alias</Text>
         </View>
-        <View style={styles.slide2}>
-          <Text style={styles.text}>HK</Text>
-    </View> */}
-        <View style={styles.slide3}>
-          <TouchableOpacity
-            onPress={() => {
-              const resetAction = NavigationActions.reset({
-                index: 0,
-                actions: [
-                  NavigationActions.navigate({
-                    routeName: "Home",
-                    // params: { refresh: true }
-                  })
-                ]
-              });
-              this.props.navigation.dispatch(resetAction);
-            }}
+        <View style={styles.cornorBg}>
+          <View style={styles.setterContainer}>
+            <Text style={styles.label}>Tag:</Text>
+            <TextInput
+              style={styles.tagInput}
+              placeholder={
+                'Tag为大小写字母，数字，下划线，中文，多个 tag 以 , 分割'
+              }
+              multiline
+              onChangeText={e => {
+                this.setState({ tag: e })
+              }}
+            />
+            <TouchableHighlight
+              style={styles.setBtnStyle}
+              onPress={this.setTag}
+              underlayColor='#e4083f'
+              activeOpacity={0.5}
+            >
+              <Text style={styles.btnText}>设置 Tags</Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.setterContainer}>
+            <Text style={styles.label}>Tag:</Text>
+            <TextInput
+              style={styles.tagInput}
+              placeholder={
+                'Tag为大小写字母，数字，下划线，中文，多个 tag 以 , 分割'
+              }
+              multiline
+              onChangeText={e => {
+                this.setState({ tag: e })
+              }}
+            />
+            <TouchableHighlight
+              style={styles.setBtnStyle}
+              onPress={this.addTag}
+              underlayColor='#e4083f'
+              activeOpacity={0.5}
+            >
+              <Text style={styles.btnText}>添加 Tag</Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.setterContainer}>
+            <Text style={styles.label}>Tag:</Text>
+            <TextInput
+              style={styles.tagInput}
+              placeholder={
+                'Tag为大小写字母，数字，下划线，中文，多个 tag 以 , 分割'
+              }
+              multiline
+              onChangeText={e => {
+                this.setState({ tag: e })
+              }}
+            />
+            <TouchableHighlight
+              style={styles.setBtnStyle}
+              onPress={this.deleteTags}
+              underlayColor='#e4083f'
+              activeOpacity={0.5}
+            >
+              <Text style={styles.btnText}>删除 Tags</Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.setterContainer}>
+            <Text style={styles.label}>Tag:</Text>
+            <TextInput
+              style={styles.tagInput}
+              placeholder={'Tag为大小写字母，数字，下划线，中文'}
+              multiline
+              onChangeText={e => {
+                this.setState({ tag: e })
+              }}
+            />
+            <TouchableHighlight
+              style={styles.setBtnStyle}
+              onPress={this.checkTag}
+              underlayColor='#e4083f'
+              activeOpacity={0.5}
+            >
+              <Text style={styles.btnText}>查询 Tag 绑定状态</Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.setterContainer}>
+            <Text style={styles.label}>Alias:</Text>
+            <TextInput
+              style={styles.aliasInput}
+              placeholder={'Alias为大小写字母，数字，下划线'}
+              multiline
+              onChangeText={e => {
+                this.setState({ alias: e })
+              }}
+            />
+            <TouchableHighlight
+              style={styles.setBtnStyle}
+              onPress={this.setAlias}
+              underlayColor='#e4083f'
+              activeOpacity={0.5}
+            >
+              <Text style={styles.btnText}>设置 Alias</Text>
+            </TouchableHighlight>
+          </View>
+          <TouchableHighlight
+            underlayColor='#0866d9'
+            activeOpacity={0.5}
+            style={styles.bigBtn}
+            onPress={this.deleteAlias}
           >
-            <Text style={styles.text}>進入主頁</Text>
-          </TouchableOpacity>
+            <Text style={styles.bigTextStyle}>Delete alias</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            underlayColor='#0866d9'
+            activeOpacity={0.5}
+            style={styles.bigBtn}
+            onPress={this.getAllTags}
+          >
+            <Text style={styles.bigTextStyle}>Get Tags</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            underlayColor='#0866d9'
+            activeOpacity={0.5}
+            style={styles.bigBtn}
+            onPress={this.getAlias}
+          >
+            <Text style={styles.bigTextStyle}>Get Alias</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            underlayColor='#0866d9'
+            activeOpacity={0.5}
+            style={styles.bigBtn}
+            onPress={this.cleanAllTags}
+          >
+            <Text style={styles.bigTextStyle}>Clean Tags</Text>
+          </TouchableHighlight>
         </View>
-      </Swiper>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>定制通知栏样式</Text>
+        </View>
+        <View style={styles.customContainer}>
+          <TouchableHighlight
+            style={styles.customBtn}
+            onPress={this.setBaseStyle}
+            underlayColor='#e4083f'
+            activeOpacity={0.5}
+          >
+            <Text style={styles.btnText}>定制通知栏样式：Basic</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.customBtn}
+            onPress={this.setCustomStyle}
+            underlayColor='#e4083f'
+            activeOpacity={0.5}
+          >
+            <Text style={styles.btnText}>定制通知栏样式：Custom</Text>
+          </TouchableHighlight>
+        </View>
+      </ScrollView>
     )
   }
-};
+}
 
-// import React from 'react';
-// import {
-//   Text,
-//   View,
-//   ScrollView,
-//   TouchableOpacity,
-//   StyleSheet
-// } from 'react-native';
+var styles = StyleSheet.create({
+  parent: {
+    padding: 15,
+    backgroundColor: '#f0f1f3'
+  },
 
-// import Push from 'appcenter-push';
+  textStyle: {
+    marginTop: 10,
+    textAlign: 'center',
+    fontSize: 20,
+    color: '#808080'
+  },
 
-// export default class SplashPageView extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       pushEnabled: false
-//     };
-//     this.toggleEnabled = this.toggleEnabled.bind(this);
-//   }
-
-//   async componentDidMount() {
-//     const component = this;
-
-//     const pushEnabled = await Push.isEnabled();
-//     component.setState({ pushEnabled });
-//   }
-
-//   async toggleEnabled() {
-//     await Push.setEnabled(!this.state.pushEnabled);
-
-//     const pushEnabled = await Push.isEnabled();
-//     this.setState({ pushEnabled });
-//   }
-
-//   render() {
-//     return (
-//       <View style={SharedStyles.container}>
-//         <ScrollView >
-//           <Text style={SharedStyles.heading}>
-//             Test Push
-//           </Text>
-
-//           <Text style={SharedStyles.enabledText}>
-//             Push enabled: {this.state.pushEnabled ? 'yes' : 'no'}
-//           </Text>
-//           <TouchableOpacity onPress={this.toggleEnabled}>
-//             <Text style={SharedStyles.toggleEnabled}>
-//               toggle
-//             </Text>
-//           </TouchableOpacity>
-
-//         </ScrollView>
-//       </View>
-//     );
-//   }
-// }
-
-// const SharedStyles = StyleSheet.create({
-//   heading: {
-//     fontSize: 24,
-//     textAlign: 'center',
-//     marginBottom: 20,
-//   },
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#F5FCFF',
-//   },
-//   button: {
-//     color: '#4444FF',
-//     fontSize: 18,
-//     textAlign: 'center',
-//     margin: 10,
-//   },
-//   enabledText: {
-//     fontSize: 14,
-//     textAlign: 'center',
-//   },
-//   toggleEnabled: {
-//     color: '#4444FF',
-//     fontSize: 14,
-//     textAlign: 'center',
-//     marginBottom: 10,
-//   },
-// });
+  btnStyle: {
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: '#3e83d7',
+    borderRadius: 8,
+    backgroundColor: '#3e83d7'
+  },
+  btnTextStyle: {
+    textAlign: 'center',
+    fontSize: 25,
+    color: '#ffffff'
+  },
+  inputStyle: {
+    borderColor: '#48bbec',
+    borderWidth: 1
+  },
+  title: {
+    padding: 10,
+    backgroundColor: '#9c9c9c'
+  },
+  titleText: {
+    color: '#000000'
+  },
+  cornorBg: {
+    paddingBottom: 20,
+    paddingTop: 20
+  },
+  setterContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  label: {
+    width: 40,
+    textAlign: 'center'
+  },
+  tagInput: {
+    flex: 1,
+    fontSize: 15,
+    marginLeft: 5,
+    marginRight: 5,
+    color: '#000000'
+  },
+  setBtnStyle: {
+    width: 80,
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: '#3e83d7',
+    borderRadius: 8,
+    backgroundColor: '#3e83d7',
+    padding: 10
+  },
+  bigBtn: {
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: '#3e83d7',
+    borderRadius: 8,
+    backgroundColor: '#3e83d7'
+  },
+  bigTextStyle: {
+    textAlign: 'center',
+    fontSize: 25,
+    color: '#ffffff'
+  },
+  btnText: {
+    textAlign: 'center',
+    fontSize: 12
+  },
+  aliasInput: {
+    flex: 1,
+    fontSize: 15,
+    marginLeft: 5,
+    marginRight: 5,
+    color: '#000000'
+  },
+  customContainer: {
+    marginTop: 10,
+    marginBottom: 20,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  customBtn: {
+    flex: 1,
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#6f80dc',
+    borderRadius: 8,
+    backgroundColor: '#6f80dc',
+    marginTop: 10,
+    padding: 10
+  }
+})

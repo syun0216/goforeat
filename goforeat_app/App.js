@@ -17,6 +17,8 @@ import appStorage from './app/cache/appStorage'
 //hot reload
 import CodePush from 'react-native-code-push'
 import {addListener} from './app/utils/navigationWithRedux'
+//jpush
+import JPushModule from 'jpush-react-native';
 //api
 import api from './app/api';
 
@@ -57,10 +59,35 @@ class App extends Component < {} > {
   componentDidMount = () => {
     
     AppState.addEventListener('change', this._handleAppStateChange)
+    if(Platform.OS == 'android') {
+      this._jpush_android_setup()
+    }else {
+      JPushModule.setupPush()
+    }    
+    this._jpush_common_event();
   }
 
   componentWillUnmount = () => {
     AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _jpush_android_setup = () => {
+    JPushModule.initPush();
+    JPushModule.notifyJSDidLoad(resultCode => {
+      if (resultCode === 0) {
+      }
+    })
+  }
+
+  _jpush_common_event = () => {
+    JPushModule.addReceiveCustomMsgListener(map => {
+      alert(map.alertContent)
+    })
+    JPushModule.addReceiveNotificationListener(map => {
+      alert('alertContent: ' + map.alertContent)
+      // var extra = JSON.parse(map.extras);
+      // console.log(extra.key + ": " + extra.value);
+    })
   }
 
   _handleAppStateChange = (nextAppState) => {
