@@ -3,6 +3,7 @@ import md5 from 'js-md5'
 import qs from 'qs'
 import source from './CancelToken'
 import store from '../store'
+import {Platform} from 'react-native';
 
 const CancelToken = axios.CancelToken;
 const root_url = 'http://goforeat.hk'
@@ -261,6 +262,19 @@ const api = {
     },
     foodPlaces() {
         return axios.get(api_url + '/food/getDeliveryPlace', {timeout: 4500})
+    },
+    saveDevices(registrationId,sid) {
+        console.log(registrationId);
+        console.log(Platform.OS);
+        return axios.post(api_url + '/device/save', qs.stringify({
+            registrationId, sellClient: Platform.OS == 'ios' ? 1 : 2,
+            sid
+
+        }, {cancelToken: source.token, timeout: 4500}), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
     }
 }
 

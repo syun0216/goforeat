@@ -78,21 +78,6 @@ class CustomTabBar extends Component {
 
 const tabView = TabNavigator(
   {
-    // GoodsListTab: {
-    //   screen: GoodsListPageView,
-    //   navigationOptions: {
-    //     tabBarLabel: "餐廳",
-    //     tabBarIcon: ({ tintColor, focused }) => (
-    //       <Icon
-    //         size={28}
-    //         name="md-restaurant"
-    //         style={{
-    //           color: tintColor
-    //         }}
-    //       />
-    //     )
-    //   }
-    // },
     ShopTab: {
       screen: ShopSwiperablePage,
       navigationOptions: {
@@ -122,22 +107,7 @@ const tabView = TabNavigator(
           />
         )
       }
-    },
-    // PersonTab: {
-    //   screen: PersonView,
-    //   navigationOptions: {
-    //     tabBarLabel: "個人中心",
-    //     tabBarIcon: ({ tintColor, focused }) => (
-    //       <Icon
-    //         size={35}
-    //         name="md-contact"
-    //         style={{
-    //           color: tintColor
-    //         }}
-    //       />
-    //     )
-    //   }
-    // }
+    }
   },
   {
     animationEnabled: true,
@@ -224,7 +194,7 @@ const darwerView = DrawerNavigator(
               <TouchableOpacity
               onPress={() => {
                 if(props.screenProps.user === null) {
-                  props.navigation.navigate("Login");
+                  props.navigation.navigate("Login",{page: 'Person'});
                 }else {
                   props.navigation.navigate('Person');
                 }
@@ -301,7 +271,7 @@ const darwerView = DrawerNavigator(
                 onPress={() => {
                   props.screenProps.user
                     ? props.navigation.navigate("Integral")
-                    : props.navigation.navigate("Login");
+                    : props.navigation.navigate("Login", {page: 'Integral'});
                 }}
                 style={{
                   padding: 20,

@@ -64,11 +64,12 @@ class App extends Component < {} > {
     }else {
       JPushModule.setupPush()
     }    
-    this._jpush_common_event();
+    // this._jpushCommonEvent();
   }
 
   componentWillUnmount = () => {
     AppState.removeEventListener('change', this._handleAppStateChange);
+    JPushModule.removeReceiveNotificationListener('receiveNotification');
   }
 
   _jpush_android_setup = () => {
@@ -79,14 +80,14 @@ class App extends Component < {} > {
     })
   }
 
-  _jpush_common_event = () => {
-    JPushModule.addReceiveCustomMsgListener(map => {
-      alert(map.alertContent)
-    })
-    JPushModule.addReceiveNotificationListener(map => {
-      alert('alertContent: ' + map.alertContent)
-      // var extra = JSON.parse(map.extras);
-      // console.log(extra.key + ": " + extra.value);
+  _jpushCommonEvent() {
+    // JPushModule.addReceiveNotificationListener(map => {
+    //   alert('alertContent: ' + map.alertContent)
+    // });
+    JPushModule.addReceiveOpenNotificationListener(map => {
+      if(Platform.OS == 'ios') {
+        console.log(JPushModule);
+      }
     })
   }
 

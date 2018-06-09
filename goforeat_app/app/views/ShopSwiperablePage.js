@@ -188,7 +188,7 @@ class ShopSwiperablePage extends Component {
       })
   }else {
     if(placeSelected.id){
-      this.props.navigation.navigate("Login",{foodId,placeId: placeSelected.id,amount: foodCount,reloadFunc: () => this._reloadWhenCancelLogin()});
+      this.props.navigation.navigate("Login",{page:'Order',foodId,placeId: placeSelected.id,amount: foodCount,reloadFunc: () => this._reloadWhenCancelLogin()});
     }
     }
   }
@@ -312,14 +312,13 @@ class ShopSwiperablePage extends Component {
           }}
           iosBarStyle="light-content"
         >
-          <View style={{width: 30,justifyContent:'center',alignItems:'center'}}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 50,justifyContent:'center',alignItems:'center'}}>
             <Icon
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
               name="md-menu"
               size={20}
               style={{ color: "#fff" }}
             />
-          </View>
+          </TouchableOpacity>
           <View style={{flex: 1,alignItems:'center',flexDirection:'row',justifyContent:'center',}}>
             {/*<Text style={{ color: Colors.main_white, fontSize: 16 }}>
               {this.state.i18n.takeout_title}

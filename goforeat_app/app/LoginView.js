@@ -40,7 +40,8 @@ import api from './api/index';
 import source from './api/CancelToken';
 //language
 import i18n from './language/i18n';
-
+//jpush
+import JPushModule from 'jpush-react-native';
 
 // const
 const BUTTONS = [
@@ -150,14 +151,22 @@ export default class LoginView extends Component {
         if(typeof params === 'undefined') {
           this.props.navigation.goBack()
         }else {
-          this.props.navigation.navigate('Order',
-            {
-                replaceRoute: true,
-                foodId: params.foodId,
-                amount: params.amount
-            }
-        );
+          if(params.page == 'Order') {
+            this.props.navigation.navigate('Order',
+              {
+                  replaceRoute: true,
+                  foodId: params.foodId,
+                  amount: params.amount
+              })
+          }else {
+            this.props.navigation.navigate(params.page,{replaceRoute: true,});
+          }
         }
+        JPushModule.getRegistrationID(registrationId => {
+          api.saveDevices(registrationId,this.token);
+        },() => {
+          ToastUtil.showWithMessage("登錄失敗")
+        })
       }
       else{
         ToastUtil.showWithMessage(data.data.ro.respMsg);
@@ -226,7 +235,11 @@ export default class LoginView extends Component {
         </View>
         <Button
               onPress={() => {navigation.goBack();
-              if(navigation.state.params) {navigation.state.params.reloadFunc();}
+              if(navigation.state.params) {
+                if(navigation.state.params.page == 'Order') {
+                  navigation.state.params.reloadFunc();
+                }
+              }
             }}
               transparent
               style={{ position: "absolute", top: 35, right: 20, zIndex: 20 }}

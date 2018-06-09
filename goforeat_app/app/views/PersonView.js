@@ -16,7 +16,7 @@ import {
   CardItem,
   Tabs,
   Tab,
-  TabHeading
+  TabHeading,
 } from "native-base";
 //cache
 import appStorage from "../cache/appStorage";
@@ -352,6 +352,7 @@ export default class PeopleView extends Component {
   )
 
   render() {
+    let {theme} = this.props.screenProps;
     return (
       <Container style={{position: 'relative'}}>
         {/*<Button transparent onPress={() => this.props.navigation.goBack()} 

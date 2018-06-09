@@ -77,6 +77,9 @@
 
     #ifdef DEBUG
         jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+//          jsCodeLocation = [NSURL
+//                            URLWithString:
+//                            @"http://10.30.14.35:8081/index.bundle?platform=ios&dev=true"];
     #else
         jsCodeLocation = [CodePush bundleURL];
     #endif
@@ -93,9 +96,15 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  //防止白屏过久
+//  UIView* launchScreenView = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] objectAtIndex:0];
+//  launchScreenView.frame = self.window.bounds;
+//  rootView.loadingView = launchScreenView;
+// *********
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
 //  [SplashScreen show];  // here
+  
   return YES;
 }
   

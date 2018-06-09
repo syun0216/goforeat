@@ -26,8 +26,8 @@ import java.util.List;
 public class MainApplication extends Application implements ReactApplication {
   //jpush
 
-  private boolean SHUTDOWN_TOAST = false;
-  private boolean SHUTDOWN_LOG = false;
+  private boolean SHUTDOWN_TOAST = true;
+  private boolean SHUTDOWN_LOG = true;
 
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
@@ -46,7 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
     
     @Override
     public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
+      return BuildConfig.RELEASE;
     }
 
     @Override
