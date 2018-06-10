@@ -312,7 +312,7 @@ class ShopSwiperablePage extends Component {
           }}
           iosBarStyle="light-content"
         >
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 50,justifyContent:'center',alignItems:'center'}}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginLeft: -10}}>
             <Icon
               name="md-menu"
               size={20}

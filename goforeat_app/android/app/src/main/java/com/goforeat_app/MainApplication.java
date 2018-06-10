@@ -43,10 +43,10 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSBundleFile() {
         return CodePush.getJSBundleFile();
         }
-    
+
     @Override
     public boolean getUseDeveloperSupport() {
-      return BuildConfig.RELEASE;
+      return BuildConfig.DEBUG;
     }
 
     @Override
