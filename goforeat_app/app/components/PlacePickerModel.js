@@ -45,9 +45,11 @@ class PlacePickerModel extends Component{
         this.props.getSeletedValue(data.data.data[0]);
       }else {
         ToastUtils.showWithMessage(data.data.ro.repMsg);
+        this.props.getSeletedValue(null);
       }
     }, () => {
       ToastUtils.showWithMessage("网络請求失敗");
+      this.props.getSeletedValue(null);
     });
   }
 
@@ -69,7 +71,7 @@ class PlacePickerModel extends Component{
        <Container>
           <Header style={{backgroundColor: '#fff'}}>
             <Left>
-              <TouchableOpacity onPress={this.props.closeFunc}>
+              <TouchableOpacity onPress={this.props.closeFunc} style={{width: 50,height:40,alignItems:'center',marginLeft:-5,justifyContent:'center'}}>
                 <Icon name="md-close" style={[{ fontSize: 22, color: this.props.screenProps.theme }]}/>
               </TouchableOpacity>
             </Left>

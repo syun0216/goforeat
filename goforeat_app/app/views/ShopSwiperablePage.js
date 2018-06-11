@@ -57,6 +57,7 @@ class ShopSwiperablePage extends Component {
   _current_offset = 0;
   _SliderEntry = null;
   _timer = null;
+  _picker = null;
   constructor(props) {
     super(props);
     this.state = {
@@ -104,6 +105,10 @@ class ShopSwiperablePage extends Component {
   }
 
   _reloadPage() {
+    if(!this.state.placeSelected) {
+      this.setState({ isError: true, loading: false });
+      return;
+    }
     this.setState({loading: true});
       setTimeout(() => {
         this._getDailyFoodList(this.state.placeSelected.id);
@@ -153,6 +158,7 @@ class ShopSwiperablePage extends Component {
       loading: true,
       isError: false
     });
+    this._picker.getPlace();
     this._getDailyFoodList();
   };
 
@@ -165,6 +171,11 @@ class ShopSwiperablePage extends Component {
   };
 
   getSeletedValue = (val) => {
+    if(val == null) {
+      // this._picker.getPlace();
+      this.setState({ isError: true, loading: false });
+      return;
+    }
     this.setState({
       placeSelected: val,
       foodCount: 0,
@@ -304,7 +315,7 @@ class ShopSwiperablePage extends Component {
 
     return (
       <Container>
-        <PlacePickerModel modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
+        <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
         <Header
           style={{
             backgroundColor: this.props.screenProps.theme,
