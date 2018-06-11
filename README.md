@@ -9,19 +9,39 @@ ios的打包方法:
 [https://www.jianshu.com/p/b1b77d804254](https://www.jianshu.com/p/b1b77d804254) <br>
 android的打包方法:
 [https://www.jianshu.com/p/61e27d9b02f2](https://www.jianshu.com/p/61e27d9b02f2)
-### android平台
+### android平台 [android 下载地址](https://play.google.com/store/apps/details?id=com.goforeat_app)
 * 运行: 用Android studio导入android文件夹下的项目 -> run 
 * 打包: 在项目文件夹下, $ cd android && ./gradlew assembleRelease
 
-### ios平台
+### ios平台 [ios 下载地址](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
 * 运行: Xcode(打开goforeat_app.xcworkspace项目) -> run
 * 打包:
     * 使用离线数据:取消注释jsCodeLocation = [[NSBundle mainBundle] ...这一行
     * 选择'Generic iOS Device'
     * Product->Archive
     
+### v 1.1.4 增加推送 集成热更新
+ <p align="left">
+  <img src="./display/ios_1_1_4_1.png" width="280">
+  <img src="./display/ios_1_1_4_2.png" width="280">
+  <img src="./display/ios_1_1_4_3.png" width="280">
+</p>
+<p align="left">
+  <img src="./display/ios_1_1_4_4.png" width="280">
+  <img src="./display/ios_1_1_4_5.png" width="280">
+  <img src="./display/ios_1_1_4_6.png" width="280">
+</p>
+<p align="left">
+  <img src="./display/ios_1_1_4_7.png" width="280">
+  <img src="./display/android_1_1_4_1.png" width="280">
+  <img src="./display/android_1_1_4_2.png" width="280">
+</p>
+<p align="left">
+  <img src="./display/android_1_1_4_3.png" width="280">
+  <img src="./display/android_1_1_4_4.png" width="280">
+</p>
 
-### screen shot   [ios 下载地址](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
+### 过往版本截图  
 - 商品页
 - 侧边栏
 - 详情页
@@ -53,7 +73,7 @@ android的打包方法:
   <img src="./display/s12.png" width="280">
 </p>
 
-### screen shot [android 下载地址](https://play.google.com/store/apps/details?id=com.goforeat_app)
+### screen shot 
 <p align="left">
   <img src="./display/as1.jpg" width="280">
   <img src="./display/as2.jpg" width="280">
