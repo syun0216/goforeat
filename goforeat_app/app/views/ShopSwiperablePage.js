@@ -28,7 +28,6 @@ import SliderEntry from "../components/SliderEntry";
 import HotReloadHOC from '../components/HotReloadHOC';
 import styles, { colors } from "../styles/index.style";
 import { ENTRIES1, ENTRIES2 } from "../static/entries";
-import { scrollInterpolators, animatedStyles } from "../utils/animations";
 // utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
@@ -36,7 +35,6 @@ import ToastUtil from "../utils/ToastUtil";
 //api
 import api from "../api";
 //components
-import CommonHeader from "../components/CommonHeader";
 import ErrorPage from "../components/ErrorPage";
 import Loading from "../components/Loading";
 import PlacePickerModel from '../components/PlacePickerModel';
@@ -106,7 +104,7 @@ class ShopSwiperablePage extends Component {
 
   _reloadPage() {
     if(!this.state.placeSelected) {
-      this.setState({ isError: true, loading: false });
+      this._picker.getPlace();
       return;
     }
     this.setState({loading: true});
@@ -159,7 +157,6 @@ class ShopSwiperablePage extends Component {
       isError: false
     });
     this._picker.getPlace();
-    this._getDailyFoodList();
   };
 
   _refresh = () => {
@@ -298,7 +295,7 @@ class ShopSwiperablePage extends Component {
 
   _renderPlacePickerBtn() {
     return (
-      <TouchableOpacity style={{flexDirection:'row',marginLeft:-30,maxWidth: 200}} onPress={() => this.setState({showPlacePicker: true})}>
+      <TouchableOpacity style={{flexDirection:'row',marginLeft:-60,maxWidth: 200}} onPress={() => this.setState({showPlacePicker: true})}>
         <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20}}/>
         <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16}} numberOfLines={1}>
           {this.state.placeSelected.name}
@@ -334,7 +331,7 @@ class ShopSwiperablePage extends Component {
             {/*<Text style={{ color: Colors.main_white, fontSize: 16 }}>
               {this.state.i18n.takeout_title}
         </Text>*/}
-          {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} style={{marginLeft:-30,}} size="small"/>}
+          {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} style={{marginLeft:-60,}} size="small"/>}
           </View>
         </Header>
         {this.state.isError ? (

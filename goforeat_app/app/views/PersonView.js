@@ -1,25 +1,15 @@
 import React, { Component } from "react";
-import { View, StatusBar, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,Modal,ScrollView,RefreshControl,Platform } from "react-native";
+import { View, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,RefreshControl,Platform } from "react-native";
 import {
   Container,
-  Header,
   Body,
-  Right,
-  Left,
   Button,
-  Icon,
-  Title,
-  Content,
-  ListItem,
-  List,
   Card,
   CardItem,
   Tabs,
   Tab,
   TabHeading,
 } from "native-base";
-//cache
-import appStorage from "../cache/appStorage";
 //Colors
 import Colors from '../utils/Colors'
 //utils
@@ -28,12 +18,12 @@ import ToastUtil from '../utils/ToastUtil'
 //api
 import api from '../api'
 //components
-import Divider from '../components/Divider';
 import ListFooter from '../components/ListFooter';
 import ErrorPage from '../components/ErrorPage';
 import Loading from '../components/Loading';
 import BlankPage from '../components/BlankPage';
 import CommonHeader from '../components/CommonHeader';
+
 //language
 import i18n from '../language/i18n';
 
@@ -69,6 +59,7 @@ export default class PeopleView extends Component {
       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
     },
+    isError: false,
     refresh:false,
     isExpired: false,
     expiredMessage: null,
