@@ -64,7 +64,7 @@ class App extends Component < {} > {
     }else {
       JPushModule.setupPush()
     }    
-    // this._jpushCommonEvent();
+    this._jpushCommonEvent();
   }
 
   componentWillUnmount = () => {
@@ -86,7 +86,7 @@ class App extends Component < {} > {
     // });
     JPushModule.addReceiveOpenNotificationListener(map => {
       if(Platform.OS == 'ios') {
-        console.log(JPushModule);
+        JPushModule.setBadge(0, success => {})
       }
     })
   }
