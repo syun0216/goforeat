@@ -4,7 +4,6 @@ import {Modal,View,Image,Text,TouchableOpacity,ScrollView,StatusBar,StyleSheet} 
 import {Icon,Container,Header,Left,Right,Body,Content,List,ListItem} from 'native-base'
 //utils
 import Colors from '../utils/Colors'
-import CityData from '../utils/CityData'
 import GLOBAL_PARAMS from '../utils/global_params'
 import ToastUtils from '../utils/ToastUtil'
 //api

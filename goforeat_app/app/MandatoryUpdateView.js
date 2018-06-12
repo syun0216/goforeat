@@ -11,8 +11,8 @@ import {
     ProgressBarAndroid,
     Alert,
     Text,
+    Button
 } from 'react-native'
-import {Button} from 'native-base';
 
 import CodePush from 'react-native-code-push';
 import Colors from "./utils/Colors";

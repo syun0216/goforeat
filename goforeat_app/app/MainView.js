@@ -41,6 +41,7 @@ import UploadView from "./views/UploadView";
 import CommentsView from "./views/CommentsView";
 import MandatoryUpdateView from "./MandatoryUpdateView";
 import ConfirmOrderView from "./views/ConfirmOrderView";
+import TestView from './views/TestView';
 //api
 import api from "./api";
 import source from "./api/CancelToken";
@@ -110,7 +111,7 @@ const tabView = TabNavigator(
     }
   },
   {
-    animationEnabled: true,
+    animationEnabled: false,
     swipeEnabled: false,
     tabBarPosition: "bottom",
     lazy: false, //该属性只会加载tab的当前view
@@ -489,6 +490,9 @@ let MainView = StackNavigator(
     // Splash: {
     //   screen: SplashPageView
     // },
+    // Test: {
+    //   screen: TestView
+    // },
     Home: {
       screen: darwerView
     },
@@ -551,7 +555,7 @@ let MainView = StackNavigator(
     },
     Person: {
       screen: PersonView
-    }
+    },
   },
   { headerMode: "none" }
 );

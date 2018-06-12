@@ -4,25 +4,20 @@ import {
   View,
   ScrollView,
   Text,
-  StatusBar,
-  SafeAreaView,
   Image,
   TouchableOpacity,
   AppState,
-  Alert,
-  Animated,
-  ActivityIndicator,
+  StyleSheet,
+  ActivityIndicator
 } from "react-native";
 import {
   Container,
-  Button,
   Icon,
   Header,
-  Left,
-  Body,
-  Right
+  Col,
 } from "native-base";
 import Carousel, { Pagination } from "react-native-snap-carousel";
+import LinearGradient from 'react-native-linear-gradient';
 import { sliderWidth, itemWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
 import HotReloadHOC from '../components/HotReloadHOC';
@@ -40,16 +35,23 @@ import Loading from "../components/Loading";
 import PlacePickerModel from '../components/PlacePickerModel';
 import BlankPage from '../components/BlankPage';
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
+import WarningTips from '../components/WarningTips';
 //language
 import i18n from "../language/i18n";
-//codepush
-import CodePush from "react-native-code-push";
-import CodePushUtils from "../utils/CodePushUtils";
-import * as TextUtils from "../utils/TextUtils";
-import * as JSONUtils from "../utils/JSONUtils";
 
 const IS_ANDROID = Platform.OS === "android";
 const SLIDER_1_FIRST_ITEM = 1;
+
+const _styles = StyleSheet.create({
+  linearGradient: {
+    height: 65,
+    width: GLOBAL_PARAMS._winWidth,
+    marginTop: -15,
+    paddingTop: 15,
+    justifyContent:'center',
+    flexDirection: 'row'
+  }
+});
 
 class ShopSwiperablePage extends Component {
   _current_offset = 0;
@@ -144,6 +146,7 @@ class ShopSwiperablePage extends Component {
           foodDetails: data.data.data.foodList,
           loading: false
         })
+        console.log(data);
         this._formatDate(data.data.data.timestamp);
       }
     },() => {
@@ -216,10 +219,16 @@ class ShopSwiperablePage extends Component {
   _renderDateFormat() {
     return (
       <View style={{marginTop:10,marginLeft:GLOBAL_PARAMS._winWidth*0.1}}>
-        <Text style={{color: this.props.screenProps.theme,fontSize: 20}}>
+        <Text style={{color: Colors.fontBlack,fontSize: 20}}>
         {this.state.formatDate.week}的餐單</Text>
-        <Text style={{color: this.props.screenProps.theme,fontSize: 13}}>{this.state.formatDate.date}</Text>
+        <Text style={{color: Colors.fontGray,fontSize: 13}}>{this.state.formatDate.date}</Text>
       </View>
+    )
+  }
+
+  _renderWarningView() {
+    return (
+      <WarningTips />
     )
   }
 
@@ -271,7 +280,7 @@ class ShopSwiperablePage extends Component {
 
         <Carousel
           ref={c => (this._slider1Ref = c)}
-          data={this.state.foodDetails}
+          data={ENTRIES1}
           renderItem={this._renderItemWithParallax.bind(this)}
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
@@ -295,9 +304,10 @@ class ShopSwiperablePage extends Component {
 
   _renderPlacePickerBtn() {
     return (
-      <TouchableOpacity style={{flexDirection:'row',marginLeft:-60,maxWidth: 200}} onPress={() => this.setState({showPlacePicker: true})}>
-        <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20}}/>
-        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16}} numberOfLines={1}>
+      <TouchableOpacity style={{flexDirection:'row',marginLeft:-60,maxWidth: 200,position: 'relative'}} onPress={() => this.setState({showPlacePicker: true})}>
+        <View style={{backgroundColor:Colors.main_white,opacity:0.2,borderRadius: 100,width:250,height: 35,}}/>
+        <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20,position:'absolute',top: 7,left:10}}/>
+        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 30,top:7}} numberOfLines={1}>
           {this.state.placeSelected.name}
         </Text>
       </TouchableOpacity>
@@ -311,15 +321,16 @@ class ShopSwiperablePage extends Component {
     );
 
     return (
-      <Container>
+      <Container style={{backgroundColor: '#fff'}}>
         <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
         <Header
           style={{
-            backgroundColor: this.props.screenProps.theme,
-            borderBottomWidth: 0
+            borderBottomWidth: 0,
+            padding: 0
           }}
           iosBarStyle="light-content"
         >
+        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={_styles.linearGradient}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginLeft: -10}}>
             <Icon
               name="md-menu"
@@ -328,11 +339,10 @@ class ShopSwiperablePage extends Component {
             />
           </TouchableOpacity>
           <View style={{flex: 1,alignItems:'center',flexDirection:'row',justifyContent:'center',}}>
-            {/*<Text style={{ color: Colors.main_white, fontSize: 16 }}>
-              {this.state.i18n.takeout_title}
-        </Text>*/}
           {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} style={{marginLeft:-60,}} size="small"/>}
           </View>
+        </LinearGradient>
+          
         </Header>
         {this.state.isError ? (
           <ErrorPage
@@ -352,6 +362,7 @@ class ShopSwiperablePage extends Component {
         directionalLockEnabled={true}
         >
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
+        {this._renderWarningView()}
         {example1}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
           {/*<View style={{height:GLOBAL_PARAMS._winHeight*0.15,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>

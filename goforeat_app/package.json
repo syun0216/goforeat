@@ -24,6 +24,7 @@
     "react-native-image-picker": "^0.26.7",
     "react-native-image-progress": "^1.1.0",
     "react-native-interactable": "^0.1.10",
+    "react-native-linear-gradient": "^2.4.0",
     "react-native-picker": "^4.3.5",
     "react-native-popup-dialog": "^0.11.46",
     "react-native-progress": "^3.4.0",

@@ -45,4 +45,6 @@ pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
 
   pod 'JPushRN', :path => '../node_modules/jpush-react-native'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
 end

@@ -1,12 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {StyleSheet} from 'react-native'
 import {Header,Left,Body,Right,Icon,Button,Text} from 'native-base'
+import LinearGradient from 'react-native-linear-gradient';
 //utils
-import Colors from '../utils/Colors'
+import Colors from '../utils/Colors';
+import GLOBAL_PARAMS from "../utils/global_params";
+
+const styles = {
+  linearGradient: {
+    height: 65,
+    width: GLOBAL_PARAMS._winWidth,
+    marginTop: -15,
+    paddingTop: 15,
+    justifyContent:'center',
+    flexDirection: 'row'
+  }
+}
 
 const CommonHeader = (props) => {
   return (
-  <Header style={[{backgroundColor:props.screenProps.theme},props.headerStyle]} hasTabs iosBarStyle={props.iosBarStyle}>
+  <Header style={[props.headerStyle]} hasTabs iosBarStyle={props.iosBarStyle}>
+  <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.linearGradient}>
     <Left>
       {props.canBack ? (props.leftElement !== null ? (<props.leftElement {...props}/>) : (
         <Button transparent onPress={() => {props.navigation.goBack();}}>
@@ -24,6 +39,7 @@ const CommonHeader = (props) => {
         <Icon onPress={() => props.rightClick} name={props.rightIcon} size={25} style={{color: Colors.main_white}} />
       )) : null}
     </Right>
+    </LinearGradient>
   </Header>
 )}
 

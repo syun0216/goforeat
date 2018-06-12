@@ -1,34 +1,69 @@
 export const ENTRIES1 = [
     {
-        title: 'Beautiful and dramatic Antelope Canyon',
+        foodName: 'Beautiful and dramatic Antelope Canyon',
         subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-        illustration: 'https://i.imgur.com/UYiroysl.jpg'
+        foodImage: 'https://i.imgur.com/UYiroysl.jpg',
+        canteenAddress:"觀塘鴻圖道34號致樂工業大廈8樓C室",
+        "foodBrief": "西班牙火腿，濃郁的鹹鮮肉香，搭配黑松露，野菌味十足，值得口味獨特的你前來一試。",
+        foodId: 21,
+        originPrice: 48,
+        price:38
     },
     {
-        title: 'Earlier this morning, NYC',
-        subtitle: 'Lorem ipsum dolor sit amet',
-        illustration: 'https://i.imgur.com/UPrs1EWl.jpg'
-    },
-    {
-        title: 'White Pocket Sunset',
-        subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
-        illustration: 'https://i.imgur.com/MABUbpDl.jpg'
-    },
-    {
-        title: 'Acrocorinth, Greece',
+        foodName: 'Beautiful and dramatic Antelope Canyon',
         subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-        illustration: 'https://i.imgur.com/KZsmUi2l.jpg'
+        foodImage: 'https://i.imgur.com/UPrs1EWl.jpg',
+        canteenAddress:"觀塘鴻圖道34號致樂工業大廈8樓C室",
+        "foodBrief": "西班牙火腿，濃郁的鹹鮮肉香，搭配黑松露，野菌味十足，值得口味獨特的你前來一試。",
+        foodId: 21,
+        originPrice: 48,
+        price:38
     },
     {
-        title: 'The lone tree, majestic landscape of New Zealand',
-        subtitle: 'Lorem ipsum dolor sit amet',
-        illustration: 'https://i.imgur.com/2nCt3Sbl.jpg'
+        foodName: 'Beautiful and dramatic Antelope Canyon',
+        subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
+        foodImage: 'https://i.imgur.com/MABUbpDl.jpg',
+        canteenAddress:"觀塘鴻圖道34號致樂工業大廈8樓C室",
+        "foodBrief": "西班牙火腿，濃郁的鹹鮮肉香，搭配黑松露，野菌味十足，值得口味獨特的你前來一試。",
+        foodId: 21,
+        originPrice: 48,
+        price:38
     },
     {
-        title: 'Middle Earth, Germany',
-        subtitle: 'Lorem ipsum dolor sit amet',
-        illustration: 'https://i.imgur.com/lceHsT6l.jpg'
-    }
+        foodName: 'Beautiful and dramatic Antelope Canyon',
+        subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
+        foodImage: 'https://i.imgur.com/KZsmUi2l.jpg',
+        canteenAddress:"觀塘鴻圖道34號致樂工業大廈8樓C室",
+        "foodBrief": "西班牙火腿，濃郁的鹹鮮肉香，搭配黑松露，野菌味十足，值得口味獨特的你前來一試。",
+        foodId: 21,
+        originPrice: 48,
+        price:38
+    },
+    {
+        foodName: 'Beautiful and dramatic Antelope Canyon',
+        subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
+        foodImage: 'https://i.imgur.com/2nCt3Sbl.jpg',
+        canteenAddress:"觀塘鴻圖道34號致樂工業大廈8樓C室",
+        "foodBrief": "西班牙火腿，濃郁的鹹鮮肉香，搭配黑松露，野菌味十足，值得口味獨特的你前來一試。",
+        foodId: 21,
+        originPrice: 48,
+        price:38
+    },
+    // {
+    //     title: 'Acrocorinth, Greece',
+    //     subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
+    //     illustration: 'https://i.imgur.com/KZsmUi2l.jpg'
+    // },
+    // {
+    //     title: 'The lone tree, majestic landscape of New Zealand',
+    //     subtitle: 'Lorem ipsum dolor sit amet',
+    //     illustration: 'https://i.imgur.com/2nCt3Sbl.jpg'
+    // },
+    // {
+    //     title: 'Middle Earth, Germany',
+    //     subtitle: 'Lorem ipsum dolor sit amet',
+    //     illustration: 'https://i.imgur.com/lceHsT6l.jpg'
+    // }
 ];
 
 export const ENTRIES2 = [

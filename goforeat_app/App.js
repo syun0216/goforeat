@@ -27,7 +27,7 @@ class App extends Component < {} > {
     // console.log(Push);
     // console.log(pushEnabled);
     // api.getNotifications().then(data => console.log(data));
-    // appStorage.removeAll()
+    appStorage.removeAll()
     appStorage.getLoginUserJsonData((error, data) => {
       if (error === null && data != null) {
         if (store.getState().auth.username === null) {

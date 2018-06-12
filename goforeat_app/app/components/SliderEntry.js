@@ -206,10 +206,8 @@ class SliderEntry extends Component {
             // }}
               >
                 <View style={[styles.imageContainer]}>
-                    {this._renderPriceView()}
                     { this.image }
-                    <View style={[styles.radiusMask]} />
-                </View>
+                    </View>
                 {this._renderCountView()}
                 <View style={[styles.textContainer]}>
                     

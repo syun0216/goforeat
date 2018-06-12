@@ -38,13 +38,6 @@ const styles = StyleSheet.create({
   activeDot:{}
 })
 
-const img_arr = [
-  {style:styles.img,position: require('../asset/s1.png')},
-  {style:styles.img,position: require('../asset/s2.png')},
-  {style:styles.img,position: require('../asset/s3.png')},
-  {style:styles.img,position: require('../asset/s4.png')},
-]
-
 const GoodsSwiper = (props) => {
   // console.log(props);
   return (<Swiper style={styles.wrapper}
