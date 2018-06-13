@@ -79,7 +79,7 @@ export default class BottomOrderConfirm extends PureComponent {
             <Icon name="md-close-circle" style={[styles.commonIcon,{color: '#FF3348',fontSize:28,marginTop: 3}]}/>
           </TouchableOpacity>
           <Text style={{marginLeft: 10}}>HKD{" "}</Text>
-          <Text style={[styles.commonText,{color:'#FF3348'}]}>{total}</Text>
+          <Text style={[styles.commonText,{color:'#FF3348',width:60}]} numberOfLines={1}>{total}</Text>
         </View>
         <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,width:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => goToOrder()}>
           <View style={styles.commonView}>

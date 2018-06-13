@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  StyleSheet,
+  StyleSheet
 } from "react-native";
 import { Icon, Container, Content, Footer } from "native-base";
 //navigation
@@ -63,30 +63,36 @@ const tabView = TabNavigator(
       screen: ShopSwiperablePage,
       navigationOptions: {
         tabBarLabel: "外賣",
-        tabBarIcon: ({ tintColor, focused }) => (
-          <Icon
-            size={28}
-            name="md-pizza"
-            style={{
-              color: tintColor
-            }}
+        tabBarIcon: ({ tintColor, focused }) => {
+          return focused ? (
+          <Image
+            style={{width: 25,
+            height: 25}}
+            source={require('./asset/Shape.png')}
           />
-        )
+        ): (<Image
+          style={{width: 25,
+          height: 25}}
+          source={require('./asset/Shape_inactive.png')}
+        />)}
       }
     },
     ArticleTab: {
       screen: ArticleView,
       navigationOptions: {
         tabBarLabel: "本月菜單",
-        tabBarIcon: ({ tintColor, focused }) => (
-          <Icon
-            size={28}
-            name="md-images"
-            style={{
-              color: tintColor
-            }}
+        tabBarIcon: ({ tintColor, focused }) => {
+          return focused ? (
+          <Image
+            style={{width: 25,
+            height: 25}}
+            source={require('./asset/date_active.png')}
           />
-        )
+        ): (<Image
+          style={{width: 25,
+          height: 25}}
+          source={require('./asset/date.png')}
+        />)}
       }
     }
   },

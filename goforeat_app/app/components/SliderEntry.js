@@ -86,7 +86,7 @@ const _styles = StyleSheet.create({
 class SliderEntry extends Component {
     isLogin = false;
     static propTypes = {
-        data: PropTypes.object.isRequired,
+        data: PropTypes.string.isRequired,
         even: PropTypes.bool,
         parallax: PropTypes.bool,
         parallaxProps: PropTypes.object,
@@ -102,79 +102,24 @@ class SliderEntry extends Component {
     }
 
     get image () {
-        const { data: { foodImage }, parallax, parallaxProps, even } = this.props;
+        const { data , parallax, parallaxProps, even } = this.props;
         // console.log(123,foodImage);
         return (
-            <Image source={{uri: foodImage}} style={styles.image}/>
-        )
-        return parallax ? (
-            <ParallaxImage
-              source={{ uri: foodImage }}
-              containerStyle={[styles.imageContainer,]}
-              style={styles.image}
-              parallaxFactor={0.35}
-              showSpinner={true}
-              spinnerColor={'rgba(0, 0, 0, 0.25)'}
-              {...parallaxProps}
-            />
-        ) : (
-            <Image
-              source={{ uri: foodImage }}
-              style={styles.image}
-            />
-        );
-    }
-
-    _renderPriceView() {
-        const { data: { price, originPrice } } = this.props;
-        return (
-            <View style={[_styles.price_view,{backgroundColor:this.props.screenProps.theme}]}>
-                <Text style={_styles.price_text}>HKD {price}</Text>
-                <Text style={_styles.orgin_price_text}>
-                HKD {originPrice}</Text>
-            </View>
+            <Image source={{uri: data}} style={styles.image}/>
         )
     }
 
     render () {
-        const { data: { foodName, foodBrief,foodId,foodImage }, even ,placeId } = this.props;
-
-        const uppercaseTitle = foodName ? (
-            <Text
-              style={[styles.title]}
-              numberOfLines={1}
-            >
-                { foodName.toUpperCase() }
-            </Text>
-        ) : false;
+        const { data, even ,placeId } = this.props;
 
         return (
             <TouchableOpacity
               activeOpacity={1}
               style={styles.slideInnerContainer}
-            // onPress={() => {
-            //     if(this.props.user !== null) {
-            //         this.props.navigation.navigate("Order", {
-            //             foodId,
-            //             placeId
-            //         })
-            //     }else {
-            //         this.props.navigation.navigate("Login",{foodId,placeId});
-            //     }
-            // }}
               >
                 <View style={[styles.imageContainer]}>
                     { this.image }
                     </View>
-                {/*<View style={[styles.textContainer]}>
-                    
-                    <Text
-                      style={[styles.subtitle]}
-                      numberOfLines={5}
-                    >
-                        { foodBrief }
-                    </Text>
-        </View>*/}
             </TouchableOpacity>
         );
     }

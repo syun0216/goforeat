@@ -150,6 +150,7 @@ class ShopSwiperablePage extends Component {
   _getDailyFoodList = (placeId) => {
     api.getDailyFoods(placeId, this.props.screenProps.sid).then(data => {
       if(data.status === 200 && data.data.ro.ok) {
+        console.log(data);
         this.setState({
           foodDetails: data.data.data.foodList,
           loading: false
@@ -222,11 +223,11 @@ class ShopSwiperablePage extends Component {
   _remove() {
     if(this.state.foodCount == 1) {
       this.props.navigation.setParams({visible: true})
-    }
-    if(this.state.foodCount == 0) {
       this.setState({
         isBottomContainerShow: false,
       })
+    }
+    if(this.state.foodCount == 0) {
       return ;
     }
     this.setState({
@@ -298,7 +299,7 @@ class ShopSwiperablePage extends Component {
             <TouchableOpacity onPress={() => this._remove()} style={{width: 40,alignItems:'center'}}>
             <Image source={require("../asset/remove.png")} style={{width:25,height:25}}/>
             </TouchableOpacity>
-            <Text style={{color:Colors.fontBlack,fontSize:30,width:35,textAlign:'center'}} numberOfLines={1}>{this.state.foodCount}</Text>
+            <Text style={{color:Colors.fontBlack,fontSize:30,width:40,textAlign:'center'}} numberOfLines={1}>{this.state.foodCount}</Text>
             <TouchableOpacity onPress={() => this._add()} style={{width: 40,alignItems:'center'}}>
                 <Image source={require("../asset/add.png")} style={{width:34,height:34,marginTop:7}}/>
             </TouchableOpacity>    
@@ -315,22 +316,6 @@ class ShopSwiperablePage extends Component {
         data={item}
         even={(index + 1) % 2 === 0}
         placeId={this.state.placeSelected.id}
-        getCount={(count) => {
-          if(count > 0) {
-            this.setState({
-              isBottomContainerShow: true,
-              foodCount: count
-            })
-            this.props.navigation.setParams({visible: false})
-          }else {
-            this.props.navigation.setParams({visible: true})
-            this.setState({
-              isBottomContainerShow: false,
-              foodCount: 0
-            })
-          }
-        }}
-        count={this.state.foodCount}
         {...this.props}
         // parallax={true}
         // parallaxProps={parallaxProps}
@@ -347,7 +332,7 @@ class ShopSwiperablePage extends Component {
 
         <Carousel
           ref={c => (this._slider1Ref = c)}
-          data={ENTRIES1}
+          data={foodDetails[0].extralImage}
           renderItem={this._renderItemWithParallax.bind(this)}
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
@@ -373,8 +358,8 @@ class ShopSwiperablePage extends Component {
     return (
       <TouchableOpacity style={{flexDirection:'row',marginLeft:-60,maxWidth: 200,position: 'relative'}} onPress={() => this.setState({showPlacePicker: true})}>
         <View style={{backgroundColor:Colors.main_white,opacity:0.2,borderRadius: 100,width:250,height: 35,}}/>
-        <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20,position:'absolute',top: 7,left:10}}/>
-        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 30,top:7}} numberOfLines={1}>
+        <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20,position:'absolute',top: 8,left:10}}/>
+        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 31,top:8,height: 30}} numberOfLines={1}>
           {this.state.placeSelected.name}
         </Text>
       </TouchableOpacity>

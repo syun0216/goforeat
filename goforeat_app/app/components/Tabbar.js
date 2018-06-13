@@ -32,7 +32,7 @@ export default class TabBar extends Component {
 
   render() {
     return (
-        <TabBarBottom {...this.props} activeTintColor={this.props.screenProps.theme} style={[styles.container, { bottom: this.state.offset }]}/>
+        <TabBarBottom {...this.props} activeTintColor='#FF3348' style={[styles.container, { bottom: this.state.offset }]}/>
     );
   }
 }
