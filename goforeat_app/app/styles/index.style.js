@@ -11,18 +11,18 @@ export const colors = {
 
 export default StyleSheet.create({
     safeArea: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: colors.black,
     },
     container: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: '#fff'
     },
     gradient: {
         ...StyleSheet.absoluteFillObject
     },
     scrollview: {
-        flex: 1,
+        // flex: 1,
     },
     exampleContainer: {
         paddingVertical: 18
@@ -58,7 +58,7 @@ export default StyleSheet.create({
         overflow: 'visible' // for custom animations
     },
     sliderContentContainer: {
-        paddingVertical: 10 // for custom animation
+        // paddingVertical: 10 // for custom animation
     },
     paginationContainer: {
         paddingVertical: 8

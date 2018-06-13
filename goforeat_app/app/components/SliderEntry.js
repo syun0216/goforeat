@@ -209,7 +209,7 @@ class SliderEntry extends Component {
                     { this.image }
                     </View>
                 {this._renderCountView()}
-                <View style={[styles.textContainer]}>
+                {/*<View style={[styles.textContainer]}>
                     
                     <Text
                       style={[styles.subtitle]}
@@ -217,7 +217,7 @@ class SliderEntry extends Component {
                     >
                         { foodBrief }
                     </Text>
-                </View>
+        </View>*/}
             </TouchableOpacity>
         );
     }

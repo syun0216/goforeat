@@ -242,6 +242,16 @@ class ShopSwiperablePage extends Component {
     );
   }
 
+  _renderIntrodutionView() {
+    let {foodDetails} = this.state;
+    return (
+      <View style={{width: GLOBAL_PARAMS._winWidth,padding: GLOBAL_PARAMS._winWidth*0.08}}>
+        <Text style={{fontSize: 20,color: '#111',fontWeight:'bold',marginBottom:11}} numberOfLines={1}>{foodDetails[0].foodName}</Text>
+        <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight: 20}} numberOfLines={5}>{foodDetails[0].foodBrief}</Text>
+      </View>
+    )
+  }
+
   _renderItemWithParallax({ item, index }, parallaxProps) {
     return (
       this.state.placeSelected != null ?
@@ -364,15 +374,8 @@ class ShopSwiperablePage extends Component {
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
         {this._renderWarningView()}
         {example1}
+        {this.state.foodDetails != null ? this._renderIntrodutionView() : null}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
-          {/*<View style={{height:GLOBAL_PARAMS._winHeight*0.15,flexDirection:'row',backgroundColor:this.props.screenProps.theme}}>
-                          <TouchableOpacity style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                            <Image style={{width:72,height:72}} source={{uri:'dislike'}}/>
-                          </TouchableOpacity>
-                          <TouchableOpacity style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                            <Image style={{width:72,height:72}} source={{uri:'like'}}/>
-                          </TouchableOpacity>
-                        </View>*/}
         </ScrollView>
       </Container>
     );
