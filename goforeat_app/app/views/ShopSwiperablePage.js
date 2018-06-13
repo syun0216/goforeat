@@ -211,6 +211,29 @@ class ShopSwiperablePage extends Component {
     }
   }
 
+  _add() {
+    this.setState({
+      foodCount: this.state.foodCount + 1,
+      isBottomContainerShow: true
+    })
+    this.props.navigation.setParams({visible: false})
+  }
+
+  _remove() {
+    if(this.state.foodCount == 1) {
+      this.props.navigation.setParams({visible: true})
+    }
+    if(this.state.foodCount == 0) {
+      this.setState({
+        isBottomContainerShow: false,
+      })
+      return ;
+    }
+    this.setState({
+      foodCount: this.state.foodCount - 1
+    })
+  }
+
   _reloadWhenCancelLogin() {
     this._reloadPage();
   }
@@ -251,10 +274,35 @@ class ShopSwiperablePage extends Component {
 
   _renderIntrodutionView() {
     let {foodDetails} = this.state;
+    let _width = GLOBAL_PARAMS._winWidth*0.08;
     return (
-      <View style={{width: GLOBAL_PARAMS._winWidth,padding: GLOBAL_PARAMS._winWidth*0.08}}>
+      <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft: _width,paddingRight: _width,paddingTop: 10,paddingBottom: 20}}>
         <Text style={{fontSize: 20,color: '#111',fontWeight:'bold',marginBottom:11}} numberOfLines={1}>{foodDetails[0].foodName}</Text>
         <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight: 20}} numberOfLines={5}>{foodDetails[0].foodBrief}</Text>
+      </View>
+    )
+  }
+
+  _renderAddPriceView() {
+    let {foodDetails} = this.state;
+    let _width = GLOBAL_PARAMS._winWidth*0.08;
+    return (
+      <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft:_width,paddingRight:_width,flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
+        <View style={{position:'relative',flexDirection: 'row',alignItems:'flex-end'}}>
+          <Text style={{fontSize: 18,color: Colors.fontBlack,marginRight: 8}}>HKD</Text>
+          <Text style={{fontSize: 30,color: '#ff3348',marginRight: 15,marginBottom:-4}}>{foodDetails[0].price}</Text>
+          <Text style={{fontSize: 16,color: '#9B9B9B'}}>HKD {foodDetails[0].originPrice}</Text>
+          <View style={{width: 75,transform: [{ rotate: '-5deg'}],backgroundColor:'#9B9B9B',height:2,position:'absolute',bottom:8,right: -8,opacity:0.63}}/>
+        </View>
+        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+            <TouchableOpacity onPress={() => this._remove()} style={{width: 40,alignItems:'center'}}>
+            <Image source={require("../asset/remove.png")} style={{width:25,height:25}}/>
+            </TouchableOpacity>
+            <Text style={{color:Colors.fontBlack,fontSize:30,width:35,textAlign:'center'}} numberOfLines={1}>{this.state.foodCount}</Text>
+            <TouchableOpacity onPress={() => this._add()} style={{width: 40,alignItems:'center'}}>
+                <Image source={require("../asset/add.png")} style={{width:34,height:34,marginTop:7}}/>
+            </TouchableOpacity>    
+        </View>
       </View>
     )
   }
@@ -384,6 +432,7 @@ class ShopSwiperablePage extends Component {
         {/*this._renderWarningView()*/}
         {example1}
         {this.state.foodDetails != null ? this._renderIntrodutionView() : null}
+        {this.state.foodDetails != null ? this._renderAddPriceView() : null}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
         </ScrollView>
       </Container>

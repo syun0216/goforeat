@@ -90,9 +90,7 @@ class SliderEntry extends Component {
         even: PropTypes.bool,
         parallax: PropTypes.bool,
         parallaxProps: PropTypes.object,
-        placeId: PropTypes.number.isRequired,
-        getCount: PropTypes.func,
-        count: PropTypes.number
+        placeId: PropTypes.number.isRequired
     };
 
     state = {
@@ -125,46 +123,6 @@ class SliderEntry extends Component {
               style={styles.image}
             />
         );
-    }
-
-    _add() {
-        this.props.getCount(this.props.count + 1);
-    }
-
-    _remove() {
-        if(this.props.count == 0) {
-            return;
-        }
-        this.props.getCount(this.props.count - 1);
-    }
-
-    reInit() {
-        this.setState({
-            count: 0
-        })
-    }
-
-    _renderCountView() {
-        const { data: { foodName, foodBrief,foodId,foodImage,price } } = this.props;
-        return (
-            <View style={_styles.countContainer}>
-                <View style={[_styles.countInnerContainer,{backgroundColor: this.props.screenProps.theme}]}>
-                    <View style={_styles.common_view}>
-                        <Text style={_styles.common_text} numberOfLines={1}>{foodName}</Text>
-                    </View>
-                    <View style={{width: 1,height: 15,backgroundColor: '#fff'}}/>
-                    <View style={_styles.count}>
-                        <TouchableOpacity style={{width: 40,alignItems:'center'}} onPress={() => this._remove()}>
-                            <Icon name="md-remove" style={_styles.common_icon}/>
-                        </TouchableOpacity>
-                        <Text style={_styles.common_text}>{this.props.count}</Text>
-                        <TouchableOpacity style={{width: 40,alignItems:'center'}} onPress={() => this._add()}>
-                            <Icon name="md-add" style={_styles.common_icon}/>
-                        </TouchableOpacity>    
-                    </View>
-                </View>
-            </View>
-        )
     }
 
     _renderPriceView() {
@@ -208,7 +166,6 @@ class SliderEntry extends Component {
                 <View style={[styles.imageContainer]}>
                     { this.image }
                     </View>
-                {this._renderCountView()}
                 {/*<View style={[styles.textContainer]}>
                     
                     <Text

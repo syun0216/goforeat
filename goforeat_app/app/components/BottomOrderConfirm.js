@@ -7,7 +7,7 @@ import GLOBAL_PARAMS from '../utils/global_params';
 const styles = StyleSheet.create({
   bottomContainer:{
     width: GLOBAL_PARAMS._winWidth,
-    height: 50,
+    height: 49,
     position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -72,19 +72,18 @@ export default class BottomOrderConfirm extends PureComponent {
       <Animated.View style={[styles.bottomContainer,{
         bottom:this.state.bottom.interpolate({
         inputRange: [0,1],
-        outputRange: [-50, 0]
+        outputRange: [-49, 0]
       })}]}>
         <View style={styles.commonView}>
           <TouchableOpacity style={{width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50, alignItems:'center'}} onPress={this._cancelOrder}>
-            <Icon name="md-close-circle" style={[styles.commonIcon,{color: theme,fontSize:28,marginTop: 3}]}/>
+            <Icon name="md-close-circle" style={[styles.commonIcon,{color: '#FF3348',fontSize:28,marginTop: 3}]}/>
           </TouchableOpacity>
           <Text style={{marginLeft: 10}}>HKD{" "}</Text>
-          <Text style={[styles.commonText,{color:theme}]}>{total}</Text>
+          <Text style={[styles.commonText,{color:'#FF3348'}]}>{total}</Text>
         </View>
-        <TouchableOpacity onPress={() => goToOrder()}>
+        <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,width:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => goToOrder()}>
           <View style={styles.commonView}>
-            <Text style={[styles.commonText,{color:theme}]}>立即預定</Text>
-            <Icon name="md-arrow-round-forward" style={[styles.commonIcon,{color: theme}]}/>
+            <Text style={[styles.commonText,{color:'#fff'}]}>立即預訂</Text>
           </View>
         </TouchableOpacity>  
       </Animated.View>
