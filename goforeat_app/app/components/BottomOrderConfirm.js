@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
 });
 
 export default class BottomOrderConfirm extends PureComponent {
+  timer = null;
   static defaultProps = {
     isShow: false
   }
@@ -47,11 +48,18 @@ export default class BottomOrderConfirm extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    Animated.timing(this.state.bottom, {
-      toValue: nextProps.isShow? 1: 0,
-      duration: 100,
-      easing: Easing.quad
-    }).start();
+    this.timer = setTimeout(() => {
+      Animated.timing(this.state.bottom, {
+        toValue: nextProps.isShow? 1: 0,
+        duration: 100,
+        easing: Easing.quad
+      }).start();
+      clearTimeout(this.timer);
+    }, 300);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   _cancelOrder = () => {

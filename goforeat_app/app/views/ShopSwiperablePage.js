@@ -72,6 +72,7 @@ class ShopSwiperablePage extends Component {
         date: '',
         week: ''
       },
+      refreshParams: '',
       isBottomContainerShow: false,
       foodCount: 0,
       showPlacePicker: false
@@ -82,8 +83,15 @@ class ShopSwiperablePage extends Component {
     this.setState({
       i18n: i18n[nextProps.screenProps.language]
     });
-    this._reloadPage();
+    if(!this.state.isBottomContainerShow&&(nextProps.screenProps.refresh != this.state.refreshParams)&&nextProps.screenProps.refresh!= null) {
+      this._reloadPage();
+    }
+    this.setState({refreshParams: nextProps.screenProps.refresh})
   }
+
+  // shouldComponentUpdate(nextProps,nextState) {
+  //   return !(nextProps.screenProps.refresh == nextState.refreshParams);
+  // }
 
   componentDidMount() {
     AppState.addEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState))
@@ -146,7 +154,6 @@ class ShopSwiperablePage extends Component {
           foodDetails: data.data.data.foodList,
           loading: false
         })
-        console.log(data);
         this._formatDate(data.data.data.timestamp);
       }
     },() => {
@@ -213,7 +220,7 @@ class ShopSwiperablePage extends Component {
       isBottomContainerShow: false,
       foodCount: 0
     })
-    
+    this.props.navigation.setParams({visible: true})
   }
 
   _renderDateFormat() {
@@ -232,15 +239,15 @@ class ShopSwiperablePage extends Component {
     )
   }
 
-  _renderItem({ item, index }) {
-    return (
-      <SliderEntry
-        data={item}
-        even={(index + 1) % 2 === 0}
-        {...this["props"]}
-      />
-    );
-  }
+  // _renderItem({ item, index }) {
+  //   return (
+  //     <SliderEntry
+  //       data={item}
+  //       even={(index + 1) % 2 === 0}
+  //       {...this["props"]}
+  //     />
+  //   );
+  // }
 
   _renderIntrodutionView() {
     let {foodDetails} = this.state;
@@ -266,7 +273,9 @@ class ShopSwiperablePage extends Component {
               isBottomContainerShow: true,
               foodCount: count
             })
+            this.props.navigation.setParams({visible: false})
           }else {
+            this.props.navigation.setParams({visible: true})
             this.setState({
               isBottomContainerShow: false,
               foodCount: 0
@@ -372,7 +381,7 @@ class ShopSwiperablePage extends Component {
         directionalLockEnabled={true}
         >
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
-        {this._renderWarningView()}
+        {/*this._renderWarningView()*/}
         {example1}
         {this.state.foodDetails != null ? this._renderIntrodutionView() : null}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}

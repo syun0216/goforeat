@@ -43,39 +43,19 @@ import MandatoryUpdateView from "./MandatoryUpdateView";
 import ConfirmOrderView from "./views/ConfirmOrderView";
 import TestView from './views/TestView';
 //api
-import api from "./api";
 import source from "./api/CancelToken";
 //utils
 import ToastUtil from "./utils/ToastUtil";
 import LinkingUtils from "./utils/LinkingUtils";
 import GLOBAL_PARAMS from "./utils/global_params";
 import Colors from "./utils/Colors";
-import { addListener } from "./utils/navigationWithRedux";
-//react-redux
-import { connect } from "react-redux";
 //store
 import store from "./store";
 //components
 import Divider from "./components/Divider";
-//event
-import EventEmitter from "EventEmitter";
+import TabBar from "./components/Tabbar";
 //language
 import i18n from './language/i18n';
-
-class CustomTabBar extends Component {
-  componentDidMount() {
-    // console.log(222,this.props);
-  }
-
-  render() {
-    return (
-      <TabBarBottom
-        {...this["props"]}
-        activeTintColor={this.props.screenProps.theme}
-      />
-    );
-  }
-}
 
 const tabView = TabNavigator(
   {
@@ -111,11 +91,12 @@ const tabView = TabNavigator(
     }
   },
   {
+    // tabBarComponent: TabBar,
     animationEnabled: false,
     swipeEnabled: false,
     tabBarPosition: "bottom",
     lazy: false, //该属性只会加载tab的当前view
-    tabBarComponent: CustomTabBar,
+    tabBarComponent: TabBar,
     backBehavior:"none",
     removeClippedSubviews: false,
     tabBarOptions: {
@@ -564,8 +545,8 @@ let MainView = StackNavigator(
 const defaultGetStateForAction = MainView.router.getStateForAction;
 
 MainView.router.getStateForAction = (action, state) => {
-  // console.log('action', action)
-  // console.log('state', state)
+  console.log('action', action)
+  console.log('state', state)
   if (action.type === "Navigation/NAVIGATE") {
     source.cancel();
   }
@@ -590,8 +571,10 @@ MainView.router.getStateForAction = (action, state) => {
       index: routes.length - 1
     });
   }
-  if(action.routeName == 'DrawerClose' || action.routeName == 'ShopTab') { //监听首页
-    store.dispatch({type:'REFRESH',refresh:new Date()})
+  if(action.type != 'Navigation/SET_PARAMS') {
+    if(action.routeName == 'DrawerClose' || action.routeName == 'ShopTab') { //监听首页
+      store.dispatch({type:'REFRESH',refresh:new Date()})
+    }
   }
   if (state && action.type === NavigationActions.NAVIGATE) {
     if (action.params && action.params.replaceRoute) {
