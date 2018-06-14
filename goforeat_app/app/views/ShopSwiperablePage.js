@@ -314,6 +314,7 @@ class ShopSwiperablePage extends Component {
       <SliderEntry
         ref={(se) => this._SliderEntry = se}
         data={item}
+        star={this.state.foodDetails[0].star}
         even={(index + 1) % 2 === 0}
         placeId={this.state.placeSelected.id}
         {...this.props}
@@ -356,10 +357,10 @@ class ShopSwiperablePage extends Component {
 
   _renderPlacePickerBtn() {
     return (
-      <TouchableOpacity style={{flexDirection:'row',marginLeft:-60,maxWidth: 200,position: 'relative'}} onPress={() => this.setState({showPlacePicker: true})}>
+      <TouchableOpacity style={{flexDirection:'row',marginLeft:-65,maxWidth: 200,position: 'relative'}} onPress={() => this.setState({showPlacePicker: true})}>
         <View style={{backgroundColor:Colors.main_white,opacity:0.2,borderRadius: 100,width:250,height: 35,}}/>
-        <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20,position:'absolute',top: 8,left:10}}/>
-        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 31,top:8,height: 30}} numberOfLines={1}>
+        <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20,position:'absolute',top: 8,left:12}}/>
+        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 33,top:8,height: 30}} numberOfLines={1}>
           {this.state.placeSelected.name}
         </Text>
       </TouchableOpacity>
@@ -383,7 +384,7 @@ class ShopSwiperablePage extends Component {
           iosBarStyle="light-content"
         >
         <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={_styles.linearGradient}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginLeft: -10}}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center'}}>
             <Icon
               name="md-menu"
               size={20}

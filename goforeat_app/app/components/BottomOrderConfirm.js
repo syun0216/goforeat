@@ -48,14 +48,22 @@ export default class BottomOrderConfirm extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.timer = setTimeout(() => {
+    if(nextProps.isShow) {
+      this.timer = setTimeout(() => {
+        Animated.timing(this.state.bottom, {
+          toValue: nextProps.isShow? 1: 0,
+          duration: 100,
+          easing: Easing.quad
+        }).start();
+        clearTimeout(this.timer);
+      }, 150);
+    }else {
       Animated.timing(this.state.bottom, {
         toValue: nextProps.isShow? 1: 0,
         duration: 100,
         easing: Easing.quad
       }).start();
-      clearTimeout(this.timer);
-    }, 300);
+    }
   }
 
   componentWillUnmount() {

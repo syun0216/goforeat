@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity,StyleSheet,Platform } from 'react-native';
 import {Icon} from 'native-base';
 import PropTypes from 'prop-types';
-import { ParallaxImage } from 'react-native-snap-carousel';
 import styles,{slideWidth} from '../styles/SliderEntry.style';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import ToastUtil from '../utils/ToastUtil';
+import LinearGradient from 'react-native-linear-gradient';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
@@ -80,7 +79,7 @@ const _styles = StyleSheet.create({
         color: Colors.main_white,
         textDecorationLine: 'line-through',
         marginRight: 10
-    }
+    },
 })
 
 class SliderEntry extends Component {
@@ -90,15 +89,12 @@ class SliderEntry extends Component {
         even: PropTypes.bool,
         parallax: PropTypes.bool,
         parallaxProps: PropTypes.object,
-        placeId: PropTypes.number.isRequired
-    };
+        placeId: PropTypes.number.isRequired,
+        star: PropTypes.number
+    }
 
     state = {
         count: 0
-    }
-
-    componentDidMount() {
-        // console.log(123, this.props);
     }
 
     get image () {
@@ -106,6 +102,14 @@ class SliderEntry extends Component {
         // console.log(123,foodImage);
         return (
             <Image source={{uri: data}} style={styles.image}/>
+        )
+    }
+
+    _renderStarView() {
+        return (
+            <LinearGradient colors={['#E89E44','#F5CC7A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={{height: 30,width: 100,borderTopLeftRadius: 10,}}>
+
+            </LinearGradient>
         )
     }
 
@@ -119,7 +123,7 @@ class SliderEntry extends Component {
               >
                 <View style={[styles.imageContainer]}>
                     { this.image }
-                    </View>
+                </View>
             </TouchableOpacity>
         );
     }
