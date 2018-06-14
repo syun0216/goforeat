@@ -62,17 +62,17 @@ const tabView = TabNavigator(
     ShopTab: {
       screen: ShopSwiperablePage,
       navigationOptions: {
-        tabBarLabel: "外賣",
+        tabBarLabel: "每日外賣",
         tabBarIcon: ({ tintColor, focused }) => {
           return focused ? (
-          <Image
-            style={{width: 25,
-            height: 25}}
-            source={require('./asset/Shape.png')}
-          />
+            <Image
+              style={{width: 22,
+              height: 22}}
+              source={require('./asset/Shape.png')}
+            />
         ): (<Image
-          style={{width: 25,
-          height: 25}}
+          style={{width: 22,
+          height: 22}}
           source={require('./asset/Shape_inactive.png')}
         />)}
       }
@@ -84,13 +84,13 @@ const tabView = TabNavigator(
         tabBarIcon: ({ tintColor, focused }) => {
           return focused ? (
           <Image
-            style={{width: 25,
-            height: 25}}
+            style={{width: 22,
+            height: 22}}
             source={require('./asset/date_active.png')}
           />
         ): (<Image
-          style={{width: 25,
-          height: 25}}
+          style={{width: 22,
+          height: 22}}
           source={require('./asset/date.png')}
         />)}
       }
@@ -551,8 +551,8 @@ let MainView = StackNavigator(
 const defaultGetStateForAction = MainView.router.getStateForAction;
 
 MainView.router.getStateForAction = (action, state) => {
-  console.log('action', action)
-  console.log('state', state)
+  // console.log('action', action)
+  // console.log('state', state)
   if (action.type === "Navigation/NAVIGATE") {
     source.cancel();
   }

@@ -11,18 +11,19 @@ export const colors = {
 
 export default StyleSheet.create({
     safeArea: {
-        // flex: 1,
+        flex: 1,
         backgroundColor: colors.black,
     },
     container: {
-        // flex: 1,
+        flex: 1,
         backgroundColor: '#fff'
     },
     gradient: {
         ...StyleSheet.absoluteFillObject
     },
     scrollview: {
-        // flex: 1,
+        flex: 1,
+        marginBottom: GLOBAL_PARAMS._winWidth < 340 ? 70 : 0
     },
     exampleContainer: {
         paddingVertical: 18
