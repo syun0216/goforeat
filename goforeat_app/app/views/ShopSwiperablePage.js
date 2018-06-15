@@ -278,9 +278,9 @@ class ShopSwiperablePage extends Component {
     let {foodDetails} = this.state;
     let _width = GLOBAL_PARAMS._winWidth*0.08;
     return (
-      <View style={{width: GLOBAL_PARAMS._winWidth,height: 150,paddingLeft: _width,paddingRight: _width,paddingTop: 10,paddingBottom: 20}}>
+      <View style={{width: GLOBAL_PARAMS._winWidth,height:GLOBAL_PARAMS._winHeight>667?170: 140,paddingLeft: _width,paddingRight: _width,paddingTop: 10,paddingBottom: 20}}>
         <Text style={{fontSize: 20,color: '#111',fontWeight:'bold',marginBottom:11}} numberOfLines={1}>{foodDetails[0].foodName}</Text>
-        <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight: 20}} numberOfLines={5}>{foodDetails[0].foodBrief}</Text>
+        <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight: 20}} numberOfLines={GLOBAL_PARAMS._winHeight>667? 5: 4}>{foodDetails[0].foodBrief}</Text>
       </View>
     )
   }

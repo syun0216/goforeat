@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity,StyleSheet,Platform } from 'react-native';
-import {Icon} from 'native-base';
 import PropTypes from 'prop-types';
 import styles,{slideWidth} from '../styles/SliderEntry.style';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import LinearGradient from 'react-native-linear-gradient';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
@@ -106,10 +104,24 @@ class SliderEntry extends Component {
     }
 
     _renderStarView() {
+        let {star} = this.props;
+        let _star = [];
+        for(let i = 0;i<3;i++) {
+            if(star >= 1) {
+              _star.push(require('../asset/star_active.png'))
+            }else {
+                _star.push(require('../asset/star_inactive.png'))
+            }
+            star = star -1;
+        }
+        console.log(_star);
         return (
-            <LinearGradient colors={['#E89E44','#F5CC7A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={{height: 30,width: 100,borderTopLeftRadius: 10,}}>
-
-            </LinearGradient>
+            <View style={{position: 'relative'}}>
+                <Image source={require('../asset/starbar.png')} style={{height: 78,width: 85,}}/>
+                <Image style={{width: 21, height: 21,position:'absolute',bottom: 17,left:2,transform:[{rotate:'-5deg'}]}} source={_star[0]}/>
+                <Image style={{width: 21, height: 21,position:'absolute',bottom: 35,left:20,transform:[{rotate:'-5deg'}]}} source={_star[1]}/>
+                <Image style={{width: 21, height: 21,position:'absolute',bottom: 53,left:40,transform:[{rotate:'-5deg'}]}} source={_star[2]}/>
+            </View>
         )
     }
 
@@ -123,6 +135,7 @@ class SliderEntry extends Component {
               >
                 <View style={[styles.imageContainer]}>
                     { this.image }
+                    { this._renderStarView() }
                 </View>
             </TouchableOpacity>
         );
