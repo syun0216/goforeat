@@ -265,7 +265,7 @@ export default class ArticleView extends Component {
     return (<Container style={{position:'relative'}}>
     <CommonHeader title={this.state.i18n.article_title} {...this.props}/>
     {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
-      <Loading message="玩命加載中..."/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+      <Loading/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
         <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
       {/* <View style={{height:150,backgroundColor:this.props.theme,width:GLOBAL_PARAMS._winWidth}} /> */}
       <View style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>

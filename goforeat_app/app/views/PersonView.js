@@ -368,7 +368,7 @@ export default class PeopleView extends Component {
         </Tab>
       </Tabs>
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
-          <Loading message="玩命加載中..." style={Platform.OS == 'android' ? {marginTop:110} : {}}/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+          <Loading style={Platform.OS == 'android' ? {marginTop:110} : {}}/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
             <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
       </Container>
     );

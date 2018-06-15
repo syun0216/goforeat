@@ -278,7 +278,7 @@ class ShopSwiperablePage extends Component {
     let {foodDetails} = this.state;
     let _width = GLOBAL_PARAMS._winWidth*0.08;
     return (
-      <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft: _width,paddingRight: _width,paddingTop: 10,paddingBottom: 20}}>
+      <View style={{width: GLOBAL_PARAMS._winWidth,height: 150,paddingLeft: _width,paddingRight: _width,paddingTop: 10,paddingBottom: 20}}>
         <Text style={{fontSize: 20,color: '#111',fontWeight:'bold',marginBottom:11}} numberOfLines={1}>{foodDetails[0].foodName}</Text>
         <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight: 20}} numberOfLines={5}>{foodDetails[0].foodBrief}</Text>
       </View>
@@ -292,9 +292,9 @@ class ShopSwiperablePage extends Component {
       <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft:_width,paddingRight:_width,flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
         <View style={{position:'relative',flexDirection: 'row',alignItems:'flex-end'}}>
           <Text style={{fontSize: 18,color: Colors.fontBlack,marginRight: 8}}>HKD</Text>
-          <Text style={{fontSize: 30,color: '#ff3348',marginRight: 15,marginBottom:-4}}>{foodDetails[0].price}</Text>
+          <Text style={{fontSize: 30,color: '#ff3348',marginRight:GLOBAL_PARAMS._winWidth < 340 ?10 : 15,marginBottom:-4}}>{foodDetails[0].price}</Text>
           <Text style={{fontSize: 16,color: '#9B9B9B'}}>HKD {foodDetails[0].originPrice}</Text>
-          <View style={{width: 75,transform: [{ rotate: '-5deg'}],backgroundColor:'#9B9B9B',height:2,position:'absolute',bottom:8,right: -8,opacity:0.63}}/>
+          <View style={{width: GLOBAL_PARAMS._winWidth < 340 ? 60 : 75,transform: [{ rotate: '-5deg'}],backgroundColor:'#9B9B9B',height:2,position:'absolute',bottom:8,right:GLOBAL_PARAMS._winWidth< 340 ? -3: -8,opacity:0.63}}/>
         </View>
         <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
             <TouchableOpacity onPress={() => this._remove()} style={{width: 40,alignItems:'center'}}>
@@ -361,7 +361,7 @@ class ShopSwiperablePage extends Component {
       <TouchableOpacity style={{flexDirection:'row',marginLeft:Platform.OS == 'ios' ? -65 : -30,maxWidth: Platform.OS == 'ios' ? 200 :250,marginTop: Platform.OS == 'ios' ? 0 : -8,position: 'relative'}} onPress={() => this.setState({showPlacePicker: true})}>
         <View style={{backgroundColor:Colors.main_white,opacity:0.2,borderRadius: 100,width:250,height: 35,}}/>
         <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20,position:'absolute',top: 8,left:12}}/>
-        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 33,top:7,height: 30}} numberOfLines={1}>
+        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 33,top:Platform.OS =='android' ? 7 : 8,height: 30}} numberOfLines={1}>
           {this.state.placeSelected.name}
         </Text>
       </TouchableOpacity>
@@ -373,7 +373,6 @@ class ShopSwiperablePage extends Component {
       1,
       `- ${this.state.i18n.recommend_text} -`
     );
-
     return (
       <Container style={{backgroundColor: '#fff'}}>
         <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
@@ -404,7 +403,7 @@ class ShopSwiperablePage extends Component {
             errorTips="加載失败,請點擊重試"
           />
         ) : null}
-        {this.state.loading ? <Loading message="玩命加載中..." /> : null}
+        {this.state.loading ? <Loading /> : null}
         {this.state.foodDetails != null && this.state.foodDetails.length >0  ? <BottomOrderConfirm {...this.props} 
         isShow={this.state.isBottomContainerShow} 
         total={this.state.foodCount*this.state.foodDetails[0].price}

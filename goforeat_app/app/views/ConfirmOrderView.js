@@ -317,7 +317,7 @@ export default class ConfirmOrderView extends PureComponent {
           titleStyle={{ fontSize: 18, fontWeight: "bold" }}
           {...this["props"]}
         />
-        {this.state.loading ? <Loading message="玩命加載中..."/> : null}
+        {this.state.loading ? <Loading/> : null}
         {this.state.isError ? (
           <ErrorPage errorToDo={this._createOrder} errorTips="加載失敗,請點擊重試"/>
         ) : null}

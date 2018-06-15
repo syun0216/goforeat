@@ -91,7 +91,7 @@ export default class UploadView extends PureComponent {
   render() {
     return (
       <Container>
-        {this.state.isUpload ? <Loading message="正在上傳中..."/> : null}
+        {this.state.isUpload ? <Loading/> : null}
         <CommonHeader title="上傳發票" canBack {...this.props}/>
         <View style={styles.container}>
           <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>

@@ -52,7 +52,7 @@ const Loading = props => {
 };
 
 Loading.defaultProps = {
-  message: "玩命加載中...",
+  message: "Loading...",
   style: {}
 };
 

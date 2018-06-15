@@ -1,7 +1,6 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { colors } from './index.style';
 
-
 const IS_IOS = Platform.OS === 'ios';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
@@ -22,7 +21,7 @@ const entryBorderRadius = 8;
 export default StyleSheet.create({
     slideInnerContainer: {
         width: itemWidth,
-        height: 262,
+        height: 262*(viewportHeight/667),
         paddingHorizontal: itemHorizontalMargin,
         paddingBottom: 18, // needed for shadow
         // backgroundColor: '#fff'
@@ -40,7 +39,7 @@ export default StyleSheet.create({
         // borderRadius: entryBorderRadius
     },
     imageContainer: {
-        height: 262,
+        height: 262*(viewportHeight/667),
         // marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
         backgroundColor: 'white',
         shadowColor: '#4f5555',
