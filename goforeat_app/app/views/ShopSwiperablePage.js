@@ -46,10 +46,11 @@ const _styles = StyleSheet.create({
   linearGradient: {
     height: 65,
     width: GLOBAL_PARAMS._winWidth,
-    marginTop: -15,
-    paddingTop: 15,
+    marginTop: Platform.OS == 'ios' ? -15 : 0,
+    paddingTop: Platform.OS == 'ios' ? 15 : 0,
     justifyContent:'center',
-    flexDirection: 'row'
+    alignItems:'center',
+    flexDirection: 'row',
   }
 });
 
@@ -357,10 +358,10 @@ class ShopSwiperablePage extends Component {
 
   _renderPlacePickerBtn() {
     return (
-      <TouchableOpacity style={{flexDirection:'row',marginLeft:-65,maxWidth: 200,position: 'relative'}} onPress={() => this.setState({showPlacePicker: true})}>
+      <TouchableOpacity style={{flexDirection:'row',marginLeft:Platform.OS == 'ios' ? -65 : -30,maxWidth: Platform.OS == 'ios' ? 200 :250,marginTop: Platform.OS == 'ios' ? 0 : -8,position: 'relative'}} onPress={() => this.setState({showPlacePicker: true})}>
         <View style={{backgroundColor:Colors.main_white,opacity:0.2,borderRadius: 100,width:250,height: 35,}}/>
         <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20,position:'absolute',top: 8,left:12}}/>
-        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 33,top:8,height: 30}} numberOfLines={1}>
+        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 33,top:7,height: 30}} numberOfLines={1}>
           {this.state.placeSelected.name}
         </Text>
       </TouchableOpacity>
@@ -384,7 +385,7 @@ class ShopSwiperablePage extends Component {
           iosBarStyle="light-content"
         >
         <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={_styles.linearGradient}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center'}}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginTop: Platform.OS == 'ios' ? 0 : -8}}>
             <Icon
               name="md-menu"
               size={20}
@@ -420,6 +421,7 @@ class ShopSwiperablePage extends Component {
         {this.state.foodDetails != null ? this._renderIntrodutionView() : null}
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
+        {GLOBAL_PARAMS._winHeight < 652 ? <View style={{height: 80,width: GLOBAL_PARAMS._winWidth}}/> : null}
         </ScrollView>
       </Container>
     );

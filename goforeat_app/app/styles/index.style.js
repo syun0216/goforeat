@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet,Platform } from 'react-native';
 import store from '../store'
 import GLOBAL_PARAMS from '../utils/global_params';
 
@@ -23,7 +23,6 @@ export default StyleSheet.create({
     },
     scrollview: {
         flex: 1,
-        marginBottom: GLOBAL_PARAMS._winWidth < 340 ? 70 : 0
     },
     exampleContainer: {
         paddingVertical: 18

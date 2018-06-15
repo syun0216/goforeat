@@ -67,12 +67,14 @@ const tabView = TabNavigator(
           return focused ? (
             <Image
               style={{width: 22,
-              height: 22}}
+              height: 21}}
+              resizeMode="stretch"
               source={require('./asset/Shape.png')}
             />
         ): (<Image
           style={{width: 22,
-          height: 22}}
+          height: 21}}
+          resizeMode="stretch"
           source={require('./asset/Shape_inactive.png')}
         />)}
       }
@@ -85,12 +87,15 @@ const tabView = TabNavigator(
           return focused ? (
           <Image
             style={{width: 22,
-            height: 22}}
+              
+            height: 21}}
+            resizeMode="stretch"
             source={require('./asset/date_active.png')}
           />
         ): (<Image
           style={{width: 22,
-          height: 22}}
+          height: 21}}
+          resizeMode="stretch"
           source={require('./asset/date.png')}
         />)}
       }
