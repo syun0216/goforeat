@@ -7,13 +7,15 @@ import {
   DELETE_SHOP,
   IS_LOADING,
   IS_NOT_LOADING,
-  CHANGE_LANGUAGE
+  CHANGE_LANGUAGE,
+  STOCK_PLACE,
+  DELETE_PLACE,
+  CHANGE_THEME,
+  REFRESH
 } from "../actions";
-import { NavigationActions } from "react-navigation";
 //cache
 import appStorage from "../cache/appStorage";
 //utils
-import ToastUtil from "../utils/ToastUtil";
 import Colors from "../utils/Colors";
 
 // const initialNavState=MainView.router.getStateForAction(NavigationActions.reset({
@@ -39,6 +41,9 @@ const initialState = {
   userState: {
     username: null,
     sid: null
+  },
+  placeState: {
+    place: null
   },
   goodsListState: {
     refreshParams: null //註冊后返回首頁強刷
@@ -93,6 +98,22 @@ export function auth(state = initialState.userState, action) {
   }
 }
 
+export function placeSetting(state = initialState.placeState, action) { 
+  switch(action.type) {
+    
+    case STOCK_PLACE: {
+    return {
+      ...state,
+      place: action.place
+    }}
+    case DELETE_PLACE: return {
+      ...state,
+      place: null
+    }
+    default: return state;
+  }
+ }
+
 export function stockShop(state = initialState.favoriteStock.shopList, action) {
   switch (action.type) {
     case STOCK_SHOP: {
@@ -135,7 +156,7 @@ export function stockArticle(state = initialState.favoriteStock.articleList, act
 
 export function refresh(state = initialState.goodsListState, action) {
   switch (action.type) {
-    case "REFRESH":
+    case REFRESH:
       return {
         ...state,
         refreshParams: action.refresh
@@ -147,7 +168,7 @@ export function refresh(state = initialState.goodsListState, action) {
 
 export function theme(state = initialState.themeState, action) {
   switch (action.type) {
-    case "CHANGE_THEME":
+    case CHANGE_THEME:
       appStorage.setTheme(action.theme);
       return {
         ...state,

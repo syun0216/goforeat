@@ -8,6 +8,8 @@ import GLOBAL_PARAMS from '../utils/global_params'
 import ToastUtils from '../utils/ToastUtil'
 //api
 import api from '../api/index';
+//cache
+import appStorage from "../cache/appStorage";
 
 class PlacePickerModel extends Component{
   static propsType = {
@@ -16,32 +18,44 @@ class PlacePickerModel extends Component{
     closeFunc: PropTypes.func,
     title: PropTypes.string
   }
-  static defaultProps = {
-    content: 'This is a modal',
-    title: 'map'
-  }
   state = {
     placeList: null,
     selected: null
   }
 
   componentDidMount() {
-    this.getPlace();
+    appStorage.getPlace((error, data) => {
+      if (error === null) {
+        if (data !== null) {
+          this.getPlace(data);
+        }else {
+          this.getPlace();
+        }
+      }
+    })
   }
   
+  componentWillReceiveProps(nextProps) {
+    // console.log(nextProps);
+  }
+
    //api 
-   getPlace() {
+   getPlace(storage_data) {
     api.foodPlaces().then(data => {
       if(data.status === 200 && data.data.ro.ok) {
         // data.data.data = data.data.data.map((v,i) => ({
         //   ...v,
         //   name: v.name.length> 10 ? v.name.substring(0,10) + '...' : v.name
         // }))
+        let _data = typeof storage_data != 'undefined' ? storage_data : data.data.data[0];
         this.setState({
           placeList: data.data.data,
-          selected: data.data.data[0].name
+          selected: _data.name
         })
-        this.props.getSeletedValue(data.data.data[0]);
+
+        this.props.getSeletedValue(_data);
+        this.props.screenProps.stockPlace(_data);
+        appStorage.setPlace(JSON.stringify(_data));  
       }else {
         ToastUtils.showWithMessage(data.data.ro.repMsg);
         this.props.getSeletedValue(null);
@@ -57,6 +71,8 @@ class PlacePickerModel extends Component{
       selected: item.name
     });
     this.props.getSeletedValue(item);
+    this.props.screenProps.stockPlace(item);
+    appStorage.setPlace(JSON.stringify(item)); 
     this.props.closeFunc();
   }
   

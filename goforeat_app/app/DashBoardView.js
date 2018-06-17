@@ -1,10 +1,21 @@
 import React, { PureComponent } from 'react';
-import {View,StyleSheet,Text} from 'react-native';
-import {withNavigationFocus} from 'react-navigation';
 import MainView from './MainView';
 import {connect} from 'react-redux';
-import Loading from './components/Loading';
-import ToastUtils from './utils/ToastUtil';
+import {
+  LOGIN,
+  LOGOUT,
+  STOCK_ARTICLE,
+  STOCK_SHOP,
+  DELETE_ARTICLE,
+  DELETE_SHOP,
+  IS_LOADING,
+  IS_NOT_LOADING,
+  CHANGE_LANGUAGE,
+  STOCK_PLACE,
+  DELETE_PLACE,
+  REFRESH,
+  CHANGE_THEME
+} from "./actions";
 
 class DashBoardView extends PureComponent {
   componentDidMount() {
@@ -34,23 +45,24 @@ const dashboardStateToProps = (state) => ({
   shopList: state.stockShop,
   articleList: state.stockArticle,
   loading: state.loading,
-  language: state.language.language
+  language: state.language.language,
+  place: state.placeSetting.place
 })
 
 const dashboardmapDispatchToProps = dispatch => ({
-  saveFilter: (data) => dispatch({type:'SAVE_FILTER_PARAMS',data:data}),
-  resetFilter: () => dispatch({type:'RESET_FILTER_PARAMS'}),
-  userLogin: (username,sid) => dispatch({type:'LOGIN',username:username,sid:sid}),
-  userLogout: () => dispatch({type:'LOGOUT'}),
-  refreshReset: (val) => dispatch({type:'REFRESH',refresh:val}),
-  stockShop: (item) => dispatch({type:'STOCK_SHOP',data:item}),
-  deleteShop: (id) => dispatch({type:'DELETE_SHOP',id:id}),
-  stockArticle: (item) => dispatch({type:'STOCK_ARTICLE',data:item}),
-  deleteArticle: (id) => dispatch({type:'DELETE_ARTICLE',id:id}),
-  changeTheme: (theme) => dispatch({type:'CHANGE_THEME',theme:theme}),
-  showLoading: () => dispatch({type:'IS_LOADING'}),
-  hideLoading: () => dispatch({type:'IS_NOT_LOADING'}),
-  changeLanguage: (language) => dispatch({type: 'CHANGE_LANGUAGE',language}),
+  userLogin: (username,sid) => dispatch({type:LOGIN,username:username,sid:sid}),
+  userLogout: () => dispatch({type:LOGOUT}),
+  refreshReset: (val) => dispatch({type:REFRESH,refresh:val}),
+  stockShop: (item) => dispatch({type:STOCK_SHOP,data:item}),
+  deleteShop: (id) => dispatch({type:DELETE_SHOP,id:id}),
+  stockArticle: (item) => dispatch({type:STOCK_ARTICLE,data:item}),
+  deleteArticle: (id) => dispatch({type:DELETE_ARTICLE,id:id}),
+  changeTheme: (theme) => dispatch({type:CHANGE_THEME,theme:theme}),
+  showLoading: () => dispatch({type:IS_LOADING}),
+  hideLoading: () => dispatch({type:IS_NOT_LOADING}),
+  changeLanguage: (language) => dispatch({type: CHANGE_LANGUAGE,language}),
+  stockPlace: (place) => dispatch({type: STOCK_PLACE,place}),
+  deletePlace: () => dispatch({type: DELETE_PLACE}),
   dispatch: dispatch
 })
 

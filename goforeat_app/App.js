@@ -23,7 +23,7 @@ import JPushModule from 'jpush-react-native';
 import api from './app/api';
 
 class App extends Component < {} > {
-  componentWillMount = async () => {
+  componentWillMount() {
     // console.log(Push);
     // console.log(pushEnabled);
     // api.getNotifications().then(data => console.log(data));

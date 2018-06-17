@@ -7,3 +7,7 @@ export const DELETE_SHOP = 'DELETE_SHOP';
 export const IS_LOADING = 'IS_LOADING';
 export const IS_NOT_LOADING = 'IS_NOT_LOADING';
 export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
+export const STOCK_PLACE = 'STOCK_PLACE';
+export const DELETE_PLACE = 'DELETE_PLACE';
+export const CHANGE_THEME = 'CHANGE_THEME';
+export const REFRESH = 'REFRESH';

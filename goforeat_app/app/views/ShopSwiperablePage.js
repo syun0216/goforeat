@@ -22,7 +22,6 @@ import { sliderWidth, itemWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
 import HotReloadHOC from '../components/HotReloadHOC';
 import styles, { colors } from "../styles/index.style";
-import { ENTRIES1, ENTRIES2 } from "../static/entries";
 // utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
@@ -66,7 +65,7 @@ class ShopSwiperablePage extends Component {
       shopDetail: null,
       foodDetails: null,
       isError: false,
-      loading: true,
+      loading: false,
       i18n: i18n[this.props.screenProps.language],
       placeSelected: null,
       formatDate: {
@@ -148,19 +147,22 @@ class ShopSwiperablePage extends Component {
     });
   }
   //api
-  _getDailyFoodList = (placeId) => {
-    api.getDailyFoods(placeId, this.props.screenProps.sid).then(data => {
-      if(data.status === 200 && data.data.ro.ok) {
-        console.log(data);
-        this.setState({
-          foodDetails: data.data.data.foodList,
-          loading: false
-        })
-        this._formatDate(data.data.data.timestamp);
-      }
-    },() => {
-      this.setState({ isError: true, loading: false });
-    })
+  _getDailyFoodList(placeId) {
+    this.setState({loading: true});
+    this._timer = setTimeout(() => {
+      clearTimeout(this._timer);
+      api.getDailyFoods(placeId, this.props.screenProps.sid).then(data => {
+        if(data.status === 200 && data.data.ro.ok) {
+          this.setState({
+            foodDetails: data.data.data.foodList,
+            loading: false
+          })
+          this._formatDate(data.data.data.timestamp);
+        }
+      },() => {
+        this.setState({ isError: true, loading: false });
+      })
+    },300)
   }
 
   _onErrorToRetry = () => {
@@ -190,11 +192,7 @@ class ShopSwiperablePage extends Component {
       foodCount: 0,
       isBottomContainerShow: false
     })
-    let timer = setTimeout(() => {
-      // this._getRecomendFoodList(val.id);
-      this._getDailyFoodList(val.id);
-      clearTimeout(timer);
-    },200);
+    this._getDailyFoodList(val.id);
   }
 
   _goToOrder = () => {
@@ -384,7 +382,7 @@ class ShopSwiperablePage extends Component {
           iosBarStyle="light-content"
         >
         <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={_styles.linearGradient}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginTop: Platform.OS == 'ios' ? 0 : -8}}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginTop: Platform.OS == 'ios' ? 0 : -8,height: 50}}>
             <Icon
               name="md-menu"
               size={20}
