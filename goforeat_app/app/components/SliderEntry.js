@@ -114,7 +114,6 @@ class SliderEntry extends Component {
             }
             star = star -1;
         }
-        console.log(_star);
         return (
             <View style={{position: 'relative'}}>
                 <Image source={require('../asset/starbar.png')} style={{height: 78,width: 85,}}/>
