@@ -11,7 +11,7 @@ let colors = {
     main_blue:"#1296db",
     bgColor:'#edeff7',
     main_yellow:'#ffd300',
-    main_orange:'#FF7F0B',
+    main_orange:'#ff630f',
     main_green: '#5c7a29',
     main_black:'#334681',
     main_purple:'#3B254B',

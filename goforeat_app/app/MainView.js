@@ -4,19 +4,16 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView,
   Image,
   StyleSheet
 } from "react-native";
 import { Icon, Container, Content, Footer } from "native-base";
+import LinearGradient from 'react-native-linear-gradient';
 //navigation
 import {
-  addNavigationHelpers,
   StackNavigator,
   TabNavigator,
   DrawerNavigator,
-  DrawerItems,
-  TabBarBottom,
   NavigationActions
 } from "react-navigation";
 //views
@@ -41,18 +38,15 @@ import UploadView from "./views/UploadView";
 import CommentsView from "./views/CommentsView";
 import MandatoryUpdateView from "./MandatoryUpdateView";
 import ConfirmOrderView from "./views/ConfirmOrderView";
-import TestView from './views/TestView';
 //api
 import source from "./api/CancelToken";
 //utils
-import ToastUtil from "./utils/ToastUtil";
 import LinkingUtils from "./utils/LinkingUtils";
 import GLOBAL_PARAMS from "./utils/global_params";
 import Colors from "./utils/Colors";
 //store
 import store from "./store";
 //components
-import Divider from "./components/Divider";
 import TabBar from "./components/Tabbar";
 //language
 import i18n from './language/i18n';
@@ -137,53 +131,18 @@ const darwerView = DrawerNavigator(
       let _language = i18n[props.screenProps.language];
       return (
         <Container>
-          <Content style={{ backgroundColor: props.screenProps.theme }}>
-            <TouchableOpacity onPress={
-              () => props.screenProps.user
-              ? ToastUtil.showWithMessage('用戶中心暫未開放')
-              : props.navigation.navigate("Login")
-            }
-              style={{
-                height: GLOBAL_PARAMS._winHeight * 0.2,
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                paddingLeft: 20,
-                backgroundColor: props.screenProps.theme
-              }}
-            >
-              {props.screenProps.user ? (
-                <Image
-                  style={drawer_style.drawer_avatar}
-                  source={require("./asset/eat.png")}
-                />
-              ) : (
-                <Image
-                  style={drawer_style.drawer_avatar}
-                  source={require("./asset/touxiang.png")}
-                />
-              )}
-              <Text
-                style={{
-                  marginLeft: 15,
-                  fontSize: 18,
-                  color: Colors.main_white
-                }}
-              >
-                {props.screenProps.user ? _language.user_name+ props.screenProps.user : _language.login_text}
-              </Text>
-              <Icon
-                name="ios-arrow-forward-outline"
-                style={{
-                  fontSize: 20,
-                  color: Colors.main_white,
-                  position: "absolute",
-                  right: 20
-                }}
-              />
-            </TouchableOpacity>
-            <Divider height={10} bgColor="#f0f0ee" />
-            <View style={{ height: 219, backgroundColor: Colors.main_white }}>
+        <View >
+          <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={{
+            height: GLOBAL_PARAMS._winHeight * 0.2,
+            alignItems: "center",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}>
+            <Image source={require('./asset/logoTop.png')} style={{width: GLOBAL_PARAMS._winWidth*0.5,height: GLOBAL_PARAMS._winHeight * 0.1,marginTop: 10,marginLeft: -40}}/>
+          </LinearGradient>
+        </View>
+          <Content style={{ backgroundColor: Colors.main_white }}>
+            <View style={{ height: 219, backgroundColor: Colors.main_white,marginTop: 20 }}>
               <TouchableOpacity
               onPress={() => {
                 if(props.screenProps.user === null) {
@@ -196,13 +155,12 @@ const darwerView = DrawerNavigator(
                   padding: 20,
                   flexDirection: "row",
                   alignItems: "center",
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#ccc"
                 }}
               >
                 <Image
-                  source={require("./asset/02-guanzhu.png")}
+                  source={require("./asset/order.png")}
                   style={drawer_style.commonImage}
+                  resizeMode="contain"
                 />
                 <Text
                   style={{
@@ -212,17 +170,31 @@ const darwerView = DrawerNavigator(
                     color: Colors.fontBlack
                   }}
                 >
-                  {i18n[props.screenProps.language].my_order}
+                  我的訂單
                 </Text>
-                <Icon
-                  name="ios-arrow-forward-outline"
-                  style={{
-                    fontSize: 20,
-                    color: Colors.fontBlack,
-                    position: "absolute",
-                    right: 20
-                  }}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  padding: 20,
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={require("./asset/account.png")}
+                  style={drawer_style.commonImage}
+                  resizeMode="contain"
                 />
+                <Text
+                  style={{
+                    fontSize: 23,
+                    textAlignVertical: "center",
+                    marginLeft: 26,
+                    color: Colors.fontBlack
+                  }}
+                >
+                  我的賬戶
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -232,13 +204,12 @@ const darwerView = DrawerNavigator(
                   padding: 20,
                   flexDirection: "row",
                   alignItems: "center",
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#ccc"
                 }}
               >
                 <Image
-                  source={require("./asset/03-renzheng.png")}
+                  source={require("./asset/help.png")}
                   style={drawer_style.commonImage}
+                  resizeMode="contain"
                 />
                 <Text
                   style={{
@@ -248,17 +219,8 @@ const darwerView = DrawerNavigator(
                     color: Colors.fontBlack
                   }}
                 >
-                  {_language.contact_us}
+                  用戶支援
                 </Text>
-                <Icon
-                  name="ios-arrow-forward-outline"
-                  style={{
-                    fontSize: 20,
-                    color: Colors.fontBlack,
-                    position: "absolute",
-                    right: 20
-                  }}
-                />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -270,13 +232,12 @@ const darwerView = DrawerNavigator(
                   padding: 20,
                   flexDirection: "row",
                   alignItems: "center",
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#ccc"
                 }}
               >
                 <Image
-                  source={require("./asset/01-guanli.png")}
+                  source={require("./asset/bell.png")}
                   style={drawer_style.commonImage}
+                  resizeMode="contain"
                 />
                 <Text
                   style={{
@@ -286,144 +247,16 @@ const darwerView = DrawerNavigator(
                     color: Colors.fontBlack
                   }}
                 >
-                  {_language.integral_text}
+                  最新通知
                 </Text>
-                <Icon
-                  name="ios-arrow-forward-outline"
-                  style={{
-                    fontSize: 20,
-                    color: Colors.fontBlack,
-                    position: "absolute",
-                    right: 20
-                  }}
-                />
               </TouchableOpacity>
-            </View>
-            <Divider height={10} bgColor="#f0f0ee" />
-            <View style={drawer_style.drawer_container}>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}
-              >
-                <TouchableOpacity
-                  onPress={() =>
-                    props.navigation.navigate("Statement", { name: "service" })
-                  }
-                  style={{ alignItems: "center", flex: 1 }}
-                >
-                  <Image
-                    style={{ width: 50, height: 50 }}
-                    source={require("./asset/Service.png")}
-                  />
-                  <Text
-                    style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
-                  >
-                    {_language.service_text}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() =>
-                    props.navigation.navigate("Statement", { name: "policy" })
-                  }
-                  style={{ alignItems: "center", flex: 1 }}
-                >
-                  <Image
-                    style={{ width: 50, height: 50 }}
-                    source={require("./asset/Privacy.png")}
-                  />
-                  <Text
-                    style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
-                  >
-                    {_language.privacy_text}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() =>
-                    props.navigation.navigate("Statement", { name: "about" })
-                  }
-                  style={{ alignItems: "center", flex: 1 }}
-                >
-                  <Image
-                    style={{ width: 50, height: 50 }}
-                    source={require("./asset/about.png")}
-                  />
-                  <Text
-                    style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
-                  >
-                    {_language.about_text}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}
-              >
-                <TouchableOpacity
-                  onPress={() =>
-                    props.navigation.navigate("Statement", {
-                      name: "allowPolicy"
-                    })
-                  }
-                  style={{ alignItems: "center", flex: 1 }}
-                >
-                  <Image
-                    style={{ width: 50, height: 50 }}
-                    source={require("./asset/allow.png")}
-                  />
-                  <Text
-                    style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
-                  >
-                    {_language.use_policy}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() =>
-                    props.navigation.navigate("Statement", {
-                      name: "deletePolicy"
-                    })
-                  }
-                  style={{ alignItems: "center", flex: 1 }}
-                >
-                  <Image
-                    style={{ width: 50, height: 50 }}
-                    source={require("./asset/delete.png")}
-                  />
-                  <Text
-                    style={{ fontSize: 12, color: "#8a8a8a", marginTop: 10 }}
-                  >
-                    {_language.del_policy}
-                  </Text>
-                </TouchableOpacity>
-                <View style={{ alignItems: "center", flex: 1 }} />
-              </View>
             </View>
           </Content>
           <Footer
-            style={{ flexDirection: "row", backgroundColor: Colors.main_white }}
+            style={{ flexDirection: "row", backgroundColor: Colors.main_white,borderWidth: 1 }}
           >
-            {/*<TouchableOpacity
-              onPress={() => props.navigation.navigate("Ativity")}
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "row"
-              }}
-            >
-              <Icon
-                name="md-cloud-download"
-                style={{ fontSize: 18, color: "#8a8a8a" }}
-              />
-              <Text style={{ marginLeft: 5 }}>{_language.tab4}</Text>
-            </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate("GoodsList")}
+              onPress={() => props.navigation.navigate("Statement", { name: "about" })}
               style={{
                 flex: 1,
                 justifyContent: "center",
@@ -431,26 +264,20 @@ const darwerView = DrawerNavigator(
                 flexDirection: "row"
               }}
             >
-              <Icon
-                name="md-restaurant"
-                style={{ fontSize: 18, color: "#8a8a8a" }}
-              />
-              <Text style={{ marginLeft: 5 }}>{_language.tab1}</Text>
-            </TouchableOpacity>*/}
+            <Image source={require('./asset/about.png')} style={{width: 22,height: 22}} resizeMode="contain"/>
+              <Text style={{ marginLeft: 10,fontSize: 18 }}>關於我們</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => props.navigation.navigate("Setting")}
               style={{
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
-                flexDirection: "row"
+                flexDirection: "row",
               }}
             >
-              <Icon
-                name="md-settings"
-                style={{ fontSize: 18, color: "#8a8a8a" }}
-              />
-              <Text style={{ marginLeft: 5 }}>{_language.setting_title}</Text>
+              <Image source={require('./asset/setting.png')} style={{width: 20,height: 20}} resizeMode="contain"/>
+              <Text style={{ marginLeft: 10 ,fontSize: 18}}>系統設置</Text>
             </TouchableOpacity>
           </Footer>
         </Container>
@@ -472,8 +299,8 @@ const drawer_style = StyleSheet.create({
     height: 45
   },
   commonImage: {
-    width: 32,
-    height: 32
+    width: 22,
+    height: 22
   }
 });
 
@@ -500,12 +327,6 @@ let MainView = StackNavigator(
         tabBarVisible: false
       }
     },
-    Search: {
-      screen: SearchView,
-      navigationOptions: {
-        tabBarVisible: false
-      }
-    },
     Login: {
       screen: LoginView,
       navigationOptions: {
@@ -515,29 +336,14 @@ let MainView = StackNavigator(
         }
       }
     },
-    Register: {
-      screen: RegisterView
-    },
     Setting: {
       screen: SettingView
-    },
-    MyFavorite: {
-      screen: MyFavoriteView
     },
     Statement: {
       screen: StatementView
     },
     Upload: {
       screen: UploadView
-    },
-    Integral: {
-      screen: IntegralView
-    },
-    IntegralDetail: {
-      screen: IntegralDetailView
-    },
-    Comment: {
-      screen: CommentsView
     },
     Order: {
       screen: ConfirmOrderView

@@ -20,15 +20,15 @@ const styles = {
 
 const CommonHeader = (props) => {
   return (
-  <Header style={[{backgroundColor:props.screenProps.theme},props.headerStyle]} hasTabs iosBarStyle={props.iosBarStyle}>
- 
+  <Header style={[props.headerStyle]} hasTabs iosBarStyle={props.iosBarStyle}>
+  <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.linearGradient}>
     <Left>
       {props.canBack ? (props.leftElement !== null ? (<props.leftElement {...props}/>) : (
         <Button transparent onPress={() => {props.navigation.goBack();}}>
           <Icon
             size={20}
             name="ios-arrow-back"
-            style={[{ fontSize: 25, color: props.textColor }]}
+            style={[{ fontSize: 25, color: props.textColor,paddingLeft: 10 }]}
           />
         </Button>
       )) : null}
@@ -39,7 +39,8 @@ const CommonHeader = (props) => {
         <Icon onPress={() => props.rightClick} name={props.rightIcon} size={25} style={{color: Colors.main_white}} />
       )) : null}
     </Right>
-
+  </LinearGradient> 
+  
   </Header>
 )}
 

@@ -32,6 +32,7 @@ import {
   Footer
 } from "native-base";
 import Image from 'react-native-image-progress';
+import LinearGradient from 'react-native-linear-gradient';
 import ProgressBar from 'react-native-progress/Bar'
 import Share, {ShareSheet, Button as SButton} from 'react-native-share';
 //utils
@@ -349,15 +350,17 @@ export default class ContentView extends Component {
         {this.state.overlookImages.length > 0 ? this._renderOverLookImageView() : null} 
         
         <Header style={{backgroundColor: this.props.screenProps.theme,borderBottomWidth:0}} iosBarStyle="light-content">
+        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.linearGradient}>
           <Left>
           <Button transparent onPress={() => this.props.navigation.goBack()}>
-            <Icon size={20} name="ios-arrow-back" style={{fontSize:25,color: Colors.main_white}}/>
+            <Icon size={20} name="ios-arrow-back" style={{fontSize:25,color: Colors.main_white,paddingLeft: 10}}/>
           </Button></Left>
           <Body><Text style={{color: Colors.main_white}}>{this.props.navigation.state.params.kind === 'canteen' ? i18n.canteenDetail : i18n.articleDetail}</Text></Body>
           <Right><Button transparent onPress={() => this.setState({shareboxVisible: true})}>
             <Icon name="md-share-alt" style={{ fontSize: 23, color: Colors.main_white }}/>
           </Button>
           </Right>
+          </LinearGradient>
         </Header>
         {this.state.loading ? <Loading /> : null}
         {this.state.isError ? <ErrorPage errorTips="加載數據失敗,請點擊重試" errorToDo={this.getCanteenDetail}/> : null}
@@ -412,5 +415,13 @@ const styles = StyleSheet.create({
   subtitle: {
     borderLeftWidth: 6,
     paddingLeft: 10,
+  },
+  linearGradient: {
+    height: 65,
+    width: GLOBAL_PARAMS._winWidth,
+    marginTop: -15,
+    paddingTop: 15,
+    justifyContent:'center',
+    flexDirection: 'row'
   }
 })
