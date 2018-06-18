@@ -18,7 +18,6 @@ import {
 } from "react-navigation";
 //views
 import LoginView from "./LoginView";
-import RegisterView from "./RegisterView";
 import SettingView from "./SettingView";
 import SplashPageView from "./SplashPageView";
 
@@ -28,14 +27,10 @@ import SearchView from "./views/SearchView";
 import GoodsListPageView from "./views/GoodsListPageView";
 import ArticleView from "./views/ArticleView";
 import PersonView from "./views/PersonView";
-import MyFavoriteView from "./views/MyFavoriteVIew";
 import StatementView from "./views/StatementView";
 import ShopSwiperablePage from "./views/ShopSwiperablePage";
 import ActivitySwiperablePage from "./views/ActivitySwiperablePage";
-import IntegralView from "./views/IntegralView";
-import IntegralDetailView from "./views/IntegralDetailView";
 import UploadView from "./views/UploadView";
-import CommentsView from "./views/CommentsView";
 import MandatoryUpdateView from "./MandatoryUpdateView";
 import ConfirmOrderView from "./views/ConfirmOrderView";
 //api
