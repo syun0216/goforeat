@@ -8,13 +8,13 @@ import {
   TouchableOpacity,
   AppState,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
+  RefreshControl
 } from "react-native";
 import {
   Container,
   Icon,
   Header,
-  Col,
 } from "native-base";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient';
@@ -66,6 +66,7 @@ class ShopSwiperablePage extends Component {
       foodDetails: null,
       isError: false,
       loading: false,
+      refreshing: false,
       i18n: i18n[this.props.screenProps.language],
       placeSelected: null,
       formatDate: {
@@ -101,8 +102,8 @@ class ShopSwiperablePage extends Component {
 
   componentWillUnmount() {
     AppState.removeEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState));
-    if(this.timer !== null) {
-      clearTimeout(this.timer);
+    if(this._timer !== null) {
+      clearTimeout(this._timer);
     }
   }
 
@@ -117,11 +118,7 @@ class ShopSwiperablePage extends Component {
       this._picker.getPlace();
       return;
     }
-    this.setState({loading: true});
-      setTimeout(() => {
-        this._getDailyFoodList(this.state.placeSelected.id);
-        clearTimeout(this.timer);
-      },500)
+    this._onRefreshToRequestFirstPageData(this.state.placeSelected.id);
   }
 
   _formatDate(timestamp) {
@@ -148,21 +145,34 @@ class ShopSwiperablePage extends Component {
   }
   //api
   _getDailyFoodList(placeId) {
-    this.setState({loading: true});
-    this._timer = setTimeout(() => {
-      clearTimeout(this._timer);
       api.getDailyFoods(placeId, this.props.screenProps.sid).then(data => {
         if(data.status === 200 && data.data.ro.ok) {
           this.setState({
             foodDetails: data.data.data.foodList,
-            loading: false
+            loading: false,
+            refreshing: false
           })
           this._formatDate(data.data.data.timestamp);
         }
       },() => {
-        this.setState({ isError: true, loading: false });
+        this.setState({ isError: true, loading: false,refreshing: false });
       })
-    },300)
+  }
+
+  _onLoadingToRequestFirstPageData() {
+    this.setState({loading: true});
+    this._timer = setTimeout(() => {
+      clearTimeout(this._timer);
+      this._getDailyFoodList();
+    }, 300)
+  }
+
+  _onRefreshToRequestFirstPageData() {
+    this.setState({refreshing: true});
+    this._timer = setTimeout(() => {
+      clearTimeout(this._timer);
+      this._getDailyFoodList();
+    }, 800)
   }
 
   _onErrorToRetry = () => {
@@ -171,14 +181,6 @@ class ShopSwiperablePage extends Component {
       isError: false
     });
     this._picker.getPlace();
-  };
-
-  _refresh = () => {
-    this._current_offset += 15;
-    this.setState({
-      loading: true
-    });
-    this._getDailyFoodList();
   };
 
   getSeletedValue = (val) => {
@@ -192,7 +194,7 @@ class ShopSwiperablePage extends Component {
       foodCount: 0,
       isBottomContainerShow: false
     })
-    this._getDailyFoodList(val.id);
+    this._onLoadingToRequestFirstPageData(val.id);
   }
 
   _goToOrder = () => {
@@ -411,6 +413,12 @@ class ShopSwiperablePage extends Component {
         style={styles.scrollview}
         scrollEventThrottle={200}
         directionalLockEnabled={true}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={() => this._onRefreshToRequestFirstPageData(this.state.placeSelected.id)}
+          />
+        }
         >
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
         {/*this._renderWarningView()*/}

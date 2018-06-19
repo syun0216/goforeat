@@ -453,7 +453,7 @@ export default class GoodsListPageView extends Component {
         refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
-            onRefresh={() => this._onRefreshToRequestFirstPageData()}
+            onRefresh={() => this._onRefreshToRequestFirstPageData(this.state.placeSelected.id)}
           />
         }
       />
