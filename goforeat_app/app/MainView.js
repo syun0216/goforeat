@@ -22,8 +22,6 @@ import SettingView from "./SettingView";
 import SplashPageView from "./SplashPageView";
 
 import ContentView from "./views/ContentView";
-
-import SearchView from "./views/SearchView";
 import GoodsListPageView from "./views/GoodsListPageView";
 import ArticleView from "./views/ArticleView";
 import PersonView from "./views/PersonView";
@@ -33,6 +31,7 @@ import ActivitySwiperablePage from "./views/ActivitySwiperablePage";
 import UploadView from "./views/UploadView";
 import MandatoryUpdateView from "./MandatoryUpdateView";
 import ConfirmOrderView from "./views/ConfirmOrderView";
+import UserHelperView from "./views/UserHelperView";
 //api
 import source from "./api/CancelToken";
 //utils
@@ -193,7 +192,7 @@ const darwerView = DrawerNavigator(
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  LinkingUtils.dialPhoneWithNumber(52268745);
+                  props.navigation.navigate('Help');
                 }}
                 style={{
                   padding: 20,
@@ -349,6 +348,9 @@ let MainView = StackNavigator(
     Person: {
       screen: PersonView
     },
+    Help: {
+      screen: UserHelperView
+    }
   },
   { headerMode: "none" }
 );

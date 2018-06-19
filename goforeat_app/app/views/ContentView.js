@@ -3,9 +3,6 @@ import {
   View,
   TouchableOpacity,
   WebView,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   AlertIOS,
   ToastAndroid,
@@ -17,13 +14,10 @@ import {
 import {
   Container,
   Header,
-  Title,
   Right,
   Content,
-  Badge,
   Card,
   CardItem,
-  Thumbnail,
   Text,
   Button,
   Icon,
@@ -51,8 +45,6 @@ import BlankPage from '../components/BlankPage';
 import Rating from '../components/Rating';
 import ImageGallery from '../components/ImageGallery';
 import ErrorPage from '../components/ErrorPage';
-//styles
-import index_style from "../styles/index.style";
 //language
 import i18n from '../language/i18n'
 

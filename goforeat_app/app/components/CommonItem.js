@@ -1,70 +1,61 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {View, Text, TouchableWithoutFeedback} from 'react-native'
+import React from 'react';
+import {TouchableOpacity,Text,StyleSheet,View} from 'react-native';
+import PropTypes from 'prop-types';
+import {Icon} from 'native-base';
+//components
+import Divider from '../components/Divider';
+//utils
+import Colors from '../utils/Colors';
+import GLOBAL_PARAMS from '../utils/global_params';
 
-const CommonItem = ({navigation,rowData,theme}) => (<View>
-  {
-    rowData.map((item, idx) => {
-      return <TouchableWithoutFeedback key={`${idx}`} transparent="transparent" style={{
-          height: 70,
-          flex: 1,
-          padding: 10,
-          justifyContent: 'center'
-        }} onPress={() => navigation.navigate('Content', {
-          data:item,
-          kind:'canteen'
-        })}>
-        <View style={{
-            backgroundColor: 'white',
-            marginBottom: 10,
-            marginLeft: 10,
-            marginRight: 10,
-            padding: 10,
-            flex: 1,
-            flexDirection: 'row',
-            borderRadius: 10,
-            shadowColor: '#5b7392',
-            shadowOffset: {
-              width: 0,
-              height: 2
-            },
-            shadowOpacity: 0.15,
-            shadowRadius: 2,
-            elevation: 1
-          }}>
-          <View style={{
-              width: 60
-            }}><Image style={{
-          width: 50,
-          height: 50
-        }} source={{
-          uri: item.image
-        }}/></View>
-          <View style={{
-              flex: 1,
-              justifyContent: 'center'
-            }}>
-            <Text style={{
-                color: Colors.fontBlack,
-                lineHeight: 20,
-                fontSize: 14
-              }}>{item.name}</Text>
-              <Text>地址:{item.address}</Text>
-              <Text>评分:{item.rate}</Text>
-              <Text style={{color:theme,fontSize:14}}></Text>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    })
+const styles = StyleSheet.create({
+  itemContainer: {
+    backgroundColor: Colors.main_white,
+    height: 50,
+    width: GLOBAL_PARAMS._winWidth,
+    padding:10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.bgGray,
+    borderTopWidth: 1,
+    borderTopColor: Colors.bgGray,
+  },
+  itemText: {
+    fontSize: 16,
+    color: Colors.fontBlack,
+  },
+  itemArrow: {
+    fontSize: 20,
+    color: Colors.fontBlack
   }
-</View>)
+});
+
+const CommonItem = ({content,isEnd,hasRightIcon,clickFunc,style}) => (
+  <View>
+    <TouchableOpacity style={[styles.itemContainer,style]} onPress={() => clickFunc()}>
+      <Text numberOfLines={1} style={styles.itemText}>{content}</Text>
+      {hasRightIcon ? <Icon name="ios-arrow-forward-outline" style={styles.itemArrow}/> : null}
+    </TouchableOpacity>
+    {isEnd ? <Divider /> : null}
+  </View>
+);
 
 CommonItem.defaultProps = {
-  rowData: []
-}
+  content: '内容',
+  isEnd: false,
+  hasRightIcon: true,
+  clickFunc: () => {},
+  style: {}
+};
 
 CommonItem.propsType = {
-  rowData: PropTypes.array
+  content: PropTypes.String,
+  isEnd: PropTypes.bool,
+  hasRightIcon: PropTypes.bool,
+  clickFunc: PropTypes.func,
+  style: PropTypes.object
 }
 
-export default CommonItem
+export default CommonItem;

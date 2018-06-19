@@ -1,14 +1,8 @@
 import React, { Component } from "react";
 import {
   View,
-  SectionList,
-  StatusBar,
-  TextInput,
   StyleSheet,
   Platform,
-  ScrollView,
-  TouchableWithoutFeedback,
-  ActivityIndicator,
   TouchableOpacity,
   Animated,
   Easing,
@@ -18,26 +12,20 @@ import {
 import {
   Container,
   Header,
-  Content,
-  List,
   ListItem,
   Left,
   Body,
   Right,
-  Thumbnail,
   Button,
   Text,
-  Spinner,
   Icon
 } from "native-base";
 import Image from 'react-native-image-progress';
 //api
 import api from "../api";
 import source from "../api/CancelToken";
-import { cancel_goods_list_request } from "../api";
 //components
 import GoodsSwiper from "../components/Swiper";
-import Dropdownfilter from "../components/Dropdownfilter";
 import Loading from "../components/Loading";
 import ErrorPage from "../components/ErrorPage";
 import Divider from "../components/Divider";
