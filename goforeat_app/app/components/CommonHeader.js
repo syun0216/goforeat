@@ -1,22 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {StyleSheet} from 'react-native'
+import {StyleSheet,Platform} from 'react-native'
 import {Header,Left,Body,Right,Icon,Button,Text} from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
 //utils
 import Colors from '../utils/Colors';
 import GLOBAL_PARAMS from "../utils/global_params";
 
-const styles = {
+const styles = StyleSheet.create({
   linearGradient: {
     height: 65,
     width: GLOBAL_PARAMS._winWidth,
-    marginTop: -15,
-    paddingTop: 15,
+    marginTop: Platform.OS == 'ios' ? -15 : 0,
+    paddingTop: Platform.OS == 'ios' ? 15 : 0,
     justifyContent:'center',
     flexDirection: 'row'
   }
-}
+})
 
 const CommonHeader = (props) => {
   return (

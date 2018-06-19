@@ -247,7 +247,7 @@ const darwerView = DrawerNavigator(
             </View>
           </Content>
           <Footer
-            style={{ flexDirection: "row", backgroundColor: Colors.main_white,borderWidth: 1 }}
+            style={{ flexDirection: "row", backgroundColor: Colors.main_white,borderTopWidth: 1,borderTopColor:Colors.bgGray }}
           >
             <TouchableOpacity
               onPress={() => props.navigation.navigate("Statement", { name: "about" })}
