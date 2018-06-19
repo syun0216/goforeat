@@ -46,5 +46,11 @@ const styles = {
     right: 0,
     backgroundColor: 'white',
     elevation: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#c1c1c1',
+    shadowColor: '#000',
+    shadowOpacity: 0.8,
+    shadowOffset:{  width: 0,  height: 10,  },
+    elevation: 10,
   },
 };

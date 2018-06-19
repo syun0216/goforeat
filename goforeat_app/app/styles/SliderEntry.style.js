@@ -39,11 +39,11 @@ export default StyleSheet.create({
         // borderRadius: entryBorderRadius
     },
     imageContainer: {
-        height: 262*(viewportHeight/667),
+        height: 250*(viewportHeight/667),
         // marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
         backgroundColor: 'white',
-        shadowColor: '#4f5555',
-        shadowOffset: { width: 2, height: 2 },
+        shadowColor: '#c5bbd0',
+        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.8,
         shadowRadius: entryBorderRadius,
         elevation: 1,

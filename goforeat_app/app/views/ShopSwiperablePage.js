@@ -39,7 +39,7 @@ import WarningTips from '../components/WarningTips';
 import i18n from "../language/i18n";
 
 const IS_ANDROID = Platform.OS === "android";
-const SLIDER_1_FIRST_ITEM = 1;
+const SLIDER_1_FIRST_ITEM = 0;
 
 const _styles = StyleSheet.create({
   linearGradient: {
@@ -195,6 +195,7 @@ class ShopSwiperablePage extends Component {
       isBottomContainerShow: false
     })
     this._onLoadingToRequestFirstPageData(val.id);
+    this.props.navigation.setParams({visible: true})
   }
 
   _goToOrder = () => {
@@ -250,8 +251,8 @@ class ShopSwiperablePage extends Component {
 
   _renderDateFormat() {
     return (
-      <View style={{marginTop:10,marginLeft:GLOBAL_PARAMS._winWidth*0.1}}>
-        <Text style={{color: Colors.fontBlack,fontSize: 20}}>
+      <View style={{marginTop:20,marginLeft:GLOBAL_PARAMS._winWidth*0.1}}>
+        <Text style={{color: Colors.fontBlack,fontSize: 18, marginBottom: 5,fontWeight: 'bold'}}>
         {this.state.formatDate.week}的餐單</Text>
         <Text style={{color: Colors.fontGray,fontSize: 13}}>{this.state.formatDate.date}</Text>
       </View>
@@ -278,9 +279,9 @@ class ShopSwiperablePage extends Component {
     let {foodDetails} = this.state;
     let _width = GLOBAL_PARAMS._winWidth*0.08;
     return (
-      <View style={{width: GLOBAL_PARAMS._winWidth,height:GLOBAL_PARAMS._winHeight>667?170: 140,paddingLeft: _width,paddingRight: _width,paddingTop: 10,paddingBottom: 20}}>
+      <View style={{width: GLOBAL_PARAMS._winWidth,height:GLOBAL_PARAMS._winHeight>667?160: 120,paddingLeft: _width,paddingRight: _width,paddingTop: 10,paddingBottom: 20}}>
         <Text style={{fontSize: 20,color: '#111',fontWeight:'bold',marginBottom:11}} numberOfLines={1}>{foodDetails[0].foodName}</Text>
-        <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight: 20}} numberOfLines={GLOBAL_PARAMS._winHeight>667? 5: 4}>{foodDetails[0].foodBrief}</Text>
+        <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight: 20}} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodDetails[0].foodBrief}</Text>
       </View>
     )
   }
@@ -300,7 +301,7 @@ class ShopSwiperablePage extends Component {
             <TouchableOpacity onPress={() => this._remove()} style={{width: 40,alignItems:'center'}}>
             <Image source={require("../asset/remove.png")} style={{width:25,height:25}}/>
             </TouchableOpacity>
-            <Text style={{color:Colors.fontBlack,fontSize:30,width:40,textAlign:'center'}} numberOfLines={1}>{this.state.foodCount}</Text>
+            <Text style={{color:Colors.fontBlack,fontSize:28,width:40,textAlign:'center'}} numberOfLines={1}>{this.state.foodCount}</Text>
             <TouchableOpacity onPress={() => this._add()} style={{width: 40,alignItems:'center'}}>
                 <Image source={require("../asset/add.png")} style={{width:34,height:34,marginTop:7}}/>
             </TouchableOpacity>    
@@ -341,11 +342,11 @@ class ShopSwiperablePage extends Component {
           hasParallaxImages={false}
           firstItem={SLIDER_1_FIRST_ITEM}
           inactiveSlideScale={0.94}
-          inactiveSlideOpacity={0.7}
+          inactiveSlideOpacity={0.5}
           // inactiveSlideShift={20}
           containerCustomStyle={styles.slider}
           contentContainerCustomStyle={styles.sliderContentContainer}
-          loop={false}
+          loop={true}
           loopClonesPerSide={2}
           autoplay={false}
           autoplayDelay={3000}
@@ -385,17 +386,12 @@ class ShopSwiperablePage extends Component {
         >
         <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={_styles.linearGradient}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginTop: Platform.OS == 'ios' ? 0 : -8,height: 50}}>
-            <Icon
-              name="md-menu"
-              size={20}
-              style={{ color: "#fff" }}
-            />
+            <Image source={require('../asset/menu.png')} style={{width: 30,height: 15}}/>
           </TouchableOpacity>
           <View style={{flex: 1,alignItems:'center',flexDirection:'row',justifyContent:'center',}}>
           {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} style={{marginLeft:-60,}} size="small"/>}
           </View>
         </LinearGradient>
-          
         </Header>
         {this.state.isError ? (
           <ErrorPage

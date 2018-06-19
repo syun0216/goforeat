@@ -307,13 +307,6 @@ export default class ConfirmOrderView extends PureComponent {
         <CommonHeader
           canBack
           title="訂單詳情頁"
-          textColor={Colors.fontBlack}
-          headerStyle={{
-            backgroundColor: Colors.main_white,
-            borderBottomWidth: 0,
-            zIndex: 0,
-          }}
-          iosBarStyle={Platform.OS == 'ios' ? 'dark-content' : 'light-content'}
           titleStyle={{ fontSize: 18, fontWeight: "bold" }}
           {...this["props"]}
         />

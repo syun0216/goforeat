@@ -117,9 +117,9 @@ class SliderEntry extends Component {
         return (
             <View style={{position: 'relative'}}>
                 <Image source={require('../asset/starbar.png')} style={{height: 78,width: 85,}}/>
-                <Image style={{width: 21, height: 21,position:'absolute',bottom: 17,left:2,transform:[{rotate:'-5deg'}]}} source={_star[0]}/>
-                <Image style={{width: 21, height: 21,position:'absolute',bottom: 35,left:20,transform:[{rotate:'-5deg'}]}} source={_star[1]}/>
-                <Image style={{width: 21, height: 21,position:'absolute',bottom: 53,left:40,transform:[{rotate:'-5deg'}]}} source={_star[2]}/>
+                <Image style={{width: 18, height: 18,position:'absolute',bottom: 20,left:4,transform:[{rotate:'-5deg'}]}} source={_star[0]}/>
+                <Image style={{width: 18, height: 18,position:'absolute',bottom: 38,left:23,transform:[{rotate:'-5deg'}]}} source={_star[1]}/>
+                <Image style={{width: 18, height: 18,position:'absolute',bottom: 56,left:43,transform:[{rotate:'-5deg'}]}} source={_star[2]}/>
             </View>
         )
     }
