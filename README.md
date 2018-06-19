@@ -1,7 +1,7 @@
 # goforeat （新版本更名为有得食）
 有得食 外卖软件 （react native架构）
 <p align="center">
-  <img width="128" src="./display/Logo-V2.png">
+  <img width="128" src="./display/goforeat.png">
 </p>
 
 ### 附录
