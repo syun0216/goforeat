@@ -14,7 +14,7 @@
 #endif
 
 #import <CodePush/CodePush.h>
-//#import "SplashScreen.h"  // here
+#import "SplashScreen.h"  // here
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -96,14 +96,9 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  //防止白屏过久
-//  UIView* launchScreenView = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] objectAtIndex:0];
-//  launchScreenView.frame = self.window.bounds;
-//  rootView.loadingView = launchScreenView;
-// *********
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
-//  [SplashScreen show];  // here
+  [SplashScreen show];  // here
   [NSThread sleepForTimeInterval:1.5];
   return YES;
 }

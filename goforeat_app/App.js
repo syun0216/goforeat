@@ -6,17 +6,15 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, View, AppState,Alert} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import {Root} from 'native-base'
 import store from './app/store'
 import {Provider,connect} from 'react-redux';
 import DashboardView from './app/DashBoardView'
-//components
-import Loading from './app/components/Loading'
 //cache
 import appStorage from './app/cache/appStorage'
 //hot reload
 import CodePush from 'react-native-code-push'
-import {addListener} from './app/utils/navigationWithRedux'
 //jpush
 import JPushModule from 'jpush-react-native';
 //api
@@ -28,6 +26,7 @@ class App extends Component < {} > {
     // console.log(pushEnabled);
     // api.getNotifications().then(data => console.log(data));
     // appStorage.removeAll()
+    SplashScreen.hide(); // 隐藏启动页
     appStorage.getLoginUserJsonData((error, data) => {
       if (error === null && data != null) {
         if (store.getState().auth.username === null) {

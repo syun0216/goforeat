@@ -47,4 +47,6 @@ pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
 end

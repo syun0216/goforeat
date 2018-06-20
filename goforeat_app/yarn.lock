@@ -4362,6 +4362,10 @@ react-native-snap-carousel@^3.6.0:
     prop-types "^15.6.0"
     react-addons-shallow-compare "15.6.2"
 
+react-native-splash-screen@^3.0.9:
+  version "3.0.9"
+  resolved "https://registry.npmjs.org/react-native-splash-screen/-/react-native-splash-screen-3.0.9.tgz#5cdd026ae414d60cd86bcaa897bffacd16395bed"
+
 react-native-swiper@^1.5.13:
   version "1.5.13"
   resolved "https://registry.npmjs.org/react-native-swiper/-/react-native-swiper-1.5.13.tgz#fa695cd4ab77b9a9df2d2bfee38ea7274dd07a2e"

@@ -160,6 +160,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-splash-screen')
     compile project(':react-native-linear-gradient')
     compile project(':jcore-react-native')
     compile project(':jpush-react-native')

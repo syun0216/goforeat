@@ -45,6 +45,7 @@
 		C76B2CE220C8331700D63293 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CE120C8331700D63293 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
+		C7B5B36120D9FD5F0091291C /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B5B36020D9FD4D0091291C /* libSplashScreen.a */; };
 		C7DDDD8820A0A25C00BD8639 /* index.ios.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */; };
 		C7DDDD8920A0A25C00BD8639 /* index.ios.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8620A0A25B00BD8639 /* index.ios.jsbundle.meta */; };
 		C7DDDD8A20A0A25C00BD8639 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8720A0A25B00BD8639 /* assets */; };
@@ -247,6 +248,13 @@
 			remoteGlobalIDString = F886647B1F4ADB500036D01B;
 			remoteInfo = "CodePush-tvOS";
 		};
+		C7B5B35F20D9FD4D0091291C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C7B5B32C20D9FD4D0091291C /* SplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D7682761D8E76B80014119E;
+			remoteInfo = SplashScreen;
+		};
 		C7D11E2E20CFCB7300F9DB22 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C7D11E2920CFCB7300F9DB22 /* BVLinearGradient.xcodeproj */;
@@ -443,6 +451,7 @@
 		C7A69A12207089D700E06981 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		C7B10B73202C92C60098FAA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../../../../reactnativeproject/zhihuapp/ios/zhihurn/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C7B10B75202C93380098FAA2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = goforeat_app/Images.xcassets; sourceTree = "<group>"; };
+		C7B5B32C20D9FD4D0091291C /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		C7D11E2920CFCB7300F9DB22 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		C7D5CAF32041104000B9BB87 /* goforeat_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = goforeat_app.entitlements; path = goforeat_app/goforeat_app.entitlements; sourceTree = "<group>"; };
 		C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = index.ios.jsbundle; path = bundle/index.ios.jsbundle; sourceTree = "<group>"; };
@@ -477,6 +486,7 @@
 				C73A35BC20D803A0002D77C1 /* libRCTWebSocket.a in Frameworks */,
 				C7E003F320D1FE7C00EB5F2A /* libcxxreact.a in Frameworks */,
 				C7E003BF20D1F9E200EB5F2A /* libBVLinearGradient.a in Frameworks */,
+				C7B5B36120D9FD5F0091291C /* libSplashScreen.a in Frameworks */,
 				C753EF0620CACE3000A1DCFD /* CodePush.h in Frameworks */,
 				C76B2CE220C8331700D63293 /* UserNotifications.framework in Frameworks */,
 				C76B2CD420C832A200D63293 /* libJCoreRN.a in Frameworks */,
@@ -662,6 +672,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C7B5B32C20D9FD4D0091291C /* SplashScreen.xcodeproj */,
 				C7E003C020D1FE7100EB5F2A /* React.xcodeproj */,
 				C7D11E2920CFCB7300F9DB22 /* BVLinearGradient.xcodeproj */,
 				C76B2CDB20C832FD00D63293 /* RCTJPushModule.xcodeproj */,
@@ -778,6 +789,14 @@
 			children = (
 				C7A69A18207089D800E06981 /* libCodePush.a */,
 				C7A69A1A207089D800E06981 /* libCodePush.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C7B5B32D20D9FD4D0091291C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C7B5B36020D9FD4D0091291C /* libSplashScreen.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -975,6 +994,10 @@
 					ProductGroup = C7639D352069D50A000A02BB /* Products */;
 					ProjectRef = C7639D342069D50A000A02BB /* RNShare.xcodeproj */;
 				},
+				{
+					ProductGroup = C7B5B32D20D9FD4D0091291C /* Products */;
+					ProjectRef = C7B5B32C20D9FD4D0091291C /* SplashScreen.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1171,6 +1194,13 @@
 			fileType = archive.ar;
 			path = libCodePush.a;
 			remoteRef = C7A69A19207089D800E06981 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C7B5B36020D9FD4D0091291C /* libSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSplashScreen.a;
+			remoteRef = C7B5B35F20D9FD4D0091291C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C7D11E2F20CFCB7300F9DB22 /* libBVLinearGradient.a */ = {
@@ -1464,6 +1494,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/yoga",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = goforeat_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1511,6 +1542,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/yoga",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = goforeat_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

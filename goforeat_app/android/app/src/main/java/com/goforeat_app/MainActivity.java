@@ -7,10 +7,14 @@ import com.facebook.react.ReactActivity;
 import android.content.Intent;
 
 import cn.jpush.android.api.JPushInterface;
+
+import org.devio.rn.splashscreen.SplashScreen;
+
 public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.show(this);
         super.onCreate(savedInstanceState);
         JPushInterface.init(this);
     }

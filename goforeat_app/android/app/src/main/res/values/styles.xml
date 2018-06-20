@@ -5,5 +5,8 @@
         <!-- Customize your theme here. -->
         <item name="android:windowIsTranslucent">true</item>
     </style>
+    <style name="SplashScreenTheme" parent="SplashScreen_SplashTheme">
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
+    </style>
 
 </resources>
