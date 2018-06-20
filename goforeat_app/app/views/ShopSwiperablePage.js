@@ -251,7 +251,7 @@ class ShopSwiperablePage extends Component {
 
   _renderDateFormat() {
     return (
-      <View style={{marginTop:20,marginLeft:GLOBAL_PARAMS._winWidth*0.1}}>
+      <View style={{marginTop:20,marginLeft:GLOBAL_PARAMS._winWidth*0.08}}>
         <Text style={{color: Colors.fontBlack,fontSize: 18, marginBottom: 5,fontWeight: 'bold'}}>
         {this.state.formatDate.week}的餐單</Text>
         <Text style={{color: Colors.fontGray,fontSize: 13}}>{this.state.formatDate.date}</Text>
@@ -279,7 +279,7 @@ class ShopSwiperablePage extends Component {
     let {foodDetails} = this.state;
     let _width = GLOBAL_PARAMS._winWidth*0.08;
     return (
-      <View style={{width: GLOBAL_PARAMS._winWidth,height:GLOBAL_PARAMS._winHeight>667?160: 120,paddingLeft: _width,paddingRight: _width,paddingTop: 10,paddingBottom: 20}}>
+      <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft: _width,paddingRight: _width,paddingBottom: 10 }}>
         <Text style={{fontSize: 20,color: '#111',fontWeight:'bold',marginBottom:11}} numberOfLines={1}>{foodDetails[0].foodName}</Text>
         <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight: 20}} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodDetails[0].foodBrief}</Text>
       </View>
@@ -385,8 +385,9 @@ class ShopSwiperablePage extends Component {
           iosBarStyle="light-content"
         >
         <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={_styles.linearGradient}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginTop: Platform.OS == 'ios' ? 0 : -8,height: 50}}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginTop: Platform.OS == 'ios' ? 0 : -8,height: 50,position:'relative'}}>
             <Image source={require('../asset/menu.png')} style={{width: 30,height: 15}} resizeMode="contain"/>
+            <Image source={require('../asset/Oval.png')} style={{width: 10,height: 10,position: 'absolute',top: 10, right: 10}}/>
           </TouchableOpacity>
           <View style={{flex: 1,alignItems:'center',flexDirection:'row',justifyContent:'center',}}>
           {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} style={{marginLeft:-60,}} size="small"/>}
@@ -422,7 +423,7 @@ class ShopSwiperablePage extends Component {
         {this.state.foodDetails != null ? this._renderIntrodutionView() : null}
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
-        {GLOBAL_PARAMS._winHeight < 652 ? <View style={{height: 80,width: GLOBAL_PARAMS._winWidth}}/> : null}
+        {<View style={{height: 80,width: GLOBAL_PARAMS._winWidth}}/>}
         </ScrollView>
       </Container>
     );

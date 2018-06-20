@@ -10,8 +10,8 @@ function wp (percentage) {
 }
 
 const slideHeight = viewportHeight * 0.70;
-const slideWidth = wp(80);
-const itemHorizontalMargin = wp(2);
+const slideWidth = wp(83);
+const itemHorizontalMargin = wp(1);
 
 export const sliderWidth = viewportWidth;
 export const itemWidth = slideWidth + itemHorizontalMargin * 2;
@@ -46,7 +46,7 @@ export default StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.8,
         shadowRadius: entryBorderRadius,
-        elevation: 1,
+        elevation: 6,
         borderRadius: entryBorderRadius,
     },
     imageContainerEven: {

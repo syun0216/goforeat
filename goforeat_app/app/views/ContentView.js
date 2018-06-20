@@ -340,20 +340,7 @@ export default class ContentView extends Component {
     return (
       <Container>
         {this.state.overlookImages.length > 0 ? this._renderOverLookImageView() : null} 
-        
-        <Header style={{backgroundColor: this.props.screenProps.theme,borderBottomWidth:0}} iosBarStyle="light-content">
-        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.linearGradient}>
-          <Left>
-          <Button transparent onPress={() => this.props.navigation.goBack()}>
-            <Icon size={20} name="ios-arrow-back" style={{fontSize:25,color: Colors.main_white,paddingLeft: 10}}/>
-          </Button></Left>
-          <Body><Text style={{color: Colors.main_white}}>{this.props.navigation.state.params.kind === 'canteen' ? i18n.canteenDetail : i18n.articleDetail}</Text></Body>
-          <Right><Button transparent onPress={() => this.setState({shareboxVisible: true})}>
-            <Icon name="md-share-alt" style={{ fontSize: 23, color: Colors.main_white }}/>
-          </Button>
-          </Right>
-          </LinearGradient>
-        </Header>
+        <CommonHeader title={i18n.articleDetail} canBack hasRight rightIcon="md-share-alt" rightClick={() => this.setState({shareboxVisible: true})} {...this.props}/>
         {this.state.loading ? <Loading /> : null}
         {this.state.isError ? <ErrorPage errorTips="加載數據失敗,請點擊重試" errorToDo={this.getCanteenDetail}/> : null}
         <View style={{flex:1}}>

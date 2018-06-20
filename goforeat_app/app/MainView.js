@@ -118,7 +118,7 @@ const darwerView = DrawerNavigator(
     }
   },
   {
-    drawerWidth: GLOBAL_PARAMS._winWidth * 0.8,
+    drawerWidth: GLOBAL_PARAMS._winWidth * 0.75,
     drawerPosition: "left",
     contentComponent: props => {
       // console.log(2222,props);
@@ -136,7 +136,7 @@ const darwerView = DrawerNavigator(
           </LinearGradient>
         </View>
           <Content style={{ backgroundColor: Colors.main_white }}>
-            <View style={{ height: 219, backgroundColor: Colors.main_white,marginTop: 20 }}>
+            <View style={{ backgroundColor: Colors.main_white,marginTop: 20 }}>
               <TouchableOpacity
               onPress={() => {
                 if(props.screenProps.user === null) {
@@ -226,8 +226,10 @@ const darwerView = DrawerNavigator(
                   padding: 20,
                   flexDirection: "row",
                   alignItems: "center",
+                  position: 'relative'
                 }}
               >
+                <Image style={{width: 10,height: 10,position: 'absolute',top:Platform.OS == 'ios' ? 20 : 24,left: 33}} source={require('./asset/Oval.png')}/>
                 <Image
                   source={require("./asset/bell.png")}
                   style={drawer_style.commonImage}

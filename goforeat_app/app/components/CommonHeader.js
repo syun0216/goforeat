@@ -11,9 +11,10 @@ const styles = StyleSheet.create({
   linearGradient: {
     height: 65,
     width: GLOBAL_PARAMS._winWidth,
-    marginTop: Platform.OS == 'ios' ? -15 : 0,
+    marginTop: Platform.OS == 'ios' ? -15 : -4,
     paddingTop: Platform.OS == 'ios' ? 15 : 0,
     justifyContent:'center',
+    alignItems: 'center',
     flexDirection: 'row'
   }
 })
@@ -36,7 +37,8 @@ const CommonHeader = (props) => {
     <Body><Text style={[{color: props.textColor},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
     <Right>
       {props.hasRight ? (props.rightElement !== null ? <props.rightElement {...props}/> : (
-        <Icon onPress={() => props.rightClick} name={props.rightIcon} size={25} style={{color: Colors.main_white}} />
+        <Button transparent onPress={() => props.rightClick()}>
+        <Icon name={props.rightIcon} size={20} style={{color: Colors.main_white,paddingRight: 10}} /></Button>
       )) : null}
     </Right>
   </LinearGradient> 
