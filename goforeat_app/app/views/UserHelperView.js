@@ -7,12 +7,13 @@ import CommonHeader from '../components/CommonHeader';
 //utils
 import LinkingUtils from '../utils/LinkingUtils';
 import Colors from '../utils/Colors';
+import ToastUtil from '../utils/ToastUtil';
 
 const UserHelper = (props) => {
   let _phonecall = () => LinkingUtils.dialPhoneWithNumber(52268745);
   const _list_arr = [
     {content: '電話聯繫',isEnd: false,clickFunc: () => LinkingUtils.dialPhoneWithNumber(52268745)},
-    {content: '在線支援',isEnd: true,clickFunc: () => {}},
+    {content: '在線支援',isEnd: true,clickFunc: () => {ToastUtil.showWithMessage('該功能暫未開放')}},
   ]
   return (
     <Container>

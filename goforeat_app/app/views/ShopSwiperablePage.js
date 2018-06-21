@@ -124,7 +124,7 @@ class ShopSwiperablePage extends Component {
   _formatDate(timestamp) {
     let _Date = new Date(timestamp);
     let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,_Date.getDate(),_Date.getFullYear()].join('-');
-    console.log(_date_format);
+    // console.log(_date_format);
     let _week_day = null;
     switch(_Date.getDay()) 
       { 

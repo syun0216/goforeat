@@ -249,7 +249,7 @@ export default class ArticleView extends Component {
         </View>*/}
         <Card style={{width: GLOBAL_PARAMS._winWidth*0.95,alignSelf: 'center',}}>
           <CardItem cardBody>
-            <Image source={{uri: item.pic}} style={{height: 250*(GLOBAL_PARAMS._winHeight/667), width: null, flex: 1}} resizeMode="stretch"/>
+            <Image source={{uri: item.pic}} style={{height: 250*(GLOBAL_PARAMS._winHeight/667), width: null, flex: 1,borderBottomWidth: 1,borderBottomColor: Colors.main_gray}} resizeMode="stretch"/>
           </CardItem>
           <CardItem>
               <View style={styles.articleDesc}>
@@ -275,7 +275,6 @@ export default class ArticleView extends Component {
             : null
         }
       </View>    
-
     </Container>)
     }
   }
@@ -306,8 +305,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingLeft:10,
     backgroundColor: '#fff',
-    paddingTop:10,
-    paddingBottom:10
+    paddingTop:3,
+    paddingBottom:3
   },
   articleTitle: {
     fontSize:18,

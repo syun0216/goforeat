@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: Colors.bgGray,
+    borderBottomColor: Colors.main_gray,
     borderTopWidth: 1,
     borderTopColor: Colors.bgGray,
   },

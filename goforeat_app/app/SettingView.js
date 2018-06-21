@@ -69,7 +69,7 @@ export default class SettingView extends PureComponent{
   }
 
   _renderListFooterView = () => (
-    <Button onPress={() => {
+    <Button transparent onPress={() => {
       Alert.alert(
         '提示',
         '確定要登出嗎？',
@@ -82,59 +82,24 @@ export default class SettingView extends PureComponent{
     }}
       block style={{
         marginTop: 30,
-        marginLeft: 10,
-        marginRight: 10,
-        borderColor: Colors.main_red,
-        borderWidth: 1,
-        backgroundColor: Colors.main_white
+        borderRadius: 0,
+        backgroundColor: Colors.main_white,
+        marginBottom: 20,
       }}>
-      <Text style={{color: Colors.main_red,fontSize:16}}>{this.state.i18n.logout}</Text>
+      <Text style={{color:Colors.fontBlack,fontSize:16}}>{this.state.i18n.logout}</Text>
     </Button>
   )
 
   render() {
-    const _data = [
-      {data: [{bgColor:Colors.main_orange,name:'橙'},
-      {bgColor:'#ae6642',name:'紫'},
-      {bgColor:'#843900',name:'藍'},
-      {bgColor:'#64492b',name:'綠'},
-    ]},
-      {data:[{bgColor:'#7fb80e',name:'暗'},
-      {bgColor:'#78a355',name:'鐵藍'},
-      {bgColor:'#769149',name:'紅'},
-      {bgColor:'#1d953f',name:'咖啡'},]},
-      {data:[{bgColor:'#4e72b8',name:'青綠'},
-      {bgColor:'#003a6c',name:'緋紅'}, 
-      {bgColor:'#102b6a',name:'深綠'},
-      {bgColor:'#181d4b',name:'黃'}]},
-      {data:[{bgColor:'#d71345',name:'青綠'},
-      {bgColor:'#d93a49',name:'緋紅'}, 
-      {bgColor:'#d64f44',name:'深綠'},
-      {bgColor:'#c76968',name:'黃'}]},
-      {data:[
-        {bgColor:'#ffce7b',name:'緋紅'}, 
-        {bgColor:'#fdb933',name:'青綠'},
-      {bgColor:'#e0861a',name:'深綠'},
-      {bgColor:'#c37e00',name:'黃'}]}, 
-      {data:[{bgColor:'#999d9c',name:'青綠'},
-      {bgColor:'#a1a3a6',name:'緋紅'}, 
-      {bgColor:'#9d9087',name:'深綠'},
-      {bgColor:'#74787c',name:'黃'}]},   
-      {data:[{bgColor:'#009ad6',name:'青綠'},
-      {bgColor:'#228fbd',name:'緋紅'}, 
-      {bgColor:'#2468a2',name:'深綠'},
-      {bgColor:'#145b7d',name:'黃'}]},  
-    ];
-    const {i18n} = this.state;
     return (
       <Container>
         <CommonHeader title={i18n.setting_title} canBack {...this.props}/>
-        <Content style={{backgroundColor: Colors.main_white}}>
-          <View style={{height: GLOBAL_PARAMS._winHeight* 0.5,marginTop: 20,justifyContent: 'center',alignItems: 'center', flex: 1}}>
+
+          <View style={{marginTop: 20,justifyContent: 'flex-start',alignItems: 'center', flex: 1}}>
             <Text>有得食 v1.1.5版本</Text>
           </View>
           {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
-        </Content>
+
       </Container>
     )
   }

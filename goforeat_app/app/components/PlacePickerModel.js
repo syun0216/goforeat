@@ -81,7 +81,7 @@ class PlacePickerModel extends Component{
       animationType={"fade"}
       transparent={false}
       visible={this.props.modalVisible}
-      onRequestClose={() => {alert("Modal has been closed.")}}
+      onRequestClose={() => this.props.closeFunc()}
       >
        <Container>
           <Header style={{backgroundColor: '#fff'}}>
