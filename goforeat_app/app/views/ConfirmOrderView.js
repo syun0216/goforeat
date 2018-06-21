@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { View, Text, StyleSheet, TextInput,Platform } from "react-native";
+import { View, Text, StyleSheet, TextInput,Platform,Alert } from "react-native";
 import {
   Container,
   Content,
@@ -83,7 +83,14 @@ export default class ConfirmOrderView extends PureComponent {
           if(data.data.ro.respCode == "10006" || data.data.ro.respCode == "10007") {
             this.props.screenProps.userLogout();
           }
-          alert(data.data.ro.respMsg);
+          Alert.alert(null
+            , data.data.ro.respMsg
+            , [
+                {text: '取消'},
+                {text: '確定', onPress: () => this.props.navigation.goBack()}
+            ]
+          );
+          // alert(data.data.ro.respMsg);
           this.setState({
             loading: false,
             isExpired: true,
@@ -328,12 +335,9 @@ export default class ConfirmOrderView extends PureComponent {
             <BlankPage message={this.state.expiredMessage} style={{marginLeft: -10}}/>
           ) : null}
           {this.state.orderDetail !== null ? this._renderOrderView() : null}
-        </Content>
-        <View
-          style={{position: 'absolute',bottom: 0,left:0,width:GLOBAL_PARAMS._winWidth,padding: 5, borderTopWidth: 0, backgroundColor: Colors.main_white, zIndex: 0, }}
-        >
+          <View style={{height: 65}}/>
+          </Content>
           {this._renderBottomConfirmView()}
-        </View>
       </Container>
     );
   }
@@ -342,7 +346,7 @@ export default class ConfirmOrderView extends PureComponent {
 const styles = StyleSheet.create({
   commonTitleText: {
     fontSize: 16,
-    color: "#3B254B",
+    color: "#111111",
     fontWeight: "bold",
     fontFamily: "AvenirNext-UltraLightItalic"
   },

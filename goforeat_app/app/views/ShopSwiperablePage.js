@@ -124,6 +124,7 @@ class ShopSwiperablePage extends Component {
   _formatDate(timestamp) {
     let _Date = new Date(timestamp);
     let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,_Date.getDate(),_Date.getFullYear()].join('-');
+    console.log(_date_format);
     let _week_day = null;
     switch(_Date.getDay()) 
       { 
@@ -282,7 +283,7 @@ class ShopSwiperablePage extends Component {
     return (
       <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft: _width,paddingRight: _width,paddingBottom: 10 }}>
         <Text style={{fontSize: 20,color: '#111',fontWeight:'bold',marginBottom:11}} numberOfLines={1}>{foodDetails[0].foodName}</Text>
-        <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight: 20}} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodDetails[0].foodBrief}</Text>
+        <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight:Platform.OS =='ios'? 20 : 25}} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodDetails[0].foodBrief}</Text>
       </View>
     )
   }

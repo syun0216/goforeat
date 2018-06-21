@@ -249,7 +249,7 @@ export default class ArticleView extends Component {
         </View>*/}
         <Card style={{width: GLOBAL_PARAMS._winWidth*0.95,alignSelf: 'center',}}>
           <CardItem cardBody>
-            <Image source={{uri: item.pic}} style={{height: GLOBAL_PARAMS._winHeight*0.45, width: null, flex: 1}} resizeMode="stretch"/>
+            <Image source={{uri: item.pic}} style={{height: 250*(GLOBAL_PARAMS._winHeight/667), width: null, flex: 1}} resizeMode="stretch"/>
           </CardItem>
           <CardItem>
               <View style={styles.articleDesc}>

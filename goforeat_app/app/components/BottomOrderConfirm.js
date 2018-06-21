@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {View,Animated,Easing,StyleSheet,Text,TouchableOpacity} from 'react-native';
+import {View,Animated,Easing,StyleSheet,Text,TouchableOpacity,Platform} from 'react-native';
 import {Icon} from 'native-base';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    zIndex: 99999,
+    zIndex: 1,
     paddingLeft: 10,
     paddingRight: 10,
     backgroundColor: '#fff',
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#ccc',
   },
   commonView: { 
-    flexDirection:'row',alignItems:'center'
+    flexDirection:'row',alignItems:'center',justifyContent: 'center',
   },
   commonText:{
     marginLeft:20,
@@ -93,8 +93,8 @@ export default class BottomOrderConfirm extends PureComponent {
           {this.props.canClose ?<TouchableOpacity style={{width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50, alignItems:'center'}} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,{color: '#FF3348',fontSize:28,marginTop: 3}]}/>
           </TouchableOpacity> : null}
-          <Text style={{marginLeft: 10}}>HKD{" "}</Text>
-          <Text style={[styles.commonText,{color:'#FF3348',width:60}]} numberOfLines={1}>{total}</Text>
+          <Text style={{marginLeft: 5}}>HKD{" "}</Text>
+          <Text style={[styles.commonText,{color:'#FF3348',width:Platform.OS == 'ios'?100:80,marginTop:-5,}]} numberOfLines={1}>{total.toFixed(2)}</Text>
         </View>
         <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,width:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => btnClick()}>
           <View style={styles.commonView}>
