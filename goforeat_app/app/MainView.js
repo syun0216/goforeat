@@ -70,7 +70,7 @@ const tabView = TabNavigator(
     ArticleTab: {
       screen: ArticleView,
       navigationOptions: {
-        tabBarLabel: "本月菜單",
+        tabBarLabel: "本周菜單",
         tabBarIcon: ({ tintColor, focused }) => {
           return focused ? (
           <Image
@@ -168,29 +168,6 @@ const darwerView = DrawerNavigator(
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{
-                  padding: 20,
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  source={require("./asset/account.png")}
-                  style={drawer_style.commonImage}
-                  resizeMode="contain"
-                />
-                <Text
-                  style={{
-                    fontSize: 23,
-                    textAlignVertical: "center",
-                    marginLeft: 26,
-                    color: Colors.fontBlack
-                  }}
-                >
-                  我的賬戶
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
                 onPress={() => {
                   props.navigation.navigate('Help');
                 }}
@@ -217,6 +194,45 @@ const darwerView = DrawerNavigator(
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
+                style={{
+                  padding: 20,
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+                onPress={() => props.navigation.navigate("Statement", { name: "about" })}
+              >
+                <Image
+                  source={require("./asset/account.png")}
+                  style={drawer_style.commonImage}
+                  resizeMode="contain"
+                />
+                <Text
+                  style={{
+                    fontSize: 23,
+                    textAlignVertical: "center",
+                    marginLeft: 26,
+                    color: Colors.fontBlack
+                  }}
+                >
+                  關於我們
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+              onPress={() => props.navigation.navigate("Setting")}
+              style={{
+                padding: 20,
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Image source={require('./asset/setting.png')} style={drawer_style.commonImage}
+              resizeMode="contain"/>
+              <Text style={{ fontSize: 23,
+                textAlignVertical: "center",
+                marginLeft: 26,
+                color: Colors.fontBlack}}>系統設置</Text>
+            </TouchableOpacity>
+              {/*<TouchableOpacity
                 onPress={() => {
                   props.screenProps.user
                     ? props.navigation.navigate("Integral")
@@ -245,10 +261,10 @@ const darwerView = DrawerNavigator(
                 >
                   最新通知
                 </Text>
-              </TouchableOpacity>
+                </TouchableOpacity>*/}
             </View>
           </Content>
-          <Footer
+        { /* <Footer
             style={{ flexDirection: "row", backgroundColor: Colors.main_white,borderTopWidth: 1,borderTopColor:Colors.bgGray }}
           >
             <TouchableOpacity
@@ -275,7 +291,7 @@ const darwerView = DrawerNavigator(
               <Image source={require('./asset/setting.png')} style={{width: 20,height: 20}} resizeMode="contain"/>
               <Text style={{ marginLeft: 10 ,fontSize: 18}}>系統設置</Text>
             </TouchableOpacity>
-          </Footer>
+            </Footer>*/}
         </Container>
       );
     }

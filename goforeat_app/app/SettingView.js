@@ -130,36 +130,10 @@ export default class SettingView extends PureComponent{
       <Container>
         <CommonHeader title={i18n.setting_title} canBack {...this.props}/>
         <Content style={{backgroundColor: Colors.main_white}}>
-          <View style={styles.title}>
-            <Text>{i18n.theme}</Text>
+          <View style={{height: GLOBAL_PARAMS._winHeight* 0.5,marginTop: 20,justifyContent: 'center',alignItems: 'center', flex: 1}}>
+            <Text>有得食 v1.1.5版本</Text>
           </View>
-          {
-            _data.map((item,idx) => (
-              <View style={{flex: 1,flexDirection: 'row'}} key={idx}>
-                {item.data.map((ditem,didx) => (
-                  <TouchableOpacity key={didx} style={{height:50,backgroundColor:ditem.bgColor,
-                    flex:1,justifyContent:'center',paddingLeft:10,paddingRight:10,
-                    flexDirection:'row',alignItems:'center',width:GLOBAL_PARAMS._winWidth*0.5}}
-                    onPress={() => this._currentItemClick(ditem.bgColor)}>
-                    {this.props.screenProps.theme === ditem.bgColor ? (<Icon name="md-checkmark-circle" style={{fontSize:20,color:'#fff'}}/>)
-                    : null }
-                  </TouchableOpacity>
-                ))}
-              </View>
-            ))
-          }    
-          <View style={styles.title}>
-            <Text>{i18n.language}</Text>
-          </View>
-          <ListItem style={{backgroundColor: Colors.main_white,marginLeft: 0}}>
-              <Body>
-                <Text style={{paddingLeft:10}}>for English</Text>
-              </Body>
-              <Right>
-                <Switch  value={this.state.isEnglish} onValueChange={(value) => this._changeLanguage(value)}/>
-              </Right>
-            </ListItem>
-            {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
+          {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
         </Content>
       </Container>
     )

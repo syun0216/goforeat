@@ -25,17 +25,6 @@
 		9B3843FE77E51B4E703ECC37 /* libPods-goforeat_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 369F73E9388FCF7AC3177177 /* libPods-goforeat_app.a */; };
 		C199B0039AD94996BE1FDABE /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F70CF1BBF6934453B8C723CD /* SimpleLineIcons.ttf */; };
 		C73A359C20D803A0002D77C1 /* libBolts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C73A359B20D803A0002D77C1 /* libBolts.a */; };
-		C73A35B220D803A0002D77C1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		C73A35B320D803A0002D77C1 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		C73A35B420D803A0002D77C1 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		C73A35B520D803A0002D77C1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		C73A35B620D803A0002D77C1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		C73A35B720D803A0002D77C1 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		C73A35B820D803A0002D77C1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		C73A35B920D803A0002D77C1 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		C73A35BA20D803A0002D77C1 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		C73A35BB20D803A0002D77C1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		C73A35BC20D803A0002D77C1 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		C753EF0620CACE3000A1DCFD /* CodePush.h in Frameworks */ = {isa = PBXBuildFile; fileRef = C753EF0520CACE3000A1DCFD /* CodePush.h */; };
 		C7639D672069D523000A02BB /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D662069D50A000A02BB /* libRNShare.a */; };
 		C7639D692069D56E000A02BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D682069D56E000A02BB /* Social.framework */; };
@@ -473,17 +462,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C73A359C20D803A0002D77C1 /* libBolts.a in Frameworks */,
-				C73A35B220D803A0002D77C1 /* libRCTActionSheet.a in Frameworks */,
-				C73A35B320D803A0002D77C1 /* libRCTAnimation.a in Frameworks */,
-				C73A35B420D803A0002D77C1 /* libRCTBlob.a in Frameworks */,
-				C73A35B520D803A0002D77C1 /* libRCTGeolocation.a in Frameworks */,
-				C73A35B620D803A0002D77C1 /* libRCTImage.a in Frameworks */,
-				C73A35B720D803A0002D77C1 /* libRCTLinking.a in Frameworks */,
-				C73A35B820D803A0002D77C1 /* libRCTNetwork.a in Frameworks */,
-				C73A35B920D803A0002D77C1 /* libRCTSettings.a in Frameworks */,
-				C73A35BA20D803A0002D77C1 /* libRCTText.a in Frameworks */,
-				C73A35BB20D803A0002D77C1 /* libRCTVibration.a in Frameworks */,
-				C73A35BC20D803A0002D77C1 /* libRCTWebSocket.a in Frameworks */,
 				C7E003F320D1FE7C00EB5F2A /* libcxxreact.a in Frameworks */,
 				C7E003BF20D1F9E200EB5F2A /* libBVLinearGradient.a in Frameworks */,
 				C7B5B36120D9FD5F0091291C /* libSplashScreen.a in Frameworks */,

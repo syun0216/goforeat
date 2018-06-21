@@ -156,7 +156,8 @@ export default class LoginView extends Component {
               {
                   replaceRoute: true,
                   foodId: params.foodId,
-                  amount: params.amount
+                  amount: params.amount,
+                  total: params.total
               })
           }else {
             this.props.navigation.navigate(params.page,{replaceRoute: true,});

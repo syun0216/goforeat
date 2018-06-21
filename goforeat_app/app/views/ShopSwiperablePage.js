@@ -123,7 +123,7 @@ class ShopSwiperablePage extends Component {
 
   _formatDate(timestamp) {
     let _Date = new Date(timestamp);
-    let _date_format = [_Date.getFullYear(),_Date.getMonth()+1,_Date.getDate()].join('-');
+    let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,_Date.getDate(),_Date.getFullYear()].join('-');
     let _week_day = null;
     switch(_Date.getDay()) 
       { 
@@ -199,17 +199,18 @@ class ShopSwiperablePage extends Component {
   }
 
   _goToOrder = () => {
-    let {foodId} = this.state.foodDetails[0];
+    let {foodId,price} = this.state.foodDetails[0];
     let {placeSelected,foodCount} = this.state;
     if(this.props.screenProps.user !== null) {
       this.props.navigation.navigate("Order", {
           foodId,
           placeId: placeSelected.id,
-          amount: foodCount
+          amount: foodCount,
+          total: foodCount*price
       })
   }else {
     if(placeSelected.id){
-      this.props.navigation.navigate("Login",{page:'Order',foodId,placeId: placeSelected.id,amount: foodCount,reloadFunc: () => this._reloadWhenCancelLogin()});
+      this.props.navigation.navigate("Login",{page:'Order',foodId,placeId: placeSelected.id,amount: foodCount,total: foodCount*price,reloadFunc: () => this._reloadWhenCancelLogin()});
     }
     }
   }
@@ -404,7 +405,7 @@ class ShopSwiperablePage extends Component {
         {this.state.foodDetails != null && this.state.foodDetails.length >0  ? <BottomOrderConfirm {...this.props} 
         isShow={this.state.isBottomContainerShow} 
         total={this.state.foodCount*this.state.foodDetails[0].price}
-        goToOrder={this._goToOrder}
+        btnClick={this._goToOrder}
         cancelOrder={this._cancelOrder}/> : null}
         <ScrollView
         style={styles.scrollview}

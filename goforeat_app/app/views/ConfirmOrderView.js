@@ -24,6 +24,7 @@ import PopupDialog, {
   DialogTitle
 } from "react-native-popup-dialog";
 //components
+import BottomOrderConfirm from '../components/BottomOrderConfirm';
 import CommonHeader from "../components/CommonHeader";
 import BlankPage from "../components/BlankPage";
 import Loading from "../components/Loading";
@@ -48,7 +49,8 @@ export default class ConfirmOrderView extends PureComponent {
     orderDetail: null,
     loading: true,
     isError: false,
-    isExpired: false
+    isExpired: false,
+    isBottomShow: false
   };
 
   componentDidMount() {
@@ -74,7 +76,8 @@ export default class ConfirmOrderView extends PureComponent {
         if (data.status === 200 && data.data.ro.ok) {
           this.setState({
             loading: false,
-            orderDetail: data.data.data
+            orderDetail: data.data.data,
+            isBottomShow: true
           });
         } else {
           if(data.data.ro.respCode == "10006" || data.data.ro.respCode == "10007") {
@@ -196,7 +199,7 @@ export default class ConfirmOrderView extends PureComponent {
             style={{
               flex: 1,
               marginTop: 5,
-              backgroundColor: '#3B254B',
+              backgroundColor: '#FF3348',
               marginLeft: 40,
               marginRight: 40
             }}
@@ -234,7 +237,7 @@ export default class ConfirmOrderView extends PureComponent {
                 HKD {orderDetail[0].foodMoney}
               </Text>
               <Text style={styles.commonDecText}>
-                Quantity: {orderDetail[0].foodNum}
+                數量: {orderDetail[0].foodNum}
               </Text>
             </Body>
           </CardItem>
@@ -251,7 +254,7 @@ export default class ConfirmOrderView extends PureComponent {
                   justifyContent: "space-between"
                 }}
               >
-                <Text style={styles.commonDecText}>TOTAL</Text>
+                <Text style={styles.commonDecText}>總金額</Text>
                 <Text style={styles.commonPriceText}>
                   HKD {totalMoney}
                 </Text>
@@ -260,7 +263,7 @@ export default class ConfirmOrderView extends PureComponent {
           </CardItem>
         </Card>
         <View style={{ padding: 5 }}>
-          <Text style={styles.commonDetailText}>Delivery Details</Text>
+          <Text style={styles.commonDetailText}>訂單詳情</Text>
           <Form style={{ marginLeft: -15 }}>
             <Item stackedLabel>
               <Label style={styles.commonLabel}>取餐日期</Label>
@@ -300,13 +303,19 @@ export default class ConfirmOrderView extends PureComponent {
     );
   };
 
+  _renderBottomConfirmView() {
+    return (
+      <BottomOrderConfirm isShow={this.state.isBottomShow} total={this.props.navigation.state.params.total}  btnMessage="立即下單" btnClick={this._openDialog} canClose={false}/>
+    )
+  }
+
   render() {
     return (
       <Container>
         {this.state.orderDetail !== null ? this._renderPopupDiaogView() : null}
         <CommonHeader
           canBack
-          title="訂單詳情頁"
+          title="訂單確認頁"
           titleStyle={{ fontSize: 18, fontWeight: "bold" }}
           {...this["props"]}
         />
@@ -323,27 +332,7 @@ export default class ConfirmOrderView extends PureComponent {
         <View
           style={{position: 'absolute',bottom: 0,left:0,width:GLOBAL_PARAMS._winWidth,padding: 5, borderTopWidth: 0, backgroundColor: Colors.main_white, zIndex: 0, }}
         >
-          <Button
-            onPress={() => this._openDialog()}
-            block
-            style={{
-              flex: 1,
-              marginTop: 5,
-              backgroundColor: '#3B254B',
-              marginLeft: 40,
-              marginRight: 40
-            }}
-          >
-            <Text
-              style={{
-                color: Colors.main_white,
-                fontWeight: "600",
-                fontSize: 16
-              }}
-            >
-              立即下單
-            </Text>
-          </Button>
+          {this._renderBottomConfirmView()}
         </View>
       </Container>
     );

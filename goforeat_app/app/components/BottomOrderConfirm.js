@@ -4,6 +4,7 @@ import {View,Animated,Easing,StyleSheet,Text,TouchableOpacity} from 'react-nativ
 import {Icon} from 'native-base';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
+
 const styles = StyleSheet.create({
   bottomContainer:{
     width: GLOBAL_PARAMS._winWidth,
@@ -36,11 +37,17 @@ const styles = StyleSheet.create({
 export default class BottomOrderConfirm extends PureComponent {
   timer = null;
   static defaultProps = {
-    isShow: false
+    isShow: false,
+    btnMessage: '立即預訂',
+    btnClick: () => {},
+    canClose: true
   }
 
   static propsType = {
-    isShow: PropTypes.bool
+    isShow: PropTypes.bool,
+    btnMessage: PropTypes.string,
+    btnClick: PropTypes.func,
+    canClose: PropTypes.bool
   }
 
   state = {
@@ -75,7 +82,7 @@ export default class BottomOrderConfirm extends PureComponent {
   }
 
   render() {
-    let {screenProps:{theme},total,goToOrder} = this.props;
+    let {total,btnClick} = this.props;
     return (
       <Animated.View style={[styles.bottomContainer,{
         bottom:this.state.bottom.interpolate({
@@ -83,15 +90,15 @@ export default class BottomOrderConfirm extends PureComponent {
         outputRange: [-49, 0]
       })}]}>
         <View style={styles.commonView}>
-          <TouchableOpacity style={{width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50, alignItems:'center'}} onPress={this._cancelOrder}>
+          {this.props.canClose ?<TouchableOpacity style={{width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50, alignItems:'center'}} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,{color: '#FF3348',fontSize:28,marginTop: 3}]}/>
-          </TouchableOpacity>
+          </TouchableOpacity> : null}
           <Text style={{marginLeft: 10}}>HKD{" "}</Text>
           <Text style={[styles.commonText,{color:'#FF3348',width:60}]} numberOfLines={1}>{total}</Text>
         </View>
-        <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,width:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => goToOrder()}>
+        <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,width:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => btnClick()}>
           <View style={styles.commonView}>
-            <Text style={[styles.commonText,{color:'#fff'}]}>立即預訂</Text>
+            <Text style={[styles.commonText,{color:'#fff'}]}>{this.props.btnMessage}</Text>
           </View>
         </TouchableOpacity>  
       </Animated.View>
