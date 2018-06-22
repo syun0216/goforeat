@@ -70,7 +70,7 @@ const tabView = TabNavigator(
     ArticleTab: {
       screen: ArticleView,
       navigationOptions: {
-        tabBarLabel: "本周菜單",
+        tabBarLabel: "本週菜單",
         tabBarIcon: ({ tintColor, focused }) => {
           return focused ? (
           <Image
