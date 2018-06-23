@@ -19,7 +19,7 @@ let _language = {
     language: '選擇語言',
     cache: '清除緩存',
     takeout_title: '每日精選',
-    article_title: '本周菜單',
+    article_title: '本週菜單',
     offline_title:'線下餐廳',
     login_text: '登錄/註冊',
     integral_text: '積分兌換',

@@ -4,6 +4,7 @@ import {View,Animated,Easing,StyleSheet,Text,TouchableOpacity,Platform} from 're
 import {Icon} from 'native-base';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
+import Colors from '../utils/Colors';
 
 const styles = StyleSheet.create({
   bottomContainer:{
@@ -91,10 +92,10 @@ export default class BottomOrderConfirm extends PureComponent {
       })}]}>
         <View style={styles.commonView}>
           {this.props.canClose ?<TouchableOpacity style={{width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50, alignItems:'center'}} onPress={this._cancelOrder}>
-            <Icon name="md-close-circle" style={[styles.commonIcon,{color: '#FF3348',fontSize:28,marginTop: 3}]}/>
+            <Icon name="md-close-circle" style={[styles.commonIcon,{color: Colors.main_gray,fontSize:28,marginTop: 3}]}/>
           </TouchableOpacity> : null}
           <Text style={{marginLeft: 5}}>HKD{" "}</Text>
-          <Text style={[styles.commonText,{color:'#FF3348',width:Platform.OS == 'ios'?100:80,marginTop:-5,}]} numberOfLines={1}>{total.toFixed(2)}</Text>
+          <Text style={[styles.commonText,{color:'#FF3348',width:Platform.OS == 'ios'?GLOBAL_PARAMS._winWidth<350?60:100:80,marginTop:-5,}]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
         </View>
         <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,width:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => btnClick()}>
           <View style={styles.commonView}>
