@@ -389,7 +389,7 @@ class ShopSwiperablePage extends Component {
         <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={_styles.linearGradient}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginTop: Platform.OS == 'ios' ? 0 : -8,height: 50,position:'relative'}}>
             <Image source={require('../asset/menu.png')} style={{width: 30,height: 15}} resizeMode="contain"/>
-            <Image source={require('../asset/Oval.png')} style={{width: 10,height: 10,position: 'absolute',top: 10, right: 10}}/>
+            {/*<Image source={require('../asset/Oval.png')} style={{width: 10,height: 10,position: 'absolute',top: 10, right: 10}}/>*/}
           </TouchableOpacity>
           <View style={{flex: 1,alignItems:'center',flexDirection:'row',justifyContent:'center',}}>
           {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} style={{marginLeft:-60,}} size="small"/>}

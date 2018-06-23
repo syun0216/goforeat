@@ -158,7 +158,7 @@ const darwerView = DrawerNavigator(
                 />
                 <Text
                   style={{
-                    fontSize: 23,
+                    fontSize: Platform.OS == 'ios'?20:18,
                     textAlignVertical: "center",
                     marginLeft: 26,
                     color: Colors.fontBlack
@@ -184,7 +184,7 @@ const darwerView = DrawerNavigator(
                 />
                 <Text
                   style={{
-                    fontSize: 23,
+                    fontSize: Platform.OS == 'ios'?20:18,
                     textAlignVertical: "center",
                     marginLeft: 26,
                     color: Colors.fontBlack
@@ -208,7 +208,7 @@ const darwerView = DrawerNavigator(
                 />
                 <Text
                   style={{
-                    fontSize: 23,
+                    fontSize: Platform.OS == 'ios'?20:18,
                     textAlignVertical: "center",
                     marginLeft: 26,
                     color: Colors.fontBlack
@@ -227,7 +227,7 @@ const darwerView = DrawerNavigator(
             >
               <Image source={require('./asset/setting.png')} style={drawer_style.commonImage}
               resizeMode="contain"/>
-              <Text style={{ fontSize: 23,
+              <Text style={{ fontSize: Platform.OS == 'ios'?20:18,
                 textAlignVertical: "center",
                 marginLeft: 26,
                 color: Colors.fontBlack}}>系統設置</Text>
