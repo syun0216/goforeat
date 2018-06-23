@@ -1,23 +1,20 @@
 import React, { PureComponent } from "react";
-import { View, Text, StyleSheet, TextInput,Platform,Alert } from "react-native";
+import { View, Text, StyleSheet, TextInput,Platform,Alert,TouchableOpacity,Image } from "react-native";
 import {
   Container,
   Content,
   Button,
-  Icon,
   Card,
   CardItem,
   Body,
-  Left,
-  Right,
-  IconNB,
   Form,
   Item,
   Input,
   Label,
   Footer,
   Separator,
-  ListItem
+  ListItem,
+  Icon
 } from "native-base";
 import PopupDialog, {
   SlideAnimation,
@@ -35,6 +32,7 @@ import GLOBAL_PARAMS from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //api
 import api from "../api/index";
+import Divider from "../components/Divider";
 
 const slideAnimation = new SlideAnimation({
   slideFrom: "bottom"
@@ -226,6 +224,61 @@ export default class ConfirmOrderView extends PureComponent {
     </PopupDialog>
   )};
 
+  _renderNewOrderView = () => {
+    let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
+    return (
+      <View style={styles.commonNewContainer}>
+        <View style={[{flexDirection: 'row',alignItems:'center',justifyContent:'space-between'},styles.commonMarginTop,styles.commonMarginBottom]}>
+        <Text style={{color: '#111111',fontSize: 18,flex:1}} numberOfLines={1}>{orderDetail[0].foodName}</Text>
+        <Text style={{color:'#111111',fontSize: 22}} numberOfLines={1}>HKD {orderDetail[0].foodMoney.toFixed(2)}</Text>
+        </View>
+        <View style={[{flexDirection: 'row',alignItems:'center'},styles.commonMarginBottom]}>
+          <Text style={{color: '#999999',fontSize:16,marginRight: 5}}>數量:</Text>
+          <Text style={{color: Colors.middle_red,fontSize: 16}}>{orderDetail[0].foodNum}</Text>
+        </View>
+        <Divider bgColor="#EBEBEB" height={1}/>
+        <View style={[{flexDirection: 'row',justifyContent:'space-between',alignItems:'center'},styles.commonMarginTop,styles.commonMarginBottom]}>
+          <Text style={{flex: 1,fontSize: 18,color: '#333333',}}>總金額</Text>
+          <View style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
+            <Text style={{fontSize: 22,color: '#111111',marginRight: 5}}>HKD</Text>
+            <Text style={{fontSize: 26,color: '#ff3448',marginTop: -4}} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
+          </View>
+        </View>
+      </View>
+    )
+  }
+
+  _renderNewDetailsView = () => {
+    let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
+    let _details_arr = [
+      {title:'取餐日期',content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false},
+      {title:'取餐地點',content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false},
+      {title:'預計取餐時間',content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:true},
+      {title:'支付方式',content:'現金支付',hasPreIcon:false,fontColor:'#333333',canOpen:true}
+    ];
+    return (
+      <View style={styles.commonNewContainer}>
+        <Text style={[{color:'#111111',fontSize: 20,fontWeight:'bold'},styles.commonMarginBottom,styles.commonMarginTop]}>取餐資料</Text>
+        {_details_arr.map((item,idx) => this._renderCommonDetailView(item,idx))}
+      </View>
+    )
+  }
+
+  _renderCommonDetailView = (item,idx) => {
+    return (
+      <View key={idx} style={[styles.commonDetailsContainer,styles.commonMarginBottom]}>
+        <Text style={{color:'#999999',marginBottom: 10}}>{item.title}</Text>
+        <TouchableOpacity style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center',flex: 1,borderBottomWidth:1,borderBottomColor:'#EBEBEB',paddingBottom:10}}>
+          <View style={{flexDirection:'row',alignItems:'center',flex:1}}>
+            {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 18,height: 18,marginRight: 5}} resizeMode="contain"/> :null}
+            <Text style={{fontSize: 22,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>
+          </View>
+          {item.canOpen?<Icon name="ios-arrow-down-outline" style={{width: 20,height: 20,color:'#C8C7C7',marginTop:-8}}/>:null}
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   _renderOrderView = () => {
     let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
     return (
@@ -330,11 +383,13 @@ export default class ConfirmOrderView extends PureComponent {
         {this.state.isError ? (
           <ErrorPage errorToDo={this._createOrder} errorTips="加載失敗,請點擊重試"/>
         ) : null}
-        <Content style={{ backgroundColor: Colors.main_white }} padder>
+        <Content style={{ backgroundColor: '#edebf4' }} padder>
           {this.state.isExpired ? (
             <BlankPage message={this.state.expiredMessage} style={{marginLeft: -10}}/>
           ) : null}
-          {this.state.orderDetail !== null ? this._renderOrderView() : null}
+          {this.state.orderDetail != null ? this._renderNewOrderView() : null}
+          {this.state.orderDetail !== null ? this._renderNewDetailsView() : null}
+          {/*this.state.orderDetail !== null ? this._renderOrderView() : null*/}
           <View style={{height: 65}}/>
           </Content>
           {this._renderBottomConfirmView()}
@@ -380,5 +435,27 @@ const styles = StyleSheet.create({
   },
   commonText: {
     fontSize: 18
+  },
+  commonNewContainer: {
+    padding: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 5,
+    shadowColor: '#E8E2F2',
+    shadowOpacity: 0.8,
+    shadowOffset: {width: 0,height: 8},
+    elevation: 3,
+    marginBottom: 10,
+    backgroundColor: Colors.main_white
+  },
+  commonDetailsContainer: {
+    justifyContent:'space-around',
+    alignItems:'flex-start',
+  },
+  commonMarginTop: {
+    marginTop: 15
+  },
+  commonMarginBottom: {
+    marginBottom: 15
   }
 });

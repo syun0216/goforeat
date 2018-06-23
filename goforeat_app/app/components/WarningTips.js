@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 
 const WarningTips = (props) => (
   <View style={styles.warn_container}> 
-    <Image source={require('../asset/warning.png')} style={styles.warning_img}/>
+    <Image source={require('../asset/warning.png')} style={styles.warning_img} resizeMode="contain"/>
     <Text numberOfLines={1} style={styles.warning_text}>四号线的美食不知道您有了解多少呢?</Text>
     <Image source={require('../asset/close_red.png')} style={styles.warning_close}/>
   </View>

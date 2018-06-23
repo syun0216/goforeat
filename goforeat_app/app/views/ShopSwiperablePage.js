@@ -295,7 +295,7 @@ class ShopSwiperablePage extends Component {
       <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft:_width,paddingRight:_width,flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
         <View style={{position:'relative',flexDirection: 'row',alignItems:'flex-end'}}>
           <Text style={{fontSize: 18,color: Colors.fontBlack,marginRight: 8}}>HKD</Text>
-          <Text style={{fontSize: 30,color: '#ff3348',marginRight:GLOBAL_PARAMS._winWidth < 340 ?10 : 15,marginBottom:-4}}>{foodDetails[0].price}</Text>
+          <Text style={{fontSize: 25,color: '#ff3348',marginRight:GLOBAL_PARAMS._winWidth < 340 ?10 : 15,marginBottom:-4}}>{foodDetails[0].price}</Text>
           <Text style={{fontSize: 16,color: '#9B9B9B'}}>HKD {foodDetails[0].originPrice}</Text>
           <View style={{width: GLOBAL_PARAMS._winWidth < 340 ? 60 : 75,transform: [{ rotate: '-5deg'}],backgroundColor:'#9B9B9B',height:2,position:'absolute',bottom:8,right:GLOBAL_PARAMS._winWidth< 340 ? -3: -8,opacity:0.63}}/>
         </View>

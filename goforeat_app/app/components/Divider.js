@@ -6,7 +6,7 @@ import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
 
 const Divider = ({height,bgColor}) => (
-  <View style={{width: GLOBAL_PARAMS._winWidth,height:height,backgroundColor:bgColor}} />
+  <View style={{height:height,backgroundColor:bgColor}} />
 )
 
 Divider.defaultProps = {
