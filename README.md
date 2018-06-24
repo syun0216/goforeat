@@ -19,6 +19,14 @@ android的打包方法:
     * 使用离线数据:取消注释jsCodeLocation = [[NSBundle mainBundle] ...这一行
     * 选择'Generic iOS Device'
     * Product->Archive
+
+### v 1.1.6 全新ui
+<p align="left">
+  <img src="./display/v116-1.png" width="200">
+  <img src="./display/v116-2.png" width="200">
+  <img src="./display/v116-3.png" width="200">
+  <img src="./display/v116-4.png" width="200">
+</p>
     
 ### v 1.1.4 增加推送 集成热更新
  <p align="left">
