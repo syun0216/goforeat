@@ -271,8 +271,8 @@ export default class ConfirmOrderView extends PureComponent {
         <Text style={{color:'#999999',marginBottom: 10}}>{item.title}</Text>
         <TouchableOpacity onPress={item.clickFunc} style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center',flex: 1,borderBottomWidth:1,borderBottomColor:'#EBEBEB',paddingBottom:10}}>
           <View style={{flexDirection:'row',alignItems:'center',flex:1}}>
-            {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 18,height: 18,marginRight: 5}} resizeMode="contain"/> :null}
-            <Text style={{fontSize: 22,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>
+            {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 20,height: 18,marginRight: 5}} resizeMode="contain"/> :null}
+            <Text style={{fontSize: 18,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>
           </View>
           {item.canOpen?<Icon name="ios-arrow-down-outline" style={{width: 20,height: 20,color:'#C8C7C7',marginTop:-8}}/>:null}
         </TouchableOpacity>
