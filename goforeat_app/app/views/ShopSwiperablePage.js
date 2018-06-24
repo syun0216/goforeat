@@ -114,7 +114,7 @@ class ShopSwiperablePage extends Component {
   }
 
   _reloadPage() {
-    console.log(22222,this.state.placeSelected);
+    // console.log(22222,this.state.placeSelected);
     if(!this.state.placeSelected) {
       this._picker.getPlace();
       return;

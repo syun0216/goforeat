@@ -68,7 +68,7 @@ export default class ConfirmOrderView extends PureComponent {
 
   _createOrder = () => {
     let {foodId,placeId,amount} = this.props.navigation.state.params;
-    console.log(this.props.navigation.state.params);
+    // console.log(this.props.navigation.state.params);
     api.createOrder(foodId,this.props.screenProps.sid,placeId,amount).then(
       data => {
         // console.log(data);
