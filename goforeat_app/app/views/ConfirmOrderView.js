@@ -68,6 +68,7 @@ export default class ConfirmOrderView extends PureComponent {
 
   _createOrder = () => {
     let {foodId,placeId,amount} = this.props.navigation.state.params;
+    console.log(this.props.navigation.state.params);
     api.createOrder(foodId,this.props.screenProps.sid,placeId,amount).then(
       data => {
         // console.log(data);
@@ -251,10 +252,10 @@ export default class ConfirmOrderView extends PureComponent {
   _renderNewDetailsView = () => {
     let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
     let _details_arr = [
-      {title:'取餐日期',content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false},
-      {title:'取餐地點',content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false},
-      {title:'預計取餐時間',content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:true},
-      {title:'支付方式',content:'現金支付',hasPreIcon:false,fontColor:'#333333',canOpen:true}
+      {title:'取餐日期',content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false,clickFunc:()=>{}},
+      {title:'取餐地點',content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false,clickFunc:()=>{}},
+      {title:'預計取餐時間',content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:true,clickFunc:()=> ToastUtil.showWithMessage('暫未開放')},
+      {title:'支付方式',content:'現金支付',hasPreIcon:false,fontColor:'#333333',canOpen:true,clickFunc:()=> ToastUtil.showWithMessage('暫未開放')}
     ];
     return (
       <View style={styles.commonNewContainer}>
@@ -268,7 +269,7 @@ export default class ConfirmOrderView extends PureComponent {
     return (
       <View key={idx} style={[styles.commonDetailsContainer,styles.commonMarginBottom]}>
         <Text style={{color:'#999999',marginBottom: 10}}>{item.title}</Text>
-        <TouchableOpacity style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center',flex: 1,borderBottomWidth:1,borderBottomColor:'#EBEBEB',paddingBottom:10}}>
+        <TouchableOpacity onPress={item.clickFunc} style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center',flex: 1,borderBottomWidth:1,borderBottomColor:'#EBEBEB',paddingBottom:10}}>
           <View style={{flexDirection:'row',alignItems:'center',flex:1}}>
             {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 18,height: 18,marginRight: 5}} resizeMode="contain"/> :null}
             <Text style={{fontSize: 22,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>

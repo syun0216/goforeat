@@ -264,8 +264,8 @@ const api = {
         return axios.get(api_url + '/food/getDeliveryPlace', {timeout: 4500})
     },
     saveDevices(registrationId,sid) {
-        console.log(registrationId);
-        console.log(Platform.OS);
+        // console.log(registrationId);
+        // console.log(Platform.OS);
         return axios.post(api_url + '/device/save', qs.stringify({
             registrationId, sellClient: Platform.OS == 'ios' ? 1 : 2,
             sid

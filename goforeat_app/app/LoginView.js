@@ -156,6 +156,7 @@ export default class LoginView extends Component {
               {
                   replaceRoute: true,
                   foodId: params.foodId,
+                  placeId: params.placeId,
                   amount: params.amount,
                   total: params.total
               })
