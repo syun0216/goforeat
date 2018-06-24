@@ -193,7 +193,7 @@ export default class ConfirmOrderView extends PureComponent {
             <Text style={styles.commonText}>總計</Text>
           </Separator>
           <ListItem last>
-            <Text style={styles.commonText}>HKD {totalMoney}</Text>
+            <Text style={[styles.commonText,{color:'#FF3348'}]}>HKD {totalMoney}</Text>
           </ListItem>
         </Content>
         <Footer
@@ -254,8 +254,8 @@ export default class ConfirmOrderView extends PureComponent {
     let _details_arr = [
       {title:'取餐日期',content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false,clickFunc:()=>{}},
       {title:'取餐地點',content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false,clickFunc:()=>{}},
-      {title:'預計取餐時間',content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:true,clickFunc:()=> ToastUtil.showWithMessage('暫未開放')},
-      {title:'支付方式',content:'現金支付',hasPreIcon:false,fontColor:'#333333',canOpen:true,clickFunc:()=> ToastUtil.showWithMessage('暫未開放')}
+      {title:'預計取餐時間',content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {}},
+      {title:'支付方式',content:'現金支付',hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {}}
     ];
     return (
       <View style={styles.commonNewContainer}>
@@ -271,7 +271,7 @@ export default class ConfirmOrderView extends PureComponent {
         <Text style={{color:'#999999',marginBottom: 10}}>{item.title}</Text>
         <TouchableOpacity onPress={item.clickFunc} style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center',flex: 1,borderBottomWidth:1,borderBottomColor:'#EBEBEB',paddingBottom:10}}>
           <View style={{flexDirection:'row',alignItems:'center',flex:1}}>
-            {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 20,height: 18,marginRight: 5}} resizeMode="contain"/> :null}
+            {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 21,height: 20,marginRight: 5}} resizeMode="contain"/> :null}
             <Text style={{fontSize: 18,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>
           </View>
           {item.canOpen?<Icon name="ios-arrow-down-outline" style={{width: 20,height: 20,color:'#C8C7C7',marginTop:-8}}/>:null}
