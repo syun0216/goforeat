@@ -45,7 +45,7 @@ const Loading = props => {
         }}
         >
         <ActivityIndicator size="small" color={Colors.deep_gray}/>
-        <Text style={{ color: Colors.deep_gray, marginTop: 10,fontSize: 14 }}>{props.message}</Text>
+        <Text allowFontScaling={false} style={{ color: Colors.deep_gray, marginTop: 10,fontSize: 14 }}>{props.message}</Text>
       </View>
     </View>
   );

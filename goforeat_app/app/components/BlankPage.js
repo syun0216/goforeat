@@ -8,7 +8,7 @@ const BlankPage = ({message,style}) => {
   return (
     <View style={[{width: GLOBAL_PARAMS._winWidth, marginTop: 10,minHeight: 250, justifyContent: 'center', alignItems: 'center', },style]}>
       <Image source={require('../asset/cry.png')} style={{width: 100,height: 100}}/>
-      <Text style={{fontSize: 16,marginTop:20,color:'#cdcdcd',fontWeight:'bold'}}>{message}</Text>
+      <Text  allowFontScaling={false} style={{fontSize: 16,marginTop:20,color:'#cdcdcd',fontWeight:'bold'}}>{message}</Text>
     </View>
   )
 }

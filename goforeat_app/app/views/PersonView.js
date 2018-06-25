@@ -280,11 +280,11 @@ export default class PeopleView extends Component {
                 paddingBottom: 10
               }}
             >
-              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>菜品名稱</Text><Text style={styles.commonTitleText}>{item.orderName}</Text></View>
-              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>數量</Text><Text style={styles.commonTitleText}>×{item.amount}</Text></View>
-              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>取餐日期</Text><Text style={styles.commonTitleText}>{item.takeDate}</Text></View>
-              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>取餐時間</Text><Text style={styles.commonTitleText}>{item.takeTime}</Text></View>
-              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={styles.commonFlex}>取餐點</Text><Text style={styles.commonTitleText}>{item.takeAddressDetail}</Text></View>
+              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text allowFontScaling={false} style={styles.commonFlex}>菜品名稱</Text><Text allowFontScaling={false} style={styles.commonTitleText}>{item.orderName}</Text></View>
+              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text allowFontScaling={false} style={styles.commonFlex}>數量</Text><Text allowFontScaling={false} style={styles.commonTitleText}>×{item.amount}</Text></View>
+              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text allowFontScaling={false} style={styles.commonFlex}>取餐日期</Text><Text allowFontScaling={false} style={styles.commonTitleText}>{item.takeDate}</Text></View>
+              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text allowFontScaling={false} style={styles.commonFlex}>取餐時間</Text><Text allowFontScaling={false} style={styles.commonTitleText}>{item.takeTime}</Text></View>
+              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text allowFontScaling={false} style={styles.commonFlex}>取餐點</Text><Text allowFontScaling={false} style={styles.commonTitleText}>{item.takeAddressDetail}</Text></View>
             </Body>
           </CardItem>
           <CardItem style={{ backgroundColor: "#fafafa", marginTop: -10 }}>
@@ -302,8 +302,8 @@ export default class PeopleView extends Component {
                   justifyContent: "space-between"
                 }}
               >
-                <Text style={styles.commonDecText}>TOTAL HKD {item.totalMoney}</Text>
-                <Text style={[styles.commonPriceText,{color: this.props.screenProps.theme}]}>
+                <Text allowFontScaling={false} style={styles.commonDecText}>TOTAL HKD {item.totalMoney}</Text>
+                <Text allowFontScaling={false} style={[styles.commonPriceText,{color: this.props.screenProps.theme}]}>
                   {this._switchOrderStatus(item.status)}
                 </Text>
               </View>
@@ -318,9 +318,9 @@ export default class PeopleView extends Component {
                     justifyContent: "space-between"
                   }}
                 >
-              <Text style={styles.commonDecText}>訂單操作</Text>
+              <Text allowFontScaling={false} style={styles.commonDecText}>訂單操作</Text>
               <Button style={{backgroundColor: this.props.screenProps.theme,paddingLeft: 10,paddingRight: 10,justifyContent:'flex-end'}} onPress={() => this._cancelOrder(item.orderId)}>
-                <Text style={{color: Colors.main_white}}>取消訂單</Text>
+                <Text allowFontScaling={false} style={{color: Colors.main_white}}>取消訂單</Text>
               </Button>
             </View>
           </Body>
@@ -357,13 +357,13 @@ export default class PeopleView extends Component {
         <CommonHeader canBack hasTabs title="我的訂單" {...this.props}/>
         <Tabs tabBarUnderlineStyle={{backgroundColor: this.props.screenProps.theme}} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
-        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text style={styles.commonText}>全部訂單</Text></TabHeading>}>
+        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text allowFontScaling={false} style={styles.commonText}>全部訂單</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
-        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text style={styles.commonText}>待配送</Text></TabHeading>}>
+        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text allowFontScaling={false}style={styles.commonText}>待配送</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
-        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text style={styles.commonText}>已取消</Text></TabHeading>}>
+        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text allowFontScaling={false} style={styles.commonText}>已取消</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
       </Tabs>

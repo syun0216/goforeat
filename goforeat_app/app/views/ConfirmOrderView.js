@@ -230,19 +230,19 @@ export default class ConfirmOrderView extends PureComponent {
     return (
       <View style={styles.commonNewContainer}>
         <View style={[{flexDirection: 'row',alignItems:'center',justifyContent:'space-between'},styles.commonMarginTop,styles.commonMarginBottom]}>
-        <Text style={{color: '#111111',fontSize: 18,flex:1}} numberOfLines={1}>{orderDetail[0].foodName}</Text>
-        <Text style={{color:'#111111',fontSize: 22}} numberOfLines={1}>HKD {orderDetail[0].foodMoney.toFixed(2)}</Text>
+        <Text allowFontScaling={false} style={{color: '#111111',fontSize: 18,flex:1}} numberOfLines={1}>{orderDetail[0].foodName}</Text>
+        <Text allowFontScaling={false} style={{color:'#111111',fontSize: 22}} numberOfLines={1}>HKD {orderDetail[0].foodMoney.toFixed(2)}</Text>
         </View>
         <View style={[{flexDirection: 'row',alignItems:'center'},styles.commonMarginBottom]}>
-          <Text style={{color: '#999999',fontSize:16,marginRight: 5}}>數量:</Text>
-          <Text style={{color: Colors.middle_red,fontSize: 16}}>{orderDetail[0].foodNum}</Text>
+          <Text allowFontScaling={false} style={{color: '#999999',fontSize:16,marginRight: 5}}>數量:</Text>
+          <Text allowFontScaling={false} style={{color: Colors.middle_red,fontSize: 16}}>{orderDetail[0].foodNum}</Text>
         </View>
         <Divider bgColor="#EBEBEB" height={1}/>
         <View style={[{flexDirection: 'row',justifyContent:'space-between',alignItems:'center'},styles.commonMarginTop,styles.commonMarginBottom]}>
-          <Text style={{flex: 1,fontSize: 18,color: '#333333',}}>總金額</Text>
+          <Text allowFontScaling={false} style={{flex: 1,fontSize: 18,color: '#333333',}}>總金額</Text>
           <View style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
-            <Text style={{fontSize: 22,color: '#111111',marginRight: 5}}>HKD</Text>
-            <Text style={{fontSize: 26,color: '#ff3448',marginTop: -4}} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
+            <Text allowFontScaling={false} style={{fontSize: 22,color: '#111111',marginRight: 5}}>HKD</Text>
+            <Text allowFontScaling={false} style={{fontSize: 26,color: '#ff3448',marginTop: -4}} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
           </View>
         </View>
       </View>
@@ -259,7 +259,7 @@ export default class ConfirmOrderView extends PureComponent {
     ];
     return (
       <View style={styles.commonNewContainer}>
-        <Text style={[{color:'#111111',fontSize: 20,fontWeight:'bold'},styles.commonMarginBottom,styles.commonMarginTop]}>取餐資料</Text>
+        <Text allowFontScaling={false} style={[{color:'#111111',fontSize: 20,fontWeight:'bold'},styles.commonMarginBottom,styles.commonMarginTop]}>取餐資料</Text>
         {_details_arr.map((item,idx) => this._renderCommonDetailView(item,idx))}
       </View>
     )
@@ -268,11 +268,11 @@ export default class ConfirmOrderView extends PureComponent {
   _renderCommonDetailView = (item,idx) => {
     return (
       <View key={idx} style={[styles.commonDetailsContainer,styles.commonMarginBottom]}>
-        <Text style={{color:'#999999',marginBottom: 10}}>{item.title}</Text>
+        <Text allowFontScaling={false} style={{color:'#999999',marginBottom: 10}}>{item.title}</Text>
         <TouchableOpacity onPress={item.clickFunc} style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center',flex: 1,borderBottomWidth:1,borderBottomColor:'#EBEBEB',paddingBottom:10}}>
           <View style={{flexDirection:'row',alignItems:'center',flex:1}}>
             {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 21,height: 20,marginRight: 5}} resizeMode="contain"/> :null}
-            <Text style={{fontSize: 18,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>
+            <Text allowFontScaling={false} style={{fontSize: 18,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>
           </View>
           {item.canOpen?<Icon name="ios-arrow-down-outline" style={{width: 20,height: 20,color:'#C8C7C7',marginTop:-8}}/>:null}
         </TouchableOpacity>

@@ -19,23 +19,18 @@ import {
 //views
 import LoginView from "./LoginView";
 import SettingView from "./SettingView";
-import SplashPageView from "./SplashPageView";
 
-import ContentView from "./views/ContentView";
-import GoodsListPageView from "./views/GoodsListPageView";
+import HomePage from "./views/HomePage";
 import ArticleView from "./views/ArticleView";
+import ContentView from "./views/ContentView";
 import PersonView from "./views/PersonView";
 import StatementView from "./views/StatementView";
-import ShopSwiperablePage from "./views/ShopSwiperablePage";
-import ActivitySwiperablePage from "./views/ActivitySwiperablePage";
-import UploadView from "./views/UploadView";
 import MandatoryUpdateView from "./MandatoryUpdateView";
 import ConfirmOrderView from "./views/ConfirmOrderView";
 import UserHelperView from "./views/UserHelperView";
 //api
 import source from "./api/CancelToken";
 //utils
-import LinkingUtils from "./utils/LinkingUtils";
 import GLOBAL_PARAMS from "./utils/global_params";
 import Colors from "./utils/Colors";
 //store
@@ -48,7 +43,7 @@ import i18n from './language/i18n';
 const tabView = TabNavigator(
   {
     ShopTab: {
-      screen: ShopSwiperablePage,
+      screen: HomePage,
       navigationOptions: {
         tabBarLabel: "每日外賣",
         tabBarIcon: ({ tintColor, focused }) => {
@@ -157,6 +152,7 @@ const darwerView = DrawerNavigator(
                   resizeMode="contain"
                 />
                 <Text
+                  allowFontScaling={false}
                   style={{
                     fontSize: Platform.OS == 'ios'?20:18,
                     textAlignVertical: "center",
@@ -183,6 +179,7 @@ const darwerView = DrawerNavigator(
                   resizeMode="contain"
                 />
                 <Text
+                  allowFontScaling={false}
                   style={{
                     fontSize: Platform.OS == 'ios'?20:18,
                     textAlignVertical: "center",
@@ -207,6 +204,7 @@ const darwerView = DrawerNavigator(
                   resizeMode="contain"
                 />
                 <Text
+                  allowFontScaling={false}
                   style={{
                     fontSize: Platform.OS == 'ios'?20:18,
                     textAlignVertical: "center",
@@ -227,7 +225,7 @@ const darwerView = DrawerNavigator(
             >
               <Image source={require('./asset/setting.png')} style={drawer_style.commonImage}
               resizeMode="contain"/>
-              <Text style={{ fontSize: Platform.OS == 'ios'?20:18,
+              <Text allowFontScaling={false} style={{ fontSize: Platform.OS == 'ios'?20:18,
                 textAlignVertical: "center",
                 marginLeft: 26,
                 color: Colors.fontBlack}}>系統設置</Text>
@@ -330,9 +328,6 @@ let MainView = StackNavigator(
     Mandatory: {
       screen: MandatoryUpdateView
     },
-    GoodsList:{
-      screen: GoodsListPageView
-    },
     Content: {
       screen: ContentView,
       navigationOptions: {
@@ -354,14 +349,8 @@ let MainView = StackNavigator(
     Statement: {
       screen: StatementView
     },
-    Upload: {
-      screen: UploadView
-    },
     Order: {
       screen: ConfirmOrderView
-    },
-    Ativity: {
-      screen: ActivitySwiperablePage
     },
     Person: {
       screen: PersonView

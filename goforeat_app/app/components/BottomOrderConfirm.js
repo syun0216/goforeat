@@ -94,12 +94,12 @@ export default class BottomOrderConfirm extends PureComponent {
           {this.props.canClose ?<TouchableOpacity style={{width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50, alignItems:'center'}} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,{color: Colors.main_gray,fontSize:28,marginTop: 3}]}/>
           </TouchableOpacity> : null}
-          <Text style={{marginLeft: 5}}>HKD{" "}</Text>
-          <Text style={[styles.commonText,{color:'#FF3348',width:Platform.OS == 'ios'?GLOBAL_PARAMS._winWidth<350?60:100:80,marginTop:-5,}]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
+          <Text allowFontScaling={false} style={{marginLeft: 5}}>HKD{" "}</Text>
+          <Text allowFontScaling={false} style={[styles.commonText,{color:'#FF3348',width:Platform.OS == 'ios'?GLOBAL_PARAMS._winWidth<350?60:100:80,marginTop:-5,}]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
         </View>
         <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,width:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => btnClick()}>
           <View style={styles.commonView}>
-            <Text style={[styles.commonText,{color:'#fff'}]}>{this.props.btnMessage}</Text>
+            <Text allowFontScaling={false} style={[styles.commonText,{color:'#fff'}]}>{this.props.btnMessage}</Text>
           </View>
         </TouchableOpacity>  
       </Animated.View>

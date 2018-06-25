@@ -53,7 +53,7 @@ const _styles = StyleSheet.create({
   }
 });
 
-class ShopSwiperablePage extends Component {
+class HomePage extends Component {
   _current_offset = 0;
   _SliderEntry = null;
   _timer = null;
@@ -255,9 +255,9 @@ class ShopSwiperablePage extends Component {
   _renderDateFormat() {
     return (
       <View style={{marginTop:20,marginLeft:GLOBAL_PARAMS._winWidth*0.08}}>
-        <Text style={{color: Colors.fontBlack,fontSize: 18, marginBottom: 5,fontWeight: 'bold'}}>
+        <Text style={{color: Colors.fontBlack,fontSize: 18, marginBottom: 5,fontWeight: 'bold'}} allowFontScaling={false}>
         {this.state.formatDate.week}的餐單</Text>
-        <Text style={{color: Colors.fontGray,fontSize: 13}}>{this.state.formatDate.date}</Text>
+        <Text style={{color: Colors.fontGray,fontSize: 13}} allowFontScaling={false}>{this.state.formatDate.date}</Text>
       </View>
     )
   }
@@ -283,8 +283,8 @@ class ShopSwiperablePage extends Component {
     let _width = GLOBAL_PARAMS._winWidth*0.08;
     return (
       <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft: _width,paddingRight: _width,paddingBottom: 10 }}>
-        <Text style={{fontSize: 20,color: '#111',fontWeight:'bold',marginBottom:11}} numberOfLines={1}>{foodDetails[0].foodName}</Text>
-        <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight:Platform.OS =='ios'? 20 : 25}} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodDetails[0].foodBrief}</Text>
+        <Text style={{fontSize: 20,color: '#111',fontWeight:'bold',marginBottom:11}} numberOfLines={1} allowFontScaling={false}>{foodDetails[0].foodName}</Text>
+        <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight:Platform.OS =='ios'? 20 : 25}} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3} allowFontScaling={false}>{foodDetails[0].foodBrief}</Text>
       </View>
     )
   }
@@ -295,16 +295,16 @@ class ShopSwiperablePage extends Component {
     return (
       <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft:_width,paddingRight:_width,flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
         <View style={{position:'relative',flexDirection: 'row',alignItems:'flex-end'}}>
-          <Text style={{fontSize: 18,color: Colors.fontBlack,marginRight: 8}}>HKD</Text>
-          <Text style={{fontSize: 25,color: '#ff3348',marginRight:GLOBAL_PARAMS._winWidth < 340 ?10 : 15,marginBottom:-4}}>{foodDetails[0].price}</Text>
-          <Text style={{fontSize: 16,color: '#9B9B9B'}}>HKD {foodDetails[0].originPrice}</Text>
+          <Text allowFontScaling={false} style={{fontSize: 18,color: Colors.fontBlack,marginRight: 8}}>HKD</Text>
+          <Text allowFontScaling={false} style={{fontSize: 25,color: '#ff3348',marginRight:GLOBAL_PARAMS._winWidth < 340 ?10 : 15,marginBottom:-4}}>{foodDetails[0].price}</Text>
+          <Text allowFontScaling={false} style={{fontSize: 16,color: '#9B9B9B'}}>HKD {foodDetails[0].originPrice}</Text>
           <View style={{width: GLOBAL_PARAMS._winWidth < 340 ? 60 : 75,transform: [{ rotate: '-5deg'}],backgroundColor:'#9B9B9B',height:2,position:'absolute',bottom:8,right:GLOBAL_PARAMS._winWidth< 340 ? -3: -8,opacity:0.63}}/>
         </View>
         <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
             <TouchableOpacity onPress={() => this._remove()} style={{width: 40,alignItems:'center'}}>
             <Image source={require("../asset/remove.png")} style={{width:25,height:25}}/>
             </TouchableOpacity>
-            <Text style={{color:Colors.fontBlack,fontSize:28,width:40,textAlign:'center'}} numberOfLines={1}>{this.state.foodCount}</Text>
+            <Text allowFontScaling={false} style={{color:Colors.fontBlack,fontSize:28,width:40,textAlign:'center'}} numberOfLines={1}>{this.state.foodCount}</Text>
             <TouchableOpacity onPress={() => this._add()} style={{width: 40,alignItems:'center'}}>
                 <Image source={require("../asset/add.png")} style={{width:34,height:34,marginTop:7}}/>
             </TouchableOpacity>    
@@ -365,7 +365,7 @@ class ShopSwiperablePage extends Component {
       <TouchableOpacity style={{flexDirection:'row',marginLeft:Platform.OS == 'ios' ? -65 : -30,maxWidth: Platform.OS == 'ios' ? 200 :250,marginTop: Platform.OS == 'ios' ? 0 : -8,position: 'relative'}} onPress={() => this.setState({showPlacePicker: true})}>
         <View style={{backgroundColor:Colors.main_white,opacity:0.2,borderRadius: 100,width:250,height: 35,}}/>
         <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20,position:'absolute',top: 8,left:12}}/>
-        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 33,top:Platform.OS =='android' ? 7 : 8,height: 30}} numberOfLines={1}>
+        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 33,top:Platform.OS =='android' ? 7 : 8,height: 30}} numberOfLines={1} allowFontScaling={false}>
           {this.state.placeSelected.name}
         </Text>
       </TouchableOpacity>
@@ -433,4 +433,4 @@ class ShopSwiperablePage extends Component {
   }
 }
 
-export default HotReloadHOC(ShopSwiperablePage);
+export default HotReloadHOC(HomePage);
