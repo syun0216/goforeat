@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
     height: 49,
     position: 'absolute',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     zIndex: 1,
     paddingLeft: 10,
@@ -83,19 +82,19 @@ export default class BottomOrderConfirm extends PureComponent {
   }
 
   render() {
-    let {total,btnClick} = this.props;
+    let {total,btnClick,canClose} = this.props;
     return (
-      <Animated.View style={[styles.bottomContainer,{
+      <Animated.View style={[styles.bottomContainer,{justifyContent: canClose?'space-between':'flex-end',},{
         bottom:this.state.bottom.interpolate({
         inputRange: [0,1],
         outputRange: [-49, 0]
       })}]}>
         <View style={styles.commonView}>
-          {this.props.canClose ?<TouchableOpacity style={{width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50, alignItems:'center'}} onPress={this._cancelOrder}>
+          {canClose ?<TouchableOpacity style={{width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50, alignItems:'center'}} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,{color: Colors.main_gray,fontSize:28,marginTop: 3}]}/>
           </TouchableOpacity> : null}
           <Text allowFontScaling={false} style={{marginLeft: 5}}>HKD{" "}</Text>
-          <Text allowFontScaling={false} style={[styles.commonText,{color:'#FF3348',width:Platform.OS == 'ios'?GLOBAL_PARAMS._winWidth<350?60:100:80,marginTop:-5,}]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
+          <Text allowFontScaling={false} style={[styles.commonText,{color:'#FF3348',width:Platform.OS == 'ios'?GLOBAL_PARAMS._winWidth<350?60:100:80,marginTop:-5,fontWeight:'600'}]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
         </View>
         <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,width:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => btnClick()}>
           <View style={styles.commonView}>

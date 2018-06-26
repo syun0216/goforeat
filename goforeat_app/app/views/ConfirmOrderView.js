@@ -230,8 +230,8 @@ export default class ConfirmOrderView extends PureComponent {
     return (
       <View style={styles.commonNewContainer}>
         <View style={[{flexDirection: 'row',alignItems:'center',justifyContent:'space-between'},styles.commonMarginTop,styles.commonMarginBottom]}>
-        <Text allowFontScaling={false} style={{color: '#111111',fontSize: 18,flex:1}} numberOfLines={1}>{orderDetail[0].foodName}</Text>
-        <Text allowFontScaling={false} style={{color:'#111111',fontSize: 22}} numberOfLines={1}>HKD {orderDetail[0].foodMoney.toFixed(2)}</Text>
+        <Text allowFontScaling={false} style={{color: '#111111',fontSize: 18,flex:1,fontWeight:'600'}} numberOfLines={1}>{orderDetail[0].foodName}</Text>
+        <Text allowFontScaling={false} style={{color:'#111111',fontSize: 18}} numberOfLines={1}>HKD {orderDetail[0].foodMoney.toFixed(2)}</Text>
         </View>
         <View style={[{flexDirection: 'row',alignItems:'center'},styles.commonMarginBottom]}>
           <Text allowFontScaling={false} style={{color: '#999999',fontSize:16,marginRight: 5}}>數量:</Text>
@@ -241,8 +241,8 @@ export default class ConfirmOrderView extends PureComponent {
         <View style={[{flexDirection: 'row',justifyContent:'space-between',alignItems:'center'},styles.commonMarginTop,styles.commonMarginBottom]}>
           <Text allowFontScaling={false} style={{flex: 1,fontSize: 18,color: '#333333',}}>總金額</Text>
           <View style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
-            <Text allowFontScaling={false} style={{fontSize: 22,color: '#111111',marginRight: 5}}>HKD</Text>
-            <Text allowFontScaling={false} style={{fontSize: 26,color: '#ff3448',marginTop: -4}} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
+            <Text allowFontScaling={false} style={{fontSize: 20,color: '#111111',marginRight: 5}}>HKD</Text>
+            <Text allowFontScaling={false} style={{fontSize: 22,color: '#ff3448',marginTop: -4,fontWeight:'600'}} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
           </View>
         </View>
       </View>
@@ -271,7 +271,7 @@ export default class ConfirmOrderView extends PureComponent {
         <Text allowFontScaling={false} style={{color:'#999999',marginBottom: 10}}>{item.title}</Text>
         <TouchableOpacity onPress={item.clickFunc} style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center',flex: 1,borderBottomWidth:1,borderBottomColor:'#EBEBEB',paddingBottom:10}}>
           <View style={{flexDirection:'row',alignItems:'center',flex:1}}>
-            {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 21,height: 20,marginRight: 5}} resizeMode="contain"/> :null}
+            {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 18,height: 17,marginRight: 5}} resizeMode="contain"/> :null}
             <Text allowFontScaling={false} style={{fontSize: 18,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>
           </View>
           {item.canOpen?<Icon name="ios-arrow-down-outline" style={{width: 20,height: 20,color:'#C8C7C7',marginTop:-8}}/>:null}

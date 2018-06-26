@@ -127,11 +127,11 @@ const darwerView = DrawerNavigator(
             flexDirection: "row",
             justifyContent: "center",
           }}>
-            <Image source={require('./asset/logoTop.png')} style={{width: GLOBAL_PARAMS._winWidth*0.5,height: GLOBAL_PARAMS._winHeight * 0.1,marginTop: 10,marginLeft: -40}}/>
+            <Image source={require('./asset/logoTop.png')} style={{width: GLOBAL_PARAMS._winWidth*0.5,height: GLOBAL_PARAMS._winHeight * 0.1,marginTop: 10}}/>
           </LinearGradient>
         </View>
           <Content style={{ backgroundColor: Colors.main_white }}>
-            <View style={{ backgroundColor: Colors.main_white,marginTop: 20 }}>
+            <View style={{ backgroundColor: Colors.main_white,marginTop: 30 }}>
               <TouchableOpacity
               onPress={() => {
                 if(props.screenProps.user === null) {
@@ -156,7 +156,7 @@ const darwerView = DrawerNavigator(
                   style={{
                     fontSize: Platform.OS == 'ios'?20:18,
                     textAlignVertical: "center",
-                    marginLeft: 26,
+                    marginLeft: 15,
                     color: Colors.fontBlack
                   }}
                 >
@@ -183,7 +183,7 @@ const darwerView = DrawerNavigator(
                   style={{
                     fontSize: Platform.OS == 'ios'?20:18,
                     textAlignVertical: "center",
-                    marginLeft: 26,
+                    marginLeft: 15,
                     color: Colors.fontBlack
                   }}
                 >
@@ -208,7 +208,7 @@ const darwerView = DrawerNavigator(
                   style={{
                     fontSize: Platform.OS == 'ios'?20:18,
                     textAlignVertical: "center",
-                    marginLeft: 26,
+                    marginLeft: 15,
                     color: Colors.fontBlack
                   }}
                 >
@@ -227,7 +227,7 @@ const darwerView = DrawerNavigator(
               resizeMode="contain"/>
               <Text allowFontScaling={false} style={{ fontSize: Platform.OS == 'ios'?20:18,
                 textAlignVertical: "center",
-                marginLeft: 26,
+                marginLeft: 15,
                 color: Colors.fontBlack}}>系統設置</Text>
             </TouchableOpacity>
               {/*<TouchableOpacity
@@ -253,7 +253,7 @@ const darwerView = DrawerNavigator(
                   style={{
                     fontSize: 23,
                     textAlignVertical: "center",
-                    marginLeft: 26,
+                    marginLeft: 15,
                     color: Colors.fontBlack
                   }}
                 >
