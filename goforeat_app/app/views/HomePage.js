@@ -71,7 +71,8 @@ class HomePage extends Component {
       placeSelected: null,
       formatDate: {
         date: '',
-        week: ''
+        week: '',
+        endDate: ''
       },
       refreshParams: '',
       isBottomContainerShow: false,
@@ -122,26 +123,36 @@ class HomePage extends Component {
     this._onRefreshToRequestFirstPageData(this.state.placeSelected.id);
   }
 
-  _formatDate(timestamp) {
+  _formatDate(timestamp,endTimestamp) {
     let _Date = new Date(timestamp);
+    let _endDate = new Date(endTimestamp);
     let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,_Date.getDate(),_Date.getFullYear()].join('-');
+    let _endDate_format = '截止時間';
+
     // console.log(_date_format);
-    let _week_day = null;
-    switch(_Date.getDay()) 
+    let _getWeekDay = (date) => {
+      let _week_day = null;
+      switch(date) 
       { 
-      case 0:_week_day = "星期日";break; 
-      case 1:_week_day = "星期一";break; 
-      case 2:_week_day = "星期二";break; 
-      case 3:_week_day = "星期三";break; 
-      case 4:_week_day = "星期四";break; 
-      case 5:_week_day = "星期五";break; 
-      case 6:_week_day = "星期六";break; 
-      default:_week_day = "系统错误！" 
+        case 0:_week_day = "星期日";break; 
+        case 1:_week_day = "星期一";break; 
+        case 2:_week_day = "星期二";break; 
+        case 3:_week_day = "星期三";break; 
+        case 4:_week_day = "星期四";break; 
+        case 5:_week_day = "星期五";break; 
+        case 6:_week_day = "星期六";break; 
+        default:_week_day = "系统错误！" 
       } 
+      return _week_day;
+    }
+    
+    _endDate_format += ` ${_endDate.getHours()}:${_endDate.getMinutes()<10?`0${_endDate.getMinutes()}`:`${_endDate.getMinutes()}`} ${_endDate.getMonth()+1}月${_endDate.getDate()}日 ${_getWeekDay(_endDate.getDay())}`;
+    
     this.setState({
       formatDate: {
         date: _date_format,
-        week: _week_day
+        week: _getWeekDay(_Date.getDay()),
+        endDate: _endDate_format
       }
     });
   }
@@ -154,7 +165,7 @@ class HomePage extends Component {
             loading: false,
             refreshing: false
           })
-          this._formatDate(data.data.data.timestamp);
+          this._formatDate(data.data.data.timestamp,data.data.data.endTimestamp);
         }
       },() => {
         this.setState({ isError: true, loading: false,refreshing: false });
@@ -262,6 +273,14 @@ class HomePage extends Component {
     )
   }
 
+  _renderDeadLineDate() {
+    return(
+      <View style={{marginTop: 10,marginLeft:GLOBAL_PARAMS._winWidth*0.08}}>
+        <Text allowFontScaling={false} style={{color: '#999999',fontSize: 16}}>{this.state.formatDate.endDate}</Text>
+      </View>
+    )
+  }
+
   _renderWarningView() {
     return (
       <WarningTips />
@@ -309,6 +328,7 @@ class HomePage extends Component {
                 <Image source={require("../asset/add.png")} style={{width:34,height:34,marginTop:7}}/>
             </TouchableOpacity>    
         </View>
+
       </View>
     )
   }
@@ -425,6 +445,7 @@ class HomePage extends Component {
         {example1}
         {this.state.foodDetails != null ? this._renderIntrodutionView() : null}
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
+        {this.state.foodDetails != null ? this._renderDeadLineDate() : null}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
         {<View style={{height: 80,width: GLOBAL_PARAMS._winWidth}}/>}
         </ScrollView>
