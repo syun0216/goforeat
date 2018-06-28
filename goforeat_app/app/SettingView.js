@@ -1,10 +1,8 @@
 import React,{PureComponent} from 'react'
-import {View,Text,StyleSheet,TouchableOpacity,Switch,Alert} from 'react-native'
-import {Container,Body,Button,Icon,Content,ListItem,Left,Right} from 'native-base'
-import {NavigationActions} from 'react-navigation';
+import {View,Text,StyleSheet,Alert} from 'react-native'
+import {Container,Button} from 'native-base'
 //utils
 import Colors from './utils/Colors';
-import GLOBAL_PARAMS from './utils/global_params';
 import ToastUtil from './utils/ToastUtil';
 //components
 import CommonHeader from './components/CommonHeader';
@@ -21,13 +19,6 @@ export default class SettingView extends PureComponent{
   _currentItemClick = theme => {
     if(theme === this.props.screenProps.theme) return;
     this.props.screenProps.changeTheme(theme)
-    // const resetAction = NavigationActions.reset({
-    //     index: 0,
-    //     actions: [
-    //         NavigationActions.navigate( { routeName: 'Home',params:{refresh:123}} )
-    //     ],
-    // });
-    // this.props.navigation.dispatch(resetAction);
   }
 
   componentDidMount = () => {

@@ -280,90 +280,6 @@ export default class ConfirmOrderView extends PureComponent {
     )
   }
 
-  _renderOrderView = () => {
-    let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
-    return (
-      <View>
-        <Card>
-          <CardItem style={{ backgroundColor: "#fafafa" }}>
-            <Body
-              style={{
-                borderBottomColor: "#ccc",
-                borderBottomWidth: 1,
-                paddingBottom: 10
-              }}
-            >
-              <Text style={styles.commonTitleText}>
-                {orderDetail[0].foodName} {"\n"}
-                HKD {orderDetail[0].foodMoney}
-              </Text>
-              <Text style={styles.commonDecText}>
-                數量: {orderDetail[0].foodNum}
-              </Text>
-            </Body>
-          </CardItem>
-          <CardItem style={{ backgroundColor: "#fafafa", marginTop: -10 }}>
-            <Body>
-              {/*<Text style={styles.commonTitleText}>*/}
-              {/*NativeBase builds a layer on top of React Native that provides*/}
-              {/*you with*/}
-              {/*</Text>*/}
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between"
-                }}
-              >
-                <Text style={styles.commonDecText}>總金額</Text>
-                <Text style={styles.commonPriceText}>
-                  HKD {totalMoney}
-                </Text>
-              </View>
-            </Body>
-          </CardItem>
-        </Card>
-        <View style={{ padding: 5 }}>
-          <Text style={styles.commonDetailText}>訂單詳情</Text>
-          <Form style={{ marginLeft: -15 }}>
-            <Item stackedLabel>
-              <Label style={styles.commonLabel}>取餐日期</Label>
-              <Input
-                placeholder={takeDate}
-                disabled
-                placeholderTextColor="#777777"
-              />
-            </Item>
-            <Item stackedLabel>
-              <Label style={styles.commonLabel}>選擇點</Label>
-              <Input
-                placeholder={takeAddress}
-                disabled
-                placeholderTextColor="#777777"
-              />
-            </Item>
-            <Item stackedLabel>
-              <Label style={styles.commonLabel}>取餐點</Label>
-              <Input
-                placeholder={takeAddressDetail}
-                disabled
-                placeholderTextColor="#777777"
-              />
-            </Item>
-            <Item stackedLabel>
-              <Label style={styles.commonLabel}>取餐時間</Label>
-              <Input
-                placeholder={takeTime}
-                disabled
-                placeholderTextColor="#777777"
-              />
-            </Item>
-          </Form>
-        </View>
-      </View>
-    );
-  };
-
   _renderBottomConfirmView() {
     return (
       <BottomOrderConfirm isShow={this.state.isBottomShow} total={this.props.navigation.state.params.total}  btnMessage="立即下單" btnClick={this._openDialog} canClose={false}/>
@@ -390,7 +306,6 @@ export default class ConfirmOrderView extends PureComponent {
           ) : null}
           {this.state.orderDetail != null ? this._renderNewOrderView() : null}
           {this.state.orderDetail !== null ? this._renderNewDetailsView() : null}
-          {/*this.state.orderDetail !== null ? this._renderOrderView() : null*/}
           <View style={{height: 65}}/>
           </Content>
           {this._renderBottomConfirmView()}

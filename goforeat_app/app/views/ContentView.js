@@ -13,20 +13,16 @@ import {
 } from "react-native";
 import {
   Container,
-  Header,
-  Right,
   Content,
   Card,
   CardItem,
   Text,
-  Button,
   Icon,
   Left,
   Body,
   Footer
 } from "native-base";
 import Image from 'react-native-image-progress';
-import LinearGradient from 'react-native-linear-gradient';
 import ProgressBar from 'react-native-progress/Bar'
 import Share, {ShareSheet, Button as SButton} from 'react-native-share';
 //utils

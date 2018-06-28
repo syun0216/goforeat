@@ -9,7 +9,6 @@ import {
   Button,
   Text,
   ListItem,
-  Thumbnail,
   Left,
   Body,
   Right,

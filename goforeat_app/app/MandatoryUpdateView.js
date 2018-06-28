@@ -2,14 +2,12 @@
 
 import React,{Component} from 'react'
 import PropTypes from 'prop-types';
-import {Container,Content} from 'native-base';
+import {Container} from 'native-base';
 import {
     View,
-    ActivityIndicator,
     ProgressViewIOS,
     Platform,
     ProgressBarAndroid,
-    Alert,
     Text,
     Button
 } from 'react-native'

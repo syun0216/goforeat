@@ -1,19 +1,11 @@
 import React, {Component} from 'react'
-import {View,Text, TouchableOpacity,TouchableWithoutFeedback, Platform, SectionList,StyleSheet,ActivityIndicator,RefreshControl} from 'react-native'
+import {View,Text,TouchableWithoutFeedback, SectionList,StyleSheet,RefreshControl} from 'react-native'
 import {
   Container,
-  Header,
-  DeckSwiper,
   Card,
-  Button,
   CardItem,
-  Thumbnail,
-  Left,
-  Body,
-  Icon,
 } from 'native-base';
 import Image from 'react-native-image-progress';
-import ProgressBar from 'react-native-progress/Bar';
 //utils
 import ToastUtil from '../utils/ToastUtil';
 import Colors from '../utils/Colors';
@@ -24,7 +16,6 @@ import source from '../api/CancelToken';
 //components
 import ErrorPage from '../components/ErrorPage';
 import CommonHeader from '../components/CommonHeader';
-import Divider from '../components/Divider';
 import ListFooter from '../components/ListFooter';
 import Loading from '../components/Loading';
 //language
@@ -114,36 +105,6 @@ export default class ArticleView extends Component {
     })
     this._onRequestFirstPageData()
   }
-
-  // _onRefreshFirstPage = () => {
-  //   this.setState({
-  //     loadingStatus:{
-  //       refresh: true
-  //     }
-  //   })
-  //   api.getArticleList(0).then(data => {
-  //     // console.log(data)
-  //     if(data.status === 200) {
-  //       this.setState({
-  //         articleList: data.data.data,
-  //         refresh: false
-  //       })
-  //     }
-  //     else{
-  //       this.setState({
-  //         articleList: data.data.data,
-  //         refresh:false
-  //       })
-  //     }
-  //   },() => {
-  //     ToastUtil.show('网络请求出错',1000,'bottom','warning')
-  //     this.setState({
-  //       loadingStatus: {
-  //         refresh:false
-  //       }
-  //     })
-  //   })
-  // }
 
   _onRequestNextPage = (offset) => {
     api.getArticleList(offset).then(data => {
@@ -237,16 +198,6 @@ export default class ArticleView extends Component {
   _renderArticleListItemView = (item,index) => (
       <TouchableWithoutFeedback style={styles.articleItemContainer}
         onPress={() => this.props.navigation.navigate('Content', {data: item,kind:'article'})}>
-        {/*<View style={styles.artivleItemInnerContainer}>
-          <View><Image style={styles.articleImage} source={{uri:item.pic}} 
-          indicator={ProgressBar}
-          indicatorProps={{color:this.props.screenProps.theme}}/></View>
-          <View style={styles.articleDesc}>
-            <Text style={styles.articleTitle}>{item.date_title}</Text>
-            <Text style={[styles.articleTitle,{marginTop:3}]}>{item.food_title}</Text>
-          </View>
-          <Divider height={10} bgColor="transparent" />
-        </View>*/}
         <Card style={{width: GLOBAL_PARAMS._winWidth*0.95,alignSelf: 'center',}}>
           <CardItem cardBody>
             <Image source={{uri: item.pic}} style={{height: 250*(GLOBAL_PARAMS._winHeight/667), width: null, flex: 1,borderBottomWidth: 1,borderBottomColor: Colors.main_gray}} resizeMode="cover"/>
@@ -267,7 +218,6 @@ export default class ArticleView extends Component {
     {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
       <Loading/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
         <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
-      {/* <View style={{height:150,backgroundColor:this.props.theme,width:GLOBAL_PARAMS._winWidth}} /> */}
       <View style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
         {
             this.state.articleList !== null
@@ -290,8 +240,6 @@ const styles = StyleSheet.create({
   artivleItemInnerContainer: {
     flex:1,
     alignItems: 'center',
-    // paddingTop:10,
-    // paddingBottom: 0,
     backgroundColor: '#fff',
     borderTopWidth: 1,
   },

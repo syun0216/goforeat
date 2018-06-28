@@ -1,34 +1,19 @@
 import React, { Component } from "react";
 import {
-  StyleSheet,
   ScrollView,
   Image,
   View,
-  Dimensions,
   TouchableOpacity,
-  Animated,
-  Easing,
   Platform,
   StatusBar
 } from "react-native";
 import {
-  Container,
-  Content,
-  Form,
-  Item,
   Input,
-  Label,
   Button,
   Text,
-  Toast,
-  Header,
-  Body,
-  Left,
-  Right,
   Icon,
   ActionSheet
 } from "native-base";
-import {NavigationActions} from 'react-navigation';
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
 import Colors from "./utils/Colors";

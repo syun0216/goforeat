@@ -147,49 +147,6 @@ export default class GoodsListPageView extends Component {
     );
   };
 
-  // getCanteenOption = () => {
-  //   api.getCanteenOptions().then(
-  //     data => {
-  //       if (data.status === 200) {
-  //         const _newCanteenOptionsArr = [];
-  //         for (let i in data.data) {
-  //           data.data[i].unshift(["default", "全部"]);
-  //           data.data[i] = _.chunk(data.data[i], 3);
-  //           switch (i) {
-  //             case "areas":
-  //               _newCanteenOptionsArr.push({
-  //                 name: "地區",
-  //                 enName: "areas",
-  //                 value: data.data[i]
-  //               });
-  //               break;
-  //             case "categories":
-  //               _newCanteenOptionsArr.push({
-  //                 name: "分類",
-  //                 enName: "categories",
-  //                 value: data.data[i]
-  //               });
-  //               break;
-  //             case "seats":
-  //               _newCanteenOptionsArr.push({
-  //                 name: "人數",
-  //                 enName: "seats",
-  //                 value: data.data[i]
-  //               });
-  //               break;
-  //           }
-  //         }
-  //         this.setState({
-  //           canteenOptions: _newCanteenOptionsArr
-  //         });
-  //       }
-  //     },
-  //     () => {
-  //       ToastUtil.showWithMessage("网络请求出错");
-  //     }
-  //   );
-  // };
-
   getCanteenOption = () => {
      const _newCanteenOptionsArr = [];
      let _deepFilter = JSON.parse(JSON.stringify(filterData));

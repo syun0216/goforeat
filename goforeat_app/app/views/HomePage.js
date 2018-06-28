@@ -13,19 +13,19 @@ import {
 } from "react-native";
 import {
   Container,
-  Icon,
   Header,
 } from "native-base";
-import Carousel, { Pagination } from "react-native-snap-carousel";
+import Carousel from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient';
 import { sliderWidth, itemWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
 import HotReloadHOC from '../components/HotReloadHOC';
+//styles
 import styles, { colors } from "../styles/index.style";
+import HomePageStyles from "../styles/homepage.style";
 // utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
-import ToastUtil from "../utils/ToastUtil";
 //api
 import api from "../api";
 //components
@@ -38,20 +38,7 @@ import WarningTips from '../components/WarningTips';
 //language
 import i18n from "../language/i18n";
 
-const IS_ANDROID = Platform.OS === "android";
 const SLIDER_1_FIRST_ITEM = 0;
-
-const _styles = StyleSheet.create({
-  linearGradient: {
-    height: 65,
-    width: GLOBAL_PARAMS._winWidth,
-    marginTop: Platform.OS == 'ios' ? -15 : 0,
-    paddingTop: Platform.OS == 'ios' ? 15 : 0,
-    justifyContent:'center',
-    alignItems:'center',
-    flexDirection: 'row',
-  }
-});
 
 class HomePage extends Component {
   _current_offset = 0;
@@ -90,10 +77,6 @@ class HomePage extends Component {
     }
     this.setState({refreshParams: nextProps.screenProps.refresh})
   }
-
-  // shouldComponentUpdate(nextProps,nextState) {
-  //   return !(nextProps.screenProps.refresh == nextState.refreshParams);
-  // }
 
   componentDidMount() {
     AppState.addEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState))
@@ -265,18 +248,18 @@ class HomePage extends Component {
 
   _renderDateFormat() {
     return (
-      <View style={{marginTop:20,marginLeft:GLOBAL_PARAMS._winWidth*0.08}}>
-        <Text style={{color: Colors.fontBlack,fontSize: 18, marginBottom: 5,fontWeight: 'bold'}} allowFontScaling={false}>
+      <View style={HomePageStyles.DateFormatView}>
+        <Text style={HomePageStyles.DateFormatWeekText} allowFontScaling={false}>
         {this.state.formatDate.week}的餐單</Text>
-        <Text style={{color: Colors.fontGray,fontSize: 13}} allowFontScaling={false}>{this.state.formatDate.date}</Text>
+        <Text style={HomePageStyles.DateFormatDateText} allowFontScaling={false}>{this.state.formatDate.date}</Text>
       </View>
     )
   }
 
   _renderDeadLineDate() {
     return(
-      <View style={{marginTop: 10,marginLeft:GLOBAL_PARAMS._winWidth*0.08}}>
-        <Text allowFontScaling={false} style={{color: '#999999',fontSize: 16}}>{this.state.formatDate.endDate}</Text>
+      <View style={HomePageStyles.DeadLineDateView}>
+        <Text allowFontScaling={false} style={HomePageStyles.DeadLineDateText}>{this.state.formatDate.endDate}</Text>
       </View>
     )
   }
@@ -297,35 +280,33 @@ class HomePage extends Component {
   //   );
   // }
 
-  _renderIntrodutionView() {
+  _renderIntroductionView() {
     let {foodDetails} = this.state;
-    let _width = GLOBAL_PARAMS._winWidth*0.08;
     return (
-      <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft: _width,paddingRight: _width,paddingBottom: 10 }}>
-        <Text style={{fontSize: 20,color: '#111',fontWeight:'bold',marginBottom:11}} numberOfLines={1} allowFontScaling={false}>{foodDetails[0].foodName}</Text>
-        <Text style={{fontSize: 14,color:'#999999',textAlign:'justify',lineHeight:Platform.OS =='ios'? 20 : 25}} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3} allowFontScaling={false}>{foodDetails[0].foodBrief}</Text>
+      <View style={HomePageStyles.IntroductionView}>
+        <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1} allowFontScaling={false}>{foodDetails[0].foodName}</Text>
+        <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3} allowFontScaling={false}>{foodDetails[0].foodBrief}</Text>
       </View>
     )
   }
 
   _renderAddPriceView() {
     let {foodDetails} = this.state;
-    let _width = GLOBAL_PARAMS._winWidth*0.08;
     return (
-      <View style={{width: GLOBAL_PARAMS._winWidth,paddingLeft:_width,paddingRight:_width,flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
-        <View style={{position:'relative',flexDirection: 'row',alignItems:'flex-end'}}>
-          <Text allowFontScaling={false} style={{fontSize: 18,color: Colors.fontBlack,marginRight: 8}}>HKD</Text>
-          <Text allowFontScaling={false} style={{fontSize: 25,color: '#ff3348',marginRight:GLOBAL_PARAMS._winWidth < 340 ?10 : 15,marginBottom:-4}}>{foodDetails[0].price}</Text>
-          <Text allowFontScaling={false} style={{fontSize: 16,color: '#9B9B9B'}}>HKD {foodDetails[0].originPrice}</Text>
-          <View style={{width: GLOBAL_PARAMS._winWidth < 340 ? 60 : 75,transform: [{ rotate: '-5deg'}],backgroundColor:'#9B9B9B',height:2,position:'absolute',bottom:8,right:GLOBAL_PARAMS._winWidth< 340 ? -3: -8,opacity:0.63}}/>
+      <View style={HomePageStyles.AddPriceView}>
+        <View style={AddPriceViewPriceContainer}>
+          <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
+          <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewPrice}>{foodDetails[0].price}</Text>
+          <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text>
+          <View style={HomePageStyles.AddPriceViewStriping}/>
         </View>
-        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-            <TouchableOpacity onPress={() => this._remove()} style={{width: 40,alignItems:'center'}}>
-            <Image source={require("../asset/remove.png")} style={{width:25,height:25}}/>
+        <View style={HomePageStyles.AddPriceViewCountContainer}>
+            <TouchableOpacity onPress={() => this._remove()} style={HomePageStyles.AddPriceViewCommonBtn}>
+            <Image source={require("../asset/remove.png")} style={HomePageStyles.AddPriceViewAddImage}/>
             </TouchableOpacity>
-            <Text allowFontScaling={false} style={{color:Colors.fontBlack,fontSize:28,width:40,textAlign:'center'}} numberOfLines={1}>{this.state.foodCount}</Text>
-            <TouchableOpacity onPress={() => this._add()} style={{width: 40,alignItems:'center'}}>
-                <Image source={require("../asset/add.png")} style={{width:34,height:34,marginTop:7}}/>
+            <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewCountText} numberOfLines={1}>{this.state.foodCount}</Text>
+            <TouchableOpacity onPress={() => this._add()} style={HomePageStyles.AddPriceViewCommonBtn}>
+                <Image source={require("../asset/add.png")} style={HomePageStyles.AddPriceViewRemoveImage}/>
             </TouchableOpacity>    
         </View>
 
@@ -382,10 +363,10 @@ class HomePage extends Component {
 
   _renderPlacePickerBtn() {
     return (
-      <TouchableOpacity style={{flexDirection:'row',marginLeft:Platform.OS == 'ios' ? -65 : -30,maxWidth: Platform.OS == 'ios' ? 200 :250,marginTop: Platform.OS == 'ios' ? 0 : -8,position: 'relative'}} onPress={() => this.setState({showPlacePicker: true})}>
-        <View style={{backgroundColor:Colors.main_white,opacity:0.2,borderRadius: 100,width:250,height: 35,}}/>
-        <Image source={require('../asset/icon-location.png')} style={{width: 20,height: 20,position:'absolute',top: 8,left:12}}/>
-        <Text style={{color: Colors.main_white,marginLeft: 10,fontSize: 16,position: 'absolute',left: 33,top:Platform.OS =='android' ? 7 : 8,height: 30}} numberOfLines={1} allowFontScaling={false}>
+      <TouchableOpacity style={HomePageStyles.PlacePickerBtn} onPress={() => this.setState({showPlacePicker: true})}>
+        <View style={HomePageStyles.PlacePickerBtnBgAbsolute}/>
+        <Image source={require('../asset/icon-location.png')} style={HomePageStyles.PlacePickerBtnImage}/>
+        <Text style={HomePageStyles.PlacePickerBtnText} numberOfLines={1} allowFontScaling={false}>
           {this.state.placeSelected.name}
         </Text>
       </TouchableOpacity>
@@ -398,22 +379,19 @@ class HomePage extends Component {
       `- ${this.state.i18n.recommend_text} -`
     );
     return (
-      <Container style={{backgroundColor: '#fff'}}>
+      <Container style={HomePageStyles.ContainerBg}>
         <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
         <Header
-          style={{
-            borderBottomWidth: 0,
-            padding: 0
-          }}
+          style={HomePageStyles.Header}
           iosBarStyle="light-content"
         >
-        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={_styles.linearGradient}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={{width: 60,justifyContent:'center',alignItems:'center',marginTop: Platform.OS == 'ios' ? 0 : -8,height: 50,position:'relative'}}>
-            <Image source={require('../asset/menu.png')} style={{width: 30,height: 15}} resizeMode="contain"/>
+        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={HomePageStyles.linearGradient}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={HomePageStyles.MenuBtn}>
+            <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
             {/*<Image source={require('../asset/Oval.png')} style={{width: 10,height: 10,position: 'absolute',top: 10, right: 10}}/>*/}
           </TouchableOpacity>
-          <View style={{flex: 1,alignItems:'center',flexDirection:'row',justifyContent:'center',}}>
-          {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} style={{marginLeft:-60,}} size="small"/>}
+          <View style={HomePageStyles.HeaderContent}>
+          {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} style={HomePageStyles.HeaderContentActivityIndicator} size="small"/>}
           </View>
         </LinearGradient>
         </Header>
@@ -443,11 +421,11 @@ class HomePage extends Component {
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
         {/*this._renderWarningView()*/}
         {example1}
-        {this.state.foodDetails != null ? this._renderIntrodutionView() : null}
+        {this.state.foodDetails != null ? this._renderIntroductionView() : null}
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
         {this.state.foodDetails != null ? this._renderDeadLineDate() : null}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
-        {<View style={{height: 80,width: GLOBAL_PARAMS._winWidth}}/>}
+        {<View style={HomePage.BottomView}/>}
         </ScrollView>
       </Container>
     );
