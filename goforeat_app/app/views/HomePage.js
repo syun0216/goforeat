@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import {
-  Platform,
   View,
   ScrollView,
   Text,
   Image,
   TouchableOpacity,
   AppState,
-  StyleSheet,
   ActivityIndicator,
   RefreshControl
 } from "react-native";
@@ -294,7 +292,7 @@ class HomePage extends Component {
     let {foodDetails} = this.state;
     return (
       <View style={HomePageStyles.AddPriceView}>
-        <View style={AddPriceViewPriceContainer}>
+        <View style={HomePageStyles.AddPriceViewPriceContainer}>
           <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
           <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewPrice}>{foodDetails[0].price}</Text>
           <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text>

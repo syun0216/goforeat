@@ -14,7 +14,7 @@ export default StyleSheet.create({
     marginLeft:common.marginLeft
   },
   DateFormatWeekText: {
-    Color:Colors.fontBlack,
+    color:Colors.fontBlack,
     fontSize: 18,
     marginBottom: 5,
     fontWeight: 'bold'
@@ -46,7 +46,7 @@ export default StyleSheet.create({
     marginBottom:11
   },
   IntroductionFoodBrief: {
-    ontSize: 14,
+    fontSize: 14,
     color:'#999999',
     textAlign:'justify',
     lineHeight:Platform.OS =='ios'? 20 : 25
@@ -54,8 +54,8 @@ export default StyleSheet.create({
   // _renderAddPriceView
   AddPriceView: {
     width: GLOBAL_PARAMS._winWidth,
-    paddingLeft:_width,
-    paddingRight:_width,
+    paddingLeft:common.marginLeft,
+    paddingRight:common.marginLeft,
     flexDirection: 'row',
     justifyContent:'space-between',alignItems:'center'
   },

@@ -238,17 +238,6 @@ export default class PeopleView extends Component {
   }
 
   //render view
-  _renderPersonDetailHeader = () => (
-    <View style={[styles.loginHeader,{backgroundColor:this.props.screenProps.theme}]}>
-      {this.props.screenProps.user !== null ? (<Image style={styles.personAvatar} source={require('../asset/eat.png')}/>) :
-    (<Image style={styles.personAvatar} source={require('../asset/touxiang.png')}/>)}
-      {this.props.screenProps.user !== null ? (<Text style={{fontSize:16,color:'#fff',marginTop:10}}>用戶:{this.props.screenProps.user}</Text>) :
-    (<TouchableOpacity style={{marginTop:10}} onPress={() => this.props.navigation.navigate("Login")}>
-      <Text style={{fontSize:16,color:'#fff'}}>{this.state.i18n.login_text}</Text>
-    </TouchableOpacity>)}
-    </View>
-  )
-
   _renderOrderListView = () => (
     <SectionList
       sections={[

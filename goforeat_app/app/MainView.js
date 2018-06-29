@@ -103,7 +103,7 @@ const darwerView = DrawerNavigator(
     }
   },
   {
-    drawerWidth: MainViewStyles.drawerWidth,
+    drawerWidth: GLOBAL_PARAMS._winWidth * 0.75,
     drawerPosition: "left",
     contentComponent: props => {
       return (
@@ -186,24 +186,6 @@ const darwerView = DrawerNavigator(
     }
   }
 );
-
-const drawer_style = StyleSheet.create({
-  drawer_container: {
-    height: GLOBAL_PARAMS._winHeight * 0.4,
-    backgroundColor: Colors.main_white,
-    flex: 1,
-    padding: 10,
-    paddingTop: 30
-  },
-  drawer_avatar: {
-    width: 45,
-    height: 45
-  },
-  commonImage: {
-    width: 22,
-    height: 22
-  }
-});
 
 let MainView = StackNavigator(
   {

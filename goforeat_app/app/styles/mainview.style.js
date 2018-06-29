@@ -9,7 +9,6 @@ export default StyleSheet.create({
     height: 21
   },
   //drawer
-  drawerWidth: GLOBAL_PARAMS._winWidth * 0.75,
   drawerTopContainer: {
     height: GLOBAL_PARAMS._winHeight * 0.2,
     alignItems: "center",
