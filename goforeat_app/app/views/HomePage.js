@@ -423,7 +423,7 @@ class HomePage extends Component {
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
         {this.state.foodDetails != null ? this._renderDeadLineDate() : null}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
-        {<View style={HomePage.BottomView}/>}
+        {<View style={HomePageStyles.BottomView}/>}
         </ScrollView>
       </Container>
     );

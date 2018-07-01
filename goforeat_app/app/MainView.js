@@ -3,8 +3,7 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
-  StyleSheet
+  Image
 } from "react-native";
 import { Container, Content } from "native-base";
 import LinearGradient from 'react-native-linear-gradient';
@@ -17,6 +16,7 @@ import {
 } from "react-navigation";
 //views
 import LoginView from "./LoginView";
+import CustomLoginView from './CustomLoginView';
 import SettingView from "./SettingView";
 
 import HomePage from "./views/HomePage";
@@ -31,13 +31,10 @@ import UserHelperView from "./views/UserHelperView";
 import source from "./api/CancelToken";
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
-import Colors from "./utils/Colors";
 //store
 import store from "./store";
 //components
 import TabBar from "./components/Tabbar";
-//language
-import i18n from './language/i18n';
 //styles
 import MainViewStyles from './styles/mainview.style';
 
@@ -205,7 +202,7 @@ let MainView = StackNavigator(
       }
     },
     Login: {
-      screen: LoginView,
+      screen: CustomLoginView,
       navigationOptions: {
         tabBarVisible: false,
         transitionConfig: {
@@ -229,7 +226,16 @@ let MainView = StackNavigator(
       screen: UserHelperView
     }
   },
-  { headerMode: "none" }
+  { headerMode: "none",
+    cardStyle: {
+      backgroundColor: '#fff',
+    },
+    transitionConfig: (): Object => ({
+      containerStyle: {
+        backgroundColor: '#fff',
+      },
+    }),
+  }
 );
 
 // 自定义路由拦截
