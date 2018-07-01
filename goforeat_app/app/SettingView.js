@@ -72,10 +72,10 @@ export default class SettingView extends PureComponent{
       )
     }}
       block style={{
-        marginTop: 30,
+        paddingTop: 20,
         borderRadius: 0,
         backgroundColor: Colors.main_white,
-        marginBottom: 20,
+        paddingBottom: 20,
       }}>
       <Text style={{color:Colors.fontBlack,fontSize:16}}>{this.state.i18n.logout}</Text>
     </Button>
@@ -86,7 +86,7 @@ export default class SettingView extends PureComponent{
       <Container>
         <CommonHeader title={i18n.setting_title} canBack {...this.props}/>
 
-          <View style={{marginTop: 20,justifyContent: 'flex-start',alignItems: 'center', flex: 1}}>
+          <View style={{paddingTop: 20,justifyContent: 'flex-start',alignItems: 'center', flex: 1,backgroundColor: '#edebf4'}}>
             <Text>有得食 v1.1.5版本</Text>
           </View>
           {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
