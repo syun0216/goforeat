@@ -127,6 +127,7 @@ export default StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: '#999999',
+    marginRight: 10
   },
   SendText: {
     color: '#999999'
