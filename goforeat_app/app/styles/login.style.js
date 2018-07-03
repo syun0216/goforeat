@@ -3,6 +3,10 @@ import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
 import CommonStyles from '../styles/common.style';
 
+const diffPlatform = {
+  content_height: Platform.select({ios: GLOBAL_PARAMS._winHeight*0.6,android:GLOBAL_PARAMS._winHeight*0.55})
+}
+
 export default StyleSheet.create({
   LoginContainer: {
     backgroundColor: '#fff'
@@ -62,7 +66,7 @@ export default StyleSheet.create({
   //_renderContentView
   ContentView: {
     width: GLOBAL_PARAMS._winWidth,
-    height: GLOBAL_PARAMS._winHeight*0.6,
+    height: diffPlatform.content_height,
     paddingLeft: 10,
     paddingRight: 10,
   },
@@ -108,7 +112,7 @@ export default StyleSheet.create({
   },
   ArrowDown: {
     width: 20,
-    height: 8,
+    height: 10,
     marginLeft: 10
   },
   CommonInput: {

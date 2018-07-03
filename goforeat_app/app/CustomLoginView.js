@@ -73,7 +73,7 @@ export default class CustomLoginView extends PureComponent {
   //common function
 
   _keyboardDidShow (e) {
-    this._keyboard_height = e.startCoordinates.height - e.endCoordinates.height;
+    // this._keyboard_height = e.startCoordinates.height - e.endCoordinates.height;
     this._toggleKeyBoard(1);
   }
 
@@ -162,7 +162,10 @@ export default class CustomLoginView extends PureComponent {
           }
         }
         JPushModule.getRegistrationID(registrationId => {
-          api.saveDevices(registrationId,this.token);
+          api.saveDevices(registrationId,this.token).then((sdata) => {
+            // console.log(111,sdata);
+            // console.log(222,registrationId);
+          });
         },() => {
           ToastUtil.showWithMessage("登錄失敗")
         })
@@ -170,8 +173,9 @@ export default class CustomLoginView extends PureComponent {
       else{
         ToastUtil.showWithMessage(data.data.ro.respMsg);
       }
-    },() => {
-      ToastUtil.showWithMessage("登錄失敗")
+    })
+    .catch(err => {
+      ToastUtil.showWithMessage('發生未知錯誤');
     })
   }
 
@@ -238,7 +242,7 @@ export default class CustomLoginView extends PureComponent {
             <Image source={require('./asset/phone.png')} style={LoginStyle.Icon} reasizeMode="cover"/>
             <TouchableOpacity onPress={() => this._showActionSheet()} style={LoginStyle.ChangePhoneTypeBtn}>
               <Text style={LoginStyle.PhoneTypeText}>{this.state.selectedValue.label}</Text>
-              <Image source={require('./asset/arrowdown.png')} style={LoginStyle.ArrowDown}/>
+              <Image reasizeMode="cover" source={require('./asset/arrowdown.png')} style={LoginStyle.ArrowDown}/>
             </TouchableOpacity>
             <Input 
               ref={(t) => this._textInput = t}
