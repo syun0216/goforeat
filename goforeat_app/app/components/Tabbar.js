@@ -52,5 +52,6 @@ const styles = {
     shadowOpacity: 0.8,
     shadowOffset:{  width: 0,  height: 10,  },
     elevation: 10,
+    paddingBottom: 5
   },
 };
