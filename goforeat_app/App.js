@@ -80,14 +80,12 @@ class App extends Component < {} > {
   }
 
   _jpushCommonEvent() {
-    // JPushModule.addReceiveNotificationListener(map => {
-    //   alert('alertContent: ' + map.alertContent)
-    // });
-    JPushModule.addReceiveOpenNotificationListener(map => {
-      if(Platform.OS == 'ios') {
-        JPushModule.setBadge(0, success => {})
-      }
-    })
+    if(Platform.OS == 'ios') {
+      JPushModule.setBadge(0, success => {})
+    }
+    // JPushModule.addReceiveOpenNotificationListener(map => {
+      
+    // })
   }
 
   _handleAppStateChange = (nextAppState) => {
