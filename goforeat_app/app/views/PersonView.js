@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,RefreshControl,Platform } from "react-native";
 import {
   Container,
-  Body,
-  Button,
-  Card,
-  CardItem,
   Tabs,
   Tab,
   TabHeading,
@@ -23,9 +19,11 @@ import ErrorPage from '../components/ErrorPage';
 import Loading from '../components/Loading';
 import BlankPage from '../components/BlankPage';
 import CommonHeader from '../components/CommonHeader';
-
 //language
 import i18n from '../language/i18n';
+//styles
+import PersonStyles from '../styles/person.style';
+import CommonStyles from '../styles/common.style';
 
 let requestParams = {
   status: {
@@ -259,66 +257,6 @@ export default class PeopleView extends Component {
     />
   )
 
-  _renderOrderListItemView = (item,index) => (
-    <Card key={index}>
-          <CardItem style={{ backgroundColor: "#fafafa" }}>
-            <Body
-              style={{
-                borderBottomColor: "#ccc",
-                borderBottomWidth: 1,
-                paddingBottom: 10
-              }}
-            >
-              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-              <Text allowFontScaling={false} style={styles.commonFlex}>菜品名稱</Text>
-              <Text allowFontScaling={false} style={styles.commonTitleText}>{item.orderName}</Text></View>
-              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text allowFontScaling={false} style={styles.commonFlex}>數量</Text><Text allowFontScaling={false} style={styles.commonTitleText}>×{item.amount}</Text></View>
-              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text allowFontScaling={false} style={styles.commonFlex}>取餐日期</Text><Text allowFontScaling={false} style={styles.commonTitleText}>{item.takeDate}</Text></View>
-              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text allowFontScaling={false} style={styles.commonFlex}>取餐時間</Text><Text allowFontScaling={false} style={styles.commonTitleText}>{item.takeTime}</Text></View>
-              <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text allowFontScaling={false} style={styles.commonFlex}>取餐點</Text><Text allowFontScaling={false} style={styles.commonTitleText}>{item.takeAddressDetail}</Text></View>
-            </Body>
-          </CardItem>
-          <CardItem style={{ backgroundColor: "#fafafa", marginTop: -10 }}>
-            <Body style={[{
-            paddingBottom: 10},item.status == _ORDER_DELIVERING ? {borderBottomColor: "#ccc",
-            borderBottomWidth: 1,} : null]}>
-              {/*<Text style={styles.commonTitleText}>*/}
-              {/*NativeBase builds a layer on top of React Native that provides*/}
-              {/*you with*/}
-              {/*</Text>*/}
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between"
-                }}
-              >
-                <Text allowFontScaling={false} style={styles.commonDecText}>TOTAL HKD {item.totalMoney}</Text>
-                <Text allowFontScaling={false} style={[styles.commonPriceText,{color: this.props.screenProps.theme}]}>
-                  {this._switchOrderStatus(item.status)}
-                </Text>
-              </View>
-            </Body>
-          </CardItem>
-          {item.status == _ORDER_DELIVERING ? <CardItem style={{ backgroundColor: "#fafafa", marginTop: -10 }}>
-          <Body>
-            <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between"
-                  }}
-                >
-              <Text allowFontScaling={false} style={styles.commonDecText}>訂單操作</Text>
-              <Button style={{backgroundColor: this.props.screenProps.theme,paddingLeft: 10,paddingRight: 10,justifyContent:'flex-end'}} onPress={() => this._cancelOrder(item.orderId)}>
-                <Text allowFontScaling={false} style={{color: Colors.main_white}}>取消訂單</Text>
-              </Button>
-            </View>
-          </Body>
-        </CardItem> : null}
-        </Card>
-  )
-
   _renderNewListItemView(item,index) {
     return (
       <View style={{marginTop: 10,paddingTop: 10,paddingBottom: 10,paddingLeft: 20,paddingRight: 20,backgroundColor:'#fff'}} key={index}>
@@ -330,24 +268,25 @@ export default class PeopleView extends Component {
   }
 
   _renderFoodDetailView(item) {
+    let _picture = !item.picture ? require('../asset/default_pic.png') : {uri:item.picture};
     return (
-      <View style={{flexDirection:'row',paddingBottom: 10}}>
-        <Image style={{width: 80,height: 80,marginRight: 20}} reasizeMode="contain" source={require('../asset/111.jpg')}/>
-        <View style={{flex: 1,}}>
-          <View style={{flex: 1,height: 40,flexDirection:'row',justifyContent:'space-between',alignItems:'flex-start'}}>
-            <Text style={{fontSize: 18,color:'#111111',width: 200}} numberOfLines={1}>{item.orderName}</Text>
+      <View style={PersonStyles.FoodContainer}>
+        <Image style={PersonStyles.FoodImage} reasizeMode="contain" source={_picture}/>
+        <View style={PersonStyles.FoodInnerContainer}>
+          <View style={PersonStyles.FoodTitleView}>
+            <Text style={[CommonStyles.common_title_text,{width: 200}]} numberOfLines={1}>{item.orderName}</Text>
             <View style={{flexDirection:'row'}}>
-              <Text style={{fontSize: 18,color:'#111111',marginRight: 5}}>數量:</Text>
-              <Text style={{fontSize: 18,color:'#FF3348'}}>{item.amount}</Text>
+              <Text style={[CommonStyles.common_title_text,{marginRight: 5}]}>數量:</Text>
+              <Text style={CommonStyles.common_important_text}>{item.amount}</Text>
             </View>
           </View>
-          <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between'}}>
-            <Text style={{color:'#666666',fontSize: 16,}}>取餐日期</Text>
-            <Text style={{color:'#666666',fontSize: 16,maxWidth: 200}} numberOfLines={1}>{item.takeDate} {item.takeTime}</Text>
+          <View style={PersonStyles.FoodCommonView}>
+            <Text style={CommonStyles.common_info_text}>取餐日期</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeDate} {item.takeTime}</Text>
           </View>
-          <View style={{flex: 1,flexDirection:'row',justifyContent:'space-between'}}>
-            <Text style={{color:'#666666',fontSize: 16,}}>取餐地點</Text>
-            <Text style={{color:'#666666',fontSize: 16,maxWidth: 200}} numberOfLines={1}>{item.takeAddressDetail}</Text>
+          <View style={PersonStyles.FoodCommonView}>
+            <Text style={CommonStyles.common_info_text}>取餐地點</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeAddressDetail}</Text>
           </View>
         </View>
       </View>
@@ -359,15 +298,15 @@ export default class PeopleView extends Component {
       <View style={{flexDirection: 'row',paddingBottom:10,justifyContent:'space-between',alignItems:'center'}}>
         <Text style={{color: '#666666'}}>支付狀態</Text>
         <View style={{flexDirection:'row',justifyContent: 'space-between',}}>
-          <TouchableOpacity style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#979797',marginRight: 10}}>
+          <View style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#979797',marginRight: 10}}>
             <Text style={{color: '#979797'}}>現金支付</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348',marginRight: 10,}}>
+          </View>
+          {/*<TouchableOpacity style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348',marginRight: 10,}}>
             <Text style={{color: '#ff3348'}}>線上支付</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348'}}>
+    </TouchableOpacity>*/}
+          <View style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348'}}>
             <Text style={{color: '#ff3348'}}>{this._switchOrderStatus(item.status)}</Text>
-          </TouchableOpacity>
+          </View>
         </View>
       </View>
     )

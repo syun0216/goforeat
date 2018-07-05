@@ -105,7 +105,7 @@ const darwerView = DrawerNavigator(
     contentComponent: props => {
       return (
         <Container>
-        <View >
+        <View>
           <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={MainViewStyles.drawerTopContainer}>
             <Image source={require('./asset/logoTop.png')} style={MainViewStyles.drawerTopImage}/>
           </LinearGradient>
