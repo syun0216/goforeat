@@ -274,15 +274,19 @@ export default class PeopleView extends Component {
         <Image style={PersonStyles.FoodImage} reasizeMode="contain" source={_picture}/>
         <View style={PersonStyles.FoodInnerContainer}>
           <View style={PersonStyles.FoodTitleView}>
-            <Text style={[CommonStyles.common_title_text,{width: 200}]} numberOfLines={1}>{item.orderName}</Text>
-            <View style={{flexDirection:'row'}}>
+            <Text style={[CommonStyles.common_title_text,{maxWidth: 200}]} numberOfLines={1}>{item.orderName}</Text>
+            <View style={{flexDirection:'row',marginTop: -3}}>
               <Text style={[CommonStyles.common_title_text,{marginRight: 5}]}>數量:</Text>
               <Text style={CommonStyles.common_important_text}>{item.amount}</Text>
             </View>
           </View>
           <View style={PersonStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>取餐日期</Text>
-            <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeDate} {item.takeTime}</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeDate}</Text>
+          </View>
+          <View style={PersonStyles.FoodCommonView}>
+            <Text style={CommonStyles.common_info_text}>取餐時間</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeTime}</Text>
           </View>
           <View style={PersonStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>取餐地點</Text>
@@ -364,7 +368,7 @@ export default class PeopleView extends Component {
         />
     </Button>*/}
         <CommonHeader canBack hasTabs title="我的訂單" {...this.props}/>
-        <Tabs tabBarUnderlineStyle={{backgroundColor: '#FF3348',marginLeft: 52,marginRight: 45,width: 32}} 
+        <Tabs tabBarUnderlineStyle={{backgroundColor: '#FF3348',marginLeft: 46*(GLOBAL_PARAMS._winWidth/375),width: 32}} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
         <Tab activeTextStyle={{fontWeight:'600'}} heading={ <TabHeading style={styles.commonHeadering}><Text allowFontScaling={false} style={[styles.commonText,{fontWeight: this.state.currentStatus == _ORDER_ALL? '800':'normal',}]}>全部</Text></TabHeading>}>
           {this._renderCommonListView()}
@@ -455,7 +459,9 @@ const styles = StyleSheet.create({
     color: Colors.fontBlack
   },
   commonHeadering: {
-    backgroundColor: Colors.main_white
+    backgroundColor: Colors.main_white,
+    borderBottomWidth: 1,
+    borderBottomColor:'#ddd'
   },
   commonText: {
     fontSize: 16,
