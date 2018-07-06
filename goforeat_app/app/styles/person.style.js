@@ -18,10 +18,11 @@ export default StyleSheet.create({
   FoodTitleView: {
     ...CommonStyles.common_row,
     alignItems: 'flex-start',
-    height: 40
+    height: 23
   },
   FoodCommonView: {
-    ...CommonStyles.common_row
+    ...CommonStyles.common_row,
+    alignItems: 'center'
   },
   //_renderPayView
 
