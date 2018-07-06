@@ -4,13 +4,6 @@ import {
   Container,
   Content,
   Button,
-  Card,
-  CardItem,
-  Body,
-  Form,
-  Item,
-  Input,
-  Label,
   Footer,
   Separator,
   ListItem,
@@ -33,6 +26,9 @@ import ToastUtil from "../utils/ToastUtil";
 //api
 import api from "../api/index";
 import Divider from "../components/Divider";
+//styles
+import ConfirmOrderStyles from '../styles/confirmorder.style';
+import CommonStyles from '../styles/common.style';
 
 const slideAnimation = new SlideAnimation({
   slideFrom: "bottom"
@@ -165,36 +161,43 @@ export default class ConfirmOrderView extends PureComponent {
       return (<PopupDialog
       dialogTitle={<DialogTitle title="您的訂單" />}
       width={GLOBAL_PARAMS._winWidth * 0.9}
-      height={GLOBAL_PARAMS._winHeight * 0.65}
-      // height={220}
+      height={GLOBAL_PARAMS._winHeight * 0.65*(667/ GLOBAL_PARAMS._winHeight)}
       ref={popupDialog => {
         this._popupDialog = popupDialog;
       }}
       dialogAnimation={slideAnimation}
       onDismissed={() => {
-        // console.log(this._username);
       }}
     >
       <Container>
         <Content>
-          <ListItem>
-            <Text style={styles.commonText}>下單電話: {this.props.screenProps.user}</Text>
+          <ListItem last style={ConfirmOrderStyles.CommonListItem}>
+            <Text style={CommonStyles.common_title_text}>下單電話:</Text>
+            <Text style={CommonStyles.common_title_text}>{this.props.screenProps.user}</Text>
           </ListItem>
           <Separator bordered>
-            <Text style={styles.commonText}>訂單詳情</Text>
+            <Text style={CommonStyles.common_title_text}>訂單詳情</Text>
           </Separator>
-          <ListItem>
-            <Text style={styles.commonText}>菜品名稱:{orderDetail[0].foodName}{'\n'}HKD {orderDetail[0].foodMoney}{'      '}數量{orderDetail[0].foodNum}</Text>
+          <ListItem style={ConfirmOrderStyles.CommonListItem}>
+            <Text style={CommonStyles.common_title_text}>菜品名稱</Text>
+            <Text style={[CommonStyles.common_title_text,]}>{orderDetail[0].foodName}</Text>
           </ListItem>
-          <ListItem>
-            <Text style={styles.commonText}>{takeDate}{" "}{takeTime}{'\n'}{takeAddressDetail}</Text>
+          <ListItem style={ConfirmOrderStyles.CommonListItem}>
+            <Text style={CommonStyles.common_title_text}>數量</Text>
+            <Text style={CommonStyles.common_title_text}>{orderDetail[0].foodNum}</Text>
           </ListItem>
-          <Separator bordered>
-            <Text style={styles.commonText}>總計</Text>
-          </Separator>
-          <ListItem last>
-            <Text style={[styles.commonText,{color:'#FF3348'}]}>HKD {totalMoney}</Text>
+          <ListItem style={ConfirmOrderStyles.CommonListItem}>
+            <Text style={CommonStyles.common_title_text}>取餐地點</Text>
+            <Text tyle={CommonStyles.common_title_text}>{takeAddressDetail}</Text>
           </ListItem>
+          <ListItem style={ConfirmOrderStyles.CommonListItem}>
+            <Text style={CommonStyles.common_title_text}>取餐時間</Text>
+            <Text style={[CommonStyles.common_title_text,{maxWidth: 200}]} numberOfLines={1}>{takeDate}{" "}{takeTime}</Text>
+          </ListItem>
+          <ListItem style={ConfirmOrderStyles.CommonListItem} last>
+            <Text style={CommonStyles.common_title_text}>總計</Text>
+            <Text style={[CommonStyles.common_title_text,{color:'#FF3348'}]}>HKD {totalMoney}</Text>
+          </ListItem>          
         </Content>
         <Footer
           style={{backgroundColor:Colors.main_white, borderTopWidth: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}
@@ -242,7 +245,7 @@ export default class ConfirmOrderView extends PureComponent {
           <Text allowFontScaling={false} style={{flex: 1,fontSize: 18,color: '#333333',}}>總金額</Text>
           <View style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
             <Text allowFontScaling={false} style={{fontSize: 20,color: '#111111',marginRight: 5}}>HKD</Text>
-            <Text allowFontScaling={false} style={{fontSize: 22,color: '#ff3448',marginTop: -4,fontWeight:'600'}} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
+            <Text allowFontScaling={false} style={{fontSize: 22,color: '#ff3448',marginTop: -2,fontWeight:'600'}} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
           </View>
         </View>
       </View>
