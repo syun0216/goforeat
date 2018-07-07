@@ -22,7 +22,7 @@ import CommonHeader from '../components/CommonHeader';
 //language
 import i18n from '../language/i18n';
 //styles
-import PersonStyles from '../styles/person.style';
+import MyOrderStyles from '../styles/myorder.style';
 import CommonStyles from '../styles/common.style';
 
 let requestParams = {
@@ -270,25 +270,25 @@ export default class PeopleView extends Component {
   _renderFoodDetailView(item) {
     let _picture = !item.picture ? require('../asset/default_pic.png') : {uri:item.picture};
     return (
-      <View style={PersonStyles.FoodContainer}>
-        <Image style={PersonStyles.FoodImage} reasizeMode="contain" source={_picture}/>
-        <View style={PersonStyles.FoodInnerContainer}>
-          <View style={PersonStyles.FoodTitleView}>
+      <View style={MyOrderStyles.FoodContainer}>
+        <Image style={MyOrderStyles.FoodImage} reasizeMode="contain" source={_picture}/>
+        <View style={MyOrderStyles.FoodInnerContainer}>
+          <View style={MyOrderStyles.FoodTitleView}>
             <Text style={[CommonStyles.common_title_text,{maxWidth: 200}]} numberOfLines={1}>{item.orderName}</Text>
             <View style={{flexDirection:'row',marginTop: -3}}>
               <Text style={[CommonStyles.common_title_text,{marginRight: 5}]}>數量:</Text>
               <Text style={CommonStyles.common_important_text}>{item.amount}</Text>
             </View>
           </View>
-          <View style={PersonStyles.FoodCommonView}>
+          <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>取餐日期</Text>
             <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeDate}</Text>
           </View>
-          <View style={PersonStyles.FoodCommonView}>
+          <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>取餐時間</Text>
             <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeTime}</Text>
           </View>
-          <View style={PersonStyles.FoodCommonView}>
+          <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>取餐地點</Text>
             <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeAddressDetail}</Text>
           </View>

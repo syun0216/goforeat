@@ -19,7 +19,7 @@ const common = {
   },
   common_info_text: {
     color: '#666666',
-    fontSize: 16,
+    fontSize: 14,
   },
   common_title_text: {
     color: '#111111',

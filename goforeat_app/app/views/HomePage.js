@@ -107,7 +107,8 @@ class HomePage extends Component {
   _formatDate(timestamp,endTimestamp) {
     let _Date = new Date(timestamp);
     let _endDate = new Date(endTimestamp);
-    let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,_Date.getDate(),_Date.getFullYear()].join('-');
+    let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,
+    _Date.getDate() < 10 ? `0${_Date.getDate()}`:_Date.getDate(),_Date.getFullYear()].join('-');
     let _endDate_format = '截止時間';
 
     // console.log(_date_format);

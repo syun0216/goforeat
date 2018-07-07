@@ -156,7 +156,7 @@ export default class ConfirmOrderView extends PureComponent {
     }
   };
 
-  _renderPopupDiaogView = () => {
+  _renderPopupDiaogView() {
       let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
       return (<PopupDialog
       dialogTitle={<DialogTitle title="您的訂單" />}
@@ -199,26 +199,14 @@ export default class ConfirmOrderView extends PureComponent {
             <Text style={[CommonStyles.common_title_text,{color:'#FF3348'}]}>HKD {totalMoney}</Text>
           </ListItem>          
         </Content>
-        <Footer
-          style={{backgroundColor:Colors.main_white, borderTopWidth: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}
-        >
+        <Footer style={ConfirmOrderStyles.Footer}>
           <Button
             onPress={() => this._confirmOrder()}
             block
-            style={{
-              flex: 1,
-              marginTop: 5,
-              backgroundColor: '#FF3348',
-              marginLeft: 40,
-              marginRight: 40
-            }}
+            style={ConfirmOrderStyles.ConfirmBtn}
           >
             <Text
-              style={{
-                color: Colors.main_white,
-                fontWeight: "600",
-                fontSize: 16
-              }}
+              style={ConfirmOrderStyles.ConfirmBtnText}
             >
               確認訂單
             </Text>
@@ -228,31 +216,31 @@ export default class ConfirmOrderView extends PureComponent {
     </PopupDialog>
   )};
 
-  _renderNewOrderView = () => {
+  _renderNewOrderView() {
     let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
     return (
       <View style={styles.commonNewContainer}>
-        <View style={[{flexDirection: 'row',alignItems:'center',justifyContent:'space-between'},styles.commonMarginTop,styles.commonMarginBottom]}>
-        <Text allowFontScaling={false} style={{color: '#111111',fontSize: 18,flex:1,fontWeight:'600'}} numberOfLines={1}>{orderDetail[0].foodName}</Text>
-        <Text allowFontScaling={false} style={{color:'#111111',fontSize: 18}} numberOfLines={1}>HKD {orderDetail[0].foodMoney.toFixed(2)}</Text>
+        <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop,styles.commonMarginBottom]}>
+        <Text allowFontScaling={false} style={ConfirmOrderStyles.FoodName} numberOfLines={1}>{orderDetail[0].foodName}</Text>
+        <Text allowFontScaling={false} style={ConfirmOrderStyles.MoneyUnit} numberOfLines={1}>HKD {orderDetail[0].foodMoney.toFixed(2)}</Text>
         </View>
-        <View style={[{flexDirection: 'row',alignItems:'center'},styles.commonMarginBottom]}>
-          <Text allowFontScaling={false} style={{color: '#999999',fontSize:16,marginRight: 5}}>數量:</Text>
-          <Text allowFontScaling={false} style={{color: Colors.middle_red,fontSize: 16}}>{orderDetail[0].foodNum}</Text>
+        <View style={[ConfirmOrderStyles.CountView,styles.commonMarginBottom]}>
+          <Text allowFontScaling={false} style={ConfirmOrderStyles.CountText}>數量:</Text>
+          <Text allowFontScaling={false} style={ConfirmOrderStyles.FoodNum}>{orderDetail[0].foodNum}</Text>
         </View>
         <Divider bgColor="#EBEBEB" height={1}/>
-        <View style={[{flexDirection: 'row',justifyContent:'space-between',alignItems:'center'},styles.commonMarginTop,styles.commonMarginBottom]}>
-          <Text allowFontScaling={false} style={{flex: 1,fontSize: 18,color: '#333333',}}>總金額</Text>
-          <View style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
-            <Text allowFontScaling={false} style={{fontSize: 20,color: '#111111',marginRight: 5}}>HKD</Text>
-            <Text allowFontScaling={false} style={{fontSize: 22,color: '#ff3448',marginTop: -2,fontWeight:'600'}} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
+        <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop,styles.commonMarginBottom]}>
+          <Text allowFontScaling={false} style={ConfirmOrderStyles.TotalText}>總金額</Text>
+          <View style={ConfirmOrderStyles.NewsInner}>
+            <Text allowFontScaling={false} style={ConfirmOrderStyles.MoneyUnit}>HKD</Text>
+            <Text allowFontScaling={false} style={ConfirmOrderStyles.TotalMoney} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
           </View>
         </View>
       </View>
     )
   }
 
-  _renderNewDetailsView = () => {
+  _renderNewDetailsView() {
     let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
     let _details_arr = [
       {title:'取餐日期',content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false,clickFunc:()=>{}},
@@ -262,22 +250,22 @@ export default class ConfirmOrderView extends PureComponent {
     ];
     return (
       <View style={styles.commonNewContainer}>
-        <Text allowFontScaling={false} style={[{color:'#111111',fontSize: 20,fontWeight:'bold'},styles.commonMarginBottom,styles.commonMarginTop]}>取餐資料</Text>
+        <Text allowFontScaling={false} style={[ConfirmOrderStyles.Title,styles.commonMarginBottom,styles.commonMarginTop]}>取餐資料</Text>
         {_details_arr.map((item,idx) => this._renderCommonDetailView(item,idx))}
       </View>
     )
   }
 
-  _renderCommonDetailView = (item,idx) => {
+  _renderCommonDetailView(item,idx) {
     return (
       <View key={idx} style={[styles.commonDetailsContainer,styles.commonMarginBottom]}>
         <Text allowFontScaling={false} style={{color:'#999999',marginBottom: 10}}>{item.title}</Text>
-        <TouchableOpacity onPress={item.clickFunc} style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'center',flex: 1,borderBottomWidth:1,borderBottomColor:'#EBEBEB',paddingBottom:10}}>
-          <View style={{flexDirection:'row',alignItems:'center',flex:1}}>
+        <TouchableOpacity onPress={item.clickFunc} style={ConfirmOrderStyles.DetailText}>
+          <View style={ConfirmOrderStyles.DetailInner}>
             {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 18,height: 17,marginRight: 5}} resizeMode="contain"/> :null}
             <Text allowFontScaling={false} style={{fontSize: 18,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>
           </View>
-          {item.canOpen?<Icon name="ios-arrow-down-outline" style={{width: 20,height: 20,color:'#C8C7C7',marginTop:-8}}/>:null}
+          {item.canOpen?<Icon name="ios-arrow-down-outline" style={ConfirmOrderStyles.ArrowDown}/>:null}
         </TouchableOpacity>
       </View>
     )

@@ -15,6 +15,7 @@ import {
   NavigationActions
 } from "react-navigation";
 //views
+import SplashPageView from './SplashPageView';
 import LoginView from "./LoginView";
 import CustomLoginView from './CustomLoginView';
 import SettingView from "./SettingView";
@@ -22,7 +23,7 @@ import SettingView from "./SettingView";
 import HomePage from "./views/HomePage";
 import ArticleView from "./views/ArticleView";
 import ContentView from "./views/ContentView";
-import PersonView from "./views/PersonView";
+import MyOrderView from "./views/MyOrderView";
 import StatementView from "./views/StatementView";
 import MandatoryUpdateView from "./MandatoryUpdateView";
 import ConfirmOrderView from "./views/ConfirmOrderView";
@@ -115,9 +116,9 @@ const darwerView = DrawerNavigator(
               <TouchableOpacity
               onPress={() => {
                 if(props.screenProps.user === null) {
-                  props.navigation.navigate("Login",{page: 'Person'});
+                  props.navigation.navigate("Login",{page: 'MyOrder'});
                 }else {
-                  props.navigation.navigate('Person');
+                  props.navigation.navigate('MyOrder');
                 }
               }}
                 style={MainViewStyles.drawerItemBtn}
@@ -219,8 +220,8 @@ let MainView = StackNavigator(
     Order: {
       screen: ConfirmOrderView
     },
-    Person: {
-      screen: PersonView
+    MyOrder: {
+      screen: MyOrderView
     },
     Help: {
       screen: UserHelperView
