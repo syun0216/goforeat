@@ -227,7 +227,10 @@ export default class CustomLoginView extends PureComponent {
             }
           }
         }}>
-          <Image source={require('./asset/close2.png')} style={LoginStyle.CloseImage}/>
+          <Icon
+            name="ios-arrow-back"
+            style={LoginStyle.CloseImage}
+          />
         </TouchableOpacity>
       </View>
     )
@@ -270,8 +273,8 @@ export default class CustomLoginView extends PureComponent {
             returnKeyType="done"
             keyboardType="numeric"
             maxLength={6}/>
-            <TouchableOpacity style={LoginStyle.SendBtn} disabled={this.state.isCodeDisabled} onPress={() => this._sendPhoneAndGetCode()}>
-              <Text style={LoginStyle.SendText}>{this.state.codeContent}</Text>
+            <TouchableOpacity style={[LoginStyle.SendBtn,{borderColor: this.state.isCodeDisabled?"#ff4141":"#999999"}]} disabled={this.state.isCodeDisabled} onPress={() => this._sendPhoneAndGetCode()}>
+              <Text style={[LoginStyle.SendText,{color: this.state.isCodeDisabled?"#ff4141":"#999999"}]}>{this.state.codeContent}</Text>
             </TouchableOpacity>
           </View>
         </View>

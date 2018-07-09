@@ -96,7 +96,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
 
 //    aaptOptions.cruncherEnabled = false
 //    aaptOptions.useNewCruncher = false
@@ -160,6 +160,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-payments')
     compile project(':react-native-splash-screen')
     compile project(':react-native-linear-gradient')
     compile project(':jcore-react-native')
@@ -173,6 +174,8 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 //    compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.facebook.react:react-native:+'
+    compile 'com.google.android.gms:play-services-wallet:11.0.4'
+//    compile 'com.android.support:support-v4:23.0.1'
 //    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 //    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     // From node_modules

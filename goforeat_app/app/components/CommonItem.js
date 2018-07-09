@@ -18,9 +18,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: Colors.main_gray,
+    borderBottomColor: '#edebf4',
     borderTopWidth: 1,
-    borderTopColor: Colors.bgGray,
+    borderTopColor: '#edebf4',
   },
   itemText: {
     fontSize: 16,
@@ -38,7 +38,7 @@ const CommonItem = ({content,isEnd,hasRightIcon,clickFunc,style}) => (
       <Text numberOfLines={1} style={styles.itemText}>{content}</Text>
       {hasRightIcon ? <Icon name="ios-arrow-forward-outline" style={styles.itemArrow}/> : null}
     </TouchableOpacity>
-    {isEnd ? <Divider /> : null}
+    {isEnd ? <Divider bgColor='#edebf4'/> : null}
   </View>
 );
 

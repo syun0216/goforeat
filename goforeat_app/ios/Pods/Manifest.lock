@@ -5,6 +5,8 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
+  - BVLinearGradient (2.4.0):
+    - React
   - FBSDKCoreKit (4.33.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.33.0):
@@ -17,6 +19,8 @@ PODS:
     - React
   - React (0.52.2):
     - React/Core (= 0.52.2)
+  - react-native-splash-screen (3.0.9):
+    - React
   - React/ART (0.52.2):
     - React/Core
   - React/BatchedBridge (0.52.2):
@@ -63,11 +67,13 @@ PODS:
   - yoga (0.52.2.React)
 
 DEPENDENCIES:
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
   - JCoreRN (from `../node_modules/jcore-react-native`)
   - JPushRN (from `../node_modules/jpush-react-native`)
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React/ART (from `../node_modules/react-native`)
   - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
@@ -87,25 +93,31 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: ../node_modules/react-native-linear-gradient
   JCoreRN:
     :path: ../node_modules/jcore-react-native
   JPushRN:
     :path: ../node_modules/jpush-react-native
   React:
     :path: ../node_modules/react-native
+  react-native-splash-screen:
+    :path: ../node_modules/react-native-splash-screen
   yoga:
     :path: ../node_modules/react-native/ReactCommon/yoga
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  BVLinearGradient: 4b3f3bdf1ac1a52a5ef5e65c9585d793a7c3f825
   FBSDKCoreKit: 572b047a7e029bc44542bcf8a59414e7ff2b543e
   FBSDKLoginKit: 88cb456349cfb3b554427ce4f8b43729d85dfb40
   FBSDKShareKit: 1869cb24db2cea90666a50cb9d568deb38e2d16e
   JCoreRN: 5dff1e0264ee9fd57a0bc9b8cb2411b3c553e241
   JPushRN: bdaefc1f0442d90ef4035f47e29e4268ee6a11f2
   React: 43e97926f429d846050880666de1809e22dd5cc5
+  react-native-splash-screen: 8e3f866dc79bfe533baeffd0a38c33f7a7eae7f8
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: c8bed2a6b61c931151d4fad77a2c1b100728394c
+PODFILE CHECKSUM: 91e6784ed06b1cc6468eaa284ac7347a1bd7c127
 
 COCOAPODS: 1.4.0
