@@ -7,7 +7,8 @@ import {
   Footer,
   Separator,
   ListItem,
-  Icon
+  Icon,
+  Input
 } from "native-base";
 import PopupDialog, {
   SlideAnimation,
@@ -216,11 +217,29 @@ export default class ConfirmOrderView extends PureComponent {
     </PopupDialog>
   )};
 
+  _renderCouponBtnView() {
+    return (
+      <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginBottom]}>
+        <Input 
+          style={ConfirmOrderStyles.CouponInput}
+          placeholderTextColor="#999999"
+          placeholder='優惠碼'
+          multiline={false}
+          autoFocus={false}
+          returnKeyType="done"
+        />
+        <TouchableOpacity style={ConfirmOrderStyles.CouponBtn}>
+          <Text style={ConfirmOrderStyles.CouponText}>使用</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   _renderNewOrderView() {
-    let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
+    let {orderDetail:{totalMoney,orderDetail}} = this.state;
     return (
       <View style={styles.commonNewContainer}>
-        <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop,styles.commonMarginBottom]}>
+        <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop]}>
         <Text allowFontScaling={false} style={ConfirmOrderStyles.FoodName} numberOfLines={1}>{orderDetail[0].foodName}</Text>
         <Text allowFontScaling={false} style={ConfirmOrderStyles.MoneyUnit} numberOfLines={1}>HKD {orderDetail[0].foodMoney.toFixed(2)}</Text>
         </View>
@@ -236,6 +255,7 @@ export default class ConfirmOrderView extends PureComponent {
             <Text allowFontScaling={false} style={ConfirmOrderStyles.TotalMoney} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
           </View>
         </View>
+        {this._renderCouponBtnView()}
       </View>
     )
   }
@@ -344,7 +364,7 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   commonNewContainer: {
-    padding: 10,
+    paddingTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
     borderRadius: 5,
