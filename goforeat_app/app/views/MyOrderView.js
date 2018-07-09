@@ -259,7 +259,7 @@ export default class PeopleView extends Component {
 
   _renderNewListItemView(item,index) {
     return (
-      <View style={{marginTop: 10,paddingTop: 10,paddingBottom: 10,paddingLeft: 20,paddingRight: 20,backgroundColor:'#fff'}} key={index}>
+      <View style={{marginTop: 10,padding: 20,backgroundColor:'#fff'}} key={index}>
         {this._renderFoodDetailView(item)}
         {this._renderPayView(item)}
         {this._renderTotalPriceView(item)}
@@ -282,11 +282,7 @@ export default class PeopleView extends Component {
           </View>
           <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>取餐日期</Text>
-            <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeDate}</Text>
-          </View>
-          <View style={MyOrderStyles.FoodCommonView}>
-            <Text style={CommonStyles.common_info_text}>取餐時間</Text>
-            <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeTime}</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeDate} {item.takeTime}</Text>
           </View>
           <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>取餐地點</Text>
@@ -298,19 +294,20 @@ export default class PeopleView extends Component {
   }
 
   _renderPayView(item) {
+    let _isDelivering = item.status === _ORDER_DELIVERING;
     return (
-      <View style={{flexDirection: 'row',paddingBottom:10,justifyContent:'space-between',alignItems:'center'}}>
-        <Text style={{color: '#666666'}}>支付狀態</Text>
+      <View style={{flexDirection: 'row',paddingTop: 10,paddingBottom:10,justifyContent:'space-between',alignItems:'center'}}>
+        <Text style={{color: '#666666',fontSize: 16}}>支付狀態</Text>
         <View style={{flexDirection:'row',justifyContent: 'space-between',}}>
-          <View style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#979797',marginRight: 10}}>
-            <Text style={{color: '#979797'}}>現金支付</Text>
+          <View style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#979797'}}>
+            <Text style={{color: '#111111',fontSize: 16}}>現金支付</Text>
           </View>
           {/*<TouchableOpacity style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348',marginRight: 10,}}>
             <Text style={{color: '#ff3348'}}>線上支付</Text>
     </TouchableOpacity>*/}
-          <View style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348'}}>
-            <Text style={{color: '#ff3348'}}>{this._switchOrderStatus(item.status)}</Text>
-          </View>
+          {_isDelivering ? <TouchableOpacity onPress={() => this._cancelOrder(item.orderId)} style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348',marginLeft: 5}}>
+            <Text style={{color: '#ff3348'}}>取消訂單</Text>
+          </TouchableOpacity> : null}
         </View>
       </View>
     )
@@ -319,12 +316,12 @@ export default class PeopleView extends Component {
   _renderTotalPriceView(item) {
     let _isDelivering = item.status === _ORDER_DELIVERING;
     return (
-      <View style={{flexDirection:'row',justifyContent:_isDelivering?'space-between':'flex-end',alignItems:'center'}}>
-        {_isDelivering ? <TouchableOpacity onPress={() => this._cancelOrder(item.orderId)} style={{backgroundColor: 'transparent'}}>
-            <Text style={{fontSize: 16,color: '#FF3348',marginTop: -3,}}>取消訂單</Text>
-          </TouchableOpacity> :null}
+      <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+        <View style={{backgroundColor: 'transparent'}}>
+            <Text style={{fontSize: 16,color: '#FF3348',marginTop: -3,}}>{this._switchOrderStatus(item.status)}</Text>
+          </View>
        <View style={{flexDirection:'row',justifyContent: 'space-between',alignItems:'center'}}>
-        <Text style={{fontSize: 16,color: '#666666',marginRight: 10,}}>實付款</Text>
+        <Text style={{fontSize: 16,color: '#666666',marginRight: 10,}}>實付款 HKD</Text>
         <Text style={{fontSize: 22,color: '#FF3348',marginTop: -3,}}>{item.totalMoney}</Text>
        </View>
       </View>
@@ -368,9 +365,9 @@ export default class PeopleView extends Component {
         />
     </Button>*/}
         <CommonHeader canBack hasTabs title="我的訂單" {...this.props}/>
-        <Tabs tabBarUnderlineStyle={{backgroundColor: '#FF3348',marginLeft: 46*(GLOBAL_PARAMS._winWidth/375),width: 32}} 
+        <Tabs tabBarUnderlineStyle={{backgroundColor: '#FF3348',marginLeft: 47*(GLOBAL_PARAMS._winWidth/375),width: 32}} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
-        <Tab activeTextStyle={{fontWeight:'600'}} heading={ <TabHeading style={styles.commonHeadering}><Text allowFontScaling={false} style={[styles.commonText,{fontWeight: this.state.currentStatus == _ORDER_ALL? '800':'normal',}]}>全部</Text></TabHeading>}>
+        <Tab activeTextStyle={{fontWeight:'800',fontSize: 20}} heading={ <TabHeading style={styles.commonHeadering}><Text allowFontScaling={false} style={[styles.commonText,{fontWeight: this.state.currentStatus == _ORDER_ALL? '800':'normal',}]}>全部</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
         <Tab heading={ <TabHeading style={styles.commonHeadering}><Text allowFontScaling={false}style={[styles.commonText,{fontWeight: this.state.currentStatus == _ORDER_DELIVERING? '800':'normal',}]}>待配送</Text></TabHeading>}>

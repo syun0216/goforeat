@@ -38,5 +38,26 @@ export default StyleSheet.create({
   //renderCommonDetailView
   DetailText: {flexDirection: 'row',justifyContent:'space-between',alignItems:'center',flex: 1,borderBottomWidth:1,borderBottomColor:'#EBEBEB',paddingBottom:10},
   DetailInner: {flexDirection:'row',alignItems:'center',flex:1},
-  ArrowDown:{width: 20,height: 20,color:'#C8C7C7',marginTop:-8}
+  ArrowDown:{width: 20,height: 20,color:'#C8C7C7',marginTop:-8},
+  //renderCouponBtnView
+  CouponInput: {
+    backgroundColor:'#F0EFF6',
+    color: '#111111',
+    fontSize: 14,
+    borderBottomLeftRadius: 3,
+    borderTopLeftRadius: 3,
+    paddingLeft: 5,
+    height: 40
+  },
+  CouponBtn: {
+    backgroundColor: '#E1E0EA',
+    padding: 12,
+    paddingLeft: 25,
+    paddingRight: 20,
+    borderBottomRightRadius: 3,
+    borderTopRightRadius: 3,
+  },
+  CouponText: {
+    color: '#FF3348'
+  }
 })

@@ -40,13 +40,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: 30,
+    top: 68,
     left: 20,
     // zIndex: 100
   },
   CloseImage: {
-    width: 18,
-    height: 18,
+    fontSize: 40, color: '#fff'
   },
   //renderDividerView
   DividerView: {
@@ -117,7 +116,7 @@ export default StyleSheet.create({
   },
   CommonInput: {
     flex: 1,
-    color: '#999999',
+    color: '#111111',
     marginTop: 7
   },
   BtnView: {

@@ -106,7 +106,7 @@ export default StyleSheet.create({
     position: 'relative'
   },
   PlacePickerBtnBgAbsolute: {
-    backgroundColor:Colors.main_white,opacity:0.2,borderRadius: 100,width:250,height: 35,
+    backgroundColor:Colors.main_white,opacity:0.2,borderRadius: 100,width:250*(GLOBAL_PARAMS._winWidth/375),height: 35,
   },
   PlacePickerBtnImage: {
     width: 20,height: 20,position:'absolute',top: 8,left:12

@@ -39,6 +39,7 @@ export default StyleSheet.create({
     fontSize: Platform.OS == 'ios'?20:18,
     textAlignVertical: "center",
     marginLeft: 15,
-    color: Colors.fontBlack
+    color: Colors.fontBlack,
+    fontWeight: '700',
   }
 })
