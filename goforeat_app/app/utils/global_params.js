@@ -7,7 +7,8 @@ const GLOBAL_PARAMS = {
     LOADING: 0,
     LOAD_SUCCESS: 1,
     LOAD_FAILED: 2,
-    NO_MORE_DATA: 3
+    NO_MORE_DATA: 3,
+    NO_DATA: 4
   },
   phoneType: {
     CHN:{label:'CHN +86',value:2},

@@ -40,7 +40,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: 68,
+    top: GLOBAL_PARAMS._winHeight * 0.09,
     left: 20,
     // zIndex: 100
   },

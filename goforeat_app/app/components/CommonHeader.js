@@ -9,7 +9,7 @@ import GLOBAL_PARAMS from "../utils/global_params";
 
 const styles = StyleSheet.create({
   linearGradient: {
-    height: 65,
+    height: 64,
     width: GLOBAL_PARAMS._winWidth,
     marginTop: Platform.OS == 'ios' ? -15 : -4,
     paddingTop: Platform.OS == 'ios' ? 15 : 0,
@@ -42,7 +42,6 @@ const CommonHeader = (props) => {
       )) : null}
     </Right>
   </LinearGradient> 
-  
   </Header>
 )}
 

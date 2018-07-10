@@ -181,7 +181,7 @@ export default class ConfirmOrderView extends PureComponent {
           </Separator>
           <ListItem style={ConfirmOrderStyles.CommonListItem}>
             <Text style={CommonStyles.common_title_text}>菜品名稱</Text>
-            <Text style={[CommonStyles.common_title_text,]}>{orderDetail[0].foodName}</Text>
+            <Text style={[CommonStyles.common_title_text,Platform.OS=='android'?{maxWidth:150}:null]}>{orderDetail[0].foodName}</Text>
           </ListItem>
           <ListItem style={ConfirmOrderStyles.CommonListItem}>
             <Text style={CommonStyles.common_title_text}>數量</Text>

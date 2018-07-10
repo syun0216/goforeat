@@ -51,7 +51,7 @@ export default StyleSheet.create({
   },
   CouponBtn: {
     backgroundColor: '#E1E0EA',
-    padding: 12,
+    padding: Platform.OS == 'IOS' ? 12: 11,
     paddingLeft: 25,
     paddingRight: 20,
     borderBottomRightRadius: 3,

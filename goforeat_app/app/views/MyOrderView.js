@@ -113,7 +113,7 @@ export default class PeopleView extends Component {
           this.setState({
             orderlist: this.state.orderlist.concat(data.data.data),
             loadingStatus: {
-              pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA,
+              pullUpLoading: this.state.orderlist.length == 0 ? GLOBAL_PARAMS.httpStatus.NO_DATA:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA,
             }
           })
           return
@@ -274,8 +274,8 @@ export default class PeopleView extends Component {
         <Image style={MyOrderStyles.FoodImage} reasizeMode="contain" source={_picture}/>
         <View style={MyOrderStyles.FoodInnerContainer}>
           <View style={MyOrderStyles.FoodTitleView}>
-            <Text style={[CommonStyles.common_title_text,{maxWidth: 200}]} numberOfLines={1}>{item.orderName}</Text>
-            <View style={{flexDirection:'row',marginTop: -3}}>
+            <Text style={[CommonStyles.common_title_text,{maxWidth: 180*(GLOBAL_PARAMS._winWidth/375)}]} numberOfLines={1}>{item.orderName}</Text>
+            <View style={{flexDirection:'row',marginTop: -2}}>
               <Text style={[CommonStyles.common_title_text,{marginRight: 5}]}>數量:</Text>
               <Text style={CommonStyles.common_important_text}>{item.amount}</Text>
             </View>
@@ -306,7 +306,7 @@ export default class PeopleView extends Component {
             <Text style={{color: '#ff3348'}}>線上支付</Text>
     </TouchableOpacity>*/}
           {_isDelivering ? <TouchableOpacity onPress={() => this._cancelOrder(item.orderId)} style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348',marginLeft: 5}}>
-            <Text style={{color: '#ff3348'}}>取消訂單</Text>
+            <Text style={{color: '#ff3348',fontSize: 16}}>取消訂單</Text>
           </TouchableOpacity> : null}
         </View>
       </View>
@@ -380,6 +380,7 @@ export default class PeopleView extends Component {
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
           <Loading style={Platform.OS == 'android' ? {marginTop:110} : {}}/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
             <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
+        {this.state.loadingStatus.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_DATA ? <BlankPage style={{marginTop: 50}} message="暫無數據"/> : null}
       </Container>
     );
   }
