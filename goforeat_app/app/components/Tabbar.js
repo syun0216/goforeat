@@ -1,6 +1,6 @@
 // 自定义tabbar
 import React,{Component} from 'react';
-import {Animated,StyleSheet} from 'react-native';
+import {Animated,StyleSheet,Platform} from 'react-native';
 import {TabBarBottom} from 'react-navigation';
 
 const TAB_BAR_OFFSET = -60;
@@ -52,6 +52,6 @@ const styles = {
     shadowOpacity: 0.8,
     shadowOffset:{  width: 0,  height: 10,  },
     elevation: 10,
-    paddingBottom: 5
+    paddingBottom: Platform.OS=='IOS' ? 5 : 0
   },
 };

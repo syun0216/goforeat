@@ -31,8 +31,11 @@ export default StyleSheet.create({
   CountText: {color: '#999999',fontSize:16,marginRight: 5},
   FoodNum: {color: Colors.middle_red,fontSize: 16},
   TotalText: {flex: 1,fontSize: 18,color: '#333333',},
+  CouponText: {flex: 1,fontSize: 14,color: '#333333'},
   MoneyUnit: {fontSize: 20,color: '#111111',marginRight: 5},
+  CouponUnit: {fontSize: 14,color: '#111111',marginRight: 5},
   TotalMoney: {fontSize: 22,color: '#ff3448',marginTop: -2,fontWeight:'600'},
+  CouponMoney: {fontSize: 16,color: '#ff3448',marginTop: -2,fontWeight:'600'},
   //renderNewDetailsVew
   Title:{color:'#111111',fontSize: 20,fontWeight:'bold'},
   //renderCommonDetailView
@@ -51,9 +54,11 @@ export default StyleSheet.create({
   },
   CouponBtn: {
     backgroundColor: '#E1E0EA',
-    padding: Platform.OS == 'IOS' ? 12: 11,
+    // padding: Platform.OS == 'IOS' ? 12: 11,
+    height: 40,
     paddingLeft: 25,
-    paddingRight: 20,
+    paddingRight: 25,
+    justifyContent: 'center',
     borderBottomRightRadius: 3,
     borderTopRightRadius: 3,
   },
