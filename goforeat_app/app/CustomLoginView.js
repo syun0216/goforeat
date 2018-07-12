@@ -131,6 +131,7 @@ export default class CustomLoginView extends PureComponent {
 
   _login() {
     let {params} = this.props.navigation.state;
+    let {phone,selectedValue,password} = this.state;
     if(this.state.phone === null){
       ToastUtil.showWithMessage("請填寫手機號")
       return
@@ -139,7 +140,7 @@ export default class CustomLoginView extends PureComponent {
       ToastUtil.showWithMessage("請填寫驗證碼")
       return
     }
-    api.checkCode(this.state.phone,this.state.selectedValue.value,this.token,this.state.password).then(data => {
+    api.checkCode(phone,selectedValue.value,this.token,password).then(data => {
       if(data.status === 200 && data.data.ro.ok){
         // console.log(data);
         ToastUtil.showWithMessage("登錄成功")
@@ -162,9 +163,10 @@ export default class CustomLoginView extends PureComponent {
           }
         }
         JPushModule.getRegistrationID(registrationId => {
-          api.saveDevices(registrationId,this.token).then((sdata) => {
-            // console.log(111,sdata);
-            // console.log(222,registrationId);
+          console.log(111,this.state);
+          api.saveDevices(registrationId,data.data.data.sid).then(sdata => {
+            console.log(222,sdata);
+            console.log(333,registrationId);
           });
         },() => {
           ToastUtil.showWithMessage("登錄失敗")
