@@ -39,13 +39,13 @@ export default class ConfirmOrderView extends PureComponent {
   _popupDialog = null;
   timer = null;
   state = {
-    _name: "",
-    _phone: "",
     orderDetail: null,
     loading: true,
     isError: false,
     isExpired: false,
-    isBottomShow: false
+    isBottomShow: false,
+    coupon: null,
+    discountsPrice: 0
   };
 
   componentDidMount() {
@@ -102,11 +102,13 @@ export default class ConfirmOrderView extends PureComponent {
   };
 
   _confirmOrder = () => {
+    let {orderDetail:{totalMoney,orderId},discountsPrice,coupon} = this.state;
+    totalMoney = totalMoney - discountsPrice;
     if (this.state.orderDetail === null) {
       ToastUtil.showWithMessage("確認訂單失敗");
       return;
     }
-    api.confirmOrder(this.state.orderDetail.orderId,this.props.screenProps.sid).then(
+    api.confirmOrder(orderId,this.props.screenProps.sid,coupon,totalMoney).then(
       data => {
         // console.log(data);
         if (data.status === 200 && data.data.ro.ok) {
@@ -123,6 +125,31 @@ export default class ConfirmOrderView extends PureComponent {
     );
   };
 
+  _useCoupon = () => {
+    if(this.state.coupon == null) {
+      ToastUtil.showWithMessage("請輸入優惠碼");
+      return ;
+    }
+    if(this.state.discountsPrice > 0) {
+      ToastUtil.showWithMessage("您已經優惠過了");
+      return;
+    }
+    api.useCoupon(this.state.coupon,this.props.screenProps.sid).then(data => {
+      if(data.status === 200 && data.data.ro.ok) {
+        ToastUtil.showWithMessage("優惠成功");
+        this.setState({
+          discountsPrice: data.data.data.money
+        })
+      } else {
+        ToastUtil.showWithMessage(data.data.ro.respMsg);
+      }
+    }).catch(() => {
+      () => {
+        ToastUtil.showWithMessage("獲取優惠失敗");
+      }
+    })
+  }
+
   //private function
   _openDialog = () => {
     if(this.state.orderDetail === null) {
@@ -134,31 +161,15 @@ export default class ConfirmOrderView extends PureComponent {
     });
   };
 
-  _getName = name => {
+  _getCoupon = coupon => {
     this.setState({
-      _name: name
-    });
-  };
-
-  _getPhone = phone => {
-    this.setState({
-      _phone: phone
-    });
-  };
-
-  _onSubmit = () => {
-    if (this.state._name === "") {
-      ToastUtil.showWithMessage("請訂餐人姓名");
-      return;
-    }
-    if (this.state._phone === "") {
-      ToastUtil.showWithMessage("請填寫聯繫人電話");
-      return;
-    }
-  };
+      coupon
+    })
+  }
 
   _renderPopupDiaogView() {
-      let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
+      let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail},discountsPrice} = this.state;
+      totalMoney = totalMoney - this.state.discountsPrice;
       return (<PopupDialog
       dialogTitle={<DialogTitle title="您的訂單" />}
       width={GLOBAL_PARAMS._winWidth * 0.9}
@@ -227,8 +238,9 @@ export default class ConfirmOrderView extends PureComponent {
           multiline={false}
           autoFocus={false}
           returnKeyType="done"
+          onChangeText={coupon => this._getCoupon(coupon)}
         />
-        <TouchableOpacity style={ConfirmOrderStyles.CouponBtn}>
+        <TouchableOpacity onPress={this._useCoupon} style={ConfirmOrderStyles.CouponBtn}>
           <Text style={ConfirmOrderStyles.CouponText}>使用</Text>
         </TouchableOpacity>
       </View>
@@ -236,7 +248,8 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _renderNewOrderView() {
-    let {orderDetail:{totalMoney,orderDetail}} = this.state;
+    let {orderDetail:{totalMoney,orderDetail},discountsPrice} = this.state;
+    totalMoney = totalMoney - discountsPrice;
     return (
       <View style={styles.commonNewContainer}>
         <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop]}>
@@ -248,6 +261,15 @@ export default class ConfirmOrderView extends PureComponent {
           <Text allowFontScaling={false} style={ConfirmOrderStyles.FoodNum}>{orderDetail[0].foodNum}</Text>
         </View>
         <Divider bgColor="#EBEBEB" height={1}/>
+        {
+          discountsPrice>0? <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop]}>
+          <Text allowFontScaling={false} style={ConfirmOrderStyles.TotalText}>優惠金額</Text>
+          <View style={ConfirmOrderStyles.NewsInner}>
+            <Text allowFontScaling={false} style={ConfirmOrderStyles.CouponUnit}>- HKD</Text>
+            <Text allowFontScaling={false} style={ConfirmOrderStyles.CouponMoney} numberOfLines={1}>{discountsPrice.toFixed(2)}</Text>
+          </View>
+        </View> : null
+        }
         <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop,styles.commonMarginBottom]}>
           <Text allowFontScaling={false} style={ConfirmOrderStyles.TotalText}>總金額</Text>
           <View style={ConfirmOrderStyles.NewsInner}>
@@ -293,7 +315,7 @@ export default class ConfirmOrderView extends PureComponent {
 
   _renderBottomConfirmView() {
     return (
-      <BottomOrderConfirm isShow={this.state.isBottomShow} total={this.props.navigation.state.params.total}  btnMessage="立即下單" btnClick={this._openDialog} canClose={false}/>
+      <BottomOrderConfirm isShow={this.state.isBottomShow} total={this.props.navigation.state.params.total-this.state.discountsPrice}  btnMessage="立即下單" btnClick={this._openDialog} canClose={false}/>
     )
   }
 
