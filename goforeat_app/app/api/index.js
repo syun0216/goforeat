@@ -208,10 +208,13 @@ const api = {
             timeout: 4500
         })
     },
-    confirmOrder(orderId, sid) {
+    confirmOrder(orderId, sid,coupon,payMoney,payment=1) {
         return axios.post(api_url + '/order/confirm',qs.stringify({
             orderId,
-            sid
+            sid,
+            coupon,
+            payMoney,
+            payment
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -239,7 +242,7 @@ const api = {
             }
         })
     },
-    checkCode(mobile,type,token,code) {
+    checkCode(mobile,type,token,code,) {
         return axios.post( api_url + '/passport/checkCode',qs.stringify({
             mobile,type,token,code
         }, {cancelToken: source.token}), {
@@ -262,6 +265,16 @@ const api = {
     },
     foodPlaces() {
         return axios.get(api_url + '/food/getDeliveryPlace', {timeout: 4500})
+    },
+    useCoupon(coupon,sid) {
+        return axios.post(api_url + '/coupon/isUseful',qs.stringify({
+            coupon,
+            sid
+        }, {cancelToken: source.token, timeout: 4500}), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
     },
     saveDevices(registrationId,sid) {
         // console.log(registrationId);
