@@ -26,17 +26,6 @@
 		9B3843FE77E51B4E703ECC37 /* libPods-goforeat_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 369F73E9388FCF7AC3177177 /* libPods-goforeat_app.a */; };
 		C199B0039AD94996BE1FDABE /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F70CF1BBF6934453B8C723CD /* SimpleLineIcons.ttf */; };
 		C73A359C20D803A0002D77C1 /* libBolts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C73A359B20D803A0002D77C1 /* libBolts.a */; };
-		C744A3AF20F4F0AE00AD84DC /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A38720F4F00E00AD84DC /* libRCTGeolocation.a */; };
-		C744A3B020F4F0AE00AD84DC /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A38E20F4F04600AD84DC /* libRCTImage.a */; };
-		C744A3B120F4F0AE00AD84DC /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3AA20F4F08E00AD84DC /* libRCTLinking.a */; };
-		C744A3B220F4F0AE00AD84DC /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A39820F4F05700AD84DC /* libRCTNetwork.a */; };
-		C744A3B320F4F0AE00AD84DC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3A120F4F06C00AD84DC /* libRCTSettings.a */; };
-		C744A3B420F4F0AE00AD84DC /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A37F20F4EFEB00AD84DC /* libRCTText.a */; };
-		C744A3D420F4F21D00AD84DC /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3BC20F4F14300AD84DC /* libRCTBlob.a */; };
-		C744A3D520F4F21D00AD84DC /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3D320F4F20500AD84DC /* libRCTVibration.a */; };
-		C744A3E520F4F26800AD84DC /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3DE20F4F26000AD84DC /* libRCTWebSocket.a */; };
-		C744A3E720F4F38400AD84DC /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3CD20F4F17B00AD84DC /* libRCTActionSheet.a */; };
-		C744A3F220F4F64400AD84DC /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3EF20F4F63400AD84DC /* libRCTAnimation.a */; };
 		C753EF0620CACE3000A1DCFD /* CodePush.h in Frameworks */ = {isa = PBXBuildFile; fileRef = C753EF0520CACE3000A1DCFD /* CodePush.h */; };
 		C7639D672069D523000A02BB /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D662069D50A000A02BB /* libRNShare.a */; };
 		C7639D692069D56E000A02BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D682069D56E000A02BB /* Social.framework */; };
@@ -449,6 +438,8 @@
 		C76B2CDB20C832FD00D63293 /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = "../node_modules/jpush-react-native/ios/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; };
 		C76B2CE120C8331700D63293 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		C7A69A12207089D700E06981 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
+		C7AC02DA20F5F63600BECAC4 /* React */ = {isa = PBXFileReference; lastKnownFileType = folder; name = React; path = "Pods/Target Support Files/React"; sourceTree = "<group>"; };
+		C7AC02DC20F5F7AB00BECAC4 /* React.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = React.xcconfig; path = "Pods/Target Support Files/React/React.xcconfig"; sourceTree = "<group>"; };
 		C7B10B73202C92C60098FAA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../../../../reactnativeproject/zhihuapp/ios/zhihurn/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C7B10B75202C93380098FAA2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = goforeat_app/Images.xcassets; sourceTree = "<group>"; };
 		C7CB206920F0AE1200EE0782 /* libreact-native-splash-screen.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-splash-screen.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -474,17 +465,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C744A3F220F4F64400AD84DC /* libRCTAnimation.a in Frameworks */,
-				C744A3E720F4F38400AD84DC /* libRCTActionSheet.a in Frameworks */,
-				C744A3E520F4F26800AD84DC /* libRCTWebSocket.a in Frameworks */,
-				C744A3D420F4F21D00AD84DC /* libRCTBlob.a in Frameworks */,
-				C744A3D520F4F21D00AD84DC /* libRCTVibration.a in Frameworks */,
-				C744A3AF20F4F0AE00AD84DC /* libRCTGeolocation.a in Frameworks */,
-				C744A3B020F4F0AE00AD84DC /* libRCTImage.a in Frameworks */,
-				C744A3B120F4F0AE00AD84DC /* libRCTLinking.a in Frameworks */,
-				C744A3B220F4F0AE00AD84DC /* libRCTNetwork.a in Frameworks */,
-				C744A3B320F4F0AE00AD84DC /* libRCTSettings.a in Frameworks */,
-				C744A3B420F4F0AE00AD84DC /* libRCTText.a in Frameworks */,
 				C7CB206D20F0AED800EE0782 /* libreact-native-splash-screen.a in Frameworks */,
 				C73A359C20D803A0002D77C1 /* libBolts.a in Frameworks */,
 				C7E003F320D1FE7C00EB5F2A /* libcxxreact.a in Frameworks */,
@@ -546,6 +526,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C7AC02DC20F5F7AB00BECAC4 /* React.xcconfig */,
+				C7AC02DA20F5F63600BECAC4 /* React */,
 				C7CB206C20F0AED800EE0782 /* libreact-native-splash-screen.a */,
 				C7CB206920F0AE1200EE0782 /* libreact-native-splash-screen.a */,
 				C73A359B20D803A0002D77C1 /* libBolts.a */,
