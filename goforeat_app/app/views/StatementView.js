@@ -1,5 +1,5 @@
 import React from 'react'
-import {View} from 'react-native'
+import {View,StyleSheet} from 'react-native'
 import PropTypes from 'prop-types'
 import {
   Container,
@@ -603,22 +603,33 @@ const StatementView = (props) => {
     </View>
   )
   const {name} = props.navigation.state.params
-  return (<Container>
-    <CommonHeader title={_content[name].title} canBack="canBack" {...props}/>
-    <Content>
-      <Card>
-        <CardItem>
-          <Body>
-            {name !== 'policy' && name !== 'service' ? (<Text allowFontScaling={false}  style={{lineHeight:25}}>
-              {_content[props.navigation.state.params.name].content}
-            </Text>) : null}
-            {name === 'policy' ? this._renderPolicyView() : null}
-            {name === 'service' ? this._renderServiceView() : null}
-          </Body>
-        </CardItem>
-      </Card>
-    </Content>
-  </Container>)
+  return (
+    <Container  style={{backgroundColor: '#edebf4'}}>
+      <CommonHeader title={_content[name].title} canBack="canBack" {...props}/>
+      <Content>
+        <View style={styles.statementContainer}>
+          {name !== 'policy' && name !== 'service' ? (<Text allowFontScaling={false}  style={{lineHeight:25}}>
+            {_content[props.navigation.state.params.name].content}
+          </Text>) : null}
+          {name === 'policy' ? this._renderPolicyView() : null}
+          {name === 'service' ? this._renderServiceView() : null}
+        </View>    
+      </Content>
+    </Container>)
 }
 
+const styles = StyleSheet.create({
+  statementContainer: {
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 5,
+    shadowColor: '#E8E2F2',
+    shadowOpacity: 0.8,
+    shadowOffset: {width: 0,height: 8},
+    elevation: 3,
+    marginBottom: 10,
+    backgroundColor: Colors.main_white
+  }
+})
 export default StatementView
