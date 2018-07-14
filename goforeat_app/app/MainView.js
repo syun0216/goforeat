@@ -16,7 +16,6 @@ import {
 } from "react-navigation";
 //views
 import SplashPageView from './SplashPageView';
-import LoginView from "./LoginView";
 import CustomLoginView from './CustomLoginView';
 import SettingView from "./SettingView";
 
@@ -28,6 +27,8 @@ import StatementView from "./views/StatementView";
 import MandatoryUpdateView from "./MandatoryUpdateView";
 import ConfirmOrderView from "./views/ConfirmOrderView";
 import UserHelperView from "./views/UserHelperView";
+import PaySettingView from "./views/PaySettingView";
+import CreditCardView from "./views/CreditCardView";
 //api
 import source from "./api/CancelToken";
 //utils
@@ -137,6 +138,24 @@ const darwerView = DrawerNavigator(
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
+                  props.navigation.navigate('PayType');
+                }}
+                style={MainViewStyles.drawerItemBtn}
+              >
+                <Image
+                  source={require("./asset/help.png")}
+                  style={MainViewStyles.drawerItemImage}
+                  resizeMode="contain"
+                />
+                <Text
+                  allowFontScaling={false}
+                  style={MainViewStyles.drawerItemText}
+                >
+                  我的支付方式
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
                   props.navigation.navigate('Help');
                 }}
                 style={MainViewStyles.drawerItemBtn}
@@ -225,6 +244,12 @@ let MainView = StackNavigator(
     },
     Help: {
       screen: UserHelperView
+    },
+    PayType: {
+      screen: PaySettingView
+    },
+    Credit: {
+      screen: CreditCardView
     }
   },
   { headerMode: "none",

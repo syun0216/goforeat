@@ -163,10 +163,9 @@ export default class CustomLoginView extends PureComponent {
           }
         }
         JPushModule.getRegistrationID(registrationId => {
-          console.log(111,this.state);
           api.saveDevices(registrationId,data.data.data.sid).then(sdata => {
-            console.log(222,sdata);
-            console.log(333,registrationId);
+            // console.log(222,sdata);
+            // console.log(333,registrationId);
           });
         },() => {
           ToastUtil.showWithMessage("登錄失敗")

@@ -26,17 +26,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.fontBlack,
   },
-  itemArrow: {
+  itemIcon: {
     fontSize: 20,
     color: Colors.fontBlack
   }
 });
 
-const CommonItem = ({content,isEnd,hasRightIcon,clickFunc,style}) => (
+const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,clickFunc,style}) => (
   <View>
     <TouchableOpacity style={[styles.itemContainer,style]} onPress={() => clickFunc()}>
-      <Text numberOfLines={1} style={styles.itemText}>{content}</Text>
-      {hasRightIcon ? <Icon name="ios-arrow-forward-outline" style={styles.itemArrow}/> : null}
+      <View>
+        {hasLeftIcon ? leftIcon:null}
+        <Text numberOfLines={1} style={styles.itemText}>{content}</Text>
+      </View>
+      {hasRightIcon ? rightIcon : null}
     </TouchableOpacity>
     {isEnd ? <Divider bgColor='#edebf4'/> : null}
   </View>
@@ -46,6 +49,9 @@ CommonItem.defaultProps = {
   content: '内容',
   isEnd: false,
   hasRightIcon: true,
+  rightIcon: (<Icon name="ios-arrow-forward-outline" style={styles.itemIcon}/>),
+  hasLeftIcon: false,
+  leftIcon:(<Icon name="md-alert" style={styles.itemIcon}/>),
   clickFunc: () => {},
   style: {}
 };
@@ -54,6 +60,9 @@ CommonItem.propsType = {
   content: PropTypes.String,
   isEnd: PropTypes.bool,
   hasRightIcon: PropTypes.bool,
+  rightIcon: PropTypes.element,
+  hasLeftIcon: PropTypes.bool,
+  leftIcon: PropTypes.element,
   clickFunc: PropTypes.func,
   style: PropTypes.object
 }
