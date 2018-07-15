@@ -48,17 +48,6 @@ export default class CreditCardView extends PureComponent {
     })
   }
 
-  async _testPay() {
-    const token = await client.createToken({
-      number: '4581241318953824' ,
-      exp_month: '07', 
-      exp_year: '22', 
-      cvc: '060',
-      // address_zip: '12345'
-   });
-   console.log(token);
-  }
-
   render() {
     return (
       <Container>
