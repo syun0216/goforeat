@@ -48,12 +48,21 @@ export default class CreditCardView extends PureComponent {
     })
   }
 
+  _renderCommonInput() {
+    return (
+      <View style={CreditCardStyles.CommonInputView}>
+        <Text style={CreditCardStyles.InputTitle}>123</Text>
+        <Input placeholder="請填寫姓名" maxLength="4"/>
+      </View>
+    )
+  }
+
   render() {
     return (
       <Container>
-        <CommonHeader title="信用卡" canBack {...this.props}/>
-        <Content>
-          <Form>
+        <CommonHeader title="綁定卡號" canBack {...this.props}/>
+        <Content style={{backgroundColor: '#edebf4'}}>
+          <Form style={{backgroundColor: '#edebf4'}}>
             <Item>
               <Input placeholder="卡號" onChangeText={card => this._getCard(card)}/>
             </Item>
@@ -70,7 +79,7 @@ export default class CreditCardView extends PureComponent {
             <View style={CreditCardStyles.BtnView}>
               <TouchableOpacity onPress={() => this._testPay()}>
                 <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={CommonStyles.btn}>
-                  <Text style={{color:'#fff',fontSize:16}}>綁定卡號</Text>
+                  <Text style={{color:'#fff',fontSize:16}}>立即綁定</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </View>
