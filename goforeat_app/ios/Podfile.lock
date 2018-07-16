@@ -15,7 +15,7 @@ PODS:
     - FBSDKCoreKit (~> 4.33.0)
   - JCoreRN (1.2.6):
     - React
-  - JPushRN (2.2.3):
+  - JPushRN (2.2.5):
     - React
   - React (0.52.2):
     - React/Core (= 0.52.2)
@@ -64,6 +64,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNI18n (2.0.12):
+    - React
   - yoga (0.52.2.React)
 
 DEPENDENCIES:
@@ -90,6 +92,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNI18n (from `../node_modules/react-native-i18n`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
@@ -103,6 +106,8 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native
   react-native-splash-screen:
     :path: ../node_modules/react-native-splash-screen
+  RNI18n:
+    :path: ../node_modules/react-native-i18n
   yoga:
     :path: ../node_modules/react-native/ReactCommon/yoga
 
@@ -116,8 +121,9 @@ SPEC CHECKSUMS:
   JPushRN: bdaefc1f0442d90ef4035f47e29e4268ee6a11f2
   React: 43e97926f429d846050880666de1809e22dd5cc5
   react-native-splash-screen: 8e3f866dc79bfe533baeffd0a38c33f7a7eae7f8
+  RNI18n: db9be06a40336f04d136f24dd5de3f5eb9f3207c
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 91e6784ed06b1cc6468eaa284ac7347a1bd7c127
+PODFILE CHECKSUM: 9c99c678178879097ab302212f1f843a6c8241d5
 
 COCOAPODS: 1.4.0

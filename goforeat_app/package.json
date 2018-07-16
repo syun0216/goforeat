@@ -37,6 +37,7 @@
     "react-native-share": "^1.0.27",
     "react-native-snap-carousel": "^3.6.0",
     "react-native-splash-screen": "^3.0.9",
+    "react-native-stripe-api": "^0.1.0",
     "react-native-swiper": "^1.5.13",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.0.0-beta.27",
