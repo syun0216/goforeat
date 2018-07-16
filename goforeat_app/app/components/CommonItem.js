@@ -11,7 +11,7 @@ import GLOBAL_PARAMS from '../utils/global_params';
 const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: Colors.main_white,
-    height: 50,
+    height: 60 * (GLOBAL_PARAMS._winWidth/375),
     width: GLOBAL_PARAMS._winWidth,
     padding:10,
     flexDirection: 'row',
@@ -22,20 +22,26 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#edebf4',
   },
+  itemLeftView: {
+    flexDirection: 'row',
+    justifyContent:'space-between',
+    alignItems:'center'
+  },
   itemText: {
     fontSize: 16,
-    color: Colors.fontBlack,
+    color: '#333',
   },
   itemIcon: {
     fontSize: 20,
-    color: Colors.fontBlack
+    color: '#333',
+    marginRight: 10,
   }
 });
 
 const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,clickFunc,style}) => (
   <View>
     <TouchableOpacity style={[styles.itemContainer,style]} onPress={() => clickFunc()}>
-      <View>
+      <View style={styles.itemLeftView}>
         {hasLeftIcon ? leftIcon:null}
         <Text numberOfLines={1} style={styles.itemText}>{content}</Text>
       </View>
