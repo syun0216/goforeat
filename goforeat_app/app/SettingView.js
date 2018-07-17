@@ -1,40 +1,40 @@
 import React,{PureComponent} from 'react'
-import {View,Text,StyleSheet,Alert} from 'react-native'
+import {View,Text,StyleSheet,Alert,Linking,Image,ScrollView} from 'react-native'
 import {Container,Button} from 'native-base'
+import PopupDialog, { DialogTitle } from 'react-native-popup-dialog';
 //utils
 import Colors from './utils/Colors';
 import ToastUtil from './utils/ToastUtil';
+import GLOBAL_PARAMS from './utils/global_params';
 //components
 import CommonHeader from './components/CommonHeader';
+import CommonItem from './components/CommonItem';
 //language
 import i18n from './language/i18n';
 //api
 import api from './api/index'
 
 export default class SettingView extends PureComponent{
+  popupDialog = null;
   state = {
     isEnglish: false,
     i18n: i18n[this.props.screenProps.language]
   }
-  _currentItemClick = theme => {
-    if(theme === this.props.screenProps.theme) return;
-    this.props.screenProps.changeTheme(theme)
-  }
 
-  componentDidMount = () => {
+  componentDidMount() {
     // console.log(this.props);
     this.setState({
       isEnglish: this.props.screenProps.language === 'en'
     })
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps(nextProps) {
     this.setState({
       i18n: i18n[nextProps.screenProps.language]
     })
   }
 
-  _logout = () => {
+  _logout() {
     // this.props.screenProps.userLogout();
     // this.props.refreshReset();
     api.logout().then(data => {
@@ -82,15 +82,40 @@ export default class SettingView extends PureComponent{
   )
 
   render() {
+    const _list_arr = [
+      {content:'通知',isEnd:false,clickFunc:() => {
+        Linking.openURL('app-settings:')
+        .catch(err => console.log(err))
+      }},
+      {
+        content:'語言',isEnd:false,clickFunc:() => {
+          this.popupDialog.show();
+        }
+      },
+      {
+        content: '隱私政策',isEnd:false,clickFunc:() => {
+          this.props.navigation.navigate("Statement", { name: "policy" })
+        }
+      },
+      {
+        content: '服務條款',isEnd: true,clickFunc:() => {
+          this.props.navigation.navigate("Statement", { name: "service" })
+        }
+      },
+    ];
     return (
-      <Container>
-        <CommonHeader title={i18n.setting_title} canBack {...this.props}/>
-
-          <View style={{paddingTop: 20,justifyContent: 'flex-start',alignItems: 'center', flex: 1,backgroundColor: '#edebf4'}}>
-            <Text>有得食 v1.1.5版本</Text>
-          </View>
-          {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
-
+      <Container style={{backgroundColor: '#edebf4'}}>
+        <CommonHeader title="系統設置" canBack {...this.props}/>
+          <ScrollView>
+            <View style={{paddingTop: 20,justifyContent: 'flex-start',alignItems: 'center', height: 200}}>
+              <Image source={require('./asset/logowhite.png')} style={{width: 80,height: 80,marginBottom: 20}}/>
+              <Text>有得食 v1.1.7 </Text>
+            </View>
+            {_list_arr.map((item,key) => (
+              <CommonItem key={key} content={item.content} isEnd={item.isEnd} clickFunc={item.clickFunc}/>
+            ))}
+            {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
+          </ScrollView>
       </Container>
     )
   }
