@@ -35,20 +35,10 @@ class App extends Component < {} > {
         }
       }
     })
-    
-    appStorage.getShopListData((error, data) => {
-      if (error === null) {
-        if (data !== null) {
-          store.dispatch({type: 'STOCK_SHOP', data: data.data})
-        }
-      }
-    })
-    //theme
-    appStorage.getTheme((error, data) => {
-      if (error === null) {
-        if (data !== null) {
-          // console.log(data)
-          store.dispatch({type: 'CHANGE_THEME', theme: data})
+    appStorage.getPayType((error,data) => {
+      if(error == null) {
+        if(data != null) {
+          store.dispatch({type: 'SET_PAY_TYPE', paytype: data});
         }
       }
     })
@@ -56,8 +46,6 @@ class App extends Component < {} > {
 
 
   componentDidMount = () => {
-    
-    AppState.addEventListener('change', this._handleAppStateChange)
     if(Platform.OS == 'android') {
       this._jpush_android_setup()
     }else {
@@ -67,7 +55,6 @@ class App extends Component < {} > {
   }
 
   componentWillUnmount = () => {
-    AppState.removeEventListener('change', this._handleAppStateChange);
     JPushModule.removeReceiveNotificationListener('receiveNotification');
   }
 
@@ -86,15 +73,6 @@ class App extends Component < {} > {
     // JPushModule.addReceiveOpenNotificationListener(map => {
       
     // })
-  }
-
-  _handleAppStateChange = (nextAppState) => {
-    if (nextAppState.match(/inactive/)) {
-      appStorage.setShopListData()
-      // return
-    }
-    // this.setState({currentAppState: nextAppState});
-    // console.log(nextAppState)
   }
 
   render() {

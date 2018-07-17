@@ -11,7 +11,8 @@ import {
   STOCK_PLACE,
   DELETE_PLACE,
   CHANGE_THEME,
-  REFRESH
+  REFRESH,
+  SET_PAY_TYPE
 } from "../actions";
 //cache
 import appStorage from "../cache/appStorage";
@@ -58,6 +59,9 @@ const initialState = {
   loading: false,
   languageState: {
     language: 'zh'
+  },
+  paytypeState: {
+    payType: 'cash'
   }
 };
 
@@ -100,7 +104,6 @@ export function auth(state = initialState.userState, action) {
 
 export function placeSetting(state = initialState.placeState, action) { 
   switch(action.type) {
-    
     case STOCK_PLACE: {
     return {
       ...state,
@@ -113,6 +116,18 @@ export function placeSetting(state = initialState.placeState, action) {
     default: return state;
   }
  }
+
+export function payType(state = initialState.paytypeState, action) {
+  switch(action.type) {
+    case 'SET_PAY_TYPE': {
+      return {
+        ...state,
+        payType: action.paytype
+      }
+    }
+    default: return state;
+  }
+}
 
 export function stockShop(state = initialState.favoriteStock.shopList, action) {
   switch (action.type) {

@@ -14,7 +14,8 @@ import {
   STOCK_PLACE,
   DELETE_PLACE,
   REFRESH,
-  CHANGE_THEME
+  CHANGE_THEME,
+  SET_PAY_TYPE
 } from "./actions";
 
 class DashBoardView extends PureComponent {
@@ -35,7 +36,8 @@ class DashBoardView extends PureComponent {
     )
   }
 }
-const dashboardStateToProps = (state) => ({
+const dashboardStateToProps = (state) => {
+  return({
   nav: state.nav,
   theme: state.theme.theme,
   user: state.auth.username,
@@ -46,8 +48,9 @@ const dashboardStateToProps = (state) => ({
   articleList: state.stockArticle,
   loading: state.loading,
   language: state.language.language,
-  place: state.placeSetting.place
-})
+  place: state.placeSetting.place,
+  paytype: state.payType.payType
+})}
 
 const dashboardmapDispatchToProps = dispatch => ({
   userLogin: (username,sid) => dispatch({type:LOGIN,username:username,sid:sid}),
@@ -63,6 +66,7 @@ const dashboardmapDispatchToProps = dispatch => ({
   changeLanguage: (language) => dispatch({type: CHANGE_LANGUAGE,language}),
   stockPlace: (place) => dispatch({type: STOCK_PLACE,place}),
   deletePlace: () => dispatch({type: DELETE_PLACE}),
+  setPayType: (paytype) => dispatch({type: SET_PAY_TYPE,paytype}),
   dispatch: dispatch
 })
 

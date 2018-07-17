@@ -55,32 +55,6 @@ let userStorage = {
   }
 };
 
-let shopListStorage = {
-  _STORAGE_KEY_SHOP_LIST: "storage_key_shop_list",
-  setShopListData() {
-    // console.log(store.getState().stockShop)
-    if (store.getState().stockShop.data.length > 0) {
-      AsyncStorage.setItem(this._STORAGE_KEY_SHOP_LIST, JSON.stringify(store.getState().stockShop));
-    }
-  },
-  getShopListData(callBack) {
-    "use strict";
-    if (callBack == null) {
-      return;
-    }
-    AsyncStorage.getItem(this._STORAGE_KEY_SHOP_LIST, (error, value) => {
-      if (error != null || value == null || value.length == 0) {
-        callBack(error, null);
-        return;
-      }
-      callBack(null, JSON.parse(value));
-    });
-  },
-  removeShopList() {
-    AsyncStorage.removeItem(this._STORAGE_KEY_SHOP_LIST);
-  }
-}
-
 let placeStorage = {
   _STORAGE_KEY_PLACE: "storage_key_place",
   setPlace(place) {
@@ -99,22 +73,22 @@ let placeStorage = {
       callBack(null, JSON.parse(value));
     });
   },
-  removeAll() {
-    AsyncStorage.clear()
+  removePlace() {
+    AsyncStorage.removeItem(this._STORAGE_KEY_PLACE)
   }
 }
 
-let themeStorage = {
-  _STORAGE_KEY_THEME: "storage_key_theme",
-  setTheme(theme) {
-    AsyncStorage.setItem(this._STORAGE_KEY_THEME, theme);
+let payTypeStorage = {
+  _STORAGE_KEY_PAY_TYPE: "storage_key_pay",
+  setPayType(pay) {
+    AsyncStorage.setItem(this._STORAGE_KEY_PAY_TYPE, pay);
   },
-  getTheme(callBack) {
+  getPayType(callBack) {
     "use strict";
     if (callBack == null) {
       return;
     }
-    AsyncStorage.getItem(this._STORAGE_KEY_THEME, (error, value) => {
+    AsyncStorage.getItem(this._STORAGE_KEY_PAY_TYPE, (error, value) => {
       if (error != null || value == null || value.length == 0) {
         callBack(error, null);
         return;
@@ -122,16 +96,14 @@ let themeStorage = {
       callBack(null, value);
     });
   },
-  removeAll() {
-    AsyncStorage.clear()
+  removePayType() {
+    AsyncStorage.removeItem(this._STORAGE_KEY_PAY_TYPE);
   }
-
 }
 
 const appStorage = {
   ...userStorage,
-  ...shopListStorage,
-  ...themeStorage,
+  ...payTypeStorage,
   ...placeStorage
 }
 

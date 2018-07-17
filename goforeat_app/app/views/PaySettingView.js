@@ -9,6 +9,8 @@ import Divider from '../components/Divider';
 import Colors from '../utils/Colors';
 //styles
 import PaySettingStyles from '../styles/paysetting.style';
+//cache
+import AppStorage from '../cache/appStorage';
 
 const _checked = '../asset/checked.png';
 const _unchecked = '../asset/unchecked.png';
@@ -24,14 +26,16 @@ export default class PaySettingView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      checkedName: 'cash'
+      checkedName: props.screenProps.paytype
     }
   }
 
   _checked(name) {
     this.setState(
       {checkedName: name}
-    )
+    );
+    AppStorage.setPayType(name);
+    this.props.screenProps.setPayType(name);
   }
 
   _checkedImage(name) {
