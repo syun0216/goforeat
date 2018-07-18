@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		081F6990D1B44D7D9A90986C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 500C59F6C4664701B262A79B /* EvilIcons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -58,6 +57,7 @@
 		DBF148A91C4F498687FC96AC /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE04579D78AE4C0CB6FB5E78 /* MaterialIcons.ttf */; };
 		EEAADBBDC2E14921A67D4672 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 812CBB1CBD1B40428B72B630 /* Octicons.ttf */; };
 		F9A053B485B44437AF6713A3 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B620EC70262E4FA195E7529A /* Ionicons.ttf */; };
+		DE69475640864AA7A166A457 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13F7238AC6F046D4936C77D5 /* Stripe.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -473,6 +473,7 @@
 		F1B9264B14C24335A3F1257F /* libReactNativePayments.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePayments.a; sourceTree = "<group>"; };
 		F70CF1BBF6934453B8C723CD /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		FA306BA9B518419E83BFF347 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		13F7238AC6F046D4936C77D5 /* Stripe.framework */ = {isa = PBXFileReference; name = "Stripe.framework"; path = "System/Library/Frameworks/Stripe.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -510,6 +511,7 @@
 				7540EDD11C9A48A2883DA531 /* libCodePush.a in Frameworks */,
 				24989D1538F844BE9993BC45 /* libRCTFBSDK.a in Frameworks */,
 				38701AA931294289C0A55F78 /* libPods-goforeat_app.a in Frameworks */,
+				DE69475640864AA7A166A457 /* Stripe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -570,6 +572,7 @@
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				37C1B00796C84DB38A5A5F6B /* libz.tbd */,
 				CE334579E2AE1321F4C986DE /* libPods-goforeat_app.a */,
+				13F7238AC6F046D4936C77D5 /* Stripe.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -863,6 +866,14 @@
 				C7E19DEB20F0655B009CCF87 /* libReactNativePayments.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		4B4D0378467E4088B6531252 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = /Users/sujunwen/Documents/Mywork/hk/goforeat/goforeat_app/node_modules/react-native-payments-addon-stripe/Carthage/Build/iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1518,6 +1529,7 @@
 					"$(inherited)",
 					"\"${PODS_ROOT}/AppCenter/AppCenter-SDK-Apple/iOS\"",
 					"\"${PODS_ROOT}/AppCenterReactNativeShared/AppCenterReactNativeShared\"",
+					"$(SRCROOT)/../node_modules/react-native-payments-addon-stripe/Carthage/Build/iOS/",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1568,6 +1580,7 @@
 					"$(inherited)",
 					"\"${PODS_ROOT}/AppCenter/AppCenter-SDK-Apple/iOS\"",
 					"\"${PODS_ROOT}/AppCenterReactNativeShared/AppCenterReactNativeShared\"",
+					"$(SRCROOT)/../node_modules/react-native-payments-addon-stripe/Carthage/Build/iOS/",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

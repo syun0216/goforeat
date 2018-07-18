@@ -27,13 +27,13 @@ export default class StripeExample extends Component {
             supportedNetworks: ['visa', 'mastercard'],
             countryCode: 'US',
             currencyCode: 'USD',
-            // paymentMethodTokenizationParameters: {
-            //   parameters: {
-            //     gateway: 'stripe',
-            //     'stripe:publishableKey': 'pk_test_TpTQ3qfxsatlvVO1npNnw3pE',
-            //     'stripe:version': '5.0.0'
-            //   }
-            // }
+            paymentMethodTokenizationParameters: {
+              parameters: {
+                gateway: 'stripe',
+                'stripe:publishableKey': 'pk_live_4JIHSKBnUDiaFHy2poHeT2ks',
+                'stripe:version': '13.0.3'
+              }
+            }
           }
         }
       ];
@@ -73,11 +73,12 @@ export default class StripeExample extends Component {
     pr
       .show()
       .then(paymentResponse => {
+        test()
         this.setState({
           text: paymentResponse.details.paymentToken
         });
 
-        paymentResponse.complete('success');
+        // paymentResponse.complete('success');
       })
       .catch(e => {
         pr.abort();
