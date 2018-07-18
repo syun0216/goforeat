@@ -8,7 +8,7 @@ import Colors from '../utils/Colors'
 
 const styles = StyleSheet.create({
   wrapper: {
-    height:250,
+    height:250*(GLOBAL_PARAMS._winHeight/667),
   },
   slide1: {
     flex: 1,
@@ -43,13 +43,13 @@ const GoodsSwiper = (props) => {
   return (<Swiper style={styles.wrapper}
     autoplay
     loop
-    paginationStyle={{position:'absolute',bottom:15,marginLeft:200}}
+    paginationStyle={{position:'absolute',bottom:15,marginLeft:250}}
     dotStyle={{width: 10, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.5}}
     dotColor="#fafafa" activeDotColor="white" activeDotStyle={{width: 25, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.8}}
-    showsPagination={false}>
+    showsPagination>
     {props.adDetail.map((item,idx) => (
       <View key={idx}>
-        <Image style={styles.img} source={{uri: item.image}}/>
+        <Image style={styles.img} source={{uri: item}}/>
       </View>
     ))}
     {

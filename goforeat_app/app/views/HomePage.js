@@ -32,6 +32,7 @@ import Loading from "../components/Loading";
 import PlacePickerModel from '../components/PlacePickerModel';
 import BlankPage from '../components/BlankPage';
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
+import MoreDetailModal from '../components/MoreDetailModal';
 import WarningTips from '../components/WarningTips';
 //language
 import i18n from "../language/i18n";
@@ -62,7 +63,8 @@ class HomePage extends Component {
       refreshParams: '',
       isBottomContainerShow: false,
       foodCount: 0,
-      showPlacePicker: false
+      showPlacePicker: false,
+      showMoreDetail: false
     };
   }
 
@@ -269,23 +271,33 @@ class HomePage extends Component {
     )
   }
 
-  // _renderItem({ item, index }) {
-  //   return (
-  //     <SliderEntry
-  //       data={item}
-  //       even={(index + 1) % 2 === 0}
-  //       {...this["props"]}
-  //     />
-  //   );
-  // }
-
   _renderIntroductionView() {
     let {foodDetails} = this.state;
     return (
       <View style={HomePageStyles.IntroductionView}>
+      <View style={HomePageStyles.IntroductionFoodNameCotainer}>
         <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1} allowFontScaling={false}>{foodDetails[0].foodName}</Text>
+        <Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.setState({
+          showMoreDetail: true
+        })}>詳情</Text>
+      </View>
         <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3} allowFontScaling={false}>{foodDetails[0].foodBrief}</Text>
       </View>
+    )
+  }
+
+  _renderMoreDetailModal() {
+    let {foodDetails} = this.state;
+    return (
+      <MoreDetailModal 
+      modalVisible={this.state.showMoreDetail} closeFunc={() => this.setState({showMoreDetail: false})} foodtitle={foodDetails[0].foodName} content={foodDetails[0].foodBrief} images={foodDetails[0].extralImage}
+      />
+    )
+  }
+
+  _renderPlacePickerModal() {
+    return (
+      <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
     )
   }
 
@@ -420,6 +432,7 @@ class HomePage extends Component {
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
         {/*this._renderWarningView()*/}
         {example1}
+        {this.state.foodDetails != null?this._renderMoreDetailModal():null}
         {this.state.foodDetails != null ? this._renderIntroductionView() : null}
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
         {this.state.foodDetails != null ? this._renderDeadLineDate() : null}

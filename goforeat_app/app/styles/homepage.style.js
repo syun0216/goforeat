@@ -39,11 +39,23 @@ export default StyleSheet.create({
     paddingRight: common.marginLeft,
     paddingBottom: 10
   },
+  IntroductionFoodNameCotainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
   IntroductionFoodName: {
     fontSize: 20,
     color: '#111',
     fontWeight:'bold',
-    marginBottom:11
+    marginBottom:11,
+    maxWidth: 200
+  },
+  IntroductionDetailBtn: {
+    color: '#ff3348',
+    fontSize: 16,
+    paddingLeft: 10,
+    paddingRight: 10
   },
   IntroductionFoodBrief: {
     fontSize: 14,
