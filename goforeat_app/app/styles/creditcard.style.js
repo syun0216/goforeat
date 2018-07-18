@@ -17,6 +17,7 @@ export default StyleSheet.create({
     paddingRight: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems:'center',
     borderBottomWidth: 1,
     borderBottomColor: '#edebf4',
     borderTopWidth: 1,
@@ -25,5 +26,11 @@ export default StyleSheet.create({
   InputTitle: {
     fontSize: 16,
     color: '#333333'
+  },
+  Input: {
+    color: '#000',
+    fontSize: 16,
+    width: 200,
+    justifyContent:'flex-end'
   }
 })

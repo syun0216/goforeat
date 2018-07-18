@@ -29,6 +29,7 @@ import ConfirmOrderView from "./views/ConfirmOrderView";
 import UserHelperView from "./views/UserHelperView";
 import PaySettingView from "./views/PaySettingView";
 import CreditCardView from "./views/CreditCardView";
+import ManageCreditCardView from './views/ManageCreditCardView';
 //api
 import source from "./api/CancelToken";
 //utils
@@ -250,6 +251,9 @@ let MainView = StackNavigator(
     },
     Credit: {
       screen: CreditCardView
+    },
+    Manage_Card: {
+      screen: ManageCreditCardView
     }
   },
   { headerMode: "none",
