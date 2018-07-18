@@ -42,6 +42,13 @@ class App extends Component < {} > {
         }
       }
     })
+    appStorage.getCreditCardInfo((error,data) => {
+      if(error == null) {
+        if(data != null) {
+          store.dispatch({type: 'SET_CREDIT_CARD', creditCardInfo: data});
+        }
+      }
+    })
   }
 
 

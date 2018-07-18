@@ -101,10 +101,34 @@ let payTypeStorage = {
   }
 }
 
+let creditCardInfo = {
+  _STORAGE_KEY_CREDIT_CARD: "storage_credit_card",
+  setCreditCardInfo(info) {
+    AsyncStorage.setItem(this._STORAGE_KEY_CREDIT_CARD, info);
+  },
+  getCreditCardInfo(callBack) {
+    "use strict";
+    if (callBack == null) {
+      return;
+    }
+    AsyncStorage.getItem(this._STORAGE_KEY_CREDIT_CARD, (error, value) => {
+      if (error != null || value == null || value.length == 0) {
+        callBack(error, null);
+        return;
+      }
+      callBack(null, value);
+    });
+  },
+  removeCreditCardInfo() {
+    AsyncStorage.removeItem(this._STORAGE_KEY_CREDIT_CARD);
+  }
+}
+
 const appStorage = {
   ...userStorage,
   ...payTypeStorage,
-  ...placeStorage
+  ...placeStorage,
+  ...creditCardInfo
 }
 
 module.exports = appStorage

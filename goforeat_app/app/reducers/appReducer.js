@@ -12,7 +12,8 @@ import {
   DELETE_PLACE,
   CHANGE_THEME,
   REFRESH,
-  SET_PAY_TYPE
+  SET_PAY_TYPE,
+  SET_CREDIT_CARD
 } from "../actions";
 //cache
 import appStorage from "../cache/appStorage";
@@ -62,6 +63,9 @@ const initialState = {
   },
   paytypeState: {
     payType: 'cash'
+  },
+  creditState: {
+    creditCardInfo: null
   }
 };
 
@@ -119,10 +123,22 @@ export function placeSetting(state = initialState.placeState, action) {
 
 export function payType(state = initialState.paytypeState, action) {
   switch(action.type) {
-    case 'SET_PAY_TYPE': {
+    case SET_PAY_TYPE: {
       return {
         ...state,
         payType: action.paytype
+      }
+    }
+    default: return state;
+  }
+}
+
+export function creditCardInfo(state = initialState.creditState, action) {
+  switch(action.type) {
+    case SET_CREDIT_CARD: {
+      return {
+        ...state,
+        creditCardInfo: action.creditCardInfo
       }
     }
     default: return state;

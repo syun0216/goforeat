@@ -26,8 +26,16 @@ export default class PaySettingView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      checkedName: props.screenProps.paytype
+      checkedName: props.screenProps.paytype,
+      creditCardInfo: JSON.parse(props.screenProps.creditCardInfo)
     }
+    console.log(props.screenProps.creditCardInfo);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      creditCardInfo: JSON.parse(nextProps.screenProps.creditCardInfo)
+    })
   }
 
   _checked(name) {
@@ -65,6 +73,7 @@ export default class PaySettingView extends PureComponent {
         content: 'Ali Pay',hasLeftIcon: true,isEnd: true,leftIcon:this._leftImage(LIST_IMAGE.ALI),rightIcon:this._checkedImage('ali'),clickFunc: () => this._checked('ali')
       }
     ]
+    let {creditCardInfo} = this.state;
     return (
       <Container>
       <CommonHeader title="我的支付方式" canBack {...this.props}/>
@@ -75,8 +84,15 @@ export default class PaySettingView extends PureComponent {
           hasLeftIcon={item.hasLeftIcon} leftIcon={item.leftIcon} rightIcon={item.rightIcon}/>
         ))}
         <View style={PaySettingStyles.creditcardView}><Text style={PaySettingStyles.creditcardText}>信用卡支付</Text></View>
-        <CommonItem content="設定您的信用卡" hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE.CREDIT_CARD)}
-        clickFunc={() => this.props.navigation.navigate("Credit")}/>
+        {creditCardInfo != null ? <CommonItem hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE.CREDIT_CARD)} content={creditCardInfo.card} rightIcon={this._checkedImage('credit_card')} clickFunc={() => this._checked('credit_card')}/> : null}
+        <CommonItem content={creditCardInfo != null ? '管理您的信用卡' : '設定您的信用卡'} hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE.CREDIT_CARD)}
+        clickFunc={() => {
+          if(creditCardInfo != null) {
+            this.props.navigation.navigate('Manage_Card');
+          }else {
+            this.props.navigation.navigate("Credit");
+          }
+        }}/>
         </View>
       </Content>
       </Container>
