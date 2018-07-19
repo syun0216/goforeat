@@ -6,6 +6,8 @@ import LinearGradient from 'react-native-linear-gradient';
 //utils
 import Colors from '../utils/Colors';
 import GLOBAL_PARAMS from "../utils/global_params";
+//styles
+import CommonStyles from "../styles/common.style";
 
 const styles = StyleSheet.create({
   linearGradient: {
@@ -29,12 +31,12 @@ const CommonHeader = (props) => {
           <Icon
             size={20}
             name="ios-arrow-back"
-            style={[{ fontSize: 25, color: props.textColor,paddingLeft: 10 }]}
+            style={[CommonStyles.common_icon_back,{color: props.textColor}]}
           />
         </Button>
       )) : null}
     </Left>
-    <Body><Text allowFontScaling={false} style={[{color: props.textColor},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
+    <Body><Text allowFontScaling={false} style={[{color: props.textColor,fontSize: 16},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
     <Right>
       {props.hasRight ? (props.rightElement !== null ? <props.rightElement {...props}/> : (
         <Button transparent onPress={() => props.rightClick()}>
