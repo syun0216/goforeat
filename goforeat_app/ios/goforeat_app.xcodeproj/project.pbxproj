@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		081F6990D1B44D7D9A90986C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 500C59F6C4664701B262A79B /* EvilIcons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -31,21 +32,24 @@
 		C76B2CD420C832A200D63293 /* libJCoreRN.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CD320C832A200D63293 /* libJCoreRN.a */; };
 		C76B2CE220C8331700D63293 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CE120C8331700D63293 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C771337C20F8F2BD003AAA8A /* libReactNativePayments.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E19DEB20F0655B009CCF87 /* libReactNativePayments.a */; };
-		C771337D20F8FD30003AAA8A /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3AA20F4F08E00AD84DC /* libRCTLinking.a */; };
 		C771337F20F9BC47003AAA8A /* libBolts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771337E20F9BC47003AAA8A /* libBolts.a */; };
 		C771338120F9C1DF003AAA8A /* libFBSDKCoreKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771338020F9C1DF003AAA8A /* libFBSDKCoreKit.a */; };
 		C771338320F9C20E003AAA8A /* libFBSDKLoginKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771338220F9C20E003AAA8A /* libFBSDKLoginKit.a */; };
 		C771338520F9C213003AAA8A /* libFBSDKShareKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771338420F9C213003AAA8A /* libFBSDKShareKit.a */; };
 		C771338720F9C230003AAA8A /* libreact-native-splash-screen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771338620F9C230003AAA8A /* libreact-native-splash-screen.a */; };
 		C7796CE420FA3A2500BAB2FB /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7796CE320FA3A2500BAB2FB /* libBVLinearGradient.a */; };
-		C78DB36520F7A0C20076CE9E /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3EF20F4F63400AD84DC /* libRCTAnimation.a */; };
-		C78DB36620F7A0C20076CE9E /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3BC20F4F14300AD84DC /* libRCTBlob.a */; };
-		C78DB36720F7A0C20076CE9E /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A38E20F4F04600AD84DC /* libRCTImage.a */; };
-		C78DB36820F7A0C20076CE9E /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A39820F4F05700AD84DC /* libRCTNetwork.a */; };
-		C78DB36920F7A0C20076CE9E /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3A120F4F06C00AD84DC /* libRCTSettings.a */; };
-		C78DB36A20F7A0C20076CE9E /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A37F20F4EFEB00AD84DC /* libRCTText.a */; };
-		C78DB36B20F7A0C20076CE9E /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3D320F4F20500AD84DC /* libRCTVibration.a */; };
-		C78DB36C20F7A0C20076CE9E /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3DE20F4F26000AD84DC /* libRCTWebSocket.a */; };
+		C78B958320FF1431009A8093 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3CD20F4F17B00AD84DC /* libRCTActionSheet.a */; };
+		C78B958420FF1431009A8093 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3EF20F4F63400AD84DC /* libRCTAnimation.a */; };
+		C78B958520FF1431009A8093 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3BC20F4F14300AD84DC /* libRCTBlob.a */; };
+		C78B958620FF1431009A8093 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A38720F4F00E00AD84DC /* libRCTGeolocation.a */; };
+		C78B958720FF1431009A8093 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A38E20F4F04600AD84DC /* libRCTImage.a */; };
+		C78B958820FF1431009A8093 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3AA20F4F08E00AD84DC /* libRCTLinking.a */; };
+		C78B958920FF1431009A8093 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A39820F4F05700AD84DC /* libRCTNetwork.a */; };
+		C78B958A20FF1431009A8093 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3A120F4F06C00AD84DC /* libRCTSettings.a */; };
+		C78B958B20FF1431009A8093 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A37F20F4EFEB00AD84DC /* libRCTText.a */; };
+		C78B958C20FF1431009A8093 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3D320F4F20500AD84DC /* libRCTVibration.a */; };
+		C78B958D20FF1431009A8093 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3DE20F4F26000AD84DC /* libRCTWebSocket.a */; };
+		C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78B95AE20FF1494009A8093 /* libRCTBEEPickerManager.a */; };
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
 		C7DDDD8820A0A25C00BD8639 /* index.ios.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */; };
@@ -55,9 +59,9 @@
 		C7E008662054B20A008024BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E008652054B186008024BF /* libRNImagePicker.a */; };
 		CA1272DB3BF84043BEA26782 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA769471ABD14C6D9D8C56BB /* AppCenter-Config.plist */; };
 		DBF148A91C4F498687FC96AC /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE04579D78AE4C0CB6FB5E78 /* MaterialIcons.ttf */; };
+		DE69475640864AA7A166A457 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13F7238AC6F046D4936C77D5 /* Stripe.framework */; };
 		EEAADBBDC2E14921A67D4672 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 812CBB1CBD1B40428B72B630 /* Octicons.ttf */; };
 		F9A053B485B44437AF6713A3 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B620EC70262E4FA195E7529A /* Ionicons.ttf */; };
-		DE69475640864AA7A166A457 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13F7238AC6F046D4936C77D5 /* Stripe.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,6 +240,13 @@
 			remoteGlobalIDString = 6280980A1CEDC407000D3A81;
 			remoteInfo = RCTJPushModule;
 		};
+		C78B95AD20FF1494009A8093 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C78B95A920FF1494009A8093 /* RCTBEEPickerManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 17D41E551D7EE0CA0031415E;
+			remoteInfo = RCTBEEPickerManager;
+		};
 		C7A69A17207089D800E06981 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C7A69A12207089D700E06981 /* CodePush.xcodeproj */;
@@ -410,6 +421,7 @@
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = goforeat_app/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = goforeat_app/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = goforeat_app/main.m; sourceTree = "<group>"; };
+		13F7238AC6F046D4936C77D5 /* Stripe.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Stripe.framework; path = System/Library/Frameworks/Stripe.framework; sourceTree = SDKROOT; };
 		1DF37BA5B10E4E15873F7BE5 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		37C1B00796C84DB38A5A5F6B /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -453,6 +465,7 @@
 		C771338420F9C213003AAA8A /* libFBSDKShareKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFBSDKShareKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C771338620F9C230003AAA8A /* libreact-native-splash-screen.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-splash-screen.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7796CE320FA3A2500BAB2FB /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C78B95A920FF1494009A8093 /* RCTBEEPickerManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBEEPickerManager.xcodeproj; path = "../node_modules/react-native-picker/ios/RCTBEEPickerManager.xcodeproj"; sourceTree = "<group>"; };
 		C7A69A12207089D700E06981 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		C7AC02DA20F5F63600BECAC4 /* React */ = {isa = PBXFileReference; lastKnownFileType = folder; name = React; path = "Pods/Target Support Files/React"; sourceTree = "<group>"; };
 		C7AC02DC20F5F7AB00BECAC4 /* React.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = React.xcconfig; path = "Pods/Target Support Files/React/React.xcconfig"; sourceTree = "<group>"; };
@@ -473,7 +486,6 @@
 		F1B9264B14C24335A3F1257F /* libReactNativePayments.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePayments.a; sourceTree = "<group>"; };
 		F70CF1BBF6934453B8C723CD /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		FA306BA9B518419E83BFF347 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
-		13F7238AC6F046D4936C77D5 /* Stripe.framework */ = {isa = PBXFileReference; name = "Stripe.framework"; path = "System/Library/Frameworks/Stripe.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -481,15 +493,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C771337D20F8FD30003AAA8A /* libRCTLinking.a in Frameworks */,
-				C78DB36520F7A0C20076CE9E /* libRCTAnimation.a in Frameworks */,
-				C78DB36620F7A0C20076CE9E /* libRCTBlob.a in Frameworks */,
-				C78DB36720F7A0C20076CE9E /* libRCTImage.a in Frameworks */,
-				C78DB36820F7A0C20076CE9E /* libRCTNetwork.a in Frameworks */,
-				C78DB36920F7A0C20076CE9E /* libRCTSettings.a in Frameworks */,
-				C78DB36A20F7A0C20076CE9E /* libRCTText.a in Frameworks */,
-				C78DB36B20F7A0C20076CE9E /* libRCTVibration.a in Frameworks */,
-				C78DB36C20F7A0C20076CE9E /* libRCTWebSocket.a in Frameworks */,
+				C78B958320FF1431009A8093 /* libRCTActionSheet.a in Frameworks */,
+				C78B958420FF1431009A8093 /* libRCTAnimation.a in Frameworks */,
+				C78B958520FF1431009A8093 /* libRCTBlob.a in Frameworks */,
+				C78B958620FF1431009A8093 /* libRCTGeolocation.a in Frameworks */,
+				C78B958720FF1431009A8093 /* libRCTImage.a in Frameworks */,
+				C78B958820FF1431009A8093 /* libRCTLinking.a in Frameworks */,
+				C78B958920FF1431009A8093 /* libRCTNetwork.a in Frameworks */,
+				C78B958A20FF1431009A8093 /* libRCTSettings.a in Frameworks */,
+				C78B958B20FF1431009A8093 /* libRCTText.a in Frameworks */,
+				C78B958C20FF1431009A8093 /* libRCTVibration.a in Frameworks */,
+				C78B958D20FF1431009A8093 /* libRCTWebSocket.a in Frameworks */,
+				C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */,
 				C7796CE420FA3A2500BAB2FB /* libBVLinearGradient.a in Frameworks */,
 				C771338720F9C230003AAA8A /* libreact-native-splash-screen.a in Frameworks */,
 				C771338520F9C213003AAA8A /* libFBSDKShareKit.a in Frameworks */,
@@ -610,6 +625,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C78B95A920FF1494009A8093 /* RCTBEEPickerManager.xcodeproj */,
 				C744A3E920F4F63400AD84DC /* RCTAnimation.xcodeproj */,
 				C744A3D620F4F26000AD84DC /* RCTWebSocket.xcodeproj */,
 				C744A3CE20F4F20500AD84DC /* RCTVibration.xcodeproj */,
@@ -803,6 +819,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C78B95AA20FF1494009A8093 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C78B95AE20FF1494009A8093 /* libRCTBEEPickerManager.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C7A69A13207089D700E06981 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -866,14 +890,6 @@
 				C7E19DEB20F0655B009CCF87 /* libReactNativePayments.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		4B4D0378467E4088B6531252 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = /Users/sujunwen/Documents/Mywork/hk/goforeat/goforeat_app/node_modules/react-native-payments-addon-stripe/Carthage/Build/iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -961,6 +977,10 @@
 				{
 					ProductGroup = C744A3EA20F4F63400AD84DC /* Products */;
 					ProjectRef = C744A3E920F4F63400AD84DC /* RCTAnimation.xcodeproj */;
+				},
+				{
+					ProductGroup = C78B95AA20FF1494009A8093 /* Products */;
+					ProjectRef = C78B95A920FF1494009A8093 /* RCTBEEPickerManager.xcodeproj */;
 				},
 				{
 					ProductGroup = C744A3B720F4F14300AD84DC /* Products */;
@@ -1208,6 +1228,13 @@
 			fileType = archive.ar;
 			path = libRCTJPushModule.a;
 			remoteRef = C76B2CDF20C832FE00D63293 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C78B95AE20FF1494009A8093 /* libRCTBEEPickerManager.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTBEEPickerManager.a;
+			remoteRef = C78B95AD20FF1494009A8093 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C7A69A18207089D800E06981 /* libCodePush.a */ = {
