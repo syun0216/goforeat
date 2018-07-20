@@ -18,9 +18,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#edebf4',
-    borderTopWidth: 1,
-    borderTopColor: '#edebf4',
+    borderBottomColor: '#E5E5E5',
+    // borderTopWidth: 1,
+    // borderTopColor: '#E5E5E5',
   },
   itemLeftView: {
     flexDirection: 'row',
@@ -38,12 +38,12 @@ const styles = StyleSheet.create({
   }
 });
 
-const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,clickFunc,style}) => (
+const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,clickFunc,style,contentStyle,disabled}) => (
   <View>
-    <TouchableOpacity style={[styles.itemContainer,style]} onPress={() => clickFunc()}>
+    <TouchableOpacity disabled={disabled} style={[styles.itemContainer,style]} onPress={() => clickFunc()}>
       <View style={styles.itemLeftView}>
         {hasLeftIcon ? leftIcon:null}
-        <Text numberOfLines={1} style={styles.itemText}>{content}</Text>
+        <Text numberOfLines={1} style={[styles.itemText,contentStyle]}>{content}</Text>
       </View>
       {hasRightIcon ? rightIcon : null}
     </TouchableOpacity>
@@ -59,7 +59,9 @@ CommonItem.defaultProps = {
   hasLeftIcon: false,
   leftIcon:(<Icon name="md-alert" style={styles.itemIcon}/>),
   clickFunc: () => {},
-  style: {}
+  style: {},
+  contentStyle: {},
+  disabled: false
 };
 
 CommonItem.propsType = {
@@ -70,7 +72,9 @@ CommonItem.propsType = {
   hasLeftIcon: PropTypes.bool,
   leftIcon: PropTypes.element,
   clickFunc: PropTypes.func,
-  style: PropTypes.object
+  style: PropTypes.object,
+  contentStyle: PropTypes.object,
+  disabled: PropTypes.bool
 }
 
 export default CommonItem;
