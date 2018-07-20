@@ -208,13 +208,14 @@ const api = {
             timeout: 4500
         })
     },
-    confirmOrder(orderId, sid,coupon,payMoney,payment=1) {
+    confirmOrder(orderId, sid,coupon,payMoney,payment=1,token) {
         return axios.post(api_url + '/order/confirm',qs.stringify({
             orderId,
             sid,
             coupon,
             payMoney,
-            payment
+            payment,
+            token
         }, {cancelToken: source.token}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -283,6 +284,16 @@ const api = {
             registrationId, sellClient: Platform.OS == 'ios' ? 1 : 2,
             sid
 
+        }, {cancelToken: source.token, timeout: 4500}), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
+    },
+    VaildCard(bankCard,sid) {
+        return axios.post(api_url + '/member/isBankCardValid', qs.stringify({
+            bankCard: bankCard,
+            sid
         }, {cancelToken: source.token, timeout: 4500}), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
