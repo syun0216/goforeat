@@ -38,17 +38,6 @@
 		C771338520F9C213003AAA8A /* libFBSDKShareKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771338420F9C213003AAA8A /* libFBSDKShareKit.a */; };
 		C771338720F9C230003AAA8A /* libreact-native-splash-screen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771338620F9C230003AAA8A /* libreact-native-splash-screen.a */; };
 		C7796CE420FA3A2500BAB2FB /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7796CE320FA3A2500BAB2FB /* libBVLinearGradient.a */; };
-		C78B958320FF1431009A8093 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3CD20F4F17B00AD84DC /* libRCTActionSheet.a */; };
-		C78B958420FF1431009A8093 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3EF20F4F63400AD84DC /* libRCTAnimation.a */; };
-		C78B958520FF1431009A8093 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3BC20F4F14300AD84DC /* libRCTBlob.a */; };
-		C78B958620FF1431009A8093 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A38720F4F00E00AD84DC /* libRCTGeolocation.a */; };
-		C78B958720FF1431009A8093 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A38E20F4F04600AD84DC /* libRCTImage.a */; };
-		C78B958820FF1431009A8093 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3AA20F4F08E00AD84DC /* libRCTLinking.a */; };
-		C78B958920FF1431009A8093 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A39820F4F05700AD84DC /* libRCTNetwork.a */; };
-		C78B958A20FF1431009A8093 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3A120F4F06C00AD84DC /* libRCTSettings.a */; };
-		C78B958B20FF1431009A8093 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A37F20F4EFEB00AD84DC /* libRCTText.a */; };
-		C78B958C20FF1431009A8093 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3D320F4F20500AD84DC /* libRCTVibration.a */; };
-		C78B958D20FF1431009A8093 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3DE20F4F26000AD84DC /* libRCTWebSocket.a */; };
 		C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78B95AE20FF1494009A8093 /* libRCTBEEPickerManager.a */; };
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
@@ -493,17 +482,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C78B958320FF1431009A8093 /* libRCTActionSheet.a in Frameworks */,
-				C78B958420FF1431009A8093 /* libRCTAnimation.a in Frameworks */,
-				C78B958520FF1431009A8093 /* libRCTBlob.a in Frameworks */,
-				C78B958620FF1431009A8093 /* libRCTGeolocation.a in Frameworks */,
-				C78B958720FF1431009A8093 /* libRCTImage.a in Frameworks */,
-				C78B958820FF1431009A8093 /* libRCTLinking.a in Frameworks */,
-				C78B958920FF1431009A8093 /* libRCTNetwork.a in Frameworks */,
-				C78B958A20FF1431009A8093 /* libRCTSettings.a in Frameworks */,
-				C78B958B20FF1431009A8093 /* libRCTText.a in Frameworks */,
-				C78B958C20FF1431009A8093 /* libRCTVibration.a in Frameworks */,
-				C78B958D20FF1431009A8093 /* libRCTWebSocket.a in Frameworks */,
 				C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */,
 				C7796CE420FA3A2500BAB2FB /* libBVLinearGradient.a in Frameworks */,
 				C771338720F9C230003AAA8A /* libreact-native-splash-screen.a in Frameworks */,
