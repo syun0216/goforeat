@@ -1,5 +1,5 @@
 import React,{PureComponent} from 'react'
-import {View,Text,StyleSheet,Alert,Linking,Image,ScrollView} from 'react-native'
+import {View,Text,StyleSheet,Alert,Linking,Image,ScrollView,Platform} from 'react-native'
 import {Container,Button} from 'native-base'
 import PopupDialog, { DialogTitle } from 'react-native-popup-dialog';
 //utils
@@ -72,24 +72,26 @@ export default class SettingView extends PureComponent{
       )
     }}
       block style={{
-        paddingTop: 20,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 0,
         backgroundColor: Colors.main_white,
-        paddingBottom: 20,
+        height: 60 * (GLOBAL_PARAMS._winWidth/375),
+        
       }}>
       <Text style={{color:Colors.fontBlack,fontSize:16}}>{this.state.i18n.logout}</Text>
     </Button>
   )
 
   render() {
-    const _list_arr = [
-      {content:'通知',isEnd:false,clickFunc:() => {
-        Linking.openURL('app-settings:')
-        .catch(err => console.log(err))
-      }},
-      {
+    let _setting_ios = {content:'通知',isEnd:false,clickFunc:() => {
+      Linking.openURL('app-settings:')
+      .catch(err => console.log(err))
+    }};
+    const _list_arr = [      {
         content:'語言',isEnd:false,clickFunc:() => {
-          this.popupDialog.show();
+          
         }
       },
       {
@@ -103,6 +105,9 @@ export default class SettingView extends PureComponent{
         }
       },
     ];
+    if(Platform.OS == 'ios') {
+      _list_arr.unshift(_setting_ios);
+    }
     return (
       <Container style={{backgroundColor: '#edebf4'}}>
         <CommonHeader title="系統設置" canBack {...this.props}/>
