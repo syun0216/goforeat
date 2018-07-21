@@ -52,6 +52,6 @@ const styles = {
     shadowOpacity: 0.8,
     shadowOffset:{  width: 0,  height: 10,  },
     elevation: 10,
-    paddingBottom: Platform.OS=='IOS' ? 5 : 0
+    paddingBottom: Platform.OS == 'ios' ? 5 : 0
   },
 };

@@ -14,6 +14,8 @@ export default StyleSheet.create({
     height: 44,
     justifyContent: 'center',
     marginLeft: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
   },
   creditcardText: {
     color: '#666666',

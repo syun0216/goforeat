@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 
 const ErrorPage = (props) => {
   return (
-    <View style={styles.loadingContainer}>
+    <View style={[styles.loadingContainer,props.style]}>
       <View style={styles.inner}>
         <Image source={require('../asset/badnetwork.png')} style={styles.image} resizeMode="cover"/>
         <View style={styles.infoText}>
@@ -81,12 +81,14 @@ const ErrorPage = (props) => {
 
 ErrorPage.defaultProps = {
   errorTips:'正在加載中...',
-  errorToDo: () => {return }
+  errorToDo: () => {return },
+  style: {}
 };
 
 ErrorPage.propTypes = {
   errorTips:PropTypes.string,
-  errorToDo:PropTypes.func
+  errorToDo:PropTypes.func,
+  style: PropTypes.object
 };
 
 export default ErrorPage

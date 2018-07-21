@@ -8,25 +8,8 @@ import Colors from '../utils/Colors'
 
 const styles = StyleSheet.create({
   wrapper: {
+    width: GLOBAL_PARAMS._winWidth,
     height:250*(GLOBAL_PARAMS._winHeight/667),
-  },
-  slide1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB',
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#97CAE5',
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#92BBD9',
   },
   img: {
     width:GLOBAL_PARAMS._winWidth,

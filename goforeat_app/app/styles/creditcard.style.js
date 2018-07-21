@@ -19,18 +19,42 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems:'center',
     borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
+  },
+  CommonInputAndroidView: {
+    backgroundColor: Colors.main_white,
+    height: 60 * (GLOBAL_PARAMS._winWidth/375),
+    width: GLOBAL_PARAMS._winWidth,
+    padding: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems:'center',
+    borderBottomWidth: 1,
     borderBottomColor: '#edebf4',
-    borderTopWidth: 1,
-    borderTopColor: '#edebf4',
   },
   InputTitle: {
     fontSize: 16,
     color: '#333333'
   },
   Input: {
-    color: '#000',
+    color: '#333333',
     fontSize: 16,
     width: 200,
-    justifyContent:'flex-end'
+    justifyContent:'flex-end',
+  },
+  Input_Android: {
+    color: '#333333',
+    fontSize: 16,
+    width: 200,
+    justifyContent:'flex-end',
+    height: 60 * (GLOBAL_PARAMS._winWidth/375),
+  },
+
+  SelectBtn: {
+    width: 200,
+    justifyContent:'flex-end',
+    paddingLeft: Platform.OS=='android'?4:0
   }
 })

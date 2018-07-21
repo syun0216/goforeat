@@ -12,6 +12,12 @@ const common = {
     shadowOpacity: 0.8,
     elevation: 3,
   },
+  common_btn_container: {
+    marginTop: 18,
+    marginBottom: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   common_row: {
     flex: 1,
     flexDirection: 'row',
@@ -28,6 +34,10 @@ const common = {
   common_important_text: {
     color: '#ff3348',
     fontSize: 18
+  },
+  common_icon_back: {
+    fontSize: 25,
+    paddingLeft: 10
   }
 }
 
