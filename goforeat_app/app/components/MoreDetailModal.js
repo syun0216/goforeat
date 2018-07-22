@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {View,Modal,Text,StyleSheet,TouchableOpacity,Image,Platform} from 'react-native';
 import {Container,Content,Footer,Icon} from 'native-base';
@@ -29,15 +29,16 @@ const styles = StyleSheet.create({
   footer: {
     backgroundColor: '#fff',
     borderTopWidth: 0,
+    elevation: 0
   }
 })
 
 const MoreDataModal = props => {
   return (
-    <Modal animationType={"slide"}
+    <Modal animationType={"fade"}
     transparent={false}
     visible={props.modalVisible}
-    onRequestClose={() => this.props.closeFunc()}>
+    onRequestClose={() => props.closeFunc()}>
       <Container>
         <CommonHeader title="詳情" {...props}/>
         <Content>
