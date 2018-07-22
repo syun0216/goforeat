@@ -208,17 +208,18 @@ const api = {
             timeout: 4500
         })
     },
-    confirmOrder(orderId, sid,coupon,payMoney,payment=1,token) {
+    confirmOrder(orderId, sid,coupon,payMoney,payment=1,token,remark) {
         return axios.post(api_url + '/order/confirm',qs.stringify({
             orderId,
             sid,
             coupon,
             payMoney,
             payment,
-            token
+            token,
+            remark
         }, {cancelToken: source.token}), {
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
             }
         })
     },
