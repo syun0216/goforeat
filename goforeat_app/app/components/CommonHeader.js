@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {StyleSheet,Platform,TouchableWithoutFeedback} from 'react-native'
+import {StyleSheet,Platform,TouchableWithoutFeedback,StatusBar} from 'react-native'
 import {Header,Left,Body,Right,Icon,Button,Text} from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
 //utils
@@ -24,16 +24,27 @@ const styles = StyleSheet.create({
 const CommonHeader = (props) => {
   return (
   <Header style={[props.headerStyle]} hasTabs iosBarStyle={props.iosBarStyle}>
+  <StatusBar backgroundColor="#333"/>
   <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.linearGradient}>
     <Left>
-      {props.canBack ? (props.leftElement !== null ? (<props.leftElement {...props}/>) : (
-        <TouchableWithoutFeedback onPress={() => {props.navigation.goBack();}}>
+      {props.canBack ? (props.leftElement !== null ? props.leftElement : (
+        Platform.OS == 'ios' ? 
+        (<Button transparent onPress={() => {props.navigation.goBack();}}>
+          <Icon
+            size={20}
+            name="ios-arrow-back"
+            style={[CommonStyles.common_icon_back,{color: props.textColor}]}
+          />
+        </Button>) :
+        (
+          <TouchableWithoutFeedback onPress={() => {props.navigation.goBack();}}>
           <Icon
             size={20}
             name="ios-arrow-back"
             style={[CommonStyles.common_icon_back,{color: props.textColor}]}
           />
         </TouchableWithoutFeedback>
+        )
       )) : null}
     </Left>
     <Body><Text allowFontScaling={false} style={[{color: props.textColor,fontSize: 16},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
