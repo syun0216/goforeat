@@ -9,7 +9,7 @@ import com.android.build.OutputFile
  * cycle. By default, bundleDebugJsAndAssets is skipped, as in debug/dev mode we prefer to load the
  * bundle directly from the development server. Below you can see all the possible configurations
  * and their defaults. If you decide to add a configuration block, make sure to add it before the
- * `apply from: "../../node_modules/react-native/react.gradle"` line.
+ * `apply from: "../../node_modules/react-native/react.gradle"` line.`
  *
  * project.ext.react = [
  *   // the name of the generated asset file containing your JS bundle
@@ -97,7 +97,10 @@ def enableProguardInReleaseBuilds = false
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
-
+    aaptOptions
+    {
+        cruncherEnabled = false
+    }
 //    aaptOptions.cruncherEnabled = false
 //    aaptOptions.useNewCruncher = false
 
@@ -105,8 +108,8 @@ android {
         applicationId "com.goforeat_app"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 9
-        versionName "1.1.6"
+        versionCode 10
+        versionName "1.1.7"
         manifestPlaceholders = [
                 JPUSH_APPKEY: "1d3225ebddcae3fc7ef8b0b5",
                 APP_CHANNEL : "default"
