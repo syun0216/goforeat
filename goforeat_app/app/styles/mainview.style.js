@@ -35,6 +35,10 @@ export default StyleSheet.create({
     width: 22,
     height: 22
   },
+  drawerItemIcon: {
+    color: '#EE6723',
+    fontSize: 22
+  },
   drawerItemText: {
     fontSize: Platform.OS == 'ios'?20:18,
     textAlignVertical: "center",

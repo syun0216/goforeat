@@ -37,7 +37,8 @@ const common = {
   },
   common_icon_back: {
     fontSize: 25,
-    paddingLeft: 10
+    paddingLeft: 10,
+    paddingRight: 20
   }
 }
 

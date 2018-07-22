@@ -38,6 +38,13 @@ export default StyleSheet.create({
   CouponMoney: {fontSize: 16,color: '#ff3448',marginTop: -2,fontWeight:'600'},
   //renderNewDetailsVew
   Title:{color:'#111111',fontSize: 20,fontWeight:'bold'},
+  Input: {
+    color: '#111',fontSize: 16,
+    height: Platform.OS == 'ios' ? 30 * (GLOBAL_PARAMS._winHeight/667) : 45 * (GLOBAL_PARAMS._winHeight/592),
+    width: GLOBAL_PARAMS._winWidth*0.85,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EBEBEB',
+  },
   //renderCommonDetailView
   DetailText: {flexDirection: 'row',justifyContent:'space-between',alignItems:'center',flex: 1,borderBottomWidth:1,borderBottomColor:'#EBEBEB',paddingBottom:10},
   DetailInner: {flexDirection:'row',alignItems:'center',flex:1},
