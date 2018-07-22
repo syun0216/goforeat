@@ -52,6 +52,9 @@ let userStorage = {
     user_name = null;
     sid = null;
     AsyncStorage.removeItem(this._STORAGE_KEY_USER_DATA);
+  },
+  removeAll() {
+    AsyncStorage.clear();
   }
 };
 
@@ -116,7 +119,7 @@ let creditCardInfo = {
         callBack(error, null);
         return;
       }
-      callBack(null, value);
+      callBack(null, JSON.parse(value));
     });
   },
   removeCreditCardInfo() {

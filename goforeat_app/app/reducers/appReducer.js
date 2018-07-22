@@ -13,7 +13,8 @@ import {
   CHANGE_THEME,
   REFRESH,
   SET_PAY_TYPE,
-  SET_CREDIT_CARD
+  SET_CREDIT_CARD,
+  REMOVE_CREDIT_CARD
 } from "../actions";
 //cache
 import appStorage from "../cache/appStorage";
@@ -139,6 +140,12 @@ export function creditCardInfo(state = initialState.creditState, action) {
       return {
         ...state,
         creditCardInfo: action.creditCardInfo
+      }
+    };
+    case REMOVE_CREDIT_CARD: {
+      return {
+        ...state,
+        creditCardInfo: null
       }
     }
     default: return state;

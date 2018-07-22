@@ -13,3 +13,4 @@ export const CHANGE_THEME = 'CHANGE_THEME';
 export const REFRESH = 'REFRESH';
 export const SET_PAY_TYPE = 'SET_PAY_TYPE';
 export const SET_CREDIT_CARD = 'SET_CREDIT_CARD';
+export const REMOVE_CREDIT_CARD = 'REMOVE_CREDIT_CARD';
