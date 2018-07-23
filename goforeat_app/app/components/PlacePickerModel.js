@@ -10,6 +10,8 @@ import ToastUtils from '../utils/ToastUtil'
 import api from '../api/index';
 //cache
 import appStorage from "../cache/appStorage";
+//components
+import CommonHeader from "../components/CommonHeader";
 
 class PlacePickerModel extends Component{
   static propsType = {
@@ -84,15 +86,9 @@ class PlacePickerModel extends Component{
       onRequestClose={() => this.props.closeFunc()}
       >
        <Container>
-          <Header style={{backgroundColor: '#fff'}}>
-            <Left>
-              <TouchableOpacity onPress={this.props.closeFunc} style={{width: 50,height:40,alignItems:'center',marginLeft:-5,justifyContent:'center'}}>
-                <Icon name="md-close" style={[{ fontSize: 22, color: this.props.screenProps.theme }]}/>
-              </TouchableOpacity>
-            </Left>
-            <Body><Text>請選擇取餐點</Text></Body>
-            <Right />
-          </Header>
+          <CommonHeader canBack title="請選擇取餐點" leftElement={<TouchableOpacity onPress={this.props.closeFunc} style={{width: 50,height:40,alignItems:'center',marginLeft:-5,justifyContent:'center'}}>
+          <Icon name="md-close" style={[{ fontSize: 22, color: '#fff' }]}/>
+        </TouchableOpacity>} {...this.props}/> 
           <Content> 
             {this.state.placeList != null ? this.state.placeList.map((item,idx) => (
               <TouchableOpacity key={idx} onPress={() => this._onValueChange(item)}>

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     width: GLOBAL_PARAMS._winWidth,
     height: GLOBAL_PARAMS._winHeight,
-    zIndex: 10
+    zIndex: 100000
   }
 });
 
