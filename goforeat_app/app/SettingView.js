@@ -1,5 +1,5 @@
 import React,{PureComponent} from 'react'
-import {View,Text,StyleSheet,Alert,Linking,Image,ScrollView,Platform} from 'react-native'
+import {View,Text,StyleSheet,Alert,Linking,Image,ScrollView,Platform,TouchableWithoutFeedback} from 'react-native'
 import {Container,Button} from 'native-base'
 import PopupDialog, { DialogTitle } from 'react-native-popup-dialog';
 //utils
@@ -13,6 +13,8 @@ import CommonItem from './components/CommonItem';
 import i18n from './language/i18n';
 //api
 import api from './api/index'
+//cache
+import appStorage from './cache/appStorage';
 
 export default class SettingView extends PureComponent{
   popupDialog = null;
@@ -77,7 +79,6 @@ export default class SettingView extends PureComponent{
         alignItems: 'center',
         borderRadius: 0,
         backgroundColor: Colors.main_white,
-        height: 60 * (GLOBAL_PARAMS._winWidth/375),
         
       }}>
       <Text style={{color:Colors.fontBlack,fontSize:16}}>{this.state.i18n.logout}</Text>
@@ -91,7 +92,7 @@ export default class SettingView extends PureComponent{
     }};
     const _list_arr = [      {
         content:'語言',isEnd:false,clickFunc:() => {
-          
+          ToastUtil.showWithMessage('該功能暫未開放');
         }
       },
       {
@@ -112,10 +113,12 @@ export default class SettingView extends PureComponent{
       <Container style={{backgroundColor: '#edebf4'}}>
         <CommonHeader title="系統設置" canBack {...this.props}/>
           <ScrollView>
+          <TouchableWithoutFeedback delayLongPress={4000} onLongPress={() => {appStorage.removeAll();alert('清除緩存成功')}}>
             <View style={{paddingTop: 20,justifyContent: 'flex-start',alignItems: 'center', height: 200}}>
-              <Image source={require('./asset/logowhite.png')} style={{width: 80,height: 80,marginBottom: 20}}/>
+              <Image source={require('./asset/icon_app.png')} style={{width: 80,height: 80,marginBottom: 20}}/>
               <Text>有得食 v1.1.7 </Text>
             </View>
+          </TouchableWithoutFeedback>
             {_list_arr.map((item,key) => (
               <CommonItem key={key} content={item.content} isEnd={item.isEnd} clickFunc={item.clickFunc}/>
             ))}
