@@ -14,11 +14,13 @@ import PopupDialog, {
   SlideAnimation,
   DialogTitle
 } from "react-native-popup-dialog";
+import Stripe from 'react-native-stripe-api';
 //components
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
 import CommonHeader from "../components/CommonHeader";
 import BlankPage from "../components/BlankPage";
 import Loading from "../components/Loading";
+import LoadingModal from "../components/LoadingModal";
 import ErrorPage from "../components/ErrorPage";
 //utils
 import Colors from "../utils/Colors";
@@ -35,17 +37,28 @@ const slideAnimation = new SlideAnimation({
   slideFrom: "bottom"
 });
 
+const PAY_TYPE = {
+  cash: 1,
+  apple_pay: 2,
+  credit_card: 6
+}
+
+const api_key = 'pk_live_4JIHSKBnUDiaFHy2poHeT2ks';
+const client = new Stripe(api_key);
+
 export default class ConfirmOrderView extends PureComponent {
   _popupDialog = null;
   timer = null;
   state = {
     orderDetail: null,
     loading: true,
+    loadingModal: false,
     isError: false,
     isExpired: false,
     isBottomShow: false,
     coupon: null,
-    discountsPrice: 0
+    discountsPrice: 0,
+    remark: ''
   };
 
   componentDidMount() {
@@ -101,28 +114,58 @@ export default class ConfirmOrderView extends PureComponent {
     );
   };
 
-  _confirmOrder = () => {
-    let {orderDetail:{totalMoney,orderId},discountsPrice,coupon} = this.state;
+  async _confirmOrder() {
+    let {orderDetail:{totalMoney,orderId},discountsPrice,coupon,remark} = this.state;
     totalMoney = totalMoney - discountsPrice;
+    let payment = PAY_TYPE[this.props.screenProps.paytype];
+    let {creditCardInfo} = this.props.screenProps;
+    let token = null;
     if (this.state.orderDetail === null) {
       ToastUtil.showWithMessage("確認訂單失敗");
       return;
     }
-    api.confirmOrder(orderId,this.props.screenProps.sid,coupon,totalMoney).then(
-      data => {
-        // console.log(data);
-        if (data.status === 200 && data.data.ro.ok) {
-          ToastUtil.showWithMessage("下單成功");
-          this._popupDialog.dismiss();
-          this.props.navigation.goBack();
-        } else {
-          ToastUtil.showWithMessage(data.data.ro.respMsg);
-        }
-      },
-      () => {
-        ToastUtil.showWithMessage("下單失敗");
+    if(payment != PAY_TYPE.apple_pay) {
+      if(payment == PAY_TYPE.credit_card) {
+        this.setState({
+          loadingModal: true
+        })
+        token = await client.createToken({
+          number: creditCardInfo.card ,
+          exp_month: creditCardInfo.time.substr(0,2), 
+          exp_year: creditCardInfo.time.substr(3,2), 
+          cvc: creditCardInfo.cvc,
+          // address_zip: '12345'
+       });
+       token = token.id;
       }
-    );
+      api.confirmOrder(orderId,this.props.screenProps.sid,coupon,totalMoney,payment,token,remark).then(
+        data => {
+          this.setState({
+            loadingModal: false
+          })
+          if (data.status === 200 && data.data.ro.ok) {
+            ToastUtil.showWithMessage("下單成功");
+            this._popupDialog.dismiss();
+            this.props.navigation.goBack();
+          } else {
+            let _message = payment == PAY_TYPE.credit_card ? ',請核對信用卡信息是否正確' : '';
+            ToastUtil.showWithMessage(data.data.ro.respMsg+_message);
+          }
+        },
+        () => {
+          ToastUtil.showWithMessage("下單失敗");
+          this.setState({
+            loadingModal: false
+          })
+        }
+      );
+    }
+    else {
+      // let getToken = new Promise((resolve,reject) => {
+      //   this._handleApplePay(resolve,reject)
+      // })
+      // getToken.then(data => console.log(data));
+    }
   };
 
   _useCoupon = () => {
@@ -150,7 +193,87 @@ export default class ConfirmOrderView extends PureComponent {
     })
   }
 
+  _currentPayType = () => {
+    switch(this.props.screenProps.paytype) {
+      case 'cash': return '現金支付';
+      case 'apple_pay': return 'Apple Pay';
+      case 'credit_card': return '信用卡支付';
+      case 'ali': return '支付寶支付';
+      case 'wechat': return '微信支付';
+      default: return '現金支付';
+    }
+  }
+
   //private function
+
+  _handleApplePay(resolve,reject) {
+    let supportedMethods = ''
+    let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail},discountsPrice} = this.state;
+    totalMoney = totalMoney - this.state.discountsPrice;
+    if(Platform.OS == 'ios') {
+      supportedMethods = [
+        {
+          supportedMethods: ['apple-pay'],
+          data: {
+            merchantIdentifier: 'merchant.com.syun.goforeat',
+            supportedNetworks: ['visa', 'mastercard'],
+            countryCode: 'HK',
+            currencyCode: 'HKD',
+            paymentMethodTokenizationParameters: {
+              parameters: {
+                gateway: 'stripe',
+                'stripe:publishableKey': 'pk_live_4JIHSKBnUDiaFHy2poHeT2ks',
+                'stripe:version': '13.0.3'
+              }
+            }
+          }
+        }
+      ];
+    }else {
+      supportedMethods = [{
+        supportedMethods: ['android-pay'],
+        data: {
+          supportedNetworks: ['visa', 'mastercard', 'amex'],
+          currencyCode: 'USD',
+          environment: 'TEST', // defaults to production
+          paymentMethodTokenizationParameters: {
+            tokenizationType: 'NETWORK_TOKEN',
+            parameters: {
+              publicKey: 'pk_live_4JIHSKBnUDiaFHy2poHeT2ks'
+            }
+          }
+        }
+      }];
+    }
+
+    const details = {
+      id: 'basic-example',
+      displayItems: [
+        {
+          label: orderDetail[0].foodName,
+          amount: { currency: 'HKD', value: totalMoney }
+        }
+      ],
+      total: {
+        label: orderDetail[0].foodName,
+        amount: { currency: 'HKD', value: totalMoney }
+      }
+    };
+
+    const pr = new PaymentRequest(supportedMethods, details);
+
+    pr
+      .show()
+      .then(paymentResponse => {
+        resolve(paymentResponse.details.paymentToken);
+      })
+      .catch(e => {
+        pr.abort();
+        reject();
+        ToastUtil.showWithMessage('取消了支付');
+      });
+  }
+
   _openDialog = () => {
     if(this.state.orderDetail === null) {
         ToastUtil.showWithMessage("下單失敗");
@@ -164,6 +287,12 @@ export default class ConfirmOrderView extends PureComponent {
   _getCoupon = coupon => {
     this.setState({
       coupon
+    })
+  }
+
+  _getRemark(val) {
+    this.setState({
+      remark: val
     })
   }
 
@@ -288,12 +417,19 @@ export default class ConfirmOrderView extends PureComponent {
       {title:'取餐日期',content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false,clickFunc:()=>{}},
       {title:'取餐地點',content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false,clickFunc:()=>{}},
       {title:'預計取餐時間',content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {}},
-      {title:'支付方式',content:'現金支付',hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {}}
+      {title:'支付方式',content:this._currentPayType(),hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {
+        ToastUtil.showWithMessage('請到我的支付方式修改哦！')
+      }}
     ];
     return (
       <View style={styles.commonNewContainer}>
         <Text allowFontScaling={false} style={[ConfirmOrderStyles.Title,styles.commonMarginBottom,styles.commonMarginTop]}>取餐資料</Text>
         {_details_arr.map((item,idx) => this._renderCommonDetailView(item,idx))}
+        <View style={[styles.commonDetailsContainer,styles.commonMarginBottom]}>
+          <Text allowFontScaling={false} style={{color:'#999999',marginBottom: 10}}>送餐備註</Text>
+          <Input style={ConfirmOrderStyles.Input} placeholderTextColor="#999" 
+          placeholder="例如:加飯、少辣" clearButtonMode="while-editing" onChangeText={(val) => this._getRemark(val)}/>
+        </View>
       </View>
     )
   }
@@ -330,6 +466,7 @@ export default class ConfirmOrderView extends PureComponent {
           {...this["props"]}
         />
         {this.state.loading ? <Loading/> : null}
+        {this.state.loadingModal ? <LoadingModal message="支付中..."/> : null}
         {this.state.isError ? (
           <ErrorPage errorToDo={this._createOrder} errorTips="加載失敗,請點擊重試"/>
         ) : null}
