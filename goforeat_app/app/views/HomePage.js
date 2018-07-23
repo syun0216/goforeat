@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   AppState,
   ActivityIndicator,
-  RefreshControl
+  RefreshControl,
+  Platform
 } from "react-native";
 import {
   Container,
@@ -277,9 +278,9 @@ class HomePage extends Component {
       <View style={HomePageStyles.IntroductionView}>
       <View style={HomePageStyles.IntroductionFoodNameCotainer}>
         <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1} allowFontScaling={false}>{foodDetails[0].foodName}</Text>
-        <Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.setState({
+        {Platform.OS == 'android' ? null : (<Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.setState({
           showMoreDetail: true
-        })}>詳情</Text>
+        })}>詳情</Text>)}
       </View>
         <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3} allowFontScaling={false}>{foodDetails[0].foodBrief}</Text>
       </View>
