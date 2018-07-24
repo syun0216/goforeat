@@ -16,13 +16,11 @@ import {
   REFRESH,
   CHANGE_THEME,
   SET_PAY_TYPE,
-  SET_CREDIT_CARD
+  SET_CREDIT_CARD,
+  REMOVE_CREDIT_CARD
 } from "./actions";
 
 class DashBoardView extends PureComponent {
-  componentDidMount() {
-    // console.log('dash',this.props);
-  }
   render() {
     return (
         <MainView 
@@ -70,6 +68,7 @@ const dashboardmapDispatchToProps = dispatch => ({
   deletePlace: () => dispatch({type: DELETE_PLACE}),
   setPayType: (paytype) => dispatch({type: SET_PAY_TYPE,paytype}),
   setCreditCardInfo: (creditCardInfo) => dispatch({type: SET_CREDIT_CARD, creditCardInfo}),
+  removeCreditCardInfo: () => dispatch({type: REMOVE_CREDIT_CARD}),
   dispatch: dispatch
 })
 
