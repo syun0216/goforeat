@@ -90,7 +90,6 @@ export default class CustomLoginView extends PureComponent {
       data => {
         if (data.status === 200 && data.data.ro.ok) {
           this.token = data.data.data.token;
-          // console.log(this.token);
           ToastUtil.showWithMessage("驗證碼發送成功");
           let _during = 60;
           this.interval = setInterval(() => {
@@ -142,7 +141,6 @@ export default class CustomLoginView extends PureComponent {
     }
     api.checkCode(phone,selectedValue.value,this.token,password).then(data => {
       if(data.status === 200 && data.data.ro.ok){
-        // console.log(data);
         ToastUtil.showWithMessage("登錄成功")
         appStorage.setLoginUserJsonData(this.state.phone,data.data.data.sid);
         this.props.screenProps.userLogin(this.state.phone,data.data.data.sid);
@@ -164,8 +162,6 @@ export default class CustomLoginView extends PureComponent {
         }
         JPushModule.getRegistrationID(registrationId => {
           api.saveDevices(registrationId,data.data.data.sid).then(sdata => {
-            // console.log(222,sdata);
-            // console.log(333,registrationId);
           });
         },() => {
           ToastUtil.showWithMessage("登錄失敗")
@@ -320,7 +316,7 @@ export default class CustomLoginView extends PureComponent {
       })}]}]}>
         {this._renderTopImage()}
         {this._renderContentView()}
-        {this._renderBottomView()}
+        {/*this._renderBottomView()*/}
       </Animated.View>
     )
   }
