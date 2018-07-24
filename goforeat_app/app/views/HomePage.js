@@ -37,6 +37,8 @@ import MoreDetailModal from '../components/MoreDetailModal';
 import WarningTips from '../components/WarningTips';
 //language
 import i18n from "../language/i18n";
+//cache 
+import appStorage from '../cache/appStorage';
 
 const SLIDER_1_FIRST_ITEM = 0;
 
@@ -175,7 +177,15 @@ class HomePage extends Component {
       loading: true,
       isError: false
     });
-    this._picker.getPlace();
+    appStorage.getPlace((error, data) => {
+      if (error === null) {
+        if (data !== null) {
+          this._picker.getPlace(data);
+        }else {
+          this._picker.getPlace();
+        }
+      }
+    })
   };
 
   getSeletedValue = (val) => {

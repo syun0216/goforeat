@@ -89,11 +89,12 @@ export default class SettingView extends PureComponent{
       Linking.openURL('app-settings:')
       .catch(err => console.log(err))
     }};
-    const _list_arr = [      {
-        content:'語言',isEnd:false,clickFunc:() => {
-          ToastUtil.showWithMessage('該功能暫未開放');
-        }
-      },
+    const _list_arr = [      
+      // {
+      //   content:'語言',isEnd:false,clickFunc:() => {
+      //     ToastUtil.showWithMessage('該功能暫未開放');
+      //   }
+      // },
       {
         content: '隱私政策',isEnd:false,clickFunc:() => {
           this.props.navigation.navigate("Statement", { name: "policy" })

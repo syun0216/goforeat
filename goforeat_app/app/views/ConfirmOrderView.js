@@ -138,6 +138,7 @@ export default class ConfirmOrderView extends PureComponent {
         })
         return ;
       }
+      // console.log(token);
        token = token.id;
       }
       api.confirmOrder(orderId,this.props.screenProps.sid,coupon,totalMoney,payment,token,remark).then(
