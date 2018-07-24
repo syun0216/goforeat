@@ -99,7 +99,6 @@ class HomePage extends Component {
   }
 
   _reloadPage() {
-    // console.log(22222,this.state.placeSelected);
     if(!this.state.placeSelected) {
       this._picker.getPlace();
       return;
@@ -113,8 +112,6 @@ class HomePage extends Component {
     let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,
     _Date.getDate() < 10 ? `0${_Date.getDate()}`:_Date.getDate(),_Date.getFullYear()].join('-');
     let _endDate_format = '截止時間';
-
-    // console.log(_date_format);
     let _getWeekDay = (date) => {
       let _week_day = null;
       switch(date) 
@@ -278,9 +275,9 @@ class HomePage extends Component {
       <View style={HomePageStyles.IntroductionView}>
       <View style={HomePageStyles.IntroductionFoodNameCotainer}>
         <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1} allowFontScaling={false}>{foodDetails[0].foodName}</Text>
-        {Platform.OS == 'android' ? null : (<Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.setState({
-          showMoreDetail: true
-        })}>詳情</Text>)}
+        <Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.props.navigation.navigate('MoreDetail',{
+          item: foodDetails[0]
+        })}>詳情</Text>
       </View>
         <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3} allowFontScaling={false}>{foodDetails[0].foodBrief}</Text>
       </View>

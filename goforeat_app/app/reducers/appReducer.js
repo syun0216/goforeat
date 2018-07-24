@@ -70,12 +70,6 @@ const initialState = {
   }
 };
 
-// export function nav(state = initialState.navState, action) {
-//   console.log(state, action);
-//   const nextState = MainView.router.getStateForAction(action, state);
-//   return nextState || state;
-// }
-
 export function loading(state = initialState.loading, action) {
   switch (action.type) {
     case IS_LOADING:

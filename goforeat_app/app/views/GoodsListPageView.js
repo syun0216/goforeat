@@ -89,11 +89,9 @@ export default class GoodsListPageView extends Component {
   componentWillMount = () => {
     this.getCanteenList();
     this.getCanteenOption();
-    // console.log(GLOBAL_PARAMS._winWidth)
   };
 
   componentDidMount() {
-    // console.log(111,this.props);
     this._isMounted = true;
     
   }
@@ -113,7 +111,6 @@ export default class GoodsListPageView extends Component {
   getCanteenList = filter => {
     api.getCanteenList(requestParams.currentPage, filter).then(
       data => {
-        // console.log(data)
         this.getAd();
         if (this._isMounted) {
           if (data.status === 200) {
@@ -185,7 +182,6 @@ export default class GoodsListPageView extends Component {
   getAd = () => {
     api.adSpace().then(data => {
       if (data.status === 200) {
-        // console.log(data);
         this.setState({
           adDetail: data.data.data
         });
@@ -285,7 +281,6 @@ export default class GoodsListPageView extends Component {
   };
 
   _confirmToFilter = data => {
-    // console.log('data',data)
     requestParams.currentPage = 1;
     this.setState({
       isDropdownModalShow: false
@@ -425,7 +420,6 @@ export default class GoodsListPageView extends Component {
     return (
       <View
         key={rowId}
-        // onLayout={(event)=>console.log('event',event.nativeEvent.layout)} //计算view的高度宽度
       >
         <ListItem
           style={{

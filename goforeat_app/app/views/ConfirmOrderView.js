@@ -72,16 +72,10 @@ export default class ConfirmOrderView extends PureComponent {
     clearTimeout(this.timer);
   }
 
-  componentWillReceiveProps(a, b) {
-    // console.log(a, b);
-  }
-
   _createOrder = () => {
     let {foodId,placeId,amount} = this.props.navigation.state.params;
-    // console.log(this.props.navigation.state.params);
     api.createOrder(foodId,this.props.screenProps.sid,placeId,amount).then(
       data => {
-        // console.log(data);
         if (data.status === 200 && data.data.ro.ok) {
           this.setState({
             loading: false,
@@ -136,6 +130,14 @@ export default class ConfirmOrderView extends PureComponent {
           cvc: creditCardInfo.cvc,
           // address_zip: '12345'
        });
+      //  console.log(token)
+      if(!token.hasOwnProperty('id')) {
+        ToastUtil.showWithMessage('你的卡片暫未支持,請見諒')
+        this.setState({
+          loadingModal: false
+        })
+        return ;
+      }
        token = token.id;
       }
       api.confirmOrder(orderId,this.props.screenProps.sid,coupon,totalMoney,payment,token,remark).then(
@@ -280,7 +282,6 @@ export default class ConfirmOrderView extends PureComponent {
         return;
     }
     this._popupDialog.show(() => {
-      // console.log('opened!')
     });
   };
 

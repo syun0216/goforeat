@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button,Platform } from 'react-native';
-
+import CommonHeader from './components/CommonHeader';
+import {Container,Content} from 'native-base'
 global.PaymentRequest = require('react-native-payments').PaymentRequest;
 const ReactNativePaymentsVersion = require('react-native-payments/package.json')
   .version;
@@ -47,7 +48,7 @@ export default class StripeExample extends Component {
           paymentMethodTokenizationParameters: {
             tokenizationType: 'NETWORK_TOKEN',
             parameters: {
-              publicKey: 'pk_test_TpTQ3qfxsatlvVO1npNnw3pE'
+              publicKey: 'pk_live_4JIHSKBnUDiaFHy2poHeT2ks'
             }
           }
         }
@@ -90,16 +91,17 @@ export default class StripeExample extends Component {
   }
 
   test() {
-    console.log(ReactNativePayments.supportedGateways)
+    // console.log(ReactNativePayments.supportedGateways)
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <Button
-            title="Buy with Stripe"
-            onPress={this.handlePress.bind(this)}
+      <Container>
+        <CommonHeader title="測試apple_pay" canBack {...this.props}/>
+        <Content>
+        <Button
+        title="Buy with Stripe"
+        onPress={this.handlePress.bind(this)}
           />
           <Text>
             {this.state.text}
@@ -107,8 +109,9 @@ export default class StripeExample extends Component {
           <Text>
             {ReactNativePaymentsVersion}
           </Text>
-        </View>
-      </View>
+        
+        </Content>
+      </Container>
     );
   }
 }

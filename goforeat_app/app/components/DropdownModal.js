@@ -50,7 +50,6 @@ export default class DropdownModal extends PureComponent {
 
   //common functions
   _filterClick = (btn,itemEnName) =>{
-    // console.log(btn[0])
     if(btn[0] === this.props.screenProps.filterSort[itemEnName]){
       return ;
     }

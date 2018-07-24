@@ -50,7 +50,6 @@ export default class SearchView extends Component {
   _onSubmitSearch = content => {
     api.searchCanteenWithName(content).then(
       data => {
-        // console.log(data);
         if (data.status === 200 && data.data.ro.ok) {
           if (data.data.data.length === 0) {
             ToastUtil.showWithMessage("暫無篩選數據哦");

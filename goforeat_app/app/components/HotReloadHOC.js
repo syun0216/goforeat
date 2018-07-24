@@ -15,7 +15,6 @@ const HotReloadHOC = WarppedComponent => class extends Component {
     AppState.addEventListener('change',(nextState) => {
       if(nextState == 'active') {
         CodePush.getUpdateMetadata().then(localPackage => {
-          // console.log(123,localPackage);
           if (localPackage == null) {
               this._checkForUpdate();
               
@@ -39,7 +38,6 @@ const HotReloadHOC = WarppedComponent => class extends Component {
 
   _checkForUpdate() {
     CodePush.checkForUpdate(CodePushUtils.getDeploymentKey()).then(remotePackage => {
-      // console.log(remotePackage);
         if (remotePackage == null) {
             return;
         }
@@ -119,7 +117,6 @@ const HotReloadHOC = WarppedComponent => class extends Component {
         ]);
       } else {
         // if (DebugStatus.isDebug()) {
-        //     console.log("新版本下载失败");
         // }
       }
     });

@@ -60,7 +60,6 @@ export default class ArticleView extends Component {
 
   _onRequestFirstPageData = () => {
     api.getArticleList(0).then(data => {
-      // console.log(data)
       this.setState({
         refreshing: false
       })

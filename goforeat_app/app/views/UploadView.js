@@ -37,16 +37,12 @@ export default class UploadView extends PureComponent {
     };
 
     ImagePicker.showImagePicker(options, async (response) => {
-      // console.log('Response = ', response);
 
       if (response.didCancel) {
-        // console.log('User cancelled photo picker');
       }
       else if (response.error) {
-        // console.log('ImagePicker Error: ', response.error);
       }
       else if (response.customButton) {
-        // console.log('User tapped custom button: ', response.customButton);
       }
       else {
         // You can also display the image using data:

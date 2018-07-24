@@ -19,7 +19,6 @@ import i18n from '../language/i18n';
 
 
 const StatementView = (props) => {
-  // console.log('statement', props)
   const _content = {
     service: {
       title: i18n[props.screenProps.language].service_text,

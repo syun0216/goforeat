@@ -19,7 +19,6 @@ export default class CreditCardView extends PureComponent {
   constructor(props) {
     super(props);
     let {creditCardInfo} = props.screenProps;
-    console.log(props.screenProps);
     this.state = {
       name: creditCardInfo ? creditCardInfo.name : '',
       card: '',
@@ -70,10 +69,11 @@ export default class CreditCardView extends PureComponent {
   }
 
   _createDateData() {
+    let _date = new Date();
     let month = []
     for(let i =1;i<13;i++) {
       let year = [];
-      for(let j=2016;j<2050;j++){
+      for(let j=_date.getFullYear();j<2050;j++){
         year.push(j+'年');
       }
       let _month = {};
@@ -103,7 +103,11 @@ export default class CreditCardView extends PureComponent {
       pickerRowHeight: 45,
       selectedValue: _selected_val,
       onPickerConfirm: (pickedValue, pickedIndex) => {
-        pickedValue[0] = pickedValue[0].substr(0,1);
+        if(pickedValue[0].length < 3) {
+          pickedValue[0] = pickedValue[0].substr(0,1);
+        }else {
+          pickedValue[0] = pickedValue[0].substr(0,2);
+        }
         pickedValue[1] = pickedValue[1].substr(2,2);
         if(pickedValue[0] < 10) {pickedValue[0] = `0${pickedValue[0]}`}
         this.setState({
@@ -119,7 +123,6 @@ export default class CreditCardView extends PureComponent {
 
   _bindCard() {
     api.VaildCard(this.state.card,this.props.screenProps.sid).then(data => {
-      // console.log(data);
       if (data.status === 200 && data.data.ro.ok) {
         if(data.data.data == 0) {
           ToastUtils.showWithMessage('卡號有誤');

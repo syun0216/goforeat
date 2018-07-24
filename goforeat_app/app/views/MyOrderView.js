@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity,StyleSheet,SectionList,Image,Alert,RefreshControl,Platform } from "react-native";
+import { View, Text, TouchableOpacity,StyleSheet,SectionList,Alert,RefreshControl,Platform,Image } from "react-native";
 import {
   Container,
   Tabs,
   Tab,
   TabHeading,
 } from "native-base";
+// import Image from 'react-native-image-progress';
+import ProgressBar from 'react-native-progress/Bar'
 //Colors
 import Colors from '../utils/Colors'
 //utils
@@ -45,6 +47,12 @@ const _ORDER_CANCEL = -1;
 const _ORDER_DELIVERING = 1;
 const _ORDER_FINISHED = 2;
 const _ORDER_ALL = null;
+
+const PAY_TYPE = {
+  1: '現金支付',
+  2: 'Apple Pay',
+  6: '信用卡支付'
+}
 
 export default class PeopleView extends Component {
   timer = null;
@@ -104,10 +112,8 @@ export default class PeopleView extends Component {
   }
 
   _getMyOrder = (offset,status=null) => {
-    // console.log(offset);
     api.myOrder(offset,status,this.props.screenProps.sid).then(data => {
       if (data.status === 200 && data.data.ro.ok) {
-        // console.log(data.data.data)
         if(data.data.data.length === 0){
           requestParams.nextOffset = requestParams.currentOffset
           this.setState({
@@ -271,7 +277,9 @@ export default class PeopleView extends Component {
     let _picture = !item.picture ? require('../asset/default_pic.png') : {uri:item.picture};
     return (
       <View style={MyOrderStyles.FoodContainer}>
-        <Image style={MyOrderStyles.FoodImage} reasizeMode="contain" source={_picture}/>
+      <Image style={MyOrderStyles.FoodImage}
+                    reasizeMode="contain" source={_picture}
+                  />
         <View style={MyOrderStyles.FoodInnerContainer}>
           <View style={MyOrderStyles.FoodTitleView}>
             <Text style={[CommonStyles.common_title_text,{maxWidth: 180*(GLOBAL_PARAMS._winWidth/375)}]} numberOfLines={1}>{item.orderName}</Text>
@@ -300,7 +308,7 @@ export default class PeopleView extends Component {
         <Text style={{color: '#666666',fontSize: 16}}>支付狀態</Text>
         <View style={{flexDirection:'row',justifyContent: 'space-between',}}>
           <View style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#979797'}}>
-            <Text style={{color: '#111111',fontSize: 16}}>現金支付</Text>
+            <Text style={{color: '#111111',fontSize: 16}}>{PAY_TYPE[item.payment] || '現金支付'}</Text>
           </View>
           {/*<TouchableOpacity style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348',marginRight: 10,}}>
             <Text style={{color: '#ff3348'}}>線上支付</Text>
@@ -340,7 +348,7 @@ export default class PeopleView extends Component {
 
   _renderCommonListView = () => (
     <View style={{flex:1,backgroundColor:'#f0eff6'}}>
-    {this.state.isExpired ? <BlankPage style={{marginTop:50}} message={this.state.expiredMessage}/> : null}
+    {this.state.isExpired ? <BlankPage style={Platform.OS === 'ios' ?{marginTop:50}:{marginTop:0}} message={this.state.expiredMessage}/> : null}
       {
         this.state.orderlist.length > 0 
         ? this._renderOrderListView()

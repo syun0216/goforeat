@@ -36,10 +36,6 @@ class PlacePickerModel extends Component{
       }
     })
   }
-  
-  componentWillReceiveProps(nextProps) {
-    // console.log(nextProps);
-  }
 
    //api 
    getPlace(storage_data) {

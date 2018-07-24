@@ -97,7 +97,6 @@ class SliderEntry extends Component {
 
     get image () {
         const { data , parallax, parallaxProps, even } = this.props;
-        // console.log(123,foodImage);
         return (
             <Image source={{uri: data}} style={styles.image}/>
         )
