@@ -3,9 +3,10 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image
+  Image,
+  Platform
 } from "react-native";
-import { Container, Content } from "native-base";
+import { Container, Content,Icon } from "native-base";
 import LinearGradient from 'react-native-linear-gradient';
 //navigation
 import {
@@ -30,6 +31,7 @@ import UserHelperView from "./views/UserHelperView";
 import PaySettingView from "./views/PaySettingView";
 import CreditCardView from "./views/CreditCardView";
 import ManageCreditCardView from './views/ManageCreditCardView';
+import MoreDetailView from './views/MoreDetailView';
 //api
 import source from "./api/CancelToken";
 //utils
@@ -47,6 +49,7 @@ const tabView = TabNavigator(
       screen: HomePage,
       navigationOptions: {
         tabBarLabel: "每日外賣",
+        drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed', // 修复安卓侧滑问题
         tabBarIcon: ({ focused }) => {
           return focused ? (
             <Image
@@ -65,6 +68,7 @@ const tabView = TabNavigator(
       screen: ArticleView,
       navigationOptions: {
         tabBarLabel: "本週菜單",
+        drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed',
         tabBarIcon: ({ focused }) => {
           return focused ? (
           <Image
@@ -99,7 +103,7 @@ const tabView = TabNavigator(
 const darwerView = DrawerNavigator(
   {
     GoodsListDrawer: {
-      screen: tabView
+      screen: tabView,
     }
   },
   {
@@ -143,11 +147,7 @@ const darwerView = DrawerNavigator(
                 }}
                 style={MainViewStyles.drawerItemBtn}
               >
-                <Image
-                  source={require("./asset/help.png")}
-                  style={MainViewStyles.drawerItemImage}
-                  resizeMode="contain"
-                />
+                <Icon name="md-card" style={MainViewStyles.drawerItemIcon}/>
                 <Text
                   allowFontScaling={false}
                   style={MainViewStyles.drawerItemText}
@@ -202,17 +202,18 @@ const darwerView = DrawerNavigator(
         </Container>
       );
     }
-  }
+  },
 );
 
 let MainView = StackNavigator(
   {
+    Home: {
+      screen: darwerView,
+      
+    },
     // Splash: {
     //   screen: SplashPageView
     // },
-    Home: {
-      screen: darwerView
-    },
     Mandatory: {
       screen: MandatoryUpdateView
     },
@@ -254,6 +255,9 @@ let MainView = StackNavigator(
     },
     Manage_Card: {
       screen: ManageCreditCardView
+    },
+    MoreDetail: {
+      screen: MoreDetailView
     }
   },
   { headerMode: "none",
