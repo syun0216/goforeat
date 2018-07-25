@@ -20,12 +20,23 @@ android的打包方法:
     * 选择'Generic iOS Device'
     * Product->Archive
 
-### v 1.1.6 全新ui
+### v 1.1.7 
+1、全新登錄頁和訂單頁
+2、支持線上信用卡支付
+3、訂單詳情可添加備註留言
+4、首頁添加查看詳情功能
+
+ <p align="left">
+  <img src="./display/launch_screen.png" width="200">
+  <img src="./display/v1171.png" width="200">
+  <img src="./display/v1172.png" width="200">
+  <img src="./display/v1173.png" width="200">
+</p>
 <p align="left">
-  <img src="./display/v116-1.png" width="200">
-  <img src="./display/v116-2.png" width="200">
-  <img src="./display/v116-3.png" width="200">
-  <img src="./display/v116-4.png" width="200">
+  <img src="./display/v1174.png" width="200">
+  <img src="./display/v1175.png" width="200">
+  <img src="./display/v1176.png" width="200">
+  <img src="./display/v1177.png" width="200">
 </p>
     
 ### v 1.1.4 增加推送 集成热更新
@@ -39,66 +50,6 @@ android的打包方法:
   <img src="./display/ios_1_1_4_5.png" width="200">
   <img src="./display/ios_1_1_4_6.png" width="200">
   <img src="./display/ios_1_1_4_7.png" width="200">
-  <img src="./display/android_1_1_4_1.png" width="200">
-</p>
-<p align="left">
-  <img src="./display/android_1_1_4_2.png" width="200">
-  <img src="./display/android_1_1_4_3.png" width="200">
-  <img src="./display/android_1_1_4_4.png" width="200">
-</p>
-<p align="left">
-  
-</p>
-
-### 过往版本截图  
-- 商品页
-- 侧边栏
-- 详情页
-- 登录页
-- 设置页
-- 推荐页
-- 积分详情页
-- 我的关注页
-
-
-<p align="left">
-  <img src="./display/s1.png" width="200">
-  <img src="./display/s2.png" width="200">
-  <img src="./display/s3.jpeg" width="200">
-  <img src="./display/s4.jpeg" width="200">
-</p>
-<p align="left">
-  
-  <img src="./display/s14.jpeg" width="200">
-  <img src="./display/s6.png" width="200">
-  <img src="./display/s7.jpeg" width="200">
-  <img src="./display/s9.jpeg" width="200">
-</p>
-<p align="left">
-  <img src="./display/s10.jpeg" width="200">
-  <img src="./display/s11.png" width="200">
-  <img src="./display/s13.png" width="200">
-  <img src="./display/s12.png" width="200">
-</p>
-
-### screen shot 
-<p align="left">
-  <img src="./display/as1.jpg" width="200">
-  <img src="./display/as2.jpg" width="200">
-  <img src="./display/as3.jpg" width="200">
-  <img src="./display/as4.jpg" width="200">
-</p>
-<p align="left">
-  <img src="./display/as5.jpg" width="200">
-  <img src="./display/as6.jpg" width="200">
-  <img src="./display/as7.jpg" width="200">
-  <img src="./display/as8.jpg" width="200">
-</p>
-<p align="left">
-  <img src="./display/as9.jpg" width="200">
-  <img src="./display/as10.jpg" width="200">
-  <img src="./display/as11.jpg" width="200">
-  <img src="./display/as12.jpg" width="200">
 </p>
 
 # goforeat_website
