@@ -33,10 +33,10 @@ android的打包方法:
   <img src="./display/v1173.png" width="200">
 </p>
 <p align="left">
+  <img src="./display/v1178.png" width="200">
   <img src="./display/v1174.png" width="200">
   <img src="./display/v1175.png" width="200">
   <img src="./display/v1176.png" width="200">
-  <img src="./display/v1177.png" width="200">
 </p>
     
 ### v 1.1.4 增加推送 集成热更新
