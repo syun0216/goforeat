@@ -37,6 +37,7 @@ export default class ManageCreditCardView extends PureComponent {
         {text: '取消', onPress: () => {return null}, style: 'cancel'},
         {text: '確定', onPress: () => {
           this.props.navigation.goBack();
+          appStorage.setPayType('cash');
           this.props.screenProps.setPayType('cash');
           this.props.screenProps.removeCreditCardInfo();
           appStorage.removeCreditCardInfo();

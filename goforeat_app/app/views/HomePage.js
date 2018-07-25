@@ -303,12 +303,6 @@ class HomePage extends Component {
     )
   }
 
-  _renderPlacePickerModal() {
-    return (
-      <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
-    )
-  }
-
   _renderAddPriceView() {
     let {foodDetails} = this.state;
     return (

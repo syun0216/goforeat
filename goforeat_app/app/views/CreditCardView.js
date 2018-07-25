@@ -141,6 +141,8 @@ export default class CreditCardView extends PureComponent {
           let _info = JSON.stringify(this.state);
           appStorage.setCreditCardInfo(_info);
           this.props.screenProps.setCreditCardInfo(JSON.parse(_info));
+          appStorage.setPayType('credit_card');
+          this.props.screenProps.setPayType('credit_card');
           ToastUtils.showWithMessage('綁定成功');
           this.props.navigation.goBack();
         }

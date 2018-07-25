@@ -143,7 +143,7 @@ const darwerView = DrawerNavigator(
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  props.navigation.navigate('PayType');
+                  props.navigation.navigate('PayType',{from:'drawer'});
                 }}
                 style={MainViewStyles.drawerItemBtn}
               >
