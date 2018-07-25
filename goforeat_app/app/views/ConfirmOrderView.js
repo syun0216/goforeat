@@ -22,6 +22,7 @@ import BlankPage from "../components/BlankPage";
 import Loading from "../components/Loading";
 import LoadingModal from "../components/LoadingModal";
 import ErrorPage from "../components/ErrorPage";
+import PlacePickerModel from "../components/PlacePickerModel";
 //utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
@@ -49,6 +50,7 @@ const client = new Stripe(api_key);
 export default class ConfirmOrderView extends PureComponent {
   _popupDialog = null;
   timer = null;
+  picker = null;
   state = {
     orderDetail: null,
     loading: true,
@@ -58,7 +60,8 @@ export default class ConfirmOrderView extends PureComponent {
     isBottomShow: false,
     coupon: null,
     discountsPrice: 0,
-    remark: ''
+    remark: '',
+    showPlacePicker: false
   };
 
   componentDidMount() {
@@ -205,6 +208,10 @@ export default class ConfirmOrderView extends PureComponent {
       case 'wechat': return '微信支付';
       default: return '現金支付';
     }
+  }
+
+  getSeletedValue = (val) => {
+    console.log(val);
   }
 
   //private function
@@ -417,10 +424,14 @@ export default class ConfirmOrderView extends PureComponent {
     let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
     let _details_arr = [
       {title:'取餐日期',content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false,clickFunc:()=>{}},
-      {title:'取餐地點',content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false,clickFunc:()=>{}},
+      {title:'取餐地點',content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false,clickFunc:()=>{
+
+      }},
       {title:'預計取餐時間',content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {}},
       {title:'支付方式',content:this._currentPayType(),hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {
-        ToastUtil.showWithMessage('請到我的支付方式修改哦！')
+        this.props.navigation.navigate('PayType',{
+          from:'confirm_order'
+        });
       }}
     ];
     return (
@@ -448,6 +459,12 @@ export default class ConfirmOrderView extends PureComponent {
           {item.canOpen?<Icon name="ios-arrow-down-outline" style={ConfirmOrderStyles.ArrowDown}/>:null}
         </TouchableOpacity>
       </View>
+    )
+  }
+
+  _renderPlacePickerModal() {
+    return (
+      <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
     )
   }
 

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import {View,Image,Text,Platform} from 'react-native';
+import {View,Image,Text,Platform,TouchableOpacity} from 'react-native';
 import {Container,Content} from 'native-base';
+import LinearGradient from 'react-native-linear-gradient';
 //components
 import CommonItem from '../components/CommonItem';
 import CommonHeader from '../components/CommonHeader';
@@ -10,6 +11,7 @@ import Colors from '../utils/Colors';
 import {formatCard} from '../utils/FormatCardInfo';
 //styles
 import PaySettingStyles from '../styles/paysetting.style';
+import CommonStyles from '../styles/common.style';
 //cache
 import AppStorage from '../cache/appStorage';
 
@@ -35,9 +37,11 @@ export default class PaySettingView extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
+      checkedName: nextProps.screenProps.paytype,
       creditCardInfo: nextProps.screenProps.creditCardInfo
     })
   }
+
 
   _checked(name) {
     this.setState(
@@ -57,6 +61,18 @@ export default class PaySettingView extends PureComponent {
 
   _leftImage(image) {
     return (<Image source={image} style={PaySettingStyles.payLeftImage} resizeMode="contain"/>)
+  }
+
+  _renderBottomConfirm() {
+    return(
+      <View style={CommonStyles.common_btn_container}>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={CommonStyles.btn}>
+              <Text style={{color:'#fff',fontSize:16}}>確定</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+    )
   }
    
   render() {
@@ -82,7 +98,9 @@ export default class PaySettingView extends PureComponent {
       };
     }
     // _list_arr.push(_verify_platform_pay);  //暫時屏蔽apple_pay和android_pay
+
     let {creditCardInfo} = this.state;
+    let _from_confirm_order = this.props.navigation.state.params['from'] == 'confirm_order';
     let _creditCardNumber = '';
     if(creditCardInfo != null) {
       _creditCardNumber = formatCard(creditCardInfo.card);
@@ -107,6 +125,7 @@ export default class PaySettingView extends PureComponent {
           }
         }}/>
         </View>
+        {_from_confirm_order?this._renderBottomConfirm():null}
       </Content>
       </Container>
     )
