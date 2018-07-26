@@ -1,18 +1,14 @@
 import React, { PureComponent } from 'react';
 import {
-  ScrollView,
   Image,
   View,
   TouchableOpacity,
-  Platform,
-  StatusBar,
   Animated,
   Easing,
   Keyboard
 } from "react-native";
 import {
   Input,
-  Button,
   Text,
   Icon,
   ActionSheet
