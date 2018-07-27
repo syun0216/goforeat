@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {View,Animated,Easing,StyleSheet,Text,TouchableOpacity,Platform} from 'react-native';
+import {View,Animated,Easing,StyleSheet,TouchableOpacity,Platform} from 'react-native';
 import {Icon} from 'native-base';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
+//components
+import Text from './UnScalingText';
 
 const styles = StyleSheet.create({
   bottomContainer:{
@@ -93,12 +95,12 @@ export default class BottomOrderConfirm extends PureComponent {
           {canClose ?<TouchableOpacity style={{width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50, alignItems:'center'}} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,{color: Colors.main_gray,fontSize:28,marginTop: 3}]}/>
           </TouchableOpacity> : null}
-          <Text allowFontScaling={false} style={{marginLeft: 5}}>HKD{" "}</Text>
-          <Text allowFontScaling={false} style={[styles.commonText,{color:'#FF3348',width:Platform.OS == 'ios'?GLOBAL_PARAMS._winWidth<350?60:100:80,marginTop:-5,fontWeight:'600'}]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
+          <Text style={{marginLeft: 5}}>HKD{" "}</Text>
+          <Text style={[styles.commonText,{color:'#FF3348',width:Platform.OS == 'ios'?GLOBAL_PARAMS._winWidth<350?60:100:80,marginTop:-5,fontWeight:'600'}]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
         </View>
         <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,width:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => btnClick()}>
           <View style={styles.commonView}>
-            <Text allowFontScaling={false} style={[styles.commonText,{color:'#fff'}]}>{this.props.btnMessage}</Text>
+            <Text style={[styles.commonText,{color:'#fff'}]}>{this.props.btnMessage}</Text>
           </View>
         </TouchableOpacity>  
       </Animated.View>

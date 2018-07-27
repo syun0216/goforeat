@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {View,Text,TouchableOpacity,Image,StatusBar,Alert} from 'react-native';
+import {View,TouchableOpacity,Image,StatusBar,Alert} from 'react-native';
 import {Container,Content,Header,Footer,Left,Body,Right,Button,Icon} from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 //styles
@@ -8,6 +8,8 @@ import ManageCreditCardStyles from '../styles/managecreditcard.style';
 //components
 import CommonItem from '../components/CommonItem';
 import BlankPage from '../components/BlankPage';
+import CommonBottomBtn from '../components/CommonBottomBtn';
+import Text from '../components/UnScalingText';
 //utils
 import {formatCard} from '../utils/FormatCardInfo';
 //cache 
@@ -69,13 +71,7 @@ export default class ManageCreditCardView extends PureComponent {
       {_list_arr.map((v,i) => (
         <CommonItem key={i} content={v.content} rightIcon={v.rightIcon} disabled={true} contentStyle={{marginLeft: 33/2 - 10}}/>
       ))}
-      <View style={CommonStyles.common_btn_container}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Credit')}>
-            <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={CommonStyles.btn}>
-              <Text style={{color:'#fff',fontSize:16}}>更換信用卡</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
+      <CommonBottomBtn clickFunc={() => this.props.navigation.navigate('Credit')}>更換信用卡</CommonBottomBtn>
         <Text style={ManageCreditCardStyles.BottomInfo}>只可以綁定一張信用卡</Text>
       </View>
     )

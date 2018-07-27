@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
-import { View,Text,TouchableOpacity,TextInput,Keyboard,Platform } from 'react-native';
-import { Container,Content } from 'native-base';
+import { View,TouchableOpacity,TextInput,Keyboard,Platform } from 'react-native';
+import { Container,Content,Input } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import Picker from 'react-native-picker';
 //components
 import CommonHeader from '../components/CommonHeader';
+import CommonBottomBtn from '../components/CommonBottomBtn';
+import Text from '../components/UnScalingText';
 //styles
 import CommonStyles from '../styles/common.style';
 import CreditCardStyles from '../styles/creditcard.style';
@@ -169,7 +171,7 @@ export default class CreditCardView extends PureComponent {
     return (
       <View style={Platform.OS == 'ios'?CreditCardStyles.CommonInputView:CreditCardStyles.CommonInputAndroidView} key={key}>
         <Text style={CreditCardStyles.InputTitle}>{item.label}</Text>
-        <TextInput style={Platform.OS=="android"?  CreditCardStyles.Input_Android:CreditCardStyles.Input} underlineColorAndroid="transparent" keyboardType={item.keyboard} placeholder={item.placeholder} maxLength={item.maxlength} onChangeText={item.changeTextFunc} defaultValue={this.state[item.name]}
+        <TextInput allowFontScaling={false} style={Platform.OS=="android"?  CreditCardStyles.Input_Android:CreditCardStyles.Input} underlineColorAndroid="transparent" keyboardType={item.keyboard} placeholder={item.placeholder} maxLength={item.maxlength} onChangeText={item.changeTextFunc} defaultValue={this.state[item.name]}
         clearButtonMode="while-editing"
         placeholderTextColor="#333333"/>
       </View>
@@ -192,13 +194,7 @@ export default class CreditCardView extends PureComponent {
                 _list_arr.map((v,i) => this._renderCommonInput(v,i))
               }
             </View>
-            <View style={CommonStyles.common_btn_container}>
-              <TouchableOpacity onPress={() => this._bindCard()}>
-                <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={CommonStyles.btn}>
-                  <Text style={{color:'#fff',fontSize:16}}>立即綁定</Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            </View>
+            <CommonBottomBtn clickFunc={() => this._bindCard()}>立即綁定</CommonBottomBtn>
         </Content>
       </Container>
     )

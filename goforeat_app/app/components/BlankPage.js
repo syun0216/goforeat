@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View,Image,Text,StyleSheet,Platform} from 'react-native';
+import {View,Image,StyleSheet,Platform} from 'react-native';
 //utils
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from "../utils/Colors";
+//components
+import Text from './UnScalingText';
 
 const styles = StyleSheet.create({
   blankContainer: {

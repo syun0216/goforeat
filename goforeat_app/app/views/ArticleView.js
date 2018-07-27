@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View,Text,TouchableWithoutFeedback, SectionList,StyleSheet,RefreshControl} from 'react-native'
+import {View,TouchableWithoutFeedback, SectionList,StyleSheet,RefreshControl} from 'react-native'
 import {
   Container,
   Card,
@@ -18,6 +18,7 @@ import ErrorPage from '../components/ErrorPage';
 import CommonHeader from '../components/CommonHeader';
 import ListFooter from '../components/ListFooter';
 import Loading from '../components/Loading';
+import Text from '../components/UnScalingText';
 //language
 import i18n from '../language/i18n';
 

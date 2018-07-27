@@ -1,9 +1,10 @@
 import React from 'react';
-import {TouchableOpacity,Text,StyleSheet,View} from 'react-native';
+import {TouchableOpacity,StyleSheet,View} from 'react-native';
 import PropTypes from 'prop-types';
 import {Icon} from 'native-base';
 //components
 import Divider from '../components/Divider';
+import Text from './UnScalingText';
 //utils
 import Colors from '../utils/Colors';
 import GLOBAL_PARAMS from '../utils/global_params';

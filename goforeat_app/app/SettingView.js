@@ -1,14 +1,15 @@
 import React,{PureComponent} from 'react'
-import {View,Text,StyleSheet,Alert,Linking,Image,ScrollView,Platform,TouchableWithoutFeedback} from 'react-native'
+import {View,StyleSheet,Alert,Linking,Image,ScrollView,Platform,TouchableWithoutFeedback} from 'react-native'
 import {Container,Button} from 'native-base'
 import PopupDialog, { DialogTitle } from 'react-native-popup-dialog';
 //utils
-import Colors from './utils/Colors';
 import ToastUtil from './utils/ToastUtil';
 import GLOBAL_PARAMS from './utils/global_params';
 //components
 import CommonHeader from './components/CommonHeader';
 import CommonItem from './components/CommonItem';
+import CommonBottomBtn from './components/CommonBottomBtn';
+import Text from './components/UnScalingText';
 //language
 import i18n from './language/i18n';
 //api
@@ -61,7 +62,7 @@ export default class SettingView extends PureComponent{
   }
 
   _renderListFooterView = () => (
-    <Button transparent onPress={() => {
+    <CommonBottomBtn clickFunc={() => {
       Alert.alert(
         '提示',
         '確定要登出嗎？',
@@ -71,17 +72,7 @@ export default class SettingView extends PureComponent{
         ],
         { cancelable: false }
       )
-    }}
-      block style={{
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 0,
-        backgroundColor: Colors.main_white,
-        
-      }}>
-      <Text style={{color:Colors.fontBlack,fontSize:16}}>{this.state.i18n.logout}</Text>
-    </Button>
+    }}>{this.state.i18n.logout}</CommonBottomBtn>
   )
 
   render() {

@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View,StyleSheet,Image,Text,TouchableOpacity } from 'react-native';
+import { View,StyleSheet,Image,TouchableOpacity } from 'react-native';
 import GLOBAL_PARAMS from '../utils/global_params';
 import LinearGradient from 'react-native-linear-gradient';
 //styles
 import CommonStyle from '../styles/common.style';
+//components
+import Text from './UnScalingText';
 
 const styles = StyleSheet.create({
   loadingContainer: {

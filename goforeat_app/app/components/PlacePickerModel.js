@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
-import {Modal,View,Image,Text,TouchableOpacity,ScrollView,StatusBar,StyleSheet} from 'react-native'
-import {Icon,Container,Header,Left,Right,Body,Content,List,ListItem} from 'native-base'
+import {Modal,View,TouchableOpacity,StyleSheet} from 'react-native'
+import {Icon,Container,Content} from 'native-base'
 //utils
 import Colors from '../utils/Colors'
 import GLOBAL_PARAMS from '../utils/global_params'
@@ -12,6 +12,7 @@ import api from '../api/index';
 import appStorage from "../cache/appStorage";
 //components
 import CommonHeader from "../components/CommonHeader";
+import Text from './UnScalingText';
 
 class PlacePickerModel extends Component{
   static propsType = {

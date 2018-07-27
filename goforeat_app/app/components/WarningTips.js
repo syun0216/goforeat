@@ -1,8 +1,10 @@
 import React from 'react';
-import {View,Text,Image,StyleSheet} from 'react-native';
+import {View,Image,StyleSheet} from 'react-native';
 import {Icon} from 'native-base';
 //utils
 import GLOBAL_PAMRAS from '../utils/global_params';
+//components
+import Text from './UnScalingText';
 
 const styles = StyleSheet.create({
   warn_container: {

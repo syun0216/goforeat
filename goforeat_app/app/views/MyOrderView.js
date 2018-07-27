@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity,StyleSheet,SectionList,Alert,RefreshControl,Platform,Image } from "react-native";
+import { View, TouchableOpacity,StyleSheet,SectionList,Alert,RefreshControl,Platform,Image } from "react-native";
 import {
   Container,
   Tabs,
   Tab,
   TabHeading,
 } from "native-base";
-// import Image from 'react-native-image-progress';
-import ProgressBar from 'react-native-progress/Bar'
 //Colors
 import Colors from '../utils/Colors'
 //utils
@@ -21,6 +19,7 @@ import ErrorPage from '../components/ErrorPage';
 import Loading from '../components/Loading';
 import BlankPage from '../components/BlankPage';
 import CommonHeader from '../components/CommonHeader';
+import Text from '../components/UnScalingText';
 //language
 import i18n from '../language/i18n';
 //styles

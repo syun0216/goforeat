@@ -9,14 +9,11 @@ import {
 } from "react-native";
 import {
   Input,
-  Text,
   Icon,
   ActionSheet
 } from "native-base";
-import LinearGradient from 'react-native-linear-gradient';
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
-import Colors from "./utils/Colors";
 import ToastUtil from "./utils/ToastUtil";
 //cache
 import appStorage from './cache/appStorage';
@@ -28,7 +25,10 @@ import i18n from './language/i18n';
 //jpush
 import JPushModule from 'jpush-react-native';
 //styles 
-import LoginStyle from '../app/styles/login.style';
+import LoginStyle from './styles/login.style';
+//components
+import CommonBottomBtn from './components/CommonBottomBtn';
+import Text from './components/UnScalingText';
 
 const BUTTONS = [
   GLOBAL_PARAMS.phoneType.HK.label,
@@ -242,6 +242,7 @@ export default class CustomLoginView extends PureComponent {
             </TouchableOpacity>
             <Input 
               ref={(t) => this._textInput = t}
+              allowFontScaling={false}
               onChangeText={phone => this._getPhone(phone)}
               style={LoginStyle.CommonInput}
               multiline={false}
@@ -258,6 +259,7 @@ export default class CustomLoginView extends PureComponent {
             <Input 
             onChangeText={password => this._getPassword(password)}
             style={LoginStyle.CommonInput} 
+            allowFontScaling={false}
             multiline={false}
             autoFocus={false}
             placeholder="請輸入驗證碼"
@@ -271,13 +273,7 @@ export default class CustomLoginView extends PureComponent {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={LoginStyle.CommonView}>
-          <TouchableOpacity onPress={() => this._login()}>
-          <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={LoginStyle.LoginBtn}>
-            <Text style={{color:'#fff',fontSize:16}}>登入/註冊</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-        </View>
+        <CommonBottomBtn clickFunc={() => this._login()}>登入/註冊</CommonBottomBtn>
       </View>
     )
   }

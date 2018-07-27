@@ -1,10 +1,11 @@
 import React,{PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {View,Modal,Text,StyleSheet,TouchableOpacity,Image,Platform} from 'react-native';
+import {View,Modal,StyleSheet,TouchableOpacity,Image,Platform} from 'react-native';
 import {Container,Content,Footer,Icon} from 'native-base';
 //components
 import CommonHeader from './CommonHeader';
 import Swiper from './Swiper';
+import Text from './UnScalingText';
 
 const styles = StyleSheet.create({
   content_view: {

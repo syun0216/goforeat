@@ -1,13 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {StyleSheet,Platform,TouchableWithoutFeedback,StatusBar} from 'react-native'
-import {Header,Left,Body,Right,Icon,Button,Text} from 'native-base'
+import {Header,Left,Body,Right,Icon,Button} from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
 //utils
 import Colors from '../utils/Colors';
 import GLOBAL_PARAMS from "../utils/global_params";
 //styles
 import CommonStyles from "../styles/common.style";
+//components
+import Text from './UnScalingText';
 
 const styles = StyleSheet.create({
   linearGradient: {

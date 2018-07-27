@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   View,
   ScrollView,
-  Text,
   Image,
   TouchableOpacity,
   AppState,
@@ -35,6 +34,7 @@ import BlankPage from '../components/BlankPage';
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
 import MoreDetailModal from '../components/MoreDetailModal';
 import WarningTips from '../components/WarningTips';
+import Text from '../components/UnScalingText';
 //language
 import i18n from "../language/i18n";
 //cache 
@@ -258,9 +258,9 @@ class HomePage extends Component {
   _renderDateFormat() {
     return (
       <View style={HomePageStyles.DateFormatView}>
-        <Text style={HomePageStyles.DateFormatWeekText} allowFontScaling={false}>
+        <Text style={HomePageStyles.DateFormatWeekText}>
         {this.state.formatDate.week}的餐單</Text>
-        <Text style={HomePageStyles.DateFormatDateText} allowFontScaling={false}>{this.state.formatDate.date}</Text>
+        <Text style={HomePageStyles.DateFormatDateText}>{this.state.formatDate.date}</Text>
       </View>
     )
   }
@@ -268,7 +268,7 @@ class HomePage extends Component {
   _renderDeadLineDate() {
     return(
       <View style={HomePageStyles.DeadLineDateView}>
-        <Text allowFontScaling={false} style={HomePageStyles.DeadLineDateText}>{this.state.formatDate.endDate}</Text>
+        <Text style={HomePageStyles.DeadLineDateText}>{this.state.formatDate.endDate}</Text>
       </View>
     )
   }
@@ -284,12 +284,12 @@ class HomePage extends Component {
     return (
       <View style={HomePageStyles.IntroductionView}>
       <View style={HomePageStyles.IntroductionFoodNameCotainer}>
-        <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1} allowFontScaling={false}>{foodDetails[0].foodName}</Text>
+        <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1}>{foodDetails[0].foodName}</Text>
         <Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.props.navigation.navigate('MoreDetail',{
           item: foodDetails[0]
         })}>詳情</Text>
       </View>
-        <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3} allowFontScaling={false}>{foodDetails[0].foodBrief}</Text>
+        <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodDetails[0].foodBrief}</Text>
       </View>
     )
   }
@@ -308,16 +308,16 @@ class HomePage extends Component {
     return (
       <View style={HomePageStyles.AddPriceView}>
         <View style={HomePageStyles.AddPriceViewPriceContainer}>
-          <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
-          <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewPrice}>{foodDetails[0].price}</Text>
-          <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text>
+          <Text style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
+          <Text style={HomePageStyles.AddPriceViewPrice}>{foodDetails[0].price}</Text>
+          <Text style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text>
           <View style={HomePageStyles.AddPriceViewStriping}/>
         </View>
         <View style={HomePageStyles.AddPriceViewCountContainer}>
             <TouchableOpacity onPress={() => this._remove()} style={HomePageStyles.AddPriceViewCommonBtn}>
             <Image source={require("../asset/remove.png")} style={HomePageStyles.AddPriceViewAddImage}/>
             </TouchableOpacity>
-            <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewCountText} numberOfLines={1}>{this.state.foodCount}</Text>
+            <Text style={HomePageStyles.AddPriceViewCountText} numberOfLines={1}>{this.state.foodCount}</Text>
             <TouchableOpacity onPress={() => this._add()} style={HomePageStyles.AddPriceViewCommonBtn}>
                 <Image source={require("../asset/add.png")} style={HomePageStyles.AddPriceViewRemoveImage}/>
             </TouchableOpacity>    
@@ -379,7 +379,7 @@ class HomePage extends Component {
       <TouchableOpacity style={HomePageStyles.PlacePickerBtn} onPress={() => this.setState({showPlacePicker: true})}>
         <View style={HomePageStyles.PlacePickerBtnBgAbsolute}/>
         <Image source={require('../asset/icon-location.png')} style={HomePageStyles.PlacePickerBtnImage}/>
-        <Text style={HomePageStyles.PlacePickerBtnText} numberOfLines={1} allowFontScaling={false}>
+        <Text style={HomePageStyles.PlacePickerBtnText} numberOfLines={1}>
           {this.state.placeSelected.name}
         </Text>
       </TouchableOpacity>
