@@ -5,8 +5,15 @@ import CodePush from 'react-native-code-push';
 import CodePushUtils from '../utils/CodePushUtils';
 import * as TextUtils from "../utils/TextUtils";
 import * as JSONUtils from "../utils/JSONUtils";
+//language
+import I18n from '../language/i18n';
 
 const HotReloadHOC = WarppedComponent => class extends Component {
+
+  static navigationOptions = ({screenProps}) => {
+    return ({
+    tabBarLabel: I18n[screenProps.language].dailyFood
+  })};
   constructor() {
     super();
   }

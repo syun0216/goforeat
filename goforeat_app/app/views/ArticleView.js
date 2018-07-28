@@ -20,7 +20,7 @@ import ListFooter from '../components/ListFooter';
 import Loading from '../components/Loading';
 import Text from '../components/UnScalingText';
 //language
-import i18n from '../language/i18n';
+import I18n from '../language/i18n';
 
 let requestParams = {
   status: {
@@ -34,14 +34,17 @@ let requestParams = {
 }
 
 export default class ArticleView extends Component {
+  static navigationOptions = ({screenProps}) => ({
+    tabBarLabel: I18n[screenProps.language].weekMenu
+  });
   state = {
     articleList: null,
     loadingStatus:{
       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
     },
-    i18n: i18n[this.props.screenProps.language],
-    refreshing: false
+    refreshing: false,
+    i18n: I18n[this.props.screenProps.language]
   }
 
   componentDidMount() {
@@ -51,12 +54,7 @@ export default class ArticleView extends Component {
   componentWillUnmount() {
     source.cancel()
   }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      i18n: i18n[nextProps.screenProps.language]
-    })
-  }
+  
   //common functions
 
   _onRequestFirstPageData = () => {
@@ -88,7 +86,7 @@ export default class ArticleView extends Component {
         })
       }
     },() => {
-      ToastUtil.showWithMessage('网络请求出错')
+      ToastUtil.showWithMessage(this.state.i18n.common_tips.network_err);
       this.setState({
         loadingStatus:{
           firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
@@ -213,11 +211,12 @@ export default class ArticleView extends Component {
     )
 
   render() {
+    let {i18n} = this.state;
     return (<Container style={{position:'relative'}}>
-    <CommonHeader title={this.state.i18n.article_title} {...this.props}/>
+    <CommonHeader title={i18n.weekMenu} {...this.props}/>
     {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
       <Loading/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
-        <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
+        <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage}/> : null)}
       <View style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
         {
             this.state.articleList !== null
