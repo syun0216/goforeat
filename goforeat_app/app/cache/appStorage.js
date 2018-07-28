@@ -81,6 +81,29 @@ let placeStorage = {
   }
 }
 
+let languageStorage = {
+  _STORAGE_KEY_LANGUAGE: "storage_key_language",
+  setLanguage(language) {
+    AsyncStorage.setItem(this._STORAGE_KEY_LANGUAGE, language);
+  },
+  getLanguage(callBack) {
+    "use strict";
+    if (callBack == null) {
+      return;
+    }
+    AsyncStorage.getItem(this._STORAGE_KEY_LANGUAGE, (error, value) => {
+      if (error != null || value == null || value.length == 0) {
+        callBack(error, null);
+        return;
+      }
+      callBack(null, value);
+    });
+  },
+  removeLanguage() {
+    AsyncStorage.removeItem(this._STORAGE_KEY_LANGUAGE);
+  }
+}
+
 let payTypeStorage = {
   _STORAGE_KEY_PAY_TYPE: "storage_key_pay",
   setPayType(pay) {
@@ -131,7 +154,8 @@ const appStorage = {
   ...userStorage,
   ...payTypeStorage,
   ...placeStorage,
-  ...creditCardInfo
+  ...creditCardInfo,
+  ...languageStorage
 }
 
 module.exports = appStorage
