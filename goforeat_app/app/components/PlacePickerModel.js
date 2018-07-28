@@ -13,6 +13,8 @@ import appStorage from "../cache/appStorage";
 //components
 import CommonHeader from "../components/CommonHeader";
 import Text from './UnScalingText';
+//language
+import I18n from '../language/i18n';
 
 class PlacePickerModel extends Component{
   static propsType = {
@@ -23,7 +25,8 @@ class PlacePickerModel extends Component{
   }
   state = {
     placeList: null,
-    selected: null
+    selected: null,
+    i18n: I18n[this.props.screenProps.language]
   }
 
   componentDidMount() {
@@ -35,6 +38,12 @@ class PlacePickerModel extends Component{
           this.getPlace();
         }
       }
+    })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: I18n[nextProps.screenProps.language]
     })
   }
 
@@ -83,7 +92,7 @@ class PlacePickerModel extends Component{
       onRequestClose={() => this.props.closeFunc()}
       >
        <Container>
-          <CommonHeader canBack title="請選擇取餐點" leftElement={<TouchableOpacity onPress={this.props.closeFunc} style={{width: 50,height:40,alignItems:'center',marginLeft:-5,justifyContent:'center'}}>
+          <CommonHeader canBack title={this.state.i18n.address} leftElement={<TouchableOpacity onPress={this.props.closeFunc} style={{width: 50,height:40,alignItems:'center',marginLeft:-5,justifyContent:'center'}}>
           <Icon name="md-close" style={[{ fontSize: 22, color: '#fff' }]}/>
         </TouchableOpacity>} {...this.props}/> 
           <Content> 
