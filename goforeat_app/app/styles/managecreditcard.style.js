@@ -12,13 +12,13 @@ export default StyleSheet.create({
     margin: 33/2,
     width: GLOBAL_PARAMS._winWidth - 33,
     borderRadius: 5,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   EyeBtn: {
     position: "absolute",
     padding: 10,
     top: Platform.OS=="android"?32/2:29/2,
-    left: 166/2,
+    left: 166,
     zIndex: 100
   },
   EyeImage: {
@@ -27,7 +27,7 @@ export default StyleSheet.create({
   },
   CardImage: {
     width: GLOBAL_PARAMS._winWidth - 33,
-    height: 249/2
+    height: 255/2*(GLOBAL_PARAMS._winHeight/667)
   },
   CardInfo: {
     position: "absolute",
