@@ -7,6 +7,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import CommonStyle from '../styles/common.style';
 //components
 import Text from './UnScalingText';
+//language
+import I18n from '../language/i18n';
 
 const styles = StyleSheet.create({
   loadingContainer: {
@@ -61,13 +63,13 @@ const ErrorPage = (props) => {
       <View style={styles.inner}>
         <Image source={require('../asset/badnetwork.png')} style={styles.image} resizeMode="cover"/>
         <View style={styles.infoText}>
-          <Text style={styles.text1}>網絡加載失敗</Text>
-          <Text style={styles.text2}>再次刷新 或檢查網絡</Text>
+          <Text style={styles.text1}>{I18n[props.screenProps.language].common_tips.network_err}</Text>
+          <Text style={styles.text2}>{I18n[props.screenProps.language].common_tips.reload_again}</Text>
         </View>
       </View>
       <TouchableOpacity onPress={() => props.errorToDo()} style={styles.refresh_btn}>
         <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.refresh_btn_inner}>
-          <Text style={{color:'#fff',fontSize:16}}>刷新</Text>
+          <Text style={{color:'#fff',fontSize:16}}>{I18n[props.screenProps.language].refresh}</Text>
         </LinearGradient>
       </TouchableOpacity>
     {/*<View style={{alignSelf:'center'}}>
@@ -82,7 +84,7 @@ const ErrorPage = (props) => {
 }
 
 ErrorPage.defaultProps = {
-  errorTips:'正在加載中...',
+  errorTips:'Loading...',
   errorToDo: () => {return },
   style: {}
 };
