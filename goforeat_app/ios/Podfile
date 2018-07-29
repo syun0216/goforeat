@@ -50,4 +50,6 @@ pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
 
+  pod 'RNI18n', :path => '../node_modules/react-native-i18n'
+
 end
