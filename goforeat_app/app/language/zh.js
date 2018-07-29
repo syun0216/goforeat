@@ -52,6 +52,7 @@ export default {
   bookPhone: '下單電話',
   orderDetail: '訂單詳情',
   foodDetail: '詳情',
+  canteenDetail: '餐廳詳情',
   endTime: '截止時間',
   mon: '星期一',
   tuse: '星期二',
@@ -80,6 +81,7 @@ export default {
   paymentStatus: '支付狀態',
   weekMenu: '本週菜單',
   dailyFood: '每日推薦',
+  refresh: '刷新',
   login_tips: {
     success: {
       code: '驗證碼發送成功',
@@ -127,7 +129,11 @@ export default {
       order: '下單失敗',
       coupon_null: '請輸入優惠碼',
       coupon_used: '您已經優惠過了',
-      get_coupon: '獲取優惠失敗'
+      get_coupon: '獲取優惠失敗',
+      not_support: '你的卡片暫未支持,請見諒',
+      check_card: '請核對信用卡信息是否正確',
+      fill_coupon_code: '請輸入優惠碼',
+      already_get_coupon: '您已經優惠過了',
     }
   },
   myorder_tips: {
@@ -139,6 +145,28 @@ export default {
       cancel_order_btn: '取消訂單',
     }
   },
+  hot_reload_tips: {
+    update_details: '更新到最新版本,更新內容為：',
+    newversion_downloading: '新版本正在下載,請稍候...',
+    has_new_function: '有新功能,是否現在立即更新？',
+    not_now: '以後再說',
+    update_now: '立即更新',
+    download_now: '下載完成,是否立即安裝?',
+    install_nexttime: '下次安裝',
+    install_now: '現在安裝',
+    understand: '明白',
+  },
+  manage_card_tips: {
+    alert_cancel: '確定要取消綁定嗎？',
+  },
+  credit_card_tips: {
+    name_not_null: '姓名不能為空',
+    card_not_null: '卡號不能為空',
+    time_not_null: '有效期不能為空',
+    cvc_nont_null: 'CVC不能為空',
+    bind_success: '綁定成功',
+    card_number_error: '卡號有誤',
+  },
   common_tips: {
     err: '發生未知錯誤',
     network_err: '网络請求失敗',
@@ -146,6 +174,8 @@ export default {
     no_auth: '請先登錄哦',
     no_function: '該功能暫未開放',
     reload: '加載失敗,請點擊重試',
-    no_data: '暫無數據'
+    no_data: '暫無數據',
+    load_all: '已經全部加載完畢',
+    reload_again: '再次刷新 或檢查網絡',
   }
 }
