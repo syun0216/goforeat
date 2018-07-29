@@ -69,7 +69,7 @@ class PlacePickerModel extends Component{
         this.props.getSeletedValue(null);
       }
     }, () => {
-      ToastUtils.showWithMessage("网络請求失敗");
+      ToastUtils.showWithMessage(this.state.i18n.common_tips.network_err);
       this.props.getSeletedValue(null);
     });
   }

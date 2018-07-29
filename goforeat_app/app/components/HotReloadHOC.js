@@ -10,13 +10,14 @@ import I18n from '../language/i18n';
 
 const HotReloadHOC = WarppedComponent => class extends Component {
 
-  static navigationOptions = ({screenProps}) => {
-    return ({
-    tabBarLabel: I18n[screenProps.language].dailyFood
-  })};
-  constructor() {
-    super();
+  static navigationOptions = WarppedComponent.navigationOptions;
+  constructor(props) {
+    super(props);
+    this.state = {
+      i18n: I18n[props.screenProps.language]
+    }
   }
+
 
   componentDidMount() {
     AppState.addEventListener('change',(nextState) => {
@@ -76,10 +77,11 @@ const HotReloadHOC = WarppedComponent => class extends Component {
   // logic - update - no silent
 
   _syncInNonSilent = remotePackage => {
+    let {i18n} = this.state;
     if (remotePackage.isMandatory) {
-      Alert.alert(null, `更新到最新版本,更新內容為：\n ${remotePackage.description}`, [
+      Alert.alert(null, `${i18n.hot_reload_tips.update_details}\n ${remotePackage.description}`, [
         {
-          text: "明白",
+          text: i18n.hot_reload_tips.understand,
           onPress: () => {
             this._downloadMandatoryNewVersionWithRemotePackage(remotePackage)
           }
@@ -92,10 +94,10 @@ const HotReloadHOC = WarppedComponent => class extends Component {
       // );
       return;
     } else {
-      Alert.alert(null, "有新功能,是否現在立即更新？", [
-        { text: "以後再說" },
+      Alert.alert(null, i18n.hot_reload_tips.has_new_function, [
+        { text: i18n.hot_reload_tips.not_now },
         {
-          text: "立即更新",
+          text: i18n.hot_reload_tips.update_now,
           onPress: () => {
             this._downloadNewVersionWithRemotePackage(remotePackage);
           }
@@ -105,18 +107,19 @@ const HotReloadHOC = WarppedComponent => class extends Component {
   };
 
   _downloadNewVersionWithRemotePackage = remotePackage => {
-    ToastUtils.showWithMessage("新版本正在下載,請稍候...");
+    let {i18n} = this.state;
+    ToastUtils.showWithMessage(i18n.hot_reload_tips.newversion_downloading);
     remotePackage.download().then(localPackage => {
       if (localPackage != null) {
-        Alert.alert(null, "下載完成,是否立即安裝?", [
+        Alert.alert(null, i18n.hot_reload_tips.download_now, [
           {
-            text: "下次安裝",
+            text: i18n.hot_reload_tips.install_nexttime,
             onPress: () => {
               localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME);
             }
           },
           {
-            text: "現在安裝",
+            text: i18n.hot_reload_tips.install_now,
             onPress: () => {
               localPackage.install(CodePush.InstallMode.IMMEDIATE);
             }
