@@ -42,13 +42,15 @@ import store from "./store";
 import TabBar from "./components/Tabbar";
 //styles
 import MainViewStyles from './styles/mainview.style';
+//language
+import i18n from './language/i18n';
 
 const tabView = TabNavigator(
   {
     ShopTab: {
       screen: HomePage,
       navigationOptions: {
-        tabBarLabel: "每日外賣",
+        // tabBarLabel: '每日推薦',
         drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed', // 修复安卓侧滑问题
         tabBarIcon: ({ focused }) => {
           return focused ? (
@@ -67,7 +69,7 @@ const tabView = TabNavigator(
     ArticleTab: {
       screen: ArticleView,
       navigationOptions: {
-        tabBarLabel: "本週菜單",
+        // tabBarLabel: "本週菜單",
         drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed',
         tabBarIcon: ({ focused }) => {
           return focused ? (
@@ -110,6 +112,7 @@ const darwerView = DrawerNavigator(
     drawerWidth: GLOBAL_PARAMS._winWidth * 0.75,
     drawerPosition: "left",
     contentComponent: props => {
+      let {language} = props.screenProps;
       return (
         <Container>
         <View>
@@ -138,7 +141,7 @@ const darwerView = DrawerNavigator(
                   allowFontScaling={false}
                   style={MainViewStyles.drawerItemText}
                 >
-                  我的訂單
+                  {i18n[language].myorder}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -152,7 +155,7 @@ const darwerView = DrawerNavigator(
                   allowFontScaling={false}
                   style={MainViewStyles.drawerItemText}
                 >
-                  我的支付方式
+                  {i18n[language].payment}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -170,7 +173,7 @@ const darwerView = DrawerNavigator(
                   allowFontScaling={false}
                   style={MainViewStyles.drawerItemText}
                 >
-                  用戶支援
+                  {i18n[language].contact}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -186,7 +189,7 @@ const darwerView = DrawerNavigator(
                   allowFontScaling={false}
                   style={MainViewStyles.drawerItemText}
                 >
-                  關於我們
+                  {i18n[language].about}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -195,7 +198,7 @@ const darwerView = DrawerNavigator(
             >
               <Image source={require('./asset/setting.png')} style={MainViewStyles.drawerItemImage}
               resizeMode="contain"/>
-              <Text allowFontScaling={false} style={MainViewStyles.drawerItemText}>系統設置</Text>
+              <Text allowFontScaling={false} style={MainViewStyles.drawerItemText}>{i18n[language].setting}</Text>
             </TouchableOpacity>
             </View>
           </Content>

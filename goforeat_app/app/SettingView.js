@@ -1,7 +1,6 @@
 import React,{PureComponent} from 'react'
 import {View,StyleSheet,Alert,Linking,Image,ScrollView,Platform,TouchableWithoutFeedback} from 'react-native'
-import {Container,Button} from 'native-base'
-import PopupDialog, { DialogTitle } from 'react-native-popup-dialog';
+import {Container,ActionSheet} from 'native-base'
 //utils
 import ToastUtil from './utils/ToastUtil';
 import GLOBAL_PARAMS from './utils/global_params';
@@ -11,17 +10,31 @@ import CommonItem from './components/CommonItem';
 import CommonBottomBtn from './components/CommonBottomBtn';
 import Text from './components/UnScalingText';
 //language
-import i18n from './language/i18n';
+import I18n from './language/i18n';
 //api
 import api from './api/index'
 //cache
 import appStorage from './cache/appStorage';
 
+const LANGUAGE_BTN = [
+  '繁體中文',
+  'English'
+];
+const DESTRUCTIVE_INDEX = 3;
+const CANCEL_INDEX = 4;
 export default class SettingView extends PureComponent{
   popupDialog = null;
   state = {
     isEnglish: false,
-    i18n: i18n[this.props.screenProps.language]
+    language: this.props.screenProps.language == 'en'? 'English' : '繁體中文',
+    lang_idx: this.props.screenProps.language == 'en'? 1 : 0,
+    i18n: I18n[this.props.screenProps.language]
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: I18n[nextProps.screenProps.language]
+    })
   }
 
   componentDidMount() {
@@ -30,45 +43,32 @@ export default class SettingView extends PureComponent{
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      i18n: i18n[nextProps.screenProps.language]
-    })
-  }
-
   _logout() {
+    let {i18n} = this.state;
     // this.props.screenProps.userLogout();
     // this.props.refreshReset();
     api.logout().then(data => {
       if(data.status === 200 && data.data.ro.ok){
-        ToastUtil.showWithMessage("登出成功")
+        ToastUtil.showWithMessage(i18n.setting_tips.success.logout)
         this.props.screenProps.userLogout();
         // this.props.refreshReset();
       }
       else{
-        ToastUtil.showWithMessage("登出失敗")
+        ToastUtil.showWithMessage(i18n.setting_tips.fail.logout)
       }
     },() => {
-        ToastUtil.showWithMessage("登出失敗,請檢查網絡")
+        ToastUtil.showWithMessage(i18n.setting_tips.fail.logout_network)
     })
-  }
-  
-  _changeLanguage = (value) => {
-    this.props.screenProps.changeLanguage(language = value ? 'en' : 'zh')
-      this.setState({
-        isEnglish: value,
-        i18n: i18n[this.props.screenProps.language]
-      });
   }
 
   _renderListFooterView = () => (
     <CommonBottomBtn clickFunc={() => {
       Alert.alert(
-        '提示',
-        '確定要登出嗎？',
+        this.state.i18n.tips,
+        this.state.i18n.setting_tips.common.logout_msg,
         [
-          {text: '取消', onPress: () => {return null}, style: 'cancel'},
-          {text: '確定', onPress: () => this._logout()},
+          {text: this.state.i18n.cancel, onPress: () => {return null}, style: 'cancel'},
+          {text: this.state.i18n.confirm, onPress: () => this._logout()},
         ],
         { cancelable: false }
       )
@@ -76,24 +76,46 @@ export default class SettingView extends PureComponent{
   )
 
   render() {
-    let _setting_ios = {content:'通知',isEnd:false,clickFunc:() => {
+    let {i18n} = this.state;
+    let _setting_ios = {content:i18n.notice,isEnd:false,clickFunc:() => {
       Linking.openURL('app-settings:')
       .catch(err => console.log(err))
     }};
-    const _list_arr = [      
-      // {
-      //   content:'語言',isEnd:false,clickFunc:() => {
-      //     ToastUtil.showWithMessage('該功能暫未開放');
-      //   }
-      // },
+    const _list_arr = [  
       {
-        content: '隱私政策',isEnd:false,clickFunc:() => {
+        content: i18n.policy,isEnd:false,clickFunc:() => {
           this.props.navigation.navigate("Statement", { name: "policy" })
         }
       },
       {
-        content: '服務條款',isEnd: true,clickFunc:() => {
+        content: i18n.services,isEnd: true,clickFunc:() => {
           this.props.navigation.navigate("Statement", { name: "service" })
+        }
+      },    
+      {
+        content:i18n.lang,isEnd:false,hasRightIcon: true,rightIcon:(<Text>{this.state.language}</Text>),clickFunc:() => {
+          ActionSheet.show(
+            {
+              options: LANGUAGE_BTN,
+              cancelButtonIndex: CANCEL_INDEX,
+              destructiveButtonIndex: DESTRUCTIVE_INDEX,
+              title: i18n.langChoose,
+            },
+            buttonIndex => {
+              if(this.state.lang_idx == buttonIndex) return;
+              this.setState({
+                lang_idx: buttonIndex,
+                language: LANGUAGE_BTN[buttonIndex]
+              })
+              if(LANGUAGE_BTN[buttonIndex] == 'English') {
+                this.props.screenProps.changeLanguage('en');
+                appStorage.setLanguage('en');
+              } else {
+                appStorage.setLanguage('zh');
+                this.props.screenProps.changeLanguage('zh');
+              }
+            }
+          );
         }
       },
     ];
@@ -102,16 +124,16 @@ export default class SettingView extends PureComponent{
     }
     return (
       <Container style={{backgroundColor: '#edebf4'}}>
-        <CommonHeader title="系統設置" canBack {...this.props}/>
+        <CommonHeader title={i18n.setting} canBack {...this.props}/>
           <ScrollView>
           <TouchableWithoutFeedback delayLongPress={4000} onLongPress={() => {appStorage.removeAll();alert('清除緩存成功')}}>
-            <View style={{paddingTop: 20,justifyContent: 'flex-start',alignItems: 'center', height: 200}}>
+            <View style={{paddingTop: 20,paddingBottom: 20,justifyContent: 'flex-start',alignItems: 'center'}}>
               <Image source={require('./asset/icon_app.png')} style={{width: 80,height: 80,marginBottom: 20}}/>
-              <Text>有得食 v1.1.7 </Text>
+              <Text>{i18n.goforeat} v1.1.7 </Text>
             </View>
           </TouchableWithoutFeedback>
             {_list_arr.map((item,key) => (
-              <CommonItem key={key} content={item.content} isEnd={item.isEnd} clickFunc={item.clickFunc}/>
+              <CommonItem key={key} content={item.content} hasRightIcon={item.hasRightIcon} rightIcon={item.rightIcon} isEnd={item.isEnd} clickFunc={item.clickFunc}/>
             ))}
             {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
           </ScrollView>

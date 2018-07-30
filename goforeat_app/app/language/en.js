@@ -80,8 +80,8 @@ export default {
   unconfirm: 'unconfirmed',
   finish: 'finished',
   paymentStatus: 'Payment status',
-  weekMenu: 'This week menu',
-  dailyFood: 'Daily takeaway',
+  weekMenu: 'Weekly',
+  dailyFood: 'Daily',
   refresh: 'Refresh',
   login_tips: {
     success: {
