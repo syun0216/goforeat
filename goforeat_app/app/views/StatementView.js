@@ -1,8 +1,9 @@
 import React from 'react'
-import {View,StyleSheet} from 'react-native'
+import {View,StyleSheet,Image,TouchableOpacity,Linking} from 'react-native'
 import {
   Container,
   Content,
+  Footer
 } from 'native-base'
 //components
 import CommonHeader from '../components/CommonHeader'
@@ -17,7 +18,7 @@ import i18n from '../language/i18n';
 const StatementView = (props) => {
   const _content = {
     service: {
-      title: i18n[props.screenProps.language].service_text,
+      title: i18n[props.screenProps.language].services,
       content: `《 服務條款 》
       最近修訂日期：2018年2月11日
       介紹
@@ -143,7 +144,7 @@ const StatementView = (props) => {
       · 對服務而言，再次提供服務或支付再次提供服務的費用。`
     },
     policy: {
-      title: i18n[props.screenProps.language].privacy_text,
+      title: i18n[props.screenProps.language].policy,
       content: `《私隱政策》
       最近修訂日期：2018年2月11日
       引言
@@ -243,7 +244,7 @@ const StatementView = (props) => {
       `
     },
     allowPolicy: {
-      title: i18n[props.screenProps.language].use_policy,
+      title: '允許使用政策',
       content: `《允許使用政策》
       最近修訂日期：2018年2月11日
       引言
@@ -292,7 +293,7 @@ const StatementView = (props) => {
       `
     },
     deletePolicy: {
-      title: i18n[props.screenProps.language].del_policy,
+      title: '刪除使用政策',
       content: `IPICK TAKE-DOWN POLICY
       INTRODUCTION
       At Tencent, we respect intellectual property rights and the owners of such rights.
@@ -324,7 +325,7 @@ const StatementView = (props) => {
       `
     },
     about: {
-      title: i18n[props.screenProps.language].about_text,
+      title: i18n[props.screenProps.language].about,
       content: `聲明
 
         此版本適用於Apple iOS系列操作系統的iPhone、iPod touch等設備。本軟件的安裝使用受Goforeat Technoloy Limited《服務條款、私隱政策、允許使用政策及iPick刪除內容政策》的約束。
@@ -610,6 +611,20 @@ const StatementView = (props) => {
           {name === 'service' ? this._renderServiceView() : null}
         </View>    
       </Content>
+      {name == 'about' ? <Footer style={{flexDirection: 'row',justifyContent:'space-around',alignItems: 'center',borderTopWidth: 0,height: 100,backgroundColor: 'transparent'}}>
+        <TouchableOpacity onPress={() => {
+          Linking.openURL('https://www.instagram.com/floggerhk')
+          .catch(err => alert(err));
+        }}>
+          <Image style={styles.bottomImg} source={require('../asset/instagram.png')}/>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          Linking.openURL('https://www.facebook.com/GoforeatHK/?ref=aymt_homepage_panel')
+          .catch(err => alert(err));
+        }}>
+          <Image style={styles.bottomImg} source={require('../asset/facebook3.png')}/>
+        </TouchableOpacity>
+      </Footer> : null}
     </Container>)
 }
 
@@ -625,6 +640,14 @@ const styles = StyleSheet.create({
     elevation: 3,
     marginBottom: 10,
     backgroundColor: Colors.main_white
+  },
+  bottomImg: {
+    width: 40,
+    height: 40,
+    marginBottom: 10
+  },
+  bottomView: {
+    alignItems: 'center'
   }
 })
 export default StatementView
