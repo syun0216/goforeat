@@ -20,6 +20,14 @@ android的打包方法:
     * 选择'Generic iOS Device'
     * Product->Archive
 
+### 最新功能
+支持多语言  
+ <p align="left">
+  <img src="./display/v11710.png" width="200">
+  <img src="./display/v1179.png" width="200">
+  <img src="./display/v11711.png" width="200">
+</p>
+
 ### v 1.1.7 
 1、全新登錄頁和訂單頁
 2、支持線上信用卡支付
