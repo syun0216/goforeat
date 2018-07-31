@@ -12,6 +12,8 @@ import Text from '../components/UnScalingText';
 import Colors from '../utils/Colors';
 //language
 import i18n from '../language/i18n';
+//styles 
+import CommonStyle from '../styles/common.style';
 
 
 
@@ -600,7 +602,7 @@ const StatementView = (props) => {
   )
   const {name} = props.navigation.state.params
   return (
-    <Container  style={{backgroundColor: '#edebf4'}}>
+    <Container>
       <CommonHeader title={_content[name].title} canBack="canBack" {...props}/>
       <Content>
         <View style={styles.statementContainer}>
@@ -611,7 +613,29 @@ const StatementView = (props) => {
           {name === 'service' ? this._renderServiceView() : null}
         </View>    
       </Content>
-      {name == 'about' ? <Footer style={{flexDirection: 'row',justifyContent:'space-around',alignItems: 'center',borderTopWidth: 0,height: 100,backgroundColor: 'transparent'}}>
+      {name == 'about' ? 
+      <View style={CommonStyle.BottomView}>
+        <View style={CommonStyle.DividerView}>
+          <View style={CommonStyle.Divider}/>
+          <Text style={CommonStyle.DividerText}>{i18n[props.screenProps.language].follow}</Text>
+          <View style={CommonStyle.Divider}/>
+        </View>
+        <View style={CommonStyle.BottomViewInner}>
+          <TouchableOpacity onPress={() => {
+            Linking.openURL('https://www.instagram.com/floggerhk')
+            .catch(err => alert(err));
+          }}>
+            <Image source={require('../asset/instagram.png')} style={CommonStyle.BottomViewInnerImage} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => {
+            Linking.openURL('https://www.facebook.com/GoforeatHK/?ref=aymt_homepage_panel')
+            .catch(err => alert(err));
+          }}>
+            <Image source={require('../asset/facebook3.png')} style={CommonStyle.BottomViewInnerImage} />
+          </TouchableOpacity>
+        </View>
+      </View> : null}
+      {/*name == 'about' ? <Footer style={{flexDirection: 'row',justifyContent:'space-around',alignItems: 'center',borderTopWidth: 0,height: 100,backgroundColor: 'transparent'}}>
         <TouchableOpacity onPress={() => {
           Linking.openURL('https://www.instagram.com/floggerhk')
           .catch(err => alert(err));
@@ -624,7 +648,7 @@ const StatementView = (props) => {
         }}>
           <Image style={styles.bottomImg} source={require('../asset/facebook3.png')}/>
         </TouchableOpacity>
-      </Footer> : null}
+      </Footer> : null*/}
     </Container>)
 }
 
@@ -633,11 +657,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    borderRadius: 5,
-    shadowColor: '#E8E2F2',
-    shadowOpacity: 0.8,
-    shadowOffset: {width: 0,height: 8},
-    elevation: 3,
     marginBottom: 10,
     backgroundColor: Colors.main_white
   },

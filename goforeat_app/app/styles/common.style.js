@@ -39,7 +39,43 @@ const common = {
     fontSize: 25,
     paddingLeft: 10,
     paddingRight: 20
-  }
+  },
+  //_renderBottomView
+  BottomView: {
+    width: GLOBAL_PARAMS._winWidth,
+    height: GLOBAL_PARAMS._winHeight*0.15
+  },
+  BottomViewInner: {
+    flexDirection: 'row',
+    alignItems:'center',
+    justifyContent: 'center',
+    height: GLOBAL_PARAMS._winHeight*0.11
+  },
+  BottomViewInnerImage: {
+    width: 40,
+    height: 40,
+    marginLeft: 30,
+    marginRight: 30
+  },
+  //renderDividerView
+  DividerView: {
+    flexDirection: 'row',
+    alignItems:'center',
+    justifyContent: 'space-around',
+  },
+  Divider:{
+    width: GLOBAL_PARAMS._winWidth*0.3,
+    marginLeft: 10,
+    marginRight: 10,
+    height:1,
+    backgroundColor: '#EBEBEB'
+  },
+  DividerText: {
+    fontSize: 16,
+    color: '#666666',
+    flex: 1,
+    textAlign: 'center',
+  },
 }
 
 export default common;
