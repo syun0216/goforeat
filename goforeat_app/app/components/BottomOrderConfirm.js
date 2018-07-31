@@ -98,7 +98,7 @@ export default class BottomOrderConfirm extends PureComponent {
           <Text style={{marginLeft: 5}}>HKD{" "}</Text>
           <Text style={[styles.commonText,{color:'#FF3348',width:Platform.OS == 'ios'?GLOBAL_PARAMS._winWidth<350?60:100:80,marginTop:-5,fontWeight:'600'}]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
         </View>
-        <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,width:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => btnClick()}>
+        <TouchableOpacity style={{backgroundColor:'#FF3348',height:49,minWidth:150,justifyContent:'center',alignItems:'center',marginRight:-10}} onPress={() => btnClick()}>
           <View style={styles.commonView}>
             <Text style={[styles.commonText,{color:'#fff'}]}>{this.props.btnMessage}</Text>
           </View>

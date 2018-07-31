@@ -49,7 +49,7 @@ const CommonHeader = (props) => {
         )
       )) : null}
     </Left>
-    <Body><Text allowFontScaling={false} style={[{color: props.textColor,fontSize: 16},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
+    <Body style={{minWidth: 200}}><Text allowFontScaling={false} style={[{color: props.textColor,fontSize: 16},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
     <Right>
       {props.hasRight ? (props.rightElement !== null ? <props.rightElement {...props}/> : (
         <Button transparent onPress={() => props.rightClick()}>

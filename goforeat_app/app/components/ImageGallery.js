@@ -1,23 +1,39 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator,TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types'
-import {Icon} from 'native-base';
+import { View, Text, ActivityIndicator } from 'react-native';
 import Gallery from 'react-native-image-gallery';
-//utils 
-import Colors from '../utils/Colors';
 
-export default class ImageGallery extends Component {
-    static propsType = {
-      onClose: PropTypes.func,
-      images: PropTypes.array
-    }
-
-
+export default class DemoGallery extends Component {
 
     constructor (props) {
         super(props);
         this.state = {
             index: 0,
+            images: [
+                // {
+                //     caption: 'This image is bundled with the app, so you must provide dimensions for it',
+                //     source: require('./static/images/placehold.jpg'),
+                //     dimensions: { width: 540, height: 720 }
+                // },
+                {
+                    caption: 'This image has a broken URL',
+                    source: { uri: 'http://wrongdomain.tld/images/wrongimage.jpg' }
+                },
+                {
+                    caption: 'Remote image with supplied dimensions',
+                    source: { uri: 'http://i.imgur.com/gSmWCJF.jpg' },
+                    dimensions: { width: 1200, height: 800 }
+                },
+                { caption: 'Caption 4', source: { uri: 'http://i.imgur.com/XP2BE7q.jpg' } },
+                { caption: 'Caption 5', source: { uri: 'http://i.imgur.com/5nltiUd.jpg' } },
+                { caption: 'Caption 6', source: { uri: 'http://i.imgur.com/6vOahbP.jpg' } },
+                { caption: 'Caption 7', source: { uri: 'http://i.imgur.com/kj5VXtG.jpg' } },
+                { caption: 'Caption 8', source: { uri: 'http://i.imgur.com/BN8RVGa.jpg' } },
+                { caption: 'Caption 9', source: { uri: 'http://i.imgur.com/jXbhTbv.jpg' } },
+                { caption: 'Caption 10', source: { uri: 'http://i.imgur.com/30s12Qj.jpg' } },
+                { caption: 'Caption 11', source: { uri: 'http://i.imgur.com/4A1Q49y.jpg' } },
+                { caption: 'Caption 12', source: { uri: 'http://i.imgur.com/JfVDTF9.jpg' } },
+                { caption: 'Caption 13', source: { uri: 'http://i.imgur.com/Vv4bmwR.jpg' } }
+            ]
         };
         this.onChangeImage = this.onChangeImage.bind(this);
 
@@ -29,7 +45,7 @@ export default class ImageGallery extends Component {
     addImages () {
         // Debugging helper : keep adding images at the end of the gallery.
         setInterval(() => {
-            const newArray = [...this.props.images, { source: { uri: 'http://i.imgur.com/DYjAHAf.jpg' } }];
+            const newArray = [...this.state.images, { source: { uri: 'http://i.imgur.com/DYjAHAf.jpg' } }];
             this.setState({ images: newArray });
         }, 5000);
     }
@@ -38,7 +54,7 @@ export default class ImageGallery extends Component {
         // Debugging helper : remove a given image after some delay.
         // Ensure the gallery doesn't crash and the scroll is updated accordingly.
         setTimeout(() => {
-            const newArray = this.props.images.filter((element, index) => index !== slideIndex);
+            const newArray = this.state.images.filter((element, index) => index !== slideIndex);
             this.setState({ images: newArray });
         }, delay);
     }
@@ -47,10 +63,11 @@ export default class ImageGallery extends Component {
         // Debugging helper : keep removing the last slide of the gallery.
         setInterval(() => {
             const { images } = this.state;
+            console.log(images.length);
             if (images.length <= 1) {
                 return;
             }
-            const newArray = this.props.images.filter((element, index) => index !== this.props.images.length - 1);
+            const newArray = this.state.images.filter((element, index) => index !== this.state.images.length - 1);
             this.setState({ images: newArray });
         }, 2000);
     }
@@ -69,21 +86,16 @@ export default class ImageGallery extends Component {
     }
 
     get caption () {
-        const { index } = this.state;
-        const {images} = this.props; 
+        const { images, index } = this.state;
         return (
-            <View style={{ bottom: 0, height: 65, backgroundColor: 'rgba(0, 0, 0, 0.7)', width: '100%', position: 'absolute', justifyContent: 'space-around',alignItems:'center',flexDirection:'row' }}>
+            <View style={{ bottom: 0, height: 65, backgroundColor: 'rgba(0, 0, 0, 0.7)', width: '100%', position: 'absolute', justifyContent: 'center' }}>
                 <Text style={{ textAlign: 'center', color: 'white', fontSize: 15, fontStyle: 'italic' }}>{ (images[index] && images[index].caption) || '' } </Text>
-                <TouchableOpacity style={{marginLeft: 10}} onPress={this.props.onClose.bind(this)}>
-                  <Icon name="md-close" style={{fontSize: 25,color:Colors.main_white}}/>
-                </TouchableOpacity>
             </View>
         );
     }
 
     get galleryCount () {
-        const { index } = this.state;
-        const {images} = this.props; 
+        const { index, images } = this.state;
         return (
             <View style={{ top: 0, height: 65, backgroundColor: 'rgba(0, 0, 0, 0.7)', width: '100%', position: 'absolute', justifyContent: 'center' }}>
                 <Text style={{ textAlign: 'right', color: 'white', fontSize: 15, fontStyle: 'italic', paddingRight: '10%' }}>{ index + 1 } / { images.length }</Text>
@@ -93,10 +105,10 @@ export default class ImageGallery extends Component {
 
     render () {
         return (
-            <View style={{ flex: 1,position: 'relative' }} >
+            <View style={{ flex: 1 }} >
                 <Gallery
                   style={{flex: 1, backgroundColor: '#696969'}}
-                  images={this.props.images}
+                  images={this.state.images}
                   errorComponent={this.renderError}
                   onPageSelected={this.onChangeImage}
                   initialPage={0}
