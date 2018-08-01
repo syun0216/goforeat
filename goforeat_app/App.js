@@ -5,11 +5,11 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, View, AppState,Alert} from 'react-native';
+import {Platform} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {Root} from 'native-base'
 import store from './app/store'
-import {Provider,connect} from 'react-redux';
+import {Provider} from 'react-redux';
 import DashboardView from './app/DashBoardView'
 //cache
 import appStorage from './app/cache/appStorage'
@@ -17,8 +17,8 @@ import appStorage from './app/cache/appStorage'
 import CodePush from 'react-native-code-push'
 //jpush
 import JPushModule from 'jpush-react-native';
-//api
-import api from './app/api';
+//utils
+import {getLanguage} from './app/utils/DeviceInfo';
 
 class App extends Component < {} > {
   componentWillMount() {
@@ -26,7 +26,6 @@ class App extends Component < {} > {
     // console.log(pushEnabled);
     // api.getNotifications().then(data => console.log(data));
     // appStorage.removeAll()
-    SplashScreen.hide(); // 隐藏启动页
     appStorage.getLoginUserJsonData((error, data) => {
       if (error === null && data != null) {
         if (store.getState().auth.username === null) {
@@ -49,6 +48,19 @@ class App extends Component < {} > {
         }
       }
     })
+    appStorage.getLanguage((error,data) => {
+      if(error == null) {
+        if(data != null) {
+          store.dispatch({type: 'CHANGE_LANGUAGE', language: data});
+        }
+        else {
+          if(getLanguage().indexOf('zh') == -1) { //判断系统语言环境,如果不是中文环境则自动设定英文语言
+            store.dispatch({type: 'CHANGE_LANGUAGE', language: 'en'});
+          }
+        }
+      }
+    })
+    SplashScreen.hide(); // 隐藏启动页
   }
 
 
