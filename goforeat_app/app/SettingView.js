@@ -3,7 +3,7 @@ import {View,StyleSheet,Alert,Linking,Image,ScrollView,Platform,TouchableWithout
 import {Container,ActionSheet} from 'native-base'
 //utils
 import ToastUtil from './utils/ToastUtil';
-import GLOBAL_PARAMS from './utils/global_params';
+import {getVersion} from './utils/DeviceInfo';
 //components
 import CommonHeader from './components/CommonHeader';
 import CommonItem from './components/CommonItem';
@@ -129,7 +129,7 @@ export default class SettingView extends PureComponent{
           <TouchableWithoutFeedback delayLongPress={4000} onLongPress={() => {appStorage.removeAll();alert('清除緩存成功')}}>
             <View style={{paddingTop: 20,paddingBottom: 20,justifyContent: 'flex-start',alignItems: 'center'}}>
               <Image source={require('./asset/icon_app.png')} style={{width: 80,height: 80,marginBottom: 20}}/>
-              <Text>{i18n.goforeat} v1.1.7 </Text>
+              <Text>{i18n.goforeat}   v{getVersion()} </Text>
             </View>
           </TouchableWithoutFeedback>
             {_list_arr.map((item,key) => (
