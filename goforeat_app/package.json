@@ -19,6 +19,7 @@
     "react": "16.2.0",
     "react-native": "0.52.2",
     "react-native-code-push": "^5.3.2",
+    "react-native-device-info": "^0.22.2",
     "react-native-fbsdk": "^0.7.0",
     "react-native-i18n": "^2.0.12",
     "react-native-image-gallery": "^2.1.5",
