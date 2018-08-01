@@ -1,37 +1,57 @@
-import {Platform,Alert,Linking} from 'react-native'
-import ToastUtil from './ToastUtil'
+import {
+    Platform,
+    Alert,
+    Linking
+} from 'react-native'
+import ToastUtil from './ToastUtil';
+//language
+import I18n from '../language/i18n';
 
 const LinkingUtils = {
-  dialPhoneWithNumber(phoneNumber) {
-      if (phoneNumber == null || phoneNumber.length == 0) {
-          return;
-      }
+    dialingToCancelOrder(phoneNumber, language) {
+        if (phoneNumber == null || phoneNumber.length == 0) {
+            return;
+        }
+        Alert.alert(null, `${I18n[language].dialingToCancelOrder}(${phoneNumber})`,[
+            {
+                text: I18n[language].confirm,
+                onPress: () => {
+                    this._dialPhone(phoneNumber, language);
+                }
+            }
+        ]);
+    },
+    dialPhoneWithNumber(phoneNumber, language) {
+        if (phoneNumber == null || phoneNumber.length == 0) {
+            return;
+        }
 
-      if (Platform.OS == 'ios'){
-          Alert.alert(null
-              , '是否撥打電話:' + phoneNumber + '?'
-              , [
-                  {text: '取消'},
-                  {text: '確定', onPress: () => this._dialPhone(phoneNumber)}
-              ]
-          );
-      } else {
-          this._dialPhone(phoneNumber);
-      }
-  },
+        if (Platform.OS == 'ios') {
+            Alert.alert(null, `${I18n[language].dialing}:` + phoneNumber + '?', [{
+                    text: I18n[language].cancel
+                },
+                {
+                    text: I18n[language].confirm,
+                    onPress: () => this._dialPhone(phoneNumber,language)
+                }
+            ]);
+        } else {
+            this._dialPhone(phoneNumber, language);
+        }
+    },
 
-  _dialPhone(phone) {
-      let dialPhoneUrl = "tel:" + phone;
-      Linking.canOpenURL(dialPhoneUrl).then(supported => {
-          if (!supported) {
-              ToastUtil.showWithMessage("不支持撥打電話");
-          } else {
-              return Linking.openURL(dialPhoneUrl);
-          }
-      }).catch(error => {
-          ToastUtil.showWithMessage("撥打用戶號碼失敗");
-      });
-  },
+    _dialPhone(phone, language) {
+        let dialPhoneUrl = "tel:" + phone;
+        Linking.canOpenURL(dialPhoneUrl).then(supported => {
+            if (!supported) {
+                ToastUtil.showWithMessage(I18n[language].notSupportDialing);
+            } else {
+                return Linking.openURL(dialPhoneUrl);
+            }
+        }).catch(error => {
+            ToastUtil.showWithMessage(I18n[language].dialingFail);
+        });
+    },
 }
 
 export default LinkingUtils

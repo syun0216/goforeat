@@ -34,6 +34,8 @@ import Divider from "../components/Divider";
 //styles
 import ConfirmOrderStyles from '../styles/confirmorder.style';
 import CommonStyles from '../styles/common.style';
+//language
+import I18n from '../language/i18n';
 
 const slideAnimation = new SlideAnimation({
   slideFrom: "bottom"
@@ -63,7 +65,8 @@ export default class ConfirmOrderView extends PureComponent {
     coupon: null,
     discountsPrice: 0,
     remark: '',
-    showPlacePicker: false
+    showPlacePicker: false,
+    i18n: I18n[this.props.screenProps.language]
   };
 
   componentDidMount() {
@@ -79,6 +82,7 @@ export default class ConfirmOrderView extends PureComponent {
 
   _createOrder = () => {
     let {foodId,placeId,amount} = this.props.navigation.state.params;
+    let {i18n} = this.state;
     api.createOrder(foodId,this.props.screenProps.sid,placeId,amount).then(
       data => {
         if (data.status === 200 && data.data.ro.ok) {
@@ -94,8 +98,8 @@ export default class ConfirmOrderView extends PureComponent {
           Alert.alert(null
             , data.data.ro.respMsg
             , [
-                {text: '取消'},
-                {text: '確定', onPress: () => this.props.navigation.goBack()}
+                {text: i18n.cancel},
+                {text: i18n.confirm, onPress: () => this.props.navigation.goBack()}
             ]
           );
           // alert(data.data.ro.respMsg);
@@ -108,24 +112,25 @@ export default class ConfirmOrderView extends PureComponent {
       },
       () => {
         this.setState({loading: false,isError: true});
-        ToastUtil.showWithMessage("獲取訂單信息失敗");
+        ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.get_order);
       }
     );
   };
 
   async _confirmOrder() {
+    let {i18n} = this.state;
     let payment = PAY_TYPE[this.props.screenProps.paytype];
     let {creditCardInfo} = this.props.screenProps;
     let token = null;
     if (this.state.orderDetail === null) {
-      ToastUtil.showWithMessage("確認訂單失敗");
+      ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.confirm_order);
       return;
     }
     switch(payment) {
       case PAY_TYPE.apple_pay:case PAY_TYPE.android_pay: {
         let _pay_res = new Promise((resolve,reject) => {this.handlePayWithAppleOrAndroid(resolve, reject,payment)})
         _pay_res.then(data => {
-          console.log(data);
+          this._confirmOrderWithToken(data);
         }).catch(err => ToastUtil.showWithMessage('取消了支付'));
       };break;
       case PAY_TYPE.credit_card: {
@@ -140,7 +145,7 @@ export default class ConfirmOrderView extends PureComponent {
           // address_zip: '12345'
        });
        if(!token.hasOwnProperty('id')) {
-        ToastUtil.showWithMessage('你的卡片暫未支持,請見諒')
+        ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.not_support)
         this.setState({
           loadingModal: false
         })
@@ -148,34 +153,44 @@ export default class ConfirmOrderView extends PureComponent {
       }
       // console.log(token);
        token = token.id;
+       this._confirmOrderWithToken(token);
       };break;
       case PAY_TYPE.cash: {
-
+        this._confirmOrderWithToken(token);
       };break;
     }
-    this._confirmOrder(token);
+    
   };
 
-  _confirmOrder(token) {
+  _confirmOrderWithToken(token) {
     let {orderDetail:{totalMoney,orderId},discountsPrice,coupon,remark} = this.state;
     totalMoney = totalMoney - discountsPrice;
     let payment = PAY_TYPE[this.props.screenProps.paytype];
+    let {i18n} = this.state;
+    let _appleAndAndroidPayRes = null;
+    if(payment == PAY_TYPE.android_pay || payment == PAY_TYPE.apple_pay) {
+      _appleAndAndroidPayRes = token;
+      token = _appleAndAndroidPayRes.details.paymentToken;
+    }
     api.confirmOrder(orderId,this.props.screenProps.sid,coupon,totalMoney,payment,token,remark).then(
       data => {
         this.setState({
           loadingModal: false
         })
         if (data.status === 200 && data.data.ro.ok) {
-          ToastUtil.showWithMessage("下單成功");
+          ToastUtil.showWithMessage(i18n.confirmorder_tips.success.order);
           this._popupDialog.dismiss();
           this.props.navigation.goBack();
+          if(payment == PAY_TYPE.android_pay || payment == PAY_TYPE.apple_pay) {
+            _appleAndAndroidPayRes.complete('success');
+          }
         } else {
-          let _message = payment == PAY_TYPE.credit_card ? ',請核對信用卡信息是否正確' : '';
+          let _message = payment == PAY_TYPE.credit_card ? `,${i18n.confirmorder_tips.fail.check_card}` : '';
           ToastUtil.showWithMessage(data.data.ro.respMsg+_message);
         }
       },
       () => {
-        ToastUtil.showWithMessage("下單失敗");
+        ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.order);
         this.setState({
           loadingModal: false
         })
@@ -184,17 +199,18 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _useCoupon = () => {
+    let {i18n} = this.state;
     if(this.state.coupon == null) {
-      ToastUtil.showWithMessage("請輸入優惠碼");
+      ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.coupon_null);
       return ;
     }
     if(this.state.discountsPrice > 0) {
-      ToastUtil.showWithMessage("您已經優惠過了");
+      ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.coupon_used);
       return;
     }
     api.useCoupon(this.state.coupon,this.props.screenProps.sid).then(data => {
       if(data.status === 200 && data.data.ro.ok) {
-        ToastUtil.showWithMessage("優惠成功");
+        ToastUtil.showWithMessage(i18n.confirmorder_tips.success.coupon);
         this.setState({
           discountsPrice: data.data.data.money
         })
@@ -203,24 +219,25 @@ export default class ConfirmOrderView extends PureComponent {
       }
     }).catch(() => {
       () => {
-        ToastUtil.showWithMessage("獲取優惠失敗");
+        ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.get_coupon);
       }
     })
   }
 
   _currentPayType = () => {
+    let {i18n} = this.state;
     switch(this.props.screenProps.paytype) {
-      case 'cash': return '現金支付';
+      case 'cash': return i18n.cash;
       case 'apple_pay': return 'Apple Pay';
-      case 'credit_card': return '信用卡支付';
+      case 'credit_card': return i18n.credit;
       case 'ali': return '支付寶支付';
       case 'wechat': return '微信支付';
-      default: return '現金支付';
+      default: return i18n.cash;
     }
   }
 
   getSeletedValue = (val) => {
-    console.log(val);
+    // console.log(val);
   }
 
   //private function
@@ -267,7 +284,7 @@ export default class ConfirmOrderView extends PureComponent {
     }
 
     const details = {
-      id: 'basic-example',
+      id: 'goforeat_pay',
       displayItems: [
         {
           label: orderDetail[0].foodName,
@@ -275,7 +292,7 @@ export default class ConfirmOrderView extends PureComponent {
         }
       ],
       total: {
-        label: orderDetail[0].foodName,
+        label: 'Goforeat',
         amount: { currency: 'HKD', value: totalMoney }
       }
     };
@@ -295,7 +312,7 @@ export default class ConfirmOrderView extends PureComponent {
 
   _openDialog = () => {
     if(this.state.orderDetail === null) {
-        ToastUtil.showWithMessage("下單失敗");
+        ToastUtil.showWithMessage(this.state.i18n.confirmorder_tips.fail.order);
         return;
     }
     this._popupDialog.show(() => {
@@ -315,10 +332,11 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _renderPopupDiaogView() {
+      let {i18n} = this.state;
       let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail},discountsPrice} = this.state;
       totalMoney = totalMoney - this.state.discountsPrice;
       return (<PopupDialog
-      dialogTitle={<DialogTitle title="您的訂單" />}
+      dialogTitle={<DialogTitle title={i18n.myOrder} />}
       width={GLOBAL_PARAMS._winWidth * 0.9}
       height={GLOBAL_PARAMS._winHeight * 0.65*(667/ GLOBAL_PARAMS._winHeight)}
       ref={popupDialog => {
@@ -331,30 +349,30 @@ export default class ConfirmOrderView extends PureComponent {
       <Container>
         <Content>
           <ListItem last style={ConfirmOrderStyles.CommonListItem}>
-            <Text style={CommonStyles.common_title_text}>下單電話:</Text>
+            <Text style={CommonStyles.common_title_text}>{i18n.bookPhone}:</Text>
             <Text style={CommonStyles.common_title_text}>{this.props.screenProps.user}</Text>
           </ListItem>
           <Separator bordered>
-            <Text style={CommonStyles.common_title_text}>訂單詳情</Text>
+            <Text style={CommonStyles.common_title_text}>{i18n.orderDetail}</Text>
           </Separator>
           <ListItem style={ConfirmOrderStyles.CommonListItem}>
-            <Text style={CommonStyles.common_title_text}>菜品名稱</Text>
+            <Text style={CommonStyles.common_title_text}>{i18n.foodName}</Text>
             <Text style={[CommonStyles.common_title_text,Platform.OS=='android'?{maxWidth:150}:null]}>{orderDetail[0].foodName}</Text>
           </ListItem>
           <ListItem style={ConfirmOrderStyles.CommonListItem}>
-            <Text style={CommonStyles.common_title_text}>數量</Text>
+            <Text style={CommonStyles.common_title_text}>{i18n.quantity}</Text>
             <Text style={CommonStyles.common_title_text}>{orderDetail[0].foodNum}</Text>
           </ListItem>
           <ListItem style={ConfirmOrderStyles.CommonListItem}>
-            <Text style={CommonStyles.common_title_text}>取餐地點</Text>
+            <Text style={CommonStyles.common_title_text}>{i18n.foodAddress}</Text>
             <Text tyle={CommonStyles.common_title_text}>{takeAddressDetail}</Text>
           </ListItem>
           <ListItem style={ConfirmOrderStyles.CommonListItem}>
-            <Text style={CommonStyles.common_title_text}>取餐時間</Text>
+            <Text style={CommonStyles.common_title_text}>{i18n.foodTime}</Text>
             <Text style={[CommonStyles.common_title_text,{maxWidth: 200}]} numberOfLines={1}>{takeDate}{" "}{takeTime}</Text>
           </ListItem>
           <ListItem style={ConfirmOrderStyles.CommonListItem} last>
-            <Text style={CommonStyles.common_title_text}>總計</Text>
+            <Text style={CommonStyles.common_title_text}>{i18n.total}</Text>
             <Text style={[CommonStyles.common_title_text,{color:'#FF3348'}]}>HKD {totalMoney}</Text>
           </ListItem>          
         </Content>
@@ -367,7 +385,7 @@ export default class ConfirmOrderView extends PureComponent {
             <Text
               style={ConfirmOrderStyles.ConfirmBtnText}
             >
-              確認訂單
+              {i18n.sendOrder}
             </Text>
           </Button>
         </Footer>
@@ -381,20 +399,21 @@ export default class ConfirmOrderView extends PureComponent {
         <Input 
           style={ConfirmOrderStyles.CouponInput}
           placeholderTextColor="#999999"
-          placeholder='優惠碼'
+          placeholder={this.state.i18n.couponCode}
           multiline={false}
           autoFocus={false}
           returnKeyType="done"
           onChangeText={coupon => this._getCoupon(coupon)}
         />
         <TouchableOpacity onPress={this._useCoupon} style={ConfirmOrderStyles.CouponBtn}>
-          <Text style={ConfirmOrderStyles.CouponText}>使用</Text>
+          <Text style={ConfirmOrderStyles.CouponText}>{this.state.i18n.use}</Text>
         </TouchableOpacity>
       </View>
     )
   }
 
   _renderNewOrderView() {
+    let {i18n} = this.state;
     let {orderDetail:{totalMoney,orderDetail},discountsPrice} = this.state;
     totalMoney = totalMoney - discountsPrice;
     return (
@@ -404,13 +423,13 @@ export default class ConfirmOrderView extends PureComponent {
         <Text style={ConfirmOrderStyles.MoneyUnit} numberOfLines={1}>HKD {orderDetail[0].foodMoney.toFixed(2)}</Text>
         </View>
         <View style={[ConfirmOrderStyles.CountView,styles.commonMarginBottom]}>
-          <Text style={ConfirmOrderStyles.CountText}>數量:</Text>
+          <Text style={ConfirmOrderStyles.CountText}>{i18n.quantity}:</Text>
           <Text style={ConfirmOrderStyles.FoodNum}>{orderDetail[0].foodNum}</Text>
         </View>
         <Divider bgColor="#EBEBEB" height={1}/>
         {
           discountsPrice>0? <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop]}>
-          <Text style={ConfirmOrderStyles.TotalText}>優惠金額</Text>
+          <Text style={ConfirmOrderStyles.TotalText}>{i18n.discount}</Text>
           <View style={ConfirmOrderStyles.NewsInner}>
             <Text style={ConfirmOrderStyles.CouponUnit}>- HKD</Text>
             <Text style={ConfirmOrderStyles.CouponMoney} numberOfLines={1}>{discountsPrice.toFixed(2)}</Text>
@@ -418,7 +437,7 @@ export default class ConfirmOrderView extends PureComponent {
         </View> : null
         }
         <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop,styles.commonMarginBottom]}>
-          <Text style={ConfirmOrderStyles.TotalText}>總金額</Text>
+          <Text style={ConfirmOrderStyles.TotalText}>{i18n.total}</Text>
           <View style={ConfirmOrderStyles.NewsInner}>
             <Text style={ConfirmOrderStyles.MoneyUnit}>HKD</Text>
             <Text style={ConfirmOrderStyles.TotalMoney} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
@@ -430,14 +449,15 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _renderNewDetailsView() {
+    let {i18n} = this.state;
     let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
     let _details_arr = [
-      {title:'取餐日期',content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false,clickFunc:()=>{}},
-      {title:'取餐地點',content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false,clickFunc:()=>{
+      {title:i18n.fooddate,content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false,clickFunc:()=>{}},
+      {title:i18n.foodAddress,content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false,clickFunc:()=>{
 
       }},
-      {title:'預計取餐時間',content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {}},
-      {title:'支付方式',content:this._currentPayType(),hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {
+      {title:i18n.foodTime,content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {}},
+      {title:i18n.payment,content:this._currentPayType(),hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {
         this.props.navigation.navigate('PayType',{
           from:'confirm_order'
         });
@@ -445,10 +465,10 @@ export default class ConfirmOrderView extends PureComponent {
     ];
     return (
       <View style={styles.commonNewContainer}>
-        <Text style={[ConfirmOrderStyles.Title,styles.commonMarginBottom,styles.commonMarginTop]}>取餐資料</Text>
+        <Text style={[ConfirmOrderStyles.Title,styles.commonMarginBottom,styles.commonMarginTop]}>{i18n.foodInformation}</Text>
         {_details_arr.map((item,idx) => this._renderCommonDetailView(item,idx))}
         <View style={[styles.commonDetailsContainer,styles.commonMarginBottom]}>
-          <Text style={{color:'#999999',marginBottom: 10}}>送餐備註</Text>
+          <Text style={{color:'#999999',marginBottom: 10}}>{i18n.remark}</Text>
           <Input allowFontScaling={false} style={ConfirmOrderStyles.Input} placeholderTextColor="#999" 
           placeholder="例如:加飯、少辣" clearButtonMode="while-editing" onChangeText={(val) => this._getRemark(val)}/>
         </View>
@@ -479,24 +499,25 @@ export default class ConfirmOrderView extends PureComponent {
 
   _renderBottomConfirmView() {
     return (
-      <BottomOrderConfirm isShow={this.state.isBottomShow} total={this.props.navigation.state.params.total-this.state.discountsPrice}  btnMessage="立即下單" btnClick={this._openDialog} canClose={false}/>
+      <BottomOrderConfirm isShow={this.state.isBottomShow} total={this.props.navigation.state.params.total-this.state.discountsPrice}  btnMessage={this.state.i18n.orderNow} btnClick={this._openDialog} canClose={false}/>
     )
   }
 
   render() {
+    let {i18n} = this.state;
     return (
       <Container>
         {this.state.orderDetail !== null ? this._renderPopupDiaogView() : null}
         <CommonHeader
           canBack
-          title="訂單確認頁"
+          title={i18n.detailPage}
           titleStyle={{ fontSize: 18, fontWeight: "bold" }}
           {...this["props"]}
         />
         {this.state.loading ? <Loading/> : null}
         {this.state.loadingModal ? <LoadingModal message="支付中..."/> : null}
         {this.state.isError ? (
-          <ErrorPage errorToDo={this._createOrder} errorTips="加載失敗,請點擊重試"/>
+          <ErrorPage errorToDo={this._createOrder} errorTips={i18n.common_tips.reload} {...this.props}/>
         ) : null}
         <Content style={{ backgroundColor: '#edebf4' }} padder>
           {this.state.isExpired ? (

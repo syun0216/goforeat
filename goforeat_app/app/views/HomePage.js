@@ -35,14 +35,19 @@ import BottomOrderConfirm from '../components/BottomOrderConfirm';
 import MoreDetailModal from '../components/MoreDetailModal';
 import WarningTips from '../components/WarningTips';
 import Text from '../components/UnScalingText';
-//language
-import i18n from "../language/i18n";
+// language
+import I18n from "../language/i18n";
 //cache 
 import appStorage from '../cache/appStorage';
 
 const SLIDER_1_FIRST_ITEM = 0;
 
 class HomePage extends Component {
+  static navigationOptions = ({screenProps}) => {
+    return ({
+    tabBarLabel: I18n[screenProps.language].dailyFood
+  })};
+
   _current_offset = 0;
   _SliderEntry = null;
   _timer = null;
@@ -56,7 +61,6 @@ class HomePage extends Component {
       isError: false,
       loading: false,
       refreshing: false,
-      i18n: i18n[this.props.screenProps.language],
       placeSelected: null,
       formatDate: {
         date: '',
@@ -67,18 +71,19 @@ class HomePage extends Component {
       isBottomContainerShow: false,
       foodCount: 0,
       showPlacePicker: false,
-      showMoreDetail: false
+      showMoreDetail: false,
+      i18n: I18n[props.screenProps.language]
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      i18n: i18n[nextProps.screenProps.language]
-    });
     if(!this.state.isBottomContainerShow&&(nextProps.screenProps.refresh != this.state.refreshParams)&&nextProps.screenProps.refresh!= null) {
       this._reloadPage();
     }
     this.setState({refreshParams: nextProps.screenProps.refresh})
+    this.setState({
+      i18n: I18n[nextProps.screenProps.language]
+    })
   }
 
   componentDidMount() {
@@ -109,23 +114,24 @@ class HomePage extends Component {
   }
 
   _formatDate(timestamp,endTimestamp) {
+    let {i18n} = this.state;
     let _Date = new Date(timestamp);
     let _endDate = new Date(endTimestamp);
     let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,
     _Date.getDate() < 10 ? `0${_Date.getDate()}`:_Date.getDate(),_Date.getFullYear()].join('-');
-    let _endDate_format = '截止時間';
+    let _endDate_format = i18n.endTime;
     let _getWeekDay = (date) => {
       let _week_day = null;
       switch(date) 
       { 
-        case 0:_week_day = "星期日";break; 
-        case 1:_week_day = "星期一";break; 
-        case 2:_week_day = "星期二";break; 
-        case 3:_week_day = "星期三";break; 
-        case 4:_week_day = "星期四";break; 
-        case 5:_week_day = "星期五";break; 
-        case 6:_week_day = "星期六";break; 
-        default:_week_day = "系统错误！" 
+        case 0:_week_day = i18n.sun;break; 
+        case 1:_week_day = i18n.mon;break; 
+        case 2:_week_day = i18n.tuse;break; 
+        case 3:_week_day = i18n.wed;break; 
+        case 4:_week_day = i18n.thr;break; 
+        case 5:_week_day = i18n.fir;break; 
+        case 6:_week_day = i18n.sat;break; 
+        default:_week_day = i18n.common_tips.err 
       } 
       return _week_day;
     }
@@ -259,7 +265,7 @@ class HomePage extends Component {
     return (
       <View style={HomePageStyles.DateFormatView}>
         <Text style={HomePageStyles.DateFormatWeekText}>
-        {this.state.formatDate.week}的餐單</Text>
+        {this.state.formatDate.week}{this.state.i18n.menu}</Text>
         <Text style={HomePageStyles.DateFormatDateText}>{this.state.formatDate.date}</Text>
       </View>
     )
@@ -287,7 +293,7 @@ class HomePage extends Component {
         <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1}>{foodDetails[0].foodName}</Text>
         <Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.props.navigation.navigate('MoreDetail',{
           item: foodDetails[0]
-        })}>詳情</Text>
+        })}>{this.state.i18n.foodDetail}</Text>
       </View>
         <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodDetails[0].foodBrief}</Text>
       </View>
@@ -387,9 +393,10 @@ class HomePage extends Component {
   }
 
   render() {
+    let {i18n} = this.state;
     const example1 = this.mainExample(
       1,
-      `- ${this.state.i18n.recommend_text} -`
+      `- 為您推薦 -`
     );
     return (
       <Container style={HomePageStyles.ContainerBg}>
@@ -411,11 +418,12 @@ class HomePage extends Component {
         {this.state.isError ? (
           <ErrorPage
             errorToDo={this._onErrorToRetry}
-            errorTips="加載失败,請點擊重試"
+            errorTips={i18n.common_tips.reload}
+            {...this.props}
           />
         ) : null}
         {this.state.loading ? <Loading /> : null}
-        {this.state.foodDetails != null && this.state.foodDetails.length >0  ? <BottomOrderConfirm {...this.props} 
+        {this.state.foodDetails != null && this.state.foodDetails.length >0  ? <BottomOrderConfirm btnMessage={i18n.book} {...this.props} 
         isShow={this.state.isBottomContainerShow} 
         total={this.state.foodCount*this.state.foodDetails[0].price}
         btnClick={this._goToOrder}
@@ -434,7 +442,6 @@ class HomePage extends Component {
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
         {/*this._renderWarningView()*/}
         {example1}
-        {this.state.foodDetails != null?this._renderMoreDetailModal():null}
         {this.state.foodDetails != null ? this._renderIntroductionView() : null}
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
         {this.state.foodDetails != null ? this._renderDeadLineDate() : null}

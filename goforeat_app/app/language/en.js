@@ -50,6 +50,7 @@ export default {
   fooddate: 'Pick-up Date',
   foodAddress: 'Pick-up Area',
   foodTime: 'Pick-up Time',
+  discount: 'Discounted price',
   bookPhone: 'My Phone Number',
   orderDetail: 'Order Details',
   foodDetail: 'Details',
@@ -83,6 +84,11 @@ export default {
   weekMenu: 'Weekly',
   dailyFood: 'Daily',
   refresh: 'Refresh',
+  follow: 'Follow us',
+  dialing: 'Whether to call',
+  dialingToCancelOrder: 'Call customer service for a refund now?',
+  notSupportDialing: 'Call not supported',
+  dialingFail: 'Failed to dial number',
   login_tips: {
     success: {
       code: 'Verifying code has been sent successfully',

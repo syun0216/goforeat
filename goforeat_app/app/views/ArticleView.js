@@ -51,6 +51,12 @@ export default class ArticleView extends Component {
     this._onRequestFirstPageData()
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: I18n[nextProps.screenProps.language]
+    })
+  }
+
   componentWillUnmount() {
     source.cancel()
   }
@@ -131,7 +137,7 @@ export default class ArticleView extends Component {
         })
         requestParams.currentOffset = requestParams.nextOffset
       }else{
-        ToastUtil.showWithMessage('加載文章失敗')
+        ToastUtil.showWithMessage(this.state.i18n.article_tips.fail.load)
         requestParams.nextOffset = requestParams.currentOffset
         this.setState({
           loadingStatus: {
@@ -183,7 +189,7 @@ export default class ArticleView extends Component {
       onEndReachedThreshold={0.01}
       onEndReached={() => this._onEndReach()}
       // ListHeaderComponent={() => <ArticleSwiper />}
-      ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}
+      ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>)}
       refreshControl={
         <RefreshControl
           refreshing={this.state.refreshing}
@@ -216,7 +222,7 @@ export default class ArticleView extends Component {
     <CommonHeader title={i18n.weekMenu} {...this.props}/>
     {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
       <Loading/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
-        <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage}/> : null)}
+        <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : null)}
       <View style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
         {
             this.state.articleList !== null

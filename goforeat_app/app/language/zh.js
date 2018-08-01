@@ -49,6 +49,7 @@ export default {
   fooddate: '取餐日期',
   foodAddress: '取餐地點',
   foodTime: '預計取餐時間',
+  discount: '優惠金額',
   bookPhone: '下單電話',
   orderDetail: '訂單詳情',
   foodDetail: '詳情',
@@ -82,6 +83,11 @@ export default {
   weekMenu: '本週菜單',
   dailyFood: '每日推薦',
   refresh: '刷新',
+  follow: '關注我們',
+  dialing: '是否撥打電話',
+  dialingToCancelOrder: '立即致電客服人員進行退款?',
+  notSupportDialing: '不支持撥打電話',
+  dialingFail: '撥打用戶號碼失敗',
   login_tips: {
     success: {
       code: '驗證碼發送成功',

@@ -8,16 +8,18 @@ import CommonHeader from '../components/CommonHeader';
 import LinkingUtils from '../utils/LinkingUtils';
 import Colors from '../utils/Colors';
 import ToastUtil from '../utils/ToastUtil';
+//language
+import i18n from '../language/i18n';
 
 const UserHelper = (props) => {
-  let _phonecall = () => LinkingUtils.dialPhoneWithNumber(52268745);
+  let {language} = props.screenProps;
   const _list_arr = [
-    {content: '電話聯繫',isEnd: false,clickFunc: () => LinkingUtils.dialPhoneWithNumber(52268745)},
-    // {content: '在線支援',isEnd: true,clickFunc: () => {ToastUtil.showWithMessage('該功能暫未開放')}},
+    {content: i18n[language].phone,isEnd: false,clickFunc: () => LinkingUtils.dialPhoneWithNumber(52268745,props.screenProps.language)},
+    // {content: i18n[language].online,isEnd: true,clickFunc: () => {ToastUtil.showWithMessage('該功能暫未開放')}},
   ]
   return (
     <Container>
-      <CommonHeader canBack title="用戶支援" {...props}/>
+      <CommonHeader canBack title={i18n[language].contact} {...props}/>
       <Content style={{backgroundColor:Colors.main_white}}>
         <View>
         {_list_arr.map((item,key) => (

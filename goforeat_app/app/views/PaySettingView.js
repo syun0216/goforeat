@@ -14,6 +14,8 @@ import PaySettingStyles from '../styles/paysetting.style';
 import CommonStyles from '../styles/common.style';
 //cache
 import AppStorage from '../cache/appStorage';
+//language
+import I18n from '../language/i18n';
 
 const _checked = '../asset/checked.png';
 const _unchecked = '../asset/unchecked.png';
@@ -31,14 +33,16 @@ export default class PaySettingView extends PureComponent {
     super(props);
     this.state = {
       checkedName: props.screenProps.paytype,
-      creditCardInfo: props.screenProps.creditCardInfo
+      creditCardInfo: props.screenProps.creditCardInfo,
+      i18n: I18n[props.screenProps.language]
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       checkedName: nextProps.screenProps.paytype,
-      creditCardInfo: nextProps.screenProps.creditCardInfo
+      creditCardInfo: nextProps.screenProps.creditCardInfo,
+      i18n: I18n[nextProps.screenProps.language]
     })
   }
 
@@ -65,14 +69,15 @@ export default class PaySettingView extends PureComponent {
 
   _renderBottomConfirm() {
     return(
-      <CommonBottomBtn clickFunc={() => this.props.navigation.goBack()}>確定</CommonBottomBtn>
+      <CommonBottomBtn clickFunc={() => this.props.navigation.goBack()}>{this.state.i18n.confirm}</CommonBottomBtn>
     )
   }
    
   render() {
+    let {i18n} = this.state;
     const _list_arr = [
       {
-        content: '現金支付',hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.CASH),rightIcon:this._checkedImage('cash'),clickFunc: () => this._checked('cash')
+        content: i18n.cash,hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.CASH),rightIcon:this._checkedImage('cash'),clickFunc: () => this._checked('cash')
       },
       // {
       //   content: 'WeChat Pay',hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.WECHAT),rightIcon:this._checkedImage('wechat'),clickFunc: () => this._checked('wechat')
@@ -101,16 +106,16 @@ export default class PaySettingView extends PureComponent {
     }
     return (
       <Container>
-      <CommonHeader title="我的支付方式" canBack {...this.props}/>
+      <CommonHeader title={i18n.payment} canBack {...this.props}/>
         <Content style={{backgroundColor:Colors.main_white}}>
         <View>
         {_list_arr.map((item,key) => (
           <CommonItem key={key} content={item.content} isEnd={item.isEnd} clickFunc={item.clickFunc}
           hasLeftIcon={item.hasLeftIcon} leftIcon={item.leftIcon} rightIcon={item.rightIcon}/>
         ))}
-        <View style={PaySettingStyles.creditcardView}><Text style={PaySettingStyles.creditcardText}>信用卡支付</Text></View>
+        <View style={PaySettingStyles.creditcardView}><Text style={PaySettingStyles.creditcardText}>{i18n.credit}</Text></View>
         {creditCardInfo != null ? <CommonItem hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE.CREDIT_CARD)} content={_creditCardNumber} rightIcon={this._checkedImage('credit_card')} clickFunc={() => this._checked('credit_card')}/> : null}
-        <CommonItem content={creditCardInfo != null ? '管理您的信用卡' : '設定您的信用卡'} hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE.CREDIT_CARD)}
+        <CommonItem content={creditCardInfo != null ? i18n.manageCard : i18n.setCard} hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE.CREDIT_CARD)}
         clickFunc={() => {
           if(creditCardInfo != null) {
             this.props.navigation.navigate('Manage_Card');

@@ -16,6 +16,8 @@ import ToastUtils from '../utils/ToastUtil';
 import appStorage from '../cache/appStorage';
 //api
 import api from '../api/index';
+//language
+import I18n from '../language/i18n';
 
 export default class CreditCardView extends PureComponent {
   constructor(props) {
@@ -25,7 +27,8 @@ export default class CreditCardView extends PureComponent {
       name: creditCardInfo ? creditCardInfo.name : '',
       card: '',
       time: '',
-      cvc: ''
+      cvc: '',
+      i18n: I18n[props.screenProps.language]
     }
   }
 
@@ -43,6 +46,12 @@ export default class CreditCardView extends PureComponent {
 
   componentWillUnmount() {
     Picker.hide();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: I18n[nextProps.screenProps.language]
+    })
   }
 
   //logic
@@ -86,6 +95,7 @@ export default class CreditCardView extends PureComponent {
   }
 
   _showDatePicker() {
+    let {i18n} = this.state;
     let _today = new Date();
     let _selected_val = [`${_today.getMonth() +1}月`,_today.getFullYear()+'年'];
 
@@ -93,8 +103,8 @@ export default class CreditCardView extends PureComponent {
       pickerData: this._createDateData(),
       pickerFontColor: [255, 0 ,0, 1],
       pickerTitleText: '',
-      pickerConfirmBtnText:'確定',
-      pickerCancelBtnText: '取消',
+      pickerConfirmBtnText:i18n.confirm,
+      pickerCancelBtnText: i18n.cancel,
       pickerConfirmBtnColor: [255,76,20,1],
       pickerCancelBtnColor:[102,102,102,1],
       pickerToolBarBg: [255,255,255,1],
@@ -124,18 +134,19 @@ export default class CreditCardView extends PureComponent {
   }
 
   _bindCard() {
+    let {i18n} = this.state;
     api.VaildCard(this.state.card,this.props.screenProps.sid).then(data => {
       if (data.status === 200 && data.data.ro.ok) {
         if(data.data.data == 0) {
-          ToastUtils.showWithMessage('卡號有誤');
+          ToastUtils.showWithMessage(i18n.credit_card_tips.card_number_error);
         }else {
           for(let i in this.state) {
             if(this.state[i] == '') {
               switch(i){
-                case "name": ToastUtils.showWithMessage(`姓名不能為空`);break;
-                case "card": ToastUtils.showWithMessage(`卡號不能為空`);break;
-                case "time": ToastUtils.showWithMessage(`有效期不能為空`);break;
-                case "cvc": ToastUtils.showWithMessage(`CVC不能為空`);break;
+                case "name": ToastUtils.showWithMessage(i18n.credit_card_tips.name_not_null);break;
+                case "card": ToastUtils.showWithMessage(i18n.credit_card_tips.card_not_null);break;
+                case "time": ToastUtils.showWithMessage(i18n.credit_card_tips.time_not_null);break;
+                case "cvc": ToastUtils.showWithMessage(i18n.credit_card_tips.cvc_not_null);break;
               }
               return ;
             }
@@ -145,7 +156,7 @@ export default class CreditCardView extends PureComponent {
           this.props.screenProps.setCreditCardInfo(JSON.parse(_info));
           appStorage.setPayType('credit_card');
           this.props.screenProps.setPayType('credit_card');
-          ToastUtils.showWithMessage('綁定成功');
+          ToastUtils.showWithMessage(i18n.credit_card_tips.bind_success);
           this.props.navigation.goBack();
         }
       }else {
@@ -153,17 +164,17 @@ export default class CreditCardView extends PureComponent {
       }
     })
     .catch(err => {
-      ToastUtils.showWithMessage('發生錯誤');
+      ToastUtils.showWithMessage(i18n.common_tips.err);
     })
   }
 
   _renderCommonInput(item,key) {
-    if(item.label == '有效期') {
+    if(item.label == this.state.i18n.date) {
       return (
         <View style={Platform.OS == 'ios'?CreditCardStyles.CommonInputView:CreditCardStyles.CommonInputAndroidView} key={key}>
           <Text style={CreditCardStyles.InputTitle}>{item.label}</Text>
           <TouchableOpacity style={CreditCardStyles.SelectBtn} onPress={() => {Picker.show();Keyboard.dismiss()}}>
-            <Text style={{color: '#333333',fontSize: 16}}>{this.state.time != '' ? this.state.time : '請選擇有效期'}</Text>
+            <Text style={{color: '#333333',fontSize: 16}}>{this.state.time != '' ? this.state.time : this.state.i18n.timeRequire}</Text>
           </TouchableOpacity>
         </View>
       )
@@ -179,22 +190,23 @@ export default class CreditCardView extends PureComponent {
   }
 
   render() {
+    let {i18n} = this.state;
     let _list_arr = [
-      {name:'name',label: '姓名',placeholder: '請輸入(必填)',maxlength:20,keyboard:'default',changeTextFunc: (value) => this._getName(value)},
-      {name:'card',label: '信用卡號',placeholder: '請輸入信用卡號',maxlength: 16,keyboard:'numeric',changeTextFunc: (value) => this._getCard(value)},
-      {name:'time',label: '有效期',placeholder: '請輸入(必填)',maxlength: 4,keyboard:'numeric',changeTextFunc: (value) => this._getTime(value)},
-      {name:'cvc',label: '3位數CVC',placeholder: '請輸入(必填)',maxlength: 3,keyboard:'numeric',changeTextFunc: (value) => this._getCVC(value)},
+      {name:'name',label: i18n.cardUser,placeholder: i18n.nameRequire,maxlength:20,keyboard:'default',changeTextFunc: (value) => this._getName(value)},
+      {name:'card',label: i18n.card,placeholder: i18n.cardRequire,maxlength: 16,keyboard:'numeric',changeTextFunc: (value) => this._getCard(value)},
+      {name:'time',label: i18n.date,placeholder: i18n.timeRequire,maxlength: 4,keyboard:'numeric',changeTextFunc: (value) => this._getTime(value)},
+      {name:'cvc',label: 'CVC',placeholder: i18n.cvcRequire,maxlength: 3,keyboard:'numeric',changeTextFunc: (value) => this._getCVC(value)},
     ];
     return (
       <Container>
-        <CommonHeader title="綁定卡號" canBack {...this.props}/>
+        <CommonHeader title={this.state.i18n.addCard} canBack {...this.props}/>
         <Content style={{backgroundColor: '#edebf4'}}>
             <View>
               {
                 _list_arr.map((v,i) => this._renderCommonInput(v,i))
               }
             </View>
-            <CommonBottomBtn clickFunc={() => this._bindCard()}>立即綁定</CommonBottomBtn>
+            <CommonBottomBtn clickFunc={() => this._bindCard()}>{i18n.addCardNow}</CommonBottomBtn>
         </Content>
       </Container>
     )

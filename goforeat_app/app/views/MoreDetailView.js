@@ -5,6 +5,8 @@ import {Container,Content,Footer,Icon} from 'native-base';
 import CommonHeader from '../components/CommonHeader';
 import Swiper from '../components/Swiper';
 import HomePageStyles from '../styles/homepage.style';
+//language
+import i18n from '../language/i18n';
 
 const styles = StyleSheet.create({
   content_view: {
@@ -35,9 +37,10 @@ const styles = StyleSheet.create({
 
 const MoreDetailView = props => {
   let {item} = props.navigation.state.params;
+  let {language} = props.screenProps;
   return (
     <Container>
-      <CommonHeader title="詳情" {...props}/>
+      <CommonHeader title={i18n[language].foodDetail} {...props}/>
       <Content>
         <Swiper adDetail={item.extralImage}/>
         <View style={styles.content_view}>
