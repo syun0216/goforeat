@@ -7,10 +7,11 @@ import {
   TabHeading,
 } from "native-base";
 //Colors
-import Colors from '../utils/Colors'
+import Colors from '../utils/Colors';
 //utils
-import GLOBAL_PARAMS from '../utils/global_params'
-import ToastUtil from '../utils/ToastUtil'
+import GLOBAL_PARAMS from '../utils/global_params';
+import ToastUtil from '../utils/ToastUtil';
+import LinkingUtils from '../utils/LinkingUtils';
 //api
 import api from '../api'
 //components
@@ -21,7 +22,7 @@ import BlankPage from '../components/BlankPage';
 import CommonHeader from '../components/CommonHeader';
 import Text from '../components/UnScalingText';
 //language
-import i18n from '../language/i18n';
+import I18n from '../language/i18n';
 //styles
 import MyOrderStyles from '../styles/myorder.style';
 import CommonStyles from '../styles/common.style';
@@ -48,18 +49,20 @@ const _ORDER_FINISHED = 2;
 const _ORDER_ALL = null;
 
 const PAY_TYPE = {
-  1: '現金支付',
-  2: 'Apple Pay',
-  6: '信用卡支付'
+  1: {zh:'現金支付',en: 'Cash Pay'},
+  2: {zh:'Apple Pay',en: 'Apple Pay'},
+  6: {zh:'信用卡支付',en: 'Credit Card'}
 }
 
 export default class PeopleView extends Component {
   timer = null;
   _tabs = null;
-  state = {
+
+  constructor(props) {
+    super(props);
+    this.state = {
     orderlist: [],
     orderTips: '沒有您的訂單哦~',
-    i18n: i18n[this.props.screenProps.language],
     loadingStatus:{
       firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
       pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
@@ -69,33 +72,29 @@ export default class PeopleView extends Component {
     isExpired: false,
     expiredMessage: null,
     currentTab: _TAB_FINISHED,
-    currentStatus: _ORDER_ALL
+    currentStatus: _ORDER_ALL,
+    i18n: I18n[this.props.screenProps.language],
+    cannotReload: { //不发生操作则不重载
+      _TAB_FINISHED: false,
+      _TAB_DELIVERING: false,
+      _TAB_CANCEL: false
+    }
+  }
   }
 
-
-  componentWillReceiveProps = (nextProps) => {
-    this.setState({
-      i18n: i18n[nextProps.screenProps.language]
-    })
-  }
-
-  componentDidMount = () => {
+  componentDidMount() {
     this.timer = setTimeout(() => {
       this._getMyOrder(0);
       clearTimeout(this.timer);
     },700)
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     clearTimeout(this.timer);
     this._paramsInit();
   }
   
   //common function
-
-  _initOrderList() {
-
-  }
 
   _paramsInit() {
     requestParams = {
@@ -110,7 +109,7 @@ export default class PeopleView extends Component {
     }
   }
 
-  _getMyOrder = (offset,status=null) => {
+  _getMyOrder (offset,status=null) {
     api.myOrder(offset,status,this.props.screenProps.sid).then(data => {
       if (data.status === 200 && data.data.ro.ok) {
         if(data.data.data.length === 0){
@@ -134,13 +133,11 @@ export default class PeopleView extends Component {
         ToastUtil.showWithMessage(data.data.ro.respMsg)
         if(data.data.ro.respCode == "10006" || data.data.ro.respCode == "10007") {
           this.props.screenProps.userLogout();
+          this.props.navigation.goBack();
         }
         this.setState({
           isExpired: true,
-          expiredMessage: data.data.ro.respMsg
-        });
-
-        this.setState({
+          expiredMessage: data.data.ro.respMsg,
           loadingStatus: {
             pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
           }
@@ -156,21 +153,25 @@ export default class PeopleView extends Component {
     })
   }
 
-  _cancelOrder(orderId) {
+  _cancelOrder(orderId, currentPayment) {
+    let {i18n} = this.state;
     Alert.alert(
-      '提示',
-      '確定要取消訂單嗎？',
+      i18n.tips,
+      i18n.myorder_tips.common.cancel_order,
       [
-        {text: '取消', onPress: () => {return null}, style: 'cancel'},
-        {text: '確定', onPress: () => {
+        {text: i18n.cancel, onPress: () => {return null}, style: 'cancel'},
+        {text: i18n.confirm, onPress: () => {
           api.cancelOrder(orderId,this.props.screenProps.sid).then(data => {
             if(data.status === 200 && data.data.ro.ok) {
-              ToastUtil.showWithMessage('取消訂單成功!');
+              ToastUtil.showWithMessage(i18n.myorder_tips.success.cancel_order);
               this._onReloadPage();
               this._getMyOrder(requestParams.offset, this.state.currentStatus);
+              // if(currentPayment.en == 'Apple Pay' || currentPayment.en == 'Credit Card') {
+              //   LinkingUtils.dialingToCancelOrder(52268745, this.props.screenProps.language);
+              // }
             }
           },() => {
-            ToastUtil.showWithMessage("出錯了");
+            ToastUtil.showWithMessage(i18n.common_tips.err);
           })
         }},
       ],
@@ -194,11 +195,12 @@ export default class PeopleView extends Component {
   }
 
   _switchOrderStatus(status) {
+    let {i18n} = this.state;
     switch(status) {
-      case -1: return '用戶取消';
-      case 0: return '未確認';
-      case 1: return '待配送';
-      case 2: return '已完成';
+      case -1: return i18n.userCancel;
+      case 0: return i18n.unconfirm;
+      case 1: return i18n.delivering;
+      case 2: return i18n.finish;
     }
   }
 
@@ -247,12 +249,10 @@ export default class PeopleView extends Component {
         {title:'餐廳列表',data:this.state.orderlist},
       ]}
       renderItem = {({item,index}) => this._renderNewListItemView(item,index)}
-      // renderSectionHeader= {() => (<View style={{borderBottomWidth: 1,padding:10,paddingTop: 20,backgroundColor: Colors.main_white,borderBottomColor:'#ccc'}}><Text>我的訂單</Text></View>)}
       keyExtractor={(item, index) => index}
       onEndReachedThreshold={0.01}
       onEndReached={() => this._onEndReach()}
-      // ListHeaderComponent={() => this._renderPersonDetailHeader()}
-      ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>)}
+      ListFooterComponent={() => (<ListFooter  loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>)}
       refreshControl={
         <RefreshControl
           refreshing={this.state.refresh}
@@ -273,6 +273,7 @@ export default class PeopleView extends Component {
   }
 
   _renderFoodDetailView(item) {
+    let {i18n} = this.state;
     let _picture = !item.picture ? require('../asset/default_pic.png') : {uri:item.picture};
     return (
       <View style={MyOrderStyles.FoodContainer}>
@@ -281,19 +282,23 @@ export default class PeopleView extends Component {
                   />
         <View style={MyOrderStyles.FoodInnerContainer}>
           <View style={MyOrderStyles.FoodTitleView}>
-            <Text style={[CommonStyles.common_title_text,{maxWidth: 180*(GLOBAL_PARAMS._winWidth/375)}]} numberOfLines={1}>{item.orderName}</Text>
+            <Text style={[CommonStyles.common_title_text,{maxWidth: GLOBAL_PARAMS.em(130)}]} numberOfLines={1}>{item.orderName}</Text>
             <View style={{flexDirection:'row',marginTop: -2}}>
-              <Text style={[CommonStyles.common_title_text,{marginRight: 5}]}>數量:</Text>
+              <Text style={[CommonStyles.common_title_text,{marginRight: 5}]}>{i18n.quantity}:</Text>
               <Text style={CommonStyles.common_important_text}>{item.amount}</Text>
             </View>
           </View>
           <View style={MyOrderStyles.FoodCommonView}>
-            <Text style={CommonStyles.common_info_text}>取餐日期</Text>
-            <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeDate} {item.takeTime}</Text>
+            <Text style={CommonStyles.common_info_text}>{i18n.fooddate}</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: GLOBAL_PARAMS.em(180)}]} numberOfLines={1}>{item.takeDate}</Text>
           </View>
           <View style={MyOrderStyles.FoodCommonView}>
-            <Text style={CommonStyles.common_info_text}>取餐地點</Text>
-            <Text style={[CommonStyles.common_info_text,{maxWidth: 200}]} numberOfLines={1}>{item.takeAddressDetail}</Text>
+            <Text style={CommonStyles.common_info_text}>{i18n.foodTime}</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: GLOBAL_PARAMS.em(180)}]} numberOfLines={1}>{item.takeTime}</Text>
+          </View>
+          <View style={MyOrderStyles.FoodCommonView}>
+            <Text style={CommonStyles.common_info_text}>{i18n.foodAddress}</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: GLOBAL_PARAMS.em(130)}]} numberOfLines={1}>{item.takeAddressDetail}</Text>
           </View>
         </View>
       </View>
@@ -302,18 +307,17 @@ export default class PeopleView extends Component {
 
   _renderPayView(item) {
     let _isDelivering = item.status === _ORDER_DELIVERING;
+    let {i18n} = this.state;
+    let {language} = this.props.screenProps;
     return (
-      <View style={{flexDirection: 'row',paddingTop: 10,paddingBottom:10,justifyContent:'space-between',alignItems:'center'}}>
-        <Text style={{color: '#666666',fontSize: 16}}>支付狀態</Text>
-        <View style={{flexDirection:'row',justifyContent: 'space-between',}}>
-          <View style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#979797'}}>
-            <Text style={{color: '#111111',fontSize: 16}}>{PAY_TYPE[item.payment] || '現金支付'}</Text>
+      <View style={MyOrderStyles.payContainer}>
+        <Text style={MyOrderStyles.paymentStatus}>{i18n.paymentStatus}</Text>
+        <View style={MyOrderStyles.payInner}>
+          <View style={MyOrderStyles.payTypeView}>
+            <Text style={MyOrderStyles.payTypeText}>{PAY_TYPE[item.payment][language] || i18n.cash}</Text>
           </View>
-          {/*<TouchableOpacity style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348',marginRight: 10,}}>
-            <Text style={{color: '#ff3348'}}>線上支付</Text>
-    </TouchableOpacity>*/}
-          {_isDelivering ? <TouchableOpacity onPress={() => this._cancelOrder(item.orderId)} style={{padding: 5,paddingLeft: 10,paddingRight: 10,borderRadius: 20,borderWidth: 1,borderColor: '#FF3348',marginLeft: 5}}>
-            <Text style={{color: '#ff3348',fontSize: 16}}>取消訂單</Text>
+          {_isDelivering ? <TouchableOpacity onPress={() => this._cancelOrder(item.orderId, PAY_TYPE[item.payment])} style={MyOrderStyles.payStatusBtn}>
+            <Text style={MyOrderStyles.payStatusText}>{i18n.myorder_tips.common.cancel_order_btn}</Text>
           </TouchableOpacity> : null}
         </View>
       </View>
@@ -322,14 +326,15 @@ export default class PeopleView extends Component {
 
   _renderTotalPriceView(item) {
     let _isDelivering = item.status === _ORDER_DELIVERING;
+    let {i18n} = this.state;
     return (
-      <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+      <View style={MyOrderStyles.totalContainer}>
         <View style={{backgroundColor: 'transparent'}}>
-            <Text style={{fontSize: 16,color: '#FF3348',marginTop: -3,}}>{this._switchOrderStatus(item.status)}</Text>
+            <Text style={MyOrderStyles.totalStatusText}>{this._switchOrderStatus(item.status)}</Text>
           </View>
-       <View style={{flexDirection:'row',justifyContent: 'space-between',alignItems:'center'}}>
-        <Text style={{fontSize: 16,color: '#666666',marginRight: 10,}}>實付款 HKD</Text>
-        <Text style={{fontSize: 22,color: '#FF3348',marginTop: -3,}}>{item.totalMoney}</Text>
+       <View style={MyOrderStyles.totalInnerView}>
+        <Text style={MyOrderStyles.totalUnitText}>{i18n.total} HKD</Text>
+        <Text style={MyOrderStyles.totalPriceText}>{item.totalMoney}</Text>
        </View>
       </View>
     )
@@ -353,123 +358,32 @@ export default class PeopleView extends Component {
         ? this._renderOrderListView()
         : null
       }
-      {/*
-        this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.NO_MORE_DATA ? <BlankPage  style={{marginTop:50}} message="暫無訂單數據哦"/> :null
-      */}
     </View>
   )
 
   render() {
-    let {theme} = this.props.screenProps;
+    let {i18n} = this.state;
+    console.log('#render');
     return (
       <Container style={{position: 'relative'}}>
-        {/*<Button transparent onPress={() => this.props.navigation.goBack()} 
-        style={{position: 'absolute',top: 80,left: 10,width:40,height:40,borderRadius: 20,backgroundColor:Colors.fontBlack,opacity:0.5,zIndex:10}}>
-        <Icon
-          size={20}
-          name="ios-arrow-back"
-          style={[{ fontSize: 25, color: Colors.main_white }]}
-        />
-    </Button>*/}
-        <CommonHeader canBack hasTabs title="我的訂單" {...this.props}/>
-        <Tabs tabBarUnderlineStyle={{backgroundColor: '#FF3348',marginLeft: 47*(GLOBAL_PARAMS._winWidth/375),width: 32}} 
+        <CommonHeader canBack hasTabs title={i18n.myorder} {...this.props}/>
+        <Tabs tabBarUnderlineStyle={MyOrderStyles.tabBarUnderlineStyle} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
-        <Tab activeTextStyle={{fontWeight:'800',fontSize: 20}} heading={ <TabHeading style={styles.commonHeadering}><Text allowFontScaling={false} style={[styles.commonText,{fontWeight: this.state.currentStatus == _ORDER_ALL? '800':'normal',}]}>全部</Text></TabHeading>}>
+        <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_ALL? '800':'normal',}]}>{i18n.all}</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
-        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text allowFontScaling={false}style={[styles.commonText,{fontWeight: this.state.currentStatus == _ORDER_DELIVERING? '800':'normal',}]}>待配送</Text></TabHeading>}>
+        <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_DELIVERING? '800':'normal',}]}>{i18n.delivering}</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
-        <Tab heading={ <TabHeading style={styles.commonHeadering}><Text allowFontScaling={false} style={[styles.commonText,{fontWeight: this.state.currentStatus == _ORDER_CANCEL? '800':'normal',}]}>已取消</Text></TabHeading>}>
+        <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_CANCEL? '800':'normal',}]}>{i18n.cancelOrder}</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
       </Tabs>
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
           <Loading style={Platform.OS == 'android' ? {marginTop:110} : {}}/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
-            <ErrorPage errorTips="加載失敗,請點擊重試" errorToDo={this._onErrorRequestFirstPage}/> : null)}
-        {this.state.loadingStatus.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_DATA ? <BlankPage style={{marginTop: Platform.OS=='ios'? 50:110}} message="暫無數據"/> : null}
+            <ErrorPage errorTips={i18n.common_tips.reload} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : null)}
+        {this.state.loadingStatus.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_DATA ? <BlankPage style={{marginTop: Platform.OS=='ios'? 50:110}} message={i18n.common_tips.no_data}/> : null}
       </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  loginContainer:{
-    flex:1
-  },
-  loginHeader: {
-    width: GLOBAL_PARAMS._winWidth,
-    height: 200,
-    display:'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative'
-  },
-  personAvatar: {
-    width:65,
-    height:65,
-  },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 2,
-    fontSize: 14,
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(247,247,247,1.0)',
-  },
-  commonItem:{
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-  },
-  commonImage: {
-    width:28,
-    height:28,
-    marginBottom:10
-  },
-  commonFlex:{
-    flex: 1
-  },
-  commonTitleText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    fontFamily: "AvenirNext-UltraLightItalic",
-  },
-  commonDecText: {
-    // fontFamily: 'AvenirNext-UltraLightItalic',
-    color: Colors.fontBlack,
-    fontWeight: "normal",
-    fontSize: 16,
-    // marginTop: 5,
-    flex: 1
-  },
-  commonPriceText: {
-    fontWeight: "bold",
-    fontSize: 16
-    // marginTop: 5,
-  },
-  commonDetailText: {
-    fontWeight: "700",
-    color: Colors.fontBlack,
-    fontSize: 20
-    // fontFamily:'AvenirNext-Regular',
-    // textShadowColor:'#C0C0C0',
-    // textShadowRadius:2,
-    // textShadowOffset:{width:2,height:2},
-  },
-  commonLabel: {
-    letterSpacing: 2,
-    fontWeight: "200",
-    color: Colors.fontBlack
-  },
-  commonHeadering: {
-    backgroundColor: Colors.main_white,
-    borderBottomWidth: 1,
-    borderBottomColor:'#ddd'
-  },
-  commonText: {
-    fontSize: 16,
-    color: Colors.fontBlack
-  }
-})
