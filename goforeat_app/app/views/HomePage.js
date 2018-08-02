@@ -32,7 +32,6 @@ import Loading from "../components/Loading";
 import PlacePickerModel from '../components/PlacePickerModel';
 import BlankPage from '../components/BlankPage';
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
-import MoreDetailModal from '../components/MoreDetailModal';
 import WarningTips from '../components/WarningTips';
 import Text from '../components/UnScalingText';
 // language

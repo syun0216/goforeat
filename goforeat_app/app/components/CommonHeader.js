@@ -13,7 +13,7 @@ import Text from './UnScalingText';
 
 const styles = StyleSheet.create({
   linearGradient: {
-    height: 64,
+    height: GLOBAL_PARAMS.isIphoneX() ? 64+GLOBAL_PARAMS.iPhoneXTop: 64,
     width: GLOBAL_PARAMS._winWidth,
     marginTop: Platform.OS == 'ios' ? -15 : -4,
     paddingTop: Platform.OS == 'ios' ? 15 : 0,
@@ -25,10 +25,12 @@ const styles = StyleSheet.create({
 
 const CommonHeader = (props) => {
   return (
-  <Header style={[props.headerStyle]} hasTabs iosBarStyle={props.iosBarStyle}>
-  <StatusBar backgroundColor="#333"/>
+  <Header style={[props.headerStyle,{
+    marginTop: GLOBAL_PARAMS.isIphoneX() ? -GLOBAL_PARAMS.iPhoneXTop : 0,
+    marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0,
+  }]} hasTabs iosBarStyle={props.iosBarStyle}>
   <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.linearGradient}>
-    <Left>
+    <Left style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,}}>
       {props.canBack ? (props.leftElement !== null ? props.leftElement : (
         Platform.OS == 'ios' ? 
         (<Button transparent onPress={() => {props.navigation.goBack();}}>
@@ -49,11 +51,11 @@ const CommonHeader = (props) => {
         )
       )) : null}
     </Left>
-    <Body style={{minWidth: 200}}><Text allowFontScaling={false} style={[{color: props.textColor,fontSize: 16},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
-    <Right>
+    <Body style={{minWidth: GLOBAL_PARAMS.em(200),marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,}}><Text allowFontScaling={false} style={[{color: props.textColor,fontSize:GLOBAL_PARAMS.em(16)},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
+    <Right style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,}}>
       {props.hasRight ? (props.rightElement !== null ? <props.rightElement {...props}/> : (
         <Button transparent onPress={() => props.rightClick()}>
-        <Icon name={props.rightIcon} size={20} style={{color: Colors.main_white,paddingRight: 10}} /></Button>
+        <Icon name={props.rightIcon} size={25} style={{fontSize:GLOBAL_PARAMS.em(23),color: Colors.main_white,paddingRight: 10}} /></Button>
       )) : null}
     </Right>
   </LinearGradient> 
