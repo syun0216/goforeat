@@ -2,8 +2,10 @@
 import React,{Component} from 'react';
 import {Animated,StyleSheet,Platform} from 'react-native';
 import {TabBarBottom} from 'react-navigation';
+//utils
+import GLOBAL_PARAMS from '../utils/global_params';
 
-const TAB_BAR_OFFSET = -60;
+const TAB_BAR_OFFSET = GLOBAL_PARAMS.isIphoneX() ? -83 : -60;
 export default class TabBar extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +41,7 @@ export default class TabBar extends Component {
 
 const styles = {
   container: {
-    overflow: 'hidden',
+    // overflow: 'hidden',
     position: 'absolute',
     bottom: 0,
     left: 0,
@@ -47,11 +49,11 @@ const styles = {
     backgroundColor: 'white',
     elevation: 8,
     borderTopWidth: 1,
-    borderTopColor: '#c1c1c1',
-    shadowColor: '#000',
-    shadowOpacity: 0.8,
-    shadowOffset:{  width: 0,  height: 10,  },
-    elevation: 10,
-    paddingBottom: Platform.OS == 'ios' ? 5 : 0
+    borderTopColor: '#E5E5E5',
+    shadowColor: '#C1C1C1',
+    shadowOpacity: 0.3,
+    shadowOffset:{  width: 0,  height: -5,  },
+    elevation: -2,
+    paddingBottom: Platform.OS == 'ios' ? 3 : 0
   },
 };
