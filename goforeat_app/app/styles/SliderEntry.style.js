@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { colors } from './index.style';
+import GLOBAL_PARAMS from '../utils/global_params';
 
 const IS_IOS = Platform.OS === 'ios';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
@@ -21,7 +22,7 @@ const entryBorderRadius = 8;
 export default StyleSheet.create({
     slideInnerContainer: {
         width: itemWidth,
-        height: 262*(viewportHeight/667),
+        height: GLOBAL_PARAMS.em(262),
         paddingHorizontal: itemHorizontalMargin,
         paddingBottom: 18, // needed for shadow
         // backgroundColor: '#fff'
@@ -39,7 +40,7 @@ export default StyleSheet.create({
         // borderRadius: entryBorderRadius
     },
     imageContainer: {
-        height: 250*(viewportHeight/667),
+        height: GLOBAL_PARAMS.em(250),
         // marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
         backgroundColor: 'white',
         shadowColor: '#c5bbd0',
@@ -72,19 +73,19 @@ export default StyleSheet.create({
     textContainer: {
         justifyContent: 'center',
         // paddingTop: 20 - entryBorderRadius,
-        paddingBottom: 20,
-        paddingHorizontal: 16,
+        paddingBottom: GLOBAL_PARAMS.em(20),
+        paddingHorizontal: GLOBAL_PARAMS.em(16),
         backgroundColor: 'white',
         borderBottomLeftRadius: entryBorderRadius,
         borderBottomRightRadius: entryBorderRadius,
-        minHeight: 120
+        minHeight: GLOBAL_PARAMS.em(120)
     },
     textContainerEven: {
         backgroundColor: colors.black
     },
     title: {
         color: colors.black,
-        fontSize: 20,
+        fontSize: GLOBAL_PARAMS.em(20),
         fontWeight: 'bold',
         letterSpacing: 0.5
     },
@@ -92,9 +93,9 @@ export default StyleSheet.create({
         color: 'white'
     },
     subtitle: {
-        marginTop: 6,
+        marginTop: GLOBAL_PARAMS.em(6),
         color: colors.gray,
-        fontSize: 16,
+        fontSize: GLOBAL_PARAMS.em(16),
         fontStyle: 'italic',
         textAlign:'justify'
     },

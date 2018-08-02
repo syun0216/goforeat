@@ -9,41 +9,41 @@ export default StyleSheet.create({
   },
   CardImageContainer: {
     position: 'relative',
-    margin: 33/2,
+    margin: GLOBAL_PARAMS.em(33/2),
     width: GLOBAL_PARAMS._winWidth - 33,
     borderRadius: 5,
     backgroundColor: '#fff',
   },
   EyeBtn: {
     position: "absolute",
-    padding: 10,
+    padding: GLOBAL_PARAMS.em(10),
     top: Platform.OS=="android"?32/2:29/2,
-    left: 166,
+    left: GLOBAL_PARAMS.em(166),
     zIndex: 100
   },
   EyeImage: {
-    width: 44/2,
-    height: 29/2
+    width: GLOBAL_PARAMS.em(44)/2,
+    height: GLOBAL_PARAMS.em(29)/2
   },
   CardImage: {
     width: GLOBAL_PARAMS._winWidth - 33,
-    height: 255/2*(GLOBAL_PARAMS._winHeight/667)
+    height: GLOBAL_PARAMS.em(255/2)
   },
   CardInfo: {
     position: "absolute",
-    top: 49/2,
-    left: 79/2
+    top: GLOBAL_PARAMS.em(49)/2,
+    left: GLOBAL_PARAMS.em(79)/2
   },
   CardType: {
     color: '#fff',
-    marginBottom: 18
+    marginBottom: GLOBAL_PARAMS.em(18)
   },
   CardNumber: {
     color: '#fff',
-    fontSize: 26
+    fontSize: GLOBAL_PARAMS.em(26)
   },
   BottomInfo: {
-    fontSize: 12,
+    fontSize: GLOBAL_PARAMS.em(12),
     color:'#999999',
     textAlign: 'center'
   },
@@ -53,12 +53,12 @@ export default StyleSheet.create({
     borderTopColor: '#E5E5E5',
     elevation: 0,
     alignItems: 'center',
-    height: 40
+    height: GLOBAL_PARAMS.em(40)
   },
   FooterBtn: {
-    height: 40,
-    paddingLeft: 10,
-    paddingRight: 10,
+    height: GLOBAL_PARAMS.em(40),
+    paddingLeft: GLOBAL_PARAMS.em(10),
+    paddingRight: GLOBAL_PARAMS.em(10),
     justifyContent: 'center',
   }
 })

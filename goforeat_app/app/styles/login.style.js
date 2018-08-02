@@ -1,10 +1,16 @@
-import {StyleSheet,Platform} from 'react-native';
+import {
+  StyleSheet,
+  Platform
+} from 'react-native';
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
 import CommonStyles from '../styles/common.style';
 
 const diffPlatform = {
-  content_height: Platform.select({ios: GLOBAL_PARAMS._winHeight*0.6,android:GLOBAL_PARAMS._winHeight*0.55})
+  content_height: Platform.select({
+    ios: GLOBAL_PARAMS._winHeight * 0.6,
+    android: GLOBAL_PARAMS._winHeight * 0.55
+  })
 }
 
 export default StyleSheet.create({
@@ -22,7 +28,7 @@ export default StyleSheet.create({
   },
   TopImageViewInner: {
     width: GLOBAL_PARAMS._winWidth,
-    position:'absolute',
+    position: 'absolute',
     top: 0,
     left: 0,
     height: GLOBAL_PARAMS._winHeight * 0.25,
@@ -30,7 +36,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   TopImageViewTitle: {
-    width: GLOBAL_PARAMS._winWidth*0.5,
+    width: GLOBAL_PARAMS._winWidth * 0.5,
     height: GLOBAL_PARAMS._winHeight * 0.1,
     paddingTop: 10
   },
@@ -45,7 +51,8 @@ export default StyleSheet.create({
     // zIndex: 100
   },
   CloseImage: {
-    fontSize: 40, color: '#fff'
+    fontSize: GLOBAL_PARAMS.em(40),
+    color: '#fff'
   },
   //_renderContentView
   ContentView: {
@@ -56,10 +63,10 @@ export default StyleSheet.create({
   },
   Title: {
     color: '#111111',
-    fontSize: 26,
+    fontSize: GLOBAL_PARAMS.em(26),
     fontWeight: '600',
-    height: GLOBAL_PARAMS._winHeight* 0.15,
-    lineHeight: GLOBAL_PARAMS._winHeight*0.15,
+    height: GLOBAL_PARAMS._winHeight * 0.15,
+    lineHeight: GLOBAL_PARAMS._winHeight * 0.15,
     marginLeft: 5,
   },
   LoginBtn: {
@@ -67,7 +74,7 @@ export default StyleSheet.create({
     alignSelf: 'center'
   },
   CommonView: {
-    height: GLOBAL_PARAMS._winHeight*0.225,
+    height: GLOBAL_PARAMS._winHeight * 0.225,
     justifyContent: 'center'
   },
   CommonInputView: {
@@ -91,7 +98,7 @@ export default StyleSheet.create({
     marginTop: 5
   },
   PhoneTypeText: {
-    fontSize: 21,
+    fontSize: GLOBAL_PARAMS.em(21),
     fontWeight: "400"
   },
   ArrowDown: {
@@ -105,7 +112,7 @@ export default StyleSheet.create({
     marginTop: 7
   },
   BtnView: {
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   SendBtn: {

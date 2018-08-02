@@ -10,11 +10,11 @@ export default StyleSheet.create({
   },
   CommonInputView: {
     backgroundColor: Colors.main_white,
-    height: 60 * (GLOBAL_PARAMS._winWidth/375),
+    height: GLOBAL_PARAMS.widthAuto(60),
     width: GLOBAL_PARAMS._winWidth,
-    padding: 20,
-    paddingLeft: 15,
-    paddingRight: 15,
+    padding: GLOBAL_PARAMS.em(20),
+    paddingLeft: GLOBAL_PARAMS.em(15),
+    paddingRight: GLOBAL_PARAMS.em(15),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems:'center',
@@ -23,11 +23,11 @@ export default StyleSheet.create({
   },
   CommonInputAndroidView: {
     backgroundColor: Colors.main_white,
-    height: 60 * (GLOBAL_PARAMS._winWidth/375),
+    height: GLOBAL_PARAMS.widthAuto(60),
     width: GLOBAL_PARAMS._winWidth,
-    padding: 15,
-    paddingLeft: 15,
-    paddingRight: 15,
+    padding: GLOBAL_PARAMS.em(15),
+    paddingLeft: GLOBAL_PARAMS.em(15),
+    paddingRight: GLOBAL_PARAMS.em(15),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems:'center',
@@ -35,25 +35,25 @@ export default StyleSheet.create({
     borderBottomColor: '#edebf4',
   },
   InputTitle: {
-    fontSize: 16,
+    fontSize: GLOBAL_PARAMS.em(16),
     color: '#333333'
   },
   Input: {
     color: '#333333',
-    fontSize: 16,
-    width: 200,
+    fontSize: GLOBAL_PARAMS.em(16),
+    width: GLOBAL_PARAMS.em(200),
     justifyContent:'flex-end',
   },
   Input_Android: {
     color: '#333333',
-    fontSize: 16,
-    width: 200,
+    fontSize: GLOBAL_PARAMS.em(16),
+    width: GLOBAL_PARAMS.em(200),
     justifyContent:'flex-end',
-    height: 60 * (GLOBAL_PARAMS._winWidth/375),
+    height: GLOBAL_PARAMS.widthAuto(60),
   },
 
   SelectBtn: {
-    width: 200,
+    width: GLOBAL_PARAMS.em(200),
     justifyContent:'flex-end',
     paddingLeft: Platform.OS=='android'?4:0
   }

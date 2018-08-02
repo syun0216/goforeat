@@ -1,7 +1,7 @@
 import GLOBAL_PARAMS from '../utils/global_params';
 const common = {
   btn: {
-    height: 45,
+    height: GLOBAL_PARAMS.em(45),
     width: GLOBAL_PARAMS._winWidth*0.7,
     justifyContent:'center',
     alignItems: 'center',
@@ -13,8 +13,8 @@ const common = {
     elevation: 3,
   },
   common_btn_container: {
-    marginTop: 18,
-    marginBottom: 18,
+    marginTop: GLOBAL_PARAMS.em(18),
+    marginBottom: GLOBAL_PARAMS.em(18),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -25,18 +25,18 @@ const common = {
   },
   common_info_text: {
     color: '#666666',
-    fontSize: 14,
+    fontSize: GLOBAL_PARAMS.em(14),
   },
   common_title_text: {
     color: '#111111',
-    fontSize: 18
+    fontSize: GLOBAL_PARAMS.em(18)
   },
   common_important_text: {
     color: '#ff3348',
-    fontSize: 18
+    fontSize: GLOBAL_PARAMS.em(18)
   },
   common_icon_back: {
-    fontSize: 25,
+    fontSize: GLOBAL_PARAMS.em(25),
     paddingLeft: 10,
     paddingRight: 20
   },
@@ -52,10 +52,10 @@ const common = {
     height: GLOBAL_PARAMS._winHeight*0.11
   },
   BottomViewInnerImage: {
-    width: 40,
-    height: 40,
-    marginLeft: 30,
-    marginRight: 30
+    width: GLOBAL_PARAMS.widthAuto(40),
+    height: GLOBAL_PARAMS.widthAuto(40),
+    marginLeft: GLOBAL_PARAMS.widthAuto(30),
+    marginRight: GLOBAL_PARAMS.widthAuto(30)
   },
   //renderDividerView
   DividerView: {
@@ -65,13 +65,13 @@ const common = {
   },
   Divider:{
     width: GLOBAL_PARAMS._winWidth*0.3,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: GLOBAL_PARAMS.em(10),
+    marginRight: GLOBAL_PARAMS.em(10),
     height:1,
     backgroundColor: '#EBEBEB'
   },
   DividerText: {
-    fontSize: 16,
+    fontSize: GLOBAL_PARAMS.em(16),
     color: '#666666',
     flex: 1,
     textAlign: 'center',
