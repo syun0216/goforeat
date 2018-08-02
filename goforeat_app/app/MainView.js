@@ -36,6 +36,7 @@ import MoreDetailView from './views/MoreDetailView';
 import source from "./api/CancelToken";
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
+import JSONUtils from "./utils/JSONUtils";
 //store
 import store from "./store";
 //components
@@ -278,10 +279,11 @@ let MainView = StackNavigator(
 // 自定义路由拦截
 const defaultGetStateForAction = MainView.router.getStateForAction;
 
+// 拦截路由主方法
 MainView.router.getStateForAction = (action, state) => {
   // console.log('action', action)
   // console.log('state', state)
-  if (action.type === "Navigation/NAVIGATE") {
+  if (action.type === NavigationActions.NAVIGATE) {
     source.cancel();
   }
   if (
@@ -316,6 +318,10 @@ MainView.router.getStateForAction = (action, state) => {
     }
   }
 
+  // 避免重复跳转
+  if(state && action.type == NavigationActions.NAVIGATE && action.routeName == state.routes[state.routes.length - 1].routeName){
+    return null
+  }
   return defaultGetStateForAction(action, state);
 };
 

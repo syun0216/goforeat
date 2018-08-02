@@ -3,6 +3,7 @@ package com.goforeat_app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.beefe.picker.PickerViewPackage;
 import com.reactnativepayments.ReactNativePaymentsPackage;
 
@@ -64,6 +65,7 @@ public class MainApplication extends Application implements ReactApplication {
             String deploymentKey = "fMXsr1oL8ExCRlmMZD2nLEWHY0-rd261912e-873f-4270-b887-25c360664c8c";
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new RNDeviceInfo(),
             new PickerViewPackage(),
             new ReactNativePaymentsPackage(),
                     new SplashScreenReactPackage(),

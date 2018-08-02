@@ -9,7 +9,7 @@ import Colors from '../utils/Colors'
 const styles = StyleSheet.create({
   wrapper: {
     width: GLOBAL_PARAMS._winWidth,
-    height:250*(GLOBAL_PARAMS._winHeight/667),
+    height:GLOBAL_PARAMS.heightAuto(250),
   },
   img: {
     width:GLOBAL_PARAMS._winWidth,

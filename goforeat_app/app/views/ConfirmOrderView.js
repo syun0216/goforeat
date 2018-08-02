@@ -244,8 +244,8 @@ export default class ConfirmOrderView extends PureComponent {
 
   handlePayWithAppleOrAndroid(resolve,reject,paytype) {
     let supportedMethods = ''
-    let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail},discountsPrice} = this.state;
-    totalMoney = totalMoney - this.state.discountsPrice;
+    let {orderDetail:{totalMoney,orderDetail},discountsPrice} = this.state;
+    totalMoney = totalMoney - discountsPrice;
     if(Platform.OS == 'ios' && paytype == PAY_TYPE.apple_pay) {
       supportedMethods = [
         {
@@ -302,9 +302,11 @@ export default class ConfirmOrderView extends PureComponent {
     pr
       .show()
       .then(paymentResponse => {
+        console.log(123);
         resolve(paymentResponse);
       })
       .catch(e => {
+        console.log(e)
         pr.abort();
         reject();
       });
@@ -338,7 +340,7 @@ export default class ConfirmOrderView extends PureComponent {
       return (<PopupDialog
       dialogTitle={<DialogTitle title={i18n.myOrder} />}
       width={GLOBAL_PARAMS._winWidth * 0.9}
-      height={GLOBAL_PARAMS._winHeight * 0.65*(667/ GLOBAL_PARAMS._winHeight)}
+      height={GLOBAL_PARAMS._winHeight * 0.65}
       ref={popupDialog => {
         this._popupDialog = popupDialog;
       }}
@@ -464,7 +466,9 @@ export default class ConfirmOrderView extends PureComponent {
       }}
     ];
     return (
-      <View style={styles.commonNewContainer}>
+      <View style={[styles.commonNewContainer,{
+        marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom : 0,
+      }]}>
         <Text style={[ConfirmOrderStyles.Title,styles.commonMarginBottom,styles.commonMarginTop]}>{i18n.foodInformation}</Text>
         {_details_arr.map((item,idx) => this._renderCommonDetailView(item,idx))}
         <View style={[styles.commonDetailsContainer,styles.commonMarginBottom]}>
@@ -581,7 +585,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0,height: 8},
     elevation: 3,
     marginBottom: 10,
-    backgroundColor: Colors.main_white
+    backgroundColor: Colors.main_white,
   },
   commonDetailsContainer: {
     justifyContent:'space-around',

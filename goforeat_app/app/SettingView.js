@@ -4,6 +4,7 @@ import {Container,ActionSheet} from 'native-base'
 //utils
 import ToastUtil from './utils/ToastUtil';
 import {getVersion} from './utils/DeviceInfo';
+import GLOBAL_PARAMS from './utils/global_params';
 //components
 import CommonHeader from './components/CommonHeader';
 import CommonItem from './components/CommonItem';
@@ -127,8 +128,8 @@ export default class SettingView extends PureComponent{
         <CommonHeader title={i18n.setting} canBack {...this.props}/>
           <ScrollView>
           <TouchableWithoutFeedback delayLongPress={4000} onLongPress={() => {appStorage.removeAll();alert('清除緩存成功')}}>
-            <View style={{paddingTop: 20,paddingBottom: 20,justifyContent: 'flex-start',alignItems: 'center'}}>
-              <Image source={require('./asset/icon_app.png')} style={{width: 80,height: 80,marginBottom: 20}}/>
+            <View style={{paddingTop: GLOBAL_PARAMS.em(20),paddingBottom: GLOBAL_PARAMS.em(20),justifyContent: 'flex-start',alignItems: 'center'}}>
+              <Image source={require('./asset/icon_app.png')} style={{width: GLOBAL_PARAMS.em(80),height: GLOBAL_PARAMS.em(80),marginBottom: GLOBAL_PARAMS.em(15)}}/>
               <Text>{i18n.goforeat}   v{getVersion()} </Text>
             </View>
           </TouchableWithoutFeedback>

@@ -2,7 +2,7 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
-import GLOBAL_PARAMS from '../utils/global_params';
+import GLOBAL_PARAMS,{em} from '../utils/global_params';
 import Colors from '../utils/Colors';
 import CommonStyles from '../styles/common.style';
 
@@ -51,7 +51,7 @@ export default StyleSheet.create({
     // zIndex: 100
   },
   CloseImage: {
-    fontSize: GLOBAL_PARAMS.em(40),
+    fontSize: em(40),
     color: '#fff'
   },
   //_renderContentView
@@ -63,7 +63,7 @@ export default StyleSheet.create({
   },
   Title: {
     color: '#111111',
-    fontSize: GLOBAL_PARAMS.em(26),
+    fontSize: em(26),
     fontWeight: '600',
     height: GLOBAL_PARAMS._winHeight * 0.15,
     lineHeight: GLOBAL_PARAMS._winHeight * 0.15,
@@ -98,7 +98,7 @@ export default StyleSheet.create({
     marginTop: 5
   },
   PhoneTypeText: {
-    fontSize: GLOBAL_PARAMS.em(21),
+    fontSize: em(21),
     fontWeight: "400"
   },
   ArrowDown: {

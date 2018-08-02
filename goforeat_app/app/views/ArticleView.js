@@ -204,7 +204,7 @@ export default class ArticleView extends Component {
         onPress={() => this.props.navigation.navigate('Content', {data: item,kind:'article'})}>
         <Card style={{width: GLOBAL_PARAMS._winWidth*0.95,alignSelf: 'center',}}>
           <CardItem cardBody>
-            <Image source={{uri: item.pic}} style={{height: 250*(GLOBAL_PARAMS._winHeight/667), width: null, flex: 1,borderBottomWidth: 1,borderBottomColor: Colors.main_gray}} resizeMode="cover"/>
+            <Image source={{uri: item.pic}} style={{height: GLOBAL_PARAMS.heightAuto(250), width: null, flex: 1,borderBottomWidth: 1,borderBottomColor: Colors.main_gray}} resizeMode="cover"/>
           </CardItem>
           <CardItem>
               <View style={styles.articleDesc}>

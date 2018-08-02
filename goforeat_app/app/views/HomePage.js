@@ -128,7 +128,7 @@ class HomePage extends Component {
         case 2:_week_day = i18n.tuse;break; 
         case 3:_week_day = i18n.wed;break; 
         case 4:_week_day = i18n.thr;break; 
-        case 5:_week_day = i18n.fir;break; 
+        case 5:_week_day = i18n.fri;break; 
         case 6:_week_day = i18n.sat;break; 
         default:_week_day = i18n.common_tips.err 
       } 
@@ -383,7 +383,7 @@ class HomePage extends Component {
     return (
       <TouchableOpacity style={HomePageStyles.PlacePickerBtn} onPress={() => this.setState({showPlacePicker: true})}>
         <View style={HomePageStyles.PlacePickerBtnBgAbsolute}/>
-        <Image source={require('../asset/icon-location.png')} style={HomePageStyles.PlacePickerBtnImage}/>
+        <Image source={require('../asset/location_white.png')} style={HomePageStyles.PlacePickerBtnImage} resizeMode="contain"/>
         <Text style={HomePageStyles.PlacePickerBtnText} numberOfLines={1}>
           {this.state.placeSelected.name}
         </Text>

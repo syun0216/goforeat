@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.main_white,
     justifyContent: "flex-start",
     alignItems:'center',
-    padding: 60,
+    padding: GLOBAL_PARAMS.em(60),
     backgroundColor: "transparent",
     height: GLOBAL_PARAMS._winHeight
   },
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent: "flex-start",
     alignItems:'center',
-    padding: 60,
+    padding: GLOBAL_PARAMS.em(60),
     backgroundColor: Colors.main_white,
     width: GLOBAL_PARAMS._winWidth,
     height: GLOBAL_PARAMS._winHeight,
@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
 const BlankPage = ({message,style}) => {
   return (
     <View style={[Platform.OS=='ios'?styles.blankContainer:styles.blankContainerAndroid,style]}>
-      <Image source={require('../asset/cry.png')} style={{width: 100,height: 100,marginTop: 20}}/>
-      <Text  allowFontScaling={false} style={{fontSize: 16,marginTop:20,color:'#cdcdcd',fontWeight:'bold'}}>{message}</Text>
+      <Image source={require('../asset/cry.png')} style={{width: GLOBAL_PARAMS.em(100),height: GLOBAL_PARAMS.em(100),marginTop: GLOBAL_PARAMS.em(20)}}/>
+      <Text  allowFontScaling={false} style={{fontSize: GLOBAL_PARAMS.em(16),marginTop:GLOBAL_PARAMS.em(20),color:'#cdcdcd',fontWeight:'bold'}}>{message}</Text>
     </View>
   )
 }

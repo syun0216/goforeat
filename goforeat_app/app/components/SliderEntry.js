@@ -12,14 +12,14 @@ const _styles = StyleSheet.create({
     countContainer:{
         width: GLOBAL_PARAMS._winWidth*0.8,
         backgroundColor:'#fff',
-        marginTop:Platform.OS == 'android'?-10:0
+        marginTop:Platform.OS == 'android'?GLOBAL_PARAMS.em(-10):0
     },
     countInnerContainer: {
-        height: 40,
+        height: GLOBAL_PARAMS.em(40),
         width: GLOBAL_PARAMS._winWidth*0.801,
         opacity:0.9,
         // borderRadius: 20,
-        marginTop: Platform.OS == 'android'? 0:-48,
+        marginTop: Platform.OS == 'android'? 0:GLOBAL_PARAMS.em(-48),
         zIndex: 999,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -33,11 +33,11 @@ const _styles = StyleSheet.create({
     common_text: {
         color: '#fff',
         fontSize: 16,
-        maxWidth: GLOBAL_PARAMS._winWidth < 350 ? 130 : 170
+        maxWidth: GLOBAL_PARAMS._winWidth < 350 ? GLOBAL_PARAMS.em(130) : GLOBAL_PARAMS.em(170)
     },
     common_icon: {
         color: '#fff',
-        fontSize: 20,
+        fontSize: GLOBAL_PARAMS.em(20),
         // marginLeft: 25,
         // marginRight: 25,
     },
@@ -47,36 +47,36 @@ const _styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems:'center',
-        paddingLeft: 10,
-        paddingRight: 10
+        paddingLeft: GLOBAL_PARAMS.em(10),
+        paddingRight: GLOBAL_PARAMS.em(10)
     },
     price_view: {
         position: 'absolute',
         width: 'auto',
         top: 0,
         right: 0,
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingLeft: GLOBAL_PARAMS.em(15),
+        paddingRight: GLOBAL_PARAMS.em(15),
         // backgroundColor: '#3B254B',
         opacity: 0.9,
         flexDirection: 'row',
         zIndex:10,
         alignItems: 'center',
         borderTopRightRadius: 5,
-        height: 40,
-        borderBottomLeftRadius: 30,
+        height: GLOBAL_PARAMS.em(40),
+        borderBottomLeftRadius: GLOBAL_PARAMS.em(30),
     },
     price_text: {
-        fontSize: 20,
+        fontSize: GLOBAL_PARAMS.em(20),
         color: Colors.main_white,
-        marginLeft: 10,
-        marginRight: 10
+        marginLeft: GLOBAL_PARAMS.em(10),
+        marginRight: GLOBAL_PARAMS.em(10)
     },
     orgin_price_text: {
-        fontSize: 14,
+        fontSize: GLOBAL_PARAMS.em(14),
         color: Colors.main_white,
         textDecorationLine: 'line-through',
-        marginRight: 10
+        marginRight: GLOBAL_PARAMS.em(10)
     },
 })
 

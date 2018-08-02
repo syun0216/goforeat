@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     // flex:1,
     backgroundColor: Colors.main_white,
     justifyContent: "flex-start",
-    padding: 60,
+    padding: GLOBAL_PARAMS.em(60),
     zIndex: 10000,
     backgroundColor: "transparent",
     height: GLOBAL_PARAMS._winHeight
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     left:0,
     flex:1,
     justifyContent: "flex-start",
-    padding: 60,
+    padding: GLOBAL_PARAMS.em(60),
     backgroundColor: Colors.main_white,
     width: GLOBAL_PARAMS._winWidth,
     height: GLOBAL_PARAMS._winHeight,
@@ -45,7 +45,7 @@ const Loading = props => {
         }}
         >
         <ActivityIndicator size="small" color={Colors.deep_gray}/>
-        <Text allowFontScaling={false} style={{ color: Colors.deep_gray, marginTop: 10,fontSize: 14 }}>{props.message}</Text>
+        <Text allowFontScaling={false} style={{ color: Colors.deep_gray, marginTop: 10,fontSize: GLOBAL_PARAMS.em(14) }}>{props.message}</Text>
       </View>
     </View>
   );

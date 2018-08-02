@@ -7,3 +7,7 @@ export function getVersion() {
 export function getLanguage() {
   return DeviceInfo.getDeviceLocale();
 }
+
+export function getDeviceId() {
+  return DeviceInfo.getDeviceId();
+}

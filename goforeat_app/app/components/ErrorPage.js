@@ -28,23 +28,23 @@ const styles = StyleSheet.create({
   },
   image: {
     width: GLOBAL_PARAMS._winWidth,
-    height: 320*(GLOBAL_PARAMS._winHeight/667)
+    height: GLOBAL_PARAMS.heightAuto(320)
   },
   infoText: {
     position: 'absolute',
     width: GLOBAL_PARAMS._winWidth,
-    bottom: -20,
+    bottom: GLOBAL_PARAMS.em(-20),
     zIndex: 100
   },
   text1: {
-    fontSize: 22,
+    fontSize: GLOBAL_PARAMS.em(22),
     color: '#111111',
-    marginBottom: 12,
+    marginBottom: GLOBAL_PARAMS.em(12),
     fontWeight:'600',
     textAlign: 'center'
   },
   text2: {
-    fontSize: 22,
+    fontSize: GLOBAL_PARAMS.em(22),
     color:'#999999',
     fontWeight: '400',
     textAlign:'center'
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   refresh_btn: {
   },
   refresh_btn_inner:{
-    marginTop: 60,
+    marginTop: GLOBAL_PARAMS.em(60),
     ...CommonStyle.btn
   }
 })

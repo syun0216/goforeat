@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { colors } from './index.style';
-import GLOBAL_PARAMS from '../utils/global_params';
+import {em} from '../utils/global_params';
 
 const IS_IOS = Platform.OS === 'ios';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
@@ -22,7 +22,7 @@ const entryBorderRadius = 8;
 export default StyleSheet.create({
     slideInnerContainer: {
         width: itemWidth,
-        height: GLOBAL_PARAMS.em(262),
+        height: em(262),
         paddingHorizontal: itemHorizontalMargin,
         paddingBottom: 18, // needed for shadow
         // backgroundColor: '#fff'
@@ -40,7 +40,7 @@ export default StyleSheet.create({
         // borderRadius: entryBorderRadius
     },
     imageContainer: {
-        height: GLOBAL_PARAMS.em(250),
+        height: em(250),
         // marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
         backgroundColor: 'white',
         shadowColor: '#c5bbd0',
@@ -73,19 +73,19 @@ export default StyleSheet.create({
     textContainer: {
         justifyContent: 'center',
         // paddingTop: 20 - entryBorderRadius,
-        paddingBottom: GLOBAL_PARAMS.em(20),
-        paddingHorizontal: GLOBAL_PARAMS.em(16),
+        paddingBottom: em(20),
+        paddingHorizontal: em(16),
         backgroundColor: 'white',
         borderBottomLeftRadius: entryBorderRadius,
         borderBottomRightRadius: entryBorderRadius,
-        minHeight: GLOBAL_PARAMS.em(120)
+        minHeight: em(120)
     },
     textContainerEven: {
         backgroundColor: colors.black
     },
     title: {
         color: colors.black,
-        fontSize: GLOBAL_PARAMS.em(20),
+        fontSize: em(20),
         fontWeight: 'bold',
         letterSpacing: 0.5
     },
@@ -93,9 +93,9 @@ export default StyleSheet.create({
         color: 'white'
     },
     subtitle: {
-        marginTop: GLOBAL_PARAMS.em(6),
+        marginTop: em(6),
         color: colors.gray,
-        fontSize: GLOBAL_PARAMS.em(16),
+        fontSize: em(16),
         fontStyle: 'italic',
         textAlign:'justify'
     },

@@ -12,9 +12,9 @@ import GLOBAL_PARAMS from '../utils/global_params';
 const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: Colors.main_white,
-    height: 60 * (GLOBAL_PARAMS._winWidth/375),
+    height: GLOBAL_PARAMS.widthAuto(60),
     width: GLOBAL_PARAMS._winWidth,
-    padding:10,
+    padding:GLOBAL_PARAMS.em(10),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   itemText: {
-    fontSize: 16,
+    fontSize: GLOBAL_PARAMS.em(16),
     color: '#333',
   },
   itemIcon: {
-    fontSize: 20,
+    fontSize: GLOBAL_PARAMS.em(20),
     color: '#333',
-    marginRight: 10,
+    marginRight: GLOBAL_PARAMS.em(10),
   }
 });
 

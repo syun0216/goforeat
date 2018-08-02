@@ -101,6 +101,9 @@ android {
     {
         cruncherEnabled = false
     }
+    dexOptions {
+        jumboMode true
+    }
 //    aaptOptions.cruncherEnabled = false
 //    aaptOptions.useNewCruncher = false
 
@@ -163,6 +166,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-device-info')
     compile project(':react-native-picker')
     compile project(':react-native-payments')
     compile project(':react-native-splash-screen')
@@ -176,7 +180,7 @@ dependencies {
     compile project(':appcenter-push')
     compile project(':react-native-interactable')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.facebook.react:react-native:+'
     compile 'com.google.android.gms:play-services-wallet:11.0.4'
 //    compile 'com.android.support:support-v4:23.0.1'

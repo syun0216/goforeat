@@ -26,9 +26,11 @@ import i18n from './language/i18n';
 import JPushModule from 'jpush-react-native';
 //styles 
 import LoginStyle from './styles/login.style';
+import CommonStyle from './styles/common.style';
 //components
 import CommonBottomBtn from './components/CommonBottomBtn';
 import Text from './components/UnScalingText';
+import I18n from './language/i18n';
 
 const BUTTONS = [
   GLOBAL_PARAMS.phoneType.HK.label,
@@ -46,11 +48,12 @@ export default class CustomLoginView extends PureComponent {
     phone: null,
     password: null,
     selectedValue:GLOBAL_PARAMS.phoneType.HK,
-    codeContent: '點擊發送',
+    codeContent: I18n[this.props.screenProps.language].sendCode,
     isCodeDisabled: false,
     isKeyBoardShow: false,
     containerTop: new Animated.Value(0),
-    keyboardHeight: null
+    keyboardHeight: null,
+    i18n: I18n[this.props.screenProps.language]
   };
 
   componentWillMount () {
@@ -91,12 +94,12 @@ export default class CustomLoginView extends PureComponent {
           this.interval = setInterval(() => {
             _during--;
             this.setState({
-              codeContent: `${_during}${i18n[this.props.screenProps.language].second}`,
+              codeContent: `${_during}秒后重發`,
               isCodeDisabled: true
             });
             if (_during === 0) {
               this.setState({
-                codeContent: i18n[this.props.screenProps.language].retry_code,
+                codeContent: '重新發送',
                 isCodeDisabled: false
               });
               clearInterval(this.interval);
@@ -230,9 +233,10 @@ export default class CustomLoginView extends PureComponent {
   }
 
   _renderContentView() {
+    let {i18n} = this.state;
     return (
       <View style={LoginStyle.ContentView}>
-        <Text style={LoginStyle.Title}>手機號登入</Text>
+        <Text style={LoginStyle.Title}>{i18n.signInPhone}</Text>
         <View style={LoginStyle.CommonView}>
           <View style={LoginStyle.CommonInputView}>
             <Image source={require('./asset/phone.png')} style={LoginStyle.Icon} reasizeMode="cover"/>
@@ -247,7 +251,7 @@ export default class CustomLoginView extends PureComponent {
               style={LoginStyle.CommonInput}
               multiline={false}
               autoFocus={false}
-              placeholder='請輸入手機號'
+              placeholder={i18n.fillInPhone}
               keyboardType="numeric"
               clearButtonMode="while-editing"
               placeholderTextColor="#999999"
@@ -262,7 +266,7 @@ export default class CustomLoginView extends PureComponent {
             allowFontScaling={false}
             multiline={false}
             autoFocus={false}
-            placeholder="請輸入驗證碼"
+            placeholder={i18n.fillInCode}
             clearButtonMode="while-editing"
             placeholderTextColor="#999999"
             returnKeyType="done"
@@ -273,28 +277,28 @@ export default class CustomLoginView extends PureComponent {
             </TouchableOpacity>
           </View>
         </View>
-        <CommonBottomBtn clickFunc={() => this._login()}>登入/註冊</CommonBottomBtn>
+        <CommonBottomBtn clickFunc={() => this._login()}>{i18n.loginOrRegister}</CommonBottomBtn>
       </View>
     )
   }
 
   _renderDividerView() {
     return (
-      <View style={LoginStyle.DividerView}>
-        <View style={LoginStyle.Divider}/>
-        <Text style={LoginStyle.DividerText}>或</Text>
-        <View style={LoginStyle.Divider}/>
+      <View style={CommonStyle.DividerView}>
+        <View style={CommonStyle.Divider}/>
+        <Text style={CommonStyle.DividerText}>或</Text>
+        <View style={CommonStyle.Divider}/>
       </View>
     )
   }
 
   _renderBottomView() {
     return (
-      <View style={LoginStyle.BottomView}>
+      <View style={CommonStyle.BottomView}>
         {this._renderDividerView()}
-        <View style={LoginStyle.BottomViewInner}>
-          <Image source={require('./asset/facebook2.png')} style={LoginStyle.BottomViewInnerImage} />
-          <Image source={require('./asset/wechat.png')} style={LoginStyle.BottomViewInnerImage} />
+        <View style={CommonStyle.BottomViewInner}>
+          <Image source={require('./asset/facebook2.png')} style={CommonStyle.BottomViewInnerImage} />
+          <Image source={require('./asset/wechat.png')} style={CommonStyle.BottomViewInnerImage} />
         </View>
       </View>
     )
@@ -304,7 +308,7 @@ export default class CustomLoginView extends PureComponent {
     return (
       <Animated.View style={[LoginStyle.LoginContainer,{transform: [{translateY: this.state.containerTop.interpolate({
         inputRange: [0,1],
-        outputRange: [0,GLOBAL_PARAMS._winHeight<667?-GLOBAL_PARAMS._winHeight*0.25:-260]
+        outputRange: [0,-GLOBAL_PARAMS._winHeight*0.25]
       })}]}]}>
         {this._renderTopImage()}
         {this._renderContentView()}

@@ -2,7 +2,7 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
-import GLOBAL_PARAMS from '../utils/global_params';
+import GLOBAL_PARAMS,{em} from '../utils/global_params';
 import Colors from '../utils/Colors';
 export default StyleSheet.create({
   //_renderPopupDialogView
@@ -25,7 +25,7 @@ export default StyleSheet.create({
   ConfirmBtnText: {
     color: Colors.main_white,
     fontWeight: "600",
-    fontSize: GLOBAL_PARAMS.em(16)
+    fontSize: em(16)
   },
   //_renderNewOrderView
   NewsInner: {
@@ -35,13 +35,13 @@ export default StyleSheet.create({
   },
   FoodName: {
     color: '#111111',
-    fontSize: GLOBAL_PARAMS.em(18),
+    fontSize: em(18),
     flex: 1,
     fontWeight: '600'
   },
   FoodMoney: {
     color: '#111111',
-    fontSize: GLOBAL_PARAMS.em(18)
+    fontSize: em(18)
   },
   CountView: {
     flexDirection: 'row',
@@ -49,41 +49,41 @@ export default StyleSheet.create({
   },
   CountText: {
     color: '#999999',
-    fontSize: GLOBAL_PARAMS.em(16),
+    fontSize: em(16),
     marginRight: 5
   },
   FoodNum: {
     color: Colors.middle_red,
-    fontSize: GLOBAL_PARAMS.em(16)
+    fontSize: em(16)
   },
   TotalText: {
     flex: 1,
-    fontSize: GLOBAL_PARAMS.em(18),
+    fontSize: em(18),
     color: '#333333',
   },
   CouponText: {
     flex: 1,
-    fontSize: GLOBAL_PARAMS.em(14),
+    fontSize: em(14),
     color: '#333333'
   },
   MoneyUnit: {
-    fontSize: GLOBAL_PARAMS.em(20),
+    fontSize: em(20),
     color: '#111111',
     marginRight: 5
   },
   CouponUnit: {
-    fontSize: GLOBAL_PARAMS.em(14),
+    fontSize: em(14),
     color: '#111111',
     marginRight: 5
   },
   TotalMoney: {
-    fontSize: GLOBAL_PARAMS.em(22),
+    fontSize: em(22),
     color: '#ff3448',
     marginTop: -2,
     fontWeight: '600'
   },
   CouponMoney: {
-    fontSize: GLOBAL_PARAMS.em(16),
+    fontSize: em(16),
     color: '#ff3448',
     marginTop: -2,
     fontWeight: '600'
@@ -91,12 +91,12 @@ export default StyleSheet.create({
   //renderNewDetailsVew
   Title: {
     color: '#111111',
-    fontSize: GLOBAL_PARAMS.em(20),
+    fontSize: em(20),
     fontWeight: 'bold'
   },
   Input: {
     color: '#111',
-    fontSize: GLOBAL_PARAMS.em(16),
+    fontSize: em(16),
     height: Platform.OS == 'ios' ? GLOBAL_PARAMS.heightAuto(30) : 45 * (GLOBAL_PARAMS._winHeight / 592),
     width: GLOBAL_PARAMS._winWidth * 0.85,
     borderBottomWidth: 1,
@@ -127,7 +127,7 @@ export default StyleSheet.create({
   CouponInput: {
     backgroundColor: '#F0EFF6',
     color: '#111111',
-    fontSize: GLOBAL_PARAMS.em(14),
+    fontSize: em(14),
     borderBottomLeftRadius: 3,
     borderTopLeftRadius: 3,
     paddingLeft: 5,

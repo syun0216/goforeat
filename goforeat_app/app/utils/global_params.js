@@ -52,4 +52,6 @@ const GLOBAL_PARAMS = {
   }
 }
 
-module.exports = GLOBAL_PARAMS
+export const em = (val) => val * ratioX 
+
+export default GLOBAL_PARAMS;

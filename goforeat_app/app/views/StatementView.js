@@ -10,6 +10,7 @@ import CommonHeader from '../components/CommonHeader'
 import Text from '../components/UnScalingText';
 //utils
 import Colors from '../utils/Colors';
+import GLOBAL_PARAMS from '../utils/global_params';
 //language
 import i18n from '../language/i18n';
 //styles 
@@ -343,7 +344,7 @@ const StatementView = (props) => {
 
   _renderServiceView = () => (
     <View style={{flex:1}}>
-      <Text style={{lineHeight:25}}>
+      <Text style={styles.commonText}>
         《 服務條款 》
         最近修訂日期：2018年2月11日
         介紹
@@ -356,7 +357,7 @@ const StatementView = (props) => {
         如您不同意本條款，則必須停止使用我們的服務。
         訂約實體
       </Text>
-    <Text style={{lineHeight:25}}>
+    <Text style={styles.commonText}>
       您使用我們的服務，即表示同意與 Goforeat Technoloy （HONGKONG）Limited（「我們」）簽訂本條款。
       我們可在某些特定服務條款中規定，您使用我們某項或多項服務（相關特定服務條款適用）時，是與我們某一家關聯公司（而非Goforeat Technoloy Limited）訂約。在上述情況下，相關特定服務條款會明確相關的訂約實體，而本條款的所有條款及細則（除上一段外）藉提述而被納入該等相關的特定服務條款。
       有關本條款的其他條款
@@ -372,7 +373,7 @@ const StatementView = (props) => {
       · 特定對我們通過我們的服務提供的任何特別推廣活動（例如抽獎、比賽和調查）適用的條款。
       額外政策
     </Text>
-    <Text style={{lineHeight:25}}>
+    <Text style={styles.commonText}>
       下文載有您使用我們的服務時必須遵守的特定政策：
       · 《私隱政策》 － 載有我們如何收集、儲存和使用您的個人資料；
       · 《Cookies政策》 －  載有我們如何在我們的服務中使用cookies和記錄檔。
@@ -390,7 +391,7 @@ const StatementView = (props) => {
       修改條款與我們的服務
       我們可能不時修改本條款，故請不時返回本條款翻查。
     </Text>
-    <Text style={{lineHeight:25}}>
+    <Text style={styles.commonText}>
       此外，由於我們的服務和用戶經驗不斷逐步發展，我們可能不時（並在適用法律和規例允許的範圍內）增加、變更或刪除我們的服務項目（包括是否免費提供某服務），或暫停或完全終止某服務。
       我們若認為本條款或我們的服務的任何修改是合理重要的修改，我們將在修改生效前通過我們的網站、與您直接通訊或以其他方式通知您。
       在我們修改本條款或我們的服務後，不論我們有沒有發出通知，而您仍繼續使用我們的服務，即表示同意被經修訂的本條款所約束。
@@ -405,7 +406,7 @@ const StatementView = (props) => {
       您的內容
       當您使用我們的服務而提交、上載、傳送或顯示任何數據、資料、媒體或其他內容（「您的內容」）時，您知道並同意：
     </Text>
-    <Text style={{lineHeight:25}}>
+    <Text style={styles.commonText}>
       · 您將繼續擁有您的內容，並對您的內容負責；
       · 我們不會將您的內容賣給任何第三方；
       · 我們收集、處理及使用您的內容須受我們的《私隱政策》所限制；
@@ -422,7 +423,7 @@ const StatementView = (props) => {
       我們保留權利可就任何理由（包括在我們認為適當時或適用法律和規例所規定）阻截或刪除您的內容。
       對您的內容負責
     </Text>
-  <Text style={{lineHeight:25}}>
+  <Text style={styles.commonText}>
     您須對您的內容負上全責，我們建議您在任何時間均保存該內容的後備檔案。您必須在任何時間確保：(i) 您具備所需權利提交、傳送或顯示您的內容，並授予我們本條款所載的權利；及  (ii) 您的內容（和我們根據本條款使用您的內容）沒有侵犯或違反任何人的權利或觸犯任何其他適用法律或規例。 
     侵權
     我們會對聲稱的侵權（包括對知识產權的侵犯、誹謗和對於其他民事權利的侵犯）的通知或者其他訴求和要求作出反應。如果您有任何類似的對侵權相關的擔憂，請聯繫contact@goforeat.hk。
@@ -445,7 +446,7 @@ const StatementView = (props) => {
     請注意，我們對於您就您對我們的服務或軟件的使用而產生或有關的任何第三方費用（包括任何您的互聯網及電訊服務供應商的費用）概不負責。
     保證和免責條款
   </Text>
-  <Text style={{lineHeight:25}}>
+  <Text style={styles.commonText}>
     我們向您保證，我們定當合理審慎地憑著合理技巧來提供我們的服務 。 
     除了前段提供的保證外，在適用法律和規例允許的範圍內，我們所有服務和軟件均「按原狀」和「按提供狀況」而提供，我們與我們的關聯公司均沒有對我們的服務、我們的軟件或任何通過我們的服務提交、傳送或顯示的內容作出任何聲明、保證或給予任何承諾，包括： (i)我們的服務或軟件將不受干擾、是安全的、沒有錯漏或沒有病毒；(ii) 我們的服務或軟件將會與您的設備相容；或 (iii) 我們的服務或軟件將具適銷質量、適合特定用途或沒有侵犯任何人的知識產權的任何聲明、保證或承諾。在適用法律和規例允許的範圍內，您放棄任何和所有的隱含聲明、保證和承諾。
     對我們的服務負上法律責任
@@ -465,7 +466,7 @@ const StatementView = (props) => {
     一般規定
 
   </Text>
-  <Text style={{lineHeight:25}}>
+  <Text style={styles.commonText}>
     本條款是您與我們就我們的服務而訂立的全部協議。您同意您不會為本條款未明確訂明的任何陳述而向我們提出申索。本條款任何條文（或任何條文部分）無效不會影響任何其他條文（或該條文其餘部分）的效力或強制執行能力。如法院裁定我們不能按本條款原訂的方式強制執行本條款的任何部分，我們可以在適用法律和規例容許強制執行的範圍內，採用類似條款取代該等條款，而本條款的其餘條款維持不變。凡延誤強制執行本條款的任何條文，一概不會被詮釋為放棄於該條文的任何權利。於本條款的任何權利和責任（就性質而言）應繼續有效，包括但不限於與各方各自的法律責任有關的任何責任或各方給予的賠償（如有），在本條款終止或屆滿後將繼續有效。
     除了您與我們外，在符合任何適用的法律和規章下，任何人均無權通過法律的施行或其他方式，未經我們同意向任何人強制執行本條款，而您亦不可未經我們事先同意轉授、出讓或轉讓本條款或於本條款的任何權利或責任。我們可以未經事先獲得您的同意或未向您發出通知，隨意全部或局部出讓、轉讓或對外分包本條款或我們於本條款的權利和責任。 您確認知曉並同意，我們的合夥人或關聯公司在任何情況下均不必對本條款承擔任何法律責任。
     管轄法律和爭議的解決
@@ -488,7 +489,7 @@ const StatementView = (props) => {
 
   _renderPolicyView = () => (
     <View style={{flex:1}}>
-      <Text  style={{lineHeight:25}}>
+      <Text  style={styles.commonText}>
 
         《私隱政策》
         最近修訂日期：2018年2月11日
@@ -508,7 +509,7 @@ const StatementView = (props) => {
         我們提供服務時，會收集、儲存和使用下列與您有關的資料：
         「資料」指個人資料和非個人資料；
       </Text>
-      <Text style={{lineHeight:25}}>
+      <Text style={styles.commonText}>
         「個人資料」指任何與您有關的資料或資料的組合，有關資料可用作識別您的身份。個人資料可包括下列各項：
         · 您開立賬戶或使用我們的服務時，向我們所提供的資料，例如您的姓名、電話號碼、電郵地址和信用卡資料；
         · 您使用我們服務時向我們的服務所提供的資料，包括您透過我們的服務向其他方提供的共享資料，以及您使用我們的服務時所儲存的資料；
@@ -529,7 +530,7 @@ const StatementView = (props) => {
         「共享資料」指在我們的服務上自願共享的關於您或與您有關的資料，包括：您在我們的服務所張貼的訊息（包括您公開的個人資料、您建立的名單）、您對其他人張貼的訊息作出的回應，以及包括與這些張貼訊息有關的位置數據和日誌資料。共享資料亦包括使用我們服務的其他用戶分享有關您的資料（包括位置數據和日誌資料）。
         我們如何使用您的資料
       </Text>
-      <Text style={{lineHeight:25}}>
+      <Text style={styles.commonText}>
 
         我們可將您的資料用作下列用途：
         · 向您提供我們的服務；
@@ -549,7 +550,7 @@ const StatementView = (props) => {
         請參閱我們的COOKIES政策以獲取有關我們如何使用cookies、網絡信標及類似技術的更多資訊。
         廣告宣傳
       </Text>
-      <Text style={{lineHeight:25}}>
+      <Text style={styles.commonText}>
         我們可使用您的資料，向您提供與您相關的廣告宣傳。
         我們亦可使用您的資料，以向您發出直接促銷（不論是以我們的服務內的訊息、透過電郵或其他途徑）的訊息，提供或宣傳我們的商品和服務及／或經甄選的第三方的商品和服務。（我們或第三方的）商品和服務包括下列各項：
         · 我們的商品和服務，以及我們的關聯公司、附屬公司和合營夥伴的商品和服務，包括即時通訊服務、網上媒體服務、互動娛樂服務、社交網絡服務、付款服務、互聯網搜尋服務、位置和地圖服務、應用軟件和服務、數據管理軟件和服務、網上廣告服務及其他社交媒體、娛樂、電子商務、資訊及通訊軟件和服務（「互聯網服務」）；及
@@ -569,7 +570,7 @@ const StatementView = (props) => {
         我們發出的通訊
 
       </Text>
-      <Text style={{lineHeight:25}}>
+      <Text style={styles.commonText}>
         會訊及其他類別的通訊
         您使用我們服務時，我們可利用您的資料向您的裝置發出電郵、會訊或推送通知。如您不希望收到這些通訊，您可遵從我們向您發出的電郵所載的拒收指示，在裝置選擇取消通知（如有）或聯絡我們的私隱主任。
         與服務有關的公告
@@ -606,7 +607,7 @@ const StatementView = (props) => {
       <CommonHeader title={_content[name].title} canBack="canBack" {...props}/>
       <Content>
         <View style={styles.statementContainer}>
-          {name !== 'policy' && name !== 'service' ? (<Text  style={{lineHeight:25}}>
+          {name !== 'policy' && name !== 'service' ? (<Text style={styles.commonText}>
             {_content[props.navigation.state.params.name].content}
           </Text>) : null}
           {name === 'policy' ? this._renderPolicyView() : null}
@@ -667,6 +668,10 @@ const styles = StyleSheet.create({
   },
   bottomView: {
     alignItems: 'center'
+  },
+  commonText: {
+    lineHeight: GLOBAL_PARAMS.em(25),
+    fontSize: GLOBAL_PARAMS.em(14)
   }
 })
 export default StatementView
