@@ -21,7 +21,7 @@ android的打包方法:
     * Product->Archive
 
 ### 最新功能
-支持多语言  
+支持多语言  兼容iPhone X
  <p align="left">
   <img src="./display/v11710.png" width="200">
   <img src="./display/v1179.png" width="200">
