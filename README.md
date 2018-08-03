@@ -17,6 +17,7 @@
 ### 最新功能
 支持多语言  兼容iPhone X
  <p align="left">
+  <img src="./display/v117iPhoneX.png" width="200">
   <img src="./display/v11710.png" width="200">
   <img src="./display/v1179.png" width="200">
   <img src="./display/v11711.png" width="200">
@@ -44,11 +45,6 @@
 ### v 1.1.4 增加推送 集成热更新
  <p align="left">
   <img src="./display/ios_1_1_4_1.png" width="200">
-  <img src="./display/ios_1_1_4_2.png" width="200">
-  <img src="./display/ios_1_1_4_3.png" width="200">
-  <img src="./display/ios_1_1_4_4.png" width="200">
-</p>
-<p align="left">
   <img src="./display/ios_1_1_4_5.png" width="200">
   <img src="./display/ios_1_1_4_6.png" width="200">
   <img src="./display/ios_1_1_4_7.png" width="200">
