@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {View,TouchableOpacity,Image,StatusBar,Alert} from 'react-native';
+import {View,TouchableOpacity,Image,Platform,Alert} from 'react-native';
 import {Container,Content,Header,Footer,Left,Body,Right,Button,Icon} from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 //styles
@@ -12,6 +12,7 @@ import CommonBottomBtn from '../components/CommonBottomBtn';
 import Text from '../components/UnScalingText';
 //utils
 import {formatCard} from '../utils/FormatCardInfo';
+import {em} from '../utils/global_params';
 //cache 
 import appStorage from '../cache/appStorage';
 //language
@@ -87,14 +88,13 @@ export default class ManageCreditCardView extends PureComponent {
     let _creditCardInfo = this.props.screenProps.creditCardInfo == null ? null : this.props.screenProps.creditCardInfo;
     return (
       <Container>
-        <Header iosBarStyle="dark-content" style={ManageCreditCardStyles.header}>
-        <StatusBar backgroundColor="#fff"/>
+        <Header iosBarStyle="dark-content" androidStatusBarColor="#fff" style={ManageCreditCardStyles.header}>
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name="ios-arrow-back" style={[{color:'#333'},CommonStyles.common_icon_back]}/>
+              <Icon name="ios-arrow-back" size={20} style={[{color:'#333'},Platform.OS == 'ios'? CommonStyles.common_icon_back : null]}/>
             </Button>
           </Left>
-          <Body style={{minWidth: 200}}>
+          <Body style={{minWidth: em(200),}}>
             <Text allowFontScaling={false} style={{color: '#333',fontSize: 16}} numberOfLines={1}>{i18n.manageCardTitle}</Text>
           </Body>
           <Right />

@@ -27,7 +27,7 @@ export default StyleSheet.create({
   },
   CardImage: {
     width: GLOBAL_PARAMS._winWidth - 33,
-    height: em(255/2)
+    height: Platform.OS === 'ios' ? em(255/2) : em(140)
   },
   CardInfo: {
     position: "absolute",

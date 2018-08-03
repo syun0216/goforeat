@@ -7,14 +7,14 @@ import Divider from '../components/Divider';
 import Text from './UnScalingText';
 //utils
 import Colors from '../utils/Colors';
-import GLOBAL_PARAMS from '../utils/global_params';
+import GLOBAL_PARAMS,{em} from '../utils/global_params';
 
 const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: Colors.main_white,
     height: GLOBAL_PARAMS.widthAuto(60),
     width: GLOBAL_PARAMS._winWidth,
-    padding:GLOBAL_PARAMS.em(10),
+    padding:em(10),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   itemText: {
-    fontSize: GLOBAL_PARAMS.em(16),
+    fontSize: em(16),
     color: '#333',
   },
   itemIcon: {
-    fontSize: GLOBAL_PARAMS.em(20),
+    fontSize: em(20),
     color: '#333',
-    marginRight: GLOBAL_PARAMS.em(10),
+    marginRight: em(10),
   }
 });
 

@@ -53,7 +53,7 @@ const styles = {
     shadowColor: '#C1C1C1',
     shadowOpacity: 0.3,
     shadowOffset:{  width: 0,  height: -5,  },
-    elevation: -2,
+    // elevation: -2,
     paddingBottom: Platform.OS == 'ios' ? 3 : 0
   },
 };

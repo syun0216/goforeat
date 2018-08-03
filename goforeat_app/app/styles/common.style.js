@@ -37,8 +37,8 @@ const common = {
   },
   common_icon_back: {
     fontSize: em(25),
-    paddingLeft: 10,
-    paddingRight: 20
+    paddingLeft: em(10),
+    paddingRight: em(20)
   },
   //_renderBottomView
   BottomView: {

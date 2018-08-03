@@ -111,7 +111,7 @@ android {
         applicationId "com.goforeat_app"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 10
+        versionCode 11
         versionName "1.1.7"
         manifestPlaceholders = [
                 JPUSH_APPKEY: "1d3225ebddcae3fc7ef8b0b5",
@@ -180,10 +180,13 @@ dependencies {
     compile project(':appcenter-push')
     compile project(':react-native-interactable')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.0.1'
+//    compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.facebook.react:react-native:+'
-    compile 'com.google.android.gms:play-services-wallet:11.0.4'
-//    compile 'com.android.support:support-v4:23.0.1'
+    compile 'com.google.android.gms:play-services-base:+'
+    compile 'com.google.android.gms:play-services-wallet:+'
+    compile 'com.google.android.gms:play-services-identity:+'
+//    compile 'com.google.android.gms:play-services-wallet:11.0.4'
+//    compile 'com.android.support:support-v6:23.0.1'
 //    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 //    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     // From node_modules

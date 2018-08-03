@@ -87,16 +87,17 @@ export default class PaySettingView extends PureComponent {
       // }
     ];
     let _verify_platform_pay = null;
-    if(Platform.OS == 'android') {
-      _verify_platform_pay = {
-        content: 'Android Pay',hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.ANDROID_PAY),rightIcon:this._checkedImage('android_pay'),clickFunc: () => {this._checked('android_pay');}
-      }
-    }else {
+    // if(Platform.OS == 'android') {
+    //   _verify_platform_pay = {
+    //     content: 'Android Pay',hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.ANDROID_PAY),rightIcon:this._checkedImage('android_pay'),clickFunc: () => {this._checked('android_pay');}
+    //   }
+    // }
+    if(Platform.OS == 'ios') {
       _verify_platform_pay = {
         content: 'Apple Pay',hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.APPLE_PAY),rightIcon:this._checkedImage('apple_pay'),clickFunc: () => {this._checked('apple_pay');}
       };
+      _list_arr.push(_verify_platform_pay);  //暫時屏蔽apple_pay和android_pay
     }
-    _list_arr.push(_verify_platform_pay);  //暫時屏蔽apple_pay和android_pay
 
     let {creditCardInfo} = this.state;
     let _from_confirm_order = this.props.navigation.state.params['from'] == 'confirm_order';

@@ -28,7 +28,7 @@ const CommonHeader = (props) => {
   <Header style={[props.headerStyle,{
     marginTop: GLOBAL_PARAMS.isIphoneX() ? -GLOBAL_PARAMS.iPhoneXTop : 0,
     marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0,
-  }]} hasTabs iosBarStyle={props.iosBarStyle}>
+  }]} hasTabs iosBarStyle={props.iosBarStyle} androidStatusBarColor="#333">
   <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.linearGradient}>
     <Left style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,}}>
       {props.canBack ? (props.leftElement !== null ? props.leftElement : (
