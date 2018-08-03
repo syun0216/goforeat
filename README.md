@@ -4,19 +4,13 @@
   <img width="128" src="./display/goforeat.png">
 </p>
 
-### 附录
-ios的打包方法:
-[https://www.jianshu.com/p/b1b77d804254](https://www.jianshu.com/p/b1b77d804254) <br>
-android的打包方法:
-[https://www.jianshu.com/p/61e27d9b02f2](https://www.jianshu.com/p/61e27d9b02f2)
 ### android平台 [android 下载地址](https://play.google.com/store/apps/details?id=com.goforeat_app)
 * 运行: 用Android studio导入android文件夹下的项目 -> run 
-* 打包: 在项目文件夹下, $ cd android && ./gradlew assembleRelease
+* 打包: 在项目文件夹下, npm run bundle-android 打包完bundle后 $ cd android && ./gradlew assembleRelease
 
 ### ios平台 [ios 下载地址](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
 * 运行: Xcode(打开goforeat_app.xcworkspace项目) -> run
 * 打包:
-    * 使用离线数据:取消注释jsCodeLocation = [[NSBundle mainBundle] ...这一行
     * 选择'Generic iOS Device'
     * Product->Archive
 
@@ -60,8 +54,15 @@ android的打包方法:
   <img src="./display/ios_1_1_4_7.png" width="200">
 </p>
 
+### 附录
+ios的打包方法:
+[https://www.jianshu.com/p/b1b77d804254](https://www.jianshu.com/p/b1b77d804254) <br>
+android的打包方法:
+[https://www.jianshu.com/p/61e27d9b02f2](https://www.jianshu.com/p/61e27d9b02f2)
+
+
 # goforeat_website
-使用vue框架架构
+使用vue框架架构 现已不再维护
 <p align="center">
   <img width="128" src="./display/1513159482.png">
 </p>
