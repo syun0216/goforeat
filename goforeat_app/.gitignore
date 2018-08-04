@@ -53,3 +53,7 @@ buck-out/
 */fastlane/screenshots
 
 ios/Pods
+
+# 项目内
+app/api
+app/views/StatementView.js
