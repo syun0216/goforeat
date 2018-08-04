@@ -124,7 +124,7 @@ export default class SettingView extends PureComponent{
       _list_arr.unshift(_setting_ios);
     }
     return (
-      <Container style={{backgroundColor: '#edebf4'}}>
+      <Container style={{backgroundColor: '#efefef'}}>
         <CommonHeader title={i18n.setting} canBack {...this.props}/>
           <ScrollView>
           <TouchableWithoutFeedback delayLongPress={4000} onLongPress={() => {appStorage.removeAll();alert('清除緩存成功')}}>

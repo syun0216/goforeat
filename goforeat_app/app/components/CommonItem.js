@@ -48,7 +48,7 @@ const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,c
       </View>
       {hasRightIcon ? rightIcon : null}
     </TouchableOpacity>
-    {isEnd ? <Divider bgColor='#edebf4'/> : null}
+    {isEnd ? <Divider bgColor='#efefef'/> : null}
   </View>
 );
 

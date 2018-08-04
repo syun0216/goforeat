@@ -17,9 +17,10 @@ export default StyleSheet.create({
   creditcardView: {
     height: em(44),
     justifyContent: 'center',
-    marginLeft: em(15),
+    paddingLeft: em(15),
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5E5',
+    backgroundColor: '#fff'
   },
   creditcardText: {
     color: '#666666',

@@ -200,7 +200,7 @@ export default class CreditCardView extends PureComponent {
     return (
       <Container>
         <CommonHeader title={this.state.i18n.addCard} canBack {...this.props}/>
-        <Content style={{backgroundColor: '#edebf4'}}>
+        <Content style={{backgroundColor: '#efefef'}}>
             <View>
               {
                 _list_arr.map((v,i) => this._renderCommonInput(v,i))
