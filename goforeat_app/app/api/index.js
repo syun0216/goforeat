@@ -300,6 +300,15 @@ const api = {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         })
+    },
+    feedback(data) {
+        return axios.post(api_url + '/feedback/add',qs.stringify({
+           ...data
+        }, {cancelToken: source.token}), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+            }
+        })
     }
 }
 
