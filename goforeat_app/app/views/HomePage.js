@@ -7,7 +7,7 @@ import {
   AppState,
   ActivityIndicator,
   RefreshControl,
-  Platform
+  Linking
 } from "react-native";
 import {
   Container,
@@ -29,6 +29,7 @@ import api from "../api";
 //components
 import ErrorPage from "../components/ErrorPage";
 import Loading from "../components/Loading";
+import LoadingModal from "../components/LoadingModal";
 import PlacePickerModel from '../components/PlacePickerModel';
 import BlankPage from '../components/BlankPage';
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
@@ -410,8 +411,11 @@ class HomePage extends Component {
             {/*<Image source={require('../asset/Oval.png')} style={{width: 10,height: 10,position: 'absolute',top: 10, right: 10}}/>*/}
           </TouchableOpacity>
           <View style={HomePageStyles.HeaderContent}>
-          {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} style={HomePageStyles.HeaderContentActivityIndicator} size="small"/>}
+            {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} size="small"/>}
           </View>
+          <TouchableOpacity onPress={() => Linking.openURL(`http://maps.apple.com/?q=${this.state.placeSelected.name}`)} style={HomePageStyles.MenuBtn}>
+            <Image source={require('../asset/plane.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
+          </TouchableOpacity>
         </LinearGradient>
         </Header>
         {this.state.isError ? (

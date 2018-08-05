@@ -134,16 +134,17 @@ export default StyleSheet.create({
   //_renderPlacePickerBtn
   PlacePickerBtn: {
     flexDirection: 'row',
-    marginLeft: Platform.OS == 'ios' ? em(-65) : em(-30),
-    maxWidth: Platform.OS == 'ios' ? em(200) : em(250),
+    // marginLeft: Platform.OS == 'ios' ? em(-45) : em(-30),
+    flex: 1,
     marginTop: Platform.OS == 'ios' ? GLOBAL_PARAMS.isIphoneX() ? 15 : 0 : em(-8),
-    position: 'relative'
+    position: 'relative',
   },
   PlacePickerBtnBgAbsolute: {
     backgroundColor: Colors.main_white,
     opacity: 0.2,
     borderRadius: 100,
-    width: em(250),
+    // width: em(250),
+    flex: 1,
     height: em(35),
   },
   PlacePickerBtnImage: {
@@ -158,9 +159,9 @@ export default StyleSheet.create({
     marginLeft: 10,
     fontSize: em(16),
     position: 'absolute',
-    left: em(33),
-    top: Platform.OS == 'android' ? em(7) : em(8)
-    
+    left: em(25),
+    top: Platform.OS == 'android' ? em(7) : em(8),
+    maxWidth: Platform.OS == 'ios' ? em(225) : em(250),
   },
   //render
   ContainerBg: {
@@ -182,14 +183,19 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   MenuBtn: {
-    width: 60,
+    width: GLOBAL_PARAMS._winWidth*0.15,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: Platform.OS == 'ios' ? 0 : -8,
     height: 50,
-    position: 'relative'
+    position: 'relative',
   },
   MenuImage: {
+    width: em(23),
+    height: em(23),
+    marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,
+  },
+  planeImage: {
     width: em(30),
     height: em(15),
     marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,
@@ -199,9 +205,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
-  },
-  HeaderContentActivityIndicator: {
-    marginLeft: -60
   },
   BottomView: {
     height: 80,
