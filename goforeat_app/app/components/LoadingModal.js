@@ -7,14 +7,15 @@ import Colors from "../utils/Colors";
 
 const styles = StyleSheet.create({
   loadingContainer: {
-    // position:'absolute',
-    // top:0,
-    // left:0,
+    position:'absolute',
+    top:0,
+    left:0,
     // flex:1,
     justifyContent: "center",
     padding: 60,
     zIndex: 10000,
     backgroundColor: "transparent",
+    width: GLOBAL_PARAMS._winWidth,
     height: GLOBAL_PARAMS._winHeight
   },
   loadingContainerAndroid: {
@@ -37,7 +38,7 @@ const LoadingModal = props => (
       style={{
         alignSelf: "center",
         backgroundColor: Colors.fontBlack,
-        borderRadius: 20,
+        borderRadius: 5,
         opacity: 0.8,
         padding: 25
       }}

@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, StyleSheet, ActivityIndicator,Platform } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator,Platform,Image } from "react-native";
 // utils
-import GLOBAL_PARAMS from "../utils/global_params";
+import GLOBAL_PARAMS,{em} from "../utils/global_params";
 import Colors from "../utils/Colors";
 
 const styles = StyleSheet.create({
@@ -44,7 +44,7 @@ const Loading = props => {
           padding: 25
         }}
         >
-        <ActivityIndicator size="small" color={Colors.deep_gray}/>
+        <Image source={require('../asset/Coffeeloading.gif')} style={{width:em(60),height:em(60)}} resizeMode="contain"/>
         <Text allowFontScaling={false} style={{ color: Colors.deep_gray, marginTop: 10,fontSize: GLOBAL_PARAMS.em(14) }}>{props.message}</Text>
       </View>
     </View>
