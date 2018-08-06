@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {View,Animated,Easing,StyleSheet,TouchableOpacity,Platform} from 'react-native';
 import {Icon} from 'native-base';
 //utils
-import GLOBAL_PARAMS from '../utils/global_params';
+import GLOBAL_PARAMS,{em} from '../utils/global_params';
 import Colors from '../utils/Colors';
 //components
 import Text from './UnScalingText';
@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
     flexDirection:'row',alignItems:'center',justifyContent: 'center',
   },
   commonText:{
-    marginLeft:20,
-    marginRight:20,
+    // marginLeft:20,
+    // marginRight:20,
     fontSize: 25
   },
   commonIcon: {
-    fontSize: 20
+    fontSize: em(18)
   },
   confirmBtn: {
     backgroundColor:'#FF3348',
@@ -123,7 +123,7 @@ export default class BottomOrderConfirm extends PureComponent {
           {canClose ?<TouchableOpacity style={styles.closeBtn} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,styles.iconClose]}/>
           </TouchableOpacity> : null}
-          <Text style={{marginLeft: 5,...iPhoneXBottom}}>HKD{" "}</Text>
+          <Text style={{marginLeft: 5,fontSize: em(13),...iPhoneXBottom}}>HKD{" "}</Text>
           <Text style={[styles.commonText,styles.priceText]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
         </View>
         <TouchableOpacity style={styles.confirmBtn} onPress={() => btnClick()}>
