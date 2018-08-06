@@ -41,7 +41,12 @@ const styles = StyleSheet.create({
 
 const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,clickFunc,style,contentStyle,disabled}) => (
   <View>
-    <TouchableOpacity disabled={disabled} style={[styles.itemContainer,style]} onPress={() => clickFunc()}>
+    <TouchableOpacity disabled={disabled} style={[styles.itemContainer,style]} onPress={() => {
+      requestAnimationFrame(() => {
+        clickFunc()  
+      });
+      // clickFunc()  
+    }}>
       <View style={styles.itemLeftView}>
         {hasLeftIcon ? leftIcon:null}
         <Text numberOfLines={1} style={[styles.itemText,contentStyle]}>{content}</Text>
