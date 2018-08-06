@@ -12,6 +12,7 @@ import CommonStyles from '../styles/common.style';
 import CreditCardStyles from '../styles/creditcard.style';
 //utils
 import ToastUtils from '../utils/ToastUtil';
+import {em} from '../utils/global_params';
 //cache
 import appStorage from '../cache/appStorage';
 //api
@@ -174,7 +175,7 @@ export default class CreditCardView extends PureComponent {
         <View style={Platform.OS == 'ios'?CreditCardStyles.CommonInputView:CreditCardStyles.CommonInputAndroidView} key={key}>
           <Text style={CreditCardStyles.InputTitle}>{item.label}</Text>
           <TouchableOpacity style={CreditCardStyles.SelectBtn} onPress={() => {Picker.show();Keyboard.dismiss()}}>
-            <Text style={{color: '#333333',fontSize: 16}}>{this.state.time != '' ? this.state.time : this.state.i18n.timeRequire}</Text>
+            <Text style={{color: '#333333',fontSize: em(16)}}>{this.state.time != ''  ? this.state.time : this.state.i18n.timeRequire}</Text>
           </TouchableOpacity>
         </View>
       )

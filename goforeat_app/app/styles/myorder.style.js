@@ -33,7 +33,15 @@ export default StyleSheet.create({
   commonHeadering: {
     backgroundColor: Colors.main_white,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd'
+    borderBottomColor: '#ddd',
+    position: 'relative',
+  },
+  activeRedTips: {
+    width: em(8),
+    height: em(8),
+    position: 'absolute',
+    top: em(11),
+    right: em(13)
   },
   commonText: {
     fontSize: em(16),
@@ -41,7 +49,7 @@ export default StyleSheet.create({
   },
   tabBarUnderlineStyle: {
     backgroundColor: '#FF3348',
-    marginLeft: GLOBAL_PARAMS.widthAuto(47),
+    marginLeft: GLOBAL_PARAMS.widthAuto(32),
     width: em(32)
   },
   //_renderPayView

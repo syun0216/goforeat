@@ -57,6 +57,7 @@ const PAY_TYPE = {
 export default class PeopleView extends Component {
   timer = null;
   _tabs = null;
+  _delivering_list = [];
 
   constructor(props) {
     super(props);
@@ -74,12 +75,8 @@ export default class PeopleView extends Component {
     currentTab: _TAB_FINISHED,
     currentStatus: _ORDER_ALL,
     i18n: I18n[this.props.screenProps.language],
-    cannotReload: { //不发生操作则不重载
-      _TAB_FINISHED: false,
-      _TAB_DELIVERING: false,
-      _TAB_CANCEL: false
+    hasDelivering: false
     }
-  }
   }
 
   componentDidMount() {
@@ -121,6 +118,18 @@ export default class PeopleView extends Component {
             }
           })
           return
+        }
+        if(this._delivering_list.length == 0) {
+          for(let i = 0;i<data.data.data.length;i++) {
+            if(data.data.data[i].status == _ORDER_DELIVERING) {
+              this._delivering_list.push(data.data.data[i].orderId)
+            }
+          }
+          if(this._delivering_list.length > 0) {
+            this.setState({
+              hasDelivering: true
+            });
+          }
         }
         this.setState({
           orderlist: this.state.orderlist.concat(data.data.data),
@@ -165,10 +174,21 @@ export default class PeopleView extends Component {
             if(data.status === 200 && data.data.ro.ok) {
               ToastUtil.showWithMessage(i18n.myorder_tips.success.cancel_order);
               this._onReloadPage();
-              this._getMyOrder(requestParams.offset, this.state.currentStatus);
+              this._delivering_list.splice(this._delivering_list.indexOf(orderId),1);
+              if(this._delivering_list.length == 0) {
+                this.setState({
+                  hasDelivering: false
+                },() => {
+                  this._getMyOrder(requestParams.offset, this.state.currentStatus);
+                })
+              }else {
+                this._getMyOrder(requestParams.offset, this.state.currentStatus);
+              }
               // if(currentPayment.en == 'Apple Pay' || currentPayment.en == 'Credit Card') {
               //   LinkingUtils.dialingToCancelOrder(52268745, this.props.screenProps.language);
               // }
+            }else {
+              ToastUtil.showWithMessage(data.data.ro.respMsg)
             }
           },() => {
             ToastUtil.showWithMessage(i18n.common_tips.err);
@@ -231,7 +251,8 @@ export default class PeopleView extends Component {
       switch(this._tabs.state.currentPage) {
         case 0: {this._getMyOrder(requestParams.offset,_ORDER_ALL);this.setState({currentStatus:_ORDER_ALL})}break;
         case 1: {this._getMyOrder(requestParams.offset, _ORDER_DELIVERING);this.setState({currentStatus:_ORDER_DELIVERING})}break;
-        case 2: {this._getMyOrder(requestParams.offset, _ORDER_CANCEL);this.setState({currentStatus:_ORDER_CANCEL})}break;
+        case 2: {this._getMyOrder(requestParams.offset, _ORDER_FINISHED);this.setState({currentStatus:_ORDER_FINISHED})}break;
+        case 3: {this._getMyOrder(requestParams.offset, _ORDER_CANCEL);this.setState({currentStatus:_ORDER_CANCEL})}break;
       }
       
       this.setState({
@@ -350,16 +371,18 @@ export default class PeopleView extends Component {
     )
   }
 
-  _renderCommonListView = () => (
-    <View style={{flex:1,backgroundColor:'#f0eff6'}}>
-    {this.state.isExpired ? <BlankPage style={Platform.OS === 'ios' ?{marginTop:50}:{marginTop:0}} message={this.state.expiredMessage}/> : null}
+  _renderCommonListView(tab) {
+    console.log(111111,this.state);
+    return (
+    <View style={{flex:1,backgroundColor:'#efefef'}}>
+    {this.state.isExpired ? <BlankPage style={Platform.OS === 'ios' ?{marginTop:50}:{marginTop:0}} message={'T_T'+this.state.expiredMessage}/> : null}
       {
         this.state.orderlist.length > 0 
         ? this._renderOrderListView()
         : null
       }
     </View>
-  )
+  )}
 
   render() {
     let {i18n} = this.state;
@@ -372,8 +395,11 @@ export default class PeopleView extends Component {
         <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_ALL? '800':'normal',}]}>{i18n.all}</Text></TabHeading>}>
           {this._renderCommonListView()}
         </Tab>
-        <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_DELIVERING? '800':'normal',}]}>{i18n.delivering}</Text></TabHeading>}>
-          {this._renderCommonListView()}
+        <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_DELIVERING? '800':'normal',}]}>{i18n.delivering}</Text>
+          {this.state.hasDelivering?<Image source={require('../asset/Oval.png')} style={MyOrderStyles.activeRedTips}/> : null}
+        </TabHeading>}>
+          {this._renderCommonListView(_TAB_DELIVERING)}
+        </Tab>
         </Tab>
         <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_CANCEL? '800':'normal',}]}>{i18n.cancelOrder}</Text></TabHeading>}>
           {this._renderCommonListView()}
@@ -382,7 +408,7 @@ export default class PeopleView extends Component {
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
           <Loading style={Platform.OS == 'android' ? {marginTop:110} : {}}/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
             <ErrorPage errorTips={i18n.common_tips.reload} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : null)}
-        {this.state.loadingStatus.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_DATA ? <BlankPage style={{marginTop: Platform.OS=='ios'? 50:110}} message={i18n.common_tips.no_data}/> : null}
+        {this.state.loadingStatus.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_DATA ? <BlankPage style={{marginTop: Platform.OS=='ios'? 50:110}} message={'T_T'+i18n.common_tips.no_data}/> : null}
       </Container>
     );
   }
