@@ -41,9 +41,10 @@ const CANCEL_INDEX = 4;
 
 export default class CustomLoginView extends PureComponent {
   _textInput = null;
-  token = 'null';
+  token = null;
   _timer = null;
   _keyboard_height = 0;
+  _actionSheet = null;
   state = {
     phone: null,
     password: null,
@@ -81,25 +82,26 @@ export default class CustomLoginView extends PureComponent {
   }
 
   _sendPhoneAndGetCode() {
+    let {i18n} = this.state;
     if (this.state.phone === null) {
-      ToastUtil.showWithMessage("手機號格式有誤");
+      ToastUtil.showWithMessage(i18n.login_tips.fail.phone_null);
       return;
     }
     api.getCode(this.state.phone, this.state.selectedValue.value).then(
       data => {
         if (data.status === 200 && data.data.ro.ok) {
           this.token = data.data.data.token;
-          ToastUtil.showWithMessage("驗證碼發送成功");
+          ToastUtil.showWithMessage(i18n.login_tips.success.code);
           let _during = 60;
           this.interval = setInterval(() => {
             _during--;
             this.setState({
-              codeContent: `${_during}秒后重發`,
+              codeContent: `${_during}${i18n.login_tips.common.resendAfterSceond}`,
               isCodeDisabled: true
             });
             if (_during === 0) {
               this.setState({
-                codeContent: '重新發送',
+                codeContent: i18n.login_tips.common.resend,
                 isCodeDisabled: false
               });
               clearInterval(this.interval);
@@ -110,7 +112,7 @@ export default class CustomLoginView extends PureComponent {
         }
       },
       () => {
-        ToastUtil.showWithMessage("驗證碼發送失敗");
+        ToastUtil.showWithMessage(i18n.login_tips.fail.code);
       }
     );
   };
@@ -128,19 +130,20 @@ export default class CustomLoginView extends PureComponent {
   }
 
   _login() {
+    let {i18n} = this.state;
     let {params} = this.props.navigation.state;
     let {phone,selectedValue,password} = this.state;
     if(this.state.phone === null){
-      ToastUtil.showWithMessage("請填寫手機號")
+      ToastUtil.showWithMessage(i18n.login_tips.fail.phone_null)
       return
     }
     if(this.state.password === null){
-      ToastUtil.showWithMessage("請填寫驗證碼")
+      ToastUtil.showWithMessage(i18n.login_tips.fail.code_null)
       return
     }
     api.checkCode(phone,selectedValue.value,this.token,password).then(data => {
       if(data.status === 200 && data.data.ro.ok){
-        ToastUtil.showWithMessage("登錄成功")
+        ToastUtil.showWithMessage(i18n.login_tips.success.login)
         appStorage.setLoginUserJsonData(this.state.phone,data.data.data.sid);
         this.props.screenProps.userLogin(this.state.phone,data.data.data.sid);
         if(typeof params === 'undefined') {
@@ -163,7 +166,7 @@ export default class CustomLoginView extends PureComponent {
           api.saveDevices(registrationId,data.data.data.sid).then(sdata => {
           });
         },() => {
-          ToastUtil.showWithMessage("登錄失敗")
+          ToastUtil.showWithMessage(i18n.login_tips.fail.login)
         })
       }
       else{
@@ -171,29 +174,33 @@ export default class CustomLoginView extends PureComponent {
       }
     })
     .catch(err => {
-      ToastUtil.showWithMessage('發生未知錯誤');
+      ToastUtil.showWithMessage(i18n.common_tips.err);
     })
   }
 
   _showActionSheet = () => {
-    ActionSheet.show(
-      {
-        options: BUTTONS,
-        cancelButtonIndex: CANCEL_INDEX,
-        destructiveButtonIndex: DESTRUCTIVE_INDEX,
-        title: "選擇電話類型"
-      },
-      buttonIndex => {
-        switch (BUTTONS[buttonIndex]) {
-          case GLOBAL_PARAMS.phoneType.HK.label:
-            this.setState({ selectedValue: GLOBAL_PARAMS.phoneType.HK });
-            break;
-          case GLOBAL_PARAMS.phoneType.CHN.label:
-            this.setState({ selectedValue: GLOBAL_PARAMS.phoneType.CHN });
-            break;
+    let {i18n} = this.state;
+    if ( this._actionSheet !== null ) {
+      // Call as you would ActionSheet.show(config, callback)
+      this._actionSheet._root.showActionSheet(
+        {
+          options: BUTTONS,
+          cancelButtonIndex: CANCEL_INDEX,
+          destructiveButtonIndex: DESTRUCTIVE_INDEX,
+          title: i18n.login_tips.common.choosePhone
+        },
+        buttonIndex => {
+          switch (BUTTONS[buttonIndex]) {
+            case GLOBAL_PARAMS.phoneType.HK.label:
+              this.setState({ selectedValue: GLOBAL_PARAMS.phoneType.HK });
+              break;
+            case GLOBAL_PARAMS.phoneType.CHN.label:
+              this.setState({ selectedValue: GLOBAL_PARAMS.phoneType.CHN });
+              break;
+          }
         }
-      }
-    );
+      );
+    }
   };
 
   _toggleKeyBoard(val) {
@@ -313,6 +320,7 @@ export default class CustomLoginView extends PureComponent {
         {this._renderTopImage()}
         {this._renderContentView()}
         {/*this._renderBottomView()*/}
+        <ActionSheet ref={(a) => { this._actionSheet = a; }} />
       </Animated.View>
     )
   }

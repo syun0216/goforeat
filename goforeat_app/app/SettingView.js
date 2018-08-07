@@ -25,6 +25,7 @@ const DESTRUCTIVE_INDEX = 3;
 const CANCEL_INDEX = 4;
 export default class SettingView extends PureComponent{
   popupDialog = null;
+  _actionSheet = null;
   state = {
     isEnglish: false,
     language: this.props.screenProps.language == 'en'? 'English' : '繁體中文',
@@ -95,28 +96,30 @@ export default class SettingView extends PureComponent{
       },    
       {
         content:i18n.lang,isEnd:false,hasRightIcon: true,rightIcon:(<Text>{this.state.language}</Text>),clickFunc:() => {
-          ActionSheet.show(
-            {
-              options: LANGUAGE_BTN,
-              cancelButtonIndex: CANCEL_INDEX,
-              destructiveButtonIndex: DESTRUCTIVE_INDEX,
-              title: i18n.langChoose,
-            },
-            buttonIndex => {
-              if(this.state.lang_idx == buttonIndex) return;
-              this.setState({
-                lang_idx: buttonIndex,
-                language: LANGUAGE_BTN[buttonIndex]
-              })
-              if(LANGUAGE_BTN[buttonIndex] == 'English') {
-                this.props.screenProps.changeLanguage('en');
-                appStorage.setLanguage('en');
-              } else {
-                appStorage.setLanguage('zh');
-                this.props.screenProps.changeLanguage('zh');
+          if(this._actionSheet != null) {
+            this._actionSheet._root.showActionSheet(
+              {
+                options: LANGUAGE_BTN,
+                cancelButtonIndex: CANCEL_INDEX,
+                destructiveButtonIndex: DESTRUCTIVE_INDEX,
+                title: i18n.langChoose,
+              },
+              buttonIndex => {
+                if(this.state.lang_idx == buttonIndex) return;
+                this.setState({
+                  lang_idx: buttonIndex,
+                  language: LANGUAGE_BTN[buttonIndex]
+                })
+                if(LANGUAGE_BTN[buttonIndex] == 'English') {
+                  this.props.screenProps.changeLanguage('en');
+                  appStorage.setLanguage('en');
+                } else {
+                  appStorage.setLanguage('zh');
+                  this.props.screenProps.changeLanguage('zh');
+                }
               }
-            }
-          );
+            )
+          }
         }
       },
     ];
@@ -138,6 +141,7 @@ export default class SettingView extends PureComponent{
             ))}
             {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
           </ScrollView>
+          <ActionSheet ref={(a) => { this._actionSheet = a; }} />
       </Container>
     )
   }
