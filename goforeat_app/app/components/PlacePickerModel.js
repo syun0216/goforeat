@@ -76,7 +76,6 @@ class PlacePickerModel extends Component{
         //   name: v.name.length> 10 ? v.name.substring(0,10) + '...' : v.name
         // }))
         let _data = typeof storage_data != 'undefined' ? storage_data : data.data.data[0];
-        console.log(data.data.data)
         this.setStateAsync({selected: _data.name}).then(() => {
           data.data.data = data.data.data.map(v => ({
             ...v,
@@ -105,16 +104,20 @@ class PlacePickerModel extends Component{
     this.setState({
       selected: item.name,
       placeList: this.state.placeList
+    },() => {
+      this.props.getSeletedValue(item);
+      let _timer = setTimeout(() => {
+        clearTimeout(_timer);
+        this.props.screenProps.stockPlace(item);
+        appStorage.setPlace(JSON.stringify(item)); 
+        this.props.closeFunc();
+      },200)
     });
-    this.props.getSeletedValue(item);
-    this.props.screenProps.stockPlace(item);
-    appStorage.setPlace(JSON.stringify(item)); 
-    this.props.closeFunc();
   }
   
   render() {
     return (<Modal
-      animationType={"fade"}
+      animationType={"slide"}
       transparent={false}
       visible={this.props.modalVisible}
       onRequestClose={() => this.props.closeFunc()}
