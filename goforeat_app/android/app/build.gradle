@@ -112,7 +112,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 11
-        versionName "1.1.7"
+        versionName "0.9.1"
         manifestPlaceholders = [
                 JPUSH_APPKEY: "1d3225ebddcae3fc7ef8b0b5",
                 APP_CHANNEL : "default"
@@ -180,7 +180,9 @@ dependencies {
     compile project(':appcenter-push')
     compile project(':react-native-interactable')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile 'com.android.support:appcompat-v7:23.0.1'
+//    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.facebook.fresco:fresco:1.3.0'
+    compile 'com.facebook.fresco:animated-gif:1.3.0'
     compile 'com.facebook.react:react-native:+'
     compile 'com.google.android.gms:play-services-base:+'
     compile 'com.google.android.gms:play-services-wallet:+'
