@@ -50,7 +50,7 @@ export default class PaySettingView extends PureComponent {
   _checked(name) {
     this.setState(
       {checkedName: name}
-    );
+    );    
     AppStorage.setPayType(name);
     this.props.screenProps.setPayType(name);
   }
@@ -94,7 +94,7 @@ export default class PaySettingView extends PureComponent {
     // }
     if(Platform.OS == 'ios') {
       _verify_platform_pay = {
-        content: 'Apple Pay',hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.APPLE_PAY),rightIcon:this._checkedImage('apple_pay'),clickFunc: () => {this._checked('apple_pay');}
+        content: 'Apple Pay',hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.APPLE_PAY),rightIcon:this._checkedImage('apple_pay'),isEnd: true,clickFunc: () => {this._checked('apple_pay');}
       };
       _list_arr.push(_verify_platform_pay);  //暫時屏蔽apple_pay和android_pay
     }
@@ -108,7 +108,7 @@ export default class PaySettingView extends PureComponent {
     return (
       <Container>
       <CommonHeader title={i18n.payment} canBack {...this.props}/>
-        <Content style={{backgroundColor:Colors.main_white}}>
+        <Content style={{backgroundColor:'#efefef'}}>
         <View>
         {_list_arr.map((item,key) => (
           <CommonItem key={key} content={item.content} isEnd={item.isEnd} clickFunc={item.clickFunc}
