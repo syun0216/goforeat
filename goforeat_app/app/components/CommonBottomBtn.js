@@ -19,7 +19,7 @@ const CommonBottomBtn = props => {
   return (
     <View style={CommonStyles.common_btn_container}>
       <TouchableOpacity onPress={props.clickFunc}>
-        <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={CommonStyles.btn}>
+        <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={[CommonStyles.btn,props.style]}>
           <Text style={{color:'#fff',fontSize:16}}>{props.children}</Text>
         </LinearGradient>
       </TouchableOpacity>
@@ -28,11 +28,13 @@ const CommonBottomBtn = props => {
 }
 
 CommonBottomBtn.defaultProps = {
-  clickFunc: () => {}
+  clickFunc: () => {},
+  style: {}
 }
 
 CommonBottomBtn.propsType = {
-  clickFunc: PropTypes.func
+  clickFunc: PropTypes.func,
+  style: PropTypes.object
 }
 
 export default CommonBottomBtn;
