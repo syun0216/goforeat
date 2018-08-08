@@ -51,6 +51,7 @@ const FeedbackView = props => {
         <TextInput
         style={{width:GLOBAL_PARAMS._winWidth * 0.9,height:GLOBAL_PARAMS._winHeight*0.15,marginTop:em(15),borderWidth:1,borderColor: '#ccc',borderRadius: 5,alignSelf: 'center',backgroundColor: '#fff',textAlign:'justify',marginBottom: em(15),padding: em(10)}}
         multiline={true}
+        underlineColorAndroid='rgba(0,0,0,0)'
         numberOfLines={4}
         placeholderTextColor="#999999"
         placeholder={i18n[language].feedbackTips}
@@ -59,6 +60,7 @@ const FeedbackView = props => {
         <TextInput style={{width: GLOBAL_PARAMS._winWidth*0.9,height: em(50),borderRadius: 5,alignSelf: 'center',backgroundColor: '#fff',padding: em(10),borderWidth:1,borderColor: '#ccc',}}
         numberOfLines={1}
         placeholderTextColor="#999999"
+        underlineColorAndroid='rgba(0,0,0,0)'
         placeholder={i18n[language].feedbackPhoneTips}
         onChangeText={(val) => _getPhone(val)}
         />
