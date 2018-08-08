@@ -41,7 +41,7 @@ export default StyleSheet.create({
   },
   drawerItemIcon: {
     color: '#EE6723',
-    fontSize: em(22)
+    fontSize: em(25)
   },
   drawerItemText: {
     fontSize: Platform.OS == 'ios' ? em(20) : em(18),

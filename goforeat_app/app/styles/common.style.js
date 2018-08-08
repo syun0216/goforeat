@@ -2,7 +2,7 @@ import GLOBAL_PARAMS,{em} from '../utils/global_params';
 const common = {
   btn: {
     height: em(45),
-    width: GLOBAL_PARAMS._winWidth*0.7,
+    width: GLOBAL_PARAMS._winWidth*0.9,
     justifyContent:'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -13,8 +13,8 @@ const common = {
     elevation: 3,
   },
   common_btn_container: {
-    marginTop: em(18),
-    marginBottom: em(18),
+    marginTop: em(20),
+    marginBottom: em(20),
     justifyContent: 'center',
     alignItems: 'center',
   },

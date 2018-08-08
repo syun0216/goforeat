@@ -56,7 +56,7 @@ export default StyleSheet.create({
   },
   IntroductionDetailBtn: {
     color: '#ff3348',
-    fontSize: em(16),
+    fontSize: em(18),
     paddingLeft: em(10),
     paddingRight: em(10)
   },

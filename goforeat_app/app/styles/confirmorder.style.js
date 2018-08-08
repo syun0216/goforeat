@@ -117,11 +117,12 @@ export default StyleSheet.create({
     alignItems: 'center',
     flex: 1
   },
-  ArrowDown: {
-    width: 20,
-    height: 20,
+  ArrowShow: {
+    width: em(20),
+    height: em(20),
     color: '#C8C7C7',
-    marginTop: -8
+    marginTop: -8,
+    fontSize: em(25)
   },
   //renderCouponBtnView
   CouponInput: {

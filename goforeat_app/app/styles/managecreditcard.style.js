@@ -53,7 +53,7 @@ export default StyleSheet.create({
     borderTopColor: '#E5E5E5',
     elevation: 0,
     alignItems: 'center',
-    height: em(40)
+    height: GLOBAL_PARAMS.isIphoneX() ? em(40+GLOBAL_PARAMS.iPhoneXBottom) : em(40)
   },
   FooterBtn: {
     height: em(40),
