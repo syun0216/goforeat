@@ -8,6 +8,7 @@ export default {
   help: '用戶支援',
   address: '請選擇取餐地點',
   all: '全部',
+  finished: '已完成',
   delivering: '待配送',
   cancelOrder: '已取消',
   cash: '現金支付',
@@ -19,6 +20,7 @@ export default {
   cardType: '卡片類型',
   date: '有效期',
   card: '信用卡',
+  paying: '支付中...',
   changeCard: '更換信用卡',
   bindCardOnce: '只可以綁定一張信用卡',
   addCard: '綁定卡號',
@@ -29,7 +31,14 @@ export default {
   timeRequire: '請選擇有效期',
   cvcRequire: '請輸入(必填)',
   phone: '電話聯繫',
+  email: '郵件聯繫',
   online: '在線支援',
+  feedback: '意見反饋',
+  sendFeedback: '提交反饋',
+  feedbackTips: '請留下您的寶貴意見和建議，我們將努力改進(不少於5個字)',
+  feedbackPhoneTips: '請留下手機號碼，以便我們回復您(可選)',
+  feedbackLength: '最少輸入5個字哦~',
+  thankForFeedback: '感謝您的提議，我們會盡快改進哦~',
   notice: '通知',
   lang: '語言',
   langChoose: '選擇語言',
@@ -99,6 +108,11 @@ export default {
       code: '驗證碼發送失敗',
       code_null: '請填寫驗證碼',
       login: '登錄失敗,請重新登錄',
+    },
+    common: {
+      choosePhone: '選擇電話類型',
+      resendAfterSceond: '秒后重發',
+      resend: '重新發送'
     }
   },
   setting_tips: {
@@ -140,6 +154,7 @@ export default {
       check_card: '請核對信用卡信息是否正確',
       fill_coupon_code: '請輸入優惠碼',
       already_get_coupon: '您已經優惠過了',
+      cancel_pay: '取消了支付'
     }
   },
   myorder_tips: {
@@ -183,5 +198,6 @@ export default {
     no_data: '暫無數據',
     load_all: '已經全部加載完畢',
     reload_again: '再次刷新 或檢查網絡',
+    send_success: '提交成功',
   }
 }

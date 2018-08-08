@@ -1,4 +1,3 @@
-
 export default {
   goforeat: 'Goforeat',
   myorder: 'My Order',
@@ -9,7 +8,8 @@ export default {
   help: 'Need Help?',
   address: 'Choice address for orders',
   all: 'Total',
-  delivering: 'Back Orders',
+  delivering: 'Deliver',
+  finished: 'Finished',
   cancelOrder: 'Cancelled',
   cash: 'Cash Pay',
   credit: 'Pay with Credit Card',
@@ -20,6 +20,7 @@ export default {
   cardType: 'Card Type',
   date: 'Expiration date',
   card: 'Credit Card',
+  paying: 'In payment...',
   changeCard: 'Change Your Card',
   addCard: 'Add a Credit or Debit Card',
   bindCardOnce: 'Only one credit card can be bound',
@@ -30,15 +31,22 @@ export default {
   timeRequire: 'Expiration date',
   cvcRequire: 'Three-Digit CVC (Required)',
   phone: 'Contact By Phone',
+  email: 'Contact By Email',
   online: 'Chat Online',
+  feedback: 'Feedback',
+  sendFeedback: 'Submit feedback',
+  feedbackTips: 'Please leave your valuable comments and suggestions, we will work hard to improve (not less than 5 words)',
+  feedbackPhoneTips: 'Please leave your mobile number so we can respond to you (optional)',
+  feedbackLength: 'Enter at least 5 words~',
+  thankForFeedback: 'Thank you for your proposal, we will improve as soon as possible~',
   notice: 'Notification',
   lang: 'Language',
   langChoose: 'Choose Language',
   policy: 'Privacy Policy',
   services: 'Terms & Conditions',
   signInPhone: 'Sign in',
-  fillInPhone: 'Please Fill in Your Phone Number',
-  fillInCode: 'Please Fill in Your Verification Code',
+  fillInPhone: 'Your Phone Number',
+  fillInCode: 'Your Verification Code',
   sendCode: 'send',
   loginOrRegister: 'Sign in/Enroll',
   book: 'Book now',
@@ -100,6 +108,11 @@ export default {
       code: 'Verifying code has not been sent successfully',
       code_null: 'Please fill in your verifying code ',
       login: 'Logon failed',
+    },
+    common: {
+      choosePhone: 'Select phone type',
+      resendAfterSceond: 's resend',
+      resend: 'Resend'
     }
   },
   setting_tips: {
@@ -141,6 +154,7 @@ export default {
       check_card: 'Please check if the credit card information is correct.',
       fill_coupon_code: 'Please enter the coupon code',
       already_get_coupon: 'You have already offered a discount',
+      cancel_pay: 'Canceled payment'
     }
   },
   myorder_tips: {
@@ -183,6 +197,7 @@ export default {
     reload: 'Loading failed, please click retry',
     no_data: 'No data',
     load_all: 'Already loaded all',
-    reload_again: 'Refresh or check the network again'
+    reload_again: 'Refresh or check the network again',
+    send_success: 'Submitted successfully',
   }
 }
