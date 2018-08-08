@@ -7,7 +7,8 @@ import {
   AppState,
   ActivityIndicator,
   RefreshControl,
-  Linking
+  Linking,
+  Platform
 } from "react-native";
 import {
   Container,
@@ -76,9 +77,14 @@ class HomePage extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillMount() {
+    // console.log('willmount')
+  }
+
+  componentWillReceiveProps(nextProps,nextState) {
+    // console.log('willreceiveprops')
     if(!this.state.isBottomContainerShow&&(nextProps.screenProps.refresh != this.state.refreshParams)&&nextProps.screenProps.refresh!= null) {
-      this._reloadPage();
+      // this._reloadPage();
     }
     this.setState({refreshParams: nextProps.screenProps.refresh})
     this.setState({
@@ -87,6 +93,7 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
+    // console.log('DisMount')
     AppState.addEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState))
     
     this._current_offset = 0;
@@ -97,6 +104,7 @@ class HomePage extends Component {
     if(this._timer !== null) {
       clearTimeout(this._timer);
     }
+    this.isMounted = false;
   }
 
   _handleAppStateChange(nextAppState) {
@@ -398,6 +406,7 @@ class HomePage extends Component {
       1,
       `- 為您推薦 -`
     );
+    const scheme = Platform.select({ ios: 'http://maps.apple.com/?q=', android: 'geo:0,0?q=' });
     return (
       <Container style={HomePageStyles.ContainerBg}>
         <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
@@ -413,7 +422,7 @@ class HomePage extends Component {
           <View style={HomePageStyles.HeaderContent}>
             {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} size="small"/>}
           </View>
-          <TouchableOpacity onPress={() => Linking.openURL(`http://maps.apple.com/?q=${this.state.placeSelected.name}`)} style={HomePageStyles.MenuBtn}>
+          <TouchableOpacity onPress={() => Linking.openURL(`${scheme}${this.state.placeSelected.name}`)} style={HomePageStyles.MenuBtn}>
             <Image source={require('../asset/plane.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
           </TouchableOpacity>
         </LinearGradient>

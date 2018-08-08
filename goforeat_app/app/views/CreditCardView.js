@@ -24,6 +24,7 @@ export default class CreditCardView extends PureComponent {
   constructor(props) {
     super(props);
     let {creditCardInfo} = props.screenProps;
+    this._raw_card = '';
     this.state = {
       name: creditCardInfo ? creditCardInfo.name : '',
       card: '',
@@ -43,7 +44,7 @@ export default class CreditCardView extends PureComponent {
 
   componentDidMount() {
     this._showDatePicker();
-  }
+  }  
 
   componentWillUnmount() {
     Picker.hide();
@@ -63,6 +64,10 @@ export default class CreditCardView extends PureComponent {
   }
 
   _getCard(card) {
+    this._raw_card = card.split(' ').join('');
+    if(this._raw_card.length % 4 == 0 && this._raw_card.length < 16) {
+      card = card + ' ';
+    }
     this.setState({
       card
     })
@@ -136,7 +141,7 @@ export default class CreditCardView extends PureComponent {
 
   _bindCard() {
     let {i18n} = this.state;
-    api.VaildCard(this.state.card,this.props.screenProps.sid).then(data => {
+    api.VaildCard(this._raw_card,this.props.screenProps.sid).then(data => {
       if (data.status === 200 && data.data.ro.ok) {
         if(data.data.data == 0) {
           ToastUtils.showWithMessage(i18n.credit_card_tips.card_number_error);
@@ -152,9 +157,11 @@ export default class CreditCardView extends PureComponent {
               return ;
             }
           }
-          let _info = JSON.stringify(this.state);
-          appStorage.setCreditCardInfo(_info);
-          this.props.screenProps.setCreditCardInfo(JSON.parse(_info));
+          let _info_obj = {...this.state};
+          _info_obj.card = this._raw_card;
+          delete _info_obj.i18n;
+          appStorage.setCreditCardInfo(JSON.stringify(_info_obj));
+          this.props.screenProps.setCreditCardInfo(_info_obj);
           appStorage.setPayType('credit_card');
           this.props.screenProps.setPayType('credit_card');
           ToastUtils.showWithMessage(i18n.credit_card_tips.bind_success);
@@ -194,7 +201,7 @@ export default class CreditCardView extends PureComponent {
     let {i18n} = this.state;
     let _list_arr = [
       {name:'name',label: i18n.cardUser,placeholder: i18n.nameRequire,maxlength:20,keyboard:'default',changeTextFunc: (value) => this._getName(value)},
-      {name:'card',label: i18n.card,placeholder: i18n.cardRequire,maxlength: 16,keyboard:'numeric',changeTextFunc: (value) => this._getCard(value)},
+      {name:'card',label: i18n.card,placeholder: i18n.cardRequire,maxlength: 19,keyboard:'numeric',changeTextFunc: (value) => this._getCard(value)},
       {name:'time',label: i18n.date,placeholder: i18n.timeRequire,maxlength: 4,keyboard:'numeric',changeTextFunc: (value) => this._getTime(value)},
       {name:'cvc',label: 'CVC',placeholder: i18n.cvcRequire,maxlength: 3,keyboard:'numeric',changeTextFunc: (value) => this._getCVC(value)},
     ];

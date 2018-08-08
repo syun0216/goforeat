@@ -32,6 +32,7 @@ import PaySettingView from "./views/PaySettingView";
 import CreditCardView from "./views/CreditCardView";
 import ManageCreditCardView from './views/ManageCreditCardView';
 import MoreDetailView from './views/MoreDetailView';
+import FeedbackView from './views/FeedbackView';
 //api
 import source from "./api/CancelToken";
 //utils
@@ -151,7 +152,11 @@ const darwerView = DrawerNavigator(
                 }}
                 style={MainViewStyles.drawerItemBtn}
               >
-                <Icon name="md-card" style={MainViewStyles.drawerItemIcon}/>
+                <Image 
+                  source={require('./asset/payment.png')} 
+                  style={MainViewStyles.drawerItemImage}
+                  resizeMode="contain"
+                  />
                 <Text
                   allowFontScaling={false}
                   style={MainViewStyles.drawerItemText}
@@ -262,6 +267,9 @@ let MainView = StackNavigator(
     },
     MoreDetail: {
       screen: MoreDetailView
+    },
+    Feedback: {
+      screen: FeedbackView
     }
   },
   { headerMode: "none",
@@ -299,7 +307,7 @@ MainView.router.getStateForAction = (action, state) => {
   }
   if(action.type != 'Navigation/SET_PARAMS') {
     if(action.routeName == 'DrawerClose' || action.routeName == 'ShopTab') { //监听首页
-      store.dispatch({type:'REFRESH',refresh:new Date()})
+      store.dispatch({type:'REFRESH',refresh: new Date()})
     }
   }
   if (state && action.type === NavigationActions.NAVIGATE) {

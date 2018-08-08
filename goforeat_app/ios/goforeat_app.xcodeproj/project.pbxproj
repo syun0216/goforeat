@@ -42,6 +42,7 @@
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
 		C7BAEE73210C2D7E00C66166 /* language.strings in Resources */ = {isa = PBXBuildFile; fileRef = C7BAEE75210C2D7E00C66166 /* language.strings */; };
+		C7D69BD221149DDA008D1BF1 /* libprivatedata.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E003F020D1FE7200EB5F2A /* libprivatedata.a */; };
 		C7DDDD8820A0A25C00BD8639 /* index.ios.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */; };
 		C7DDDD8920A0A25C00BD8639 /* index.ios.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8620A0A25B00BD8639 /* index.ios.jsbundle.meta */; };
 		C7DDDD8A20A0A25C00BD8639 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8720A0A25B00BD8639 /* assets */; };
@@ -487,6 +488,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7D69BD221149DDA008D1BF1 /* libprivatedata.a in Frameworks */,
 				C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */,
 				C7796CE420FA3A2500BAB2FB /* libBVLinearGradient.a in Frameworks */,
 				C771338720F9C230003AAA8A /* libreact-native-splash-screen.a in Frameworks */,

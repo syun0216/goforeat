@@ -6,6 +6,7 @@ import {
   Tab,
   TabHeading,
 } from "native-base";
+import {NavigationActions} from 'react-navigation';
 //Colors
 import Colors from '../utils/Colors';
 //utils
@@ -39,9 +40,10 @@ let requestParams = {
 }
 
 const _ORDER_LIST = {};
-const _TAB_FINISHED = 0;
+const _TAB_ALL = 0;
 const _TAB_DELIVERING = 1;
-const _TAB_CANCEL = 2;
+const _TAB_FINISHED = 2;
+const _TAB_CANCEL = 3;
 
 const _ORDER_CANCEL = -1;
 const _ORDER_DELIVERING = 1;
@@ -57,7 +59,10 @@ const PAY_TYPE = {
 export default class PeopleView extends Component {
   timer = null;
   _tabs = null;
+  _current_tab = _TAB_ALL;
   _delivering_list = [];
+  _section_list = null;
+  _is_mounted = true;
 
   constructor(props) {
     super(props);
@@ -72,11 +77,27 @@ export default class PeopleView extends Component {
     refresh:false,
     isExpired: false,
     expiredMessage: null,
-    currentTab: _TAB_FINISHED,
+    currentTab: _TAB_ALL,
     currentStatus: _ORDER_ALL,
     i18n: I18n[this.props.screenProps.language],
     hasDelivering: false
     }
+  }
+
+  shouldComponentUpdate(nextProps,nextState) {
+    // console.log('_',this._current_tab);
+    // console.log('should',nextState.currentTab);
+    // console.log('this',this.state.currentTab);
+    if(!this._is_mounted) {
+      return false;
+    }
+    if(this.state.loadingStatus.firstPageLoading != nextState.loadingStatus.firstPageLoading) {
+      return true;
+    }
+    if(this.state.currentTab != this._current_tab) {
+      return false;
+    }
+    return true;
   }
 
   componentDidMount() {
@@ -88,7 +109,9 @@ export default class PeopleView extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.timer);
+    this._is_mounted = false;
     this._paramsInit();
+    // console.log('willunmount myorder')
   }
   
   //common function
@@ -111,12 +134,14 @@ export default class PeopleView extends Component {
       if (data.status === 200 && data.data.ro.ok) {
         if(data.data.data.length === 0){
           requestParams.nextOffset = requestParams.currentOffset
-          this.setState({
-            orderlist: this.state.orderlist.concat(data.data.data),
-            loadingStatus: {
-              pullUpLoading: this.state.orderlist.length == 0 ? GLOBAL_PARAMS.httpStatus.NO_DATA:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA,
-            }
-          })
+          if(this._is_mounted) {
+            this.setState({
+              orderlist: this.state.orderlist.concat(data.data.data),
+              loadingStatus: {
+                pullUpLoading: this.state.orderlist.length == 0 ? GLOBAL_PARAMS.httpStatus.NO_DATA:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA,
+              }
+            })
+          }
           return
         }
         if(this._delivering_list.length == 0) {
@@ -200,6 +225,7 @@ export default class PeopleView extends Component {
   }
 
   _onEndReach = () => {
+    // console.log('onend');
     requestParams.nextOffset += 5
     this._getMyOrder(requestParams.nextOffset, this.state.currentStatus);
   }
@@ -246,6 +272,7 @@ export default class PeopleView extends Component {
     if(this._tabs.state.currentPage == this.state.currentTab) {
       return;
     }
+    this._current_tab = this._tabs.state.currentPage;
     this._onReloadPage();
     this.timer = setTimeout(() => {
       switch(this._tabs.state.currentPage) {
@@ -254,24 +281,27 @@ export default class PeopleView extends Component {
         case 2: {this._getMyOrder(requestParams.offset, _ORDER_FINISHED);this.setState({currentStatus:_ORDER_FINISHED})}break;
         case 3: {this._getMyOrder(requestParams.offset, _ORDER_CANCEL);this.setState({currentStatus:_ORDER_CANCEL})}break;
       }
-      
       this.setState({
         currentTab: this._tabs.state.currentPage
       })
       clearTimeout(this.timer);
     },500)
-    
   }
 
   //render view
   _renderOrderListView = () => (
     <SectionList
+
+      style={{overflow: 'hidden',}}
+      ref={(s) => this._section_list = s}
       sections={[
         {title:'餐廳列表',data:this.state.orderlist},
       ]}
       renderItem = {({item,index}) => this._renderNewListItemView(item,index)}
       keyExtractor={(item, index) => index}
       onEndReachedThreshold={0.01}
+      initialListSize={5}
+      pageSize={5}
       onEndReached={() => this._onEndReach()}
       ListFooterComponent={() => (<ListFooter  loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>)}
       refreshControl={
@@ -372,37 +402,37 @@ export default class PeopleView extends Component {
   }
 
   _renderCommonListView(tab) {
-    console.log(111111,this.state);
+    if(!this._is_mounted) return;
+    // console.log('#render',this.state);
     return (
     <View style={{flex:1,backgroundColor:'#efefef'}}>
     {this.state.isExpired ? <BlankPage style={Platform.OS === 'ios' ?{marginTop:50}:{marginTop:0}} message={'T_T'+this.state.expiredMessage}/> : null}
-      {
-        this.state.orderlist.length > 0 
-        ? this._renderOrderListView()
-        : null
+      { this.state.orderlist.length > 0 ? 
+        this._renderOrderListView() : null
       }
     </View>
   )}
 
   render() {
     let {i18n} = this.state;
-    console.log('#render');
     return (
       <Container style={{position: 'relative'}}>
         <CommonHeader canBack hasTabs title={i18n.myorder} {...this.props}/>
         <Tabs tabBarUnderlineStyle={MyOrderStyles.tabBarUnderlineStyle} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
         <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_ALL? '800':'normal',}]}>{i18n.all}</Text></TabHeading>}>
-          {this._renderCommonListView()}
+          {this.state.currentTab == _TAB_ALL ? this._renderCommonListView(_TAB_ALL) : null}
         </Tab>
         <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_DELIVERING? '800':'normal',}]}>{i18n.delivering}</Text>
           {this.state.hasDelivering?<Image source={require('../asset/Oval.png')} style={MyOrderStyles.activeRedTips}/> : null}
         </TabHeading>}>
-          {this._renderCommonListView(_TAB_DELIVERING)}
+          {this.state.currentTab == _TAB_DELIVERING ? this._renderCommonListView(_TAB_DELIVERING) : null}
         </Tab>
+        <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_FINISHED? '800':'normal',}]}>{i18n.finished}</Text></TabHeading>}>
+          {this.state.currentTab == _TAB_FINISHED ? this._renderCommonListView(_TAB_FINISHED) : null}
         </Tab>
         <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_CANCEL? '800':'normal',}]}>{i18n.cancelOrder}</Text></TabHeading>}>
-          {this._renderCommonListView()}
+          {this.state.currentTab == _TAB_CANCEL ? this._renderCommonListView(_TAB_CANCEL) : null}
         </Tab>
       </Tabs>
         {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?

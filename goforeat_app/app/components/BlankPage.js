@@ -6,6 +6,7 @@ import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from "../utils/Colors";
 //components
 import Text from './UnScalingText';
+import CommonBottomBtn from '../components/CommonBottomBtn';
 
 const styles = StyleSheet.create({
   blankContainer: {
@@ -35,23 +36,30 @@ const styles = StyleSheet.create({
   }
 });
 
-const BlankPage = ({message,style}) => {
+const BlankPage = ({message,style,hasBottomBtn,clickFunc}) => {
   return (
     <View style={[Platform.OS=='ios'?styles.blankContainer:styles.blankContainerAndroid,style]}>
-      <Image source={require('../asset/cry.png')} style={{width: GLOBAL_PARAMS.em(100),height: GLOBAL_PARAMS.em(100),marginTop: GLOBAL_PARAMS.em(20)}}/>
+      <Image source={require('../asset/cry.png')} style={{width: GLOBAL_PARAMS.em(80),height: GLOBAL_PARAMS.em(80),marginTop: GLOBAL_PARAMS.em(20)}} resizeMode="contain"/>
       <Text  allowFontScaling={false} style={{fontSize: GLOBAL_PARAMS.em(16),marginTop:GLOBAL_PARAMS.em(20),color:'#cdcdcd',fontWeight:'bold'}}>{message}</Text>
+      {
+        hasBottomBtn ? <CommonBottomBtn style={{width: GLOBAL_PARAMS._winWidth*0.5}} clickFunc={() => clickFunc()}>去下單</CommonBottomBtn> : null
+      }
     </View>
   )
 }
 
 BlankPage.defaultProps = {
-  message: '暫無數據',
-  style: {}
+  message: 'T_T暫無數據',
+  style: {},
+  hasBottomBtn: false,
+  clickFunc: () => {}
 };
 
 BlankPage.propsType = {
   message: PropTypes.String,
-  style: PropTypes.object
+  style: PropTypes.object,
+  hasBottomBtn: PropTypes.bool,
+  clickFunc: PropTypes.func
 }
 
 export default BlankPage;

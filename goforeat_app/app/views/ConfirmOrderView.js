@@ -151,7 +151,6 @@ export default class ConfirmOrderView extends PureComponent {
         })
         return ;
       }
-      // console.log(token);
        token = token.id;
        this._confirmOrderWithToken(token);
       };break;
@@ -179,11 +178,10 @@ export default class ConfirmOrderView extends PureComponent {
         })
         if (data.status === 200 && data.data.ro.ok) {
           ToastUtil.showWithMessage(i18n.confirmorder_tips.success.order);
-          this._popupDialog.dismiss();
-          this.props.navigation.goBack();
           if(payment == PAY_TYPE.android_pay || payment == PAY_TYPE.apple_pay) {
             _appleAndAndroidPayRes.complete('success');
           }
+          this.props.navigation.navigate('MyOrder',{replaceRoute: true,confirm: true});
         } else {
           let _message = payment == PAY_TYPE.credit_card ? `,${i18n.confirmorder_tips.fail.check_card}` : '';
           ToastUtil.showWithMessage(data.data.ro.respMsg+_message);
@@ -302,11 +300,11 @@ export default class ConfirmOrderView extends PureComponent {
     pr
       .show()
       .then(paymentResponse => {
-        console.log(123);
+        // console.log(123);
         resolve(paymentResponse);
       })
       .catch(e => {
-        console.log(e)
+        // console.log(e)
         pr.abort();
         reject();
       });
@@ -459,7 +457,7 @@ export default class ConfirmOrderView extends PureComponent {
 
       }},
       {title:i18n.foodTime,content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {}},
-      {title:i18n.payment,content:this._currentPayType(),hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {
+      {title:i18n.payment,content:this._currentPayType(),hasPreIcon:false,fontColor:'#333333',canOpen:true,clickFunc:()=> {
         this.props.navigation.navigate('PayType',{
           from:'confirm_order'
         });
@@ -481,6 +479,7 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _renderCommonDetailView(item,idx) {
+    let {i18n} = this.state;
     return (
       <View key={idx} style={[styles.commonDetailsContainer,styles.commonMarginBottom]}>
         <Text style={{color:'#999999',marginBottom: 10}}>{item.title}</Text>
@@ -489,7 +488,7 @@ export default class ConfirmOrderView extends PureComponent {
             {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 18,height: 17,marginRight: 5}} resizeMode="contain"/> :null}
             <Text style={{fontSize: 18,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>
           </View>
-          {item.canOpen?<Icon name="ios-arrow-down-outline" style={ConfirmOrderStyles.ArrowDown}/>:null}
+          {item.canOpen?<Icon name={item.title == i18n.payment ? 'ios-arrow-forward-outline' : 'ios-arrow-down-outline' } style={ConfirmOrderStyles.ArrowShow}/>:null}
         </TouchableOpacity>
       </View>
     )
@@ -519,11 +518,11 @@ export default class ConfirmOrderView extends PureComponent {
           {...this["props"]}
         />
         {this.state.loading ? <Loading/> : null}
-        {this.state.loadingModal ? <LoadingModal message="支付中..."/> : null}
+        {this.state.loadingModal ? <LoadingModal message={i18n.paying}/> : null}
         {this.state.isError ? (
           <ErrorPage errorToDo={this._createOrder} errorTips={i18n.common_tips.reload} {...this.props}/>
         ) : null}
-        <Content style={{ backgroundColor: '#edebf4' }} padder>
+        <Content style={{ backgroundColor: '#efefef' }} padder>
           {this.state.isExpired ? (
             <BlankPage message={this.state.expiredMessage} style={{marginLeft: -10}}/>
           ) : null}
@@ -580,7 +579,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     borderRadius: 5,
-    shadowColor: '#E8E2F2',
+    shadowColor: '#efefef',
     shadowOpacity: 0.8,
     shadowOffset: {width: 0,height: 8},
     elevation: 3,
