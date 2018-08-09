@@ -43,6 +43,9 @@ import appStorage from '../cache/appStorage';
 
 const SLIDER_1_FIRST_ITEM = 0;
 
+const HAS_FOODS = 1;
+const NO_MORE_FOODS = 2;
+
 class HomePage extends Component {
   static navigationOptions = ({screenProps}) => {
     return ({
@@ -59,6 +62,7 @@ class HomePage extends Component {
       slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
       shopDetail: null,
       foodDetails: null,
+      soldOut: HAS_FOODS, // 是否已售罄
       isError: false,
       loading: false,
       refreshing: false,
@@ -78,11 +82,11 @@ class HomePage extends Component {
   }
 
   componentWillMount() {
-    // console.log('willmount')
+    console.log('willmount homepage')
   }
 
   componentWillReceiveProps(nextProps,nextState) {
-    // console.log('willreceiveprops')
+    console.log('willreceiveprops homepage');
     if(!this.state.isBottomContainerShow&&(nextProps.screenProps.refresh != this.state.refreshParams)&&nextProps.screenProps.refresh!= null) {
       // this._reloadPage();
     }
@@ -93,7 +97,7 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
-    // console.log('DisMount')
+    console.log('DisMount homepage')
     AppState.addEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState))
     
     this._current_offset = 0;
@@ -161,8 +165,17 @@ class HomePage extends Component {
           this.setState({
             foodDetails: data.data.data.foodList,
             loading: false,
-            refreshing: false
+            refreshing: false,
+            soldOut: data.data.data.status
           })
+          if(data.data.data.status == NO_MORE_FOODS) {
+            if(this.state.isBottomContainerShow) {
+              this.props.navigation.setParams({visible: true})
+              this.setState({
+                isBottomContainerShow: false,
+              })
+            }
+          }
           this._formatDate(data.data.data.timestamp,data.data.data.endTimestamp);
         }
       },() => {
@@ -318,7 +331,7 @@ class HomePage extends Component {
   }
 
   _renderAddPriceView() {
-    let {foodDetails} = this.state;
+    let {foodDetails,i18n,soldOut} = this.state;
     return (
       <View style={HomePageStyles.AddPriceView}>
         <View style={HomePageStyles.AddPriceViewPriceContainer}>
@@ -327,16 +340,23 @@ class HomePage extends Component {
           <Text style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text>
           <View style={HomePageStyles.AddPriceViewStriping}/>
         </View>
-        <View style={HomePageStyles.AddPriceViewCountContainer}>
-            <TouchableOpacity onPress={() => this._remove()} style={HomePageStyles.AddPriceViewCommonBtn}>
-            <Image source={require("../asset/remove.png")} style={HomePageStyles.AddPriceViewAddImage}/>
-            </TouchableOpacity>
-            <Text style={HomePageStyles.AddPriceViewCountText} numberOfLines={1}>{this.state.foodCount}</Text>
-            <TouchableOpacity onPress={() => this._add()} style={HomePageStyles.AddPriceViewCommonBtn}>
-                <Image source={require("../asset/add.png")} style={HomePageStyles.AddPriceViewRemoveImage}/>
-            </TouchableOpacity>    
-        </View>
-
+        {
+          soldOut == HAS_FOODS ? (
+            <View style={HomePageStyles.AddPriceViewCountContainer}>
+              <TouchableOpacity onPress={() => this._remove()} style={HomePageStyles.AddPriceViewCommonBtn}>
+              <Image source={require("../asset/remove.png")} style={HomePageStyles.AddPriceViewAddImage} resizeMode="contain"/>
+              </TouchableOpacity>
+              <Text style={HomePageStyles.AddPriceViewCountText} numberOfLines={1}>{this.state.foodCount}</Text>
+              <TouchableOpacity onPress={() => this._add()} style={HomePageStyles.AddPriceViewCommonBtn}>
+                  <Image source={require("../asset/add.png")} style={HomePageStyles.AddPriceViewRemoveImage} resizeMode="contain"/>
+              </TouchableOpacity>    
+          </View>
+          ) : (
+            <View style={HomePageStyles.AddPriceViewCountContainer}>
+              <Text style={HomePageStyles.AddPriceViewPriceUnit}>{i18n.soldout}</Text>
+            </View>
+          )
+        }
       </View>
     )
   }
