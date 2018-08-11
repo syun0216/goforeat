@@ -1,161 +1,54 @@
 import {
   AsyncStorage
 } from "react-native";
-import store from '../store'
-
-let user_name = null;
-let sid = null;
-let userStorage = {
-  _STORAGE_KEY_USER_DATA: "storage_key_user_data",
-  isLogin: user_name,
-  sid: null,
-  /**
-   * 存储用户信息
-   * @param userInfo("id":"xxxxx","name":"xxxxx")
-   */
-  setLoginUserJsonData(username, _sid) {
-    "use strict";
-    user_name = username;
-    sid = _sid;
-    AsyncStorage.setItem(this._STORAGE_KEY_USER_DATA, JSON.stringify({
-      username: username,
-      sid: sid
-    }));
-  },
-  /**
-   * 获取登录用户信息
-   * @param callBack 返回error和用户的信息，json("id":"xxxx","name":"xxx")
-   */
-  getLoginUserJsonData(callBack) {
+import JSONUtils from '../utils/JSONUtils';
+/**
+ *缓存构造函数
+ *
+ * @param {*} key 缓存键名
+ */
+function storageFactory(key) {
+  this.key = key;
+  this.setData = function(data) {
+    if(Object.prototype.toString.call(data) == "[object String]") {
+      AsyncStorage.setItem(this.key, data);
+    } else {
+      AsyncStorage.setItem(this.key, JSON.stringify(data));
+    }
+  };
+  this.getData = function(callBack) {
     "use strict";
     if (callBack == null) {
       return;
     }
-    if (user_name != null) {
-      callBack(null, user_name);
-      return;
-    }
-
-    AsyncStorage.getItem(this._STORAGE_KEY_USER_DATA, (error, value) => {
+    AsyncStorage.getItem(this.key, (error, value) => {
       if (error != null || value == null || value.length == 0) {
         callBack(error, null);
         return;
       }
-      this.isLogin = !!user_name;
-      callBack(null, JSON.parse(value));
+      if(JSONUtils.isJsonString(value)) {
+        callBack(null,JSON.parse(value))
+      }else {
+        callBack(null,value);
+      }
     });
-  },
-  /**
-   * 清空用户信息
-   */
-  removeStoreUser() {
-    user_name = null;
-    sid = null;
-    AsyncStorage.removeItem(this._STORAGE_KEY_USER_DATA);
-  },
-  removeAll() {
+  };
+  this.removeData = function() {
+    AsyncStorage.removeItem(this.key);
+  };
+  this.removeAll = function() {
     AsyncStorage.clear();
   }
-};
-
-let placeStorage = {
-  _STORAGE_KEY_PLACE: "storage_key_place",
-  setPlace(place) {
-    AsyncStorage.setItem(this._STORAGE_KEY_PLACE, place);
-  },
-  getPlace(callBack) {
-    "use strict";
-    if (callBack == null) {
-      return;
-    }
-    AsyncStorage.getItem(this._STORAGE_KEY_PLACE, (error, value) => {
-      if (error != null || value == null || value.length == 0) {
-        callBack(error, null);
-        return;
-      }
-      callBack(null, JSON.parse(value));
-    });
-  },
-  removePlace() {
-    AsyncStorage.removeItem(this._STORAGE_KEY_PLACE)
-  }
 }
 
-let languageStorage = {
-  _STORAGE_KEY_LANGUAGE: "storage_key_language",
-  setLanguage(language) {
-    AsyncStorage.setItem(this._STORAGE_KEY_LANGUAGE, language);
-  },
-  getLanguage(callBack) {
-    "use strict";
-    if (callBack == null) {
-      return;
-    }
-    AsyncStorage.getItem(this._STORAGE_KEY_LANGUAGE, (error, value) => {
-      if (error != null || value == null || value.length == 0) {
-        callBack(error, null);
-        return;
-      }
-      callBack(null, value);
-    });
-  },
-  removeLanguage() {
-    AsyncStorage.removeItem(this._STORAGE_KEY_LANGUAGE);
-  }
-}
+export const userStorage = new storageFactory('storage_key_user_data');
 
-let payTypeStorage = {
-  _STORAGE_KEY_PAY_TYPE: "storage_key_pay",
-  setPayType(pay) {
-    AsyncStorage.setItem(this._STORAGE_KEY_PAY_TYPE, pay);
-  },
-  getPayType(callBack) {
-    "use strict";
-    if (callBack == null) {
-      return;
-    }
-    AsyncStorage.getItem(this._STORAGE_KEY_PAY_TYPE, (error, value) => {
-      if (error != null || value == null || value.length == 0) {
-        callBack(error, null);
-        return;
-      }
-      callBack(null, value);
-    });
-  },
-  removePayType() {
-    AsyncStorage.removeItem(this._STORAGE_KEY_PAY_TYPE);
-  }
-}
+export const placeStorage = new storageFactory('storage_key_place');
 
-let creditCardInfo = {
-  _STORAGE_KEY_CREDIT_CARD: "storage_credit_card",
-  setCreditCardInfo(info) {
-    AsyncStorage.setItem(this._STORAGE_KEY_CREDIT_CARD, info);
-  },
-  getCreditCardInfo(callBack) {
-    "use strict";
-    if (callBack == null) {
-      return;
-    }
-    AsyncStorage.getItem(this._STORAGE_KEY_CREDIT_CARD, (error, value) => {
-      if (error != null || value == null || value.length == 0) {
-        callBack(error, null);
-        return;
-      }
-      callBack(null, JSON.parse(value));
-    });
-  },
-  removeCreditCardInfo() {
-    AsyncStorage.removeItem(this._STORAGE_KEY_CREDIT_CARD);
-  }
-}
+export const languageStorage = new storageFactory('storage_key_language');
 
-const appStorage = {
-  ...userStorage,
-  ...payTypeStorage,
-  ...placeStorage,
-  ...creditCardInfo,
-  ...languageStorage
-}
+export const payTypeStorage = new storageFactory('storage_key_pay');
 
-module.exports = appStorage
+export const creditCardStorage = new storageFactory('storage_credit_card');
+
+export const advertisementStorage = new storageFactory('storage_advertisement');
