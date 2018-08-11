@@ -7,9 +7,9 @@ import Colors from '../utils/Colors'
 import GLOBAL_PARAMS from '../utils/global_params'
 import ToastUtils from '../utils/ToastUtil'
 //api
-import api from '../api/index';
+import {foodPlaces} from '../api/request';
 //cache
-import appStorage from "../cache/appStorage";
+import {placeStorage} from "../cache/appStorage";
 //components
 import CommonHeader from "./CommonHeader";
 import CommonItem from "./CommonItem";
@@ -36,7 +36,7 @@ class PlacePickerModel extends Component{
   }
 
   componentDidMount() {
-    appStorage.getPlace((error, data) => {
+    placeStorage.getData((error, data) => {
       if (error === null) {
         if (data !== null) {
           this.getPlace(data);
@@ -69,29 +69,25 @@ class PlacePickerModel extends Component{
 
    //api 
    getPlace(storage_data) {
-    api.foodPlaces().then(data => {
-      if(data.status === 200 && data.data.ro.ok) {
-        // data.data.data = data.data.data.map((v,i) => ({
-        //   ...v,
-        //   name: v.name.length> 10 ? v.name.substring(0,10) + '...' : v.name
-        // }))
-        let _data = typeof storage_data != 'undefined' ? storage_data : data.data.data[0];
+    foodPlaces().then(data => {
+      if(data.ro.respCode === '0000') {
+        let _data = typeof storage_data != 'undefined' ? storage_data : data.data[0];
         this.setStateAsync({selected: _data.name}).then(() => {
-          data.data.data = data.data.data.map(v => ({
+          data.data = data.data.map(v => ({
             ...v,
             content: v.name,
             clickFunc: () => this._onValueChange(v)
           }))
           this.setState({
-            placeList: data.data.data,
+            placeList: data.data,
           })
         })
 
         this.props.getSeletedValue(_data);
         this.props.screenProps.stockPlace(_data);
-        appStorage.setPlace(JSON.stringify(_data));  
+        placeStorage.setData(_data);  
       }else {
-        ToastUtils.showWithMessage(data.data.ro.repMsg);
+        ToastUtils.showWithMessage(data.ro.repMsg);
         this.props.getSeletedValue(null);
       }
     }, () => {
@@ -109,7 +105,7 @@ class PlacePickerModel extends Component{
       let _timer = setTimeout(() => {
         clearTimeout(_timer);
         this.props.screenProps.stockPlace(item);
-        appStorage.setPlace(JSON.stringify(item)); 
+        placeStorage.setData(item); 
         this.props.closeFunc();
       },200)
     });
