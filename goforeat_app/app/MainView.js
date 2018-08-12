@@ -93,7 +93,7 @@ const tabView = TabNavigator(
     animationEnabled: false,
     swipeEnabled: false,
     tabBarPosition: "bottom",
-    lazy: false, //该属性只会加载tab的当前view
+    lazyLoad: false, //该属性只会加载tab的当前view
     tabBarComponent: TabBar,
     backBehavior:"none",
     removeClippedSubviews: false,
