@@ -7,6 +7,7 @@ export default {
   payment: 'Payment Method',
   help: 'Need Help?',
   address: 'Choice address for orders',
+  soldout: 'Sold out',
   all: 'Total',
   delivering: 'Deliver',
   finished: 'Finished',

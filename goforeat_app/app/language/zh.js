@@ -7,6 +7,7 @@ export default {
   payment: '支付方式',
   help: '用戶支援',
   address: '請選擇取餐地點',
+  soldout: '已售罄',
   all: '全部',
   finished: '已完成',
   delivering: '待配送',

@@ -26,11 +26,10 @@ import HomePageStyles from "../styles/homepage.style";
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
 //api
-import api from "../api";
+import {getDailyFoods} from '../api/request';
 //components
 import ErrorPage from "../components/ErrorPage";
 import Loading from "../components/Loading";
-import LoadingModal from "../components/LoadingModal";
 import PlacePickerModel from '../components/PlacePickerModel';
 import BlankPage from '../components/BlankPage';
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
@@ -39,7 +38,7 @@ import Text from '../components/UnScalingText';
 // language
 import I18n from "../language/i18n";
 //cache 
-import appStorage from '../cache/appStorage';
+import {placeStorage,advertisementStorage} from '../cache/appStorage';
 
 const SLIDER_1_FIRST_ITEM = 0;
 
@@ -52,10 +51,10 @@ class HomePage extends Component {
     tabBarLabel: I18n[screenProps.language].dailyFood
   })};
 
-  _current_offset = 0;
-  _SliderEntry = null;
-  _timer = null;
-  _picker = null;
+  _current_offset = 0; 
+  _SliderEntry = null; 
+  _timer = null; // 延迟加载首页
+  _picker = null; // 选择地区picker 实例
   constructor(props) {
     super(props);
     this.state = {
@@ -81,14 +80,10 @@ class HomePage extends Component {
     };
   }
 
-  componentWillMount() {
-    console.log('willmount homepage')
-  }
-
   componentWillReceiveProps(nextProps,nextState) {
     console.log('willreceiveprops homepage');
     if(!this.state.isBottomContainerShow&&(nextProps.screenProps.refresh != this.state.refreshParams)&&nextProps.screenProps.refresh!= null) {
-      // this._reloadPage();
+      this._reloadPage();
     }
     this.setState({refreshParams: nextProps.screenProps.refresh})
     this.setState({
@@ -97,7 +92,6 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
-    console.log('DisMount homepage')
     AppState.addEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState))
     
     this._current_offset = 0;
@@ -159,16 +153,16 @@ class HomePage extends Component {
     });
   }
   //api
-  _getDailyFoodList(placeId) {
-      api.getDailyFoods(placeId, this.props.screenProps.sid).then(data => {
-        if(data.status === 200 && data.data.ro.ok) {
+  _getDailyFoodList() {
+      getDailyFoods().then(data => {
+        if(data.ro.respCode == '0000') {
           this.setState({
-            foodDetails: data.data.data.foodList,
+            foodDetails: data.data.foodList,
             loading: false,
             refreshing: false,
-            soldOut: data.data.data.status
+            soldOut: data.data.status
           })
-          if(data.data.data.status == NO_MORE_FOODS) {
+          if(data.data.status == NO_MORE_FOODS) {
             if(this.state.isBottomContainerShow) {
               this.props.navigation.setParams({visible: true})
               this.setState({
@@ -176,7 +170,7 @@ class HomePage extends Component {
               })
             }
           }
-          this._formatDate(data.data.data.timestamp,data.data.data.endTimestamp);
+          this._formatDate(data.data.timestamp,data.data.endTimestamp);
         }
       },() => {
         this.setState({ isError: true, loading: false,refreshing: false });
@@ -204,7 +198,7 @@ class HomePage extends Component {
       loading: true,
       isError: false
     });
-    appStorage.getPlace((error, data) => {
+    placeStorage.getData((error, data) => {
       if (error === null) {
         if (data !== null) {
           this._picker.getPlace(data);
@@ -281,6 +275,11 @@ class HomePage extends Component {
     })
     this.props.navigation.setParams({visible: true})
   }
+
+  
+
+  //render function 
+  
 
   _renderDateFormat() {
     return (
