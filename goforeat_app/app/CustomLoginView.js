@@ -16,9 +16,9 @@ import {
 import GLOBAL_PARAMS from "./utils/global_params";
 import ToastUtil from "./utils/ToastUtil";
 //cache
-import appStorage from './cache/appStorage';
+import {userStorage} from './cache/appStorage';
 //api
-import api from './api/index';
+import {getCode,checkCode,saveDevices} from './api/request';
 import source from './api/CancelToken';
 //language
 import i18n from './language/i18n';
@@ -87,10 +87,10 @@ export default class CustomLoginView extends PureComponent {
       ToastUtil.showWithMessage(i18n.login_tips.fail.phone_null);
       return;
     }
-    api.getCode(this.state.phone, this.state.selectedValue.value).then(
+    getCode(this.state.phone, this.state.selectedValue.value).then(
       data => {
-        if (data.status === 200 && data.data.ro.ok) {
-          this.token = data.data.data.token;
+        if (data.ro.respCode == '0000') {
+          this.token = data.data.token;
           ToastUtil.showWithMessage(i18n.login_tips.success.code);
           let _during = 60;
           this.interval = setInterval(() => {
@@ -108,7 +108,7 @@ export default class CustomLoginView extends PureComponent {
             }
           }, 1000);
         } else {
-          ToastUtil.showWithMessage(data.data.ro.respMsg);
+          ToastUtil.showWithMessage(data.ro.respMsg);
         }
       },
       () => {
@@ -141,11 +141,11 @@ export default class CustomLoginView extends PureComponent {
       ToastUtil.showWithMessage(i18n.login_tips.fail.code_null)
       return
     }
-    api.checkCode(phone,selectedValue.value,this.token,password).then(data => {
-      if(data.status === 200 && data.data.ro.ok){
+    checkCode(phone,selectedValue.value,this.token,password).then(data => {
+      if(data.ro.respCode == '0000'){
         ToastUtil.showWithMessage(i18n.login_tips.success.login)
-        appStorage.setLoginUserJsonData(this.state.phone,data.data.data.sid);
-        this.props.screenProps.userLogin(this.state.phone,data.data.data.sid);
+        userStorage.setData({username:this.state.phone,sid:data.data.sid});
+        this.props.screenProps.userLogin(this.state.phone,data.data.sid);
         if(typeof params === 'undefined') {
           this.props.navigation.goBack()
         }else {
@@ -163,14 +163,14 @@ export default class CustomLoginView extends PureComponent {
           }
         }
         JPushModule.getRegistrationID(registrationId => {
-          api.saveDevices(registrationId,data.data.data.sid).then(sdata => {
+          saveDevices(registrationId,data.data.sid).then(sdata => {
           });
         },() => {
           ToastUtil.showWithMessage(i18n.login_tips.fail.login)
         })
       }
       else{
-        ToastUtil.showWithMessage(data.data.ro.respMsg);
+        ToastUtil.showWithMessage(data.ro.respMsg);
       }
     })
     .catch(err => {

@@ -13,9 +13,9 @@ import Text from './components/UnScalingText';
 //language
 import I18n from './language/i18n';
 //api
-import api from './api/index'
+import {logout} from './api/request';
 //cache
-import appStorage from './cache/appStorage';
+import {languageStorage} from './cache/appStorage';
 
 const LANGUAGE_BTN = [
   '繁體中文',
@@ -47,13 +47,10 @@ export default class SettingView extends PureComponent{
 
   _logout() {
     let {i18n} = this.state;
-    // this.props.screenProps.userLogout();
-    // this.props.refreshReset();
-    api.logout().then(data => {
-      if(data.status === 200 && data.data.ro.ok){
+    logout().then(data => {
+      if(data.ro.respCode == '0000'){
         ToastUtil.showWithMessage(i18n.setting_tips.success.logout)
         this.props.screenProps.userLogout();
-        // this.props.refreshReset();
       }
       else{
         ToastUtil.showWithMessage(i18n.setting_tips.fail.logout)
@@ -112,9 +109,9 @@ export default class SettingView extends PureComponent{
                 })
                 if(LANGUAGE_BTN[buttonIndex] == 'English') {
                   this.props.screenProps.changeLanguage('en');
-                  appStorage.setLanguage('en');
+                  languageStorage.setData('en');
                 } else {
-                  appStorage.setLanguage('zh');
+                  languageStorage.setData('zh');
                   this.props.screenProps.changeLanguage('zh');
                 }
               }
@@ -130,7 +127,7 @@ export default class SettingView extends PureComponent{
       <Container style={{backgroundColor: '#efefef'}}>
         <CommonHeader title={i18n.setting} canBack {...this.props}/>
           <ScrollView>
-          <TouchableWithoutFeedback delayLongPress={4000} onLongPress={() => {appStorage.removeAll();alert('清除緩存成功')}}>
+          <TouchableWithoutFeedback delayLongPress={4000} onLongPress={() => {languageStorage.removeAll();alert('清除緩存成功')}}>
             <View style={{paddingTop: GLOBAL_PARAMS.em(20),paddingBottom: GLOBAL_PARAMS.em(20),justifyContent: 'flex-start',alignItems: 'center'}}>
               <Image source={require('./asset/icon_app.png')} style={{width: GLOBAL_PARAMS.em(80),height: GLOBAL_PARAMS.em(80),marginBottom: GLOBAL_PARAMS.em(15)}}/>
               <Text>{i18n.goforeat}   v{getVersion()} </Text>
