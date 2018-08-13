@@ -29,6 +29,20 @@ const JSONUtils = {
         return promise;
     },
 
+
+    isJsonString(str) {
+        try {
+            if (typeof JSON.parse(str) == "object") {
+                return true;
+            }
+        } catch (e) {}
+        return false;
+    },
+
+    jsonDeepCompare(val1, val2){
+        return JSON.stringify(val1) == JSON.stringify(val2)
+    },
+
     /**
      *
      *

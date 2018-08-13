@@ -35,7 +35,7 @@ const GLOBAL_PARAMS = {
     }
   },
   bottomDistance: Platform.select({
-    ios: 65,
+    ios: 80,
     android: 60
   }),
   iPhoneXBottom: 34,
@@ -70,5 +70,7 @@ export function debounce(fn, delay) {
 }
 
 export const em = (val) => val * ratioX 
+
+export const currentPlatform = Platform.OS == 'ios' ? 1 : 2;
 
 export default GLOBAL_PARAMS;

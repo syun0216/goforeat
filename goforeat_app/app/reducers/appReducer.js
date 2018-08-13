@@ -17,7 +17,7 @@ import {
   REMOVE_CREDIT_CARD
 } from "../actions";
 //cache
-import appStorage from "../cache/appStorage";
+import {userStorage} from "../cache/appStorage";
 //utils
 import Colors from "../utils/Colors";
 
@@ -67,7 +67,7 @@ export function auth(state = initialState.userState, action) {
 
       };
     case LOGOUT:
-      appStorage.removeStoreUser();
+    userStorage.removeData();
       return {
         ...state,
         username: null
@@ -137,7 +137,6 @@ export function refresh(state = initialState.goodsListState, action) {
 export function theme(state = initialState.themeState, action) {
   switch (action.type) {
     case CHANGE_THEME:
-      appStorage.setTheme(action.theme);
       return {
         ...state,
         theme: action.theme
