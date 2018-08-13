@@ -14,9 +14,9 @@ import CreditCardStyles from '../styles/creditcard.style';
 import ToastUtils from '../utils/ToastUtil';
 import {em} from '../utils/global_params';
 //cache
-import appStorage from '../cache/appStorage';
+import {creditCardStorage,payTypeStorage} from '../cache/appStorage';
 //api
-import api from '../api/index';
+import {vaildCard} from '../api/request';
 //language
 import I18n from '../language/i18n';
 
@@ -141,34 +141,34 @@ export default class CreditCardView extends PureComponent {
 
   _bindCard() {
     let {i18n} = this.state;
-    api.VaildCard(this._raw_card,this.props.screenProps.sid).then(data => {
-      if (data.status === 200 && data.data.ro.ok) {
-        if(data.data.data == 0) {
+    for(let i in this.state) {
+      if(this.state[i] == '') {
+        switch(i){
+          case "name": ToastUtils.showWithMessage(i18n.credit_card_tips.name_not_null);break;
+          case "card": ToastUtils.showWithMessage(i18n.credit_card_tips.card_not_null);break;
+          case "time": ToastUtils.showWithMessage(i18n.credit_card_tips.time_not_null);break;
+          case "cvc": ToastUtils.showWithMessage(i18n.credit_card_tips.cvc_not_null);break;
+        }
+        return ;
+      }
+    }
+    vaildCard(this._raw_card).then(data => {
+      if (data.ro.respCode == '0000') {
+        if(data.data == 0) {
           ToastUtils.showWithMessage(i18n.credit_card_tips.card_number_error);
         }else {
-          for(let i in this.state) {
-            if(this.state[i] == '') {
-              switch(i){
-                case "name": ToastUtils.showWithMessage(i18n.credit_card_tips.name_not_null);break;
-                case "card": ToastUtils.showWithMessage(i18n.credit_card_tips.card_not_null);break;
-                case "time": ToastUtils.showWithMessage(i18n.credit_card_tips.time_not_null);break;
-                case "cvc": ToastUtils.showWithMessage(i18n.credit_card_tips.cvc_not_null);break;
-              }
-              return ;
-            }
-          }
           let _info_obj = {...this.state};
           _info_obj.card = this._raw_card;
           delete _info_obj.i18n;
-          appStorage.setCreditCardInfo(JSON.stringify(_info_obj));
+          creditCardStorage.setData(_info_obj);
           this.props.screenProps.setCreditCardInfo(_info_obj);
-          appStorage.setPayType('credit_card');
+          payTypeStorage.setData('credit_card');
           this.props.screenProps.setPayType('credit_card');
           ToastUtils.showWithMessage(i18n.credit_card_tips.bind_success);
           this.props.navigation.goBack();
         }
       }else {
-        ToastUtils.showWithMessage(data.data.ro.respMsg);
+        ToastUtils.showWithMessage(data.ro.respMsg);
       }
     })
     .catch(err => {

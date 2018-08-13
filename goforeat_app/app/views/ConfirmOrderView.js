@@ -29,7 +29,8 @@ import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //api
-import api from "../api/index";
+import {createOrder,confirmOrder,useCoupon} from '../api/request';
+//component
 import Divider from "../components/Divider";
 //styles
 import ConfirmOrderStyles from '../styles/confirmorder.style';
@@ -83,20 +84,20 @@ export default class ConfirmOrderView extends PureComponent {
   _createOrder = () => {
     let {foodId,placeId,amount} = this.props.navigation.state.params;
     let {i18n} = this.state;
-    api.createOrder(foodId,this.props.screenProps.sid,placeId,amount).then(
+    createOrder(foodId,placeId,amount).then(
       data => {
-        if (data.status === 200 && data.data.ro.ok) {
+        if (data.ro.respCode == '0000') {
           this.setState({
             loading: false,
-            orderDetail: data.data.data,
+            orderDetail: data.data,
             isBottomShow: true
           });
         } else {
-          if(data.data.ro.respCode == "10006" || data.data.ro.respCode == "10007") {
+          if(data.ro.respCode == "10006" || data.ro.respCode == "10007") {
             this.props.screenProps.userLogout();
           }
           Alert.alert(null
-            , data.data.ro.respMsg
+            , data.ro.respMsg
             , [
                 {text: i18n.cancel},
                 {text: i18n.confirm, onPress: () => this.props.navigation.goBack()}
@@ -106,7 +107,7 @@ export default class ConfirmOrderView extends PureComponent {
           this.setState({
             loading: false,
             isExpired: true,
-            expiredMessage: data.data.ro.respMsg
+            expiredMessage: data.ro.respMsg
           });
         }
       },
@@ -171,12 +172,12 @@ export default class ConfirmOrderView extends PureComponent {
       _appleAndAndroidPayRes = token;
       token = _appleAndAndroidPayRes.details.paymentToken;
     }
-    api.confirmOrder(orderId,this.props.screenProps.sid,coupon,totalMoney,payment,token,remark).then(
+    confirmOrder(orderId,coupon,totalMoney,payment,token,remark).then(
       data => {
         this.setState({
           loadingModal: false
         })
-        if (data.status === 200 && data.data.ro.ok) {
+        if (data.ro.respCode == '0000') {
           ToastUtil.showWithMessage(i18n.confirmorder_tips.success.order);
           if(payment == PAY_TYPE.android_pay || payment == PAY_TYPE.apple_pay) {
             _appleAndAndroidPayRes.complete('success');
@@ -184,7 +185,7 @@ export default class ConfirmOrderView extends PureComponent {
           this.props.navigation.navigate('MyOrder',{replaceRoute: true,confirm: true});
         } else {
           let _message = payment == PAY_TYPE.credit_card ? `,${i18n.confirmorder_tips.fail.check_card}` : '';
-          ToastUtil.showWithMessage(data.data.ro.respMsg+_message);
+          ToastUtil.showWithMessage(data.ro.respMsg+_message);
         }
       },
       () => {
@@ -206,14 +207,14 @@ export default class ConfirmOrderView extends PureComponent {
       ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.coupon_used);
       return;
     }
-    api.useCoupon(this.state.coupon,this.props.screenProps.sid).then(data => {
-      if(data.status === 200 && data.data.ro.ok) {
+    useCoupon(this.state.coupon).then(data => {
+      if(data.ro.respCode == '0000') {
         ToastUtil.showWithMessage(i18n.confirmorder_tips.success.coupon);
         this.setState({
-          discountsPrice: data.data.data.money
+          discountsPrice: data.data.money
         })
       } else {
-        ToastUtil.showWithMessage(data.data.ro.respMsg);
+        ToastUtil.showWithMessage(data.ro.respMsg);
       }
     }).catch(() => {
       () => {
@@ -227,6 +228,7 @@ export default class ConfirmOrderView extends PureComponent {
     switch(this.props.screenProps.paytype) {
       case 'cash': return i18n.cash;
       case 'apple_pay': return 'Apple Pay';
+      case 'android_pay': return 'Android Pay';
       case 'credit_card': return i18n.credit;
       case 'ali': return '支付寶支付';
       case 'wechat': return '微信支付';
@@ -270,7 +272,7 @@ export default class ConfirmOrderView extends PureComponent {
         data: {
           supportedNetworks: ['visa', 'mastercard', 'amex'],
           currencyCode: 'USD',
-          environment: 'TEST', // defaults to production
+          // environment: 'TEST', // defaults to production
           paymentMethodTokenizationParameters: {
             tokenizationType: 'NETWORK_TOKEN',
             parameters: {
@@ -294,7 +296,6 @@ export default class ConfirmOrderView extends PureComponent {
         amount: { currency: 'HKD', value: totalMoney }
       }
     };
-
     const pr = new PaymentRequest(supportedMethods, details);
 
     pr
@@ -304,6 +305,7 @@ export default class ConfirmOrderView extends PureComponent {
         resolve(paymentResponse);
       })
       .catch(e => {
+        alert(1)
         // console.log(e)
         pr.abort();
         reject();

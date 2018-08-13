@@ -17,7 +17,6 @@ import Share, {ShareSheet, Button as SButton} from 'react-native-share';
 import ToastUtil from "../utils/ToastUtil";
 import GLOBAL_PARAMS from "../utils/global_params";
 //api
-import api from "../api";
 import source from '../api/CancelToken';
 //components
 import Loading from "../components/Loading";

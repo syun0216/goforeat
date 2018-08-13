@@ -11,9 +11,8 @@ import Colors from '../utils/Colors';
 import {formatCard} from '../utils/FormatCardInfo';
 //styles
 import PaySettingStyles from '../styles/paysetting.style';
-import CommonStyles from '../styles/common.style';
 //cache
-import AppStorage from '../cache/appStorage';
+import {payTypeStorage} from '../cache/appStorage';
 //language
 import I18n from '../language/i18n';
 
@@ -51,7 +50,7 @@ export default class PaySettingView extends PureComponent {
     this.setState(
       {checkedName: name}
     );    
-    AppStorage.setPayType(name);
+    payTypeStorage.setData(name);
     this.props.screenProps.setPayType(name);
   }
 
@@ -87,18 +86,18 @@ export default class PaySettingView extends PureComponent {
       // }
     ];
     let _verify_platform_pay = null;
-    // if(Platform.OS == 'android') {
-    //   _verify_platform_pay = {
-    //     content: 'Android Pay',hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.ANDROID_PAY),rightIcon:this._checkedImage('android_pay'),clickFunc: () => {this._checked('android_pay');}
-    //   }
-    // }
+    if(Platform.OS == 'android') {
+      _verify_platform_pay = {
+        content: 'Android Pay',hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.ANDROID_PAY),rightIcon:this._checkedImage('android_pay'),clickFunc: () => {this._checked('android_pay');}
+      }
+    }
     if(Platform.OS == 'ios') {
       _verify_platform_pay = {
         content: 'Apple Pay',hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE.APPLE_PAY),rightIcon:this._checkedImage('apple_pay'),isEnd: true,clickFunc: () => {this._checked('apple_pay');}
       };
-      _list_arr.push(_verify_platform_pay);  //暫時屏蔽apple_pay和android_pay
     }
-
+    _list_arr.push(_verify_platform_pay);  //暫時屏蔽apple_pay和android_pay
+    
     let {creditCardInfo} = this.state;
     let _from_confirm_order = this.props.navigation.state.params['from'] == 'confirm_order';
     let _creditCardNumber = '';

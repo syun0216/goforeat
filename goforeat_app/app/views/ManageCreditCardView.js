@@ -14,7 +14,7 @@ import Text from '../components/UnScalingText';
 import {formatCard} from '../utils/FormatCardInfo';
 import {em} from '../utils/global_params';
 //cache 
-import appStorage from '../cache/appStorage';
+import {payTypeStorage} from '../cache/appStorage';
 //language
 import I18n from '../language/i18n';
 
@@ -44,10 +44,10 @@ export default class ManageCreditCardView extends PureComponent {
         {text: i18n.cancel, onPress: () => {return null}, style: 'cancel'},
         {text: i18n.confirm, onPress: () => {
           this.props.navigation.goBack();
-          appStorage.setPayType('cash');
+          payTypeStorage.setData('cash');
           this.props.screenProps.setPayType('cash');
           this.props.screenProps.removeCreditCardInfo();
-          appStorage.removeCreditCardInfo();
+          payTypeStorage.removeData();
         }},
       ],
       { cancelable: false }

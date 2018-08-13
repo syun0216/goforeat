@@ -11,7 +11,7 @@ import ToastUtil from '../utils/ToastUtil';
 import Colors from '../utils/Colors';
 import GLOBAL_PARAMS from '../utils/global_params';
 //api
-import api from '../api';
+import {getArticleList} from '../api/request';
 import source from '../api/CancelToken';
 //components
 import ErrorPage from '../components/ErrorPage';
@@ -64,19 +64,19 @@ export default class ArticleView extends Component {
   //common functions
 
   _onRequestFirstPageData = () => {
-    api.getArticleList(0).then(data => {
+    getArticleList(0).then(data => {
       this.setState({
         refreshing: false
       })
-      if(data.status === 200) {
-        data.data.data = data.data.data.map((v,i) => ({
+      if(data.ro.respCode == '0000') {
+        data.data = data.data.map((v,i) => ({
           ...v,
           date_title: v.title.split(' ')[0],
           food_title: v.title.split(' ')[1]
         }))
 
         this.setState({
-          articleList: data.data.data,
+          articleList: data.data,
           loadingStatus:{
             firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
           }
@@ -84,7 +84,7 @@ export default class ArticleView extends Component {
       }
       else{
         this.setState({
-          articleList: data.data.data,
+          articleList: data.data,
           refreshing: false,
           loadingStatus:{
             firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
@@ -111,26 +111,29 @@ export default class ArticleView extends Component {
   }
 
   _onRequestNextPage = (offset) => {
-    api.getArticleList(offset).then(data => {
-      if (data.status === 200 && data.data.ro.ok) {
-        if(data.data.data.length === 0){
+    if(this.state.loadingStatus.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
+      return;
+    }
+    getArticleList(offset).then(data => {
+      if (data.ro.respCode == '0000') {
+        if(data.data.length === 0){
           requestParams.nextOffset = requestParams.currentOffset
           this.setState({
-            articleList: this.state.articleList.concat(data.data.data),
+            articleList: this.state.articleList.concat(data.data),
             loadingStatus: {
               pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
             }
           })
           return
         }
-        data.data.data = data.data.data.map((v,i) => ({
+        data.data = data.data.map((v,i) => ({
           ...v,
           date_title: v.title.split(' ')[0],
           food_title: v.title.split(' ')[1]
         }))
-
+  
         this.setState({
-          articleList: this.state.articleList.concat(data.data.data),
+          articleList: this.state.articleList.concat(data.data),
           loadingStatus: {
             pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
           }
@@ -223,7 +226,7 @@ export default class ArticleView extends Component {
     {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
       <Loading/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
         <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : null)}
-      <View style={{marginBottom:GLOBAL_PARAMS.bottomDistance}}>
+      <View style={{marginBottom:GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.bottomDistance + GLOBAL_PARAMS.iPhoneXBottom : GLOBAL_PARAMS.bottomDistance}}>
         {
             this.state.articleList !== null
             ? this._renderArticleListView()

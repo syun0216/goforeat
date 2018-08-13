@@ -14,7 +14,7 @@ import GLOBAL_PARAMS from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
 import LinkingUtils from '../utils/LinkingUtils';
 //api
-import api from '../api'
+import {myOrder,cancelOrder} from '../api/request';
 //components
 import ListFooter from '../components/ListFooter';
 import ErrorPage from '../components/ErrorPage';
@@ -101,17 +101,21 @@ export default class PeopleView extends Component {
   }
 
   componentDidMount() {
+    if(!this._is_mounted) {
+      return ;
+    }
     this.timer = setTimeout(() => {
       this._getMyOrder(0);
       clearTimeout(this.timer);
     },700)
+    console.log('didmount myorder');
   }
 
   componentWillUnmount() {
     clearTimeout(this.timer);
     this._is_mounted = false;
     this._paramsInit();
-    // console.log('willunmount myorder')
+    console.log('willunmount myorder');
   }
   
   //common function
@@ -130,13 +134,13 @@ export default class PeopleView extends Component {
   }
 
   _getMyOrder (offset,status=null) {
-    api.myOrder(offset,status,this.props.screenProps.sid).then(data => {
-      if (data.status === 200 && data.data.ro.ok) {
-        if(data.data.data.length === 0){
+    myOrder(offset,status).then(data => {
+      if (data.ro.respCode == '0000') {
+        if(data.data.length === 0){
           requestParams.nextOffset = requestParams.currentOffset
           if(this._is_mounted) {
             this.setState({
-              orderlist: this.state.orderlist.concat(data.data.data),
+              orderlist: this.state.orderlist.concat(data.data),
               loadingStatus: {
                 pullUpLoading: this.state.orderlist.length == 0 ? GLOBAL_PARAMS.httpStatus.NO_DATA:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA,
               }
@@ -145,9 +149,9 @@ export default class PeopleView extends Component {
           return
         }
         if(this._delivering_list.length == 0) {
-          for(let i = 0;i<data.data.data.length;i++) {
-            if(data.data.data[i].status == _ORDER_DELIVERING) {
-              this._delivering_list.push(data.data.data[i].orderId)
+          for(let i = 0;i<data.data.length;i++) {
+            if(data.data[i].status == _ORDER_DELIVERING) {
+              this._delivering_list.push(data.data[i].orderId)
             }
           }
           if(this._delivering_list.length > 0) {
@@ -157,21 +161,21 @@ export default class PeopleView extends Component {
           }
         }
         this.setState({
-          orderlist: this.state.orderlist.concat(data.data.data),
+          orderlist: this.state.orderlist.concat(data.data),
           loadingStatus: {
             pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
           }
         })
         requestParams.currentOffset = requestParams.nextOffset
       }else{
-        ToastUtil.showWithMessage(data.data.ro.respMsg)
-        if(data.data.ro.respCode == "10006" || data.data.ro.respCode == "10007") {
+        ToastUtil.showWithMessage(data.ro.respMsg)
+        if(data.ro.respCode == "10006" || data.ro.respCode == "10007") {
           this.props.screenProps.userLogout();
           this.props.navigation.goBack();
         }
         this.setState({
           isExpired: true,
-          expiredMessage: data.data.ro.respMsg,
+          expiredMessage: data.ro.respMsg,
           loadingStatus: {
             pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
           }
@@ -195,8 +199,8 @@ export default class PeopleView extends Component {
       [
         {text: i18n.cancel, onPress: () => {return null}, style: 'cancel'},
         {text: i18n.confirm, onPress: () => {
-          api.cancelOrder(orderId,this.props.screenProps.sid).then(data => {
-            if(data.status === 200 && data.data.ro.ok) {
+          cancelOrder(orderId).then(data => {
+            if(data.ro.respCode == '0000') {
               ToastUtil.showWithMessage(i18n.myorder_tips.success.cancel_order);
               this._onReloadPage();
               this._delivering_list.splice(this._delivering_list.indexOf(orderId),1);
@@ -209,11 +213,8 @@ export default class PeopleView extends Component {
               }else {
                 this._getMyOrder(requestParams.offset, this.state.currentStatus);
               }
-              // if(currentPayment.en == 'Apple Pay' || currentPayment.en == 'Credit Card') {
-              //   LinkingUtils.dialingToCancelOrder(52268745, this.props.screenProps.language);
-              // }
             }else {
-              ToastUtil.showWithMessage(data.data.ro.respMsg)
+              ToastUtil.showWithMessage(data.ro.respMsg)
             }
           },() => {
             ToastUtil.showWithMessage(i18n.common_tips.err);
@@ -225,7 +226,6 @@ export default class PeopleView extends Component {
   }
 
   _onEndReach = () => {
-    // console.log('onend');
     requestParams.nextOffset += 5
     this._getMyOrder(requestParams.nextOffset, this.state.currentStatus);
   }
@@ -403,7 +403,6 @@ export default class PeopleView extends Component {
 
   _renderCommonListView(tab) {
     if(!this._is_mounted) return;
-    // console.log('#render',this.state);
     return (
     <View style={{flex:1,backgroundColor:'#efefef'}}>
     {this.state.isExpired ? <BlankPage style={Platform.OS === 'ios' ?{marginTop:50}:{marginTop:0}} message={'T_T'+this.state.expiredMessage}/> : null}
@@ -439,6 +438,7 @@ export default class PeopleView extends Component {
           <Loading style={Platform.OS == 'android' ? {marginTop:110} : {}}/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
             <ErrorPage errorTips={i18n.common_tips.reload} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : null)}
         {this.state.loadingStatus.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_DATA ? <BlankPage style={{marginTop: Platform.OS=='ios'? 50:110}} message={'T_T'+i18n.common_tips.no_data}/> : null}
+
       </Container>
     );
   }

@@ -10,7 +10,7 @@ import i18n from '../language/i18n';
 import ToastUtils from '../utils/ToastUtil';
 import GLOBAL_PARAMS,{em,debounce} from '../utils/global_params';
 //api
-import api from '../api/index';
+import {feedback} from '../api/request';
 
 const FeedbackView = props => {
   let _feedback = {
@@ -29,8 +29,8 @@ const FeedbackView = props => {
       ToastUtils.showWithMessage(i18n[language].thankForFeedback);
       return;
     }
-    api.feedback(_feedback).then(data => {
-      if (data.status === 200 && data.data.ro.ok) { 
+    feedback(_feedback).then(data => {
+      if (data.ro.respCode == '0000') { 
         _hasSubmit = true;
         ToastUtils.showWithMessage(i18n[language].common_tips.send_success);
       }
