@@ -8,6 +8,8 @@ export default {
   help: '用戶支援',
   address: '請選擇取餐地點',
   soldout: '已售罄',
+  intercept: '已截單',
+  skip: '跳過',
   all: '全部',
   finished: '已完成',
   delivering: '待配送',

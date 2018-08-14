@@ -8,6 +8,8 @@ export default {
   help: 'Need Help?',
   address: 'Choice address for orders',
   soldout: 'Sold out',
+  intercept: 'Truncate',
+  skip: 'Skip',
   all: 'Total',
   delivering: 'Deliver',
   finished: 'Finished',
