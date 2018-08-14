@@ -44,6 +44,7 @@ const SLIDER_1_FIRST_ITEM = 0;
 
 const HAS_FOODS = 1;
 const NO_MORE_FOODS = 2;
+const IS_INTERCEPT = 3;
 
 class HomePage extends Component {
   static navigationOptions = ({screenProps}) => {
@@ -162,7 +163,7 @@ class HomePage extends Component {
             refreshing: false,
             soldOut: data.data.status
           })
-          if(data.data.status == NO_MORE_FOODS) {
+          if(data.data.status == NO_MORE_FOODS || data.data.status == IS_INTERCEPT) {
             if(this.state.isBottomContainerShow) {
               this.props.navigation.setParams({visible: true})
               this.setState({
@@ -350,9 +351,16 @@ class HomePage extends Component {
                   <Image source={require("../asset/add.png")} style={HomePageStyles.AddPriceViewRemoveImage} resizeMode="contain"/>
               </TouchableOpacity>    
           </View>
-          ) : (
+          ) : 
+          soldOut == NO_MORE_FOODS ?
+          (
             <View style={HomePageStyles.AddPriceViewCountContainer}>
               <Text style={HomePageStyles.AddPriceViewPriceUnit}>{i18n.soldout}</Text>
+            </View>
+          ) : 
+          (
+            <View style={HomePageStyles.AddPriceViewCountContainer}>
+              <Text style={HomePageStyles.AddPriceViewPriceUnit}>{i18n.intercept}</Text>
             </View>
           )
         }
@@ -471,7 +479,7 @@ class HomePage extends Component {
         }
         >
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
-        {/*this._renderWarningView()*/}
+        {this._renderWarningView()}
         {example1}
         {this.state.foodDetails != null ? this._renderIntroductionView() : null}
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
