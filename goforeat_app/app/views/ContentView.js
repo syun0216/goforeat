@@ -50,9 +50,9 @@ export default class ContentView extends Component {
   cancelShare = () => this.setState({shareboxVisible: false})
 
   _shareLink = (type) => {
-    let {data,kind} = this.props.navigation.state.params;
+    let {data} = this.props.navigation.state.params;
     const shareOptions = {
-      url: kind === 'canteen' ? 'http://goforeat.hk' : data.url,
+      url: data.url,
       message: 'goforeat',
       title: data.title
     };
@@ -133,11 +133,12 @@ export default class ContentView extends Component {
   );
 
   render() {
-    let {kind} = this.props.navigation.state.params;
     let {i18n} = this.state;
+    let {data: {title,food_title},kind} = this.props.navigation.state.params;
+    console.log(this.props.navigation.state.params);
     return (
       <Container>
-        <CommonHeader title={i18n.canteenDetail} canBack hasRight rightIcon="md-share-alt" rightClick={() => this.setState({shareboxVisible: true})} {...this.props}/>
+        <CommonHeader title={kind == 'article'?food_title:title} canBack hasRight rightIcon="md-share-alt" rightClick={() => this.setState({shareboxVisible: true})} {...this.props}/>
         {this.state.loading ? <Loading /> : null}
         <View style={{flex:1}}>
             {this._renderArticleContentView()}
