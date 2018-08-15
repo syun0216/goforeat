@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Modal,View,Text,Image,StyleSheet,TouchableOpacity} from 'react-native';
+import {Modal,View,Text,Image,StyleSheet,TouchableOpacity,TouchableWithoutFeedback} from 'react-native';
 import {Container,Content,Footer,Left,Body,Right, Col} from 'native-base';
 //utils
 import GLOBAL_PARAMS,{em} from '../utils/global_params';
@@ -16,6 +16,24 @@ const styles = StyleSheet.create({
   ContentImg: {
     width: GLOBAL_PARAMS._winWidth,
     height:GLOBAL_PARAMS._winHeight*0.85
+  },
+  detailBtn: {
+    position: 'absolute',
+    backgroundColor: Colors.fontBlack,
+    opacity: 0.7,
+    borderRadius: 20,
+    width: em(140),
+    height: em(50),
+    zIndex: 10,
+    top: GLOBAL_PARAMS._winHeight*0.4,
+    left: GLOBAL_PARAMS._winWidth*0.5 - em(120)/2,
+    padding: em(8)
+  },
+  detailsText: {
+    color: Colors.main_white,
+    fontSize: em(26),
+    textAlign:'center',
+    justifyContent: 'center'
   },
   AdvertiseViewFooter: {
     height: GLOBAL_PARAMS._winHeight*0.15,
@@ -59,7 +77,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const AdvertiseView = ({modalVisible,image,seconds,closeFunc,language}) => {
+const AdvertiseView = ({modalVisible,image,data,seconds,closeFunc,screenProps:{language},navigation}) => {
   return (
     <Modal
       animationType={"fade"}
@@ -68,9 +86,18 @@ const AdvertiseView = ({modalVisible,image,seconds,closeFunc,language}) => {
       onRequestClose={() => closeFunc()}
     >
       <Container>
-        <Content>
-          <Image source={{uri: image}} style={styles.ContentImg} reasizeMode="cover"/>
-        </Content>
+        <View style={{position: 'relative'}}>
+          <TouchableWithoutFeedback onPress={() => {
+              closeFunc();
+              let _timer = setTimeout(() => {
+                navigation.navigate('Content', {
+                  data,kind: 'advertise'
+                })
+              },0);
+            }}>
+            <Image source={{uri: image}} style={styles.ContentImg} reasizeMode="cover"/>
+          </TouchableWithoutFeedback>
+        </View>
         <Footer style={styles.AdvertiseViewFooter}>
         <View style={styles.logoView}>
         <Image style={styles.logoApp} source={require('../asset/icon_app.png')} reasizeMode="contain"/>

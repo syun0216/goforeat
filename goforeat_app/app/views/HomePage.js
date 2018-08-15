@@ -25,9 +25,11 @@ import HomePageStyles from "../styles/homepage.style";
 // utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
+import JSONUtils from '../utils/JSONUtils';
 //api
-import {getDailyFoods} from '../api/request';
+import { getDailyFoods,queryLatest,adSpace } from '../api/request';
 //components
+import AdervertiseView from '../components/AdvertiseView';
 import ErrorPage from "../components/ErrorPage";
 import Loading from "../components/Loading";
 import PlacePickerModel from '../components/PlacePickerModel';
@@ -56,6 +58,7 @@ class HomePage extends Component {
   _SliderEntry = null; 
   _timer = null; // 延迟加载首页
   _picker = null; // 选择地区picker 实例
+  _interval = null;// 首页广告倒计时
   constructor(props) {
     super(props);
     this.state = {
@@ -77,18 +80,36 @@ class HomePage extends Component {
       foodCount: 0,
       showPlacePicker: false,
       showMoreDetail: false,
+      warningTipsData: null,
+      isWarningTipShow: false,
+      advertiseImg: '',
+      advertiseData: null,
+      advertiseCountdown: 7,
+      isAdvertiseShow: false,
       i18n: I18n[props.screenProps.language]
     };
   }
 
   componentWillReceiveProps(nextProps,nextState) {
-    console.log('willreceiveprops homepage');
     if(!this.state.isBottomContainerShow&&(nextProps.screenProps.refresh != this.state.refreshParams)&&nextProps.screenProps.refresh!= null) {
       this._reloadPage();
     }
     this.setState({refreshParams: nextProps.screenProps.refresh})
     this.setState({
       i18n: I18n[nextProps.screenProps.language]
+    })
+  }
+
+  componentWillMount() {
+    this._getWarningTips();
+    advertisementStorage.getData((error,data) => {
+      if(error == null) {
+        if(data != null) {
+          this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
+          this._advertiseInterval();
+        }
+        this._getAdvertise(data);
+      }
     })
   }
 
@@ -176,6 +197,57 @@ class HomePage extends Component {
       },() => {
         this.setState({ isError: true, loading: false,refreshing: false });
       })
+  }
+
+  _getWarningTips() {
+    queryLatest().then(data => {
+      if(data.ro.respCode == '0000') {
+        this.setState({
+          warningTipsData: data.data,
+          isWarningTipShow: true
+        })
+      }
+    })
+  }
+
+  _getAdvertise(old_data) {
+    adSpace().then(data => {
+      if(data.ro.respCode == '0000') {
+        if(old_data != null) { // 如果缓存不为空
+          if(JSONUtils.jsonDeepCompare(old_data, data.data[0])) {
+            return; // 判断缓存是否与服务器数据相等，如果相等则不做操作
+          } else{ // 如果缓存不等则覆盖本地缓存为服务器数据
+            advertisementStorage.setData(data.data[0]);
+            Image.prefetch(data.data[0].image)
+          }
+        }else { // 如果缓存为空，则缓存到本地
+          advertisementStorage.setData(data.data[0]);
+          Image.prefetch(data.data[0].image)
+        }
+      }
+    })
+    .catch(err => {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled', thrown.message);
+      } 
+    })
+    
+  }
+
+  _advertiseInterval = () => {
+    this._interval = setInterval(() => {
+      if(this.state.advertiseCountdown > 1) {
+        this.setState({
+          advertiseCountdown: this.state.advertiseCountdown - 1,
+        })
+        // console.log(this.state.advertiseCountdown);
+      }else {
+        this.setState({
+          isAdvertiseShow: false
+        })
+        clearInterval(this._interval);
+      }
+    },1000)
   }
 
   _onLoadingToRequestFirstPageData() {
@@ -280,7 +352,15 @@ class HomePage extends Component {
   
 
   //render function 
-  
+  _renderAdvertisementView() {
+    return (
+      <AdervertiseView 
+      modalVisible={this.state.isAdvertiseShow} seconds={this.state.advertiseCountdown} image={this.state.advertiseImg} data={this.state.advertiseData} countDown={this.state.advertiseCountdown}  closeFunc={() => this.setState({
+        isAdvertiseShow: false
+      })} {...this.props}
+      />
+    )
+  }  
 
   _renderDateFormat() {
     return (
@@ -302,7 +382,7 @@ class HomePage extends Component {
 
   _renderWarningView() {
     return (
-      <WarningTips />
+      <WarningTips data={this.state.warningTipsData} closeFunc={() => this.setState({isWarningTipShow: false})} {...this.props}/>
     )
   }
 
@@ -436,6 +516,7 @@ class HomePage extends Component {
     const scheme = Platform.select({ ios: 'http://maps.apple.com/?q=', android: 'geo:0,0?q=' });
     return (
       <Container style={HomePageStyles.ContainerBg}>
+        {this._renderAdvertisementView()}
         <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
         <Header
           style={HomePageStyles.Header}
@@ -479,7 +560,7 @@ class HomePage extends Component {
         }
         >
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
-        {this._renderWarningView()}
+        {this.state.isWarningTipShow ? this._renderWarningView() : null}
         {example1}
         {this.state.foodDetails != null ? this._renderIntroductionView() : null}
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
