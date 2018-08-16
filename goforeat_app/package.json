@@ -18,6 +18,7 @@
     "native-base": "^2.3.7",
     "react": "16.2.0",
     "react-native": "0.52.2",
+    "react-native-awesome-card-io": "^0.7.0",
     "react-native-code-push": "^5.3.2",
     "react-native-device-info": "^0.22.2",
     "react-native-fbsdk": "^0.7.0",

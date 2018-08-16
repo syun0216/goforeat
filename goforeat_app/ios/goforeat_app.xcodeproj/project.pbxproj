@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		081F6990D1B44D7D9A90986C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 500C59F6C4664701B262A79B /* EvilIcons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -24,6 +23,17 @@
 		7540EDD11C9A48A2883DA531 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E815BFC39DF48B0ACC94E9A /* libCodePush.a */; };
 		7D0FF676BE8841F588308476 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA306BA9B518419E83BFF347 /* Foundation.ttf */; };
 		C199B0039AD94996BE1FDABE /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F70CF1BBF6934453B8C723CD /* SimpleLineIcons.ttf */; };
+		C74BF1E2211E86630075948D /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3CD20F4F17B00AD84DC /* libRCTActionSheet.a */; };
+		C74BF1E3211E86630075948D /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3EF20F4F63400AD84DC /* libRCTAnimation.a */; };
+		C74BF1E4211E86630075948D /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3BC20F4F14300AD84DC /* libRCTBlob.a */; };
+		C74BF1E5211E86630075948D /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A38720F4F00E00AD84DC /* libRCTGeolocation.a */; };
+		C74BF1E6211E86630075948D /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A38E20F4F04600AD84DC /* libRCTImage.a */; };
+		C74BF1E7211E86640075948D /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3AA20F4F08E00AD84DC /* libRCTLinking.a */; };
+		C74BF1E8211E86640075948D /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A39820F4F05700AD84DC /* libRCTNetwork.a */; };
+		C74BF1E9211E86640075948D /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3A120F4F06C00AD84DC /* libRCTSettings.a */; };
+		C74BF1EA211E86640075948D /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A37F20F4EFEB00AD84DC /* libRCTText.a */; };
+		C74BF1EB211E86640075948D /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3D320F4F20500AD84DC /* libRCTVibration.a */; };
+		C74BF1EC211E86640075948D /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3DE20F4F26000AD84DC /* libRCTWebSocket.a */; };
 		C753EF0620CACE3000A1DCFD /* CodePush.h in Frameworks */ = {isa = PBXBuildFile; fileRef = C753EF0520CACE3000A1DCFD /* CodePush.h */; };
 		C7639D672069D523000A02BB /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D662069D50A000A02BB /* libRNShare.a */; };
 		C7639D692069D56E000A02BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D682069D56E000A02BB /* Social.framework */; };
@@ -488,6 +498,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C74BF1E2211E86630075948D /* libRCTActionSheet.a in Frameworks */,
+				C74BF1E3211E86630075948D /* libRCTAnimation.a in Frameworks */,
+				C74BF1E4211E86630075948D /* libRCTBlob.a in Frameworks */,
+				C74BF1E5211E86630075948D /* libRCTGeolocation.a in Frameworks */,
+				C74BF1E6211E86630075948D /* libRCTImage.a in Frameworks */,
+				C74BF1E7211E86640075948D /* libRCTLinking.a in Frameworks */,
+				C74BF1E8211E86640075948D /* libRCTNetwork.a in Frameworks */,
+				C74BF1E9211E86640075948D /* libRCTSettings.a in Frameworks */,
+				C74BF1EA211E86640075948D /* libRCTText.a in Frameworks */,
+				C74BF1EB211E86640075948D /* libRCTVibration.a in Frameworks */,
+				C74BF1EC211E86640075948D /* libRCTWebSocket.a in Frameworks */,
 				C7D69BD221149DDA008D1BF1 /* libprivatedata.a in Frameworks */,
 				C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */,
 				C7796CE420FA3A2500BAB2FB /* libBVLinearGradient.a in Frameworks */,
@@ -877,6 +898,14 @@
 				C7E19DEB20F0655B009CCF87 /* libReactNativePayments.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DB737765AD1347479894B335 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = /Users/sujunwen/Documents/Mywork/hk/goforeat/goforeat_app/node_modules/react-native-payments-addon-stripe/Carthage/Build/iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
