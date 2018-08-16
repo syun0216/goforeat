@@ -43,6 +43,7 @@ export default StyleSheet.create({
     fontSize: em(16),
     width: em(200),
     justifyContent:'flex-end',
+    height: em(60)
   },
   Input_Android: {
     color: '#333333',
@@ -54,7 +55,8 @@ export default StyleSheet.create({
 
   SelectBtn: {
     width: em(200),
-    justifyContent:'flex-end',
+    height: em(60),
+    justifyContent:'center',
     paddingLeft: Platform.OS=='android'?4:0
   }
 })

@@ -191,7 +191,7 @@ export default class CreditCardView extends PureComponent {
       <View style={Platform.OS == 'ios'?CreditCardStyles.CommonInputView:CreditCardStyles.CommonInputAndroidView} key={key}>
         <Text style={CreditCardStyles.InputTitle}>{item.label}</Text>
         <TextInput allowFontScaling={false} style={Platform.OS=="android"?  CreditCardStyles.Input_Android:CreditCardStyles.Input} underlineColorAndroid="transparent" keyboardType={item.keyboard} placeholder={item.placeholder} maxLength={item.maxlength} onChangeText={item.changeTextFunc} defaultValue={this.state[item.name]}
-        clearButtonMode="while-editing"
+        clearButtonMode="never"
         placeholderTextColor="#333333"/>
       </View>
     )
