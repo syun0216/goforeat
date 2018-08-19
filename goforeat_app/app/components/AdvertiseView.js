@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Modal,View,Text,Image,StyleSheet,TouchableOpacity,TouchableWithoutFeedback} from 'react-native';
+import {Modal,View,Text,Image,StyleSheet,TouchableOpacity,TouchableWithoutFeedback,Platform} from 'react-native';
 import {Container,Content,Footer,Left,Body,Right, Col} from 'native-base';
 //utils
 import GLOBAL_PARAMS,{em} from '../utils/global_params';
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     alignItems: 'center',
     position: 'relative',
+    zIndex: 10,
   },
   logoText: {
     fontSize: em(26),
@@ -61,14 +62,14 @@ const styles = StyleSheet.create({
   skipBtn: {
     position: 'absolute',
     right: em(5),
-    top: em(-18),
+    top: Platform.OS == 'ios' ? em(-18) : em(5),
     backgroundColor: Colors.fontBlack,
     opacity: 0.7,
     borderRadius: 20,
     padding:em(10),
     paddingLeft: em(15),
     paddingRight: em(15),
-    
+    zIndex: 10
   },
   skipText: {
     color: Colors.main_white,
@@ -90,6 +91,9 @@ const AdvertiseView = ({modalVisible,image,data,seconds,closeFunc,screenProps:{l
           <TouchableWithoutFeedback onPress={() => {
               closeFunc();
               let _timer = setTimeout(() => {
+                if(data.url == null) {
+                  return;
+                }
                 navigation.navigate('Content', {
                   data,kind: 'advertise'
                 })
@@ -105,7 +109,7 @@ const AdvertiseView = ({modalVisible,image,data,seconds,closeFunc,screenProps:{l
         </View>
         <TouchableOpacity style={styles.skipBtn} onPress={() => closeFunc()}>
               <Text style={styles.skipText}>{I18n[language].skip} {seconds}s</Text>
-            </TouchableOpacity>
+        </TouchableOpacity>
         </Footer>
       </Container>
     </Modal>

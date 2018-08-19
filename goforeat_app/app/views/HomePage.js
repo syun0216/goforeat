@@ -213,6 +213,10 @@ class HomePage extends Component {
   _getAdvertise(old_data) {
     adSpace().then(data => {
       if(data.ro.respCode == '0000') {
+        if(data.data.length == 0) { // 如果data为空，则不设置缓存为空
+          advertisementStorage.setData(null);
+          return;
+        }
         if(old_data != null) { // 如果缓存不为空
           if(JSONUtils.jsonDeepCompare(old_data, data.data[0])) {
             return; // 判断缓存是否与服务器数据相等，如果相等则不做操作
@@ -521,6 +525,7 @@ class HomePage extends Component {
         <Header
           style={HomePageStyles.Header}
           iosBarStyle="light-content"
+          androidStatusBarColor="#333"
         >
         <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={HomePageStyles.linearGradient}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={HomePageStyles.MenuBtn}>
