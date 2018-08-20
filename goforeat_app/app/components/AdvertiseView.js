@@ -91,7 +91,7 @@ const AdvertiseView = ({modalVisible,image,data,seconds,closeFunc,screenProps:{l
           <TouchableWithoutFeedback onPress={() => {
               closeFunc();
               let _timer = setTimeout(() => {
-                if(data.url == null) {
+                if(data.url == null || data.url == '') {
                   return;
                 }
                 navigation.navigate('Content', {

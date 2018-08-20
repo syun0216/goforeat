@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View,Image,StyleSheet,TouchableOpacity} from 'react-native';
+import {View,Image,StyleSheet,TouchableOpacity,Aniamted} from 'react-native';
 import {Icon} from 'native-base';
 //utils
 import GLOBAL_PAMRAS,{em} from '../utils/global_params';

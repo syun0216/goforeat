@@ -175,8 +175,8 @@ class HomePage extends Component {
     });
   }
   //api
-  _getDailyFoodList() {
-      getDailyFoods().then(data => {
+  _getDailyFoodList(id) {
+      getDailyFoods(id).then(data => {
         if(data.ro.respCode == '0000') {
           this.setState({
             foodDetails: data.data.foodList,
@@ -254,11 +254,11 @@ class HomePage extends Component {
     },1000)
   }
 
-  _onLoadingToRequestFirstPageData() {
+  _onLoadingToRequestFirstPageData(id) {
     this.setState({loading: true});
     this._timer = setTimeout(() => {
       clearTimeout(this._timer);
-      this._getDailyFoodList();
+      this._getDailyFoodList(id);
     }, 300)
   }
 
@@ -266,7 +266,7 @@ class HomePage extends Component {
     this.setState({refreshing: true});
     this._timer = setTimeout(() => {
       clearTimeout(this._timer);
-      this._getDailyFoodList();
+      this._getDailyFoodList(this.state.placeSelected.id);
     }, 800)
   }
 
@@ -314,7 +314,7 @@ class HomePage extends Component {
   }else {
     if(placeSelected.id){
       this.props.navigation.navigate("Login",{page:'Order',foodId,placeId: placeSelected.id,amount: foodCount,total: foodCount*price,reloadFunc: () => this._reloadWhenCancelLogin()});
-    }
+      }
     }
   }
 

@@ -908,6 +908,14 @@
 			path = /Users/sujunwen/Documents/Mywork/hk/goforeat/goforeat_app/node_modules/react-native-payments-addon-stripe/Carthage/Build/iOS;
 			sourceTree = "<group>";
 		};
+		CF734EF2B4534E0B82650194 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = /Users/sujunwen/Documents/Mywork/hk/goforeat/goforeat_app/node_modules/react-native-payments-addon-stripe/Carthage/Build/iOS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
