@@ -13,7 +13,7 @@ import {em} from '../utils/global_params';
 import i18n from '../language/i18n';
 //styles
 import PaySettingStyles from '../styles/paysetting.style';
-const EMAIL = 'contact@goforeat@hk';
+const EMAIL = 'contact@goforeat.hk';
 const UserHelper = (props) => {
   let {language} = props.screenProps;
   let _left_icon = (img) => (<Image source={img} style={PaySettingStyles.payLeftImage} resizeMode="contain"/>)

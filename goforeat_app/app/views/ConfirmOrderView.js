@@ -81,7 +81,7 @@ export default class ConfirmOrderView extends PureComponent {
     clearTimeout(this.timer);
   }
 
-  _createOrder = () => {
+  _createOrder() {
     let {foodId,placeId,amount} = this.props.navigation.state.params;
     let {i18n} = this.state;
     createOrder(foodId,placeId,amount).then(
@@ -305,7 +305,6 @@ export default class ConfirmOrderView extends PureComponent {
         resolve(paymentResponse);
       })
       .catch(e => {
-        alert(1)
         // console.log(e)
         pr.abort();
         reject();
@@ -522,7 +521,7 @@ export default class ConfirmOrderView extends PureComponent {
         {this.state.loading ? <Loading/> : null}
         {this.state.loadingModal ? <LoadingModal message={i18n.paying}/> : null}
         {this.state.isError ? (
-          <ErrorPage errorToDo={this._createOrder} errorTips={i18n.common_tips.reload} {...this.props}/>
+          <ErrorPage errorToDo={() => this._createOrder()} errorTips={i18n.common_tips.reload} {...this.props}/>
         ) : null}
         <Content style={{ backgroundColor: '#efefef' }} padder>
           {this.state.isExpired ? (

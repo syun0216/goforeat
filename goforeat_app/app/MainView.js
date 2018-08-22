@@ -53,7 +53,7 @@ const tabView = TabNavigator(
       screen: HomePage,
       navigationOptions: {
         // tabBarLabel: '每日推薦',
-        // drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed', // 修复安卓侧滑问题
+        drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed', // 修复安卓侧滑问题
         tabBarIcon: ({ focused }) => {
           return focused ? (
             <Image
