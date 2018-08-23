@@ -38,6 +38,7 @@ export default {
   online: 'Chat Online',
   feedback: 'Feedback',
   sendFeedback: 'Submit feedback',
+  pressToExit: 'Press again to exit the app',
   feedbackTips: 'Please leave your valuable comments and suggestions, we will work hard to improve (not less than 5 words)',
   feedbackPhoneTips: 'Please leave your mobile number so we can respond to you (optional)',
   feedbackLength: 'Enter at least 5 words~',

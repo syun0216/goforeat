@@ -232,7 +232,7 @@ class HomePage extends Component {
     })
     .catch(err => {
       if (axios.isCancel(thrown)) {
-        console.log('Request canceled', thrown.message);
+        // console.log('Request canceled', thrown.message);
       } 
     })
     

@@ -38,6 +38,7 @@ export default {
   online: '在線支援',
   feedback: '意見反饋',
   sendFeedback: '提交反饋',
+  pressToExit: '再按一次退出應用',
   feedbackTips: '請留下您的寶貴意見和建議，我們將努力改進(不少於5個字)',
   feedbackPhoneTips: '請留下手機號碼，以便我們回復您(可選)',
   feedbackLength: '最少輸入5個字哦~',

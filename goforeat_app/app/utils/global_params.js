@@ -52,20 +52,28 @@ const GLOBAL_PARAMS = {
   }
 }
 
+// 路由存储以abort请求
+export const ABORT_LIST_WITH_ROUTE = [];
+
 // 将会包装事件的 debounce 函数
-export function debounce(fn, delay) {
-  // 维护一个 timer
-  let timer = null;
+export function debounce(func, wait, immediate) {
+  let timeout, args, context, timestamp, result
 
-  return function() {
-    // 通过 ‘this’ 和 ‘arguments’ 获取函数的作用域和变量
-    let context = this;
-    let args = arguments;
+  const later = function() {
+    // 据上一次触发时间间隔
+    const last = +new Date() - timestamp
 
-    clearTimeout(timer);
-    timer = setTimeout(function() {
-      fn.apply(context, args);
-    }, delay);
+    // 上次被包装函数被调用时间间隔last小于设定时间间隔wait
+    if (last < wait && last > 0) {
+      timeout = setTimeout(later, wait - last)
+    } else {
+      timeout = null
+      // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
+      if (!immediate) {
+        result = func.apply(context, args)
+        if (!timeout) context = args = null
+      }
+    }
   }
 }
 

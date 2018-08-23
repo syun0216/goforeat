@@ -36,12 +36,13 @@ import FeedbackView from './views/FeedbackView';
 //api
 import source from "./api/CancelToken";
 //utils
-import GLOBAL_PARAMS from "./utils/global_params";
+import GLOBAL_PARAMS,{ ABORT_LIST_WITH_ROUTE } from "./utils/global_params";
 import JSONUtils from "./utils/JSONUtils";
 //store
 import store from "./store";
 //components
 import TabBar from "./components/Tabbar";
+import BackAndroidHandler from "./components/BackAndroidHandler";
 //styles
 import MainViewStyles from './styles/mainview.style';
 //language
@@ -50,10 +51,10 @@ import i18n from './language/i18n';
 const tabView = TabNavigator(
   {
     ShopTab: {
-      screen: HomePage,
+      screen: BackAndroidHandler(HomePage),
       navigationOptions: {
         // tabBarLabel: '每日推薦',
-        drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed', // 修复安卓侧滑问题
+        // drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed', // 修复安卓侧滑问题
         tabBarIcon: ({ focused }) => {
           return focused ? (
             <Image
@@ -307,9 +308,10 @@ MainView.router.getStateForAction = (action, state) => {
   }
   if(action.type != 'Navigation/SET_PARAMS') {
     if(action.routeName == 'DrawerClose' || action.routeName == 'ShopTab') { //监听首页
-      store.dispatch({type:'REFRESH',refresh: new Date()})
+      store.dispatch({type:'REFRESH',refresh: new Date()});
     }
   }
+
   if (state && action.type === NavigationActions.NAVIGATE) {
     if (action.params && action.params.replaceRoute) {
       //replaceRoute值 仅仅作为一个标识，进到这个方法之后就没有作用了

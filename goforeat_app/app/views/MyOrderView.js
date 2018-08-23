@@ -108,14 +108,14 @@ export default class PeopleView extends Component {
       this._getMyOrder(0);
       clearTimeout(this.timer);
     },700)
-    console.log('didmount myorder');
+    // console.log('didmount myorder');
   }
 
   componentWillUnmount() {
     clearTimeout(this.timer);
     this._is_mounted = false;
     this._paramsInit();
-    console.log('willunmount myorder');
+    // console.log('willunmount myorder');
   }
   
   //common function
