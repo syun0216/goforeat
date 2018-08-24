@@ -188,7 +188,7 @@ a:focus {
   background: #c21500; /* fallback for old browsers */  
   background: -webkit-linear-gradient(to left, #c21500 , #ffc500); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to left, #c21500 , #ffc500); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  opacity: 0.8;      
+  opacity: 0.3;      
   position: absolute;
   top: 0;
   width: 100%;
@@ -224,8 +224,28 @@ a:focus {
   font-size: 28px;
   font-weight: 600;
   letter-spacing: 2px;
-  line-height: 40px;
+  line-height: 48px;
   margin: 0;
+}
+
+.navbar-default .navbar-brand:hover{
+  color: #ff630f;
+}
+
+.navbar-default .navbar-brand:hover .navbar-logo{
+  transform: rotate(360deg);
+}
+
+.navbar-logo{
+  width: 1em;
+  height: 1em;
+  display: inline-block !important;
+  vertical-align: -4px;
+  transition: transform .5s;
+}
+
+.navbar-logo:hover{
+  transform: rotate(360deg);
 }
 
 .navbar-default .navbar-nav li a {
@@ -278,7 +298,7 @@ a:focus {
   margin-top: 32px;
 }
 #feature .feature-icon {
-  background-color: #222;
+  background-color: #ff630f;
   width: 85px;
   height: 85px;
   margin: 0 auto;
@@ -300,6 +320,7 @@ a:focus {
 #feature .feature-icon span {
   display: table-cell;
   vertical-align: middle;
+  cursor: pointer;
 }
 #feature .feature-icon .fa {
   color: #ffffff;
