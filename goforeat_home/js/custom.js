@@ -133,6 +133,8 @@ $(document).ready(function() {
   }
   initParallax();
 
+  /*
+
 
   /* Nivo lightbox
     -----------------------------------------------*/
@@ -140,10 +142,18 @@ $(document).ready(function() {
         effect: 'fadeScale',
     });
 
+  // scroll to top
+  $('#totop').click(function() {
+    $( 'html, body' ).animate({scrollTop:0}, 'slow' ); //回到顶部
+  });
+
 
   /* wow
   -------------------------------*/
   new WOW({ mobile: false }).init();
 
+  /* feedback
+  -------------------------------*/
+  
   });
 
