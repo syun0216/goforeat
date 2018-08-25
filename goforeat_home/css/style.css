@@ -87,13 +87,13 @@ a:focus {
 #about,
 #feature,
 #video,
-#menu,
+#app,
 #team,
 #gallery,
 #contact {
   color: #656565;
-  padding-top: 100px;
-  padding-bottom: 100px;
+  padding-top: 80px;
+  padding-bottom: 80px;
 }
 
 #feature,
@@ -258,7 +258,7 @@ a:focus {
 }
 
 .navbar-default .navbar-nav > li a:hover {
-    color: #c21500 !important;
+    color: #ff630f !important;
 }
 
 .navbar-default .navbar-nav > li > a:hover,
@@ -270,7 +270,7 @@ a:focus {
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
-    color: #c21500;
+    color: #ff630f;
     background-color: transparent;
 }
 
@@ -393,17 +393,38 @@ a:focus {
 
 
 /* Menu section */
-#menu .media {
+#app .media {
   padding-bottom: 20px;
 }
 
-#menu .media-object img {
+#app .phone_mode{
+  background: #ddd;
+  padding: 0 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#app .select{
+  background: #ff630f;
+  color: #fff;
+}
+
+#app .title{
+  margin: 1em 0;
+}
+
+#app .desc{
+  margin-bottom: 2em;
+  font-size: 20px;
+}
+
+#app .media-object img {
   width: 220px;
   padding-right: 12px;
   position: relative;
 }
 
-#menu .media-object span.menu-price {
+#app .media-object span.menu-price {
   position: absolute;
   background-color: #ffffff;
   color: #222;
@@ -449,7 +470,7 @@ a:focus {
 #team .team-thumb:hover .team-des {
   color: #ffffff;
   height: 100%;
-  background-color: #c21500;
+  background-color: #ff630f;
   padding-top: 30%;
   opacity: 0.9;
 }
@@ -460,7 +481,7 @@ a:focus {
 }
 
 #team .join-team {
-  background-color: #c21500;
+  background-color: #ff630f;
   color: #f0f0f0;
   padding: 30px 20px;
   text-align: center;
@@ -502,7 +523,7 @@ a:focus {
 } 
 
 #gallery .gallery-thumb .gallery-overlay {
-  background: #c21500;
+  background: #ff630f;
   position: absolute;
   top: 0;
   right: 0;
@@ -569,7 +590,7 @@ a:focus {
 }
 .filter-wrapper li a:hover,
 .filter-wrapper li a:focus {
-  color: #C21500;
+  color: #ff630f;
 }
 
 /*isotope box css*/
@@ -643,7 +664,7 @@ a:focus {
 #contact input[type='submit'] {
   background: #ffffff;
   border-radius: 4px;
-  color: #c21500;
+  color: #ff630f;
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 2px;
@@ -652,7 +673,7 @@ a:focus {
   transition: all 0.4s ease-in-out;
 }
 #contact input[type='submit']:hover {
-  background-color: #c21500;
+  background-color: #ff630f;
   border-color: transparent;
   color: #ffffff;
 }
@@ -695,7 +716,7 @@ footer strong {
   transition: all 0.4s ease-in-out;
 }
 .gototop:hover {
-  background-color: #c21500;
+  background-color: #ff630f;
   color: #fff;
 }
 
@@ -831,5 +852,8 @@ footer strong {
   }
 
   footer {text-align: center;}
+
+  
+
 
 }
