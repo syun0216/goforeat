@@ -40,7 +40,7 @@ export default StyleSheet.create({
     width: GLOBAL_PARAMS._winWidth,
     paddingLeft: common.marginLeft,
     paddingRight: common.marginLeft,
-    paddingBottom: em(10)
+    paddingBottom: em(10),
   },
   IntroductionFoodNameCotainer: {
     flexDirection: 'row',
@@ -64,7 +64,7 @@ export default StyleSheet.create({
     fontSize: em(14),
     color: '#999999',
     textAlign: 'justify',
-    lineHeight: Platform.OS == 'ios' ? em(20) : em(25)
+    lineHeight: Platform.OS == 'ios' ? em(20) : em(25),
   },
   // _renderAddPriceView
   AddPriceView: {

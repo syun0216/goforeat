@@ -61,11 +61,6 @@ export default class ContentView extends Component {
       setTimeout(() => {
         if(typeof shareOptions["url"] !== undefined) {
           Clipboard.setString(shareOptions["url"]);
-          if (Platform.OS === "android") {
-            ToastAndroid.show('找不到該鏈接', ToastAndroid.SHORT);
-          } else if (Platform.OS === "ios") {
-            AlertIOS.alert('找不到該鏈接');
-          }
         }
       },300);
     }else if(type === 'more') {

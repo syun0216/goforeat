@@ -421,7 +421,9 @@ class HomePage extends Component {
         <View style={HomePageStyles.AddPriceViewPriceContainer}>
           <Text style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
           <Text style={HomePageStyles.AddPriceViewPrice}>{foodDetails[0].price}</Text>
-          <Text style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text>
+          {
+            foodDetails[0].originPrice != null ? <Text style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text> : null
+          }
           <View style={HomePageStyles.AddPriceViewStriping}/>
         </View>
         {

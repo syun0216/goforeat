@@ -133,7 +133,7 @@ class SliderEntry extends Component {
               >
                 <View style={[styles.imageContainer]}>
                     { this.image }
-                    { this._renderStarView() }
+                    {/* this._renderStarView() */}
                 </View>
             </TouchableOpacity>
         );
