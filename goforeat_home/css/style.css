@@ -44,7 +44,7 @@ h3 {
   letter-spacing: 1px;
   padding-bottom: 10px;
 }
-#menu h3 {
+#app h3 {
    color: #555;
 }
 
@@ -116,7 +116,7 @@ a:focus {
   padding-bottom: 70px;
 }
 #about .section-title,
-#menu .section-title {
+#app .section-title {
   text-align: center;
 }
 #contact .section-title {
@@ -844,7 +844,7 @@ footer strong {
   #about,
   #feature,
   #video,
-  #menu,
+  #app,
   #team,
   #gallery,
   #contact {
