@@ -424,7 +424,7 @@ class HomePage extends Component {
           {
             foodDetails[0].originPrice != null ? <Text style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text> : null
           }
-          <View style={HomePageStyles.AddPriceViewStriping}/>
+          {foodDetails[0].originPrice != null ? <View style={HomePageStyles.AddPriceViewStriping}/> : null}
         </View>
         {
           soldOut == HAS_FOODS ? (
