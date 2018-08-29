@@ -149,8 +149,12 @@ const darwerView = DrawerNavigator(
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  props.navigation.navigate('PayType',{from:'drawer'});
-                }}
+                    if(props.screenProps.user === null) {
+                      props.navigation.navigate("Login",{page: 'PayType'});
+                    }else {
+                      props.navigation.navigate('PayType',{from:'drawer'});
+                    }
+                  }}
                 style={MainViewStyles.drawerItemBtn}
               >
                 <Image 

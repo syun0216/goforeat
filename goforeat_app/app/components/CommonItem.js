@@ -39,7 +39,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,clickFunc,style,contentStyle,disabled}) => (
+const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,clickFunc,style,contentStyle,disabled}) => {
+  // console.log(style);
+  return (
   <View>
     <TouchableOpacity disabled={disabled} style={[styles.itemContainer,style]} onPress={() => {
       requestAnimationFrame(() => {
@@ -55,7 +57,7 @@ const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,c
     </TouchableOpacity>
     {isEnd ? <Divider bgColor='#efefef'/> : null}
   </View>
-);
+)};
 
 CommonItem.defaultProps = {
   content: '内容',

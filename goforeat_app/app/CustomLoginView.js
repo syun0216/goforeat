@@ -158,7 +158,10 @@ export default class CustomLoginView extends PureComponent {
                   amount: params.amount,
                   total: params.total
               })
-          }else {
+          }else if(params.page == 'PayType') {
+            this.props.navigation.navigate('PayType',{replaceRoute: true,from:'drawer'});
+          }
+          else {
             this.props.navigation.navigate(params.page,{replaceRoute: true,});
           }
         }

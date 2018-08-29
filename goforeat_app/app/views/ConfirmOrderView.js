@@ -46,7 +46,10 @@ const PAY_TYPE = {
   cash: 1,
   apple_pay: 2,
   android_pay: 3,
-  credit_card: 6
+  credit_card: 6,
+  month_ticket: 7,
+  wechat_pay: 4,
+  ali_pay: 5
 }
 
 const api_key = 'pk_live_4JIHSKBnUDiaFHy2poHeT2ks';

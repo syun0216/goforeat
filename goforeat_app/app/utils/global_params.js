@@ -77,6 +77,15 @@ export function debounce(func, wait, immediate) {
   }
 }
 
+//支付方式
+export const PAY_TYPE = {
+  cash: 1,
+  apple_pay: 2,
+  android_pay: 3,
+  credit_card: 6,
+  month_ticket: 7
+};
+
 export const em = (val) => val * ratioX 
 
 export const currentPlatform = Platform.OS == 'ios' ? 1 : 2;
