@@ -7,9 +7,10 @@ import CommonHeader from '../components/CommonHeader';
 import Text from '../components/UnScalingText';
 import CommonBottomBtn from '../components/CommonBottomBtn';
 import Loading from '../components/Loading';
+import ErrorPage from '../components/ErrorPage';
 //utils
 import {formatCard} from '../utils/FormatCardInfo';
-import {PAY_TYPE,em} from '../utils/global_params';
+import {PAY_TYPE, EXPLAIN_PAY_TYPE, em} from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
 import Colors from '../utils/Colors';
 //styles
@@ -41,6 +42,7 @@ export default class PaySettingView extends PureComponent {
       creditCardInfo: props.screenProps.creditCardInfo,
       i18n: I18n[props.screenProps.language],
       loading: true,
+      isError: false,
       payTypeList: [],
       hasCreditCardPay: false,
       monthTicketQuantity: 0,
@@ -56,8 +58,10 @@ export default class PaySettingView extends PureComponent {
   }
 
   componentDidMount() {
-    this._getPaySetting();
-    this._getMonthTicket();
+    let _timer = setTimeout(() => {
+      this._getMonthTicket();
+      clearTimeout(_timer);
+    },300)
   }
 
   //api
@@ -73,7 +77,7 @@ export default class PaySettingView extends PureComponent {
             });
           }else {
             _arr.push({
-              content: v.name,hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE[v.code]),code: v.code
+              content: EXPLAIN_PAY_TYPE[v.code][this.props.screenProps.language],hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE[v.code]),code: v.code
             });
             if(v.code == PAY_TYPE.month_ticket) {
               _arr.push({
@@ -89,6 +93,11 @@ export default class PaySettingView extends PureComponent {
         })
       }
       // console.log(data);
+    }).catch(err => {
+      this.setState({
+        loading: false,
+        isError: true
+      })
     })
   }
 
@@ -108,14 +117,23 @@ export default class PaySettingView extends PureComponent {
           monthTicketQuantity: data.data.amount,
           monthTicketEndTime: [_date.getFullYear(),_date.getMonth()+1,_date.getDate()].join('-')
         });
+        this._getPaySetting();
       }
       console.log(data)
+    }).catch(err => {
+      this.setState({
+        loading: false,
+        isError: true
+      })
     })
   }
 
 
   _checked(name) { 
     // console.log(name)
+    if(this.state.checkedName == name) {
+      return;
+    }
     this.setState(
       {checkedName: name}
     );  
@@ -177,12 +195,12 @@ export default class PaySettingView extends PureComponent {
                   item.code != null && this._checked(item.code);
                 }}
                 hasLeftIcon={item.hasLeftIcon} leftIcon={item.leftIcon} rightIcon={item.code != null ?this._checkedImage(item.code) : (<Text>{this.state.monthTicketEndTime}</Text>)}
-                style={item.code != null ? item.code != PAY_TYPE.month_ticket ? {} : {borderBottomWidth: 0,} : {height: em(44),}}/>
+                style={item.code != null ? item.code != PAY_TYPE.month_ticket ? {} : {borderBottomWidth: 0,} : {height: em(44),}} disabled={item.code == null}/>
               ))}
               { this.state.hasCreditCardPay ? this._renderManageCreditCard() : null}
             </View>
           )}
-        
+          { this.state.isError ? <ErrorPage errorTips={i18n.common_tips.reload} errorToDo={() => this._getMonthTicket()} {...this.props}/> : null}
           {_from_confirm_order?this._renderBottomConfirm():null}
         </Content>
       </Container>

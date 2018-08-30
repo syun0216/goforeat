@@ -86,6 +86,16 @@ export const PAY_TYPE = {
   month_ticket: 7
 };
 
+export const EXPLAIN_PAY_TYPE = {
+  1: {zh:'現金支付',en: 'Cash Pay'},
+  2: {zh:'Apple Pay',en: 'Apple Pay'},
+  3: {zh:'Google Pay', en: 'Google Pay'},
+  4: {zh: '微信支付',en: 'WeChat Pay'},
+  5: {zh: '支付寶支付', en: 'Ali Pay'},
+  6: {zh:'信用卡支付',en: 'Credit Card'},
+  7: {zh: '月票支付',en: 'Month Tikcet'}
+}
+
 export const em = (val) => val * ratioX 
 
 export const currentPlatform = Platform.OS == 'ios' ? 1 : 2;

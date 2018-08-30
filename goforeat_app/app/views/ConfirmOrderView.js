@@ -26,7 +26,7 @@ import PlacePickerModel from "../components/PlacePickerModel";
 import Text from '../components/UnScalingText';
 //utils
 import Colors from "../utils/Colors";
-import GLOBAL_PARAMS from "../utils/global_params";
+import GLOBAL_PARAMS, { EXPLAIN_PAY_TYPE } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //api
 import {createOrder,confirmOrder,useCoupon} from '../api/request';
@@ -84,6 +84,14 @@ export default class ConfirmOrderView extends PureComponent {
     clearTimeout(this.timer);
   }
 
+  componentWillReceiveProps() {
+    this.setState({
+      loading: true
+    },() => {
+      this._createOrder();
+    });
+  }
+
   _createOrder() {
     let {foodId,placeId,amount} = this.props.navigation.state.params;
     let {i18n} = this.state;
@@ -93,19 +101,22 @@ export default class ConfirmOrderView extends PureComponent {
           this.setState({
             loading: false,
             orderDetail: data.data,
-            isBottomShow: true
+            isBottomShow: true,
+            isError: false
           });
         } else {
           if(data.ro.respCode == "10006" || data.ro.respCode == "10007") {
             this.props.screenProps.userLogout();
           }
-          Alert.alert(null
-            , data.ro.respMsg
-            , [
-                {text: i18n.cancel},
-                {text: i18n.confirm, onPress: () => this.props.navigation.goBack()}
-            ]
-          );
+          ToastUtil.showWithMessage(data.ro.respMsg);
+          this.props.navigation.goBack()
+          // Alert.alert(null
+          //   , data.ro.respMsg
+          //   , [
+          //       {text: i18n.cancel},
+          //       {text: i18n.confirm, onPress: () => this.props.navigation.goBack()}
+          //   ]
+          // );
           // alert(data.data.ro.respMsg);
           this.setState({
             loading: false,
@@ -122,17 +133,16 @@ export default class ConfirmOrderView extends PureComponent {
   };
 
   async _confirmOrder() {
-    let {i18n} = this.state;
-    let payment = PAY_TYPE[this.props.screenProps.paytype];
+    let {i18n, orderDetail: {defaultPayment}} = this.state;
     let {creditCardInfo} = this.props.screenProps;
     let token = null;
     if (this.state.orderDetail === null) {
       ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.confirm_order);
       return;
     }
-    switch(payment) {
+    switch(defaultPayment) {
       case PAY_TYPE.apple_pay:case PAY_TYPE.android_pay: {
-        let _pay_res = new Promise((resolve,reject) => {this.handlePayWithAppleOrAndroid(resolve, reject,payment)})
+        let _pay_res = new Promise((resolve,reject) => {this.handlePayWithAppleOrAndroid(resolve, reject,defaultPayment)})
         _pay_res.then(data => {
           this._confirmOrderWithToken(data);
         }).catch(err => ToastUtil.showWithMessage('取消了支付'));
@@ -158,36 +168,34 @@ export default class ConfirmOrderView extends PureComponent {
        token = token.id;
        this._confirmOrderWithToken(token);
       };break;
-      case PAY_TYPE.cash: {
+      case PAY_TYPE.cash:case PAY_TYPE.month_ticket: {
         this._confirmOrderWithToken(token);
       };break;
     }
-    
   };
 
   _confirmOrderWithToken(token) {
-    let {orderDetail:{totalMoney,orderId},discountsPrice,coupon,remark} = this.state;
-    totalMoney = totalMoney - discountsPrice;
-    let payment = PAY_TYPE[this.props.screenProps.paytype];
+    let {orderDetail:{totalMoney,orderId,defaultPayment},discountsPrice,coupon,remark} = this.state;
+    totalMoney = totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
     let {i18n} = this.state;
     let _appleAndAndroidPayRes = null;
-    if(payment == PAY_TYPE.android_pay || payment == PAY_TYPE.apple_pay) {
+    if(defaultPayment == PAY_TYPE.android_pay || defaultPayment == PAY_TYPE.apple_pay) {
       _appleAndAndroidPayRes = token;
       token = _appleAndAndroidPayRes.details.paymentToken;
     }
-    confirmOrder(orderId,coupon,totalMoney,payment,token,remark).then(
+    confirmOrder(orderId,coupon,totalMoney,defaultPayment,token,remark).then(
       data => {
         this.setState({
           loadingModal: false
         })
         if (data.ro.respCode == '0000') {
           ToastUtil.showWithMessage(i18n.confirmorder_tips.success.order);
-          if(payment == PAY_TYPE.android_pay || payment == PAY_TYPE.apple_pay) {
+          if(defaultPayment == PAY_TYPE.android_pay || defaultPayment == PAY_TYPE.apple_pay) {
             _appleAndAndroidPayRes.complete('success');
           }
           this.props.navigation.navigate('MyOrder',{replaceRoute: true,confirm: true});
         } else {
-          let _message = payment == PAY_TYPE.credit_card ? `,${i18n.confirmorder_tips.fail.check_card}` : '';
+          let _message = defaultPayment == PAY_TYPE.credit_card ? `,${i18n.confirmorder_tips.fail.check_card}` : '';
           ToastUtil.showWithMessage(data.ro.respMsg+_message);
         }
       },
@@ -201,16 +209,16 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _useCoupon = () => {
-    let {i18n} = this.state;
-    if(this.state.coupon == null) {
+    let {i18n, coupon, discountsPrice, orderDetail: {orderId}} = this.state;
+    if(coupon == null) {
       ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.coupon_null);
       return ;
     }
-    if(this.state.discountsPrice > 0) {
+    if(discountsPrice > 0) {
       ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.coupon_used);
       return;
     }
-    useCoupon(this.state.coupon).then(data => {
+    useCoupon(coupon,orderId).then(data => {
       if(data.ro.respCode == '0000') {
         ToastUtil.showWithMessage(i18n.confirmorder_tips.success.coupon);
         this.setState({
@@ -227,20 +235,8 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _currentPayType = () => {
-    let {i18n} = this.state;
-    switch(this.props.screenProps.paytype) {
-      case 'cash': return i18n.cash;
-      case 'apple_pay': return 'Apple Pay';
-      case 'android_pay': return 'Android Pay';
-      case 'credit_card': return i18n.credit;
-      case 'ali': return '支付寶支付';
-      case 'wechat': return '微信支付';
-      default: return i18n.cash;
-    }
-  }
-
-  getSeletedValue = (val) => {
-    // console.log(val);
+    let {defaultPayment} = this.state.orderDetail;
+    return EXPLAIN_PAY_TYPE[defaultPayment][this.props.screenProps.language];
   }
 
   //private function
@@ -248,7 +244,7 @@ export default class ConfirmOrderView extends PureComponent {
   handlePayWithAppleOrAndroid(resolve,reject,paytype) {
     let supportedMethods = ''
     let {orderDetail:{totalMoney,orderDetail},discountsPrice} = this.state;
-    totalMoney = totalMoney - discountsPrice;
+    totalMoney = totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
     if(Platform.OS == 'ios' && paytype == PAY_TYPE.apple_pay) {
       supportedMethods = [
         {
@@ -338,7 +334,7 @@ export default class ConfirmOrderView extends PureComponent {
   _renderPopupDiaogView() {
       let {i18n} = this.state;
       let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail},discountsPrice} = this.state;
-      totalMoney = totalMoney - this.state.discountsPrice;
+      totalMoney = (totalMoney - discountsPrice) > 0 ? totalMoney - discountsPrice : 0;
       return (<PopupDialog
       dialogTitle={<DialogTitle title={i18n.myOrder} />}
       width={GLOBAL_PARAMS._winWidth * 0.9}
@@ -419,7 +415,7 @@ export default class ConfirmOrderView extends PureComponent {
   _renderNewOrderView() {
     let {i18n} = this.state;
     let {orderDetail:{totalMoney,orderDetail},discountsPrice} = this.state;
-    totalMoney = totalMoney - discountsPrice;
+    totalMoney = totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
     return (
       <View style={styles.commonNewContainer}>
         <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop]}>
@@ -454,13 +450,11 @@ export default class ConfirmOrderView extends PureComponent {
 
   _renderNewDetailsView() {
     let {i18n} = this.state;
-    let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
+    let {orderDetail:{defaultPayment,takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
     let _details_arr = [
-      {title:i18n.fooddate,content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false,clickFunc:()=>{}},
-      {title:i18n.foodAddress,content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false,clickFunc:()=>{
-
-      }},
-      {title:i18n.foodTime,content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {}},
+      {title:i18n.fooddate,content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false,clickFunc:()=>{},disable: true},
+      {title:i18n.foodAddress,content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false,clickFunc:()=>{},disable: true},
+      {title:i18n.foodTime,content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {},disable: true},
       {title:i18n.payment,content:this._currentPayType(),hasPreIcon:false,fontColor:'#333333',canOpen:true,clickFunc:()=> {
         this.props.navigation.navigate('PayType',{
           from:'confirm_order'
@@ -487,7 +481,7 @@ export default class ConfirmOrderView extends PureComponent {
     return (
       <View key={idx} style={[styles.commonDetailsContainer,styles.commonMarginBottom]}>
         <Text style={{color:'#999999',marginBottom: 10}}>{item.title}</Text>
-        <TouchableOpacity onPress={item.clickFunc} style={ConfirmOrderStyles.DetailText}>
+        <TouchableOpacity disabled={item.disable} onPress={item.clickFunc} style={ConfirmOrderStyles.DetailText}>
           <View style={ConfirmOrderStyles.DetailInner}>
             {item.hasPreIcon ?<Image source={require('../asset/location.png')} style={{width: 18,height: 17,marginRight: 5}} resizeMode="contain"/> :null}
             <Text style={{fontSize: 18,color: item.fontColor,marginRight: item.hasPreIcon?20:0,}} numberOfLines={1}>{item.content}</Text>
@@ -498,15 +492,12 @@ export default class ConfirmOrderView extends PureComponent {
     )
   }
 
-  _renderPlacePickerModal() {
-    return (
-      <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
-    )
-  }
-
   _renderBottomConfirmView() {
+    let {discountsPrice} = this.state;
+    let {total} = this.props.navigation.state.params;
+    let total_price = total - discountsPrice > 0 ? total - discountsPrice : 0;
     return (
-      <BottomOrderConfirm isShow={this.state.isBottomShow} total={this.props.navigation.state.params.total-this.state.discountsPrice}  btnMessage={this.state.i18n.orderNow} btnClick={this._openDialog} canClose={false}/>
+      <BottomOrderConfirm isShow={this.state.isBottomShow} total={total_price}  btnMessage={this.state.i18n.orderNow} btnClick={this._openDialog} canClose={false}/>
     )
   }
 

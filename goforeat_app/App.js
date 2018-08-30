@@ -12,7 +12,7 @@ import store from './app/store'
 import {Provider} from 'react-redux';
 import DashboardView from './app/DashBoardView';
 //cache
-import {userStorage,payTypeStorage,languageStorage,creditCardStorage} from './app/cache/appStorage'
+import {userStorage,languageStorage,creditCardStorage} from './app/cache/appStorage'
 //hot reload
 import CodePush from 'react-native-code-push'
 //jpush
@@ -31,13 +31,6 @@ class App extends Component < {} > {
         if (store.getState().auth.username === null) {
           // console.log(data);
           store.dispatch({type: 'LOGIN', username: data.username,sid:data.sid})
-        }
-      }
-    })
-    payTypeStorage.getData((error,data) => {
-      if(error == null) {
-        if(data != null) {
-          store.dispatch({type: 'SET_PAY_TYPE', paytype: data});
         }
       }
     })

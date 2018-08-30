@@ -10,7 +10,7 @@ import {NavigationActions} from 'react-navigation';
 //Colors
 import Colors from '../utils/Colors';
 //utils
-import GLOBAL_PARAMS from '../utils/global_params';
+import GLOBAL_PARAMS,{EXPLAIN_PAY_TYPE} from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
 import LinkingUtils from '../utils/LinkingUtils';
 //api
@@ -49,12 +49,6 @@ const _ORDER_CANCEL = -1;
 const _ORDER_DELIVERING = 1;
 const _ORDER_FINISHED = 2;
 const _ORDER_ALL = null;
-
-const PAY_TYPE = {
-  1: {zh:'現金支付',en: 'Cash Pay'},
-  2: {zh:'Apple Pay',en: 'Apple Pay'},
-  6: {zh:'信用卡支付',en: 'Credit Card'}
-}
 
 export default class PeopleView extends Component {
   timer = null;
@@ -365,9 +359,9 @@ export default class PeopleView extends Component {
         <Text style={MyOrderStyles.paymentStatus}>{i18n.paymentStatus}</Text>
         <View style={MyOrderStyles.payInner}>
           <View style={MyOrderStyles.payTypeView}>
-            <Text style={MyOrderStyles.payTypeText}>{PAY_TYPE[item.payment][language] || i18n.cash}</Text>
+            <Text style={MyOrderStyles.payTypeText}>{EXPLAIN_PAY_TYPE[item.payment][language] || i18n.cash}</Text>
           </View>
-          {_isDelivering ? <TouchableOpacity onPress={() => this._cancelOrder(item.orderId, PAY_TYPE[item.payment])} style={MyOrderStyles.payStatusBtn}>
+          {_isDelivering ? <TouchableOpacity onPress={() => this._cancelOrder(item.orderId, EXPLAIN_PAY_TYPE[item.payment])} style={MyOrderStyles.payStatusBtn}>
             <Text style={MyOrderStyles.payStatusText}>{i18n.myorder_tips.common.cancel_order_btn}</Text>
           </TouchableOpacity> : null}
         </View>
