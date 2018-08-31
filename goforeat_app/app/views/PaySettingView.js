@@ -118,6 +118,12 @@ export default class PaySettingView extends PureComponent {
           monthTicketEndTime: [_date.getFullYear(),_date.getMonth()+1,_date.getDate()].join('-')
         });
         this._getPaySetting();
+      } else {
+        ToastUtil.showWithMessage(data.ro.respMsg)
+        if(data.ro.respCode == "10006" || data.ro.respCode == "10007") {
+          this.props.screenProps.userLogout();
+          this.props.navigation.goBack();
+        }
       }
       console.log(data)
     }).catch(err => {

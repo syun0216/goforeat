@@ -70,7 +70,8 @@ export default class ConfirmOrderView extends PureComponent {
     discountsPrice: 0,
     remark: '',
     showPlacePicker: false,
-    i18n: I18n[this.props.screenProps.language]
+    i18n: I18n[this.props.screenProps.language],
+    hasChangeDefaultPayment: null, // 记录默认选择支付方式是否被修改
   };
 
   componentDidMount() {
@@ -84,12 +85,17 @@ export default class ConfirmOrderView extends PureComponent {
     clearTimeout(this.timer);
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      loading: true
-    },() => {
-      this._createOrder();
+      hasChangeDefaultPayment: nextProps.screenProps.paytype
     });
+    // console.log(this.state.orderDetail);
+    // console.log(nextProps.screenProps.paytype);
+    // this.setState({
+    //   loading: true
+    // },() => {
+    //   this._createOrder();
+    // });
   }
 
   _createOrder() {
@@ -133,9 +139,10 @@ export default class ConfirmOrderView extends PureComponent {
   };
 
   async _confirmOrder() {
-    let {i18n, orderDetail: {defaultPayment}} = this.state;
+    let {i18n, orderDetail: {defaultPayment},hasChangeDefaultPayment} = this.state;
     let {creditCardInfo} = this.props.screenProps;
     let token = null;
+    defaultPayment = hasChangeDefaultPayment != null ? hasChangeDefaultPayment : defaultPayment;
     if (this.state.orderDetail === null) {
       ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.confirm_order);
       return;
@@ -175,8 +182,9 @@ export default class ConfirmOrderView extends PureComponent {
   };
 
   _confirmOrderWithToken(token) {
-    let {orderDetail:{totalMoney,orderId,defaultPayment},discountsPrice,coupon,remark} = this.state;
+    let {hasChangeDefaultPayment,orderDetail:{totalMoney,orderId,defaultPayment},discountsPrice,coupon,remark} = this.state;
     totalMoney = totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
+    defaultPayment = hasChangeDefaultPayment != null ? hasChangeDefaultPayment : defaultPayment;
     let {i18n} = this.state;
     let _appleAndAndroidPayRes = null;
     if(defaultPayment == PAY_TYPE.android_pay || defaultPayment == PAY_TYPE.apple_pay) {
@@ -235,7 +243,8 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _currentPayType = () => {
-    let {defaultPayment} = this.state.orderDetail;
+    let {hasChangeDefaultPayment, orderDetail: {defaultPayment}} = this.state;
+    defaultPayment = hasChangeDefaultPayment != null ? hasChangeDefaultPayment : defaultPayment;
     return EXPLAIN_PAY_TYPE[defaultPayment][this.props.screenProps.language];
   }
 
