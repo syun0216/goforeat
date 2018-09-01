@@ -11,11 +11,10 @@ const styles = StyleSheet.create({
     // top:0,
     // left:0,
     // flex:1,
-    backgroundColor: Colors.main_white,
+    backgroundColor: 'transparent',
     justifyContent: "flex-start",
     padding: GLOBAL_PARAMS.em(60),
     zIndex: 10000,
-    backgroundColor: "transparent",
     height: GLOBAL_PARAMS._winHeight
   },
   loadingContainerAndroid: {

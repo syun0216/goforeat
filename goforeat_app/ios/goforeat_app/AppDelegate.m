@@ -99,7 +99,7 @@
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
   [SplashScreen show];  // here
-  [NSThread sleepForTimeInterval:1.5];
+  [NSThread sleepForTimeInterval:0.5];
   return YES;
 }
   
