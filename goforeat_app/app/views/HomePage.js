@@ -24,7 +24,7 @@ import styles, { colors } from "../styles/index.style";
 import HomePageStyles from "../styles/homepage.style";
 // utils
 import Colors from "../utils/Colors";
-import GLOBAL_PARAMS from "../utils/global_params";
+import GLOBAL_PARAMS,{em} from "../utils/global_params";
 import JSONUtils from '../utils/JSONUtils';
 //api
 import { getDailyFoods,queryLatest,adSpace } from '../api/request';
@@ -84,7 +84,7 @@ class HomePage extends Component {
       isWarningTipShow: false,
       advertiseImg: '',
       advertiseData: null,
-      advertiseCountdown: 7,
+      advertiseCountdown: 5,
       isAdvertiseShow: false,
       i18n: I18n[props.screenProps.language]
     };
@@ -385,8 +385,12 @@ class HomePage extends Component {
   }
 
   _renderWarningView() {
+    let _data = [this.state.warningTipsData].concat([
+      {title: "一日一味餸，日日有得食", url: "https://a.xiumi.us/board/v5/3CLvd/102129725",kind: 'warning'},
+      {title: "有得食官網正式發佈", url: "http://goforeat.hk",kind: 'warning'},
+    ])
     return (
-      <WarningTips data={this.state.warningTipsData} closeFunc={() => this.setState({isWarningTipShow: false})} {...this.props}/>
+      <WarningTips data={_data} closeFunc={() => this.setState({isWarningTipShow: false})} {...this.props}/>
     )
   }
 
@@ -515,7 +519,7 @@ class HomePage extends Component {
 
   render() {
     let {i18n} = this.state;
-    const example1 = this.mainExample(
+    const main_view = this.mainExample(
       1,
       `- 為您推薦 -`
     );
@@ -568,8 +572,8 @@ class HomePage extends Component {
         >
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
         {this.state.isWarningTipShow ? this._renderWarningView() : null}
-        {example1}
-        {this.state.foodDetails != null ? this._renderIntroductionView() : null}
+        {main_view}
+        {this.state.foodDetails != null ? this._renderIntroductionView() : null }
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
         {this.state.foodDetails != null ? this._renderDeadLineDate() : null}
         {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
