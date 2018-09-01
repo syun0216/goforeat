@@ -59,7 +59,7 @@ export default class PaySettingView extends PureComponent {
 
   componentDidMount() {
     let _timer = setTimeout(() => {
-      this._getMonthTicket();
+      this._getPaySetting();
       clearTimeout(_timer);
     },300)
   }
@@ -92,6 +92,7 @@ export default class PaySettingView extends PureComponent {
           checkedName: data.data.defaultPayment
         })
       }
+      this._getMonthTicket();
       // console.log(data);
     }).catch(err => {
       this.setState({
@@ -111,6 +112,9 @@ export default class PaySettingView extends PureComponent {
 
   _getMonthTicket() {
     getMonthTicket().then(data => {
+      if(data.hasOwnProperty('data')) {
+        return;
+      }
       if(data.ro.ok) {
         let _date = new Date(data.data.endTime);
         this.setState({
@@ -129,7 +133,7 @@ export default class PaySettingView extends PureComponent {
     }).catch(err => {
       this.setState({
         loading: false,
-        isError: true
+        isError: false
       })
     })
   }

@@ -178,6 +178,9 @@ export default class ConfirmOrderView extends PureComponent {
       case PAY_TYPE.cash:case PAY_TYPE.month_ticket: {
         this._confirmOrderWithToken(token);
       };break;
+      default: {
+        ToastUtil.showWithMessage('暫未支持該支付方式');
+      };break;
     }
   };
 
