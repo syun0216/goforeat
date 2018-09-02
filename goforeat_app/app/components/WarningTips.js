@@ -8,6 +8,11 @@ import Text from './UnScalingText';
 //api
 import {queryList} from '../api/request';
 
+const ITEM_HEIGHT = Platform.select({
+  ios: {height: em(36)},
+  android: {}
+});
+
 const styles = StyleSheet.create({
   warn_container: {
     backgroundColor: '#FEFCEB',
@@ -30,15 +35,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#FEFCEB',
     position: 'relative',
-    height: em(36),
     width: GLOBAL_PAMRAS._winWidth*0.8,
     maxWidth: GLOBAL_PAMRAS._winWidth*0.8,
+    height: em(36)
   },
   warningt_text_inner_container: {
     // flexDirection: 'column',
     width: GLOBAL_PAMRAS._winWidth*0.8,
     maxWidth: GLOBAL_PAMRAS._winWidth*0.8,
-    height: em(36),
+    ...ITEM_HEIGHT,
   },
   warning_text: {
     color: '#F86B25',
@@ -50,8 +55,6 @@ const styles = StyleSheet.create({
     height: 12,
   }
 });
-
-const offset_distance = em(-36);
 
 const WARNING_CONTENT = (v, i, navigation) => (
   <TouchableOpacity key={i} onPress={
@@ -98,14 +101,15 @@ export default class WarningTips extends PureComponent {
   _loopDisplay(index, count) {
     index ++;
     Animated.timing(this.state.translateY, {
-      toValue: em(-35 * index),
+      toValue: Platform.OS == 'ios' ? em(-35 * index) : em(-38.8 * index),
       duration: 300,
       easing:Easing.linear,
       delay: 2500
     }).start(() => {
       if(index >= count) {
         index = 0;
-        this.state.translateY.setValue(0);
+        let _y = Platform.OS == 'ios' ? 0 : 0;
+        this.state.translateY.setValue(_y);
       }
       this._loopDisplay(index, count);
     });
