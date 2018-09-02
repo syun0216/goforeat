@@ -1,10 +1,12 @@
 import React,{PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {View,Image,StyleSheet,TouchableOpacity,Easing,Animated} from 'react-native';
+import {View,Image,StyleSheet,TouchableOpacity,Easing,Animated,Platform} from 'react-native';
 //utils
 import GLOBAL_PAMRAS,{em} from '../utils/global_params';
 //components
 import Text from './UnScalingText';
+//api
+import {queryList} from '../api/request';
 
 const styles = StyleSheet.create({
   warn_container: {
@@ -28,15 +30,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#FEFCEB',
     position: 'relative',
+    height: em(36),
     width: GLOBAL_PAMRAS._winWidth*0.8,
     maxWidth: GLOBAL_PAMRAS._winWidth*0.8,
   },
   warningt_text_inner_container: {
-    flexDirection: 'column',
+    // flexDirection: 'column',
     width: GLOBAL_PAMRAS._winWidth*0.8,
     maxWidth: GLOBAL_PAMRAS._winWidth*0.8,
-    position: 'absolute',
-    // left: 0
+    height: em(36),
   },
   warning_text: {
     color: '#F86B25',
@@ -62,101 +64,78 @@ const WARNING_CONTENT = (v, i, navigation) => (
 );
 
 export default class WarningTips extends PureComponent {
-  static propsType = {
-    data: PropTypes.array,
-    closeFunc: PropTypes.func
-  };
-
-  static defaultProps = {
-    data:[],
-    closeFunc: () => {}
-  };
   _interval = null;
-
   state = {
-    offsetTop: new Animated.Value(0)
+    translateY: new Animated.Value(0),
+    warningTipsData: null,
+    isWarningTipShow: false,
   };
 
-  componentDidMount() {
-    this._loopDisplay();
+  componentWillMount() {
+    this._getWarningTips();
   }
 
   componentWillUnmount() {
     clearInterval(this._interval);
   }
 
-  _loopDisplay() {
-    let { data } = this.props;
-    let _temp_index = 1;
-    this._interval = setInterval(() => {
-      if(_temp_index < data.length) {
-        Animated.timing(this.state.offsetTop, {
-          toValue: _temp_index / data.length,
-          duration: 300,
-          easing:Easing.linear
-        }).start();
-        _temp_index ++ ;
-      }else {
-        Animated.timing(this.state.offsetTop, {
-          toValue: 0,
-          duration: 300,
-          easing:Easing.linear
-        }).start();
-        _temp_index = 1;
+  //api
+  _getWarningTips() {
+    queryList().then(data => {
+      if(data.ro.ok) {
+        // data.data = data.data.concat(data.data);
+        // console.log(data);
+        this.setState({
+          warningTipsData: data.data,
+          isWarningTipShow: true
+        },() => {
+          this._loopDisplay(0 , data.data.length);
+        })
       }
-    }, 2500)
+    })
+  }
+
+  _loopDisplay(index, count) {
+    index ++;
+    Animated.timing(this.state.translateY, {
+      toValue: em(-35 * index),
+      duration: 300,
+      easing:Easing.linear,
+      delay: 2500
+    }).start(() => {
+      if(index >= count) {
+        index = 0;
+        this.state.translateY.setValue(0);
+      }
+      this._loopDisplay(index, count);
+    });
+  }
+
+  _loopDataArr(arr) {
+    let _temp = arr.shift();
+    arr.push(_temp);
+    return arr;
   }
 
   render() {
-    let {data,closeFunc,navigation} = this.props;
+    let {navigation} = this.props;
+    let {warningTipsData} = this.state;
     return (
-      <View style={styles.warn_container}> 
+        this.state.isWarningTipShow ? <View style={styles.warn_container}> 
         <Image source={require('../asset/warning.png')} style={styles.warning_img} resizeMode="contain"/>
         <View style={styles.warning_text_container}>
           <Animated.View style={[styles.warningt_text_inner_container,{
-            marginTop: this.state.offsetTop.interpolate({
-              inputRange: [0,1],
-              outputRange: [em(-18), em(-18+(-33*data.length))]
-            })
+            transform: [{
+              translateY: this.state.translateY
+            }]
           }]}>
-          { data.map((v,i) => WARNING_CONTENT(v, i, navigation)) }
+          { warningTipsData.map((v,i) => WARNING_CONTENT(v, i, navigation)) }
           </Animated.View>
         </View>  
-        <TouchableOpacity onPress={() => closeFunc()}>
+        <TouchableOpacity onPress={() => this.setState({isWarningTipShow: false})}>
           <Image source={require('../asset/close_red.png')} style={styles.warning_close}/>
         </TouchableOpacity>  
-      </View>
+      </View> : null
     )
   }
 }
-
-// const WarningTips = ({data,closeFunc,navigation, offset}) => {
-//   data = [data].concat([
-//     {title: "test11111111", url: "https://www.baidu.com",kind: 'warning'},
-//     {title: "test22222222", url: "https://www.baidu.com",kind: 'warning'},
-//   ]);
-//   return (
-//   <View style={styles.warn_container}> 
-//     <Image source={require('../asset/warning.png')} style={styles.warning_img} resizeMode="contain"/>
-//     <View style={styles.warning_text_container}>
-//       <Aniamted.View style={[styles.warningt_text_inner_container]}>
-//       { data.map((v,i) => WARNING_CONTENT(v, i, navigation)) }
-//       </Aniamted.View>
-//     </View>  
-//     <TouchableOpacity onPress={() => closeFunc()}>
-//       <Image source={require('../asset/close_red.png')} style={styles.warning_close}/>
-//     </TouchableOpacity>  
-//   </View>
-// )};
-
-// WarningTips.propTypes = {
-//   data: PropTypes.object,
-//   closeFunc: PropTypes.func
-// }
-
-// WarningTips.defaultProps = {
-//   data:{},
-//   closeFunc: () => {}
-// }
-
-// export default WarningTips;

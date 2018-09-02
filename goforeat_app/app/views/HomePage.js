@@ -80,8 +80,6 @@ class HomePage extends Component {
       foodCount: 0,
       showPlacePicker: false,
       showMoreDetail: false,
-      warningTipsData: null,
-      isWarningTipShow: false,
       advertiseImg: '',
       advertiseData: null,
       advertiseCountdown: 5,
@@ -101,7 +99,6 @@ class HomePage extends Component {
   }
 
   componentWillMount() {
-    this._getWarningTips();
     advertisementStorage.getData((error,data) => {
       if(error == null) {
         if(data != null) {
@@ -200,8 +197,9 @@ class HomePage extends Component {
   }
 
   _getWarningTips() {
-    queryLatest().then(data => {
-      if(data.ro.respCode == '0000') {
+    queryList().then(data => {
+      if(data.ro.ok) {
+        // console.log(data);
         this.setState({
           warningTipsData: data.data,
           isWarningTipShow: true
@@ -385,12 +383,8 @@ class HomePage extends Component {
   }
 
   _renderWarningView() {
-    let _data = [this.state.warningTipsData].concat([
-      {title: "一日一味餸，日日有得食", url: "https://a.xiumi.us/board/v5/3CLvd/102129725",kind: 'warning'},
-      {title: "有得食官網正式發佈", url: "http://goforeat.hk",kind: 'warning'},
-    ])
     return (
-      <WarningTips data={_data} closeFunc={() => this.setState({isWarningTipShow: false})} {...this.props}/>
+      <WarningTips {...this.props}/>
     )
   }
 
@@ -571,7 +565,7 @@ class HomePage extends Component {
         }
         >
         {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
-        {this.state.isWarningTipShow ? this._renderWarningView() : null}
+        {this._renderWarningView()}
         {main_view}
         {this.state.foodDetails != null ? this._renderIntroductionView() : null }
         {this.state.foodDetails != null ? this._renderAddPriceView() : null}
