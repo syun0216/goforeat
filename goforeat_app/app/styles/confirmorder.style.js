@@ -126,6 +126,7 @@ export default StyleSheet.create({
   },
   //renderCouponBtnView
   CouponInput: {
+    flex: 1,
     backgroundColor: '#F0EFF6',
     color: '#111111',
     fontSize: em(14),

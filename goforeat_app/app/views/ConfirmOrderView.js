@@ -8,7 +8,8 @@ import {
   Separator,
   ListItem,
   Icon,
-  Input
+  Input,
+  Toast
 } from "native-base";
 import PopupDialog, {
   SlideAnimation,
@@ -57,6 +58,7 @@ const client = new Stripe(api_key);
 
 export default class ConfirmOrderView extends PureComponent {
   _popupDialog = null;
+  _input = null;
   timer = null;
   picker = null;
   state = {
@@ -89,6 +91,19 @@ export default class ConfirmOrderView extends PureComponent {
     this.setState({
       hasChangeDefaultPayment: nextProps.screenProps.paytype
     });
+    if(nextProps.screenProps.paytype == PAY_TYPE.month_ticket) {
+      this.setState({
+        discountsPrice: 0,
+        coupon:null
+      });
+      this._input._root.clear();
+      Toast.show({
+        text: '*月票支付不能和優惠碼一起使用哦',
+        duration: 3000,
+        type: 'warning',
+        position: 'bottom'
+      });
+    }
     // console.log(this.state.orderDetail);
     // console.log(nextProps.screenProps.paytype);
     // this.setState({
@@ -237,6 +252,11 @@ export default class ConfirmOrderView extends PureComponent {
         })
       } else {
         ToastUtil.showWithMessage(data.ro.respMsg);
+        console.log(this._input);
+        this._input._root.clear();
+        this.setState({
+          coupon: null
+        })
       }
     }).catch(() => {
       () => {
@@ -409,6 +429,8 @@ export default class ConfirmOrderView extends PureComponent {
     return (
       <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginBottom]}>
         <Input 
+          ref={t => this._input = t}
+          clearButtonMode="while-editing"
           style={ConfirmOrderStyles.CouponInput}
           placeholderTextColor="#999999"
           placeholder={this.state.i18n.couponCode}
@@ -426,7 +448,8 @@ export default class ConfirmOrderView extends PureComponent {
 
   _renderNewOrderView() {
     let {i18n} = this.state;
-    let {orderDetail:{totalMoney,orderDetail},discountsPrice} = this.state;
+    let {orderDetail:{totalMoney,orderDetail,defaultPayment},hasChangeDefaultPayment,discountsPrice} = this.state;
+    defaultPayment = hasChangeDefaultPayment != null ? hasChangeDefaultPayment : defaultPayment;
     totalMoney = totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
     return (
       <View style={styles.commonNewContainer}>
@@ -455,7 +478,7 @@ export default class ConfirmOrderView extends PureComponent {
             <Text style={ConfirmOrderStyles.TotalMoney} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
           </View>
         </View>
-        {this._renderCouponBtnView()}
+        { defaultPayment == PAY_TYPE.month_ticket ? null : this._renderCouponBtnView()}
       </View>
     )
   }

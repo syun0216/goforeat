@@ -90,9 +90,15 @@ export default class PaySettingView extends PureComponent {
           loading: false,
           payTypeList: _arr,
           checkedName: data.data.defaultPayment
-        })
+        });
+        this._getMonthTicket();
+      } else {
+        ToastUtil.showWithMessage(data.ro.respMsg)
+        if(data.ro.respCode == "10006" || data.ro.respCode == "10007") {
+          this.props.screenProps.userLogout();
+          this.props.navigation.goBack();
+        }
       }
-      this._getMonthTicket();
       // console.log(data);
     }).catch(err => {
       this.setState({
@@ -103,33 +109,27 @@ export default class PaySettingView extends PureComponent {
   }
 
   _setPayType(payment) {
+    let _from_confirm_order = this.props.navigation.state.params['from'] == 'confirm_order';
     setPayment(payment).then(data => {
       if(data.ro.ok) {
-        ToastUtil.showWithMessage('修改支付方式成功'); 
+        !_from_confirm_order && ToastUtil.showWithMessage('修改支付方式成功'); 
       }
     })
   }
 
   _getMonthTicket() {
     getMonthTicket().then(data => {
-      if(data.hasOwnProperty('data')) {
+      if(typeof data['data'] == "undefined") {
         return;
       }
+      console.log(data);
       if(data.ro.ok) {
         let _date = new Date(data.data.endTime);
         this.setState({
           monthTicketQuantity: data.data.amount,
           monthTicketEndTime: [_date.getFullYear(),_date.getMonth()+1,_date.getDate()].join('-')
         });
-        this._getPaySetting();
-      } else {
-        ToastUtil.showWithMessage(data.ro.respMsg)
-        if(data.ro.respCode == "10006" || data.ro.respCode == "10007") {
-          this.props.screenProps.userLogout();
-          this.props.navigation.goBack();
-        }
-      }
-      console.log(data)
+      } 
     }).catch(err => {
       this.setState({
         loading: false,
@@ -141,6 +141,7 @@ export default class PaySettingView extends PureComponent {
 
   _checked(name) { 
     // console.log(name)
+    let _from_confirm_order = this.props.navigation.state.params['from'] == 'confirm_order';
     if(this.state.checkedName == name) {
       return;
     }
@@ -149,6 +150,7 @@ export default class PaySettingView extends PureComponent {
     );  
     this._setPayType(name);
     this.props.screenProps.setPayType(name);
+    _from_confirm_order && this.props.navigation.goBack();
   }
 
   _checkedImage(name) {
@@ -192,7 +194,7 @@ export default class PaySettingView extends PureComponent {
   }
    
   render() {
-    let {i18n, payTypeList} = this.state;
+    let {i18n, payTypeList,monthTicketQuantity} = this.state;
     let _from_confirm_order = this.props.navigation.state.params['from'] == 'confirm_order';
     return (
       <Container>
@@ -201,7 +203,7 @@ export default class PaySettingView extends PureComponent {
           {this.state.loading ? <Loading /> : (
             <View>
               {payTypeList.map((item,key) => (
-                <CommonItem key={key} content={item.content} isEnd={item.isEnd} clickFunc={() =>{
+                <CommonItem key={key} content={item.code == null && monthTicketQuantity != 0 ? monthTicketQuantity : item.content} isEnd={item.isEnd} clickFunc={() =>{
                   item.code != null && this._checked(item.code);
                 }}
                 hasLeftIcon={item.hasLeftIcon} leftIcon={item.leftIcon} rightIcon={item.code != null ?this._checkedImage(item.code) : (<Text>{this.state.monthTicketEndTime}</Text>)}
@@ -210,8 +212,7 @@ export default class PaySettingView extends PureComponent {
               { this.state.hasCreditCardPay ? this._renderManageCreditCard() : null}
             </View>
           )}
-          { this.state.isError ? <ErrorPage errorTips={i18n.common_tips.reload} errorToDo={() => this._getMonthTicket()} {...this.props}/> : null}
-          {_from_confirm_order?this._renderBottomConfirm():null}
+          { this.state.isError ? <ErrorPage errorTips={i18n.common_tips.reload} errorToDo={() => this._getPaySetting()} {...this.props}/> : null}
         </Content>
       </Container>
     )
