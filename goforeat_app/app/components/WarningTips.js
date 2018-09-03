@@ -85,6 +85,7 @@ export default class WarningTips extends PureComponent {
   //api
   _getWarningTips() {
     queryList().then(data => {
+      if(!data.hasOwnProperty('data') || data.data.length == 0) return;
       if(data.ro.ok) {
         // data.data = data.data.concat(data.data);
         // console.log(data);
