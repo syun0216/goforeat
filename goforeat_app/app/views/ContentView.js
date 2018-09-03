@@ -130,6 +130,7 @@ export default class ContentView extends Component {
   render() {
     let {i18n} = this.state;
     let {data: {title,food_title},kind} = this.props.navigation.state.params;
+    title = typeof title == "undefined" ? "有得食" : title;
     console.log(this.props.navigation.state.params);
     return (
       <Container>

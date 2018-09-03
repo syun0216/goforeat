@@ -193,6 +193,11 @@ export default class PeopleView extends Component {
       [
         {text: i18n.cancel, onPress: () => {return null}, style: 'cancel'},
         {text: i18n.confirm, onPress: () => {
+          this.setState({
+            loadingStatus: {
+              firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
+            }
+          })
           cancelOrder(orderId).then(data => {
             if(data.ro.respCode == '0000') {
               ToastUtil.showWithMessage(i18n.myorder_tips.success.cancel_order);
