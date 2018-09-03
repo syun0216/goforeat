@@ -87,10 +87,20 @@ export default class SettingView extends PureComponent{
         }
       },
       {
-        content: i18n.services,isEnd: true,clickFunc:() => {
+        content: i18n.services,isEnd: false,clickFunc:() => {
           this.props.navigation.navigate("Statement", { name: "service" })
         }
-      },    
+      }, 
+      {
+        content: i18n.tutorial, isEnd:true,clickFunc: () => {
+          let _url = Platform.select({
+            ios: 'https://www.youtube.com/watch?v=Ggs2uUg8LuQ',
+            android: 'https://www.youtube.com/watch?v=gD5g_dII418'
+          });
+          Linking.openURL(_url)
+            .catch(err => alert(err));
+        }
+      },   
       {
         content:i18n.lang,isEnd:false,hasRightIcon: true,rightIcon:(<Text>{this.state.language}</Text>),clickFunc:() => {
           if(this._actionSheet != null) {
@@ -129,7 +139,7 @@ export default class SettingView extends PureComponent{
           <ScrollView>
           <TouchableWithoutFeedback delayLongPress={4000} onLongPress={() => {languageStorage.removeAll();alert('清除緩存成功')}}>
             <View style={{paddingTop: GLOBAL_PARAMS.em(20),paddingBottom: GLOBAL_PARAMS.em(20),justifyContent: 'flex-start',alignItems: 'center'}}>
-              <Image source={require('./asset/icon_app.png')} style={{width: GLOBAL_PARAMS.em(80),height: GLOBAL_PARAMS.em(80),marginBottom: GLOBAL_PARAMS.em(15)}}/>
+              <Image source={require('./asset/icon_app.png')} style={{width: GLOBAL_PARAMS.em(65),height: GLOBAL_PARAMS.em(65),marginBottom: GLOBAL_PARAMS.em(15)}}/>
               <Text>{i18n.goforeat}   v{getVersion()} </Text>
             </View>
           </TouchableWithoutFeedback>

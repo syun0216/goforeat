@@ -97,6 +97,7 @@ export default {
   dailyFood: 'Daily',
   refresh: 'Refresh',
   follow: 'Follow us',
+  tutorial: 'Tutorial',
   dialing: 'Whether to call',
   dialingToCancelOrder: 'Call customer service for a refund now?',
   notSupportDialing: 'Call not supported',

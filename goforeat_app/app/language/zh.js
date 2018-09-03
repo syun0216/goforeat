@@ -97,6 +97,7 @@ export default {
   dailyFood: '每日推薦',
   refresh: '刷新',
   follow: '關注我們',
+  tutorial: '教程',
   dialing: '是否撥打電話',
   dialingToCancelOrder: '立即致電客服人員進行退款?',
   notSupportDialing: '不支持撥打電話',
