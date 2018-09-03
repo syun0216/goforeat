@@ -5,7 +5,6 @@
  */
 
 import React, {Component} from 'react';
-import {Platform,Image} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {Root} from 'native-base'
 import store from './app/store'
@@ -15,8 +14,7 @@ import DashboardView from './app/DashBoardView';
 import {userStorage,languageStorage,creditCardStorage} from './app/cache/appStorage'
 //hot reload
 import CodePush from 'react-native-code-push'
-//jpush
-import JPushModule from 'jpush-react-native';
+
 //utils
 import {getLanguage} from './app/utils/DeviceInfo';
 
@@ -56,38 +54,6 @@ class App extends Component < {} > {
     
     SplashScreen.hide(); // 隐藏启动页
   }
-
-
-  componentDidMount = () => {
-    if(Platform.OS == 'android') {
-      this._jpush_android_setup()
-    }else {
-      JPushModule.setupPush()
-    }    
-    this._jpushCommonEvent();
-  }
-
-  componentWillUnmount = () => {
-    JPushModule.removeReceiveNotificationListener('receiveNotification');
-  }
-
-  _jpush_android_setup = () => {
-    JPushModule.initPush();
-    JPushModule.notifyJSDidLoad(resultCode => {
-      if (resultCode === 0) {
-      }
-    })
-  }
-
-  _jpushCommonEvent() {
-    if(Platform.OS == 'ios') {
-      JPushModule.setBadge(0, success => {})
-    }
-    // JPushModule.addReceiveOpenNotificationListener(map => {
-      
-    // })
-  }
-
   //render
   
 

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import {AppState,Alert} from 'react-native';
+import {AppState,Alert,Platform} from 'react-native';
 //codepush
 import CodePush from 'react-native-code-push';
 import CodePushUtils from '../utils/CodePushUtils';
-import * as TextUtils from "../utils/TextUtils";
-import * as JSONUtils from "../utils/JSONUtils";
+//jpush
+import JPushModule from 'jpush-react-native';
 //language
 import I18n from '../language/i18n';
 
-const HotReloadHOC = WarppedComponent => class extends Component {
+const HomePageHOC = WarppedComponent => class extends Component {
 
   static navigationOptions = WarppedComponent.navigationOptions;
   constructor(props) {
@@ -20,6 +20,7 @@ const HotReloadHOC = WarppedComponent => class extends Component {
 
 
   componentDidMount() {
+    this._jpushDidMount();
     AppState.addEventListener('change',(nextState) => {
       if(nextState == 'active') {
         CodePush.getUpdateMetadata().then(localPackage => {
@@ -40,6 +41,36 @@ const HotReloadHOC = WarppedComponent => class extends Component {
 
   componentWillUnmount() {
     AppState.removeEventListener('change');
+    JPushModule.removeReceiveNotificationListener('receiveNotification');
+  }
+
+  // jpush did mounted
+  _jpushDidMount() {
+    if(Platform.OS == 'android') {
+      this._jpush_android_setup()
+    }else {
+      JPushModule.setupPush()
+    }    
+    this._jpushCommonEvent();
+  }
+
+  _jpush_android_setup = () => {
+    JPushModule.initPush();
+    JPushModule.notifyJSDidLoad(resultCode => {
+      if (resultCode === 0) {
+      }
+    })
+  }
+
+  _jpushCommonEvent() {
+    if(Platform.OS == 'ios') {
+      JPushModule.setBadge(0, success => {})
+    }
+    JPushModule.addReceiveOpenNotificationListener(map => {
+      if(typeof map.extras['type'] != "undefined") {
+        map.extras.type == 1 && this.props.navigation.navigate("Content", {data: map.extras,kind: 'jpush'})
+      } 
+    })
   }
 
   // logic - update
@@ -145,4 +176,4 @@ const HotReloadHOC = WarppedComponent => class extends Component {
   }
 }
 
-export default HotReloadHOC;
+export default HomePageHOC;

@@ -18,7 +18,7 @@ import Carousel from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient';
 import { sliderWidth, itemWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
-import HotReloadHOC from '../components/HotReloadHOC';
+import HotReloadHOC from '../components/HomePageHOC';
 //styles
 import styles, { colors } from "../styles/index.style";
 import HomePageStyles from "../styles/homepage.style";
