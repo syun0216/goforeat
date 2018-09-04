@@ -122,7 +122,6 @@ export default class PaySettingView extends PureComponent {
       if(typeof data['data'] == "undefined") {
         return;
       }
-      console.log(data);
       if(data.ro.ok) {
         let _date = new Date(data.data.endTime);
         this.setState({
@@ -172,7 +171,7 @@ export default class PaySettingView extends PureComponent {
       _creditCardNumber = formatCard(creditCardInfo.card);
     }
     return (
-      <View>
+      <View style={{marginTop: em(10)}}>
         <View style={PaySettingStyles.creditcardView}><Text style={PaySettingStyles.creditcardText}>{i18n.credit}</Text></View>
         {creditCardInfo != null ? <CommonItem hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE[PAY_TYPE.credit_card])} content={_creditCardNumber} rightIcon={this._checkedImage(PAY_TYPE.credit_card)} clickFunc={() => this._checked(PAY_TYPE.credit_card)}/> : null}
         <CommonItem content={creditCardInfo != null ? i18n.manageCard : i18n.setCard} hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE[PAY_TYPE.credit_card])}
@@ -206,7 +205,7 @@ export default class PaySettingView extends PureComponent {
                 <CommonItem key={key} content={item.code == null && monthTicketQuantity != 0 ? monthTicketQuantity : item.content} isEnd={item.isEnd} clickFunc={() =>{
                   item.code != null && this._checked(item.code);
                 }}
-                hasLeftIcon={item.hasLeftIcon} leftIcon={item.leftIcon} rightIcon={item.code != null ?this._checkedImage(item.code) : (<Text>{this.state.monthTicketEndTime}</Text>)}
+                hasLeftIcon={item.hasLeftIcon} leftIcon={item.leftIcon} rightIcon={item.code != null ?this._checkedImage(item.code) : (<Text>{this.state.monthTicketEndTime}  到期</Text>)}
                 style={item.code != null ? item.code != PAY_TYPE.month_ticket ? {} : {borderBottomWidth: 0,} : {height: em(44),}} disabled={item.code == null}/>
               ))}
               { this.state.hasCreditCardPay ? this._renderManageCreditCard() : null}

@@ -101,6 +101,7 @@ export default {
   dialing: '是否撥打電話',
   dialingToCancelOrder: '立即致電客服人員進行退款?',
   notSupportDialing: '不支持撥打電話',
+  notSupport: '該機型暫不支持',
   dialingFail: '撥打用戶號碼失敗',
   login_tips: {
     success: {

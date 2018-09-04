@@ -29,6 +29,7 @@ import Text from '../components/UnScalingText';
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS, { EXPLAIN_PAY_TYPE } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
+import {getDeviceId} from "../utils/DeviceInfo";
 //api
 import {createOrder,confirmOrder,useCoupon} from '../api/request';
 //component
@@ -96,9 +97,9 @@ export default class ConfirmOrderView extends PureComponent {
         discountsPrice: 0,
         coupon:null
       });
-      this._input._root.clear();
+      this._input != null && this._input._root.clear();
       Toast.show({
-        text: '*月票支付不能和優惠碼一起使用哦',
+        text: '*月票不能和優惠碼一齊使用',
         duration: 3000,
         type: 'warning',
         position: 'bottom'
@@ -164,6 +165,11 @@ export default class ConfirmOrderView extends PureComponent {
     }
     switch(defaultPayment) {
       case PAY_TYPE.apple_pay:case PAY_TYPE.android_pay: {
+        let _device = getDeviceId().split(",")[0];
+        if(_device == 'iPhone6') {
+          ToastUtil.showWithMessage(i18n.notSupport);
+          return;
+        }
         let _pay_res = new Promise((resolve,reject) => {this.handlePayWithAppleOrAndroid(resolve, reject,defaultPayment)})
         _pay_res.then(data => {
           this._confirmOrderWithToken(data);

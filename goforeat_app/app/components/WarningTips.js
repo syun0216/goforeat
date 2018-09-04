@@ -50,6 +50,13 @@ const styles = StyleSheet.create({
     fontSize: em(14),
     padding: em(9)
   },
+  close_btn: {
+    width: em(36),
+    height: em(36),
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10
+  },
   warning_close: {
     width: 12,
     height: 12,
@@ -88,6 +95,8 @@ export default class WarningTips extends PureComponent {
       if(!data.hasOwnProperty('data') || data.data.length == 0) return;
       if(data.ro.ok) {
         // data.data = data.data.concat(data.data);
+        // data.data = data.data.concat(data.data);
+        // data.data = data.data.concat(data.data);
         // console.log(data);
         this.setState({
           warningTipsData: data.data,
@@ -102,7 +111,7 @@ export default class WarningTips extends PureComponent {
   _loopDisplay(index, count) {
     index ++;
     Animated.timing(this.state.translateY, {
-      toValue: Platform.OS == 'ios' ? em(-35 * index) : em(-38.8 * index),
+      toValue: Platform.OS == 'ios' ? em(-33.7 * index) : em(-37.5 * index),
       duration: 300,
       easing:Easing.linear,
       delay: 2500
@@ -137,8 +146,8 @@ export default class WarningTips extends PureComponent {
           { warningTipsData.map((v,i) => WARNING_CONTENT(v, i, navigation)) }
           </Animated.View>
         </View>  
-        <TouchableOpacity onPress={() => this.setState({isWarningTipShow: false})}>
-          <Image source={require('../asset/close_red.png')} style={styles.warning_close}/>
+        <TouchableOpacity style={styles.close_btn} onPress={() => this.setState({isWarningTipShow: false})}>
+          <Image source={require('../asset/close_red.png')} style={styles.warning_close} resizeMode="cover"/>
         </TouchableOpacity>  
       </View> : null
     )

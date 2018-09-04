@@ -49,7 +49,7 @@ export default StyleSheet.create({
   },
   tabBarUnderlineStyle: {
     backgroundColor: '#FF3348',
-    marginLeft: GLOBAL_PARAMS.widthAuto(32),
+    marginLeft: GLOBAL_PARAMS.widthAuto(30),
     width: em(32)
   },
   //_renderPayView

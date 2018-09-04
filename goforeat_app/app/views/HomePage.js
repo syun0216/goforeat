@@ -84,6 +84,7 @@ class HomePage extends Component {
       advertiseData: null,
       advertiseCountdown: 5,
       isAdvertiseShow: false,
+      testContent: "12312312312321{'\n'}1231231231231",
       i18n: I18n[props.screenProps.language]
     };
   }
@@ -99,6 +100,7 @@ class HomePage extends Component {
   }
 
   componentWillMount() {
+    // console.log('homepage willmount');
     advertisementStorage.getData((error,data) => {
       if(error == null) {
         if(data != null) {
@@ -111,6 +113,7 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
+    // console.log('homepage didmount');
     AppState.addEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState))
     
     this._current_offset = 0;
@@ -131,7 +134,7 @@ class HomePage extends Component {
   }
 
   _reloadPage() {
-    if(!this.state.placeSelected) {
+    if(!this.state.placeSelected && this._picker != null) {
       this._picker.getPlace();
       return;
     }
@@ -276,9 +279,9 @@ class HomePage extends Component {
     placeStorage.getData((error, data) => {
       if (error === null) {
         if (data !== null) {
-          this._picker.getPlace(data);
+          this._picker != null && this._picker.getPlace(data);
         }else {
-          this._picker.getPlace();
+          this._picker != null && this._picker.getPlace();
         }
       }
     })

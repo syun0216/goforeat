@@ -101,6 +101,7 @@ export default {
   dialing: 'Whether to call',
   dialingToCancelOrder: 'Call customer service for a refund now?',
   notSupportDialing: 'Call not supported',
+  notSupport: 'This model is not supported at this time',
   dialingFail: 'Failed to dial number',
   login_tips: {
     success: {

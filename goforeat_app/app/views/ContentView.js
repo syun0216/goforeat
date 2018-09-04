@@ -33,6 +33,10 @@ export default class ContentView extends Component {
     i18n: I18n[this.props.screenProps.language]
   }
 
+  // componentDidMount() {
+  //   this.props.navigation.setParams({visible: true})
+  // }
+
   componentWillUnmount() {
     source.cancel()
   }
