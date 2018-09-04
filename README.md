@@ -14,40 +14,29 @@
     * 选择'Generic iOS Device'
     * Product->Archive
 
-### 最新功能
-支持多语言  兼容iPhone X
- <p align="left">
-  <img src="./display/v117iPhoneX.png" width="200">
-  <img src="./display/v11710.png" width="200">
-  <img src="./display/v1179.png" width="200">
-  <img src="./display/v11711.png" width="200">
-</p>
-
-### v 1.1.7 
+### v 1.2.0 概览 
 1、全新登錄頁和訂單頁
 2、支持線上信用卡支付
 3、訂單詳情可添加備註留言
 4、首頁添加查看詳情功能
-
+5、支持多语言  兼容iPhone X
  <p align="left">
   <img src="./display/launch_screen.png" width="200">
-  <img src="./display/v1171.png" width="200">
-  <img src="./display/v1172.png" width="200">
-  <img src="./display/v1173.png" width="200">
+  <img src="./display/v1200.png" width="200">
+  <img src="./display/v1201.png" width="200">
+  <img src="./display/v1202.png" width="200">
 </p>
 <p align="left">
-  <img src="./display/v1178.png" width="200">
-  <img src="./display/v1174.png" width="200">
-  <img src="./display/v1175.png" width="200">
-  <img src="./display/v1176.png" width="200">
+  <img src="./display/v1203.png" width="200">
+  <img src="./display/v1204.png" width="200">
+  <img src="./display/v1205.png" width="200">
+  <img src="./display/v1206.png" width="200">
 </p>
-    
-### v 1.1.4 增加推送 集成热更新
- <p align="left">
-  <img src="./display/ios_1_1_4_1.png" width="200">
-  <img src="./display/ios_1_1_4_5.png" width="200">
-  <img src="./display/ios_1_1_4_6.png" width="200">
-  <img src="./display/ios_1_1_4_7.png" width="200">
+<p align="left">
+  <img src="./display/v1207.png" width="200">
+  <img src="./display/v1208.png" width="200">
+  <img src="./display/v1209.png" width="200">
+  <img src="./display/v1210.png" width="200">
 </p>
 
 ### 附录
