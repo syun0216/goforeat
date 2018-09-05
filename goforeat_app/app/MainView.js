@@ -15,6 +15,7 @@ import {
   DrawerNavigator,
   NavigationActions
 } from "react-navigation";
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 //views
 import SplashPageView from './SplashPageView';
 import CustomLoginView from './CustomLoginView';
@@ -70,7 +71,7 @@ const tabView = TabNavigator(
       }
     },
     ArticleTab: {
-      screen: ArticleView,
+      screen: BackAndroidHandler(ArticleView),
       navigationOptions: {
         // tabBarLabel: "本週菜單",
         drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed',
@@ -285,6 +286,9 @@ let MainView = StackNavigator(
       containerStyle: {
         backgroundColor: '#fff',
       },
+      screenInterpolator: sceneProps => {
+        return CardStackStyleInterpolator.forHorizontal(sceneProps);
+      }
     }),
   }
 );
