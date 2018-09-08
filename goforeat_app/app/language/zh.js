@@ -61,7 +61,7 @@ export default {
   remark: '送餐備註',
   fooddate: '取餐日期',
   foodAddress: '取餐地點',
-  foodTime: '預計取餐時間',
+  foodTime: '取餐時間',
   discount: '優惠金額',
   bookPhone: '下單電話',
   orderDetail: '訂單詳情',

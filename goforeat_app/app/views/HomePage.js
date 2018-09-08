@@ -84,7 +84,6 @@ class HomePage extends Component {
       advertiseData: null,
       advertiseCountdown: 5,
       isAdvertiseShow: false,
-      testContent: "12312312312321{'\n'}1231231231231",
       i18n: I18n[props.screenProps.language]
     };
   }
@@ -263,11 +262,12 @@ class HomePage extends Component {
     }, 300)
   }
 
-  _onRefreshToRequestFirstPageData() {
+  _onRefreshToRequestFirstPageData(id) {
+    if(!id) return;
     this.setState({refreshing: true});
     this._timer = setTimeout(() => {
       clearTimeout(this._timer);
-      this._getDailyFoodList(this.state.placeSelected.id);
+      this._getDailyFoodList(id);
     }, 800)
   }
 
@@ -347,11 +347,12 @@ class HomePage extends Component {
   }
 
   _cancelOrder = () => {
+    let {params: {visible}} = this.props.navigation.state;
     this.setState({
       isBottomContainerShow: false,
       foodCount: 0
     })
-    this.props.navigation.setParams({visible: true})
+    !visible && this.props.navigation.setParams({visible: true})
   }
 
   
