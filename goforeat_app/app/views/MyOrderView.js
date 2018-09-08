@@ -12,16 +12,16 @@ import Colors from '../utils/Colors';
 //utils
 import GLOBAL_PARAMS,{EXPLAIN_PAY_TYPE} from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
-import LinkingUtils from '../utils/LinkingUtils';
 //api
 import {myOrder,cancelOrder} from '../api/request';
 //components
 import ListFooter from '../components/ListFooter';
-import ErrorPage from '../components/ErrorPage';
+  import ErrorPage from '../components/ErrorPage';
 import Loading from '../components/Loading';
 import BlankPage from '../components/BlankPage';
 import CommonHeader from '../components/CommonHeader';
 import Text from '../components/UnScalingText';
+import CommonBottomBtn from '../components/CommonBottomBtn';
 //language
 import I18n from '../language/i18n';
 //styles
@@ -63,10 +63,8 @@ export default class PeopleView extends Component {
     this.state = {
     orderlist: [],
     orderTips: '沒有您的訂單哦~',
-    loadingStatus:{
-      firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
-      pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
-    },
+    firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
+    pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
     isError: false,
     refresh:false,
     isExpired: false,
@@ -85,7 +83,7 @@ export default class PeopleView extends Component {
     if(!this._is_mounted) {
       return false;
     }
-    if(this.state.loadingStatus.firstPageLoading != nextState.loadingStatus.firstPageLoading) {
+    if(this.state.firstPageLoading != nextState.firstPageLoading) {
       return true;
     }
     if(this.state.currentTab != this._current_tab) {
@@ -135,10 +133,9 @@ export default class PeopleView extends Component {
           if(this._is_mounted) {
             this.setState({
               orderlist: this.state.orderlist.concat(data.data),
-              loadingStatus: {
-                pullUpLoading: this.state.orderlist.length == 0 ? GLOBAL_PARAMS.httpStatus.NO_DATA:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA,
-              }
-            },() => console.log(this.state.loadingStatus.pullUpLoading))
+              pullUpLoading: this.state.orderlist.length == 0 ? GLOBAL_PARAMS.httpStatus.NO_DATA:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA,
+              firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
+            },() => console.log(this.state.pullUpLoading))
           }
           return
         }
@@ -156,9 +153,8 @@ export default class PeopleView extends Component {
         }
         this.setState({
           orderlist: this.state.orderlist.concat(data.data),
-          loadingStatus: {
-            pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
-          }
+          pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING,
+          firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
         })
         requestParams.currentOffset = requestParams.nextOffset
       }else{
@@ -170,17 +166,13 @@ export default class PeopleView extends Component {
         this.setState({
           isExpired: true,
           expiredMessage: data.ro.respMsg,
-          loadingStatus: {
-            pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-          }
+          pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
         })
       }
     },() => {
       requestParams.nextOffset = requestParams.currentOffset
       this.setState({
-        loadingStatus: {
-          pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-        }
+        pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
       })
     })
   }
@@ -194,9 +186,7 @@ export default class PeopleView extends Component {
         {text: i18n.cancel, onPress: () => {return null}, style: 'cancel'},
         {text: i18n.confirm, onPress: () => {
           this.setState({
-            loadingStatus: {
-              firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
-            }
+            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
           })
           cancelOrder(orderId).then(data => {
             if(data.ro.respCode == '0000') {
@@ -232,9 +222,7 @@ export default class PeopleView extends Component {
 
   _onErrorToRequestNextPage() {
     this.setState({
-      loadingStatus:{
-        pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
-      }
+      pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
     })
     requestParams.nextOffset += 5
     this._getMyOrder(requestParams.nextOffset)
@@ -262,9 +250,7 @@ export default class PeopleView extends Component {
     this.setState({
       refresh:false,
       orderlist: [],
-      loadingStatus:{
-        firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
-      },
+      firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
     })
   }
 
@@ -303,7 +289,7 @@ export default class PeopleView extends Component {
       initialListSize={5}
       pageSize={5}
       onEndReached={() => this._onEndReach()}
-      ListFooterComponent={() => (<ListFooter  loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>)}
+      ListFooterComponent={() => (<ListFooter  loadingStatus={this.state.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>)}
       refreshControl={
         <RefreshControl
           refreshing={this.state.refresh}
@@ -326,9 +312,6 @@ export default class PeopleView extends Component {
   _renderFoodDetailView(item) {
     let {i18n} = this.state;
     let _picture = !item.picture ? require('../asset/default_pic.png') : {uri:item.picture};
-    let _takeDateArr = item.takeDate.split('-');
-    _takeDateArr.shift();
-    item.takeDate = _takeDateArr.join('-');
     return (
       <View style={MyOrderStyles.FoodContainer}>
       <Image style={MyOrderStyles.FoodImage}
@@ -437,11 +420,10 @@ export default class PeopleView extends Component {
             {this.state.currentTab == _TAB_CANCEL ? this._renderCommonListView(_TAB_CANCEL) : null}
           </Tab>
         </Tabs>
-        {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
-          <Loading style={Platform.OS == 'android' ? {marginTop:110} : {}}/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+        {this.state.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
+          <Loading style={Platform.OS == 'android' ? {marginTop:110} : {}}/> : (this.state.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
             <ErrorPage errorTips={i18n.common_tips.reload} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : null)}
-        {this.state.loadingStatus.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_DATA ? <BlankPage style={{marginTop: Platform.OS=='ios'? 50:110}} message={'T_T'+i18n.common_tips.no_data}/> : null}
-
+        {this.state.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_DATA ? <BlankPage style={{marginTop: Platform.OS=='ios'? 50:110}} message={'T_T'+i18n.common_tips.no_data} hasBottomBtn clickFunc={() => this.props.navigation.goBack()}/> : null}   
       </Container>
     );
   }
