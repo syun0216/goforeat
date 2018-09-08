@@ -507,10 +507,10 @@ class HomePage extends Component {
     return (
       <TouchableOpacity style={HomePageStyles.PlacePickerBtn} onPress={() => this.setState({showPlacePicker: true})}>
         <View style={HomePageStyles.PlacePickerBtnBgAbsolute}/>
-        <Image source={require('../asset/location_white.png')} style={HomePageStyles.PlacePickerBtnImage} resizeMode="contain"/>
         <Text style={HomePageStyles.PlacePickerBtnText} numberOfLines={1}>
           {this.state.placeSelected.name}
         </Text>
+        <Image source={require('../asset/arrow_down.png')} style={HomePageStyles.PlacePickerBtnImage} resizeMode="contain"/>
       </TouchableOpacity>
     )
   }
@@ -540,7 +540,7 @@ class HomePage extends Component {
             {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} size="small"/>}
           </View>
           <TouchableOpacity onPress={() => Linking.openURL(`${scheme}${this.state.placeSelected.name}`)} style={HomePageStyles.MenuBtn}>
-            <Image source={require('../asset/plane.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
+            <Image source={require('../asset/location_white.png')} style={HomePageStyles.locationImage} resizeMode="contain"/>
           </TouchableOpacity>
         </LinearGradient>
         </Header>

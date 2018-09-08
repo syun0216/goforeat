@@ -44,6 +44,7 @@ import store from "./store";
 //components
 import TabBar from "./components/Tabbar";
 import BackAndroidHandler from "./components/BackAndroidHandler";
+import BottomIntroduce from "./components/BottomIntroduce";
 //styles
 import MainViewStyles from './styles/mainview.style';
 //language
@@ -106,6 +107,26 @@ const tabView = TabNavigator(
   }
 );
 
+const customDarwerItem = ({clickFunc,leftImage,title}, key) => (
+  <TouchableOpacity
+    key={key}
+    onPress={() => clickFunc()}
+      style={MainViewStyles.drawerItemBtn}
+    >
+      <Image
+        source={leftImage}
+        style={MainViewStyles.drawerItemImage}
+        resizeMode="contain"
+      />
+      <Text
+        allowFontScaling={false}
+        style={MainViewStyles.drawerItemText}
+      >
+        {title}
+      </Text>
+    </TouchableOpacity>
+);
+
 const darwerView = DrawerNavigator(
   {
     GoodsListDrawer: {
@@ -117,6 +138,45 @@ const darwerView = DrawerNavigator(
     drawerPosition: "left",
     contentComponent: props => {
       let {language} = props.screenProps;
+      let _drawItemArr = [
+        {title: i18n[language].myorder,leftImage: require("./asset/order.png"),
+        clickFunc: () => {
+          props.navigation.navigate('DrawerClose')
+          requestAnimationFrame(() => {
+            if(props.screenProps.user === null) {
+              props.navigation.navigate("Login",{page: 'MyOrder'});
+            }else {
+              props.navigation.navigate('MyOrder');
+            }
+          })
+        }},
+        {title: i18n[language].payment,leftImage: require('./asset/payment.png'),
+        clickFunc: () => {
+          props.navigation.navigate('DrawerClose')
+          requestAnimationFrame(() => {
+            if(props.screenProps.user === null) {
+              props.navigation.navigate("Login",{page: 'PayType'});
+            }else {
+              props.navigation.navigate('PayType',{from:'drawer'});
+            }
+          })
+        }},
+        {title: i18n[language].contact, leftImage: require("./asset/help.png"),
+        clickFunc: () => {
+          props.navigation.navigate('DrawerClose')
+          requestAnimationFrame(() => {
+            props.navigation.navigate('Help');
+          })
+        }},
+        {
+          title: i18n[language].setting, leftImage: require('./asset/setting.png'),
+          clickFunc: () => {
+            props.navigation.navigate('DrawerClose')
+            requestAnimationFrame(() => {
+              props.navigation.navigate("Setting")
+            })
+          }}
+      ];
       return (
         <Container>
         <View>
@@ -126,94 +186,12 @@ const darwerView = DrawerNavigator(
         </View>
           <Content style={MainViewStyles.drawerContent}>
             <View style={MainViewStyles.drawerInnerContent}>
-              <TouchableOpacity
-              onPress={() => {
-                if(props.screenProps.user === null) {
-                  props.navigation.navigate("Login",{page: 'MyOrder'});
-                }else {
-                  props.navigation.navigate('MyOrder');
-                }
-              }}
-                style={MainViewStyles.drawerItemBtn}
-              >
-                <Image
-                  source={require("./asset/order.png")}
-                  style={MainViewStyles.drawerItemImage}
-                  resizeMode="contain"
-                />
-                <Text
-                  allowFontScaling={false}
-                  style={MainViewStyles.drawerItemText}
-                >
-                  {i18n[language].myorder}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                    if(props.screenProps.user === null) {
-                      props.navigation.navigate("Login",{page: 'PayType'});
-                    }else {
-                      props.navigation.navigate('PayType',{from:'drawer'});
-                    }
-                  }}
-                style={MainViewStyles.drawerItemBtn}
-              >
-                <Image 
-                  source={require('./asset/payment.png')} 
-                  style={MainViewStyles.drawerItemImage}
-                  resizeMode="contain"
-                  />
-                <Text
-                  allowFontScaling={false}
-                  style={MainViewStyles.drawerItemText}
-                >
-                  {i18n[language].payment}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  props.navigation.navigate('Help');
-                }}
-                style={MainViewStyles.drawerItemBtn}
-              >
-                <Image
-                  source={require("./asset/help.png")}
-                  style={MainViewStyles.drawerItemImage}
-                  resizeMode="contain"
-                />
-                <Text
-                  allowFontScaling={false}
-                  style={MainViewStyles.drawerItemText}
-                >
-                  {i18n[language].contact}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={MainViewStyles.drawerItemBtn}
-                onPress={() => props.navigation.navigate("Statement", { name: "about" })}
-              >
-                <Image
-                  source={require("./asset/account.png")}
-                  style={MainViewStyles.drawerItemImage}
-                  resizeMode="contain"
-                />
-                <Text
-                  allowFontScaling={false}
-                  style={MainViewStyles.drawerItemText}
-                >
-                  {i18n[language].about}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-              onPress={() => props.navigation.navigate("Setting")}
-              style={MainViewStyles.drawerItemBtn}
-            >
-              <Image source={require('./asset/setting.png')} style={MainViewStyles.drawerItemImage}
-              resizeMode="contain"/>
-              <Text allowFontScaling={false} style={MainViewStyles.drawerItemText}>{i18n[language].setting}</Text>
-            </TouchableOpacity>
+            {
+              _drawItemArr.map((item,key) => customDarwerItem(item,key))
+            }
             </View>
-          </Content>
+            </Content>
+            <BottomIntroduce {...props}/>
         </Container>
       );
     }

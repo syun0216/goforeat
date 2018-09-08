@@ -148,20 +148,20 @@ export default StyleSheet.create({
     height: em(35),
   },
   PlacePickerBtnImage: {
-    width: em(18),
-    height: em(18),
+    width: em(20),
+    height: em(20),
     position: 'absolute',
     top: em(8),
-    left: em(12)
+    right: em(12)
   },
   PlacePickerBtnText: {
     color: Colors.main_white,
     marginLeft: 10,
     fontSize: em(16),
     position: 'absolute',
-    left: em(25),
+    left: em(8),
     top: Platform.OS == 'android' ? em(7) : em(8),
-    maxWidth: Platform.OS == 'ios' ? em(225) : em(250),
+    maxWidth: Platform.OS == 'ios' ? em(218) : em(250),
   },
   //render
   ContainerBg: {
@@ -195,9 +195,9 @@ export default StyleSheet.create({
     height: em(23),
     marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,
   },
-  planeImage: {
-    width: em(30),
-    height: em(15),
+  locationImage: {
+    width: em(19),
+    height: em(19),
     marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,
   },
   HeaderContent: {

@@ -43,9 +43,10 @@ const common = {
   },
   //_renderBottomView
   BottomView: {
-    width: GLOBAL_PARAMS._winWidth,
+    width: GLOBAL_PARAMS._winWidth * 0.75,
     height: GLOBAL_PARAMS._winHeight*0.15,
-    marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom : 0,
+    position: 'absolute',
+    bottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom : 0,
   },
   BottomViewInner: {
     flexDirection: 'row',
@@ -66,7 +67,7 @@ const common = {
     justifyContent: 'space-around',
   },
   Divider:{
-    width: GLOBAL_PARAMS._winWidth*0.3,
+    width: GLOBAL_PARAMS._winWidth*0.2,
     marginLeft: em(10),
     marginRight: em(10),
     height:1,

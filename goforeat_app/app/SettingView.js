@@ -4,7 +4,7 @@ import {Container,ActionSheet} from 'native-base'
 //utils
 import ToastUtil from './utils/ToastUtil';
 import {getVersion} from './utils/DeviceInfo';
-import GLOBAL_PARAMS from './utils/global_params';
+import GLOBAL_PARAMS,{em} from './utils/global_params';
 //components
 import CommonHeader from './components/CommonHeader';
 import CommonItem from './components/CommonItem';
@@ -82,17 +82,7 @@ export default class SettingView extends PureComponent{
     }};
     const _list_arr = [  
       {
-        content: i18n.policy,isEnd:false,clickFunc:() => {
-          this.props.navigation.navigate("Statement", { name: "policy" })
-        }
-      },
-      {
-        content: i18n.services,isEnd: false,clickFunc:() => {
-          this.props.navigation.navigate("Statement", { name: "service" })
-        }
-      }, 
-      {
-        content: i18n.tutorial, isEnd:true,clickFunc: () => {
+        content: i18n.tutorial, isEnd:false,clickFunc: () => {
           let _url = Platform.select({
             ios: 'https://www.youtube.com/watch?v=Ggs2uUg8LuQ',
             android: 'https://www.youtube.com/watch?v=gD5g_dII418'
@@ -100,9 +90,9 @@ export default class SettingView extends PureComponent{
           Linking.openURL(_url)
             .catch(err => alert(err));
         }
-      },   
+      }, 
       {
-        content:i18n.lang,isEnd:false,hasRightIcon: true,rightIcon:(<Text>{this.state.language}</Text>),clickFunc:() => {
+        content:i18n.lang,isEnd:true,hasRightIcon: true,rightIcon:(<Text>{this.state.language}</Text>),clickFunc:() => {
           if(this._actionSheet != null) {
             this._actionSheet._root.showActionSheet(
               {
@@ -129,6 +119,22 @@ export default class SettingView extends PureComponent{
           }
         }
       },
+      {
+        content: i18n.policy,isEnd:false,clickFunc:() => {
+          this.props.navigation.navigate("Statement", { name: "policy" })
+        }
+      },
+      {
+        content: i18n.services,isEnd: false,clickFunc:() => {
+          this.props.navigation.navigate("Statement", { name: "service" })
+        }
+      },  
+      {
+        content: i18n.about, isEnd:true,clickFunc: () => {
+          this.props.navigation.navigate("Statement", { name: "about" })
+        }
+      }, 
+
     ];
     if(Platform.OS == 'ios') {
       _list_arr.unshift(_setting_ios);
@@ -138,13 +144,13 @@ export default class SettingView extends PureComponent{
         <CommonHeader title={i18n.setting} canBack {...this.props}/>
           <ScrollView>
           <TouchableWithoutFeedback delayLongPress={4000} onLongPress={() => {languageStorage.removeAll();alert('清除緩存成功')}}>
-            <View style={{paddingTop: GLOBAL_PARAMS.em(20),paddingBottom: GLOBAL_PARAMS.em(20),justifyContent: 'flex-start',alignItems: 'center'}}>
-              <Image source={require('./asset/icon_app.png')} style={{width: GLOBAL_PARAMS.em(65),height: GLOBAL_PARAMS.em(65),marginBottom: GLOBAL_PARAMS.em(15)}}/>
-              <Text>{i18n.goforeat}   v{getVersion()} </Text>
+            <View style={{paddingTop: em(10),paddingBottom: em(10),justifyContent: 'center',alignItems: 'center',flexDirection:'row'}}>
+              <Image source={require('./asset/icon_app.png')} style={{width: em(20),height: em(20)}}/>
+              <Text style={{marginLeft: 10}}>{i18n.goforeat}   v{getVersion()} </Text>
             </View>
           </TouchableWithoutFeedback>
             {_list_arr.map((item,key) => (
-              <CommonItem key={key} content={item.content} hasRightIcon={item.hasRightIcon} rightIcon={item.rightIcon} isEnd={item.isEnd} clickFunc={item.clickFunc}/>
+              <CommonItem style={item.style || {}} key={key} content={item.content} hasRightIcon={item.hasRightIcon} rightIcon={item.rightIcon} isEnd={item.isEnd} clickFunc={item.clickFunc}/>
             ))}
             {this.props.screenProps.user !== null ? this._renderListFooterView() : null}
           </ScrollView>
