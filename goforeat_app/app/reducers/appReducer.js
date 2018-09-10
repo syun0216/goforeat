@@ -1,10 +1,6 @@
 import {
   LOGIN,
   LOGOUT,
-  STOCK_ARTICLE,
-  STOCK_SHOP,
-  DELETE_ARTICLE,
-  DELETE_SHOP,
   IS_LOADING,
   IS_NOT_LOADING,
   CHANGE_LANGUAGE,
@@ -14,7 +10,9 @@ import {
   REFRESH,
   SET_PAY_TYPE,
   SET_CREDIT_CARD,
-  REMOVE_CREDIT_CARD
+  REMOVE_CREDIT_CARD,
+  SHOW_AD,
+  HIDE_AD
 } from "../actions";
 //cache
 import {userStorage} from "../cache/appStorage";
@@ -43,8 +41,27 @@ const initialState = {
   },
   creditState: {
     creditCardInfo: null
+  },
+  advertimentState: {
+    isAdvertisementShow: true
   }
 };
+
+export function toggleAd(state = initialState.advertimentState, action) {
+  switch(action.type) {
+    case SHOW_AD: 
+      return {
+        ...state,
+        isAdvertisementShow: true
+      };
+    case HIDE_AD:
+      return {
+        ...state,
+        isAdvertisementShow: false
+      };
+    default: return state;
+  }
+}
 
 export function loading(state = initialState.loading, action) {
   switch (action.type) {

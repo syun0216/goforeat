@@ -89,21 +89,26 @@ class HomePage extends Component {
   }
 
   componentWillReceiveProps(nextProps,nextState) {
-    if(!this.state.isBottomContainerShow&&(nextProps.screenProps.refresh != this.state.refreshParams)&&nextProps.screenProps.refresh!= null) {
-      this._reloadPage();
-    }
-    this.setState({refreshParams: nextProps.screenProps.refresh})
-    this.setState({
-      i18n: I18n[nextProps.screenProps.language]
-    })
+    // if(!this.state.isBottomContainerShow&&(nextProps.screenProps.refresh != this.state.refreshParams)&&nextProps.screenProps.refresh!= null) {
+    //   this._reloadPage();
+    // }
+    // this.setState({refreshParams: nextProps.screenProps.refresh})
+    // this.setState({
+    //   i18n: I18n[nextProps.screenProps.language]
+    // })
   }
 
   componentWillMount() {
     // console.log('homepage willmount');
+    let {isAdShow, hideAd} = this.props.screenProps;
+    if(isAdShow) {
+      hideAd();
+    }
+    console.log(isAdShow);
     advertisementStorage.getData((error,data) => {
       if(error == null) {
         if(data != null) {
-          this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
+          isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
           this._advertiseInterval();
         }
         this._getAdvertise(data);

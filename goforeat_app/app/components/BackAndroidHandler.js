@@ -67,4 +67,4 @@ const BackAndroidHandler = WarppedComponent => class extends Component {
   }
 }
 
-export default BackAndroidHandler
+export default BackAndroidHandler;

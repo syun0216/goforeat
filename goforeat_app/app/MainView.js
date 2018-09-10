@@ -13,7 +13,8 @@ import {
   StackNavigator,
   TabNavigator,
   DrawerNavigator,
-  NavigationActions
+  NavigationActions,
+  DrawerItems
 } from "react-navigation";
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 //views
@@ -107,10 +108,8 @@ const tabView = TabNavigator(
   }
 );
 
-const customDarwerItem = ({clickFunc,leftImage,title}, key) => (
-  <TouchableOpacity
-    key={key}
-    onPress={() => clickFunc()}
+const CustomDarwerItem = ({clickFunc,leftImage,title,navigation}) => (
+  <View
       style={MainViewStyles.drawerItemBtn}
     >
       <Image
@@ -124,58 +123,39 @@ const customDarwerItem = ({clickFunc,leftImage,title}, key) => (
       >
         {title}
       </Text>
-    </TouchableOpacity>
+    </View>
 );
 
 const darwerView = DrawerNavigator(
   {
-    GoodsListDrawer: {
+    FoodDetails: {
       screen: tabView,
+    },
+    MyOrderDrawer: {
+      screen: MyOrderView
+    },
+    PayTypeDrawer: {
+      screen: PaySettingView
+    },
+    UserHelpDrawer: {
+      screen: UserHelperView
+    },
+    SettingDrawer: {
+      screen: SettingView
     }
   },
   {
+    initialRouteName: 'FoodDetails',
     drawerWidth: GLOBAL_PARAMS._winWidth * 0.75,
     drawerPosition: "left",
     contentComponent: props => {
       let {language} = props.screenProps;
       let _drawItemArr = [
-        {title: i18n[language].myorder,leftImage: require("./asset/order.png"),
-        clickFunc: () => {
-          props.navigation.navigate('DrawerClose')
-          requestAnimationFrame(() => {
-            if(props.screenProps.user === null) {
-              props.navigation.navigate("Login",{page: 'MyOrder'});
-            }else {
-              props.navigation.navigate('MyOrder');
-            }
-          })
-        }},
-        {title: i18n[language].payment,leftImage: require('./asset/payment.png'),
-        clickFunc: () => {
-          props.navigation.navigate('DrawerClose')
-          requestAnimationFrame(() => {
-            if(props.screenProps.user === null) {
-              props.navigation.navigate("Login",{page: 'PayType'});
-            }else {
-              props.navigation.navigate('PayType',{from:'drawer'});
-            }
-          })
-        }},
-        {title: i18n[language].contact, leftImage: require("./asset/help.png"),
-        clickFunc: () => {
-          props.navigation.navigate('DrawerClose')
-          requestAnimationFrame(() => {
-            props.navigation.navigate('Help');
-          })
-        }},
-        {
-          title: i18n[language].setting, leftImage: require('./asset/setting.png'),
-          clickFunc: () => {
-            props.navigation.navigate('DrawerClose')
-            requestAnimationFrame(() => {
-              props.navigation.navigate("Setting")
-            })
-          }}
+        {title: i18n[language].dailyFood, leftImage: require("./asset/food.png")},
+        {title: i18n[language].myorder,leftImage: require("./asset/order.png"),},
+        {title: i18n[language].payment,leftImage: require('./asset/payment.png'),},
+        {title: i18n[language].contact, leftImage: require("./asset/help.png"),},
+        {title: i18n[language].setting, leftImage: require('./asset/setting.png'),}
       ];
       return (
         <Container>
@@ -186,9 +166,10 @@ const darwerView = DrawerNavigator(
         </View>
           <Content style={MainViewStyles.drawerContent}>
             <View style={MainViewStyles.drawerInnerContent}>
-            {
-              _drawItemArr.map((item,key) => customDarwerItem(item,key))
-            }
+            <DrawerItems {...props} getLabel = {(scene) => <CustomDarwerItem {..._drawItemArr[scene.index]}/>}/>
+            {/*
+              _drawItemArr.map((item,key) => <CustomDarwerItem key={key} {...item} {...props}/>)
+            */}
             </View>
             </Content>
             <BottomIntroduce {...props}/>
@@ -225,23 +206,11 @@ let MainView = StackNavigator(
         }
       }
     },
-    Setting: {
-      screen: SettingView
-    },
     Statement: {
       screen: StatementView
     },
     Order: {
       screen: ConfirmOrderView
-    },
-    MyOrder: {
-      screen: MyOrderView
-    },
-    Help: {
-      screen: UserHelperView
-    },
-    PayType: {
-      screen: PaySettingView
     },
     Credit: {
       screen: CreditCardView
@@ -292,11 +261,11 @@ MainView.router.getStateForAction = (action, state) => {
       index: routes.length - 1
     });
   }
-  if(action.type != 'Navigation/SET_PARAMS') {
-    if(action.routeName == 'DrawerClose' || action.routeName == 'ShopTab') { //监听首页
-      store.dispatch({type:'REFRESH',refresh: new Date()});
-    }
-  }
+  // if(action.type != 'Navigation/SET_PARAMS') {
+  //   if(action.routeName == 'DrawerClose' || action.routeName == 'ShopTab') { //监听首页
+  //     store.dispatch({type:'REFRESH',refresh: new Date()});
+  //   }
+  // }
 
   if (state && action.type === NavigationActions.NAVIGATE) {
     if (action.params && action.params.replaceRoute) {

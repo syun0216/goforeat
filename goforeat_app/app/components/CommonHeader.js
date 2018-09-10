@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {StyleSheet,Platform,TouchableWithoutFeedback,StatusBar} from 'react-native'
+import {StyleSheet,Platform,TouchableWithoutFeedback,TouchableOpacity,Image} from 'react-native'
 import {Header,Left,Body,Right,Icon,Button} from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
 //utils
@@ -8,6 +8,7 @@ import Colors from '../utils/Colors';
 import GLOBAL_PARAMS from "../utils/global_params";
 //styles
 import CommonStyles from "../styles/common.style";
+import HomePageStyles from "../styles/homepage.style";
 //components
 import Text from './UnScalingText';
 
@@ -49,7 +50,11 @@ const CommonHeader = (props) => {
           />
         </TouchableWithoutFeedback>
         )
-      )) : null}
+      )) : props.hasMenu ? (
+        <TouchableOpacity style={HomePageStyles.MenuBtn} onPress={() => {props.navigation.navigate("DrawerOpen");}}>
+          <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
+        </TouchableOpacity>
+      ) : null}
     </Left>
     <Body style={{minWidth: GLOBAL_PARAMS.em(200),marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,}}><Text allowFontScaling={false} style={[{color: props.textColor,fontSize:GLOBAL_PARAMS.em(16)},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
     <Right style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,}}>
@@ -65,6 +70,7 @@ const CommonHeader = (props) => {
 CommonHeader.defaultProps = {
   title: '詳情',
   canBack:false,
+  hasMenu: false,
   hasTabs: false,
   hasRight: false,
   leftElement: null,
@@ -79,6 +85,7 @@ CommonHeader.defaultProps = {
 CommonHeader.propsType = {
   title: PropTypes.String,
   hasTabs: PropTypes.bool,
+  hasMenu: PropTypes.bool,
   canBack: PropTypes.bool,
   hasRight: PropTypes.bool,
   rightIcon: PropTypes.String,
