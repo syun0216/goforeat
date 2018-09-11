@@ -225,7 +225,7 @@ export default class ConfirmOrderView extends PureComponent {
           if(defaultPayment == PAY_TYPE.android_pay || defaultPayment == PAY_TYPE.apple_pay) {
             _appleAndAndroidPayRes.complete('success');
           }
-          this.props.navigation.navigate('MyOrder',{replaceRoute: true,confirm: true});
+          this.props.navigation.navigate('MyOrderDrawer',{replaceRoute: true,confirm: true});
         } else {
           let _message = defaultPayment == PAY_TYPE.credit_card ? `,${i18n.confirmorder_tips.fail.check_card}` : '';
           ToastUtil.showWithMessage(data.ro.respMsg+_message);

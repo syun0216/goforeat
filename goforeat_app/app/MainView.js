@@ -127,27 +127,31 @@ const CustomDarwerItem = ({leftImage,title}) => (
 );
 
 const customItemPress = ({route, focused}, navigation) => {
-  console.log(store.getState());
+  // console.log(route);
+  // console.log(navigation);
+  let _toPage = (route, focused, navigation) => {
+    navigation.navigate('DrawerClose');
+    if (!focused) {
+      let subAction;
+      // if the child screen is a StackRouter then always navigate to its first screen (see #1914)
+      if (route.index !== undefined && route.index !== 0) {
+        subAction = NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({
+              routeName: route.routes[0].routeName,
+            }),
+          ],
+        });
+      }
+      navigation.navigate(route.routeName, undefined, subAction);
+    }
+  };
   if(store.getState().auth.username == null &&  WHITE_LIST.indexOf(route.routeName) == -1) {
-    navigation.navigate('Login'); // 登录验证
+    navigation.navigate('Login', {page: route.routeName,callback: () => _toPage(route, focused, navigation)}); // 登录验证
     return;
   }
-  navigation.navigate('DrawerClose');
-  if (!focused) {
-    let subAction;
-    // if the child screen is a StackRouter then always navigate to its first screen (see #1914)
-    if (route.index !== undefined && route.index !== 0) {
-      subAction = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({
-            routeName: route.routes[0].routeName,
-          }),
-        ],
-      });
-    }
-    navigation.navigate(route.routeName, undefined, subAction);
-  }
+  _toPage(route, focused, navigation);
 }
 
 const darwerView = DrawerNavigator(

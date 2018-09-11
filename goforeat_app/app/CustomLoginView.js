@@ -8,6 +8,9 @@ import {
   Keyboard
 } from "react-native";
 import {
+  NavigationActions,
+} from "react-navigation";
+import {
   Input,
   Icon,
   ActionSheet
@@ -128,6 +131,21 @@ export default class CustomLoginView extends PureComponent {
       password: text
     });
   }
+  _toCurrentPage(route) {
+    let subAction;
+    // if the child screen is a StackRouter then always navigate to its first screen (see #1914)
+    if (route.index !== undefined && route.index !== 0) {
+      subAction = NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({
+            routeName: route.routes[0].routeName,
+          }),
+        ],
+      });
+    }
+    this.props.navigation.navigate(route.routeName, undefined, subAction);
+  }
 
   _login() {
     let {i18n} = this.state;
@@ -158,11 +176,12 @@ export default class CustomLoginView extends PureComponent {
                   amount: params.amount,
                   total: params.total
               })
-          }else if(params.page == 'PayType') {
-            this.props.navigation.navigate('PayType',{replaceRoute: true,from:'drawer'});
-          }
-          else {
-            this.props.navigation.navigate(params.page,{replaceRoute: true,});
+          }else {
+            let {callback} = this.props.navigation.state.params;
+            this.props.navigation.goBack();
+            requestAnimationFrame(() => {
+              callback();
+            })
           }
         }
         JPushModule.getRegistrationID(registrationId => {
