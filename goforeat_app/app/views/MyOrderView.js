@@ -21,7 +21,6 @@ import Loading from '../components/Loading';
 import BlankPage from '../components/BlankPage';
 import CommonHeader from '../components/CommonHeader';
 import Text from '../components/UnScalingText';
-import CommonBottomBtn from '../components/CommonBottomBtn';
 //language
 import I18n from '../language/i18n';
 //styles
@@ -41,9 +40,9 @@ let requestParams = {
 
 const _ORDER_LIST = {};
 const _TAB_DELIVERING = 0;
-const _TAB_ALL = 1;
-const _TAB_FINISHED = 2;
-const _TAB_CANCEL = 3;
+const _TAB_FINISHED = 1;
+const _TAB_CANCEL = 2;
+const _TAB_ALL = 3;
 
 const _ORDER_CANCEL = -1;
 const _ORDER_DELIVERING = 1;
@@ -53,7 +52,7 @@ const _ORDER_ALL = null;
 export default class PeopleView extends Component {
   timer = null;
   _tabs = null;
-  _current_tab = _TAB_ALL;
+  _current_tab = _TAB_DELIVERING;
   _delivering_list = [];
   _section_list = null;
   _is_mounted = true;
@@ -262,10 +261,10 @@ export default class PeopleView extends Component {
     this._onReloadPage();
     this.timer = setTimeout(() => {
       switch(this._tabs.state.currentPage) {
-        case 0: {this._getMyOrder(requestParams.offset,_ORDER_DELIVERING);this.setState({currentStatus:_ORDER_DELIVERING})}break;
-        case 1: {this._getMyOrder(requestParams.offset);this.setState({currentStatus:_ORDER_ALL})}break;
-        case 2: {this._getMyOrder(requestParams.offset, _ORDER_FINISHED);this.setState({currentStatus:_ORDER_FINISHED})}break;
-        case 3: {this._getMyOrder(requestParams.offset, _ORDER_CANCEL);this.setState({currentStatus:_ORDER_CANCEL})}break;
+        case _TAB_DELIVERING: {this._getMyOrder(requestParams.offset,_ORDER_DELIVERING);this.setState({currentStatus:_ORDER_DELIVERING})}break;
+        case _TAB_ALL: {this._getMyOrder(requestParams.offset);this.setState({currentStatus:_ORDER_ALL})}break;
+        case _TAB_FINISHED: {this._getMyOrder(requestParams.offset, _ORDER_FINISHED);this.setState({currentStatus:_ORDER_FINISHED})}break;
+        case _TAB_CANCEL: {this._getMyOrder(requestParams.offset, _ORDER_CANCEL);this.setState({currentStatus:_ORDER_CANCEL})}break;
       }
       this.setState({
         currentTab: this._tabs.state.currentPage
@@ -325,13 +324,9 @@ export default class PeopleView extends Component {
               <Text style={CommonStyles.common_important_text}>{item.amount}</Text>
             </View>
           </View>
-          {/*<View style={MyOrderStyles.FoodCommonView}>
-            <Text style={CommonStyles.common_info_text}>{i18n.fooddate}</Text>
-            <Text style={[CommonStyles.common_info_text,{maxWidth: GLOBAL_PARAMS.em(180)}]} numberOfLines={1}>{item.takeDate}</Text>
-          </View>*/}
           <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>{i18n.foodTime}</Text>
-            <Text style={[CommonStyles.common_info_text,{maxWidth: GLOBAL_PARAMS.em(180)}]} numberOfLines={1}>{item.takeDate}  {item.takeTime}</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: GLOBAL_PARAMS.em(180)}]} numberOfLines={1}>{item.takeTimeNew}</Text>
           </View>
           <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>{i18n.foodAddress}</Text>
@@ -400,25 +395,26 @@ export default class PeopleView extends Component {
 
   render() {
     let {i18n} = this.state;
+    let _order_arr = [
+      {title: i18n.delivering, tab: _TAB_DELIVERING, status: _ORDER_DELIVERING},
+      {title: i18n.finished, tab: _TAB_FINISHED, status: _ORDER_FINISHED},
+      {title: i18n.cancelOrder, tab: _TAB_CANCEL, status: _ORDER_CANCEL},
+      {title: i18n.all, tab: _TAB_ALL, status: _ORDER_ALL},
+    ];
     return (
       <Container style={{position: 'relative'}}>
-        <CommonHeader canBack hasTabs title={i18n.myorder} {...this.props}/>
+        <CommonHeader hasMenu hasTabs title={i18n.myorder} {...this.props}/>
         <Tabs tabBarUnderlineStyle={MyOrderStyles.tabBarUnderlineStyle} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
-          <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_DELIVERING? '800':'normal',}]}>{i18n.delivering}</Text>
-            {this.state.hasDelivering?<Image source={require('../asset/Oval.png')} style={MyOrderStyles.activeRedTips}/> : null}
-          </TabHeading>}>
-            {this.state.currentTab == _TAB_DELIVERING ? this._renderCommonListView(_TAB_DELIVERING) : null}
-          </Tab>
-          <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_ALL? '800':'normal',}]}>{i18n.all}</Text></TabHeading>}>
-            {this.state.currentTab == _TAB_ALL ? this._renderCommonListView(_TAB_ALL) : null}
-          </Tab>
-          <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_FINISHED? '800':'normal',}]}>    {i18n.finished}</Text></TabHeading>}>
-            {this.state.currentTab == _TAB_FINISHED ? this._renderCommonListView(_TAB_FINISHED) : null}
-          </Tab>
-          <Tab heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == _ORDER_CANCEL? '800':'normal',}]}>{i18n.cancelOrder}</Text></TabHeading>}>
-            {this.state.currentTab == _TAB_CANCEL ? this._renderCommonListView(_TAB_CANCEL) : null}
-          </Tab>
+          {
+            _order_arr.map((item,key) => (
+              <Tab key={key} heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentStatus == item.status? '800':'normal',}]}>{item.title}</Text>
+                {this.state.hasDelivering&&item.status == _ORDER_DELIVERING?<Image source={require('../asset/Oval.png')} style={MyOrderStyles.activeRedTips}/> : null}
+              </TabHeading>}>
+                {this.state.currentTab == item.tab ? this._renderCommonListView(item.tab) : null}
+              </Tab>
+            ))
+          }
         </Tabs>
         {this.state.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
           <Loading style={Platform.OS == 'android' ? {marginTop:110} : {}}/> : (this.state.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
