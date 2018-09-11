@@ -1,8 +1,6 @@
 import React from "react";
 import {
   View,
-  Text,
-  TouchableOpacity,
   Image,
   Platform
 } from "react-native";
@@ -46,6 +44,7 @@ import store from "./store";
 import TabBar from "./components/Tabbar";
 import BackAndroidHandler from "./components/BackAndroidHandler";
 import BottomIntroduce from "./components/BottomIntroduce";
+import Text from "./components/UnScalingText";
 //styles
 import MainViewStyles from './styles/mainview.style';
 //language
@@ -108,7 +107,9 @@ const tabView = TabNavigator(
   }
 );
 
-const CustomDarwerItem = ({clickFunc,leftImage,title,navigation}) => (
+const WHITE_LIST = ['FoodDetails', 'UserHelpDrawer', 'SettingDrawer'];
+
+const CustomDarwerItem = ({leftImage,title}) => (
   <View
       style={MainViewStyles.drawerItemBtn}
     >
@@ -118,13 +119,36 @@ const CustomDarwerItem = ({clickFunc,leftImage,title,navigation}) => (
         resizeMode="contain"
       />
       <Text
-        allowFontScaling={false}
         style={MainViewStyles.drawerItemText}
       >
         {title}
       </Text>
     </View>
 );
+
+const customItemPress = ({route, focused}, navigation) => {
+  console.log(store.getState());
+  if(store.getState().auth.username == null &&  WHITE_LIST.indexOf(route.routeName) == -1) {
+    navigation.navigate('Login'); // 登录验证
+    return;
+  }
+  navigation.navigate('DrawerClose');
+  if (!focused) {
+    let subAction;
+    // if the child screen is a StackRouter then always navigate to its first screen (see #1914)
+    if (route.index !== undefined && route.index !== 0) {
+      subAction = NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({
+            routeName: route.routes[0].routeName,
+          }),
+        ],
+      });
+    }
+    navigation.navigate(route.routeName, undefined, subAction);
+  }
+}
 
 const darwerView = DrawerNavigator(
   {
@@ -166,7 +190,9 @@ const darwerView = DrawerNavigator(
         </View>
           <Content style={MainViewStyles.drawerContent}>
             <View style={MainViewStyles.drawerInnerContent}>
-            <DrawerItems {...props} getLabel = {(scene) => <CustomDarwerItem {..._drawItemArr[scene.index]}/>}/>
+            <DrawerItems {...props} 
+            onItemPress={({route, focused}) => customItemPress({route, focused},props.navigation)}
+            getLabel = {(scene) => <CustomDarwerItem {..._drawItemArr[scene.index]}/>}/>
             {/*
               _drawItemArr.map((item,key) => <CustomDarwerItem key={key} {...item} {...props}/>)
             */}
@@ -211,6 +237,9 @@ let MainView = StackNavigator(
     },
     Order: {
       screen: ConfirmOrderView
+    },
+    PayType: {
+      screen: PaySettingView
     },
     Credit: {
       screen: CreditCardView
