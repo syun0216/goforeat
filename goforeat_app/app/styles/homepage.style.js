@@ -52,7 +52,7 @@ export default StyleSheet.create({
     color: '#111',
     fontWeight: 'bold',
     marginBottom: em(11),
-    maxWidth: 200
+    maxWidth: em(210)
   },
   IntroductionDetailBtn: {
     color: '#ff3348',
@@ -189,6 +189,14 @@ export default StyleSheet.create({
     marginTop: Platform.OS == 'ios' ? 0 : -8,
     height: 50,
     position: 'relative',
+  },
+  MenuBtnAndroid: {
+    width: GLOBAL_PARAMS._winWidth*0.15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    position: 'relative',
+    marginRight: 10
   },
   MenuImage: {
     width: em(23),

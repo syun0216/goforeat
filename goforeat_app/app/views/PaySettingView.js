@@ -109,7 +109,7 @@ export default class PaySettingView extends PureComponent {
   }
 
   _setPayType(payment) {
-    let _from_confirm_order = this.props.navigation.state.params['from'] == 'confirm_order';
+    let _from_confirm_order = typeof this.props.navigation.state.params != 'undefined';
     setPayment(payment).then(data => {
       if(data.ro.ok) {
         !_from_confirm_order && ToastUtil.showWithMessage('修改支付方式成功'); 
@@ -140,7 +140,7 @@ export default class PaySettingView extends PureComponent {
 
   _checked(name) { 
     // console.log(name)
-    let _from_confirm_order = this.props.navigation.state.params['from'] == 'confirm_order';
+    let _from_confirm_order = typeof this.props.navigation.state.params != 'undefined';
     if(this.state.checkedName == name) {
       return;
     }
@@ -194,10 +194,10 @@ export default class PaySettingView extends PureComponent {
    
   render() {
     let {i18n, payTypeList,monthTicketQuantity} = this.state;
-    let _from_confirm_order = this.props.navigation.state.params['from'] == 'confirm_order';
+    let _from_confirm_order = typeof this.props.navigation.state.params != 'undefined';
     return (
       <Container>
-      <CommonHeader title={i18n.payment} canBack {...this.props}/>
+      <CommonHeader title={i18n.payment} hasMenu={!_from_confirm_order} canBack={_from_confirm_order} {...this.props}/>
         <Content style={{backgroundColor:'#efefef'}}>
           {this.state.loading ? <Loading /> : (
             <View>

@@ -25,7 +25,7 @@ const UserHelper = (props) => {
   ]
   return (
     <Container>
-      <CommonHeader canBack title={i18n[language].contact} {...props}/>
+      <CommonHeader hasMenu title={i18n[language].contact} {...props}/>
       <Content style={{backgroundColor:Colors.main_white}}>
         <View>
         {_list_arr.map((item,key) => (

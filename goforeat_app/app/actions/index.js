@@ -8,3 +8,5 @@ export const REFRESH = 'REFRESH';
 export const SET_PAY_TYPE = 'SET_PAY_TYPE';
 export const SET_CREDIT_CARD = 'SET_CREDIT_CARD';
 export const REMOVE_CREDIT_CARD = 'REMOVE_CREDIT_CARD';
+export const SHOW_AD = 'SHOW_AD';
+export const HIDE_AD = 'HIDE_AD';

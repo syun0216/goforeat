@@ -75,6 +75,7 @@ const WARNING_CONTENT = (v, i, navigation) => (
 
 export default class WarningTips extends PureComponent {
   _interval = null;
+  _container_height = Platform.OS == 'ios' ? -33.7 : -37.5;
   state = {
     translateY: new Animated.Value(0),
     warningTipsData: null,
@@ -102,16 +103,22 @@ export default class WarningTips extends PureComponent {
           warningTipsData: data.data,
           isWarningTipShow: true
         },() => {
+          if(data.data.length == 1) return;
           this._loopDisplay(0 , data.data.length);
         })
       }
     })
   }
 
+  _layout(e) {
+    // console.log(e);
+    // this._container_height = - e.layout.width;
+  }
+
   _loopDisplay(index, count) {
     index ++;
     Animated.timing(this.state.translateY, {
-      toValue: Platform.OS == 'ios' ? em(-33.7 * index) : em(-37.5 * index),
+      toValue: em(this._container_height * index),
       duration: 300,
       easing:Easing.linear,
       delay: 2500
@@ -138,7 +145,7 @@ export default class WarningTips extends PureComponent {
         this.state.isWarningTipShow ? <View style={styles.warn_container}> 
         <Image source={require('../asset/warning.png')} style={styles.warning_img} resizeMode="contain"/>
         <View style={styles.warning_text_container}>
-          <Animated.View style={[styles.warningt_text_inner_container,{
+          <Animated.View onLayout={({nativeEvent:e})=>this._layout(e)} style={[styles.warningt_text_inner_container,{
             transform: [{
               translateY: this.state.translateY
             }]

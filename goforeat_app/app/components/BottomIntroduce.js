@@ -15,7 +15,7 @@ const BottomIntroduce = (props) => {
     </View>
     <View style={CommonStyle.BottomViewInner}>
       <TouchableOpacity onPress={() => {
-        Linking.openURL('https://www.instagram.com/floggerhk')
+        Linking.openURL('https://www.instagram.com/goforeat.hk')
         .catch(err => alert(err));
       }}>
         <Image source={require('../asset/instagram.png')} style={CommonStyle.BottomViewInnerImage} />

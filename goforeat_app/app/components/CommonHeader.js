@@ -31,7 +31,7 @@ const CommonHeader = (props) => {
     marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0,
   }]} hasTabs iosBarStyle={props.iosBarStyle} androidStatusBarColor="#333">
   <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.linearGradient}>
-    <Left style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,}}>
+    <Left style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex: 1}}>
       {props.canBack ? (props.leftElement !== null ? props.leftElement : (
         Platform.OS == 'ios' ? 
         (<Button transparent onPress={() => {props.navigation.goBack();}}>
@@ -51,13 +51,13 @@ const CommonHeader = (props) => {
         </TouchableWithoutFeedback>
         )
       )) : props.hasMenu ? (
-        <TouchableOpacity style={HomePageStyles.MenuBtn} onPress={() => {props.navigation.navigate("DrawerOpen");}}>
+        <TouchableOpacity style={Platform.OS == 'ios' ? HomePageStyles.MenuBtn : HomePageStyles.MenuBtnAndroid} onPress={() => {props.navigation.navigate("DrawerOpen");}}>
           <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
         </TouchableOpacity>
       ) : null}
     </Left>
-    <Body style={{minWidth: GLOBAL_PARAMS.em(200),marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,}}><Text allowFontScaling={false} style={[{color: props.textColor,fontSize:GLOBAL_PARAMS.em(16)},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
-    <Right style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,}}>
+    <Body style={{minWidth: GLOBAL_PARAMS.em(200),marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex: 1}}><Text allowFontScaling={false} style={[{color: props.textColor,fontSize:GLOBAL_PARAMS.em(16)},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
+    <Right style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex:1}}>
       {props.hasRight ? (props.rightElement !== null ? <props.rightElement {...props}/> : (
         <Button transparent onPress={() => props.rightClick()}>
         <Icon name={props.rightIcon} size={25} style={{fontSize:GLOBAL_PARAMS.em(23),color: Colors.main_white,paddingRight: 10}} /></Button>

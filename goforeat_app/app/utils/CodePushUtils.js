@@ -1,5 +1,4 @@
 /**
- * Created by ihaiwen on 16/10/14.
  * CodePush辅助工具类
  */
 

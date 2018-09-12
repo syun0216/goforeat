@@ -49,8 +49,8 @@ export default StyleSheet.create({
   },
   tabBarUnderlineStyle: {
     backgroundColor: '#FF3348',
-    // marginLeft: Platform.OS == 'ios' ? GLOBAL_PARAMS.widthAuto(31) : GLOBAL_PARAMS.widthAuto(32),
-    // width: em(32)
+    marginLeft: Platform.OS == 'ios' ? GLOBAL_PARAMS.widthAuto(31) : GLOBAL_PARAMS.widthAuto(32),
+    width: em(32)
   },
   //_renderPayView
   payContainer: {

@@ -330,7 +330,7 @@ export default class PeopleView extends Component {
           </View>
           <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>{i18n.foodAddress}</Text>
-            <Text style={[CommonStyles.common_info_text,{maxWidth: GLOBAL_PARAMS.em(130)}]} numberOfLines={1}>{item.takeAddressDetail}</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: GLOBAL_PARAMS.em(180)}]} numberOfLines={1}>{item.takeAddressDetail}</Text>
           </View>
         </View>
       </View>

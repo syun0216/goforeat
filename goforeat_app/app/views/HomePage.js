@@ -566,6 +566,7 @@ class HomePage extends Component {
         style={styles.scrollview}
         scrollEventThrottle={200}
         directionalLockEnabled={true}
+        showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
