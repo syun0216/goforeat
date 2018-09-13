@@ -88,23 +88,12 @@ class HomePage extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps,nextState) {
-    // if(!this.state.isBottomContainerShow&&(nextProps.screenProps.refresh != this.state.refreshParams)&&nextProps.screenProps.refresh!= null) {
-    //   this._reloadPage();
-    // }
-    // this.setState({refreshParams: nextProps.screenProps.refresh})
-    // this.setState({
-    //   i18n: I18n[nextProps.screenProps.language]
-    // })
-  }
-
   componentWillMount() {
     // console.log('homepage willmount');
     let {isAdShow, hideAd} = this.props.screenProps;
     if(isAdShow) {
       hideAd();
     }
-    console.log(isAdShow);
     advertisementStorage.getData((error,data) => {
       if(error == null) {
         if(data != null) {
@@ -117,7 +106,7 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
-    // console.log('homepage didmount');
+    // console.log('homepage didmount', this.props.screenProps);
     AppState.addEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState))
     
     this._current_offset = 0;
@@ -298,6 +287,7 @@ class HomePage extends Component {
       this.setState({ isError: true, loading: false });
       return;
     }
+    console.log(345, val);
     this.setState({
       placeSelected: val,
       foodCount: 0,

@@ -52,9 +52,7 @@ export default class ArticleView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      i18n: I18n[nextProps.screenProps.language]
-    })
+    this._onRequestFirstPageData();
   }
 
   componentWillUnmount() {
@@ -64,7 +62,8 @@ export default class ArticleView extends Component {
   //common functions
 
   _onRequestFirstPageData = () => {
-    getArticleList(0).then(data => {
+    let { place: {id} } = this.props.screenProps;
+    getArticleList(0, id).then(data => {
       this.setState({
         refreshing: false
       })

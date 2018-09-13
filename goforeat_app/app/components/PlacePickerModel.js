@@ -40,6 +40,8 @@ class PlacePickerModel extends Component{
       if (error === null) {
         if (data !== null) {
           this.getPlace(data);
+          console.log(123, data);
+          this.props.screenProps.stockPlace(data);
         }else {
           this.getPlace();
         }
