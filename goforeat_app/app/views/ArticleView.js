@@ -9,9 +9,9 @@ import Image from 'react-native-image-progress';
 //utils
 import ToastUtil from '../utils/ToastUtil';
 import Colors from '../utils/Colors';
-import GLOBAL_PARAMS from '../utils/global_params';
+import GLOBAL_PARAMS, { em } from '../utils/global_params';
 //api
-import {getArticleList} from '../api/request';
+import {getArticleList,getNewArticleList} from '../api/request';
 import source from '../api/CancelToken';
 //components
 import ErrorPage from '../components/ErrorPage';
@@ -63,19 +63,20 @@ export default class ArticleView extends Component {
 
   _onRequestFirstPageData = () => {
     let { place: {id} } = this.props.screenProps;
-    getArticleList(0, id).then(data => {
+    getNewArticleList(0, id).then(data => {
       this.setState({
         refreshing: false
       })
       if(data.ro.respCode == '0000') {
-        data.data = data.data.map((v,i) => ({
-          ...v,
-          date_title: v.title.split(' ')[0],
-          food_title: v.title.split(' ')[1]
-        }))
+        console.log(data);
+        // data.data = data.data.map((v,i) => ({
+        //   ...v,
+        //   date_title: v.title.split(' ')[0],
+        //   food_title: v.title.split(' ')[1]
+        // }))
 
         this.setState({
-          articleList: data.data,
+          articleList: data.data.list,
           loadingStatus:{
             firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
           }
@@ -83,7 +84,7 @@ export default class ArticleView extends Component {
       }
       else{
         this.setState({
-          articleList: data.data,
+          articleList: data.data.list,
           refreshing: false,
           loadingStatus:{
             firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
@@ -113,26 +114,28 @@ export default class ArticleView extends Component {
     if(this.state.loadingStatus.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
       return;
     }
-    getArticleList(offset).then(data => {
+    let { place: {id} } = this.props.screenProps;
+    getNewArticleList(offset, id).then(data => {
+      console.log(9999,data);
       if (data.ro.respCode == '0000') {
-        if(data.data.length === 0){
+        if(data.data.list.length === 0){
           requestParams.nextOffset = requestParams.currentOffset
           this.setState({
-            articleList: this.state.articleList.concat(data.data),
+            articleList: this.state.articleList.concat(data.data.list),
             loadingStatus: {
               pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
             }
           })
           return
         }
-        data.data = data.data.map((v,i) => ({
-          ...v,
-          date_title: v.title.split(' ')[0],
-          food_title: v.title.split(' ')[1]
-        }))
+        // data.data = data.data.map((v,i) => ({
+        //   ...v,
+        //   date_title: v.title.split(' ')[0],
+        //   food_title: v.title.split(' ')[1]
+        // }))
   
         this.setState({
-          articleList: this.state.articleList.concat(data.data),
+          articleList: this.state.articleList.concat(data.data.list),
           loadingStatus: {
             pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
           }
@@ -201,75 +204,100 @@ export default class ArticleView extends Component {
     />
   )
 
-  _renderArticleListItemView = (item,index) => (
-      <TouchableWithoutFeedback style={styles.articleItemContainer}
+  _renderArticleListItemView = (item,index) => {
+    if(typeof item === 'undefined') return;
+    // console.log(123,item);
+    return (
+      <View style={styles.articleItemContainer}
         onPress={() => this.props.navigation.navigate('Content', {data: item,kind:'article'})}>
-        <Card style={{width: GLOBAL_PARAMS._winWidth*0.95,alignSelf: 'center',}}>
-          <CardItem cardBody>
-            <Image source={{uri: item.pic}} style={{height: GLOBAL_PARAMS.heightAuto(250), width: null, flex: 1,borderBottomWidth: 1,borderBottomColor: Colors.main_gray}} resizeMode="cover"/>
-          </CardItem>
-          <CardItem>
-              <View style={styles.articleDesc}>
-              <Text style={[styles.articleTitle,{fontSize: 20,color:this.props.screenProps.theme}]}>{item.date_title}</Text>
-              <Text style={[styles.articleTitle,{marginTop:3,fontSize: 15,}]}>{item.food_title}</Text>
+        <Image source={{uri: item.thumbnail}} style={{width: em(124),height: em(150)}} resizeMode="cover"/>
+        <View style={styles.articleItemDetails}>
+          <View style={[styles.itemName, styles.marginBottom9]}>
+            <Text style={styles.foodName}>{item.name}</Text>
+            <Text style={styles.foodTime}>{item.date}</Text>
           </View>
-            </CardItem>
-        </Card>
-      </TouchableWithoutFeedback>
-    )
+          <View style={{height: em(45),marginBottom: 12.5}}>
+            <Text style={styles.foodBrief} numberOfLines={5}>{item.brief}</Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.foodUnit}>HKD</Text>
+            <Text style={styles.foodPrice}>{item.price}</Text>
+          </View>
+        </View>
+      </View>
+    )}
 
   render() {
     let {i18n} = this.state;
-    return (<Container style={{position:'relative'}}>
-    <CommonHeader title={i18n.weekMenu} {...this.props}/>
-    {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
-      <Loading/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
-        <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : null)}
-      <View style={{marginBottom:GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.bottomDistance + GLOBAL_PARAMS.iPhoneXBottom : GLOBAL_PARAMS.bottomDistance}}>
-        {
-            this.state.articleList !== null
-            ? this._renderArticleListView()
-            : null
-        }
-      </View>    
-    </Container>)
+    return (
+    <Container style={{position:'relative'}}>
+      <CommonHeader hasMenu headerHeight={em(76)} title={i18n.weekMenu} {...this.props}/>
+      {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
+        <Loading/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
+          <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : null)}
+        <View style={{marginBottom:GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.bottomDistance + GLOBAL_PARAMS.iPhoneXBottom : GLOBAL_PARAMS.bottomDistance,marginTop:-em(75)}}>
+          {
+              this.state.articleList !== null
+              ? this._renderArticleListView()
+              : null
+          }
+        </View>    
+      </Container>)
     }
   }
 
 const styles = StyleSheet.create({
   articleItemContainer:{
-    height:250,
+    height:150,
     flex:1,
-    borderRadius: 20,
+    borderRadius: 8,
     margin: 10,
-    borderRadius :5
-  },
-  artivleItemInnerContainer: {
-    flex:1,
-    alignItems: 'center',
+    borderRadius :5,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: '#ededeb',
+    shadowColor: '#ededeb',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.8,
+    shadowRadius: 8,
     backgroundColor: '#fff',
-    borderTopWidth: 1,
+    overflow: 'hidden'
   },
-  articleImage: {
-    borderBottomColor: '#eee',
-    borderBottomWidth: 1,
-  },
-  articleDesc: {
-    flex:1,
-    justifyContent:'center',
-    alignItems: 'flex-start',
-    paddingLeft:10,
+  articleItemDetails: {
+    padding: 17,
+    flex: 1,
     backgroundColor: '#fff',
-    paddingTop:3,
-    paddingBottom:3
+    
   },
-  articleTitle: {
-    fontSize:18,
-    marginBottom:5,
-    textAlign:'center'
+  itemName: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  articleSubTitle: {
-    fontSize:14,
-    color:'#959595'
+  foodName: {
+    fontSize: em(18),
+    color: '#111',
+    fontWeight: '800',
+  },
+  foodTime: {
+    fontSize: em(13),
+    color: '#666',
+  },
+  foodBrief: {
+    fontSize: em(11),
+    color: '#111',
+    textAlign: 'justify'
+  },
+  foodUnit: {
+    fontSize: em(14),
+    color: '#666',
+    marginRight: em(5)
+  },
+  foodPrice: {
+    fontSize: em(18),
+    color: '#2a2a2a',
+    lineHeight: em(18)
+  },
+  marginBottom9: {
+    marginBottom: em(10),
   }
 })
