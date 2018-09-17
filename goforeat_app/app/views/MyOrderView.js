@@ -16,7 +16,7 @@ import ToastUtil from '../utils/ToastUtil';
 import {myOrder,cancelOrder} from '../api/request';
 //components
 import ListFooter from '../components/ListFooter';
-  import ErrorPage from '../components/ErrorPage';
+import ErrorPage from '../components/ErrorPage';
 import Loading from '../components/Loading';
 import BlankPage from '../components/BlankPage';
 import CommonHeader from '../components/CommonHeader';
@@ -216,7 +216,6 @@ export default class PeopleView extends Component {
   _onEndReach = () => {
     requestParams.nextOffset += 5
     this._getMyOrder(requestParams.nextOffset, this.state.currentStatus);
-    console.log('onendreach',this.state.currentStatus);
   }
 
   _onErrorToRequestNextPage() {

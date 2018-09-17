@@ -258,7 +258,6 @@ export default class ConfirmOrderView extends PureComponent {
         })
       } else {
         ToastUtil.showWithMessage(data.ro.respMsg);
-        console.log(this._input);
         this._input._root.clear();
         this.setState({
           coupon: null

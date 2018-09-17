@@ -8,13 +8,13 @@ import {
 import Image from 'react-native-image-progress';
 //utils
 import ToastUtil from '../utils/ToastUtil';
-import Colors from '../utils/Colors';
 import GLOBAL_PARAMS, { em } from '../utils/global_params';
 //api
-import {getArticleList,getNewArticleList} from '../api/request';
+import {getNewArticleList} from '../api/request';
 import source from '../api/CancelToken';
 //components
 import ErrorPage from '../components/ErrorPage';
+import BlankPage from '../components/BlankPage';
 import CommonHeader from '../components/CommonHeader';
 import ListFooter from '../components/ListFooter';
 import Loading from '../components/Loading';
@@ -33,26 +33,28 @@ let requestParams = {
   currentOffset: 0
 }
 
+const { isIphoneX, bottomDistance, iPhoneXBottom, _winHeight, httpStatus:{LOADING, LOAD_FAILED, NO_DATA, NO_MORE_DATA} } = GLOBAL_PARAMS;
+
 export default class ArticleView extends Component {
   static navigationOptions = ({screenProps}) => ({
     tabBarLabel: I18n[screenProps.language].weekMenu
   });
   state = {
-    articleList: null,
+    articleList: [],
     loadingStatus:{
-      firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING,
-      pullUpLoading: GLOBAL_PARAMS.httpStatus.LOADING,
+      firstPageLoading: LOADING,
+      pullUpLoading: LOADING,
     },
     refreshing: false,
     i18n: I18n[this.props.screenProps.language]
   }
 
   componentDidMount() {
-    this._onRequestFirstPageData()
+    this._onRequestNextPage(0);
   }
 
   componentWillReceiveProps(nextProps) {
-    this._onRequestFirstPageData();
+    this._onRequestNextPage(0);
   }
 
   componentWillUnmount() {
@@ -61,101 +63,63 @@ export default class ArticleView extends Component {
   
   //common functions
 
-  _onRequestFirstPageData = () => {
-    let { place: {id} } = this.props.screenProps;
-    getNewArticleList(0, id).then(data => {
-      this.setState({
-        refreshing: false
-      })
-      if(data.ro.respCode == '0000') {
-        console.log(data);
-        // data.data = data.data.map((v,i) => ({
-        //   ...v,
-        //   date_title: v.title.split(' ')[0],
-        //   food_title: v.title.split(' ')[1]
-        // }))
-
-        this.setState({
-          articleList: data.data.list,
-          loadingStatus:{
-            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_SUCCESS
-          }
-        })
-      }
-      else{
-        this.setState({
-          articleList: data.data.list,
-          refreshing: false,
-          loadingStatus:{
-            firstPageLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-          }
-        })
-      }
-    },() => {
-      ToastUtil.showWithMessage(this.state.i18n.common_tips.network_err);
-      this.setState({
-        loadingStatus:{
-          firstPageLoading:GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-        }
-      })
-    })
-  }
-
   _onErrorRequestFirstPage = () => {
     this.setState({
       loadingStatus: {
-        firstPageLoading: GLOBAL_PARAMS.httpStatus.LOADING
+        firstPageLoading: LOADING
       }
     })
-    this._onRequestFirstPageData()
+    this._onRequestNextPage(0);
   }
 
   _onRequestNextPage = (offset) => {
-    if(this.state.loadingStatus.pullUpLoading == GLOBAL_PARAMS.httpStatus.NO_MORE_DATA) {
-      return;
-    }
     let { place: {id} } = this.props.screenProps;
+    let { articleList, i18n, refreshing } = this.state;
     getNewArticleList(offset, id).then(data => {
-      console.log(9999,data);
       if (data.ro.respCode == '0000') {
+        if(refreshing) {
+          this.setState({
+            articleList: data.data.list,
+            refreshing: false
+          })
+          return;
+        }
         if(data.data.list.length === 0){
           requestParams.nextOffset = requestParams.currentOffset
           this.setState({
-            articleList: this.state.articleList.concat(data.data.list),
+            articleList: articleList.concat(data.data.list),
             loadingStatus: {
-              pullUpLoading:GLOBAL_PARAMS.httpStatus.NO_MORE_DATA
-            }
+              pullUpLoading:articleList.length  == 0 ? NO_DATA : NO_MORE_DATA
+            },
+            refreshing: false,
           })
           return
-        }
-        // data.data = data.data.map((v,i) => ({
-        //   ...v,
-        //   date_title: v.title.split(' ')[0],
-        //   food_title: v.title.split(' ')[1]
-        // }))
-  
+        }  
         this.setState({
-          articleList: this.state.articleList.concat(data.data.list),
+          articleList: articleList.concat(data.data.list),
           loadingStatus: {
-            pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
-          }
+            pullUpLoading:LOADING
+          },
+          refreshing: false,
         })
         requestParams.currentOffset = requestParams.nextOffset
       }else{
-        ToastUtil.showWithMessage(this.state.i18n.article_tips.fail.load)
+        ToastUtil.showWithMessage(i18n.article_tips.fail.load)
         requestParams.nextOffset = requestParams.currentOffset
         this.setState({
           loadingStatus: {
-            pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-          }
+            pullUpLoading: LOAD_FAILED
+          },
+          refreshing: false,
         })
       }
     },() => {
       requestParams.nextOffset = requestParams.currentOffset
       this.setState({
         loadingStatus: {
-          pullUpLoading: GLOBAL_PARAMS.httpStatus.LOAD_FAILED
-        }
+          pullUpLoading: LOAD_FAILED
+        },
+        refreshing: false,
       })
     })
   }
@@ -163,20 +127,24 @@ export default class ArticleView extends Component {
   _onRefreshToRequestFirstPageData() {
     this.setState({
       refreshing: true
+    }, () => {
+      requestParams.currentOffset = 0;
+      this._onRequestNextPage(0);
     });
-    requestParams.currentOffset = 1;
-    this._onRequestFirstPageData();
   }
 
   _onEndReach = () => {
-    requestParams.nextOffset += 5
+    requestParams.nextOffset += 5;
+    if(this.state.loadingStatus.pullUpLoading == NO_MORE_DATA) {
+      return;
+    }
     this._onRequestNextPage(requestParams.nextOffset)
   }
 
   _onErrorToRequestNextPage() {
     this.setState({
       loadingStatus:{
-        pullUpLoading:GLOBAL_PARAMS.httpStatus.LOADING
+        pullUpLoading:LOADING
       }
     })
     requestParams.nextOffset += 5
@@ -210,13 +178,13 @@ export default class ArticleView extends Component {
     return (
       <View style={styles.articleItemContainer}
         onPress={() => this.props.navigation.navigate('Content', {data: item,kind:'article'})}>
-        <Image source={{uri: item.thumbnail}} style={{width: em(124),height: em(150)}} resizeMode="cover"/>
+        <Image source={{uri: item.thumbnail}} style={{width: em(124),height: em(160)}} resizeMode="cover"/>
         <View style={styles.articleItemDetails}>
           <View style={[styles.itemName, styles.marginBottom9]}>
             <Text style={styles.foodName}>{item.name}</Text>
             <Text style={styles.foodTime}>{item.date}</Text>
           </View>
-          <View style={{height: em(45),marginBottom: 12.5}}>
+          <View style={{height: em(75),marginBottom: 12.5,}}>
             <Text style={styles.foodBrief} numberOfLines={5}>{item.brief}</Text>
           </View>
           <View style={{flexDirection: 'row'}}>
@@ -228,18 +196,15 @@ export default class ArticleView extends Component {
     )}
 
   render() {
-    let {i18n} = this.state;
+    let {i18n, articleList, pullUpLoading,loadingStatus:{firstPageLoading}} = this.state;
     return (
     <Container style={{position:'relative'}}>
       <CommonHeader hasMenu headerHeight={em(76)} title={i18n.weekMenu} {...this.props}/>
-      {this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOADING ?
-        <Loading/> : (this.state.loadingStatus.firstPageLoading === GLOBAL_PARAMS.httpStatus.LOAD_FAILED ?
-          <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : null)}
-        <View style={{marginBottom:GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.bottomDistance + GLOBAL_PARAMS.iPhoneXBottom : GLOBAL_PARAMS.bottomDistance,marginTop:-em(75)}}>
+        <View style={{marginBottom:isIphoneX() ? bottomDistance + iPhoneXBottom : bottomDistance,marginTop:-em(75),minHeight: _winHeight}}>
           {
-              this.state.articleList !== null
-              ? this._renderArticleListView()
-              : null
+            articleList.length > 0
+            ? this._renderArticleListView()
+            : pullUpLoading == NO_DATA ? <BlankPage style={{marginTop: Platform.OS=='ios'? 50:110}} message={'T_T'+i18n.common_tips.no_data}/> : pullUpLoading == LOAD_FAILED ? <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : <Loading />
           }
         </View>    
       </Container>)
@@ -248,14 +213,12 @@ export default class ArticleView extends Component {
 
 const styles = StyleSheet.create({
   articleItemContainer:{
-    height:150,
+    height: em(160),
     flex:1,
     borderRadius: 8,
     margin: 10,
     borderRadius :5,
     flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#ededeb',
     shadowColor: '#ededeb',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.8,
@@ -267,7 +230,8 @@ const styles = StyleSheet.create({
     padding: 17,
     flex: 1,
     backgroundColor: '#fff',
-    
+    borderWidth: 1,
+    borderColor: '#ededeb',
   },
   itemName: {
     flexDirection: 'row',
@@ -281,11 +245,13 @@ const styles = StyleSheet.create({
   foodTime: {
     fontSize: em(13),
     color: '#666',
+    lineHeight: em(20)
   },
   foodBrief: {
     fontSize: em(11),
-    color: '#111',
-    textAlign: 'justify'
+    color: '#999',
+    textAlign: 'justify',
+    lineHeight: 16
   },
   foodUnit: {
     fontSize: em(14),
