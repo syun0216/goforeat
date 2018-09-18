@@ -226,11 +226,13 @@ export default class CustomLoginView extends PureComponent {
   };
 
   _toggleKeyBoard(val) {
+    requestAnimationFrame(() => {
       Animated.timing(this.state.containerTop, {
         toValue: val,
         duration: 200,
         easing: Easing.linear
       }).start();
+    })
   }
 
   //render function

@@ -12,7 +12,7 @@ import GLOBAL_PARAMS,{em} from '../utils/global_params';
 const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: Colors.main_white,
-    height: GLOBAL_PARAMS.widthAuto(60),
+    height: GLOBAL_PARAMS.widthAuto(45),
     width: GLOBAL_PARAMS._winWidth,
     padding:em(10),
     flexDirection: 'row',
@@ -55,7 +55,7 @@ const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,c
       </View>
       {hasRightIcon ? rightIcon : null}
     </TouchableOpacity>
-    {isEnd ? <Divider bgColor='#efefef'/> : null}
+    {isEnd ? <Divider bgColor='#efefef' height={em(20)}/> : null}
   </View>
 )};
 
