@@ -77,7 +77,7 @@ export default class ArticleView extends Component {
     let { articleList, i18n, refreshing } = this.state;
     getNewArticleList(offset, id).then(data => {
       if (data.ro.respCode == '0000') {
-        if(refreshing) {
+        if(offset == 0) {
           this.setState({
             articleList: data.data.list,
             refreshing: false
@@ -196,11 +196,12 @@ export default class ArticleView extends Component {
     )}
 
   render() {
-    let {i18n, articleList, pullUpLoading,loadingStatus:{firstPageLoading}} = this.state;
+    let {i18n, articleList, pullUpLoading} = this.state;
+    _bottomDistance = bottomDistance + em(75);
     return (
     <Container style={{position:'relative'}}>
       <CommonHeader hasMenu headerHeight={em(76)} title={i18n.weekMenu} {...this.props}/>
-        <View style={{marginBottom:isIphoneX() ? bottomDistance + iPhoneXBottom : bottomDistance,marginTop:-em(75),minHeight: _winHeight}}>
+        <View style={{marginBottom:isIphoneX() ? _bottomDistance + iPhoneXBottom : _bottomDistance,marginTop:-em(75),minHeight: _winHeight}}>
           {
             articleList.length > 0
             ? this._renderArticleListView()
@@ -232,6 +233,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#ededeb',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
   },
   itemName: {
     flexDirection: 'row',

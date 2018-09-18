@@ -19,9 +19,28 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
   drawerTopImage: {
-    width: GLOBAL_PARAMS._winWidth * 0.5,
-    height: GLOBAL_PARAMS._winHeight * 0.1,
+    width: em(50),
+    height: em(50),
     marginTop: em(10)
+  },
+  drawerTopImageContainer: {
+    marginLeft: em(30)
+  },
+  topName: {
+    color: '#fff',
+    fontSize: em(14),
+    marginBottom: em(10),
+  },
+  topLoginBtn: {
+    borderWidth: 2,
+    borderColor: '#fff',
+    borderRadius: 5,
+    padding: em(10)
+  },
+  loginBtnText: {
+    color: '#fff',
+    fontSize: em(14),
+    textAlign: 'center'
   },
   drawerContent: {
     backgroundColor: Colors.main_white

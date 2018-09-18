@@ -2,9 +2,10 @@ import React from "react";
 import {
   View,
   Image,
-  Platform
+  Platform,
+  TouchableOpacity
 } from "react-native";
-import { Container, Content,Icon } from "native-base";
+import { Container, Content } from "native-base";
 import LinearGradient from 'react-native-linear-gradient';
 //navigation
 import {
@@ -33,6 +34,7 @@ import CreditCardView from "./views/CreditCardView";
 import ManageCreditCardView from './views/ManageCreditCardView';
 import MoreDetailView from './views/MoreDetailView';
 import FeedbackView from './views/FeedbackView';
+import UserInfoView from './views/UserInfoView';
 //api
 import source from "./api/CancelToken";
 //utils
@@ -170,6 +172,9 @@ const darwerView = DrawerNavigator(
     },
     SettingDrawer: {
       screen: SettingView
+    },
+    UserInfoDrawer: {
+      screen: UserInfoView
     }
   },
   {
@@ -183,20 +188,36 @@ const darwerView = DrawerNavigator(
         {title: i18n[language].myorder,leftImage: require("./asset/order.png"),},
         {title: i18n[language].payment,leftImage: require('./asset/payment.png'),},
         {title: i18n[language].contact, leftImage: require("./asset/help.png"),},
+        {title: i18n[language].setting, leftImage: require('./asset/setting.png'),},
         {title: i18n[language].setting, leftImage: require('./asset/setting.png'),}
       ];
+      let customLoginBtnRoute = {
+        route: {key:"UserInfoDrawer",routeName:"UserInfoDrawer",params: undefined},
+        focused: false
+      };
       return (
         <Container>
         <View>
           <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={MainViewStyles.drawerTopContainer}>
-            <Image source={require('./asset/logoTop.png')} style={MainViewStyles.drawerTopImage}/>
+            <Image source={require('./asset/notlogged.png')} style={MainViewStyles.drawerTopImage}/>
+            <View style={MainViewStyles.drawerTopImageContainer}>
+              <Text style={MainViewStyles.topName}>一日一味餸,日日有得食</Text>
+              <TouchableOpacity style={MainViewStyles.topLoginBtn} onPress={() => customItemPress(customLoginBtnRoute, props.navigation) }>
+                <Text style={MainViewStyles.loginBtnText}>立即登錄</Text>
+              </TouchableOpacity>
+            </View>
           </LinearGradient>
         </View>
           <Content style={MainViewStyles.drawerContent}>
             <View style={MainViewStyles.drawerInnerContent}>
             <DrawerItems {...props} 
             onItemPress={({route, focused}) => customItemPress({route, focused},props.navigation)}
-            getLabel = {(scene) => <CustomDarwerItem {..._drawItemArr[scene.index]}/>}/>
+            getLabel = {(scene) => {
+              if(scene.route.routeName == "UserInfoDrawer") {return null}
+              return (
+                <CustomDarwerItem {..._drawItemArr[scene.index]}/>
+              )
+            }}/>
             {/*
               _drawItemArr.map((item,key) => <CustomDarwerItem key={key} {...item} {...props}/>)
             */}
@@ -256,7 +277,7 @@ let MainView = StackNavigator(
     },
     Feedback: {
       screen: FeedbackView
-    }
+    },
   },
   { headerMode: "none",
     cardStyle: {
