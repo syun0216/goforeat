@@ -12,7 +12,7 @@ import GLOBAL_PARAMS,{em} from '../utils/global_params';
 const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: Colors.main_white,
-    height: GLOBAL_PARAMS.widthAuto(45),
+    height: GLOBAL_PARAMS.widthAuto(55),
     width: GLOBAL_PARAMS._winWidth,
     padding:em(10),
     flexDirection: 'row',

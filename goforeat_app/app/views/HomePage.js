@@ -37,6 +37,7 @@ import BlankPage from '../components/BlankPage';
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
 import WarningTips from '../components/WarningTips';
 import Text from '../components/UnScalingText';
+import SlidingUpModal from '../components/SlidingUpModal';
 // language
 import I18n from "../language/i18n";
 //cache 
@@ -64,7 +65,7 @@ class HomePage extends Component {
     this.state = {
       slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
       shopDetail: null,
-      foodDetails: null,
+      foodDetails: [],
       soldOut: HAS_FOODS, // 是否已售罄
       isError: false,
       loading: false,
@@ -287,7 +288,6 @@ class HomePage extends Component {
       this.setState({ isError: true, loading: false });
       return;
     }
-    console.log(345, val);
     this.setState({
       placeSelected: val,
       foodCount: 0,
@@ -363,6 +363,51 @@ class HomePage extends Component {
     )
   }  
 
+  _renderHeaderView() {
+    let {placeSelected} = this.state;
+    let {navigate} = this.props.navigation;
+    const scheme = Platform.select({ ios: 'http://maps.apple.com/?q=', android: 'geo:0,0?q=' });
+    return (
+      <Header
+          style={HomePageStyles.Header}
+          iosBarStyle="light-content"
+          androidStatusBarColor="#333"
+        >
+        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={HomePageStyles.linearGradient}>
+          <TouchableOpacity onPress={() => navigate("DrawerOpen")} style={HomePageStyles.MenuBtn}>
+            <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
+            {/*<Image source={require('../asset/Oval.png')} style={{width: 10,height: 10,position: 'absolute',top: 10, right: 10}}/>*/}
+          </TouchableOpacity>
+          <View style={HomePageStyles.HeaderContent}>
+            {placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} size="small"/>}
+          </View>
+          <TouchableOpacity onPress={() => Linking.openURL(`${scheme}${placeSelected.name}`)} style={HomePageStyles.MenuBtn}>
+            <Image source={require('../asset/location_white.png')} style={HomePageStyles.locationImage} resizeMode="contain"/>
+          </TouchableOpacity>
+        </LinearGradient>
+      </Header>
+    )
+  }
+
+  _renderPlacePickerBtn() {
+    return (
+      <TouchableOpacity style={HomePageStyles.PlacePickerBtn} onPress={() => this.setState({showPlacePicker: true})}>
+        <View style={HomePageStyles.PlacePickerBtnBgAbsolute}/>
+        <Text style={HomePageStyles.PlacePickerBtnText} numberOfLines={1}>
+          {this.state.placeSelected.name}
+        </Text>
+        <Image source={require('../asset/arrow_down.png')} style={HomePageStyles.PlacePickerBtnImage} resizeMode="contain"/>
+      </TouchableOpacity>
+    )
+  }
+
+  _renderPlacePicker() {
+    let {showPlacePicker} = this.state;
+    return (
+      <PlacePickerModel ref={c => this._picker = c} modalVisible={showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
+    )
+  }
+
   _renderDateFormat() {
     return (
       <View style={HomePageStyles.DateFormatView}>
@@ -373,18 +418,56 @@ class HomePage extends Component {
     )
   }
 
-  _renderDeadLineDate() {
-    return(
-      <View style={HomePageStyles.DeadLineDateView}>
-        <Text style={HomePageStyles.DeadLineDateText}>{this.state.formatDate.endDate}</Text>
-      </View>
-    )
-  }
-
   _renderWarningView() {
     return (
       <WarningTips {...this.props}/>
     )
+  }
+
+  _renderMainView() {
+    const { foodDetails } = this.state;
+
+    return foodDetails.length > 0  ? (
+      <View style={[styles.exampleContainer, { marginTop: -15 }]}>
+        {/*<Text style={[styles.title,{color:'#1a1917'}]}>商家列表</Text>*/}
+        <Carousel
+          ref={c => (this._slider1Ref = c)}
+          data={foodDetails[0].extralImage}
+          renderItem={this._renderItemWithParallax.bind(this)}
+          sliderWidth={sliderWidth}
+          itemWidth={itemWidth}
+          hasParallaxImages={false}
+          firstItem={SLIDER_1_FIRST_ITEM}
+          inactiveSlideScale={0.94}
+          inactiveSlideOpacity={0.5}
+          // inactiveSlideShift={20}
+          containerCustomStyle={styles.slider}
+          contentContainerCustomStyle={styles.sliderContentContainer}
+          loop={true}
+          loopClonesPerSide={2}
+          autoplay={false}
+          autoplayDelay={3000}
+          autoplayInterval={4000}
+          onSnapToItem={index => this.setState({ slider1ActiveSlide: index })}
+        />
+      </View>
+    ) : null;
+  }
+
+  _renderItemWithParallax({ item, index }, parallaxProps) {
+    return (
+      this.state.placeSelected != null ?
+      <SliderEntry
+        ref={(se) => this._SliderEntry = se}
+        data={item}
+        star={this.state.foodDetails[0].star}
+        even={(index + 1) % 2 === 0}
+        placeId={this.state.placeSelected.id}
+        {...this.props}
+        // parallax={true}
+        // parallaxProps={parallaxProps}
+      /> : null
+    );
   }
 
   _renderIntroductionView() {
@@ -403,13 +486,13 @@ class HomePage extends Component {
   }
 
   _renderMoreDetailModal() {
-    let {foodDetails} = this.state;
+    let {showMoreDetail} = this.state;
     return (
-      <MoreDetailModal 
-      modalVisible={this.state.showMoreDetail} closeFunc={() => this.setState({showMoreDetail: false})} foodtitle={foodDetails[0].foodName} content={foodDetails[0].foodBrief} images={foodDetails[0].extralImage}
-      />
+      <SlidingUpModal visible={showMoreDetail}>
+        <Text>123</Text>
+      </SlidingUpModal>
     )
-  }
+  } 
 
   _renderAddPriceView() {
     let {foodDetails,i18n,soldOut} = this.state;
@@ -451,128 +534,79 @@ class HomePage extends Component {
     )
   }
 
-  _renderItemWithParallax({ item, index }, parallaxProps) {
-    return (
-      this.state.placeSelected != null ?
-      <SliderEntry
-        ref={(se) => this._SliderEntry = se}
-        data={item}
-        star={this.state.foodDetails[0].star}
-        even={(index + 1) % 2 === 0}
-        placeId={this.state.placeSelected.id}
-        {...this.props}
-        // parallax={true}
-        // parallaxProps={parallaxProps}
-      /> : null
-    );
-  }
-
-  mainExample(number, title) {
-    const { slider1ActiveSlide,foodDetails } = this.state;
-
-    return foodDetails !== null  ? (
-      <View style={[styles.exampleContainer, { marginTop: -15 }]}>
-        {/*<Text style={[styles.title,{color:'#1a1917'}]}>商家列表</Text>*/}
-
-        <Carousel
-          ref={c => (this._slider1Ref = c)}
-          data={foodDetails[0].extralImage}
-          renderItem={this._renderItemWithParallax.bind(this)}
-          sliderWidth={sliderWidth}
-          itemWidth={itemWidth}
-          hasParallaxImages={false}
-          firstItem={SLIDER_1_FIRST_ITEM}
-          inactiveSlideScale={0.94}
-          inactiveSlideOpacity={0.5}
-          // inactiveSlideShift={20}
-          containerCustomStyle={styles.slider}
-          contentContainerCustomStyle={styles.sliderContentContainer}
-          loop={true}
-          loopClonesPerSide={2}
-          autoplay={false}
-          autoplayDelay={3000}
-          autoplayInterval={4000}
-          onSnapToItem={index => this.setState({ slider1ActiveSlide: index })}
-        />
+  _renderDeadLineDate() {
+    return(
+      <View style={HomePageStyles.DeadLineDateView}>
+        <Text style={HomePageStyles.DeadLineDateText}>{this.state.formatDate.endDate}</Text>
       </View>
-    ) : null;
-  }
-
-  _renderPlacePickerBtn() {
-    return (
-      <TouchableOpacity style={HomePageStyles.PlacePickerBtn} onPress={() => this.setState({showPlacePicker: true})}>
-        <View style={HomePageStyles.PlacePickerBtnBgAbsolute}/>
-        <Text style={HomePageStyles.PlacePickerBtnText} numberOfLines={1}>
-          {this.state.placeSelected.name}
-        </Text>
-        <Image source={require('../asset/arrow_down.png')} style={HomePageStyles.PlacePickerBtnImage} resizeMode="contain"/>
-      </TouchableOpacity>
     )
   }
-
-  render() {
-    let {i18n} = this.state;
-    const main_view = this.mainExample(
-      1,
-      `- 為您推薦 -`
-    );
-    const scheme = Platform.select({ ios: 'http://maps.apple.com/?q=', android: 'geo:0,0?q=' });
+  
+  _renderContentView() {
+    const main_view = this._renderMainView();
+    let {placeSelected,foodDetails,refreshing,formatDate: {week}} = this.state;
     return (
-      <Container style={HomePageStyles.ContainerBg}>
-        {this._renderAdvertisementView()}
-        <PlacePickerModel ref={c => this._picker = c} modalVisible={this.state.showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
-        <Header
-          style={HomePageStyles.Header}
-          iosBarStyle="light-content"
-          androidStatusBarColor="#333"
-        >
-        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={HomePageStyles.linearGradient}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")} style={HomePageStyles.MenuBtn}>
-            <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
-            {/*<Image source={require('../asset/Oval.png')} style={{width: 10,height: 10,position: 'absolute',top: 10, right: 10}}/>*/}
-          </TouchableOpacity>
-          <View style={HomePageStyles.HeaderContent}>
-            {this.state.placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} size="small"/>}
-          </View>
-          <TouchableOpacity onPress={() => Linking.openURL(`${scheme}${this.state.placeSelected.name}`)} style={HomePageStyles.MenuBtn}>
-            <Image source={require('../asset/location_white.png')} style={HomePageStyles.locationImage} resizeMode="contain"/>
-          </TouchableOpacity>
-        </LinearGradient>
-        </Header>
-        {this.state.isError ? (
-          <ErrorPage
-            errorToDo={this._onErrorToRetry}
-            errorTips={i18n.common_tips.reload}
-            {...this.props}
-          />
-        ) : null}
-        {this.state.loading ? <Loading /> : null}
-        {this.state.foodDetails != null && this.state.foodDetails.length >0  ? <BottomOrderConfirm btnMessage={i18n.book} {...this.props} 
-        isShow={this.state.isBottomContainerShow} 
-        total={this.state.foodCount*this.state.foodDetails[0].price}
-        btnClick={this._goToOrder}
-        cancelOrder={this._cancelOrder}/> : null}
-        <ScrollView
+      <ScrollView
         style={styles.scrollview}
         scrollEventThrottle={200}
         directionalLockEnabled={true}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={() => this._onRefreshToRequestFirstPageData(this.state.placeSelected.id)}
+            refreshing={refreshing}
+            onRefresh={() => this._onRefreshToRequestFirstPageData(placeSelected.id)}
           />
         }
         >
-        {this.state.formatDate.week != '' ? this._renderDateFormat() : null}
-        {this._renderWarningView()}
-        {main_view}
-        {this.state.foodDetails != null ? this._renderIntroductionView() : null }
-        {this.state.foodDetails != null ? this._renderAddPriceView() : null}
-        {this.state.foodDetails != null ? this._renderDeadLineDate() : null}
-        {this.state.foodDetails != null && this.state.foodDetails.length == 0 ? <BlankPage style={{marginTop:50}} message="暂无数据"/> : null}
-        {<View style={HomePageStyles.BottomView}/>}
+          {week != '' ? this._renderDateFormat() : null}
+          {this._renderWarningView()}
+          {main_view}
+          {foodDetails.length > 0 ? (
+            <View>
+              {this._renderIntroductionView()}
+              {this._renderAddPriceView()}
+              {this._renderDeadLineDate()}
+            </View>
+          ) : <BlankPage style={{marginTop:50}} message="暂无数据"/>}
+          {<View style={HomePageStyles.BottomView}/>}
         </ScrollView>
+    )
+  }
+
+  _renderBottomBtnView() {
+    let {i18n, isBottomContainerShow,foodCount, foodDetails} = this.state;
+    return (
+      <BottomOrderConfirm btnMessage={i18n.book} {...this.props} 
+      isShow={isBottomContainerShow} 
+      total={foodCount*foodDetails[0].price}
+      btnClick={this._goToOrder}
+      cancelOrder={this._cancelOrder}/>
+    )
+  }
+
+  _renderErrorView() {
+    let {i18n} = this.state;
+    return (
+      <ErrorPage
+        errorToDo={this._onErrorToRetry}
+        errorTips={i18n.common_tips.reload}
+        {...this.props}
+      />
+    )
+  }
+
+  render() {
+    let { loading, isError,foodDetails } = this.state;
+  
+    return (
+      <Container style={HomePageStyles.ContainerBg}>
+        {this._renderAdvertisementView()}
+        {this._renderPlacePicker()}
+        {this._renderHeaderView()}
+        {isError ? this._renderErrorView : null}
+        {loading ? <Loading /> : null}
+        {foodDetails.length > 0 ? this._renderContentView() : null}
+        {foodDetails.length > 0 ? this._renderBottomBtnView() : null}
       </Container>
     );
   }
