@@ -37,7 +37,8 @@ import BlankPage from '../components/BlankPage';
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
 import WarningTips from '../components/WarningTips';
 import Text from '../components/UnScalingText';
-import SlidingUpModal from '../components/SlidingUpModal';
+import SlideUpPanel from '../components/SlideUpPanel';
+import Swiper from '../components/Swiper';
 // language
 import I18n from "../language/i18n";
 //cache 
@@ -476,9 +477,7 @@ class HomePage extends Component {
       <View style={HomePageStyles.IntroductionView}>
       <View style={HomePageStyles.IntroductionFoodNameCotainer}>
         <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1}>{foodDetails[0].foodName}</Text>
-        <Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.props.navigation.navigate('MoreDetail',{
-          item: foodDetails[0]
-        })}>{this.state.i18n.foodDetail}</Text>
+        <Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.slideUpPanel._snapTo()}>{this.state.i18n.foodDetail}</Text>
       </View>
         <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodDetails[0].foodBrief}</Text>
       </View>
@@ -486,11 +485,23 @@ class HomePage extends Component {
   }
 
   _renderMoreDetailModal() {
-    let {showMoreDetail} = this.state;
+    let {foodDetails} = this.state;
     return (
-      <SlidingUpModal visible={showMoreDetail}>
-        <Text>123</Text>
-      </SlidingUpModal>
+      <SlideUpPanel ref={r => this.slideUpPanel = r}>
+        <View>
+          <Text style={HomePageStyles.panelTitle}>{foodDetails[0].foodName}</Text>
+          <Image style={{height: em(250),marginTop: em(10),marginBottom: em(10)}} source={{uri: foodDetails[0].extralImage[0]}}/>
+          <Text style={HomePageStyles.IntroductionFoodBrief} >{foodDetails[0].foodBrief}</Text>
+          <View style={HomePageStyles.AddPriceViewPriceContainer}>
+            <Text style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
+            <Text style={HomePageStyles.AddPriceViewPrice}>{foodDetails[0].price}</Text>
+            {
+              foodDetails[0].originPrice != null ? <Text style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text> : null
+            }
+            {foodDetails[0].originPrice != null ? <View style={HomePageStyles.AddPriceViewStriping}/> : null}
+          </View>
+        </View>
+      </SlideUpPanel>
     )
   } 
 
@@ -607,6 +618,7 @@ class HomePage extends Component {
         {loading ? <Loading /> : null}
         {foodDetails.length > 0 ? this._renderContentView() : null}
         {foodDetails.length > 0 ? this._renderBottomBtnView() : null}
+        {foodDetails.length > 0 ? this._renderMoreDetailModal() : null}
       </Container>
     );
   }

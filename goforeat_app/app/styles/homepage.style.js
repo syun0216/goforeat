@@ -217,6 +217,12 @@ export default StyleSheet.create({
   BottomView: {
     height: 80,
     width: GLOBAL_PARAMS._winWidth
+  },
+  //details
+  panelTitle: {
+    fontSize: em(27),
+    height: em(35),
+    marginTop: em(10)
   }
 
 })

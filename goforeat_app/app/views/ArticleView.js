@@ -157,11 +157,9 @@ export default class ArticleView extends Component {
         {title:'餐廳列表',data:this.state.articleList},
       ]}
       renderItem = {({item,index}) => this._renderArticleListItemView(item,index)}
-      // renderSectionHeader= {() => (<View style={{height:20}}></View>)}
       keyExtractor={(item, index) => index}
       onEndReachedThreshold={0.01}
       onEndReached={() => this._onEndReach()}
-      // ListHeaderComponent={() => <ArticleSwiper />}
       ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>)}
       refreshControl={
         <RefreshControl
@@ -181,7 +179,7 @@ export default class ArticleView extends Component {
         <Image source={{uri: item.thumbnail}} style={{width: em(124),height: em(160)}} resizeMode="cover"/>
         <View style={styles.articleItemDetails}>
           <View style={[styles.itemName, styles.marginBottom9]}>
-            <Text style={styles.foodName}>{item.name}</Text>
+            <Text style={styles.foodName} numberOfLines={1}>{item.name}</Text>
             <Text style={styles.foodTime}>{item.date}</Text>
           </View>
           <View style={{height: em(75),marginBottom: 12.5,}}>
@@ -244,6 +242,7 @@ const styles = StyleSheet.create({
     fontSize: em(18),
     color: '#111',
     fontWeight: '800',
+    maxWidth: em(130)
   },
   foodTime: {
     fontSize: em(13),

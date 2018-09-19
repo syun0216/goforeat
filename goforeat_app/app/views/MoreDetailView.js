@@ -4,6 +4,7 @@ import {Container,Content,Footer,Icon} from 'native-base';
 //components
 import CommonHeader from '../components/CommonHeader';
 import Swiper from '../components/Swiper';
+//styles
 import HomePageStyles from '../styles/homepage.style';
 //language
 import i18n from '../language/i18n';
