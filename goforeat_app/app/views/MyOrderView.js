@@ -1,14 +1,11 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity,StyleSheet,SectionList,Alert,RefreshControl,Platform,Image } from "react-native";
+import { View, TouchableOpacity,SectionList,Alert,RefreshControl,Platform,Image } from "react-native";
 import {
   Container,
   Tabs,
   Tab,
   TabHeading,
 } from "native-base";
-import {NavigationActions} from 'react-navigation';
-//Colors
-import Colors from '../utils/Colors';
 //utils
 import GLOBAL_PARAMS,{EXPLAIN_PAY_TYPE} from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
@@ -70,7 +67,7 @@ export default class PeopleView extends Component {
     expiredMessage: null,
     currentTab: _TAB_DELIVERING,
     currentStatus: _ORDER_DELIVERING,
-    i18n: I18n[this.props.screenProps.language],
+    i18n: I18n[props.screenProps.language],
     hasDelivering: false
     }
   }

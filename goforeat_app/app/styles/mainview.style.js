@@ -17,6 +17,7 @@ export default StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
+    paddingTop: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0
   },
   drawerTopImage: {
     width: em(50),
