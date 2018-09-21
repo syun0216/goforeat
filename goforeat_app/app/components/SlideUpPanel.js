@@ -10,7 +10,7 @@ const Screen = {
 export default class SlideUpPanel extends Component {
   constructor(props) {
     super(props);
-    this._deltaY = new Animated.Value(Screen.height-100);
+    this._deltaY = new Animated.Value(Screen.height + 100);
   }
 
   _snapTo() {
@@ -24,7 +24,7 @@ export default class SlideUpPanel extends Component {
   render() {
     return (
         <View style={styles.panelContainer} pointerEvents={'box-none'}>
-          <Animated.View
+          {/*<Animated.View
           onPress={() => console.log(123)}
             pointerEvents={'box-none'}
             style={[styles.panelContainer, {
@@ -34,7 +34,7 @@ export default class SlideUpPanel extends Component {
               outputRange: [0.5, 0],
               extrapolateRight: 'clamp'
             })
-          }]} />
+          }]} />*/}
           <Interactable.View
             ref = {ref => this.animationRef = ref}
             verticalOnly={true}
