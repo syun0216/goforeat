@@ -55,7 +55,8 @@ const CommonHeader = (props) => {
               </TouchableWithoutFeedback>
               )
             )) : props.hasMenu ? (
-              <TouchableOpacity style={Platform.OS == 'ios' ? HomePageStyles.MenuBtn : HomePageStyles.MenuBtnAndroid} onPress={() => {props.navigation.navigate("DrawerOpen");}}>
+              <TouchableOpacity style={Platform.OS == 'ios' ? HomePageStyles.MenuBtn : HomePageStyles.MenuBtnAndroid} onPress={() => {
+                props.leftClickIntercept(props);}}>
                 <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
               </TouchableOpacity>
             ) : null}
@@ -87,7 +88,8 @@ CommonHeader.defaultProps = {
   leftStyle: {},
   textColor: Colors.main_white,
   iosBarStyle: 'light-content',
-  headerHeight: 0
+  headerHeight: 0,
+  leftClickIntercept: (props) => {props.navigation.navigate("DrawerOpen")}
 }
 
 CommonHeader.propsType = {
@@ -105,7 +107,8 @@ CommonHeader.propsType = {
   leftStyle: PropTypes.object,
   textColor: PropTypes.String,
   iosBarStyle: PropTypes.String,
-  headerHeight: PropTypes.number
+  headerHeight: PropTypes.number,
+  leftClickIntercept: PropTypes.func // 左側點擊攔截器
 }
 
 export default CommonHeader
