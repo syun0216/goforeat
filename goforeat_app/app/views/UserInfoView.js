@@ -15,10 +15,12 @@ import CommonBottomBtn from '../components/CommonBottomBtn';
 import UserInfoStyle from '../styles/userinfo.style';
 //language
 import I18n from '../language/i18n';
+//cache
+import {userStorage} from '../cache/appStorage';
 
 const SECRET = 0;
-const MALE = 1;
-const FEMALE = 2;
+const FEMALE = 1;
+const MALE = 2;
 
 export default class UserInfoView extends PureComponent {
 
@@ -51,6 +53,7 @@ export default class UserInfoView extends PureComponent {
           loadingModal: false,
         });
       } else if(data.ro.respCode == "10006" || data.ro.respCode == "10007") {
+        ToastUtil.showWithMessage(data.ro.respMsg)
         this.props.screenProps.userLogout();
         this.props.navigation.goBack();
       }
@@ -67,7 +70,12 @@ export default class UserInfoView extends PureComponent {
         this.setState({
           loadingModal: false
         });
+        let {userInfo} = this.props.screenProps;
+        userInfo.nickName = this.state.myInfo.nickName;
+        userStorage.setData(userInfo);
+        this.props.screenProps.userLogin(userInfo);
         this.rawMyInfo = JSON.stringify(this.state.myInfo);
+        this.props.navigation.goBack();
       }
     }).catch(err => {
       ToastUtil.showWithMessage("更新失敗");
@@ -84,11 +92,16 @@ export default class UserInfoView extends PureComponent {
       loadingModal: true
     }, () => {
       uploadAvatar(photoData).then(data => {
-        // console.log(data);
-        if(data.ro.ok) {
+        console.log(data)
+        if(data.data.ro.ok) {
           this.setState({
-            photoData: photoData
-          })
+            photoData: photoData,
+            loadingModal: false
+          });
+          let {userInfo} = this.props.screenProps;
+          userInfo.profileImg = data.data.data;
+          userStorage.setData(userInfo);
+          this.props.screenProps.userLogin(userInfo);
           ToastUtil.showWithMessage("更新頭像成功");
         }
       }).catch(err => {
@@ -187,9 +200,9 @@ export default class UserInfoView extends PureComponent {
     let _form_arr = [
       {label: '賬號', key: 'phone', value: phone},
       {label: '暱稱', key: 'nickName', value: nickName},
-      {label: '性别', key: 'gender', value: gender},
       {label: '郵箱', key: 'email', value: email},
-      {label: '公司地址', key: 'address', value: address}
+      {label: '公司地址', key: 'address', value: address},
+      {label: '性别', key: 'gender', value: gender},
     ];
 
     const _changeText = (text, key) => {
@@ -204,7 +217,7 @@ export default class UserInfoView extends PureComponent {
     let _segment = [
       {text: '男', value: MALE},
       {text: '女', value: FEMALE},
-      {text: '保密', value: SECRET}
+      {text: '未知', value: SECRET},
     ];
 
     const _segmentElement = (
@@ -218,17 +231,18 @@ export default class UserInfoView extends PureComponent {
     </Segment>)
 
     return (
-      <Form style={{backgroundColor: '#fff'}}>
+      <Form>
         {_form_arr.map((item,idx) => {
           return (
-            <Item inlineLabel key={idx}>
+            <Item inlineLabel key={idx} last={idx == _form_arr.length - 1}>
               <Label>{item.label}</Label>
               {item.key != "gender" ? (
                 <Input
                 onChangeText={text => _changeText(text, item.key)}
                 placeholder={item.label}
                 clearButtonMode="while-editing" 
-                style={item.key == 'account' ? UserInfoStyle.AccountDisable : {}} value={item.value}/>) : _segmentElement}
+                disabled={item.key == 'phone'}
+                style={item.key == 'phone' ? UserInfoStyle.AccountDisable : {}} value={item.value}/>) : _segmentElement}
             </Item>
           )
         })}

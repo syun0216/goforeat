@@ -35,6 +35,7 @@ import ManageCreditCardView from './views/ManageCreditCardView';
 import MoreDetailView from './views/MoreDetailView';
 import FeedbackView from './views/FeedbackView';
 import UserInfoView from './views/UserInfoView';
+import CouponView from './views/CouponView';
 //api
 import source from "./api/CancelToken";
 //utils
@@ -51,6 +52,7 @@ import Text from "./components/UnScalingText";
 import MainViewStyles from './styles/mainview.style';
 //language
 import i18n from './language/i18n';
+import mainviewStyle from "./styles/mainview.style";
 
 const tabView = TabNavigator(
   {
@@ -167,6 +169,9 @@ const darwerView = DrawerNavigator(
     PayTypeDrawer: {
       screen: PaySettingView
     },
+    CouponDrawer: {
+      screen: CouponView
+    },
     UserHelpDrawer: {
       screen: UserHelperView
     },
@@ -187,6 +192,7 @@ const darwerView = DrawerNavigator(
         {title: i18n[language].dailyFood, leftImage: require("./asset/food.png")},
         {title: i18n[language].myorder,leftImage: require("./asset/order.png"),},
         {title: i18n[language].payment,leftImage: require('./asset/payment.png'),},
+        {title: i18n[language].ticket,leftImage: require('./asset/coupon.png'),},
         {title: i18n[language].contact, leftImage: require("./asset/help.png"),},
         {title: i18n[language].setting, leftImage: require('./asset/setting.png'),},
         {title: i18n[language].setting, leftImage: require('./asset/setting.png'),}
@@ -195,15 +201,18 @@ const darwerView = DrawerNavigator(
         route: {key:"UserInfoDrawer",routeName:"UserInfoDrawer",params: undefined},
         focused: false
       };
+      let _alreadyLogin = props.screenProps.user != null;
+      const {userInfo:{username, nickName, profileImg}} = props.screenProps;
       return (
         <Container>
         <View>
           <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={MainViewStyles.drawerTopContainer}>
-            <Image source={require('./asset/notlogged.png')} style={MainViewStyles.drawerTopImage}/>
+            <Image source={_alreadyLogin && profileImg != '' ? {uri: profileImg}: require('./asset/notlogged.png')} style={MainViewStyles.drawerTopImage}/>
             <View style={MainViewStyles.drawerTopImageContainer}>
-              <Text style={MainViewStyles.topName}>一日一味餸,日日有得食</Text>
+              <Text style={MainViewStyles.topName}>{_alreadyLogin ? username:'日日有得食'}</Text>
+              {_alreadyLogin ? <Text style={mainviewStyle.topNickName}>{nickName}</Text> : null}
               <TouchableOpacity style={MainViewStyles.topLoginBtn} onPress={() => customItemPress(customLoginBtnRoute, props.navigation) }>
-                <Text style={MainViewStyles.loginBtnText}>立即登錄</Text>
+                <Text style={MainViewStyles.loginBtnText}>{_alreadyLogin?'去更改':'立即登錄'}</Text>
               </TouchableOpacity>
             </View>
           </LinearGradient>
