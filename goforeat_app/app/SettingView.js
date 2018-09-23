@@ -159,10 +159,3 @@ export default class SettingView extends PureComponent{
     )
   }
 }
-
-const styles = StyleSheet.create({
-  title: {
-    height:40,
-    padding:10,
-  }
-})

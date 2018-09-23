@@ -161,9 +161,16 @@ export default class CustomLoginView extends PureComponent {
     }
     checkCode(phone,selectedValue.value,this.token,password).then(data => {
       if(data.ro.respCode == '0000'){
-        ToastUtil.showWithMessage(i18n.login_tips.success.login)
-        userStorage.setData({username:this.state.phone,sid:data.data.sid});
-        this.props.screenProps.userLogin(this.state.phone,data.data.sid);
+        ToastUtil.showWithMessage(i18n.login_tips.success.login);
+        const {account, sid, nickName, profileImg} = data.data;
+        let _user = {
+          username: account,
+          sid,
+          nickName,
+          profileImg
+        };
+        userStorage.setData(_user);
+        this.props.screenProps.userLogin(_user);
         if(typeof params === 'undefined') {
           this.props.navigation.goBack()
         }else {
