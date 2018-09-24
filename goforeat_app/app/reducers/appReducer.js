@@ -22,7 +22,9 @@ import Colors from "../utils/Colors";
 const initialState = {
   userState: {
     username: null,
-    sid: null
+    sid: null,
+    nickName: '',
+    profileImg: ''
   },
   placeState: {
     place: null
@@ -80,8 +82,9 @@ export function auth(state = initialState.userState, action) {
       return {
         ...state,
         username: action.username,
-        sid: action.sid
-
+        sid: action.sid,
+        nickName: action.nickName,
+        profileImg: action.profileImg
       };
     case LOGOUT:
     userStorage.removeData();
