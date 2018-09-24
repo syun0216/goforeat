@@ -29,6 +29,7 @@ class App extends Component < {} > {
         if (store.getState().auth.username === null) {
           // console.log(data);
           store.dispatch({type: 'LOGIN', username: data.username,sid:data.sid})
+          store.dispatch({type: 'LOGIN', ...data})
         }
       }
     })
