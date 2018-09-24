@@ -35,6 +35,7 @@ const dashboardStateToProps = (state) => {
   return({
   nav: state.nav,
   user: state.auth.username,
+  userInfo: state.auth,
   sid: state.auth.sid,
   refresh: state.refresh.refreshParams,
   language: state.language.language,
@@ -45,7 +46,7 @@ const dashboardStateToProps = (state) => {
 })}
 
 const dashboardmapDispatchToProps = dispatch => ({
-  userLogin: (username,sid) => dispatch({type:LOGIN,username:username,sid:sid}),
+  userLogin: (user) => dispatch({type:LOGIN,...user}),
   userLogout: () => dispatch({type:LOGOUT}),
   refreshReset: (val) => dispatch({type:REFRESH,refresh:val}),
   changeLanguage: (language) => dispatch({type: CHANGE_LANGUAGE,language}),

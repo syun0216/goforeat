@@ -138,10 +138,10 @@ class HomePage extends Component {
 
   _formatDate(timestamp,endTimestamp) {
     let {i18n} = this.state;
-    let _Date = new Date(timestamp);
+    // let _Date = new Date(timestamp);
     let _endDate = new Date(endTimestamp);
-    let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,
-    _Date.getDate() < 10 ? `0${_Date.getDate()}`:_Date.getDate(),_Date.getFullYear()].join('-');
+    // let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,
+    // _Date.getDate() < 10 ? `0${_Date.getDate()}`:_Date.getDate(),_Date.getFullYear()].join('-');
     let _endDate_format = i18n.endTime;
     let _getWeekDay = (date) => {
       let _week_day = null;
@@ -161,12 +161,12 @@ class HomePage extends Component {
     
     _endDate_format += ` ${_endDate.getHours()}:${_endDate.getMinutes()<10?`0${_endDate.getMinutes()}`:`${_endDate.getMinutes()}`} ${_endDate.getMonth()+1}月${_endDate.getDate()}日 ${_getWeekDay(_endDate.getDay())}`;
     
+    let _newFormatDate = Object.assign({},{
+      endDate: _endDate_format,
+      ...this.state.formatDate
+    })
     this.setState({
-      formatDate: {
-        date: _date_format,
-        week: _getWeekDay(_Date.getDay()),
-        endDate: _endDate_format
-      }
+      formatDate: _newFormatDate
     });
   }
   //api
@@ -177,7 +177,11 @@ class HomePage extends Component {
             foodDetails: data.data.foodList,
             loading: false,
             refreshing: false,
-            soldOut: data.data.status
+            soldOut: data.data.status,
+            formatDate: {
+              week: data.data.title,
+              date: data.data.subTitle
+            }
           })
           if(data.data.status == NO_MORE_FOODS || data.data.status == IS_INTERCEPT) {
             if(this.state.isBottomContainerShow) {
@@ -413,7 +417,7 @@ class HomePage extends Component {
     return (
       <View style={HomePageStyles.DateFormatView}>
         <Text style={HomePageStyles.DateFormatWeekText}>
-        {this.state.formatDate.week}{this.state.i18n.menu}</Text>
+        {this.state.formatDate.week}</Text>
         <Text style={HomePageStyles.DateFormatDateText}>{this.state.formatDate.date}</Text>
       </View>
     )
@@ -472,33 +476,36 @@ class HomePage extends Component {
   }
 
   _renderIntroductionView() {
-    let {foodDetails} = this.state;
+    let {foodDetails:{[0]:{foodName, canteenName, foodBrief}}} = this.state;
     return (
       <View style={HomePageStyles.IntroductionView}>
       <View style={HomePageStyles.IntroductionFoodNameCotainer}>
-        <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1}>{foodDetails[0].foodName}</Text>
+        <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1}>{foodName}</Text>
         <Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.slideUpPanel._snapTo()}>{this.state.i18n.foodDetail}</Text>
       </View>
-        <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodDetails[0].foodBrief}</Text>
+        {canteenName != null ? <Text style={HomePageStyles.canteenName}>餐廳:{canteenName}</Text> : null}
+        <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodBrief}</Text>
       </View>
     )
   }
 
   _renderMoreDetailModal() {
-    let {foodDetails} = this.state;
+    let {foodDetails:{[0]:{foodName, canteenName, canteenAddress, foodBrief, extralImage, price, originPrice}}} = this.state;
     return (
       <SlideUpPanel ref={r => this.slideUpPanel = r}>
         <View>
-          <Text style={HomePageStyles.panelTitle}>{foodDetails[0].foodName}</Text>
-          <Image style={{height: em(250),marginTop: em(10),marginBottom: em(10)}} source={{uri: foodDetails[0].extralImage[0]}}/>
-          <Text style={HomePageStyles.IntroductionFoodBrief} >{foodDetails[0].foodBrief}</Text>
+          <Text style={HomePageStyles.panelTitle}>{foodName}</Text>
+          <Image style={{height: em(250),marginTop: em(10),marginBottom: em(10)}} source={{uri: extralImage[0]}}/>
+          {canteenName != null ?<Text style={HomePageStyles.canteenName}>餐廳:{canteenName}</Text> : null}
+          {canteenAddress != null ? <Text style={HomePageStyles.canteenName}>餐廳地址:{canteenAddress}</Text> : null}
+          <Text style={HomePageStyles.IntroductionFoodBrief} >{foodBrief}</Text>
           <View style={HomePageStyles.AddPriceViewPriceContainer}>
             <Text style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
-            <Text style={HomePageStyles.AddPriceViewPrice}>{foodDetails[0].price}</Text>
+            <Text style={HomePageStyles.AddPriceViewPrice}>{price}</Text>
             {
-              foodDetails[0].originPrice != null ? <Text style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text> : null
+              originPrice != null ? <Text style={HomePageStyles.AddPriceViewOriginPrice}>HKD {originPrice}</Text> : null
             }
-            {foodDetails[0].originPrice != null ? <View style={HomePageStyles.AddPriceViewStriping}/> : null}
+            {originPrice != null ? <View style={HomePageStyles.AddPriceViewStriping}/> : null}
           </View>
         </View>
       </SlideUpPanel>
