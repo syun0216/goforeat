@@ -22,7 +22,7 @@ import CustomLoginView from './CustomLoginView';
 import SettingView from "./SettingView";
 
 import HomePage from "./views/HomePage";
-import ArticleView from "./views/ArticleView";
+import FoodListView from "./views/FoodListView";
 import ContentView from "./views/ContentView";
 import MyOrderView from "./views/MyOrderView";
 import StatementView from "./views/StatementView";
@@ -75,8 +75,8 @@ const tabView = TabNavigator(
         />)}
       }
     },
-    ArticleTab: {
-      screen: BackAndroidHandler(ArticleView),
+    FoodListTab: {
+      screen: BackAndroidHandler(FoodListView),
       navigationOptions: {
         // tabBarLabel: "本週菜單",
         drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed',

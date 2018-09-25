@@ -31,7 +31,7 @@ const BackAndroidHandler = WarppedComponent => class extends Component {
 
   onBackButtonPressAndroid = () => {
     let {routeName} = this.props.navigation.state;
-    if(routeName == "ShopTab" || routeName == "ArticleTab") {
+    if(routeName == "ShopTab" || routeName == "FoodListTab") {
       if(lastBackPressed && lastBackPressed + 2000 >= Date.now()) {
         BackHandler.exitApp();
       }
