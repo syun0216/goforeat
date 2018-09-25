@@ -103,6 +103,7 @@ export default {
   notSupportDialing: 'Call not supported',
   notSupport: 'This model is not supported at this time',
   dialingFail: 'Failed to dial number',
+  ticket: 'Coupon',
   login_tips: {
     success: {
       code: 'Verifying code has been sent successfully',

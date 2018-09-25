@@ -93,7 +93,7 @@ export default {
   unconfirm: '未確認',
   finish: '已完成',
   paymentStatus: '支付狀態',
-  weekMenu: '本週菜單',
+  weekMenu: '餐單預告',
   dailyFood: '每日推薦',
   refresh: '刷新',
   follow: '關注我們',
@@ -103,6 +103,7 @@ export default {
   notSupportDialing: '不支持撥打電話',
   notSupport: '該機型暫不支持',
   dialingFail: '撥打用戶號碼失敗',
+  ticket: '優惠券',
   login_tips: {
     success: {
       code: '驗證碼發送成功',
