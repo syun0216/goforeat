@@ -16,39 +16,43 @@ export default StyleSheet.create({
     height: GLOBAL_PARAMS._winHeight * 0.2,
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     paddingTop: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0
   },
   drawerTopImage: {
-    width: em(50),
-    height: em(50),
-    marginTop: em(10)
+    width: em(65),
+    height: em(65),
+    marginTop: em(10),
+    borderRadius:em(65/2),
+    borderWidth: 1,
+    borderColor: '#fff',
+    marginLeft: em(69/2)
   },
   drawerTopImageContainer: {
-    marginLeft: em(30)
+    marginLeft: em(15),
+    justifyContent: 'space-around',
+    height: em(70)
   },
   topName: {
     color: '#fff',
-    fontSize: em(14),
-    marginBottom: em(10),
+    fontSize: em(18),
   },
-  topLoginBtn: {
-    borderWidth: 2,
-    borderColor: '#fff',
-    borderRadius: 5,
-    padding: em(10)
-  },
-  loginBtnText: {
+  topNickName: {
     color: '#fff',
     fontSize: em(14),
-    textAlign: 'center'
+  },
+  topLoginBtn: {
+    // paddingBottom: em(10)
+  },
+  loginBtnText: {
+    color: '#F8E71C',
+    fontSize: em(14)
   },
   drawerContent: {
     backgroundColor: Colors.main_white
   },
   drawerInnerContent: {
-    backgroundColor: Colors.main_white,
-    marginTop: em(30)
+    backgroundColor: Colors.main_white
   },
   drawerItemBtn: {
     padding: em(20),
