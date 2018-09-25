@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Image, Text, Animated, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Dimensions, Platform, Animated, ScrollView } from 'react-native';
 import Interactable from 'react-native-interactable';
 
 const Screen = {
@@ -14,11 +14,11 @@ export default class SlideUpPanel extends Component {
   }
 
   _snapTo() {
-    this.animationRef.snapTo({y: 100})
-  }
-
-  _hidePanel() {
-    this.animationRef.snapTo({y: Screen.height + 100})
+    if(Platform.OS == 'ios') {
+      this.animationRef.snapTo({y: 64})
+    } else {
+      this.animationRef.snapTo({index: 0})
+    }
   }
 
   render() {
@@ -38,11 +38,11 @@ export default class SlideUpPanel extends Component {
           <Interactable.View
             ref = {ref => this.animationRef = ref}
             verticalOnly={true}
-            snapPoints={[{y: 100}, {y: Screen.height + 100}]}
+            snapPoints={[{y: 64}, {y: Screen.height + 100}]}
             boundaries={{top: -300}}
             initialPosition={{y: Screen.height + 100}}
             animatedValueY={this._deltaY}>
-            <View style={styles.panel}>
+            <View style={styles.panel} onLayout={(e) => console.log(e.nativeEvent)}>
               <View style={styles.panelHeader}>
                 <View style={styles.panelHandle} />
               </View>

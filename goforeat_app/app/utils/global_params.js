@@ -36,7 +36,7 @@ const GLOBAL_PARAMS = {
   },
   bottomDistance: Platform.select({
     ios: 80,
-    android: 60
+    android: 120
   }),
   iPhoneXBottom: 34,
   iPhoneXTop: 24,
