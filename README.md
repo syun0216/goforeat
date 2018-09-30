@@ -21,6 +21,7 @@ app
 │   ├── CommonBottomBtn.js                                      底部确认按钮
 │   ├── CommonHeader.js                                         app公用navbar
 │   ├── CommonItem.js                                           app公用列表item
+│   ├── CommonModal.js                                          app公用modal
 │   ├── Divider.js                                              间隔组件
 │   ├── ErrorPage.js                                            错误页组件
 │   ├── HomePageHOC.js                                          HomePage高阶组件,热更新、极光推送等功能

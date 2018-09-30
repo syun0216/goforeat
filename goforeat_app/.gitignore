@@ -58,3 +58,4 @@ ios/Pods
 app/api
 app/views/StatementView.js
 /package-lock.json
+.vscode
