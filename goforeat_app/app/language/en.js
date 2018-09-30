@@ -104,6 +104,23 @@ export default {
   notSupport: 'This model is not supported at this time',
   dialingFail: 'Failed to dial number',
   ticket: 'Coupon',
+  user_info_tips: {
+    account: 'Account',
+    nick: 'Nickname',
+    email: 'Email',
+    address: 'Address',
+    gender: 'Gender',
+    male: 'Male',
+    female: 'Female',
+    secret: 'Unknown',
+    changeAvatar: 'Change avatar',
+    finish: 'Finish',
+    title: 'Modify data',
+    tips_quit: 'The information has not been saved, is it quit?',
+    tips_avatar_success: 'Update avatar successfully',
+    tips_fail: 'Update failed',
+    tips_success: 'update completed',
+  },
   login_tips: {
     success: {
       code: 'Verifying code has been sent successfully',

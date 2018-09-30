@@ -88,6 +88,7 @@ export default class UserInfoView extends PureComponent {
       ToastUtil.showWithMessage("先選擇圖片");
       return;
     }
+    const {i18n:{user_info_tips:{tips_avatar_success, tips_fail}}} = this.state;
     this.setState({
       loadingModal: true
     }, () => {
@@ -102,11 +103,11 @@ export default class UserInfoView extends PureComponent {
           userInfo.profileImg = data.data.data;
           userStorage.setData(userInfo);
           this.props.screenProps.userLogin(userInfo);
-          ToastUtil.showWithMessage("更新頭像成功");
+          ToastUtil.showWithMessage(tips_avatar_success);
         }
       }).catch(err => {
         this.setState({loadingModal: false});
-        ToastUtil.showWithMessage("上傳失敗");
+        ToastUtil.showWithMessage(tips_fail);
       });
     });
   }
@@ -148,11 +149,11 @@ export default class UserInfoView extends PureComponent {
   }
 
   _alreadySaveCheck() {
-    let {i18n, myInfo} = this.state;
+    const {i18n:{user_info_tips:{tips_quit}}} = this.state;
     if(this.rawMyInfo != JSON.stringify(this.state.myInfo)) {
       Alert.alert(
         i18n.tips,
-        '信息還未保存，是否退出？',
+        tips_quit,
         [
           {text: i18n.cancel, onPress: () => {return null}, style: 'cancel'},
           {text: i18n.confirm, onPress: () => {this.props.navigation.goBack()}},
@@ -165,21 +166,24 @@ export default class UserInfoView extends PureComponent {
   }
 
   _renderHeaderView() {
+    const {i18n:{user_info_tips:{title}}} = this.state;
     if(this.state.myInfo==null) return;
     return (
-      <CommonHeader title="修改資料" hasMenu leftClickIntercept={() => this._alreadySaveCheck()} {...this.props}/>
+      <CommonHeader title={title} hasMenu leftClickIntercept={() => this._alreadySaveCheck()} {...this.props}/>
     )
   }
 
   _renderFinishBtn() {
+    const {i18n:{user_info_tips:{finish}}} = this.state;
     return (
       <CommonBottomBtn clickFunc={() => this._updateMyInfo()}>
-        完成
+        {finish}
       </CommonBottomBtn>
     )
   }
 
   _renderAvatarView() {
+    const {i18n:{user_info_tips:{changeAvatar}}} = this.state;
     if(this.state.myInfo == null) return;
     let { photoData, myInfo } = this.state;
     let _photo = photoData == null ? {uri: myInfo.profileImg} : {uri: photoData.uri}
@@ -187,22 +191,23 @@ export default class UserInfoView extends PureComponent {
       <View style={UserInfoStyle.AvatarView}>
         <Image style={UserInfoStyle.AvatarImg} source={_photo}/>
         <TouchableOpacity onPress={this._selectPhotoTapped.bind(this)}>
-          <Text style={UserInfoStyle.ChangeBtn}>更換頭像</Text>
+          <Text style={UserInfoStyle.ChangeBtn}>{changeAvatar}</Text>
         </TouchableOpacity>
       </View>
     )
   }
 
   _renderFormView() {
+    const {i18n:{user_info_tips:{account,nick,email:_email,address:_address,gender:_gender,male,female,secret}}} = this.state;
     if(this.state.myInfo == null) return;
     let { myInfo:{ address, email, gender, nickName, phone } } = this.state;
 
     let _form_arr = [
-      {label: '賬號', key: 'phone', value: phone},
-      {label: '暱稱', key: 'nickName', value: nickName},
-      {label: '郵箱', key: 'email', value: email},
-      {label: '公司地址', key: 'address', value: address},
-      {label: '性别', key: 'gender', value: gender},
+      {label: account, key: 'phone', value: phone},
+      {label: nick, key: 'nickName', value: nickName},
+      {label: _email, key: 'email', value: email},
+      {label: _address, key: 'address', value: address},
+      {label: _gender, key: 'gender', value: gender},
     ];
 
     const _changeText = (text, key) => {
@@ -215,9 +220,9 @@ export default class UserInfoView extends PureComponent {
     };
 
     let _segment = [
-      {text: '男', value: MALE},
-      {text: '女', value: FEMALE},
-      {text: '未知', value: SECRET},
+      {text: male, value: MALE},
+      {text: female, value: FEMALE},
+      {text: secret, value: SECRET},
     ];
 
     const _segmentElement = (
