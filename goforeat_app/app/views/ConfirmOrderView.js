@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { View, StyleSheet, TextInput,Platform,Alert,TouchableOpacity,Image } from "react-native";
+import { View, StyleSheet,Platform,TouchableOpacity,Image } from "react-native";
 import {
   Container,
   Content,
@@ -23,8 +23,10 @@ import BlankPage from "../components/BlankPage";
 import Loading from "../components/Loading";
 import LoadingModal from "../components/LoadingModal";
 import ErrorPage from "../components/ErrorPage";
-import PlacePickerModel from "../components/PlacePickerModel";
+import CommonModal from "../components/CommonModal";
 import Text from '../components/UnScalingText';
+//views
+import CouponView from './CouponView';
 //utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS, { EXPLAIN_PAY_TYPE } from "../utils/global_params";
@@ -58,24 +60,28 @@ const api_key = 'pk_live_4JIHSKBnUDiaFHy2poHeT2ks';
 const client = new Stripe(api_key);
 
 export default class ConfirmOrderView extends PureComponent {
-  _popupDialog = null;
-  _input = null;
-  timer = null;
-  picker = null;
-  state = {
-    orderDetail: null,
-    loading: true,
-    loadingModal: false,
-    isError: false,
-    isExpired: false,
-    isBottomShow: false,
-    coupon: null,
-    discountsPrice: 0,
-    remark: '',
-    showPlacePicker: false,
-    i18n: I18n[this.props.screenProps.language],
-    hasChangeDefaultPayment: null, // 记录默认选择支付方式是否被修改
-  };
+
+  constructor(props) {
+    super(props);
+    this._popupDialog = null;
+    this._input = null;
+    this.timer = null;
+    this.picker = null;
+    this.state = {
+      orderDetail: null,
+      loading: true,
+      loadingModal: false,
+      isError: false,
+      isExpired: false,
+      isBottomShow: false,
+      coupon: null,
+      discountsPrice: 0,
+      remark: '',
+      isCouponPickModalShow: false,
+      i18n: I18n[this.props.screenProps.language],
+      hasChangeDefaultPayment: null, // 记录默认选择支付方式是否被修改
+    }
+  }
 
   componentDidMount() {
     this.timer = setTimeout(() => {
@@ -444,7 +450,7 @@ export default class ConfirmOrderView extends PureComponent {
           returnKeyType="done"
           onChangeText={coupon => this._getCoupon(coupon)}
         />
-        <TouchableOpacity onPress={this._useCoupon} style={ConfirmOrderStyles.CouponBtn}>
+        <TouchableOpacity onPress={() => this._useCoupon()} style={ConfirmOrderStyles.CouponBtn}>
           <Text style={ConfirmOrderStyles.CouponText}>{this.state.i18n.use}</Text>
         </TouchableOpacity>
       </View>
@@ -541,28 +547,39 @@ export default class ConfirmOrderView extends PureComponent {
     )
   }
 
+  _renderCouponView() {
+    const { isCouponPickModalShow } = this.state;
+    const closeFunc = () => {this.setState({isCouponPickModalShow: false})};
+    return (
+      <CommonModal modalVisible={isCouponPickModalShow} closeFunc={closeFunc} title="優惠券">
+        <CouponView hideHeader {...this.props}/>
+      </CommonModal>
+    )
+  }
+
   render() {
-    let {i18n} = this.state;
+    let {i18n,orderDetail,isCouponPickModalShow,loading,loadingModal,isError,isExpired,expiredMessage} = this.state;
     return (
       <Container>
-        {this.state.orderDetail !== null ? this._renderPopupDiaogView() : null}
+        { orderDetail !== null ? this._renderPopupDiaogView() : null } 
+        { isCouponPickModalShow ? this._renderCouponView() : null }
         <CommonHeader
           canBack
           title={i18n.detailPage}
           titleStyle={{ fontSize: 18, fontWeight: "bold" }}
           {...this["props"]}
         />
-        {this.state.loading ? <Loading/> : null}
-        {this.state.loadingModal ? <LoadingModal message={i18n.paying}/> : null}
-        {this.state.isError ? (
+        {loading ? <Loading/> : null}
+        {loadingModal ? <LoadingModal message={i18n.paying}/> : null}
+        {isError ? (
           <ErrorPage errorToDo={() => this._createOrder()} errorTips={i18n.common_tips.reload} {...this.props}/>
         ) : null}
         <Content style={{ backgroundColor: '#efefef' }} padder>
-          {this.state.isExpired ? (
-            <BlankPage message={this.state.expiredMessage} style={{marginLeft: -10}}/>
+          {isExpired ? (
+            <BlankPage message={expiredMessage} style={{marginLeft: -10}}/>
           ) : null}
-          {this.state.orderDetail != null ? this._renderNewOrderView() : null}
-          {this.state.orderDetail !== null ? this._renderNewDetailsView() : null}
+          {orderDetail != null ? this._renderNewOrderView() : null}
+          {orderDetail !== null ? this._renderNewDetailsView() : null}
           <View style={{height: 65}}/>
           </Content>
           {this._renderBottomConfirmView()}
