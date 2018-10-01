@@ -18,6 +18,7 @@ app
 │   ├── BottomIntroduce.js                                      底部介绍关于我们详情
 │   ├── BottomOrderConfirm.js                                   底部确认bar                                         
 │   ├── CommonBottomBtn.js                                      底部确认按钮
+│   ├── CommonFlatList.js                                       公用flatlist
 │   ├── CommonHeader.js                                         app公用navbar
 │   ├── CommonItem.js                                           app公用列表item
 │   ├── CommonModal.js                                          app公用modal

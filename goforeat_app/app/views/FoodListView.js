@@ -5,19 +5,15 @@ import {
 } from 'native-base';
 import Image from 'react-native-image-progress';
 //utils
-import ToastUtil from '../utils/ToastUtil';
 import GLOBAL_PARAMS, { em } from '../utils/global_params';
 //api
 import {getNewArticleList} from '../api/request';
 import source from '../api/CancelToken';
 //components
-import ErrorPage from '../components/ErrorPage';
-import BlankPage from '../components/BlankPage';
 import CommonHeader from '../components/CommonHeader';
-import ListFooter from '../components/ListFooter';
-import Loading from '../components/Loading';
 import Text from '../components/UnScalingText';
 import SlideUpPanel from '../components/SlideUpPanel';
+import CommonFlatList from "../components/CommonFlatList";
 //language
 import I18n from '../language/i18n';
 //styles
@@ -34,25 +30,15 @@ let requestParams = {
   currentOffset: 0
 }
 
-const { isIphoneX, bottomDistance, iPhoneXBottom, _winHeight, httpStatus:{LOADING, LOAD_FAILED, NO_DATA, NO_MORE_DATA} } = GLOBAL_PARAMS;
+const { isIphoneX, bottomDistance, iPhoneXBottom, _winHeight } = GLOBAL_PARAMS;
 
 export default class FoodListView extends Component {
   static navigationOptions = ({screenProps}) => ({
     tabBarLabel: I18n[screenProps.language].weekMenu
   });
   state = {
-    articleList: [],
-    loadingStatus:{
-      firstPageLoading: LOADING,
-      pullUpLoading: LOADING,
-    },
-    refreshing: false,
     currentItem: '',
     i18n: I18n[this.props.screenProps.language]
-  }
-
-  componentDidMount() {
-    this._onRequestNextPage(0);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,115 +52,6 @@ export default class FoodListView extends Component {
   }
   
   //common functions
-
-  _onErrorRequestFirstPage = () => {
-    this.setState({
-      loadingStatus: {
-        pullUpLoading: LOADING
-      }
-    })
-    this._onRequestNextPage(0);
-  }
-
-  _onRequestNextPage = (offset, _id) => {
-    
-    let { place: {id} } = this.props.screenProps;
-    __id = typeof _id != 'undefined' ? _id : id;
-    let { articleList, i18n, refreshing } = this.state;
-    getNewArticleList(offset, __id).then(data => {
-      if (data.ro.respCode == '0000') {
-        if(offset == 0) {
-          this.setState({
-            articleList: data.data.list,
-            refreshing: false
-          })
-          return;
-        }
-        if(data.data.list.length === 0){
-          requestParams.nextOffset = requestParams.currentOffset
-          this.setState({
-            articleList: articleList.concat(data.data.list),
-            loadingStatus: {
-              pullUpLoading:articleList.length  == 0 ? NO_DATA : NO_MORE_DATA
-            },
-            refreshing: false,
-          })
-          return
-        }  
-        this.setState({
-          articleList: articleList.concat(data.data.list),
-          loadingStatus: {
-            pullUpLoading:LOADING
-          },
-          refreshing: false,
-        })
-        requestParams.currentOffset = requestParams.nextOffset
-      }else{
-        ToastUtil.showWithMessage(i18n.article_tips.fail.load)
-        requestParams.nextOffset = requestParams.currentOffset
-        this.setState({
-          loadingStatus: {
-            pullUpLoading: LOAD_FAILED
-          },
-          refreshing: false,
-        })
-      }
-    },() => {
-      requestParams.nextOffset = requestParams.currentOffset
-      this.setState({
-        loadingStatus: {
-          pullUpLoading: LOAD_FAILED
-        },
-        refreshing: false,
-      })
-    })
-  }
-
-  _onRefreshToRequestFirstPageData() {
-    this.setState({
-      refreshing: true
-    }, () => {
-      requestParams.currentOffset = 0;
-      this._onRequestNextPage(0);
-    });
-  }
-
-  _onEndReach = () => {
-    requestParams.nextOffset += 5;
-    if(this.state.loadingStatus.pullUpLoading == NO_MORE_DATA) {
-      return;
-    }
-    this._onRequestNextPage(requestParams.nextOffset)
-  }
-
-  _onErrorToRequestNextPage() {
-    this.setState({
-      loadingStatus:{
-        pullUpLoading:LOADING
-      }
-    })
-    requestParams.nextOffset += 5
-    this._onRequestNextPage(requestParams.nextOffset)
-  }
-
-  _renderFoodListView = () => (
-    <SectionList
-      sections={[
-        {title:'餐廳列表',data:this.state.articleList},
-      ]}
-      renderItem = {({item,index}) => this._renderFoodListItemView(item,index)}
-      keyExtractor={(item, index) => index}
-      onEndReachedThreshold={0.01}
-      onEndReached={() => this._onEndReach()}
-      ListFooterComponent={() => (<ListFooter loadingStatus={this.state.loadingStatus.pullUpLoading} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>)}
-      refreshControl={
-        <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={() => this._onRefreshToRequestFirstPageData()}
-        />
-      }
-    />
-  )
 
   _renderFoodListItemView = (item,index) => {
     if(typeof item === 'undefined') return;
@@ -209,8 +86,10 @@ export default class FoodListView extends Component {
     let {name,date,thumbnail,brief,price} = this.state.currentItem;
     return (
       <SlideUpPanel ref={r => this.slideUpPanel = r}>
-        <View>
-          <Text style={HomePageStyles.panelTitle}>{name}</Text>
+        <View onLayout={e => {
+          this.foodDetailsViewHeight = e.nativeEvent.layout.height;
+        }}>
+          <Text style={HomePageStyles.panelTitle} numberOfLines={2}>{name}</Text>
           <Image style={{height: em(250),marginTop: em(10),marginBottom: em(10)}} source={{uri: thumbnail}}/>
           <Text style={HomePageStyles.IntroductionFoodBrief} >{brief}</Text>
           <View style={HomePageStyles.AddPriceViewPriceContainer}>
@@ -224,17 +103,14 @@ export default class FoodListView extends Component {
   }
 
   render() {
-    let {i18n, articleList, pullUpLoading} = this.state;
+    let {i18n} = this.state;
     _bottomDistance = isIphoneX() ?  bottomDistance + iPhoneXBottom : bottomDistance;
     return (
     <Container style={{position:'relative'}}>
       <CommonHeader hasMenu headerHeight={em(76)} title={i18n.weekMenu} {...this.props}/>
         <View style={{marginTop:-em(75),height: _winHeight - _bottomDistance,minHeight: _winHeight - _bottomDistance}}>
-          {
-            articleList.length > 0
-            ? this._renderFoodListView()
-            : pullUpLoading == NO_DATA ? <BlankPage style={{marginTop: Platform.OS=='ios'? 50:110}} message={'T_T'+i18n.common_tips.no_data}/> : pullUpLoading == LOAD_FAILED ? <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage} {...this.props}/> : pullUpLoading == LOADING ?  <Loading /> : null
-          }
+          {<CommonFlatList requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} extraParams={{placeId: this.props.screenProps.place.id}}
+        {...this.props}/>}
         </View>  
         {this._renderFoodDetailsView()}  
       </Container>)
