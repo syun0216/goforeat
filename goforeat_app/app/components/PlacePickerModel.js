@@ -1,19 +1,15 @@
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
-import {Modal,View,TouchableOpacity,StyleSheet,Image} from 'react-native'
-import {Icon,Container,Content} from 'native-base'
+import {Image} from 'react-native';
 //utils
-import Colors from '../utils/Colors'
-import GLOBAL_PARAMS from '../utils/global_params'
 import ToastUtils from '../utils/ToastUtil'
 //api
 import {foodPlaces} from '../api/request';
 //cache
 import {placeStorage} from "../cache/appStorage";
 //components
-import CommonHeader from "./CommonHeader";
 import CommonItem from "./CommonItem";
-import Text from './UnScalingText';
+import CommonModal from './CommonModal';
 //language
 import I18n from '../language/i18n';
 //styles
@@ -113,39 +109,15 @@ class PlacePickerModel extends Component{
   }
   
   render() {
-    return (<Modal
-      animationType={"slide"}
-      transparent={false}
-      visible={this.props.modalVisible}
-      onRequestClose={() => this.props.closeFunc()}
-      >
-       <Container>
-          <CommonHeader canBack title={this.state.i18n.address} leftElement={<TouchableOpacity onPress={this.props.closeFunc} style={styles.placeBtn}>
-          <Icon name="md-close" style={[{ fontSize: GLOBAL_PARAMS.em(22), color: '#fff' }]}/>
-        </TouchableOpacity>} {...this.props}/> 
-          <Content> 
-            {this.state.placeList != null ? this.state.placeList.map((item,idx) => (
-              <CommonItem key={idx} content={item.content} clickFunc={item.clickFunc} hasRightIcon rightIcon={this._checkedImage(item.name)}/>
-            )) : null}                 
-          </Content>
-       </Container>
-    </Modal>
-  )
+    const { modalVisible, closeFunc } = this.props;
+    return (
+      <CommonModal modalVisible={modalVisible} closeFunc={closeFunc} title={this.state.i18n.address}>
+        {this.state.placeList != null ? this.state.placeList.map((item,idx) => (
+          <CommonItem key={idx} content={item.content} clickFunc={item.clickFunc} hasRightIcon rightIcon={this._checkedImage(item.name)}/>
+        )) : null} 
+      </CommonModal>
+    );
+    }
   }
-  }
-
-const styles = StyleSheet.create({
- placeView: {
-   flexDirection: 'row',
-   justifyContent: 'space-between',
-   alignItems: 'center',
-   padding: GLOBAL_PARAMS.em(10),
-   paddingBottom: GLOBAL_PARAMS.em(15),
-   paddingTop: GLOBAL_PARAMS.em(15),
-   borderBottomWidth: 1,
-   borderBottomColor: Colors.main_gray,
- },
- placeBtn: {width:  GLOBAL_PARAMS.em(50),height: GLOBAL_PARAMS.em(40),alignItems:'center',marginLeft:-5,justifyContent:'center'}
-});
 
 export default PlacePickerModel
