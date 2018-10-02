@@ -9,6 +9,7 @@ import Loading from '../components/Loading';
 import ListFooter from '../components/ListFooter';
 import ErrorPage from '../components/ErrorPage';
 import BlankPage from '../components/BlankPage';
+import Divider from '../components/Divider';
 //i18n
 import I18n from '../language/i18n';
 
@@ -22,9 +23,11 @@ const { httpStatus: {LOADING, LOAD_SUCCESS, LOAD_FAILED, NO_DATA, NO_MORE_DATA} 
 export default class CommonFlatList extends Component{
   constructor(props) {
     super(props);
-    console.log(this.props);
+    this._timer = null;
     this.state = {
       listData: [],
+      firstPageLoading: LOADING,
+      nextPageLoading: LOADING,
       loadingStatus: {
         first: LOADING,
         next: LOADING
@@ -35,7 +38,14 @@ export default class CommonFlatList extends Component{
   }
 
   componentDidMount() {
-    this._requestFirstPage();
+    this._timer = setTimeout(() => {
+      this._requestFirstPage();
+      clearTimeout(this._timer);
+    },300);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._timer);
   }
 
   init() {
@@ -67,29 +77,30 @@ export default class CommonFlatList extends Component{
     });
   }
 
+  // public 
+  outSideRefresh() {
+    this.init();
+    this._requestFirstPage();
+  }
+
+  //private
   _requestFirstPage() {
     this.getData(requestParams.nextOffset, (data) => {
-      console.log(data);
       if(data.length == 0) {
         this.setState({
-          loadingStatus: {
-            first: NO_DATA
-          }
+          firstPageLoading: NO_DATA,
+          refreshing: false
         });
         return;
       }
       this.setState({
         listData: data,
-        loadingStatus: {
-          first: LOAD_SUCCESS
-        },
+        firstPageLoading: LOAD_SUCCESS,
         refreshing: false
       });
     },() => {
       this.setState({
-        loadingStatus: {
-          first: LOAD_FAILED
-        }
+        firstPageLoading: LOAD_FAILED
       });
     });
   }
@@ -98,18 +109,15 @@ export default class CommonFlatList extends Component{
     this.getData(requestParams.nextOffset, data => {
       if(data.length == 0) {
         requestParams.nextOffset = requestParams.currentOffset;
-        let _temp = Object.assign({next: NO_MORE_DATA}, this.state.loadingStatus);
         this.setState({
-          loadingStatus: _temp,
+          nextPageLoading: NO_MORE_DATA,
           listData: this.state.listData.concat(data),
         });
         return;
       }
       this.setState({
         listData: this.state.listData.concat(data),
-        loadStatus: {
-          next: LOADING
-        }
+        nextPageLoading: LOADING
       });
       requestParams.currentOffset = requestParams.nextOffset;
     });
@@ -126,9 +134,7 @@ export default class CommonFlatList extends Component{
 
   _onErrorRequestFirstPage() {
     this.setState({
-      loadingStatus: {
-        first: LOADING
-      }
+      firstPageLoading: LOADING
     }, () => {
       this.init();
       this._requestFirstPage();
@@ -137,9 +143,7 @@ export default class CommonFlatList extends Component{
 
   _onErrorToRequestNextPage() {
     this.setState({
-      loadingStatus:{
-        next:LOADING
-      }
+      nextPageLoading: LOADING
     })
     requestParams.nextOffset += this.props.offset;
     this._requestNextPage();
@@ -147,12 +151,12 @@ export default class CommonFlatList extends Component{
 
   _onEndReach() {
     requestParams.nextOffset += this.props.offset;
-    if(this.state.loadingStatus.next == NO_MORE_DATA) return;
+    if(this.state.nextPageLoading == NO_MORE_DATA) return;
     this._requestNextPage();
   }
 
   _renderCommonListView() {
-    const { loadingStatus: {next}, refreshing } = this.state;
+    const { nextPageLoading, refreshing } = this.state;
     const { isRefreshControlShow } = this.props;
     const CustomRefresh = () => (
       <RefreshControl
@@ -167,8 +171,9 @@ export default class CommonFlatList extends Component{
         keyExtractor={(item,index) => index}
         onEndReachedThreshold={0.01}
         onEndReached={() => this._onEndReach()}
+        ItemSeparatorComponent={() => this._renderItemDivider()}
         ListFooterComponent={() =>(
-          <ListFooter loadingStatus={next} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>
+          <ListFooter loadingStatus={nextPageLoading} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>
         )}
         refreshControl={
           isRefreshControlShow ? <CustomRefresh /> : null
@@ -177,8 +182,15 @@ export default class CommonFlatList extends Component{
     )
   }
 
+  _renderItemDivider() {
+    const { isItemSeparatorShow } = this.props;
+    if(isItemSeparatorShow) return null;
+    return (
+      <Divider bgColor="#efefef" height={10}/>
+    )
+  }
+
   _renderCommonListItemView(item, index) {
-    console.log(999);
     if(this.props.renderItem) {
       return this.props.renderItem(item, index);
     }
@@ -188,19 +200,20 @@ export default class CommonFlatList extends Component{
   }
 
   render() {
-    const { loadingStatus: {first}, i18n } = this.state;
+    const { firstPageLoading, i18n } = this.state;
+    const { isBlankInfoBtnShow, blankBtnMessage, blankBtnFunc,  } = this.props
     const Error = () => (
       <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage}/>
     )
     const Blank = () => (
-      <BlankPage message={i18n.common_tips.no_data}/>
+      <BlankPage message={blankBtnMessage} hasBottomBtn={isBlankInfoBtnShow} clickFunc={blankBtnFunc} />
     )
     return (
       <View>
-        { first == LOADING ? <Loading /> : null }
-        { first == LOAD_FAILED ?  <Error /> : null }
-        { first == NO_DATA ?  <Blank /> : null}
-        { first == LOAD_SUCCESS ? this._renderCommonListView() : null }
+        { firstPageLoading == LOADING ? <Loading /> : null }
+        { firstPageLoading == LOAD_FAILED ?  <Error /> : null }
+        { firstPageLoading == NO_DATA ?  <Blank /> : null}
+        { firstPageLoading == LOAD_SUCCESS ? this._renderCommonListView() : null }
       </View>
     )
   }
@@ -210,12 +223,20 @@ CommonFlatList.propsType = {
   requestFunc: PropTypes.func,
   renderItem: PropTypes.func,
   isRefreshControlShow: PropTypes.bool,
+  isBlankInfoBtnShow: PropTypes.bool,
+  isItemSeparatorShow: PropTypes.bool,
+  blankBtnMessage: PropTypes.string,
+  blankBtnFunc: PropTypes.func,
   offset: PropTypes.number,
   extraParams: PropTypes.object
 };
 
 CommonFlatList.defaultProps = {
   isRefreshControlShow: true,
+  isItemSeparatorShow: false,
   offset: 5,
-  extraParams: {}
+  extraParams: {},
+  isBlankInfoBtnShow: false,
+  blankBtnFunc: () => {},
+  blankBtnMessage: '馬上有得食'
 }
