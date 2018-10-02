@@ -157,13 +157,6 @@ export default class CommonFlatList extends Component{
 
   _renderCommonListView() {
     const { nextPageLoading, refreshing } = this.state;
-    const { isRefreshControlShow } = this.props;
-    const CustomRefresh = () => (
-      <RefreshControl
-        refreshing={refreshing}
-        onRefresh={() => this._onRefreshToRequestFirstPageData()}
-      />
-    )
     return (
       <FlatList 
         data={this.state.listData}
@@ -176,7 +169,10 @@ export default class CommonFlatList extends Component{
           <ListFooter loadingStatus={nextPageLoading} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>
         )}
         refreshControl={
-          isRefreshControlShow ? <CustomRefresh /> : null
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => this._onRefreshToRequestFirstPageData()}
+          />
         }
       />
     )
@@ -184,7 +180,7 @@ export default class CommonFlatList extends Component{
 
   _renderItemDivider() {
     const { isItemSeparatorShow } = this.props;
-    if(isItemSeparatorShow) return null;
+    if(!isItemSeparatorShow) return null;
     return (
       <Divider bgColor="#efefef" height={10}/>
     )
@@ -209,7 +205,7 @@ export default class CommonFlatList extends Component{
       <BlankPage message={blankBtnMessage} hasBottomBtn={isBlankInfoBtnShow} clickFunc={blankBtnFunc} />
     )
     return (
-      <View>
+      <View style={{flex: 1}}>
         { firstPageLoading == LOADING ? <Loading /> : null }
         { firstPageLoading == LOAD_FAILED ?  <Error /> : null }
         { firstPageLoading == NO_DATA ?  <Blank /> : null}
