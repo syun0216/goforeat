@@ -220,10 +220,12 @@ export default StyleSheet.create({
   },
   //details
   panelTitle: {
-    fontSize: em(25),
-    height: em(35),
-    marginTop: em(10)
+    fontSize: em(20),
+    // height: em(35),
+    marginTop: em(10),
+    lineHeight: em(20)
   },
+  panelImage: {height: em(250),marginTop: em(10),marginBottom: em(10),borderRadius: em(8)},
   canteenName: {
     fontSize: em(16),
     color: '#999'

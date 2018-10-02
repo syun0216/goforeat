@@ -70,7 +70,7 @@ export default StyleSheet.create({
   drawerItemText: {
     fontSize: Platform.OS == 'ios' ? em(20) : em(18),
     textAlignVertical: "center",
-    marginLeft: em(15),
+    marginLeft: em(25),
     color: Colors.fontBlack,
     fontWeight: '700',
   }

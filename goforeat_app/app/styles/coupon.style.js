@@ -58,7 +58,7 @@ export default StyleSheet.create({
   },
   CouponBorder: {
     width: "100%",
-    marginTop: -5
+    marginTop: -5,
   },
   ItemBottom: {
     backgroundColor: '#fff',
