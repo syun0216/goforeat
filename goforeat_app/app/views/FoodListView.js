@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View,TouchableOpacity, SectionList,StyleSheet,RefreshControl} from 'react-native'
+import {View,TouchableOpacity,StyleSheet} from 'react-native'
 import {
   Container,
 } from 'native-base';
@@ -42,7 +42,8 @@ export default class FoodListView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this._onRequestNextPage(0, nextProps.screenProps.place.id);
+    if(!!this.flatlist) this.flatlist.outSideRefresh();
+    // this._onRequestNextPage(0, nextProps.screenProps.place.id);
     requestParams.currentOffset = 0;
     requestParams.nextOffset = 0
   }
@@ -55,7 +56,6 @@ export default class FoodListView extends Component {
 
   _renderFoodListItemView = (item,index) => {
     if(typeof item === 'undefined') return;
-    // console.log(123,item);
     return (
       <TouchableOpacity style={styles.articleItemContainer}
         onPress={() => {
@@ -109,7 +109,7 @@ export default class FoodListView extends Component {
     <Container style={{position:'relative'}}>
       <CommonHeader hasMenu headerHeight={em(76)} title={i18n.weekMenu} {...this.props}/>
         <View style={{marginTop:-em(75),height: _winHeight - _bottomDistance,minHeight: _winHeight - _bottomDistance}}>
-          {<CommonFlatList requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} extraParams={{placeId: this.props.screenProps.place.id}}
+          {<CommonFlatList ref={c => this.flatlist = c} requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} extraParams={{placeId: this.props.screenProps.place.id}}
         {...this.props}/>}
         </View>  
         {this._renderFoodDetailsView()}  

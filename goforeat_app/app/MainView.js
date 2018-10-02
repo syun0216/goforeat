@@ -205,18 +205,18 @@ const darwerView = DrawerNavigator(
       const {userInfo:{username, nickName, profileImg}} = props.screenProps;
       return (
         <Container>
-        <View>
-          <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={MainViewStyles.drawerTopContainer}>
-            <Image source={_alreadyLogin && profileImg != '' ? {uri: profileImg}: require('./asset/notlogged.png')} style={MainViewStyles.drawerTopImage}/>
-            <View style={MainViewStyles.drawerTopImageContainer}>
-              <Text style={MainViewStyles.topName}>{_alreadyLogin ? username:'日日有得食'}</Text>
-              {_alreadyLogin ? <Text style={mainviewStyle.topNickName}>{nickName}</Text> : null}
-              <TouchableOpacity style={MainViewStyles.topLoginBtn} onPress={() => customItemPress(customLoginBtnRoute, props.navigation) }>
-                <Text style={MainViewStyles.loginBtnText}>{_alreadyLogin?'去更改':'立即登錄'}</Text>
-              </TouchableOpacity>
-            </View>
-          </LinearGradient>
-        </View>
+          <View>
+            <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={MainViewStyles.drawerTopContainer}>
+              <Image source={_alreadyLogin && profileImg != '' ? {uri: profileImg}: require('./asset/notlogged.png')} style={MainViewStyles.drawerTopImage}/>
+              <View style={MainViewStyles.drawerTopImageContainer}>
+                <Text style={MainViewStyles.topName}>{_alreadyLogin ? username:'日日有得食'}</Text>
+                {_alreadyLogin ? <Text style={mainviewStyle.topNickName}>{nickName}</Text> : null}
+                <TouchableOpacity style={MainViewStyles.topLoginBtn} onPress={() => customItemPress(customLoginBtnRoute, props.navigation) }>
+                  <Text style={MainViewStyles.loginBtnText}>{_alreadyLogin?'去更改':'立即登錄'}</Text>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
           <Content style={MainViewStyles.drawerContent}>
             <View style={MainViewStyles.drawerInnerContent}>
             <DrawerItems {...props} 

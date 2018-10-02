@@ -11,14 +11,24 @@ export default class SlideUpPanel extends Component {
   constructor(props) {
     super(props);
     this._deltaY = new Animated.Value(Screen.height + 100);
+    this.state = {
+      panelTop: 64
+    }
   }
 
   _snapTo() {
     if(Platform.OS == 'ios') {
-      this.animationRef.snapTo({y: 64})
+      this.animationRef.snapTo({y: this.state.panelTop})
     } else {
       this.animationRef.snapTo({index: 0})
     }
+  }
+
+  changeTop(viewHeight) {
+    let _top = Screen.height - viewHeight;
+    this.setState({
+      panelTop: _top > 0 ? _top : 64
+    })
   }
 
   render() {
@@ -38,11 +48,11 @@ export default class SlideUpPanel extends Component {
           <Interactable.View
             ref = {ref => this.animationRef = ref}
             verticalOnly={true}
-            snapPoints={[{y: 64}, {y: Screen.height + 100}]}
+            snapPoints={[{y: this.state.panelTop}, {y: Screen.height + 100}]}
             boundaries={{top: -300}}
             initialPosition={{y: Screen.height + 100}}
             animatedValueY={this._deltaY}>
-            <View style={styles.panel} onLayout={(e) => console.log(e.nativeEvent)}>
+            <View style={styles.panel}>
               <View style={styles.panelHeader}>
                 <View style={styles.panelHandle} />
               </View>
