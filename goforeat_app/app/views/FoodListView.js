@@ -33,19 +33,17 @@ let requestParams = {
 const { isIphoneX, bottomDistance, iPhoneXBottom, _winHeight } = GLOBAL_PARAMS;
 
 export default class FoodListView extends Component {
-  static navigationOptions = ({screenProps}) => ({
-    tabBarLabel: I18n[screenProps.language].weekMenu
-  });
-  state = {
-    currentItem: '',
-    i18n: I18n[this.props.screenProps.language]
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentItem: '',
+      i18n: I18n[this.props.screenProps.language]
+    };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps() {
     if(!!this.flatlist) this.flatlist.outSideRefresh();
-    // this._onRequestNextPage(0, nextProps.screenProps.place.id);
-    requestParams.currentOffset = 0;
-    requestParams.nextOffset = 0
   }
 
   componentWillUnmount() {
@@ -54,7 +52,7 @@ export default class FoodListView extends Component {
   
   //common functions
 
-  _renderFoodListItemView = (item,index) => {
+  _renderFoodListItemView (item,index) {
     if(typeof item === 'undefined') return;
     return (
       <TouchableOpacity style={styles.articleItemContainer}
@@ -116,6 +114,10 @@ export default class FoodListView extends Component {
       </Container>)
     }
   }
+
+FoodListView.navigationOptions = ({screenProps}) => ({
+  tabBarLabel: I18n[screenProps.language].weekMenu
+})
 
 const styles = StyleSheet.create({
   articleItemContainer:{

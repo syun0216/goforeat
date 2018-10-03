@@ -38,6 +38,7 @@ export default class CommonFlatList extends Component{
   }
 
   componentDidMount() {
+    this.init();
     this._timer = setTimeout(() => {
       this._requestFirstPage();
       clearTimeout(this._timer);
@@ -80,7 +81,11 @@ export default class CommonFlatList extends Component{
   // public 
   outSideRefresh() {
     this.init();
-    this._requestFirstPage();
+    this.setState({
+      firstPageLoading: LOADING
+    }, () => {
+      this._requestFirstPage();
+    });
   }
 
   //private

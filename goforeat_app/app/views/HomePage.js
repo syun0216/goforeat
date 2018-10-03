@@ -20,14 +20,14 @@ import { sliderWidth, itemWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
 import HotReloadHOC from '../components/HomePageHOC';
 //styles
-import styles, { colors } from "../styles/index.style";
+import styles from "../styles/index.style";
 import HomePageStyles from "../styles/homepage.style";
 // utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS,{em} from "../utils/global_params";
 import JSONUtils from '../utils/JSONUtils';
 //api
-import { getDailyFoods,queryLatest,adSpace } from '../api/request';
+import { getDailyFoods, adSpace } from '../api/request';
 //components
 import AdervertiseView from '../components/AdvertiseView';
 import ErrorPage from "../components/ErrorPage";
@@ -38,7 +38,6 @@ import BottomOrderConfirm from '../components/BottomOrderConfirm';
 import WarningTips from '../components/WarningTips';
 import Text from '../components/UnScalingText';
 import SlideUpPanel from '../components/SlideUpPanel';
-import Swiper from '../components/Swiper';
 // language
 import I18n from "../language/i18n";
 //cache 
@@ -78,6 +77,7 @@ class HomePage extends Component {
         endDate: ''
       },
       refreshParams: '',
+      briefNumbersOfLines: GLOBAL_PARAMS._winHeight>667? 4: 3,
       isBottomContainerShow: false,
       foodCount: 0,
       showPlacePicker: false,
@@ -379,7 +379,7 @@ class HomePage extends Component {
           androidStatusBarColor="#333"
         >
         <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={HomePageStyles.linearGradient}>
-          <TouchableOpacity onPress={() => navigate("DrawerOpen")} style={HomePageStyles.MenuBtn}>
+          <TouchableOpacity onPress={() => navigate("DrawerOpen", { callback: this._add })} style={HomePageStyles.MenuBtn}>
             <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
             {/*<Image source={require('../asset/Oval.png')} style={{width: 10,height: 10,position: 'absolute',top: 10, right: 10}}/>*/}
           </TouchableOpacity>
@@ -484,7 +484,13 @@ class HomePage extends Component {
         <Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.slideUpPanel._snapTo()}>{this.state.i18n.foodDetail}</Text>
       </View>
         {canteenName != null ? <Text style={HomePageStyles.canteenName}>餐廳:{canteenName}</Text> : null}
-        <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={GLOBAL_PARAMS._winHeight>667? 4: 3}>{foodBrief}</Text>
+        <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={this.state.briefNumbersOfLines} onLayout={e => {
+          const {height} = e.nativeEvent.layout;
+          let _lineHeight = Platform.OS === 'ios' ? em(20) : em(25)
+          this.setState({
+            briefNumbersOfLines: Math.ceil(height/_lineHeight)
+          })
+        }}>{foodBrief}</Text>
       </View>
     )
   }
@@ -493,9 +499,13 @@ class HomePage extends Component {
     let {foodDetails:{[0]:{foodName, canteenName, canteenAddress, foodBrief, extralImage, price, originPrice}}} = this.state;
     return (
       <SlideUpPanel ref={r => this.slideUpPanel = r}>
-        <View>
-          <Text style={HomePageStyles.panelTitle}>{foodName}</Text>
-          <Image style={{height: em(250),marginTop: em(10),marginBottom: em(10)}} source={{uri: extralImage[0]}}/>
+        <View onLayout={e => {
+          if(!!this.slideUpPanel) {
+            this.slideUpPanel.changeTop(e.nativeEvent.layout.height + em(100))
+          }
+        }}>
+          <Text style={HomePageStyles.panelTitle} numberOfLines={2}>{foodName}</Text>
+          <Image style={HomePageStyles.panelImage} source={{uri: extralImage[0]}}/>
           {canteenName != null ?<Text style={HomePageStyles.canteenName}>餐廳:{canteenName}</Text> : null}
           {canteenAddress != null ? <Text style={HomePageStyles.canteenName}>餐廳地址:{canteenAddress}</Text> : null}
           <Text style={HomePageStyles.IntroductionFoodBrief} >{foodBrief}</Text>
