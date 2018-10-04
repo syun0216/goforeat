@@ -56,6 +56,7 @@ export default class CommonFlatList extends Component{
 
   getData(offset, successCallback, failCallback) {
     const { extraParams } = this.props;
+    const { i18n } = this.state;
     let _requestParams = {
       offset
     };
@@ -71,9 +72,13 @@ export default class CommonFlatList extends Component{
           this.props.navigation.goBack();
         }
         ToastUtil.showWithMessage(data.ro.respMsg);
-        failCallback && failCallback()
       }
     }, () => {
+      if(typeof failCallback != undefined) {
+        failCallback();
+      }
+      ToastUtil.showWithMessage(i18n.common_tips.network_err);
+    }).catch(e => {
       ToastUtil.showWithMessage(i18n.common_tips.network_err);
     });
   }
@@ -107,7 +112,7 @@ export default class CommonFlatList extends Component{
       this.setState({
         firstPageLoading: LOAD_FAILED
       });
-    });
+    })
   }
 
   _requestNextPage() {
@@ -171,7 +176,7 @@ export default class CommonFlatList extends Component{
         onEndReached={() => this._onEndReach()}
         ItemSeparatorComponent={() => this._renderItemDivider()}
         ListFooterComponent={() =>(
-          <ListFooter loadingStatus={nextPageLoading} errorToDo={() => this._onErrorToRequestNextPage()} {...this.props}/>
+          <ListFooter loadingStatus={nextPageLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>
         )}
         refreshControl={
           <RefreshControl
@@ -204,7 +209,7 @@ export default class CommonFlatList extends Component{
     const { firstPageLoading, i18n } = this.state;
     const { isBlankInfoBtnShow, blankBtnMessage, blankBtnFunc,  } = this.props
     const Error = () => (
-      <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={this._onErrorRequestFirstPage}/>
+      <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={() => this._onErrorRequestFirstPage()}/>
     )
     const Blank = () => (
       <BlankPage message={blankBtnMessage} hasBottomBtn={isBlankInfoBtnShow} clickFunc={blankBtnFunc} />
