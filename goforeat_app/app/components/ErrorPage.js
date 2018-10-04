@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import { View,StyleSheet,Image,TouchableOpacity } from 'react-native';
 import GLOBAL_PARAMS from '../utils/global_params';
-import LinearGradient from 'react-native-linear-gradient';
 //styles
 import CommonStyle from '../styles/common.style';
 //components
 import Text from './UnScalingText';
+import CommonBottomBtn from '../components/CommonBottomBtn';
 //language
 import I18n from '../language/i18n';
 
@@ -58,27 +59,17 @@ const styles = StyleSheet.create({
 })
 
 const ErrorPage = (props) => {
+  const { language, errorToDo } = props;
   return (
     <View style={[styles.loadingContainer,props.style]}>
       <View style={styles.inner}>
         <Image source={require('../asset/badnetwork.png')} style={styles.image} resizeMode="cover"/>
         <View style={styles.infoText}>
-          <Text style={styles.text1}>{I18n[props.screenProps.language].common_tips.network_err}</Text>
-          <Text style={styles.text2}>{I18n[props.screenProps.language].common_tips.reload_again}</Text>
+          <Text style={styles.text1}>{I18n[language].common_tips.network_err}</Text>
+          <Text style={styles.text2}>{I18n[language].common_tips.reload_again}</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={() => props.errorToDo()} style={styles.refresh_btn}>
-        <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.refresh_btn_inner}>
-          <Text style={{color:'#fff',fontSize:16}}>{I18n[props.screenProps.language].refresh}</Text>
-        </LinearGradient>
-      </TouchableOpacity>
-    {/*<View style={{alignSelf:'center'}}>
-      <TouchableOpacity style={{alignItems: 'center'}} onPress={() => props.errorToDo()}>
-        {Platform.OS === 'android' ? (<Image source={{uri: 'notfound'}} style={{width: 80,height: 80}}/>) :
-        (<Image source={{uri: '404'}} style={{width: 80,height: 80,marginBottom: 10,}}/>)}
-        <Text style={{color:'#222',fontSize: 16}}>{props.errorTips}</Text>
-      </TouchableOpacity>
-  </View>*/}
+      <CommonBottomBtn style={{marginTop: 10}} clickFunc={() => errorToDo()}>{I18n[language].refresh}</CommonBottomBtn>
     </View>
   )
 }
@@ -95,4 +86,11 @@ ErrorPage.propTypes = {
   style: PropTypes.object
 };
 
-export default ErrorPage
+const mapStateToProps = (state) => {
+  return ({
+    language: state.language.language
+  })
+}
+
+
+export default connect(mapStateToProps)(ErrorPage)

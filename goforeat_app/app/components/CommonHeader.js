@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {StyleSheet,Platform,TouchableWithoutFeedback,TouchableOpacity,Image,View} from 'react-native'
+import {StyleSheet,Platform,TouchableWithoutFeedback,TouchableOpacity,Image,View} from 'react-native';
+import {withNavigation} from 'react-navigation';
 import {Header,Left,Body,Right,Icon,Button} from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
 //utils
@@ -111,4 +112,4 @@ CommonHeader.propsType = {
   leftClickIntercept: PropTypes.func // 左側點擊攔截器
 }
 
-export default CommonHeader
+export default withNavigation(CommonHeader);

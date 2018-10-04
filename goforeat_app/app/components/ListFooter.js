@@ -1,5 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {View,ActivityIndicator,Text,TouchableOpacity,StyleSheet} from 'react-native'
 import GLOBAL_PARAMS from '../utils/global_params';
 //language
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const ListFooter = ({loadingStatus,errorToDo,screenProps}) => {
+const ListFooter = ({loadingStatus,errorToDo,language}) => {
   switch (loadingStatus){
     case GLOBAL_PARAMS.httpStatus.LOADING:{
       return (
@@ -24,7 +25,7 @@ const ListFooter = ({loadingStatus,errorToDo,screenProps}) => {
       return (
         <TouchableOpacity style={styles.commonContainer} onPress={() => errorToDo()}>
           <View  style={{flex:1,alignItems:'center'}}>
-            <Text>{I18n[screenProps.language].common_tips.reload}...</Text>
+            <Text>{I18n[language].common_tips.reload}...</Text>
           </View>
         </TouchableOpacity>
       )
@@ -33,7 +34,7 @@ const ListFooter = ({loadingStatus,errorToDo,screenProps}) => {
       return (
         <View style={[styles.commonContainer]}>
           {/*<View style={{width:GLOBAL_PARAMS._winWidth*0.3,height:1,marginLeft:10,marginRight:20,backgroundColor:'#959595'}}></View>*/}
-          <View><Text style={{color: '#959595'}}>{I18n[screenProps.language].common_tips.load_all}</Text></View>
+          <View><Text style={{color: '#959595'}}>{I18n[language].common_tips.load_all}</Text></View>
           {/*<View style={{width:GLOBAL_PARAMS._winWidth*0.3,height:1,marginLeft:20,marginRight:10,backgroundColor:'#959595'}}></View>*/}
         </View>
       )
@@ -50,4 +51,10 @@ ListFooter.propTypes = {
   errorToDo:PropTypes.func
 }
 
-export default ListFooter
+const mapStateToProps = (state) => {
+  return ({
+    language: state.language.language
+  })
+}
+
+export default connect(mapStateToProps)(ListFooter);
