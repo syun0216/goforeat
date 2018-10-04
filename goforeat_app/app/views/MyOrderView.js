@@ -57,7 +57,8 @@ export default class PeopleView extends Component {
     currentTab: _TAB_DELIVERING,
     currentStatus: _ORDER_DELIVERING,
     i18n: I18n[props.screenProps.language],
-    hasDelivering: false
+    hasDelivering: false,
+    listCount: 0
     }
   }
   
@@ -109,11 +110,18 @@ export default class PeopleView extends Component {
       });
   }
 
+  _getListCount(count) {
+    if(this.state.currentTab != _TAB_DELIVERING) return;
+    this.setState({
+      listCount: count
+    })
+  }
+
   //render view
 
   _renderNewListItemView(item,index) {
     return (
-      <View style={{marginTop: 10,padding: 20,backgroundColor:'#fff'}} key={index}>
+      <View style={{padding: 20,backgroundColor:'#fff'}} key={index}>
         {this._renderFoodDetailView(item)}
         {this._renderPayView(item)}
         {this._renderTotalPriceView(item)}
@@ -196,7 +204,7 @@ export default class PeopleView extends Component {
   }
 
   render() {
-    let {i18n} = this.state;
+    let {i18n,listCount} = this.state;
     let _order_arr = [
       {title: i18n.delivering, tab: _TAB_DELIVERING, status: _ORDER_DELIVERING},
       {title: i18n.finished, tab: _TAB_FINISHED, status: _ORDER_FINISHED},
@@ -205,15 +213,15 @@ export default class PeopleView extends Component {
     ];
     return (
       <Container style={{position: 'relative'}}>
-        <CommonHeader hasMenu hasTabs title={i18n.myorder} {...this.props}/>
+        <CommonHeader hasMenu hasTabs title={i18n.myorder}/>
         <Tabs tabBarUnderlineStyle={MyOrderStyles.tabBarUnderlineStyle} 
         ref={ t=>this._tabs = t } onChangeTab={() => this._onChangeTabs()}>
           {
             _order_arr.map((item,key) => (
               <Tab key={key} heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentTab == item.tab? '800':'normal',}]}>{item.title}</Text>
-                {this.state.hasDelivering&&item.status == _ORDER_DELIVERING?<Image source={require('../asset/Oval.png')} style={MyOrderStyles.activeRedTips}/> : null}
+                {listCount > 0&&item.status == _ORDER_DELIVERING?<Image source={require('../asset/Oval.png')} style={MyOrderStyles.activeRedTips}/> : null}
               </TabHeading>}>
-                <CommonFlatList ref={cfl => this[`${item.status}flatlist`] = cfl} requestFunc={myOrder} extraParams={{status: item.status}} renderItem={(index,item) => this._renderNewListItemView(index,item)} isBlankInfoBtnShow isItemSeparatorShow blankBtnMessage={i18n.common_tips.no_data} blankBtnFunc={() => this.props.navigation.goBack()} {...this.props}/>
+                <CommonFlatList style={{backgroundColor: '#efefef'}} ref={cfl => this[`${item.status}flatlist`] = cfl} requestFunc={myOrder} extraParams={{status: item.status}} renderItem={(index,item) => this._renderNewListItemView(index,item)} isBlankInfoBtnShow isItemSeparatorShow blankBtnMessage={i18n.common_tips.no_data} blankBtnFunc={() => this.props.navigation.goBack()} getCount={this._getListCount.bind(this)} {...this.props}/>
               </Tab>
             ))
           }

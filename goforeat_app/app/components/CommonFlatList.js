@@ -66,6 +66,7 @@ export default class CommonFlatList extends Component{
     this.props.requestFunc(_requestParams).then(data => {
       if(data.ro.ok) {
         successCallback(data.data.list);
+        this.getFlatListCount();
       }else{
         if(data.ro.respCode == "10006" || data.ro.respCode == "10007") {
           this.props.screenProps.userLogout();
@@ -77,8 +78,6 @@ export default class CommonFlatList extends Component{
       if(typeof failCallback != undefined) {
         failCallback();
       }
-      ToastUtil.showWithMessage(i18n.common_tips.network_err);
-    }).catch(e => {
       ToastUtil.showWithMessage(i18n.common_tips.network_err);
     });
   }
@@ -93,11 +92,17 @@ export default class CommonFlatList extends Component{
     });
   }
 
+  getFlatListCount() {
+    if(typeof this.props.getCount == 'undefined') return;
+    this.props.getCount(this.state.listData.length);
+  }
+
   //private
   _requestFirstPage() {
     this.getData(requestParams.nextOffset, (data) => {
       if(data.length == 0) {
         this.setState({
+          listData: data,
           firstPageLoading: NO_DATA,
           refreshing: false
         });
@@ -207,7 +212,7 @@ export default class CommonFlatList extends Component{
 
   render() {
     const { firstPageLoading, i18n } = this.state;
-    const { isBlankInfoBtnShow, blankBtnMessage, blankBtnFunc,  } = this.props
+    const { isBlankInfoBtnShow, blankBtnMessage, blankBtnFunc, style } = this.props
     const Error = () => (
       <ErrorPage errorTips={i18n.common_tips.network_err} errorToDo={() => this._onErrorRequestFirstPage()}/>
     )
@@ -215,7 +220,7 @@ export default class CommonFlatList extends Component{
       <BlankPage message={blankBtnMessage} hasBottomBtn={isBlankInfoBtnShow} clickFunc={blankBtnFunc} />
     )
     return (
-      <View style={{flex: 1}}>
+      <View style={[{flex: 1}, style]}>
         { firstPageLoading == LOADING ? <Loading /> : null }
         { firstPageLoading == LOAD_FAILED ?  <Error /> : null }
         { firstPageLoading == NO_DATA ?  <Blank /> : null}
@@ -234,7 +239,9 @@ CommonFlatList.propsType = {
   blankBtnMessage: PropTypes.string,
   blankBtnFunc: PropTypes.func,
   offset: PropTypes.number,
-  extraParams: PropTypes.object
+  extraParams: PropTypes.object,
+  getCount: PropTypes.func,
+  style: PropTypes.object
 };
 
 CommonFlatList.defaultProps = {
@@ -244,5 +251,6 @@ CommonFlatList.defaultProps = {
   extraParams: {},
   isBlankInfoBtnShow: false,
   blankBtnFunc: () => {},
-  blankBtnMessage: '馬上有得食'
+  blankBtnMessage: '馬上有得食',
+  style: {}
 }
