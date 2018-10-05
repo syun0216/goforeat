@@ -149,14 +149,14 @@ export default class UserInfoView extends PureComponent {
   }
 
   _alreadySaveCheck() {
-    const {i18n:{user_info_tips:{tips_quit}}} = this.state;
+    const {i18n:{user_info_tips:{tips_quit},cancel,confirm,tips}} = this.state;
     if(this.rawMyInfo != JSON.stringify(this.state.myInfo)) {
       Alert.alert(
-        i18n.tips,
+        tips,
         tips_quit,
         [
-          {text: i18n.cancel, onPress: () => {return null}, style: 'cancel'},
-          {text: i18n.confirm, onPress: () => {this.props.navigation.goBack()}},
+          {text: cancel, onPress: () => {return null}, style: 'cancel'},
+          {text: confirm, onPress: () => {this.props.navigation.goBack()}},
         ],
         { cancelable: false }
       )
@@ -190,7 +190,7 @@ export default class UserInfoView extends PureComponent {
     return (
       <View style={UserInfoStyle.AvatarView}>
         <Image style={UserInfoStyle.AvatarImg} source={_photo}/>
-        <TouchableOpacity onPress={this._selectPhotoTapped.bind(this)}>
+        <TouchableOpacity style={UserInfoStyle.ChangeBtnContainer} onPress={this._selectPhotoTapped.bind(this)}>
           <Text style={UserInfoStyle.ChangeBtn}>{changeAvatar}</Text>
         </TouchableOpacity>
       </View>
@@ -245,6 +245,7 @@ export default class UserInfoView extends PureComponent {
                 <Input
                 onChangeText={text => _changeText(text, item.key)}
                 placeholder={item.label}
+                placeholderTextColor="#ccc"
                 clearButtonMode="while-editing" 
                 disabled={item.key == 'phone'}
                 style={item.key == 'phone' ? UserInfoStyle.AccountDisable : {}} value={item.value}/>) : _segmentElement}

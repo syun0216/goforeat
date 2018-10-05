@@ -24,9 +24,11 @@ export default StyleSheet.create({
   AccountDisable: {
     color: '#ccc'
   },
-  ChangeBtn: {
-    color: '#333',
+  ChangeBtnContainer: {
     padding: em(10)
+  },
+  ChangeBtn: {
+    color: '#333'
   },
   Segment: {
     backgroundColor: 'transparent'
