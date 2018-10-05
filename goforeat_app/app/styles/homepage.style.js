@@ -221,9 +221,8 @@ export default StyleSheet.create({
   //details
   panelTitle: {
     fontSize: em(20),
-    // height: em(35),
     marginTop: em(10),
-    lineHeight: em(20)
+    marginBottom: em(10),
   },
   panelImage: {height: em(250),marginTop: em(10),marginBottom: em(10),borderRadius: em(8)},
   canteenName: {

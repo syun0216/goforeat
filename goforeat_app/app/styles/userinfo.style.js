@@ -17,10 +17,9 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   AvatarImg: {
-    width: em(60),
-    height: em(60),
-    borderRadius: em(30),
-    marginBottom: 10,
+    width: em(80),
+    height: em(80),
+    borderRadius: em(40),
   },
   AccountDisable: {
     color: '#ccc'
@@ -34,17 +33,23 @@ export default StyleSheet.create({
   },
   SegmentActiveBtn: {
     backgroundColor: '#ff630f',
-    borderColor: '#ff630f'
+    borderColor: '#ff630f',
+    paddingLeft: em(8),
+    paddingRight: em(8)
   },
   SegmentDefaultBtn: {
     backgroundColor: '#fff',
-    borderColor: '#ff630f'
+    borderColor: '#ff630f',
+    paddingLeft: em(8),
+    paddingRight: em(8)
   },
   SegmentActiveText: {
-    color: '#fff'
+    color: '#fff',
+    fontSize: em(16),
   },
   SegmentDefaultText: {
-    color: '#333'
+    color: '#333',
+    fontSize: em(16),
   }
 
 })
