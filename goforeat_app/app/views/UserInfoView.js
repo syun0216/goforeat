@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {View, TouchableOpacity, Image, Alert} from 'react-native';
-import {Container, Content, Segment, Form,Item, Input, Label, Button} from 'native-base';
+import {Container, Content, Segment, Form,Item, Input, Label, Button, Icon} from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 //api
 import { getMyInfo, updateMyInfo, uploadAvatar } from '../api/request';
@@ -169,7 +169,7 @@ export default class UserInfoView extends PureComponent {
     const {i18n:{user_info_tips:{title}}} = this.state;
     if(this.state.myInfo==null) return;
     return (
-      <CommonHeader title={title} hasMenu leftClickIntercept={() => this._alreadySaveCheck()} {...this.props}/>
+      <CommonHeader title={title} hasMenu leftClickIntercept={() => this._alreadySaveCheck()}/>
     )
   }
 
@@ -220,9 +220,9 @@ export default class UserInfoView extends PureComponent {
     };
 
     let _segment = [
-      {text: male, value: MALE},
-      {text: female, value: FEMALE},
-      {text: secret, value: SECRET},
+      {text: male, value: MALE, icon: 'md-male'},
+      {text: female, value: FEMALE, icon: 'md-female'},
+      {text: secret, value: SECRET, icon: 'md-eye-off'},
     ];
 
     const _segmentElement = (
@@ -230,7 +230,7 @@ export default class UserInfoView extends PureComponent {
       {
         _segment.map((item,idx) => {
           let _isCurrentGender = gender == item.value;
-          return (<Button key={idx} onPress={() => this._changeGender(item.value)} style={_isCurrentGender ? UserInfoStyle.SegmentActiveBtn : UserInfoStyle.SegmentDefaultBtn} first={idx===0} last={idx === _segment.length - 1}><Text style={_isCurrentGender ? UserInfoStyle.SegmentActiveText : UserInfoStyle.SegmentDefaultText}>{item.text}</Text></Button>
+          return (<Button key={idx} onPress={() => this._changeGender(item.value)} style={_isCurrentGender ? UserInfoStyle.SegmentActiveBtn : UserInfoStyle.SegmentDefaultBtn} first={idx===0} last={idx === _segment.length - 1}><Icon name={item.icon} style={_isCurrentGender ? UserInfoStyle.SegmentActiveText : UserInfoStyle.SegmentDefaultText}></Icon></Button>
         )})
       }
     </Segment>)

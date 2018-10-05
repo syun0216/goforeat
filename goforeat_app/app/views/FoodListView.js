@@ -38,7 +38,7 @@ export default class FoodListView extends Component {
     super(props);
     this.state = {
       currentItem: '',
-      i18n: I18n[this.props.screenProps.language]
+      i18n: I18n[props.screenProps.language]
     };
   }
 
@@ -88,7 +88,7 @@ export default class FoodListView extends Component {
           this.foodDetailsViewHeight = e.nativeEvent.layout.height;
         }}>
           <Text style={HomePageStyles.panelTitle} numberOfLines={2}>{name}</Text>
-          <Image style={{height: em(250),marginTop: em(10),marginBottom: em(10)}} source={{uri: thumbnail}}/>
+          <Image style={HomePageStyles.panelImage} source={{uri: thumbnail}}/>
           <Text style={HomePageStyles.IntroductionFoodBrief} >{brief}</Text>
           <View style={HomePageStyles.AddPriceViewPriceContainer}>
             <Text style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
@@ -105,10 +105,9 @@ export default class FoodListView extends Component {
     _bottomDistance = isIphoneX() ?  bottomDistance + iPhoneXBottom : bottomDistance;
     return (
     <Container style={{position:'relative'}}>
-      <CommonHeader hasMenu headerHeight={em(76)} title={i18n.weekMenu} {...this.props}/>
+      <CommonHeader hasMenu headerHeight={em(76)} title={i18n.weekMenu}/>
         <View style={{marginTop:-em(75),height: _winHeight - _bottomDistance,minHeight: _winHeight - _bottomDistance}}>
-          {<CommonFlatList ref={c => this.flatlist = c} requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} extraParams={{placeId: this.props.screenProps.place.id}}
-        {...this.props}/>}
+          {<CommonFlatList ref={c => this.flatlist = c} requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} extraParams={{placeId: this.props.screenProps.place.id}} {...this.props}/>}
         </View>  
         {this._renderFoodDetailsView()}  
       </Container>)

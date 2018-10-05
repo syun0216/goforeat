@@ -29,7 +29,7 @@ import Text from '../components/UnScalingText';
 import CouponView from './CouponView';
 //utils
 import Colors from "../utils/Colors";
-import GLOBAL_PARAMS, { EXPLAIN_PAY_TYPE } from "../utils/global_params";
+import GLOBAL_PARAMS, { em, EXPLAIN_PAY_TYPE } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 import {getDeviceId} from "../utils/DeviceInfo";
 //api
@@ -381,7 +381,7 @@ export default class ConfirmOrderView extends PureComponent {
       return (<PopupDialog
       dialogTitle={<DialogTitle title={i18n.myOrder} />}
       width={GLOBAL_PARAMS._winWidth * 0.9}
-      height={GLOBAL_PARAMS._winHeight * 0.65}
+      height={em(450)}
       ref={popupDialog => {
         this._popupDialog = popupDialog;
       }}
@@ -572,7 +572,7 @@ export default class ConfirmOrderView extends PureComponent {
         {loading ? <Loading/> : null}
         {loadingModal ? <LoadingModal message={i18n.paying}/> : null}
         {isError ? (
-          <ErrorPage errorToDo={() => this._createOrder()} errorTips={i18n.common_tips.reload} {...this.props}/>
+          <ErrorPage errorToDo={() => this._createOrder()} errorTips={i18n.common_tips.reload}/>
         ) : null}
         <Content style={{ backgroundColor: '#efefef' }} padder>
           {isExpired ? (

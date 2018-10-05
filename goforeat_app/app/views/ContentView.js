@@ -137,7 +137,7 @@ export default class ContentView extends Component {
     title = typeof title == "undefined" ? "有得食" : title;
     return (
       <Container>
-        <CommonHeader title={kind == 'article'?food_title:title} canBack hasRight rightIcon="md-share-alt" rightClick={() => this.setState({shareboxVisible: true})} {...this.props}/>
+        <CommonHeader title={kind == 'article'?food_title:title} canBack hasRight rightIcon="md-share-alt" rightClick={() => this.setState({shareboxVisible: true})}/>
         {this.state.loading ? <Loading /> : null}
         <View style={{flex:1}}>
             {this._renderArticleContentView()}

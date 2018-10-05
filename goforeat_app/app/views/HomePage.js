@@ -504,7 +504,7 @@ class HomePage extends Component {
             this.slideUpPanel.changeTop(e.nativeEvent.layout.height + em(100))
           }
         }}>
-          <Text style={HomePageStyles.panelTitle} numberOfLines={2}>{foodName}</Text>
+          <Text style={HomePageStyles.panelTitle} numberOfLines={3}>{foodName}</Text>
           <Image style={HomePageStyles.panelImage} source={{uri: extralImage[0]}}/>
           {canteenName != null ?<Text style={HomePageStyles.canteenName}>餐廳:{canteenName}</Text> : null}
           {canteenAddress != null ? <Text style={HomePageStyles.canteenName}>餐廳地址:{canteenAddress}</Text> : null}
@@ -618,7 +618,6 @@ class HomePage extends Component {
       <ErrorPage
         errorToDo={this._onErrorToRetry}
         errorTips={i18n.common_tips.reload}
-        {...this.props}
       />
     )
   }
@@ -631,7 +630,7 @@ class HomePage extends Component {
         {this._renderAdvertisementView()}
         {this._renderPlacePicker()}
         {this._renderHeaderView()}
-        {isError ? this._renderErrorView : null}
+        {isError ? this._renderErrorView() : null}
         {loading ? <Loading /> : null}
         {foodDetails.length > 0 ? this._renderContentView() : null}
         {foodDetails.length > 0 ? this._renderBottomBtnView() : null}

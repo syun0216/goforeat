@@ -68,7 +68,7 @@ export default class CouponView extends PureComponent{
 
   render() {
     let Header = () => (
-      <CommonHeader title="我的優惠券" hasMenu {...this.props}/>
+      <CommonHeader hasMenu title="我的優惠券"/>
     )
 
     const isHeaderHide = typeof this.props.hideHeader !== undefined;

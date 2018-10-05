@@ -197,7 +197,7 @@ export default class PaySettingView extends PureComponent {
     let _from_confirm_order = typeof this.props.navigation.state.params != 'undefined';
     return (
       <Container>
-      <CommonHeader title={i18n.payment} hasMenu={!_from_confirm_order} canBack={_from_confirm_order} {...this.props}/>
+      <CommonHeader title={i18n.payment} hasMenu={!_from_confirm_order} canBack={_from_confirm_order}/>
         <Content style={{backgroundColor:'#efefef'}}>
           {this.state.loading ? <Loading /> : (
             <View>
@@ -211,7 +211,7 @@ export default class PaySettingView extends PureComponent {
               { this.state.hasCreditCardPay ? this._renderManageCreditCard() : null}
             </View>
           )}
-          { this.state.isError ? <ErrorPage errorTips={i18n.common_tips.reload} errorToDo={() => this._getPaySetting()} {...this.props}/> : null}
+          { this.state.isError ? <ErrorPage errorTips={i18n.common_tips.reload} errorToDo={() => this._getPaySetting()}/> : null}
         </Content>
       </Container>
     )

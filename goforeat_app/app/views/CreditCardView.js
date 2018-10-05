@@ -207,7 +207,7 @@ export default class CreditCardView extends PureComponent {
     ];
     return (
       <Container>
-        <CommonHeader title={this.state.i18n.addCard} canBack {...this.props}/>
+        <CommonHeader title={this.state.i18n.addCard} canBack/>
         <Content style={{backgroundColor: '#efefef'}}>
             <View>
               {
