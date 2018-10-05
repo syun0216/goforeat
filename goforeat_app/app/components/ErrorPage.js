@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     position:'relative',
   },
   image: {
-    width: GLOBAL_PARAMS.em(746/2),
+    width: GLOBAL_PARAMS._winWidth,
     height: GLOBAL_PARAMS.em(696/2)
   },
   infoText: {
@@ -63,7 +63,7 @@ const ErrorPage = (props) => {
   return (
     <View style={[styles.loadingContainer,props.style]}>
       <View style={styles.inner}>
-        <Image source={require('../asset/badnetwork.png')} style={styles.image} resizeMode="contain"/>
+        <Image source={require('../asset/badnetwork.png')} style={styles.image} resizeMode="cover"/>
         <View style={styles.infoText}>
           <Text style={styles.text1}>{I18n[language].common_tips.network_err}</Text>
           <Text style={styles.text2}>{I18n[language].common_tips.reload_again}</Text>
