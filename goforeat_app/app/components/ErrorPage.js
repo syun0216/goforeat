@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { View,StyleSheet,Image,TouchableOpacity } from 'react-native';
-import GLOBAL_PARAMS from '../utils/global_params';
+import GLOBAL_PARAMS,{em,_winHeight,_winWidth} from '../utils/global_params';
 //styles
 import CommonStyle from '../styles/common.style';
 //components
@@ -21,15 +21,15 @@ const styles = StyleSheet.create({
     zIndex:10000,
     backgroundColor: '#fff',
     height:GLOBAL_PARAMS._winHeight,
-    paddingTop: 20,
+    // paddingTop: 20,
     alignItems: 'center',
   },
   inner: {
-    position:'relative'
+    position:'relative',
   },
   image: {
-    width: GLOBAL_PARAMS._winWidth,
-    height: GLOBAL_PARAMS.heightAuto(320)
+    width: GLOBAL_PARAMS.em(746/2),
+    height: GLOBAL_PARAMS.em(696/2)
   },
   infoText: {
     position: 'absolute',
@@ -38,14 +38,14 @@ const styles = StyleSheet.create({
     zIndex: 100
   },
   text1: {
-    fontSize: GLOBAL_PARAMS.em(22),
+    fontSize: GLOBAL_PARAMS.em(17),
     color: '#111111',
-    marginBottom: GLOBAL_PARAMS.em(12),
+    marginBottom: GLOBAL_PARAMS.em(11),
     fontWeight:'600',
     textAlign: 'center'
   },
   text2: {
-    fontSize: GLOBAL_PARAMS.em(22),
+    fontSize: GLOBAL_PARAMS.em(17),
     color:'#999999',
     fontWeight: '400',
     textAlign:'center'
@@ -63,13 +63,13 @@ const ErrorPage = (props) => {
   return (
     <View style={[styles.loadingContainer,props.style]}>
       <View style={styles.inner}>
-        <Image source={require('../asset/badnetwork.png')} style={styles.image} resizeMode="cover"/>
+        <Image source={require('../asset/badnetwork.png')} style={styles.image} resizeMode="contain"/>
         <View style={styles.infoText}>
           <Text style={styles.text1}>{I18n[language].common_tips.network_err}</Text>
           <Text style={styles.text2}>{I18n[language].common_tips.reload_again}</Text>
         </View>
       </View>
-      <CommonBottomBtn style={{marginTop: 10}} clickFunc={() => errorToDo()}>{I18n[language].refresh}</CommonBottomBtn>
+      <CommonBottomBtn style={{marginTop: GLOBAL_PARAMS.em(102/2), width: GLOBAL_PARAMS.em(549/2)}} clickFunc={() => errorToDo()}>{I18n[language].refresh}</CommonBottomBtn>
     </View>
   )
 }

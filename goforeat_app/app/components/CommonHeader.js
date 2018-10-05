@@ -6,7 +6,7 @@ import {Header,Left,Body,Right,Icon,Button} from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
 //utils
 import Colors from '../utils/Colors';
-import GLOBAL_PARAMS from "../utils/global_params";
+import GLOBAL_PARAMS, {em} from "../utils/global_params";
 //styles
 import CommonStyles from "../styles/common.style";
 import HomePageStyles from "../styles/homepage.style";
@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems: 'center',
     flexDirection: 'row'
+  },
+  MenuBtn: {
+    width: em(23),
+    height: em(23)
   }
 })
 
@@ -58,7 +62,7 @@ const CommonHeader = (props) => {
             )) : props.hasMenu ? (
               <TouchableOpacity style={Platform.OS == 'ios' ? HomePageStyles.MenuBtn : HomePageStyles.MenuBtnAndroid} onPress={() => {
                 props.leftClickIntercept(props);}}>
-                <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
+                <Image source={require('../asset/menu.png')} style={styles.MenuBtn} resizeMode="contain"/>
               </TouchableOpacity>
             ) : null}
           </Left>

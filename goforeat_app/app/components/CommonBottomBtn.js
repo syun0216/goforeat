@@ -6,6 +6,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import CommonStyles from '../styles/common.style';
 //components
 import Text from './UnScalingText';
+//utils
+import {em} from '../utils/global_params';
 
 
 
@@ -20,7 +22,7 @@ const CommonBottomBtn = props => {
     <View style={CommonStyles.common_btn_container}>
       <TouchableOpacity onPress={props.clickFunc}>
         <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={[CommonStyles.btn,props.style]}>
-          <Text style={{color:'#fff',fontSize:16,backgroundColor:'transparent'}}>{props.children}</Text>
+          <Text style={{color:'#fff',fontSize:em(17),backgroundColor:'transparent',fontWeight:"700",}}>{props.children}</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>
