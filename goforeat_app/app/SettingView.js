@@ -141,7 +141,7 @@ export default class SettingView extends PureComponent{
     }
     return (
       <Container style={{backgroundColor: '#efefef'}}>
-        <CommonHeader title={i18n.setting} hasMenu {...this.props}/>
+        <CommonHeader title={i18n.setting} hasMenu/>
           <ScrollView>
           <TouchableWithoutFeedback delayLongPress={4000} onLongPress={() => {languageStorage.removeAll();alert('清除緩存成功')}}>
             <View style={{paddingTop: em(10),paddingBottom: em(10),justifyContent: 'center',alignItems: 'center',flexDirection:'row'}}>

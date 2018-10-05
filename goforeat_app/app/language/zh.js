@@ -214,7 +214,7 @@ export default {
   },
   common_tips: {
     err: '發生未知錯誤',
-    network_err: '网络請求失敗',
+    network_err: '網絡請求失敗',
     no_network: '網絡飛走了...',
     no_auth: '請先登錄哦',
     no_function: '該功能暫未開放',

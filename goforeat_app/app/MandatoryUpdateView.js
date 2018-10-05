@@ -47,7 +47,7 @@ export default class MandatoryUpdateView extends Component {
     render() {
         return (
             <Container>
-            <CommonHeader canBack title="更新界面" {...this.props}/>
+            <CommonHeader canBack title="更新界面"/>
             <View style={{flex: 1,justifyContent:'center',alignItems:'center'}}>
                 {this._renderDownloadMessage()}
                 {
