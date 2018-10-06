@@ -113,19 +113,19 @@ app
   <img src="./display/launch_screen.png" width="200">
   <img src="./display/v1200.png" width="200">
   <img src="./display/v1201.png" width="200">
-  <img src="./display/v1202.png" width="200">
+  <img src="./display/v1221.png" width="200">
 </p>
 <p align="left">
-  <img src="./display/v1203.png" width="200">
-  <img src="./display/v1204.png" width="200">
-  <img src="./display/v1205.png" width="200">
-  <img src="./display/v1206.png" width="200">
+  <img src="./display/v1222.png" width="200">
+  <img src="./display/v1223.png" width="200">
+  <img src="./display/v1224.png" width="200">
+  <img src="./display/v1225.png" width="200">
 </p>
 <p align="left">
-  <img src="./display/v1207.png" width="200">
-  <img src="./display/v1208.png" width="200">
-  <img src="./display/v1209.png" width="200">
-  <img src="./display/v1210.png" width="200">
+  <img src="./display/v1226.png" width="200">
+  <img src="./display/v1228.png" width="200">
+  <img src="./display/v1229.png" width="200">
+  <img src="./display/v12210.png" width="200">
 </p>
 
 ### 附录
