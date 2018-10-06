@@ -112,17 +112,16 @@ app
  <p align="left">
   <img src="./display/launch_screen.png" width="200">
   <img src="./display/v1200.png" width="200">
-  <img src="./display/v1201.png" width="200">
   <img src="./display/v1221.png" width="200">
+  <img src="./display/v1222.png" width="200">
 </p>
 <p align="left">
-  <img src="./display/v1222.png" width="200">
   <img src="./display/v1223.png" width="200">
   <img src="./display/v1224.png" width="200">
   <img src="./display/v1225.png" width="200">
+  <img src="./display/v1226.png" width="200">
 </p>
 <p align="left">
-  <img src="./display/v1226.png" width="200">
   <img src="./display/v1228.png" width="200">
   <img src="./display/v1229.png" width="200">
   <img src="./display/v12210.png" width="200">
