@@ -103,12 +103,7 @@ app
     * 选择'Generic iOS Device'
     * Product->Archive
 
-### v 1.2.0 概览 
-1、全新登錄頁和訂單頁
-2、支持線上信用卡支付
-3、訂單詳情可添加備註留言
-4、首頁添加查看詳情功能
-5、支持多语言  兼容iPhone X
+### v 1.2.2 概览
  <p align="left">
   <img src="./display/launch_screen.png" width="200">
   <img src="./display/v1200.png" width="200">
@@ -124,6 +119,7 @@ app
 <p align="left">
   <img src="./display/v1228.png" width="200">
   <img src="./display/v1229.png" width="200">
+  <img src="./display/v1206.png" width="200">
   <img src="./display/v12210.png" width="200">
 </p>
 
