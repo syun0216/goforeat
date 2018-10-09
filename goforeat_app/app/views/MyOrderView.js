@@ -7,12 +7,11 @@ import {
   TabHeading,
 } from "native-base";
 //utils
-import GLOBAL_PARAMS,{EXPLAIN_PAY_TYPE} from '../utils/global_params';
+import GLOBAL_PARAMS,{EXPLAIN_PAY_TYPE, isEmpty} from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
 //api
 import {myOrder,cancelOrder} from '../api/request';
 //components
-import BlankPage from '../components/BlankPage';
 import CommonHeader from '../components/CommonHeader';
 import Text from '../components/UnScalingText';
 import CommonFlatList from '../components/CommonFlatList';
@@ -21,17 +20,6 @@ import I18n from '../language/i18n';
 //styles
 import MyOrderStyles from '../styles/myorder.style';
 import CommonStyles from '../styles/common.style';
-
-let requestParams = {
-  status: {
-    LOADING: 0,
-    LOAD_SUCCESS: 1,
-    LOAD_FAILED: 2,
-    NO_MORE_DATA: 3
-  },
-  nextOffset: 0,
-  currentOffset: 0
-}
 
 const _TAB_DELIVERING = 0;
 const _TAB_FINISHED = 1;
@@ -65,9 +53,13 @@ export default class PeopleView extends Component {
   //private function
 
   _cancelOrder(orderId, currentPayment, status) {
-    // console.log(this[`${status}flatlist`]);
-    // return;
-    let {i18n} = this.state;
+    let {i18n, currentTab} = this.state;
+    const cancelRefresh = () => {
+      if(!isEmpty(this[`${_TAB_ALL}flatlist`])) {
+        this[`${_TAB_ALL}flatlist`].outSideRefresh();
+      }
+      this[`${_TAB_DELIVERING}flatlist`].outSideRefresh();
+    };
     Alert.alert(
       i18n.tips,
       i18n.myorder_tips.common.cancel_order,
@@ -78,7 +70,7 @@ export default class PeopleView extends Component {
             if(data.ro.respCode == '0000') {
               ToastUtil.showWithMessage(i18n.myorder_tips.success.cancel_order);
               
-              this[`${status}flatlist`].outSideRefresh();
+              cancelRefresh();
             }else {
               ToastUtil.showWithMessage(data.ro.respMsg)
             }
@@ -90,6 +82,7 @@ export default class PeopleView extends Component {
       { cancelable: false }
     )
   }
+
 
   _switchOrderStatus(status) {
     let {i18n} = this.state;
@@ -110,8 +103,8 @@ export default class PeopleView extends Component {
       });
   }
 
-  _getListCount(count) {
-    if(this.state.currentTab != _TAB_DELIVERING) return;
+  _getListCount(count, tab) {
+    if(tab != _TAB_DELIVERING) return;
     this.setState({
       listCount: count
     })
@@ -193,16 +186,6 @@ export default class PeopleView extends Component {
     )
   }
 
-  _renderCancelOrderView(item) {
-    return (
-      item.status === _ORDER_DELIVERING ? (
-        <View style={{flexDirection:'row',justifyContent:'flex-end'}}>
-          
-        </View>
-      ) : null
-    )
-  }
-
   render() {
     let {i18n,listCount} = this.state;
     let _order_arr = [
@@ -221,7 +204,7 @@ export default class PeopleView extends Component {
               <Tab key={key} heading={ <TabHeading style={MyOrderStyles.commonHeadering}><Text allowFontScaling={false} style={[MyOrderStyles.commonText,{fontWeight: this.state.currentTab == item.tab? '800':'normal',}]}>{item.title}</Text>
                 {listCount > 0&&item.status == _ORDER_DELIVERING?<Image source={require('../asset/Oval.png')} style={MyOrderStyles.activeRedTips}/> : null}
               </TabHeading>}>
-                <CommonFlatList style={{backgroundColor: '#efefef'}} ref={cfl => this[`${item.status}flatlist`] = cfl} requestFunc={myOrder} extraParams={{status: item.status}} renderItem={(index,item) => this._renderNewListItemView(index,item)} isBlankInfoBtnShow isItemSeparatorShow blankBtnMessage={i18n.common_tips.no_data} blankBtnFunc={() => this.props.navigation.goBack()} getCount={this._getListCount.bind(this)} {...this.props}/>
+                <CommonFlatList style={{backgroundColor: '#efefef'}} ref={cfl => this[`${item.tab}flatlist`] = cfl} requestFunc={myOrder} extraParams={{status: item.status}} renderItem={(index,item) => this._renderNewListItemView(index,item)} isBlankInfoBtnShow isItemSeparatorShow blankBtnMessage={i18n.common_tips.no_data} blankBtnFunc={() => this.props.navigation.goBack()} getCount={(count) => this._getListCount(count, item.tab)} {...this.props}/>
               </Tab>
             ))
           }
