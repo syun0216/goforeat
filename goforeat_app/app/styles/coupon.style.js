@@ -12,7 +12,7 @@ export default StyleSheet.create({
     height: em(120),
     borderRadius: em(8),
     backgroundColor: '#fff',
-    marginBottom: em(30)
+    margin: em(10)
   },
   ItemTop: {
     backgroundColor: '#ef7333',

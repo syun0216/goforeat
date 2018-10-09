@@ -169,9 +169,9 @@ const darwerView = DrawerNavigator(
     PayTypeDrawer: {
       screen: PaySettingView
     },
-    // CouponDrawer: {
-    //   screen: CouponView
-    // },
+    CouponDrawer: {
+      screen: CouponView
+    },
     UserHelpDrawer: {
       screen: UserHelperView
     },
@@ -192,7 +192,7 @@ const darwerView = DrawerNavigator(
         {title: i18n[language].dailyFood, leftImage: require("./asset/food.png")},
         {title: i18n[language].myorder,leftImage: require("./asset/order.png"),},
         {title: i18n[language].payment,leftImage: require('./asset/payment.png'),},
-        // {title: i18n[language].ticket,leftImage: require('./asset/coupon.png'),},
+        {title: i18n[language].ticket,leftImage: require('./asset/coupon.png'),},
         {title: i18n[language].contact, leftImage: require("./asset/help.png"),},
         {title: i18n[language].setting, leftImage: require('./asset/setting.png'),},
         {title: i18n[language].setting, leftImage: require('./asset/setting.png'),},
@@ -227,9 +227,6 @@ const darwerView = DrawerNavigator(
                 <CustomDarwerItem {..._drawItemArr[scene.index]}/>
               )
             }}/>
-            {/*
-              _drawItemArr.map((item,key) => <CustomDarwerItem key={key} {...item} {...props}/>)
-            */}
             </View>
             </Content>
             <BottomIntroduce {...props}/>

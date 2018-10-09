@@ -76,13 +76,12 @@ export default class CouponView extends PureComponent{
     return (
       <Container>
         <Header />
-        <Content style={CouponStyle.CouponContainer}>
-          <CommonFlatList 
+          <CommonFlatList
+            style={{backgroundColor: '#efefef'}}
             requestFunc={myCoupon}
             renderItem={(item,index) => this._renderCouponItem(item,index)}
             {...this.props}
             />
-        </Content>
       </Container>
     )
   }
