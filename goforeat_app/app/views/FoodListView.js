@@ -1,45 +1,65 @@
 import React, {Component} from 'react'
-import {View,TouchableOpacity,StyleSheet} from 'react-native'
+import {View,TouchableOpacity,StyleSheet,Image,Platform,ActivityIndicator,Linking} from 'react-native'
 import {
   Container,
+  Header,
 } from 'native-base';
-import Image from 'react-native-image-progress';
+import LinearGradient from 'react-native-linear-gradient';
 //utils
-import GLOBAL_PARAMS, { em } from '../utils/global_params';
+import GLOBAL_PARAMS, { em, isEmpty } from '../utils/global_params';
+import JSONUtils from '../utils/JSONUtils';
 //api
-import {getNewArticleList} from '../api/request';
+import {getNewArticleList, adSpace} from '../api/request';
 import source from '../api/CancelToken';
 //components
 import CommonHeader from '../components/CommonHeader';
 import Text from '../components/UnScalingText';
-import SlideUpPanel from '../components/SlideUpPanel';
+import WarningTips from '../components/WarningTips';
 import CommonFlatList from "../components/CommonFlatList";
+import AdervertiseView from '../components/AdvertiseView';
+import PlacePickerModel from '../components/PlacePickerModel';
+import HotReloadHOC from '../components/HomePageHOC';
 //language
 import I18n from '../language/i18n';
 //styles
 import HomePageStyles from '../styles/homepage.style';
+//storage
+import {placeStorage, advertisementStorage} from '../cache/appStorage';
 
-let requestParams = {
-  status: {
-    LOADING: 0,
-    LOAD_SUCCESS: 1,
-    LOAD_FAILED: 2,
-    NO_MORE_DATA: 3
-  },
-  nextOffset: 0,
-  currentOffset: 0
-}
+const { isIphoneX, bottomDistance, iPhoneXBottom, _winHeight,_winWidth } = GLOBAL_PARAMS;
 
-const { isIphoneX, bottomDistance, iPhoneXBottom, _winHeight } = GLOBAL_PARAMS;
-
-export default class FoodListView extends Component {
+class FoodListView extends Component {
 
   constructor(props) {
     super(props);
+    this._interval = null;
     this.state = {
       currentItem: '',
+      placeSelected: null,
+      advertiseImg: '',
+      advertiseData: null,
+      advertiseCountdown: 5,
+      warningTipsData: [],
+      isAdvertiseShow: false,
+      isWarningTipShow: false,
       i18n: I18n[props.screenProps.language]
     };
+  }
+
+  componentWillMount() {
+    let {isAdShow, hideAd} = this.props.screenProps;
+    if(isAdShow) {
+      hideAd();
+    }
+    // advertisementStorage.getData((error,data) => {
+    //   if(error == null) {
+    //     if(data != null) {
+    //       isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
+    //       this._advertiseInterval();
+    //     }
+    //     this._getAdvertise(data);
+    //   }
+    // })
   }
 
   componentWillReceiveProps() {
@@ -47,23 +67,142 @@ export default class FoodListView extends Component {
   }
 
   componentWillUnmount() {
-    source.cancel()
+    source.cancel();
+    clearInterval(this._interval);
+  }
+
+  //logic functions
+  _getAdvertise(old_data) {
+    adSpace().then(data => {
+      if(data.ro.respCode == '0000') {
+        if(data.data.length == 0) { // 如果data为空，则不设置缓存为空
+          advertisementStorage.setData(null);
+          return;
+        }
+        if(old_data != null) { // 如果缓存不为空
+          if(JSONUtils.jsonDeepCompare(old_data, data.data[0])) {
+            return; // 判断缓存是否与服务器数据相等，如果相等则不做操作
+          } else{ // 如果缓存不等则覆盖本地缓存为服务器数据
+            advertisementStorage.setData(data.data[0]);
+            Image.prefetch(data.data[0].image)
+          }
+        }else { // 如果缓存为空，则缓存到本地
+          advertisementStorage.setData(data.data[0]);
+          Image.prefetch(data.data[0].image)
+        }
+      }
+    })
+    .catch(err => {
+      if (axios.isCancel(thrown)) {
+        // console.log('Request canceled', thrown.message);
+      } 
+    })
+  }
+
+  _advertiseInterval() {
+    this._interval = setInterval(() => {
+      if(this.state.advertiseCountdown > 1) {
+        this.setState({
+          advertiseCountdown: this.state.advertiseCountdown - 1,
+        })
+      }else {
+        this.setState({
+          isAdvertiseShow: false
+        })
+        clearInterval(this._interval);
+      }
+    },1000)
+  }
+
+  _getSeletedValue(val) {
+    if(val == null) {
+      // this._picker.getPlace();
+      this.setState({ isError: true, loading: false });
+      return;
+    }
+    this.setState({
+      placeSelected: val,
+    });
   }
   
-  //common functions
+  //render functions
+  _renderAdvertisementView() {
+    return (
+      <AdervertiseView 
+      modalVisible={this.state.isAdvertiseShow} seconds={this.state.advertiseCountdown} image={this.state.advertiseImg} data={this.state.advertiseData} countDown={this.state.advertiseCountdown}  closeFunc={() => this.setState({
+        isAdvertiseShow: false
+      })} {...this.props}
+      />
+    )
+  }
+  
+  _renderTopTitleView() {
+    return (
+      <View style={{marginTop: em(10), marginLeft: em(15)}}>
+        <Text style={HomePageStyles.DateFormatWeekText}>
+        精選菜品</Text>
+      </View>
+    )
+  }
+
+  _renderWarningView() {
+    return (
+      <WarningTips {...this.props} />
+    )
+  }
+
+  _renderHeaderView() {
+    let {placeSelected} = this.state;
+    let {navigate} = this.props.navigation;
+    const scheme = Platform.select({ ios: 'http://maps.apple.com/?q=', android: 'geo:0,0?q=' });
+    return (
+      <Header
+          style={HomePageStyles.Header}
+          iosBarStyle="light-content"
+          androidStatusBarColor="#333"
+        >
+        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={HomePageStyles.linearGradient}>
+          <TouchableOpacity onPress={() => navigate("DrawerOpen", { callback: this._add })} style={HomePageStyles.MenuBtn}>
+            <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
+          </TouchableOpacity>
+          <View style={HomePageStyles.HeaderContent}>
+            {placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color='#fff' size="small"/>}
+          </View>
+          <TouchableOpacity onPress={() => Linking.openURL(`${scheme}${placeSelected.name}`)} style={HomePageStyles.MenuBtn}>
+            <Image source={require('../asset/location_white.png')} style={HomePageStyles.locationImage} resizeMode="contain"/>
+          </TouchableOpacity>
+        </LinearGradient>
+      </Header>
+    )
+  }
+
+  _renderPlacePickerBtn() {
+    return (
+      <TouchableOpacity style={HomePageStyles.PlacePickerBtn} onPress={() => this.setState({showPlacePicker: true})}>
+        <View style={HomePageStyles.PlacePickerBtnBgAbsolute}/>
+        <Text style={HomePageStyles.PlacePickerBtnText} numberOfLines={1}>
+          {this.state.placeSelected.name}
+        </Text>
+        <Image source={require('../asset/arrow_down.png')} style={HomePageStyles.PlacePickerBtnImage} resizeMode="contain"/>
+      </TouchableOpacity>
+    )
+  }
+
+  _renderPlacePicker() {
+    let {showPlacePicker} = this.state;
+    return (
+      <PlacePickerModel ref={c => this._picker = c} modalVisible={showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this._getSeletedValue(val)} {...this.props}/>
+    )
+  }
 
   _renderFoodListItemView (item,index) {
     if(typeof item === 'undefined') return;
     return (
       <TouchableOpacity style={styles.articleItemContainer}
         onPress={() => {
-          this.setState({
-            currentItem: item
-          }, () => {
-            this.slideUpPanel._snapTo()    
-          })
+          this.props.navigation.navigate('Food');
         }}>
-        <Image source={{uri: item.thumbnail}} style={{width: em(124),height: em(160)}} resizeMode="cover"/>
+        <Image source={{uri: item.thumbnail}} style={{width: _winWidth*0.45 - 10,height: em(160)}} resizeMode="cover"/>
         <View style={styles.articleItemDetails}>
           <View style={[styles.itemName, styles.marginBottom9]}>
             <Text style={styles.foodName} numberOfLines={1}>{item.name}</Text>
@@ -72,45 +211,39 @@ export default class FoodListView extends Component {
           <View style={{height: em(75),marginBottom: 12.5,}}>
             <Text style={styles.foodBrief} numberOfLines={5}>{item.brief}</Text>
           </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.foodUnit}>HKD</Text>
-            <Text style={styles.foodPrice}>{item.price}</Text>
+          <View style={{flexDirection: 'row',justifyContent: 'space-between',}}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.foodUnit}>$</Text>
+              <Text style={styles.foodPrice}>{item.price}</Text>
+            </View>
+            <Text style={{color: '#ff5858'}}>立即預訂</Text>
           </View>
         </View>
       </TouchableOpacity>
     )}
 
-  _renderFoodDetailsView() {
-    let {name,date,thumbnail,brief,price} = this.state.currentItem;
+  _renderFlatListView() {
+    _bottomDistance = isIphoneX() ?  bottomDistance + iPhoneXBottom : bottomDistance;
+    const {placeSelected} = this.state;
+    if(isEmpty(placeSelected)) {
+      return null;
+    }
     return (
-      <SlideUpPanel ref={r => this.slideUpPanel = r}>
-        <View onLayout={e => {
-          this.foodDetailsViewHeight = e.nativeEvent.layout.height;
-        }}>
-          <Text style={HomePageStyles.panelTitle} numberOfLines={2}>{name}</Text>
-          <Image style={HomePageStyles.panelImage} source={{uri: thumbnail}}/>
-          <Text style={HomePageStyles.IntroductionFoodBrief} >{brief}</Text>
-          <View style={HomePageStyles.AddPriceViewPriceContainer}>
-            <Text style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
-            <Text style={HomePageStyles.AddPriceViewPrice}>{price}</Text>
-            <Text style={HomePageStyles.AddPriceViewOriginPrice}>{date}</Text>
-          </View>
-        </View>
-      </SlideUpPanel>
+      <CommonFlatList ref={c => this.flatlist = c} requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} extraParams={{placeId: this.state.placeSelected.id}} {...this.props}/>
     )
   }
 
   render() {
     let {i18n} = this.state;
-    _bottomDistance = isIphoneX() ?  bottomDistance + iPhoneXBottom : bottomDistance;
     return (
     <Container style={{position:'relative'}}>
-      <CommonHeader hasMenu headerHeight={em(76)} title={i18n.weekMenu}/>
-        <View style={{marginTop:-em(75),height: _winHeight - _bottomDistance,minHeight: _winHeight - _bottomDistance}}>
-          {<CommonFlatList ref={c => this.flatlist = c} requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} extraParams={{placeId: this.props.screenProps.place.id}} {...this.props}/>}
-        </View>  
-        {this._renderFoodDetailsView()}  
-      </Container>)
+      {this._renderAdvertisementView()}
+      {this._renderPlacePicker()}
+      {this._renderHeaderView()}
+      {this._renderWarningView()}
+      {this._renderTopTitleView()}
+      {this._renderFlatListView()} 
+    </Container>)
     }
   }
 
@@ -118,12 +251,16 @@ FoodListView.navigationOptions = ({screenProps}) => ({
   tabBarLabel: I18n[screenProps.language].weekMenu
 })
 
+export default HotReloadHOC(FoodListView);
+
 const styles = StyleSheet.create({
   articleItemContainer:{
     height: em(160),
     flex:1,
     borderRadius: 8,
     margin: 10,
+    marginLeft: 15,
+    marginRight: 15,
     borderRadius :5,
     flexDirection: 'row',
     shadowColor: '#ededeb',
@@ -150,7 +287,7 @@ const styles = StyleSheet.create({
     fontSize: em(18),
     color: '#111',
     fontWeight: '800',
-    maxWidth: em(130)
+    maxWidth: em(110)
   },
   foodTime: {
     fontSize: em(13),
