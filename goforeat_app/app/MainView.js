@@ -137,7 +137,6 @@ const customItemPress = ({route, focused}, navigation) => {
     navigation.navigate('DrawerClose');
     if (!focused) {
       let subAction;
-      // if the child screen is a StackRouter then always navigate to its first screen (see #1914)
       if (route.index !== undefined && route.index !== 0) {
         subAction = NavigationActions.reset({
           index: 0,
@@ -161,7 +160,7 @@ const customItemPress = ({route, focused}, navigation) => {
 const darwerView = DrawerNavigator(
   {
     FoodDetails: {
-      screen: tabView,
+      screen: FoodListView,
     },
     MyOrderDrawer: {
       screen: MyOrderView
@@ -240,7 +239,9 @@ let MainView = StackNavigator(
   {
     Home: {
       screen: darwerView,
-      
+    },
+    Food: {
+      screen: HomePage
     },
     // Splash: {
     //   screen: SplashPageView

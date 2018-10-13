@@ -18,30 +18,27 @@ import Carousel from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient';
 import { sliderWidth, itemWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
-import HotReloadHOC from '../components/HomePageHOC';
 //styles
 import styles from "../styles/index.style";
 import HomePageStyles from "../styles/homepage.style";
 // utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS,{em} from "../utils/global_params";
-import JSONUtils from '../utils/JSONUtils';
 //api
-import { getDailyFoods, adSpace } from '../api/request';
+import { getDailyFoods } from '../api/request';
 //components
 import AdervertiseView from '../components/AdvertiseView';
 import ErrorPage from "../components/ErrorPage";
 import Loading from "../components/Loading";
-import PlacePickerModel from '../components/PlacePickerModel';
 import BlankPage from '../components/BlankPage';
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
-import WarningTips from '../components/WarningTips';
 import Text from '../components/UnScalingText';
 import SlideUpPanel from '../components/SlideUpPanel';
+import CommonHeader from '../components/CommonHeader';
 // language
 import I18n from "../language/i18n";
 //cache 
-import {placeStorage,advertisementStorage} from '../cache/appStorage';
+import {placeStorage} from '../cache/appStorage';
 
 const SLIDER_1_FIRST_ITEM = 0;
 
@@ -50,10 +47,6 @@ const NO_MORE_FOODS = 2;
 const IS_INTERCEPT = 3;
 
 class HomePage extends Component {
-  static navigationOptions = ({screenProps}) => {
-    return ({
-    tabBarLabel: I18n[screenProps.language].dailyFood
-  })};
 
   _current_offset = 0; 
   _SliderEntry = null; 
@@ -78,33 +71,24 @@ class HomePage extends Component {
       },
       refreshParams: '',
       briefNumbersOfLines: GLOBAL_PARAMS._winHeight>667? 4: 3,
-      isBottomContainerShow: false,
-      foodCount: 0,
-      showPlacePicker: false,
+      foodCount: 1,
       showMoreDetail: false,
-      advertiseImg: '',
-      advertiseData: null,
-      advertiseCountdown: 5,
-      isAdvertiseShow: false,
       i18n: I18n[props.screenProps.language]
     };
   }
 
   componentWillMount() {
-    // console.log('homepage willmount');
-    let {isAdShow, hideAd} = this.props.screenProps;
-    if(isAdShow) {
-      hideAd();
-    }
-    advertisementStorage.getData((error,data) => {
+    placeStorage.getData((error, data) => {
       if(error == null) {
         if(data != null) {
-          isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
-          this._advertiseInterval();
+          console.log(data);
+          this.setState({
+            placeSelected: data
+          });
+          this._onRefreshToRequestFirstPageData(data.id);
         }
-        this._getAdvertise(data);
       }
-    })
+    });
   }
 
   componentDidMount() {
@@ -198,62 +182,6 @@ class HomePage extends Component {
       })
   }
 
-  _getWarningTips() {
-    queryList().then(data => {
-      if(data.ro.ok) {
-        // console.log(data);
-        this.setState({
-          warningTipsData: data.data,
-          isWarningTipShow: true
-        })
-      }
-    })
-  }
-
-  _getAdvertise(old_data) {
-    adSpace().then(data => {
-      if(data.ro.respCode == '0000') {
-        if(data.data.length == 0) { // 如果data为空，则不设置缓存为空
-          advertisementStorage.setData(null);
-          return;
-        }
-        if(old_data != null) { // 如果缓存不为空
-          if(JSONUtils.jsonDeepCompare(old_data, data.data[0])) {
-            return; // 判断缓存是否与服务器数据相等，如果相等则不做操作
-          } else{ // 如果缓存不等则覆盖本地缓存为服务器数据
-            advertisementStorage.setData(data.data[0]);
-            Image.prefetch(data.data[0].image)
-          }
-        }else { // 如果缓存为空，则缓存到本地
-          advertisementStorage.setData(data.data[0]);
-          Image.prefetch(data.data[0].image)
-        }
-      }
-    })
-    .catch(err => {
-      if (axios.isCancel(thrown)) {
-        // console.log('Request canceled', thrown.message);
-      } 
-    })
-    
-  }
-
-  _advertiseInterval = () => {
-    this._interval = setInterval(() => {
-      if(this.state.advertiseCountdown > 1) {
-        this.setState({
-          advertiseCountdown: this.state.advertiseCountdown - 1,
-        })
-        // console.log(this.state.advertiseCountdown);
-      }else {
-        this.setState({
-          isAdvertiseShow: false
-        })
-        clearInterval(this._interval);
-      }
-    },1000)
-  }
-
   _onLoadingToRequestFirstPageData(id) {
     this.setState({loading: true});
     this._timer = setTimeout(() => {
@@ -264,7 +192,7 @@ class HomePage extends Component {
 
   _onRefreshToRequestFirstPageData(id) {
     if(!id) return;
-    this.setState({refreshing: true});
+    this.setState({loading: true});
     this._timer = setTimeout(() => {
       clearTimeout(this._timer);
       this._getDailyFoodList(id);
@@ -286,21 +214,6 @@ class HomePage extends Component {
       }
     })
   };
-
-  getSeletedValue = (val) => {
-    if(val == null) {
-      // this._picker.getPlace();
-      this.setState({ isError: true, loading: false });
-      return;
-    }
-    this.setState({
-      placeSelected: val,
-      foodCount: 0,
-      isBottomContainerShow: false
-    })
-    this._onLoadingToRequestFirstPageData(val.id);
-    this.props.navigation.setParams({visible: true})
-  }
 
   _goToOrder = () => {
     let {foodId,price} = this.state.foodDetails[0];
@@ -324,7 +237,6 @@ class HomePage extends Component {
       foodCount: this.state.foodCount + 1,
       isBottomContainerShow: true
     })
-    this.props.navigation.setParams({visible: false})
   }
 
   _remove() {
@@ -334,7 +246,7 @@ class HomePage extends Component {
         isBottomContainerShow: false,
       })
     }
-    if(this.state.foodCount == 0) {
+    if(this.state.foodCount == 1) {
       return ;
     }
     this.setState({
@@ -347,69 +259,14 @@ class HomePage extends Component {
   }
 
   _cancelOrder = () => {
-    let {params: {visible}} = this.props.navigation.state;
-    this.setState({
-      isBottomContainerShow: false,
-      foodCount: 0
-    })
-    !visible && this.props.navigation.setParams({visible: true})
+    this.props.navigation.goBack();
   }
 
-  
-
-  //render function 
-  _renderAdvertisementView() {
-    return (
-      <AdervertiseView 
-      modalVisible={this.state.isAdvertiseShow} seconds={this.state.advertiseCountdown} image={this.state.advertiseImg} data={this.state.advertiseData} countDown={this.state.advertiseCountdown}  closeFunc={() => this.setState({
-        isAdvertiseShow: false
-      })} {...this.props}
-      />
-    )
-  }  
-
+  //render function
   _renderHeaderView() {
-    let {placeSelected} = this.state;
-    let {navigate} = this.props.navigation;
-    const scheme = Platform.select({ ios: 'http://maps.apple.com/?q=', android: 'geo:0,0?q=' });
+    const {i18n} = this.state;
     return (
-      <Header
-          style={HomePageStyles.Header}
-          iosBarStyle="light-content"
-          androidStatusBarColor="#333"
-        >
-        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={HomePageStyles.linearGradient}>
-          <TouchableOpacity onPress={() => navigate("DrawerOpen", { callback: this._add })} style={HomePageStyles.MenuBtn}>
-            <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
-            {/*<Image source={require('../asset/Oval.png')} style={{width: 10,height: 10,position: 'absolute',top: 10, right: 10}}/>*/}
-          </TouchableOpacity>
-          <View style={HomePageStyles.HeaderContent}>
-            {placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color={Colors.main_white} size="small"/>}
-          </View>
-          <TouchableOpacity onPress={() => Linking.openURL(`${scheme}${placeSelected.name}`)} style={HomePageStyles.MenuBtn}>
-            <Image source={require('../asset/location_white.png')} style={HomePageStyles.locationImage} resizeMode="contain"/>
-          </TouchableOpacity>
-        </LinearGradient>
-      </Header>
-    )
-  }
-
-  _renderPlacePickerBtn() {
-    return (
-      <TouchableOpacity style={HomePageStyles.PlacePickerBtn} onPress={() => this.setState({showPlacePicker: true})}>
-        <View style={HomePageStyles.PlacePickerBtnBgAbsolute}/>
-        <Text style={HomePageStyles.PlacePickerBtnText} numberOfLines={1}>
-          {this.state.placeSelected.name}
-        </Text>
-        <Image source={require('../asset/arrow_down.png')} style={HomePageStyles.PlacePickerBtnImage} resizeMode="contain"/>
-      </TouchableOpacity>
-    )
-  }
-
-  _renderPlacePicker() {
-    let {showPlacePicker} = this.state;
-    return (
-      <PlacePickerModel ref={c => this._picker = c} modalVisible={showPlacePicker} closeFunc={() => this.setState({showPlacePicker: false})} getSeletedValue={(val) => this.getSeletedValue(val)} {...this.props}/>
+      <CommonHeader title={i18n.dailyFood} canBack />
     )
   }
 
@@ -420,12 +277,6 @@ class HomePage extends Component {
         {this.state.formatDate.week}</Text>
         <Text style={HomePageStyles.DateFormatDateText}>{this.state.formatDate.date}</Text>
       </View>
-    )
-  }
-
-  _renderWarningView() {
-    return (
-      <WarningTips {...this.props}/>
     )
   }
 
@@ -587,7 +438,6 @@ class HomePage extends Component {
         }
         >
           {week != '' ? this._renderDateFormat() : null}
-          {this._renderWarningView()}
           {main_view}
           {foodDetails.length > 0 ? (
             <View>
@@ -605,7 +455,7 @@ class HomePage extends Component {
     let {i18n, isBottomContainerShow,foodCount, foodDetails} = this.state;
     return (
       <BottomOrderConfirm btnMessage={i18n.book} {...this.props} 
-      isShow={isBottomContainerShow} 
+      isShow={true} 
       total={foodCount*foodDetails[0].price}
       btnClick={this._goToOrder}
       cancelOrder={this._cancelOrder}/>
@@ -627,8 +477,6 @@ class HomePage extends Component {
   
     return (
       <Container style={HomePageStyles.ContainerBg}>
-        {this._renderAdvertisementView()}
-        {this._renderPlacePicker()}
         {this._renderHeaderView()}
         {isError ? this._renderErrorView() : null}
         {loading ? <Loading /> : null}
@@ -640,4 +488,4 @@ class HomePage extends Component {
   }
 }
 
-export default HotReloadHOC(HomePage);
+export default HomePage;

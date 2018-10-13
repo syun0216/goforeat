@@ -13,13 +13,12 @@ const common = {
 export default StyleSheet.create({
   // _renderDateFormat
   DateFormatView: {
-    marginTop: em(20),
+    marginTop: em(10),
     marginLeft: common.marginLeft
   },
   DateFormatWeekText: {
     color: Colors.fontBlack,
-    fontSize: em(18),
-    marginBottom: em(5),
+    fontSize: em(20),
     fontWeight: 'bold'
   },
   DateFormatDateText: {
