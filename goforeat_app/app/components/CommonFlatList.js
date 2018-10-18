@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {FlatList,RefreshControl,Text,View} from 'react-native';
 //utils
-import GLOBAL_PARAMS from '../utils/global_params';
+import GLOBAL_PARAMS, {isEmpty} from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
 //components
 import Loading from '../components/Loading';
@@ -180,9 +180,10 @@ export default class CommonFlatList extends Component{
         onEndReachedThreshold={0.01}
         onEndReached={() => this._onEndReach()}
         ItemSeparatorComponent={() => this._renderItemDivider()}
+        ListHeaderComponent={() => this._renderHeader()}
         ListFooterComponent={() =>(
           <ListFooter loadingStatus={nextPageLoading} errorToDo={() => this._onErrorToRequestNextPage()}/>
-        )}
+        )}        
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -191,6 +192,14 @@ export default class CommonFlatList extends Component{
         }
       />
     )
+  }
+
+  _renderHeader() {
+    const { renderHeader } = this.props;
+    if(isEmpty(renderHeader)) {
+      return null;
+    }
+    return renderHeader();
   }
 
   _renderItemDivider() {
@@ -233,6 +242,7 @@ export default class CommonFlatList extends Component{
 CommonFlatList.propsType = {
   requestFunc: PropTypes.func,
   renderItem: PropTypes.func,
+  renderHeader: PropTypes.func,
   isRefreshControlShow: PropTypes.bool,
   isBlankInfoBtnShow: PropTypes.bool,
   isItemSeparatorShow: PropTypes.bool,
