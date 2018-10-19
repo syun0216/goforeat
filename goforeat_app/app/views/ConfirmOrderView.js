@@ -33,7 +33,7 @@ import GLOBAL_PARAMS, { em, EXPLAIN_PAY_TYPE } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 import {getDeviceId} from "../utils/DeviceInfo";
 //api
-import {createOrder,confirmOrder,useCoupon} from '../api/request';
+import {createOrder,createNewOrder,confirmOrder,useCoupon} from '../api/request';
 //component
 import Divider from "../components/Divider";
 //styles
@@ -63,6 +63,8 @@ export default class ConfirmOrderView extends PureComponent {
 
   constructor(props) {
     super(props);
+    this.dateFoodId = this.props.navigation.state.params.dateFoodId;
+    this.amount = this.props.navigation.state.params.amount;
     this._popupDialog = null;
     this._input = null;
     this.timer = null;
@@ -121,9 +123,8 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _createOrder() {
-    let {foodId,placeId,amount} = this.props.navigation.state.params;
     let {i18n} = this.state;
-    createOrder(foodId,placeId,amount).then(
+    createNewOrder(this.dateFoodId, this.amount).then(
       data => {
         if (data.ro.respCode == '0000') {
           this.setState({
@@ -137,15 +138,7 @@ export default class ConfirmOrderView extends PureComponent {
             this.props.screenProps.userLogout();
           }
           ToastUtil.showWithMessage(data.ro.respMsg);
-          this.props.navigation.goBack()
-          // Alert.alert(null
-          //   , data.ro.respMsg
-          //   , [
-          //       {text: i18n.cancel},
-          //       {text: i18n.confirm, onPress: () => this.props.navigation.goBack()}
-          //   ]
-          // );
-          // alert(data.data.ro.respMsg);
+          this.props.navigation.goBack();
           this.setState({
             loading: false,
             isExpired: true,
@@ -353,15 +346,6 @@ export default class ConfirmOrderView extends PureComponent {
       });
   }
 
-  _openDialog = () => {
-    if(this.state.orderDetail === null) {
-        ToastUtil.showWithMessage(this.state.i18n.confirmorder_tips.fail.order);
-        return;
-    }
-    this._popupDialog.show(() => {
-    });
-  };
-
   _getCoupon = coupon => {
     this.setState({
       coupon
@@ -373,68 +357,6 @@ export default class ConfirmOrderView extends PureComponent {
       remark: val
     })
   }
-
-  _renderPopupDiaogView() {
-      let {i18n} = this.state;
-      let {orderDetail:{takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail},discountsPrice} = this.state;
-      totalMoney = (totalMoney - discountsPrice) > 0 ? totalMoney - discountsPrice : 0;
-      return (<PopupDialog
-      dialogTitle={<DialogTitle title={i18n.myOrder} />}
-      width={GLOBAL_PARAMS._winWidth * 0.9}
-      height={em(450)}
-      ref={popupDialog => {
-        this._popupDialog = popupDialog;
-      }}
-      dialogAnimation={slideAnimation}
-      onDismissed={() => {
-      }}
-    >
-      <Container>
-        <Content>
-          <ListItem last style={ConfirmOrderStyles.CommonListItem}>
-            <Text style={CommonStyles.common_title_text}>{i18n.bookPhone}:</Text>
-            <Text style={CommonStyles.common_title_text}>{this.props.screenProps.user}</Text>
-          </ListItem>
-          <Separator bordered>
-            <Text style={CommonStyles.common_title_text}>{i18n.orderDetail}</Text>
-          </Separator>
-          <ListItem style={ConfirmOrderStyles.CommonListItem}>
-            <Text style={CommonStyles.common_title_text}>{i18n.foodName}</Text>
-            <Text style={[CommonStyles.common_title_text,Platform.OS=='android'?{maxWidth:150}:null]}>{orderDetail[0].foodName}</Text>
-          </ListItem>
-          <ListItem style={ConfirmOrderStyles.CommonListItem}>
-            <Text style={CommonStyles.common_title_text}>{i18n.quantity}</Text>
-            <Text style={CommonStyles.common_title_text}>{orderDetail[0].foodNum}</Text>
-          </ListItem>
-          <ListItem style={ConfirmOrderStyles.CommonListItem}>
-            <Text style={CommonStyles.common_title_text}>{i18n.foodAddress}</Text>
-            <Text tyle={CommonStyles.common_title_text}>{takeAddressDetail}</Text>
-          </ListItem>
-          <ListItem style={ConfirmOrderStyles.CommonListItem}>
-            <Text style={CommonStyles.common_title_text}>{i18n.foodTime}</Text>
-            <Text style={[CommonStyles.common_title_text,{maxWidth: 200}]} numberOfLines={1}>{takeDate}{" "}{takeTime}</Text>
-          </ListItem>
-          <ListItem style={ConfirmOrderStyles.CommonListItem} last>
-            <Text style={CommonStyles.common_title_text}>{i18n.total}</Text>
-            <Text style={[CommonStyles.common_title_text,{color:'#FF3348'}]}>HKD {totalMoney}</Text>
-          </ListItem>          
-        </Content>
-        <Footer style={ConfirmOrderStyles.Footer}>
-          <Button
-            onPress={() => this._confirmOrder()}
-            block
-            style={ConfirmOrderStyles.ConfirmBtn}
-          >
-            <Text
-              style={ConfirmOrderStyles.ConfirmBtnText}
-            >
-              {i18n.sendOrder}
-            </Text>
-          </Button>
-        </Footer>
-      </Container>
-    </PopupDialog>
-  )};
 
   _renderCouponBtnView() {
     return (
@@ -459,18 +381,18 @@ export default class ConfirmOrderView extends PureComponent {
 
   _renderNewOrderView() {
     let {i18n} = this.state;
-    let {orderDetail:{totalMoney,orderDetail,defaultPayment},hasChangeDefaultPayment,discountsPrice} = this.state;
+    let {orderDetail:{totalMoney,foodName,foodMoney,foodNum,defaultPayment},hasChangeDefaultPayment,discountsPrice} = this.state;
     defaultPayment = hasChangeDefaultPayment != null ? hasChangeDefaultPayment : defaultPayment;
     totalMoney = totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
     return (
       <View style={styles.commonNewContainer}>
         <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop]}>
-        <Text style={ConfirmOrderStyles.FoodName} numberOfLines={1}>{orderDetail[0].foodName}</Text>
-        <Text style={ConfirmOrderStyles.MoneyUnit} numberOfLines={1}>HKD {orderDetail[0].foodMoney.toFixed(2)}</Text>
+        <Text style={ConfirmOrderStyles.FoodName} numberOfLines={1}>{foodName}</Text>
+        <Text style={ConfirmOrderStyles.MoneyUnit} numberOfLines={1}>HKD {foodMoney.toFixed(2)}</Text>
         </View>
         <View style={[ConfirmOrderStyles.CountView,styles.commonMarginBottom]}>
           <Text style={ConfirmOrderStyles.CountText}>{i18n.quantity}:</Text>
-          <Text style={ConfirmOrderStyles.FoodNum}>{orderDetail[0].foodNum}</Text>
+          <Text style={ConfirmOrderStyles.FoodNum}>{foodNum}</Text>
         </View>
         <Divider bgColor="#EBEBEB" height={1}/>
         {
@@ -496,7 +418,7 @@ export default class ConfirmOrderView extends PureComponent {
 
   _renderNewDetailsView() {
     let {i18n} = this.state;
-    let {orderDetail:{defaultPayment,takeAddressDetail,totalMoney,takeTime,takeDate,takeAddress,orderDetail}} = this.state;
+    let {orderDetail:{takeTime,takeDate,takeAddress}} = this.state;
     let _details_arr = [
       {title:i18n.fooddate,content: takeDate,hasPreIcon: false,fontColor:'#ff3448',canOpen: false,clickFunc:()=>{},disable: true},
       {title:i18n.foodAddress,content: takeAddress,hasPreIcon:true,fontColor:'#333333',canOpen:false,clickFunc:()=>{},disable: true},
@@ -543,7 +465,7 @@ export default class ConfirmOrderView extends PureComponent {
     let {total} = this.props.navigation.state.params;
     let total_price = total - discountsPrice > 0 ? total - discountsPrice : 0;
     return (
-      <BottomOrderConfirm isShow={this.state.isBottomShow} total={total_price}  btnMessage={this.state.i18n.orderNow} btnClick={this._openDialog} canClose={false}/>
+      <BottomOrderConfirm isShow={this.state.isBottomShow} total={total_price}  btnMessage={this.state.i18n.orderNow} btnClick={() => this._confirmOrder()} canClose={false}/>
     )
   }
 
@@ -560,8 +482,7 @@ export default class ConfirmOrderView extends PureComponent {
   render() {
     let {i18n,orderDetail,isCouponPickModalShow,loading,loadingModal,isError,isExpired,expiredMessage} = this.state;
     return (
-      <Container>
-        { orderDetail !== null ? this._renderPopupDiaogView() : null } 
+      <Container> 
         { isCouponPickModalShow ? this._renderCouponView() : null }
         <CommonHeader
           canBack

@@ -178,10 +178,7 @@ export default class CustomLoginView extends PureComponent {
             this.props.navigation.navigate('Order',
               {
                   replaceRoute: true,
-                  foodId: params.foodId,
-                  placeId: params.placeId,
-                  amount: params.amount,
-                  total: params.total
+                  ...params
               })
           }else {
             let {callback} = this.props.navigation.state.params;

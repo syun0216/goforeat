@@ -55,6 +55,7 @@ class FoodDetailsView extends Component {
   _interval = null;// 首页广告倒计时
   constructor(props) {
     super(props);
+    this.dateFoodId = this.props.navigation.state.params.dateFoodId;
     this.state = {
       slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
       shopDetail: null,
@@ -78,8 +79,7 @@ class FoodDetailsView extends Component {
   }
 
   componentWillMount() {
-    let {dateFoodId} = this.props.navigation.state.params;
-    this._onRefreshToRequestFirstPageData(dateFoodId);
+    this._onRefreshToRequestFirstPageData(this.dateFoodId);
   }
 
   componentDidMount() {
@@ -99,49 +99,10 @@ class FoodDetailsView extends Component {
 
   _handleAppStateChange(nextAppState) {
     if(nextAppState == 'active') {
-      this._reloadPage();
+      this._onRefreshToRequestFirstPageData(this.dateFoodId);
     }
   }
 
-  _reloadPage() {
-    if(!this.state.placeSelected && this._picker != null) {
-      this._picker.getPlace();
-      return;
-    }
-    this._onRefreshToRequestFirstPageData(this.state.placeSelected.id);
-  }
-
-  _formatDate(timestamp,endTimestamp) {
-    let {i18n} = this.state;
-    // let _Date = new Date(timestamp);
-    let _endDate = new Date(endTimestamp);
-    let _endDate_format = i18n.endTime;
-    let _getWeekDay = (date) => {
-      let _week_day = null;
-      switch(date) 
-      { 
-        case 0:_week_day = i18n.sun;break; 
-        case 1:_week_day = i18n.mon;break; 
-        case 2:_week_day = i18n.tuse;break; 
-        case 3:_week_day = i18n.wed;break; 
-        case 4:_week_day = i18n.thr;break; 
-        case 5:_week_day = i18n.fri;break; 
-        case 6:_week_day = i18n.sat;break; 
-        default:_week_day = i18n.common_tips.err 
-      } 
-      return _week_day;
-    }
-    
-    _endDate_format += ` ${_endDate.getHours()}:${_endDate.getMinutes()<10?`0${_endDate.getMinutes()}`:`${_endDate.getMinutes()}`} ${_endDate.getMonth()+1}月${_endDate.getDate()}日 ${_getWeekDay(_endDate.getDay())}`;
-    
-    let _newFormatDate = Object.assign({},{
-      endDate: _endDate_format,
-      ...this.state.formatDate
-    })
-    this.setState({
-      formatDate: _newFormatDate
-    });
-  }
   //api
   _getFoodDetails(id) {
       getFoodDetails(id).then(data => {
@@ -151,19 +112,7 @@ class FoodDetailsView extends Component {
             loading: false,
             refreshing: false,
             soldOut: data.data.status,
-            formatDate: {
-              week: data.data.title,
-              date: data.data.subTitle
-            }
           })
-          if(data.data.status == NO_MORE_FOODS || data.data.status == IS_INTERCEPT) {
-            if(this.state.isBottomContainerShow) {
-              this.props.navigation.setParams({visible: true})
-              this.setState({
-                isBottomContainerShow: false,
-              })
-            }
-          }
         }
       },() => {
         this.setState({ isError: true, loading: false,refreshing: false });
@@ -179,35 +128,18 @@ class FoodDetailsView extends Component {
     }, 800)
   }
 
-  _onErrorToRetry = () => {
-    this.setState({
-      loading: true,
-      isError: false
-    });
-    placeStorage.getData((error, data) => {
-      if (error === null) {
-        if (data !== null) {
-          this._picker != null && this._picker.getPlace(data);
-        }else {
-          this._picker != null && this._picker.getPlace();
-        }
-      }
-    })
-  };
-
-  _goToOrder = () => {
-    let {foodId,price} = this.state.foodDetails;
-    let {placeSelected,foodCount} = this.state;
+  _goToOrder() {
+    let {foodDetails:{price}, foodCount} = this.state;
+    let _defaultObj = {
+      dateFoodId: this.dateFoodId,
+      amount: foodCount,
+      total: foodCount*price
+    }
     if(this.props.screenProps.user !== null) {
-      this.props.navigation.navigate("Order", {
-          foodId,
-          placeId: placeSelected.id,
-          amount: foodCount,
-          total: foodCount*price
-      })
+      this.props.navigation.navigate("Order", _defaultObj)
   }else {
-    if(placeSelected.id){
-      this.props.navigation.navigate("Login",{page:'Order',foodId,placeId: placeSelected.id,amount: foodCount,total: foodCount*price,reloadFunc: () => this._reloadWhenCancelLogin()});
+    if(this.dateFoodId){
+      this.props.navigation.navigate("Login",{..._defaultObj,reloadFunc: () => this._reloadWhenCancelLogin()});
       }
     }
   }
@@ -235,7 +167,7 @@ class FoodDetailsView extends Component {
   }
 
   _reloadWhenCancelLogin() {
-    this._reloadPage();
+    this._onRefreshToRequestFirstPageData(this.dateFoodId);
   }
 
   _cancelOrder = () => {
@@ -254,21 +186,19 @@ class FoodDetailsView extends Component {
     return (
       <View style={FoodDetailsStyles.DateFormatView}>
         <Text style={FoodDetailsStyles.DateFormatWeekText}>
-        {this.state.formatDate.week}</Text>
-        <Text style={FoodDetailsStyles.DateFormatDateText}>{this.state.formatDate.date}</Text>
+        {this.state.foodDetails.title}</Text>
+        <Text style={FoodDetailsStyles.DateFormatDateText}>{this.state.foodDetails.subTitle}</Text>
       </View>
     )
   }
 
   _renderMainView() {
     const { foodDetails } = this.state;
-
     return foodDetails != null  ? (
       <View style={[styles.exampleContainer, { marginTop: -15 }]}>
-        {/*<Text style={[styles.title,{color:'#1a1917'}]}>商家列表</Text>*/}
         <Carousel
           ref={c => (this._slider1Ref = c)}
-          data={[foodDetails.extralImage]}
+          data={foodDetails.extralImage}
           renderItem={this._renderItemWithParallax.bind(this)}
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
@@ -292,17 +222,14 @@ class FoodDetailsView extends Component {
 
   _renderItemWithParallax({ item, index }, parallaxProps) {
     return (
-      this.state.placeSelected != null ?
       <SliderEntry
         ref={(se) => this._SliderEntry = se}
         data={item}
-        // star={this.state.foodDetails.star}
         even={(index + 1) % 2 === 0}
-        placeId={this.state.placeSelected.id}
         {...this.props}
         // parallax={true}
         // parallaxProps={parallaxProps}
-      /> : null
+      />
     );
   }
 
@@ -414,7 +341,7 @@ class FoodDetailsView extends Component {
           />
         }
         >
-          {week != '' ? this._renderDateFormat() : null}
+          {foodDetails != null ? this._renderDateFormat() : null}
           {main_view}
           {foodDetails != null ? (
             <View>
@@ -433,7 +360,7 @@ class FoodDetailsView extends Component {
       <BottomOrderConfirm btnMessage={i18n.book} {...this.props} 
       isShow={true} 
       total={foodCount*foodDetails.price}
-      btnClick={this._goToOrder}
+      btnClick={() => this._goToOrder()}
       cancelOrder={this._cancelOrder}/>
     )
   }
@@ -442,7 +369,7 @@ class FoodDetailsView extends Component {
     let {i18n} = this.state;
     return (
       <ErrorPage
-        errorToDo={this._onErrorToRetry}
+        errorToDo={this._onRefreshToRequestFirstPageData}
         errorTips={i18n.common_tips.reload}
       />
     )

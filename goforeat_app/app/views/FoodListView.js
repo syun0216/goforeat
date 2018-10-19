@@ -51,15 +51,15 @@ class FoodListView extends Component {
     if(isAdShow) {
       hideAd();
     }
-    // advertisementStorage.getData((error,data) => {
-    //   if(error == null) {
-    //     if(data != null) {
-    //       isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
-    //       this._advertiseInterval();
-    //     }
-    //     this._getAdvertise(data);
-    //   }
-    // })
+    advertisementStorage.getData((error,data) => {
+      if(error == null) {
+        if(data != null) {
+          isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
+          this._advertiseInterval();
+        }
+        this._getAdvertise(data);
+      }
+    })
   }
 
   componentWillReceiveProps() {
@@ -72,6 +72,7 @@ class FoodListView extends Component {
   }
 
   //logic functions
+
   _getAdvertise(old_data) {
     adSpace().then(data => {
       if(data.ro.respCode == '0000') {
@@ -138,18 +139,16 @@ class FoodListView extends Component {
 
   _renderRefreshBgView() {
     return (
-      <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={{position:'absolute',top:0,left: 0,height: 150,width: _winWidth}}/>
+      <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={{position:'absolute',top:0,left: 0,height: 150,width: _winWidth}} />
     )
   }
   
   _renderTopTitleView() {
     return (
-
-        <View style={{marginTop: em(10), marginLeft: em(15)}}>
-          <Text style={FoodDetailsStyles.DateFormatWeekText}>
-          精選菜品</Text>
-        </View>
-
+      <View style={{marginTop: em(10), marginLeft: em(15)}}>
+        <Text style={[FoodDetailsStyles.DateFormatWeekText, {color: '#efefef'}]}>
+        精選菜品</Text>
+      </View>
     )
   }
 
