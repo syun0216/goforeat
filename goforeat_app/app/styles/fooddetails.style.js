@@ -17,7 +17,7 @@ export default StyleSheet.create({
     marginLeft: common.marginLeft
   },
   DateFormatWeekText: {
-    color: Colors.fontBlack,
+    color: Colors.main_white,
     fontSize: em(20),
     fontWeight: 'bold'
   },
@@ -227,6 +227,10 @@ export default StyleSheet.create({
   canteenName: {
     fontSize: em(16),
     color: '#999'
+  },
+  canteenImg: {
+    width: em(16),
+    height: em(13)
   }
 
 })

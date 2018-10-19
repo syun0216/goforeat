@@ -46,11 +46,11 @@ app
 │   └── index.js                                                store的配置
 ├── styles                                                      app中的样式
 │   ├── common.style.js                                         公用样式
-│   ├── confirmorder.style.js                                   确认订单样式
+│   ├── confirmorder.style.js                                    确认订单样式
 │   ├── content.style.js                                        内容页样式
 │   ├── coupon.style.js                                         优惠券样式
 │   ├── creditcard.style.js                                     信用卡样式
-│   ├── homepage.style.js                                       主页样式
+│   ├── fooddetails.style.js                                    菜单详情页样式
 │   ├── index.style.js                                          轮播样式
 │   ├── login.style.js                                          登录页样式
 │   ├── mainview.style.js                                       mainview样式
@@ -72,13 +72,13 @@ app
 │   ├── ToastUtil.js                                            toast工具
 │   └── ViewStatus.js                                           页面状态
 ├── views                                                       页面
-│   ├── ConfirmOrderView.js                                     确认订单页面
+│   ├── ConfirmOrderView.js                                      确认订单页面
 │   ├── ContentView.js                                          内容页
 │   ├── CouponView.js                                           优惠券页面
 │   ├── CreditCardView.js                                       信用卡页面
 │   ├── FeedbackView.js                                         反馈页
 │   ├── FoodListView.js                                         餐单预告页面
-│   ├── HomePage.js                                             首页
+│   ├── FoodDetailsView.js                                      菜单详情页
 │   ├── ManageCreditCardView.js                                 管理信用卡页面
 │   ├── MoreDetailView.js                                       更多详情页面
 │   ├── PaySettingView.js                                       支付方式页面

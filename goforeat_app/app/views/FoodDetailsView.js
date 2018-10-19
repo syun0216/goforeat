@@ -20,12 +20,12 @@ import { sliderWidth, itemWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
 //styles
 import styles from "../styles/index.style";
-import HomePageStyles from "../styles/homepage.style";
+import FoodDetailsStyles from "../styles/fooddetails.style";
 // utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS,{em} from "../utils/global_params";
 //api
-import { getDailyFoods } from '../api/request';
+import { getDailyFoods, getFoodDetails } from '../api/request';
 //components
 import AdervertiseView from '../components/AdvertiseView';
 import ErrorPage from "../components/ErrorPage";
@@ -46,7 +46,7 @@ const HAS_FOODS = 1;
 const NO_MORE_FOODS = 2;
 const IS_INTERCEPT = 3;
 
-class HomePage extends Component {
+class FoodDetailsView extends Component {
 
   _current_offset = 0; 
   _SliderEntry = null; 
@@ -58,7 +58,7 @@ class HomePage extends Component {
     this.state = {
       slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
       shopDetail: null,
-      foodDetails: [],
+      foodDetails: null,
       soldOut: HAS_FOODS, // 是否已售罄
       isError: false,
       loading: false,
@@ -78,17 +78,8 @@ class HomePage extends Component {
   }
 
   componentWillMount() {
-    placeStorage.getData((error, data) => {
-      if(error == null) {
-        if(data != null) {
-          console.log(data);
-          this.setState({
-            placeSelected: data
-          });
-          this._onRefreshToRequestFirstPageData(data.id);
-        }
-      }
-    });
+    let {dateFoodId} = this.props.navigation.state.params;
+    this._onRefreshToRequestFirstPageData(dateFoodId);
   }
 
   componentDidMount() {
@@ -124,8 +115,6 @@ class HomePage extends Component {
     let {i18n} = this.state;
     // let _Date = new Date(timestamp);
     let _endDate = new Date(endTimestamp);
-    // let _date_format = [_Date.getMonth()+1 < 10 ? `0${_Date.getMonth()+1}`:_Date.getMonth()+1 ,
-    // _Date.getDate() < 10 ? `0${_Date.getDate()}`:_Date.getDate(),_Date.getFullYear()].join('-');
     let _endDate_format = i18n.endTime;
     let _getWeekDay = (date) => {
       let _week_day = null;
@@ -154,11 +143,11 @@ class HomePage extends Component {
     });
   }
   //api
-  _getDailyFoodList(id) {
-      getDailyFoods(id).then(data => {
+  _getFoodDetails(id) {
+      getFoodDetails(id).then(data => {
         if(data.ro.respCode == '0000') {
           this.setState({
-            foodDetails: data.data.foodList,
+            foodDetails: data.data,
             loading: false,
             refreshing: false,
             soldOut: data.data.status,
@@ -175,19 +164,10 @@ class HomePage extends Component {
               })
             }
           }
-          this._formatDate(data.data.timestamp,data.data.endTimestamp);
         }
       },() => {
         this.setState({ isError: true, loading: false,refreshing: false });
       })
-  }
-
-  _onLoadingToRequestFirstPageData(id) {
-    this.setState({loading: true});
-    this._timer = setTimeout(() => {
-      clearTimeout(this._timer);
-      this._getDailyFoodList(id);
-    }, 300)
   }
 
   _onRefreshToRequestFirstPageData(id) {
@@ -195,7 +175,7 @@ class HomePage extends Component {
     this.setState({loading: true});
     this._timer = setTimeout(() => {
       clearTimeout(this._timer);
-      this._getDailyFoodList(id);
+      this._getFoodDetails(id);
     }, 800)
   }
 
@@ -216,7 +196,7 @@ class HomePage extends Component {
   };
 
   _goToOrder = () => {
-    let {foodId,price} = this.state.foodDetails[0];
+    let {foodId,price} = this.state.foodDetails;
     let {placeSelected,foodCount} = this.state;
     if(this.props.screenProps.user !== null) {
       this.props.navigation.navigate("Order", {
@@ -272,10 +252,10 @@ class HomePage extends Component {
 
   _renderDateFormat() {
     return (
-      <View style={HomePageStyles.DateFormatView}>
-        <Text style={HomePageStyles.DateFormatWeekText}>
+      <View style={FoodDetailsStyles.DateFormatView}>
+        <Text style={FoodDetailsStyles.DateFormatWeekText}>
         {this.state.formatDate.week}</Text>
-        <Text style={HomePageStyles.DateFormatDateText}>{this.state.formatDate.date}</Text>
+        <Text style={FoodDetailsStyles.DateFormatDateText}>{this.state.formatDate.date}</Text>
       </View>
     )
   }
@@ -283,12 +263,12 @@ class HomePage extends Component {
   _renderMainView() {
     const { foodDetails } = this.state;
 
-    return foodDetails.length > 0  ? (
+    return foodDetails != null  ? (
       <View style={[styles.exampleContainer, { marginTop: -15 }]}>
         {/*<Text style={[styles.title,{color:'#1a1917'}]}>商家列表</Text>*/}
         <Carousel
           ref={c => (this._slider1Ref = c)}
-          data={foodDetails[0].extralImage}
+          data={[foodDetails.extralImage]}
           renderItem={this._renderItemWithParallax.bind(this)}
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
@@ -316,7 +296,7 @@ class HomePage extends Component {
       <SliderEntry
         ref={(se) => this._SliderEntry = se}
         data={item}
-        star={this.state.foodDetails[0].star}
+        // star={this.state.foodDetails.star}
         even={(index + 1) % 2 === 0}
         placeId={this.state.placeSelected.id}
         {...this.props}
@@ -327,15 +307,17 @@ class HomePage extends Component {
   }
 
   _renderIntroductionView() {
-    let {foodDetails:{[0]:{foodName, canteenName, foodBrief}}} = this.state;
+    let {foodDetails:{foodName, canteenName, foodBrief}} = this.state;
     return (
-      <View style={HomePageStyles.IntroductionView}>
-      <View style={HomePageStyles.IntroductionFoodNameCotainer}>
-        <Text style={HomePageStyles.IntroductionFoodName} numberOfLines={1}>{foodName}</Text>
-        <Text style={HomePageStyles.IntroductionDetailBtn} onPress={() => this.slideUpPanel._snapTo()}>{this.state.i18n.foodDetail}</Text>
+      <View style={FoodDetailsStyles.IntroductionView}>
+      <View style={FoodDetailsStyles.IntroductionFoodNameCotainer}>
+        <Text style={FoodDetailsStyles.IntroductionFoodName} numberOfLines={1}>{foodName}</Text>
+        <Text style={FoodDetailsStyles.IntroductionDetailBtn} onPress={() => this.slideUpPanel._snapTo()}>{this.state.i18n.foodDetail}</Text>
       </View>
-        {canteenName != null ? <Text style={HomePageStyles.canteenName}>餐廳:{canteenName}</Text> : null}
-        <Text style={HomePageStyles.IntroductionFoodBrief} numberOfLines={this.state.briefNumbersOfLines} onLayout={e => {
+        {canteenName != null ? <Text style={FoodDetailsStyles.canteenName}>
+        <Image style={FoodDetailsStyles.canteenImg} source={require('../asset/food.png')} />
+        {' '+canteenName}</Text> : null}
+        <Text style={FoodDetailsStyles.IntroductionFoodBrief} numberOfLines={this.state.briefNumbersOfLines} onLayout={e => {
           const {height} = e.nativeEvent.layout;
           let _lineHeight = Platform.OS === 'ios' ? em(20) : em(25)
           this.setState({
@@ -347,7 +329,7 @@ class HomePage extends Component {
   }
 
   _renderMoreDetailModal() {
-    let {foodDetails:{[0]:{foodName, canteenName, canteenAddress, foodBrief, extralImage, price, originPrice}}} = this.state;
+    let {foodDetails:{foodName, canteenName, canteenAddress, foodBrief, extralImage, price, originPrice}} = this.state;
     return (
       <SlideUpPanel ref={r => this.slideUpPanel = r}>
         <View onLayout={e => {
@@ -355,18 +337,20 @@ class HomePage extends Component {
             this.slideUpPanel.changeTop(e.nativeEvent.layout.height + em(100))
           }
         }}>
-          <Text style={HomePageStyles.panelTitle} numberOfLines={3}>{foodName}</Text>
-          <Image style={HomePageStyles.panelImage} source={{uri: extralImage[0]}}/>
-          {canteenName != null ?<Text style={HomePageStyles.canteenName}>餐廳:{canteenName}</Text> : null}
-          {canteenAddress != null ? <Text style={HomePageStyles.canteenName}>餐廳地址:{canteenAddress}</Text> : null}
-          <Text style={HomePageStyles.IntroductionFoodBrief} >{foodBrief}</Text>
-          <View style={HomePageStyles.AddPriceViewPriceContainer}>
-            <Text style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
-            <Text style={HomePageStyles.AddPriceViewPrice}>{price}</Text>
+          <Text style={FoodDetailsStyles.panelTitle} numberOfLines={3}>{foodName}</Text>
+          <Image style={FoodDetailsStyles.panelImage} source={{uri: extralImage[0]}}/>
+          {canteenName != null ?<Text style={FoodDetailsStyles.canteenName}>
+          <Image style={FoodDetailsStyles.canteenImg} source={require('../asset/food.png')} />
+          {canteenName}</Text> : null}
+          {canteenAddress != null ? <Text style={FoodDetailsStyles.canteenName}>餐廳地址:{canteenAddress}</Text> : null}
+          <Text style={FoodDetailsStyles.IntroductionFoodBrief} >{foodBrief}</Text>
+          <View style={FoodDetailsStyles.AddPriceViewPriceContainer}>
+            <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>HKD</Text>
+            <Text style={FoodDetailsStyles.AddPriceViewPrice}>{price}</Text>
             {
-              originPrice != null ? <Text style={HomePageStyles.AddPriceViewOriginPrice}>HKD {originPrice}</Text> : null
+              originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>HKD {originPrice}</Text> : null
             }
-            {originPrice != null ? <View style={HomePageStyles.AddPriceViewStriping}/> : null}
+            {originPrice != null ? <View style={FoodDetailsStyles.AddPriceViewStriping}/> : null}
           </View>
         </View>
       </SlideUpPanel>
@@ -376,54 +360,47 @@ class HomePage extends Component {
   _renderAddPriceView() {
     let {foodDetails,i18n,soldOut} = this.state;
     return (
-      <View style={HomePageStyles.AddPriceView}>
-        <View style={HomePageStyles.AddPriceViewPriceContainer}>
-          <Text style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
-          <Text style={HomePageStyles.AddPriceViewPrice}>{foodDetails[0].price}</Text>
+      <View style={FoodDetailsStyles.AddPriceView}>
+        <View style={FoodDetailsStyles.AddPriceViewPriceContainer}>
+          <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>HKD</Text>
+          <Text style={FoodDetailsStyles.AddPriceViewPrice}>{foodDetails.price}</Text>
           {
-            foodDetails[0].originPrice != null ? <Text style={HomePageStyles.AddPriceViewOriginPrice}>HKD {foodDetails[0].originPrice}</Text> : null
+            foodDetails.originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>HKD {foodDetails.originPrice}</Text> : null
           }
-          {foodDetails[0].originPrice != null ? <View style={HomePageStyles.AddPriceViewStriping}/> : null}
+          {foodDetails.originPrice != null ? <View style={FoodDetailsStyles.AddPriceViewStriping}/> : null}
         </View>
         {
           soldOut == HAS_FOODS ? (
-            <View style={HomePageStyles.AddPriceViewCountContainer}>
-              <TouchableOpacity onPress={() => this._remove()} style={HomePageStyles.AddPriceViewCommonBtn}>
-              <Image source={require("../asset/remove.png")} style={HomePageStyles.AddPriceViewAddImage} resizeMode="contain"/>
+            <View style={FoodDetailsStyles.AddPriceViewCountContainer}>
+              <TouchableOpacity onPress={() => this._remove()} style={FoodDetailsStyles.AddPriceViewCommonBtn}>
+              <Image source={require("../asset/remove.png")} style={FoodDetailsStyles.AddPriceViewAddImage} resizeMode="contain"/>
               </TouchableOpacity>
-              <Text style={HomePageStyles.AddPriceViewCountText} numberOfLines={1}>{this.state.foodCount}</Text>
-              <TouchableOpacity onPress={() => this._add()} style={HomePageStyles.AddPriceViewCommonBtn}>
-                  <Image source={require("../asset/add.png")} style={HomePageStyles.AddPriceViewRemoveImage} resizeMode="contain"/>
+              <Text style={FoodDetailsStyles.AddPriceViewCountText} numberOfLines={1}>{this.state.foodCount}</Text>
+              <TouchableOpacity onPress={() => this._add()} style={FoodDetailsStyles.AddPriceViewCommonBtn}>
+                  <Image source={require("../asset/add.png")} style={FoodDetailsStyles.AddPriceViewRemoveImage} resizeMode="contain"/>
               </TouchableOpacity>    
           </View>
           ) : 
           soldOut == NO_MORE_FOODS ?
           (
-            <View style={HomePageStyles.AddPriceViewCountContainer}>
-              <Text style={HomePageStyles.AddPriceViewPriceUnit}>{i18n.soldout}</Text>
+            <View style={FoodDetailsStyles.AddPriceViewCountContainer}>
+              <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>{i18n.soldout}</Text>
             </View>
           ) : 
           (
-            <View style={HomePageStyles.AddPriceViewCountContainer}>
-              <Text style={HomePageStyles.AddPriceViewPriceUnit}>{i18n.intercept}</Text>
+            <View style={FoodDetailsStyles.AddPriceViewCountContainer}>
+              <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>{i18n.intercept}</Text>
             </View>
           )
         }
       </View>
     )
   }
-
-  _renderDeadLineDate() {
-    return(
-      <View style={HomePageStyles.DeadLineDateView}>
-        <Text style={HomePageStyles.DeadLineDateText}>{this.state.formatDate.endDate}</Text>
-      </View>
-    )
-  }
   
   _renderContentView() {
     const main_view = this._renderMainView();
-    let {placeSelected,foodDetails,refreshing,formatDate: {week}} = this.state;
+    let {foodDetails,refreshing,formatDate: {week}} = this.state;
+    let {dateFoodId} = this.props.navigation.state.params;
     return (
       <ScrollView
         style={styles.scrollview}
@@ -433,20 +410,19 @@ class HomePage extends Component {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={() => this._onRefreshToRequestFirstPageData(placeSelected.id)}
+            onRefresh={() => this._onRefreshToRequestFirstPageData(dateFoodId)}
           />
         }
         >
           {week != '' ? this._renderDateFormat() : null}
           {main_view}
-          {foodDetails.length > 0 ? (
+          {foodDetails != null ? (
             <View>
               {this._renderIntroductionView()}
               {this._renderAddPriceView()}
-              {this._renderDeadLineDate()}
             </View>
           ) : <BlankPage style={{marginTop:50}} message="暂无数据"/>}
-          {<View style={HomePageStyles.BottomView}/>}
+          {<View style={FoodDetailsStyles.BottomView}/>}
         </ScrollView>
     )
   }
@@ -456,7 +432,7 @@ class HomePage extends Component {
     return (
       <BottomOrderConfirm btnMessage={i18n.book} {...this.props} 
       isShow={true} 
-      total={foodCount*foodDetails[0].price}
+      total={foodCount*foodDetails.price}
       btnClick={this._goToOrder}
       cancelOrder={this._cancelOrder}/>
     )
@@ -474,18 +450,18 @@ class HomePage extends Component {
 
   render() {
     let { loading, isError,foodDetails } = this.state;
-  
+    
     return (
-      <Container style={HomePageStyles.ContainerBg}>
+      <Container style={FoodDetailsStyles.ContainerBg}>
         {this._renderHeaderView()}
         {isError ? this._renderErrorView() : null}
         {loading ? <Loading /> : null}
-        {foodDetails.length > 0 ? this._renderContentView() : null}
-        {foodDetails.length > 0 ? this._renderBottomBtnView() : null}
-        {foodDetails.length > 0 ? this._renderMoreDetailModal() : null}
+        {foodDetails != null ? this._renderContentView() : null}
+        {foodDetails != null ? this._renderBottomBtnView() : null}
+        {foodDetails != null ? this._renderMoreDetailModal() : null}
       </Container>
     );
   }
 }
 
-export default HomePage;
+export default FoodDetailsView;
