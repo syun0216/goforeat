@@ -17,7 +17,6 @@ export default StyleSheet.create({
     marginLeft: common.marginLeft
   },
   DateFormatWeekText: {
-    color: Colors.main_white,
     fontSize: em(20),
     fontWeight: 'bold'
   },
