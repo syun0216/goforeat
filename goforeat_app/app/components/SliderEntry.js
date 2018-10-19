@@ -8,95 +8,19 @@ import {connect} from 'react-redux';
 import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
 
-const _styles = StyleSheet.create({
-    countContainer:{
-        width: GLOBAL_PARAMS._winWidth*0.8,
-        backgroundColor:'#fff',
-        marginTop:Platform.OS == 'android'?GLOBAL_PARAMS.em(-10):0
-    },
-    countInnerContainer: {
-        height: GLOBAL_PARAMS.em(40),
-        width: GLOBAL_PARAMS._winWidth*0.801,
-        opacity:0.9,
-        // borderRadius: 20,
-        marginTop: Platform.OS == 'android'? 0:GLOBAL_PARAMS.em(-48),
-        zIndex: 999,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    count: {
-        flexDirection:'row',
-        justifyContent: 'space-around',
-        flex: 1,
-    },
-    common_text: {
-        color: '#fff',
-        fontSize: 16,
-        maxWidth: GLOBAL_PARAMS._winWidth < 350 ? GLOBAL_PARAMS.em(130) : GLOBAL_PARAMS.em(170)
-    },
-    common_icon: {
-        color: '#fff',
-        fontSize: GLOBAL_PARAMS.em(20),
-        // marginLeft: 25,
-        // marginRight: 25,
-    },
-    common_view:{
-        // width: GLOBAL_PARAMS._winWidth*0.52,
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems:'center',
-        paddingLeft: GLOBAL_PARAMS.em(10),
-        paddingRight: GLOBAL_PARAMS.em(10)
-    },
-    price_view: {
-        position: 'absolute',
-        width: 'auto',
-        top: 0,
-        right: 0,
-        paddingLeft: GLOBAL_PARAMS.em(15),
-        paddingRight: GLOBAL_PARAMS.em(15),
-        // backgroundColor: '#3B254B',
-        opacity: 0.9,
-        flexDirection: 'row',
-        zIndex:10,
-        alignItems: 'center',
-        borderTopRightRadius: 5,
-        height: GLOBAL_PARAMS.em(40),
-        borderBottomLeftRadius: GLOBAL_PARAMS.em(30),
-    },
-    price_text: {
-        fontSize: GLOBAL_PARAMS.em(20),
-        color: Colors.main_white,
-        marginLeft: GLOBAL_PARAMS.em(10),
-        marginRight: GLOBAL_PARAMS.em(10)
-    },
-    orgin_price_text: {
-        fontSize: GLOBAL_PARAMS.em(14),
-        color: Colors.main_white,
-        textDecorationLine: 'line-through',
-        marginRight: GLOBAL_PARAMS.em(10)
-    },
-})
-
 class SliderEntry extends Component {
-    isLogin = false;
-    static propTypes = {
-        data: PropTypes.string.isRequired,
-        even: PropTypes.bool,
-        parallax: PropTypes.bool,
-        parallaxProps: PropTypes.object,
-        placeId: PropTypes.number.isRequired,
-        star: PropTypes.number
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            count: 0
+        }
     }
 
-    state = {
-        count: 0
-    }
+    
 
-    get image () {
-        const { data , parallax, parallaxProps, even } = this.props;
+    image() {
+        const { data  } = this.props;
         return (
             <Image source={{uri: data}} style={styles.image}/>
         )
@@ -124,20 +48,26 @@ class SliderEntry extends Component {
     }
 
     render () {
-        const { data, even ,placeId } = this.props;
-
         return (
             <TouchableOpacity
               activeOpacity={1}
               style={styles.slideInnerContainer}
               >
                 <View style={[styles.imageContainer]}>
-                    { this.image }
+                    { this.image() }
                     {/* this._renderStarView() */}
                 </View>
             </TouchableOpacity>
         );
     }
+}
+
+SliderEntry.propTypes = {
+    data: PropTypes.string.isRequired,
+    even: PropTypes.bool,
+    parallax: PropTypes.bool,
+    parallaxProps: PropTypes.object,
+    star: PropTypes.number
 }
 
 const userStateToProps = (state) => ({

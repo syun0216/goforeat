@@ -46,6 +46,7 @@ export default class CommonFlatList extends Component{
   }
 
   componentWillUnmount() {
+    this.init();
     clearTimeout(this._timer);
   }
 
