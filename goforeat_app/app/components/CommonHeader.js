@@ -9,7 +9,7 @@ import Colors from '../utils/Colors';
 import GLOBAL_PARAMS, {em} from "../utils/global_params";
 //styles
 import CommonStyles from "../styles/common.style";
-import HomePageStyles from "../styles/homepage.style";
+import FoodDetailsStyle from "../styles/fooddetails.style";
 //components
 import Text from './UnScalingText';
 
@@ -60,7 +60,7 @@ const CommonHeader = (props) => {
               </TouchableWithoutFeedback>
               )
             )) : props.hasMenu ? (
-              <TouchableOpacity style={Platform.OS == 'ios' ? HomePageStyles.MenuBtn : HomePageStyles.MenuBtnAndroid} onPress={() => {
+              <TouchableOpacity style={Platform.OS == 'ios' ? FoodDetailsStyle.MenuBtn : FoodDetailsStyle.MenuBtnAndroid} onPress={() => {
                 props.leftClickIntercept(props);}}>
                 <Image source={require('../asset/menu.png')} style={styles.MenuBtn} resizeMode="contain"/>
               </TouchableOpacity>

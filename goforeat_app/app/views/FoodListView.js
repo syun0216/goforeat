@@ -22,7 +22,7 @@ import HotReloadHOC from '../components/HomePageHOC';
 //language
 import I18n from '../language/i18n';
 //styles
-import HomePageStyles from '../styles/homepage.style';
+import FoodDetailsStyles from '../styles/fooddetails.style';
 //storage
 import {placeStorage, advertisementStorage} from '../cache/appStorage';
 
@@ -135,13 +135,21 @@ class FoodListView extends Component {
       />
     )
   }
+
+  _renderRefreshBgView() {
+    return (
+      <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={{position:'absolute',top:0,left: 0,height: 150,width: _winWidth}}/>
+    )
+  }
   
   _renderTopTitleView() {
     return (
-      <View style={{marginTop: em(10), marginLeft: em(15)}}>
-        <Text style={HomePageStyles.DateFormatWeekText}>
-        精選菜品</Text>
-      </View>
+
+        <View style={{marginTop: em(10), marginLeft: em(15)}}>
+          <Text style={FoodDetailsStyles.DateFormatWeekText}>
+          精選菜品</Text>
+        </View>
+
     )
   }
 
@@ -157,19 +165,19 @@ class FoodListView extends Component {
     const scheme = Platform.select({ ios: 'http://maps.apple.com/?q=', android: 'geo:0,0?q=' });
     return (
       <Header
-          style={HomePageStyles.Header}
+          style={FoodDetailsStyles.Header}
           iosBarStyle="light-content"
           androidStatusBarColor="#333"
         >
-        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={HomePageStyles.linearGradient}>
-          <TouchableOpacity onPress={() => navigate("DrawerOpen", { callback: this._add })} style={HomePageStyles.MenuBtn}>
-            <Image source={require('../asset/menu.png')} style={HomePageStyles.MenuImage} resizeMode="contain"/>
+        <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={FoodDetailsStyles.linearGradient}>
+          <TouchableOpacity onPress={() => navigate("DrawerOpen", { callback: this._add })} style={FoodDetailsStyles.MenuBtn}>
+            <Image source={require('../asset/menu.png')} style={FoodDetailsStyles.MenuImage} resizeMode="contain"/>
           </TouchableOpacity>
-          <View style={HomePageStyles.HeaderContent}>
+          <View style={FoodDetailsStyles.HeaderContent}>
             {placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color='#fff' size="small"/>}
           </View>
-          <TouchableOpacity onPress={() => Linking.openURL(`${scheme}${placeSelected.name}`)} style={HomePageStyles.MenuBtn}>
-            <Image source={require('../asset/location_white.png')} style={HomePageStyles.locationImage} resizeMode="contain"/>
+          <TouchableOpacity onPress={() => Linking.openURL(`${scheme}${placeSelected.name}`)} style={FoodDetailsStyles.MenuBtn}>
+            <Image source={require('../asset/location_white.png')} style={FoodDetailsStyles.locationImage} resizeMode="contain"/>
           </TouchableOpacity>
         </LinearGradient>
       </Header>
@@ -178,12 +186,12 @@ class FoodListView extends Component {
 
   _renderPlacePickerBtn() {
     return (
-      <TouchableOpacity style={HomePageStyles.PlacePickerBtn} onPress={() => this.setState({showPlacePicker: true})}>
-        <View style={HomePageStyles.PlacePickerBtnBgAbsolute}/>
-        <Text style={HomePageStyles.PlacePickerBtnText} numberOfLines={1}>
+      <TouchableOpacity style={FoodDetailsStyles.PlacePickerBtn} onPress={() => this.setState({showPlacePicker: true})}>
+        <View style={FoodDetailsStyles.PlacePickerBtnBgAbsolute}/>
+        <Text style={FoodDetailsStyles.PlacePickerBtnText} numberOfLines={1}>
           {this.state.placeSelected.name}
         </Text>
-        <Image source={require('../asset/arrow_down.png')} style={HomePageStyles.PlacePickerBtnImage} resizeMode="contain"/>
+        <Image source={require('../asset/arrow_down.png')} style={FoodDetailsStyles.PlacePickerBtnImage} resizeMode="contain"/>
       </TouchableOpacity>
     )
   }
@@ -200,7 +208,8 @@ class FoodListView extends Component {
     return (
       <TouchableOpacity style={styles.articleItemContainer}
         onPress={() => {
-          this.props.navigation.navigate('Food');
+          console.log(item);
+          this.props.navigation.navigate('Food', {dateFoodId: item.dateFoodId});
         }}>
         <Image source={{uri: item.thumbnail}} style={{width: _winWidth*0.45 - 10,height: em(160)}} resizeMode="cover"/>
         <View style={styles.articleItemDetails}>
@@ -229,7 +238,7 @@ class FoodListView extends Component {
       return null;
     }
     return (
-      <CommonFlatList ref={c => this.flatlist = c} requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} extraParams={{placeId: this.state.placeSelected.id}} {...this.props}/>
+      <CommonFlatList ref={c => this.flatlist = c} requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} renderHeader={() => this._renderTopTitleView()} extraParams={{placeId: this.state.placeSelected.id}} {...this.props}/>
     )
   }
 
@@ -238,10 +247,10 @@ class FoodListView extends Component {
     return (
     <Container style={{position:'relative'}}>
       {this._renderAdvertisementView()}
+      {this._renderRefreshBgView()}
       {this._renderPlacePicker()}
       {this._renderHeaderView()}
-      {this._renderWarningView()}
-      {this._renderTopTitleView()}
+      {/*this._renderWarningView()*/}
       {this._renderFlatListView()} 
     </Container>)
     }

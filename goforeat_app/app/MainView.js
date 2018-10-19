@@ -21,7 +21,7 @@ import SplashPageView from './SplashPageView';
 import CustomLoginView from './CustomLoginView';
 import SettingView from "./SettingView";
 
-import HomePage from "./views/HomePage";
+import FoodDetailsView from "./views/FoodDetailsView";
 import FoodListView from "./views/FoodListView";
 import ContentView from "./views/ContentView";
 import MyOrderView from "./views/MyOrderView";
@@ -57,7 +57,7 @@ import mainviewStyle from "./styles/mainview.style";
 const tabView = TabNavigator(
   {
     ShopTab: {
-      screen: BackAndroidHandler(HomePage),
+      screen: BackAndroidHandler(FoodDetailsView),
       navigationOptions: {
         // tabBarLabel: '每日推薦',
         // drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed', // 修复安卓侧滑问题
@@ -241,7 +241,7 @@ let MainView = StackNavigator(
       screen: darwerView,
     },
     Food: {
-      screen: HomePage
+      screen: FoodDetailsView
     },
     // Splash: {
     //   screen: SplashPageView

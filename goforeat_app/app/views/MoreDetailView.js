@@ -5,7 +5,7 @@ import {Container,Content,Footer,Icon} from 'native-base';
 import CommonHeader from '../components/CommonHeader';
 import Swiper from '../components/Swiper';
 //styles
-import HomePageStyles from '../styles/homepage.style';
+import FoodDetailsStyles from '../styles/fooddetails.style';
 //language
 import i18n from '../language/i18n';
 
@@ -48,12 +48,12 @@ const MoreDetailView = props => {
           <Text style={styles.title}>{item.foodName}</Text>
           <Text style={styles.content}>{item.foodBrief}</Text>
         </View>
-        <View style={HomePageStyles.AddPriceView}>
-        <View style={HomePageStyles.AddPriceViewPriceContainer}>
-          <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewPriceUnit}>HKD</Text>
-          <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewPrice}>{item.price}</Text>
-          <Text allowFontScaling={false} style={HomePageStyles.AddPriceViewOriginPrice}>HKD {item.originPrice}</Text>
-          <View style={HomePageStyles.AddPriceViewStriping}/>
+        <View style={FoodDetailsStyles.AddPriceView}>
+        <View style={FoodDetailsStyles.AddPriceViewPriceContainer}>
+          <Text allowFontScaling={false} style={FoodDetailsStyles.AddPriceViewPriceUnit}>HKD</Text>
+          <Text allowFontScaling={false} style={FoodDetailsStyles.AddPriceViewPrice}>{item.price}</Text>
+          <Text allowFontScaling={false} style={FoodDetailsStyles.AddPriceViewOriginPrice}>HKD {item.originPrice}</Text>
+          <View style={FoodDetailsStyles.AddPriceViewStriping}/>
         </View>
 
       </View>
