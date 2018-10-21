@@ -26,7 +26,7 @@ import FoodDetailsStyles from '../styles/fooddetails.style';
 //storage
 import {placeStorage, advertisementStorage} from '../cache/appStorage';
 
-const { isIphoneX, bottomDistance, iPhoneXBottom, _winHeight,_winWidth } = GLOBAL_PARAMS;
+const { isIphoneX, bottomDistance, iPhoneXBottom, _winHeight, _winWidth } = GLOBAL_PARAMS;
 
 class FoodListView extends Component {
 
@@ -161,7 +161,14 @@ class FoodListView extends Component {
   _renderHeaderView() {
     let {placeSelected} = this.state;
     let {navigate} = this.props.navigation;
-    const scheme = Platform.select({ ios: 'http://maps.apple.com/?q=', android: 'geo:0,0?q=' });
+    let scheme = '';
+    if(placeSelected != null) {
+      let {placeSelected: {lon, lat, name}} = this.state;
+      scheme = Platform.select({
+        android: `geo:${lon},${lat}?q=${name}`,
+        ios: `http://maps.apple.com/?q=${name}&ll=${lon},${lat}`
+      });
+    }
     return (
       <Header
           style={FoodDetailsStyles.Header}
@@ -175,7 +182,7 @@ class FoodListView extends Component {
           <View style={FoodDetailsStyles.HeaderContent}>
             {placeSelected != null ? this._renderPlacePickerBtn() : <ActivityIndicator color='#fff' size="small"/>}
           </View>
-          <TouchableOpacity onPress={() => Linking.openURL(`${scheme}${placeSelected.name}`)} style={FoodDetailsStyles.MenuBtn}>
+          <TouchableOpacity onPress={() => Linking.openURL(scheme)} style={FoodDetailsStyles.MenuBtn}>
             <Image source={require('../asset/location_white.png')} style={FoodDetailsStyles.locationImage} resizeMode="contain"/>
           </TouchableOpacity>
         </LinearGradient>

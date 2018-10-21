@@ -5,14 +5,13 @@ import {
   Image,
   TouchableOpacity,
   AppState,
-  ActivityIndicator,
   RefreshControl,
-  Linking,
-  Platform
+  Platform,
+  TouchableWithoutFeedback
 } from "react-native";
 import {
   Container,
-  Header,
+  Icon,
 } from "native-base";
 import Carousel from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient';
@@ -24,10 +23,10 @@ import FoodDetailsStyles from "../styles/fooddetails.style";
 // utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS,{em} from "../utils/global_params";
+import ToastUtil from "../utils/ToastUtil";
 //api
-import { getDailyFoods, getFoodDetails } from '../api/request';
+import { getFoodDetails, myFavorite } from '../api/request';
 //components
-import AdervertiseView from '../components/AdvertiseView';
 import ErrorPage from "../components/ErrorPage";
 import Loading from "../components/Loading";
 import BlankPage from '../components/BlankPage';
@@ -45,6 +44,9 @@ const SLIDER_1_FIRST_ITEM = 0;
 const HAS_FOODS = 1;
 const NO_MORE_FOODS = 2;
 const IS_INTERCEPT = 3;
+
+const isFavorite = 1;
+const isNotFavorite = 0;
 
 class FoodDetailsView extends Component {
 
@@ -73,6 +75,8 @@ class FoodDetailsView extends Component {
       refreshParams: '',
       briefNumbersOfLines: GLOBAL_PARAMS._winHeight>667? 4: 3,
       foodCount: 1,
+      isFavorite: false,
+      favoriteCount: 56,
       showMoreDetail: false,
       i18n: I18n[props.screenProps.language]
     };
@@ -112,6 +116,8 @@ class FoodDetailsView extends Component {
             loading: false,
             refreshing: false,
             soldOut: data.data.status,
+            favoriteCount: data.data.likeCount,
+            isFavorite:data.data.like == isFavorite
           })
         }
       },() => {
@@ -128,18 +134,35 @@ class FoodDetailsView extends Component {
     }, 800)
   }
 
+  _onFavorite() {
+    let {foodId} = this.state.foodDetails;
+    
+    this.setState({
+      isFavorite: !this.state.isFavorite,
+      favoriteCount: !this.state.isFavorite ? this.state.favoriteCount+1:this.state.favoriteCount-1
+    },() => {
+      let status = this.state.isFavorite ? isFavorite : isNotFavorite;
+      myFavorite(foodId, status).then(data => {
+        if(data.ro.ok) {
+          return;
+        }
+      })
+    });
+  }
+
   _goToOrder() {
     let {foodDetails:{price}, foodCount} = this.state;
     let _defaultObj = {
+      page: 'Order',
       dateFoodId: this.dateFoodId,
       amount: foodCount,
       total: foodCount*price
     }
     if(this.props.screenProps.user !== null) {
-      this.props.navigation.navigate("Order", _defaultObj)
+      this.props.navigation.navigate("Order", _defaultObj);
   }else {
     if(this.dateFoodId){
-      this.props.navigation.navigate("Login",{..._defaultObj,reloadFunc: () => this._reloadWhenCancelLogin()});
+      this.props.navigation.navigate("Login", Object.assign(_defaultObj,{reloadFunc: () => this._reloadWhenCancelLogin()}));
       }
     }
   }
@@ -234,16 +257,22 @@ class FoodDetailsView extends Component {
   }
 
   _renderIntroductionView() {
-    let {foodDetails:{foodName, canteenName, foodBrief}} = this.state;
+    let {foodDetails:{foodName, canteenName, foodBrief}, isFavorite, favoriteCount} = this.state;
+    const _isFavorite = () => (isFavorite ? <Icon style={FoodDetailsStyles.canteenFavorite} name="md-heart"/> : <Icon style={FoodDetailsStyles.canteenFavorite} name="md-heart-outline"/>);
     return (
       <View style={FoodDetailsStyles.IntroductionView}>
       <View style={FoodDetailsStyles.IntroductionFoodNameCotainer}>
         <Text style={FoodDetailsStyles.IntroductionFoodName} numberOfLines={1}>{foodName}</Text>
-        <Text style={FoodDetailsStyles.IntroductionDetailBtn} onPress={() => this.slideUpPanel._snapTo()}>{this.state.i18n.foodDetail}</Text>
+        <TouchableWithoutFeedback onPress={() => this._onFavorite()}>
+          <Text style={FoodDetailsStyles.canteenName}>{_isFavorite()} {favoriteCount}次贊</Text>
+        </TouchableWithoutFeedback>
       </View>
+      <View style={FoodDetailsStyles.IntroductionFoodNameCotainer}>
         {canteenName != null ? <Text style={FoodDetailsStyles.canteenName}>
         <Image style={FoodDetailsStyles.canteenImg} source={require('../asset/food.png')} />
         {' '+canteenName}</Text> : null}
+        <Text style={FoodDetailsStyles.IntroductionDetailBtn} onPress={() => this.slideUpPanel._snapTo()}>{this.state.i18n.foodDetail}</Text>
+      </View>
         <Text style={FoodDetailsStyles.IntroductionFoodBrief} numberOfLines={this.state.briefNumbersOfLines} onLayout={e => {
           const {height} = e.nativeEvent.layout;
           let _lineHeight = Platform.OS === 'ios' ? em(20) : em(25)
@@ -268,7 +297,7 @@ class FoodDetailsView extends Component {
           <Image style={FoodDetailsStyles.panelImage} source={{uri: extralImage[0]}}/>
           {canteenName != null ?<Text style={FoodDetailsStyles.canteenName}>
           <Image style={FoodDetailsStyles.canteenImg} source={require('../asset/food.png')} />
-          {canteenName}</Text> : null}
+          {'  '+canteenName}</Text> : null}
           {canteenAddress != null ? <Text style={FoodDetailsStyles.canteenName}>餐廳地址:{canteenAddress}</Text> : null}
           <Text style={FoodDetailsStyles.IntroductionFoodBrief} >{foodBrief}</Text>
           <View style={FoodDetailsStyles.AddPriceViewPriceContainer}>

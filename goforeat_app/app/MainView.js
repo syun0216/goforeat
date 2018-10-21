@@ -331,6 +331,7 @@ MainView.router.getStateForAction = (action, state) => {
   if (state && action.type === NavigationActions.NAVIGATE) {
     if (action.params && action.params.replaceRoute) {
       //replaceRoute值 仅仅作为一个标识，进到这个方法之后就没有作用了
+      let _routeIndex = typeof action.params.index == 'undefined' ? routes.length - 1 : action.params.index;
       delete action.params.replaceRoute;
       if (state.routes.length > 1 && state.index > 0) {
           const routes = state.routes.slice(0, state.routes.length - 1);
@@ -338,7 +339,7 @@ MainView.router.getStateForAction = (action, state) => {
           return defaultGetStateForAction(action, {
             ...state,
             routes,
-            index: routes.length - 1
+            index: _routeIndex
           });
       }
     }

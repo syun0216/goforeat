@@ -224,8 +224,16 @@ export default StyleSheet.create({
   },
   panelImage: {height: em(250),marginTop: em(10),marginBottom: em(10),borderRadius: em(8)},
   canteenName: {
-    fontSize: em(16),
+    fontSize: em(18),
     color: '#999'
+  },
+  canteenFavorite: {
+    fontSize: em(20),
+    color: Colors.main_orange
+  },
+  canteenFavoriteActive: {
+    fontSize: em(20),
+    color: Colors.main_orange
   },
   canteenImg: {
     width: em(16),

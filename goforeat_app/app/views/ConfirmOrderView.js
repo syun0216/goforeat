@@ -16,6 +16,7 @@ import PopupDialog, {
   DialogTitle
 } from "react-native-popup-dialog";
 import Stripe from 'react-native-stripe-api';
+import {NavigationActions} from 'react-navigation';
 //components
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
 import CommonHeader from "../components/CommonHeader";
@@ -224,7 +225,7 @@ export default class ConfirmOrderView extends PureComponent {
           if(defaultPayment == PAY_TYPE.android_pay || defaultPayment == PAY_TYPE.apple_pay) {
             _appleAndAndroidPayRes.complete('success');
           }
-          this.props.navigation.navigate('MyOrderDrawer',{replaceRoute: true,confirm: true});
+          this.props.navigation.navigate('MyOrderDrawer',{replaceRoute: true,index: 0,confirm: true});
         } else {
           let _message = defaultPayment == PAY_TYPE.credit_card ? `,${i18n.confirmorder_tips.fail.check_card}` : '';
           ToastUtil.showWithMessage(data.ro.respMsg+_message);
