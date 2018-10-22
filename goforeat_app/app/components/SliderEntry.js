@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity,StyleSheet,Platform } from 'react-native';
+import { View, Text, Image, TouchableOpacity,TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
-import styles,{slideWidth} from '../styles/SliderEntry.style';
+import styles from '../styles/SliderEntry.style';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-//utils
-import GLOBAL_PARAMS from '../utils/global_params';
-import Colors from '../utils/Colors';
 
 class SliderEntry extends Component {
 
@@ -22,7 +19,13 @@ class SliderEntry extends Component {
     image() {
         const { data  } = this.props;
         return (
-            <Image source={{uri: data}} style={styles.image}/>
+            <TouchableWithoutFeedback onPress={() => {
+                if(this.props.clickFunc) {
+                    this.props.clickFunc();
+                }
+            }}>
+                <Image source={{uri: data}} style={styles.image}/>
+            </TouchableWithoutFeedback>
         )
     }
 
@@ -67,7 +70,8 @@ SliderEntry.propTypes = {
     even: PropTypes.bool,
     parallax: PropTypes.bool,
     parallaxProps: PropTypes.object,
-    star: PropTypes.number
+    star: PropTypes.number,
+    clickFunc: PropTypes.clickFunc
 }
 
 const userStateToProps = (state) => ({

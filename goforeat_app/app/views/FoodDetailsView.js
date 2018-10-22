@@ -50,14 +50,13 @@ const isNotFavorite = 0;
 
 class FoodDetailsView extends Component {
 
-  _current_offset = 0; 
-  _SliderEntry = null; 
-  _timer = null; // 延迟加载首页
-  _picker = null; // 选择地区picker 实例
-  _interval = null;// 首页广告倒计时
   constructor(props) {
     super(props);
+    this._current_offset = 0; 
+    this._SliderEntry = null; 
+    this._timer = null; // 延迟加载首页
     this.dateFoodId = this.props.navigation.state.params.dateFoodId;
+    this.lastTap = null; //双击点赞
     this.state = {
       slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
       shopDetail: null,
@@ -134,6 +133,16 @@ class FoodDetailsView extends Component {
     }, 800)
   }
 
+  _handleDoubleTap() {
+    const now = Date.now();
+    const DOUBLE_PRESS_DELAY = 300;
+    if(this.lastTap && (now - this.lastTap < DOUBLE_PRESS_DELAY)) {
+      this._onFavorite();
+    } else {
+      this.lastTap = now;
+    }
+  }
+
   _onFavorite() {
     let {foodId} = this.state.foodDetails;
     
@@ -141,6 +150,7 @@ class FoodDetailsView extends Component {
       isFavorite: !this.state.isFavorite,
       favoriteCount: !this.state.isFavorite ? this.state.favoriteCount+1:this.state.favoriteCount-1
     },() => {
+      alert(123);
       let status = this.state.isFavorite ? isFavorite : isNotFavorite;
       myFavorite(foodId, status).then(data => {
         if(data.ro.ok) {
@@ -249,6 +259,7 @@ class FoodDetailsView extends Component {
         ref={(se) => this._SliderEntry = se}
         data={item}
         even={(index + 1) % 2 === 0}
+        clickFunc={() => this._handleDoubleTap()}
         {...this.props}
         // parallax={true}
         // parallaxProps={parallaxProps}
