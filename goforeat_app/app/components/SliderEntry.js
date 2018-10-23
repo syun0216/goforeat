@@ -71,7 +71,7 @@ SliderEntry.propTypes = {
     parallax: PropTypes.bool,
     parallaxProps: PropTypes.object,
     star: PropTypes.number,
-    clickFunc: PropTypes.clickFunc
+    clickFunc: PropTypes.func
 }
 
 const userStateToProps = (state) => ({
