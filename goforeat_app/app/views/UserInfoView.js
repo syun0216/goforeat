@@ -230,7 +230,7 @@ export default class UserInfoView extends PureComponent {
       {
         _segment.map((item,idx) => {
           let _isCurrentGender = gender == item.value;
-          return (<Button key={idx} onPress={() => this._changeGender(item.value)} style={_isCurrentGender ? UserInfoStyle.SegmentActiveBtn : UserInfoStyle.SegmentDefaultBtn} first={idx===0} last={idx === _segment.length - 1}><Icon name={item.icon} style={_isCurrentGender ? UserInfoStyle.SegmentActiveText : UserInfoStyle.SegmentDefaultText}></Icon></Button>
+          return (<Button key={idx} onPress={() => this._changeGender(item.value)} style={_isCurrentGender ? UserInfoStyle.SegmentActiveBtn : UserInfoStyle.SegmentDefaultBtn} first={idx===0} last={idx === _segment.length - 1}><Text style={_isCurrentGender ? UserInfoStyle.SegmentActiveText : UserInfoStyle.SegmentDefaultText}>{item.text}</Text></Button>
         )})
       }
     </Segment>)
