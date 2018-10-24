@@ -17,7 +17,6 @@ import {
 } from "react-navigation";
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 //views
-import SplashPageView from './SplashPageView';
 import CustomLoginView from './CustomLoginView';
 import SettingView from "./SettingView";
 
@@ -39,13 +38,12 @@ import CouponView from './views/CouponView';
 //api
 import source from "./api/CancelToken";
 //utils
-import GLOBAL_PARAMS,{ ABORT_LIST_WITH_ROUTE } from "./utils/global_params";
-import JSONUtils from "./utils/JSONUtils";
+import GLOBAL_PARAMS from "./utils/global_params";
 //store
 import store from "./store";
 //components
+import CommonHOC from "./hoc/CommonHOC";
 import TabBar from "./components/Tabbar";
-import BackAndroidHandler from "./components/BackAndroidHandler";
 import BottomIntroduce from "./components/BottomIntroduce";
 import Text from "./components/UnScalingText";
 //styles
@@ -57,7 +55,7 @@ import mainviewStyle from "./styles/mainview.style";
 const tabView = TabNavigator(
   {
     ShopTab: {
-      screen: BackAndroidHandler(FoodDetailsView),
+      screen: FoodDetailsView,
       navigationOptions: {
         // tabBarLabel: '每日推薦',
         // drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed', // 修复安卓侧滑问题
@@ -76,7 +74,7 @@ const tabView = TabNavigator(
       }
     },
     FoodListTab: {
-      screen: BackAndroidHandler(FoodListView),
+      screen: FoodListView,
       navigationOptions: {
         // tabBarLabel: "本週菜單",
         drawerLockMode: Platform.OS=='ios'?'unlocked':'locked-closed',
@@ -160,7 +158,7 @@ const customItemPress = ({route, focused}, navigation) => {
 const darwerView = DrawerNavigator(
   {
     FoodDetails: {
-      screen: FoodListView,
+      screen: CommonHOC(FoodListView),
     },
     MyOrderDrawer: {
       screen: MyOrderView
@@ -273,6 +271,9 @@ let MainView = StackNavigator(
     PayType: {
       screen: PaySettingView
     },
+    Coupon: {
+      screen: CouponView
+    },
     Credit: {
       screen: CreditCardView
     },
@@ -331,10 +332,10 @@ MainView.router.getStateForAction = (action, state) => {
   if (state && action.type === NavigationActions.NAVIGATE) {
     if (action.params && action.params.replaceRoute) {
       //replaceRoute值 仅仅作为一个标识，进到这个方法之后就没有作用了
-      let _routeIndex = typeof action.params.index == 'undefined' ? routes.length - 1 : action.params.index;
       delete action.params.replaceRoute;
       if (state.routes.length > 1 && state.index > 0) {
           const routes = state.routes.slice(0, state.routes.length - 1);
+          let _routeIndex = typeof action.params.index == 'undefined' ? routes.length - 1 : action.params.index;
       // routes.push(action)
           return defaultGetStateForAction(action, {
             ...state,
