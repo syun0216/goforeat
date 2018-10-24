@@ -3,20 +3,11 @@ import { View, StyleSheet,Platform,TouchableOpacity,Image } from "react-native";
 import {
   Container,
   Content,
-  Button,
-  Footer,
-  Separator,
-  ListItem,
   Icon,
   Input,
   Toast
 } from "native-base";
-import PopupDialog, {
-  SlideAnimation,
-  DialogTitle
-} from "react-native-popup-dialog";
 import Stripe from 'react-native-stripe-api';
-import {NavigationActions} from 'react-navigation';
 //components
 import BottomOrderConfirm from '../components/BottomOrderConfirm';
 import CommonHeader from "../components/CommonHeader";
@@ -26,26 +17,22 @@ import LoadingModal from "../components/LoadingModal";
 import ErrorPage from "../components/ErrorPage";
 import CommonModal from "../components/CommonModal";
 import Text from '../components/UnScalingText';
+import CommonItem from '../components/CommonItem';
 //views
 import CouponView from './CouponView';
 //utils
 import Colors from "../utils/Colors";
-import GLOBAL_PARAMS, { em, EXPLAIN_PAY_TYPE } from "../utils/global_params";
+import GLOBAL_PARAMS, { em, EXPLAIN_PAY_TYPE, isEmpty } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 import {getDeviceId} from "../utils/DeviceInfo";
 //api
-import {createOrder,createNewOrder,confirmOrder,useCoupon} from '../api/request';
+import {createNewOrder,confirmOrder,useCoupon} from '../api/request';
 //component
 import Divider from "../components/Divider";
 //styles
 import ConfirmOrderStyles from '../styles/confirmorder.style';
-import CommonStyles from '../styles/common.style';
 //language
 import I18n from '../language/i18n';
-
-const slideAnimation = new SlideAnimation({
-  slideFrom: "bottom"
-});
 
 const PAY_TYPE = {
   cash: 1,
@@ -81,6 +68,7 @@ export default class ConfirmOrderView extends PureComponent {
       discountsPrice: 0,
       remark: '',
       isCouponPickModalShow: false,
+      couponDetail: null,
       i18n: I18n[this.props.screenProps.language],
       hasChangeDefaultPayment: null, // 记录默认选择支付方式是否被修改
     }
@@ -114,13 +102,6 @@ export default class ConfirmOrderView extends PureComponent {
         position: 'bottom'
       });
     }
-    // console.log(this.state.orderDetail);
-    // console.log(nextProps.screenProps.paytype);
-    // this.setState({
-    //   loading: true
-    // },() => {
-    //   this._createOrder();
-    // });
   }
 
   _createOrder() {
@@ -206,17 +187,19 @@ export default class ConfirmOrderView extends PureComponent {
   };
 
   _confirmOrderWithToken(token) {
-    let {hasChangeDefaultPayment,orderDetail:{totalMoney,orderId,defaultPayment},discountsPrice,coupon,remark} = this.state;
+    let {hasChangeDefaultPayment, couponDetail, orderDetail:{totalMoney,orderId,defaultPayment},discountsPrice,coupon,remark} = this.state;
     totalMoney = totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
     defaultPayment = hasChangeDefaultPayment != null ? hasChangeDefaultPayment : defaultPayment;
     let {i18n} = this.state;
     let _appleAndAndroidPayRes = null;
+    let _deductionId = isEmpty(couponDetail) ? null : couponDetail.deductionId;
     if(defaultPayment == PAY_TYPE.android_pay || defaultPayment == PAY_TYPE.apple_pay) {
       _appleAndAndroidPayRes = token;
       token = _appleAndAndroidPayRes.details.paymentToken;
     }
-    confirmOrder(orderId,coupon,totalMoney,defaultPayment,token,remark).then(
+    confirmOrder(orderId,totalMoney,defaultPayment,token,remark,_deductionId).then(
       data => {
+        console.log({123:data});
         this.setState({
           loadingModal: false
         })
@@ -232,7 +215,7 @@ export default class ConfirmOrderView extends PureComponent {
         }
       },
       () => {
-        ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.order);
+        // ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.order);
         this.setState({
           loadingModal: false
         })
@@ -380,6 +363,24 @@ export default class ConfirmOrderView extends PureComponent {
     )
   }
 
+  _renderNewCouponView() {
+    let {couponDetail} = this.state;
+    return (
+      <CommonItem style={{padding: 0, width: '100%'}} content={couponDetail != null ? `滿$${couponDetail.condition}可用,立減$${couponDetail.discount}` :'使用優惠券'} hasLeftIcon leftIcon={<Image source={require('../asset/coupon.png')} resizeMode="contain" style={{width: em(20),height: em(20), marginRight: em(11.5)}}/>} rightIcon={<Icon name="ios-arrow-forward-outline" style={ConfirmOrderStyles.ArrowShow} />} clickFunc={() => this.props.navigation.navigate('Coupon',{
+        callback:coupon => {
+          if(!isEmpty(coupon)) {
+            this.setState({ 
+              couponDetail: coupon,
+              discountsPrice: coupon.discount
+            });
+          }
+          // console.log({coupon})
+        },
+        from:'confirm_order'
+      })}/>
+    )
+  }
+
   _renderNewOrderView() {
     let {i18n} = this.state;
     let {orderDetail:{totalMoney,foodName,foodMoney,foodNum,defaultPayment},hasChangeDefaultPayment,discountsPrice} = this.state;
@@ -395,7 +396,6 @@ export default class ConfirmOrderView extends PureComponent {
           <Text style={ConfirmOrderStyles.CountText}>{i18n.quantity}:</Text>
           <Text style={ConfirmOrderStyles.FoodNum}>{foodNum}</Text>
         </View>
-        <Divider bgColor="#EBEBEB" height={1}/>
         {
           discountsPrice>0? <View style={[ConfirmOrderStyles.NewsInner,styles.commonMarginTop]}>
           <Text style={ConfirmOrderStyles.TotalText}>{i18n.discount}</Text>
@@ -412,7 +412,8 @@ export default class ConfirmOrderView extends PureComponent {
             <Text style={ConfirmOrderStyles.TotalMoney} numberOfLines={1}>{totalMoney.toFixed(2)}</Text>
           </View>
         </View>
-        { defaultPayment == PAY_TYPE.month_ticket ? null : this._renderCouponBtnView()}
+        <Divider bgColor="#EBEBEB" height={1}/>
+        { defaultPayment == PAY_TYPE.month_ticket ? null : this._renderNewCouponView()}
       </View>
     )
   }
