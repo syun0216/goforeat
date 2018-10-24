@@ -19,6 +19,7 @@ export default class CouponView extends PureComponent{
 
   constructor(props) {
     super(props);
+    this._from_confirm_order = this.props.navigation.state.params != 'undefined'; // 从订单详情跳转过来
     this.state = {
       i18n: I18n[props.screenProps.language],
       refreshing: false
@@ -30,7 +31,12 @@ export default class CouponView extends PureComponent{
     const _alreadyUsed = useStatus != effective;
 
     const useBtn = (
-      <TouchableOpacity style={CouponStyle.UseBtn} onPress={() => this.props.navigation.goBack()}>
+      <TouchableOpacity style={CouponStyle.UseBtn} onPress={() => {
+        if(this._from_confirm_order) {
+          this.props.navigation.state.params.callback(item);
+        }
+        this.props.navigation.goBack();
+      }}>
         <Text style={CouponStyle.BtnText}>立即使用</Text>
       </TouchableOpacity>
     )
@@ -68,7 +74,7 @@ export default class CouponView extends PureComponent{
 
   render() {
     let Header = () => (
-      <CommonHeader hasMenu title="我的優惠券"/>
+      <CommonHeader hasMenu={!this._from_confirm_order} canBack={this._from_confirm_order} title="我的優惠券"/>
     )
 
     const isHeaderHide = typeof this.props.hideHeader !== undefined;
