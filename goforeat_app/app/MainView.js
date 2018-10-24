@@ -334,8 +334,13 @@ MainView.router.getStateForAction = (action, state) => {
       //replaceRoute值 仅仅作为一个标识，进到这个方法之后就没有作用了
       delete action.params.replaceRoute;
       if (state.routes.length > 1 && state.index > 0) {
-          const routes = state.routes.slice(0, state.routes.length - 1);
-          let _routeIndex = typeof action.params.index == 'undefined' ? routes.length - 1 : action.params.index;
+        let _routeIndex = typeof action.params.index == 'undefined' ? state.routes.length - 2 : action.params.index;
+        let routes = null;
+        if(_routeIndex == 0) {
+          routes= [state.routes[0]];
+        } else {
+          routes = state.routes.slice(0, state.routes.length - 1);
+        }
       // routes.push(action)
           return defaultGetStateForAction(action, {
             ...state,
