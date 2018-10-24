@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, TouchableWithoutFeedback, Platform, TextInput, AppState, Alert} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableWithoutFeedback, Platform, TextInput, AppState, Alert, ToastAndroid, BackHandler} from 'react-native';
 import {Container, Input} from 'native-base';
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
 //codepush
@@ -11,31 +11,39 @@ import JPushModule from 'jpush-react-native';
 import {em, _winWidth, _winHeight} from '../utils/global_params';
 //components
 import CommonBottomBtn from '../components/CommonBottomBtn';
-import Loading from '../components/Loading';
-import ErrorPage from '../components/ErrorPage';
-import BlankPage from '../components/BlankPage';
 //language
 import I18n from '../language/i18n';
-
+//api
+import { popupComment, addComment } from '../api/request';
+ 
 const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
 });
+
+const lastBackPressed = Date.now();
 
 const CommonHOC = WarppedComponent => class extends Component {
 
   constructor(props) {
     super(props);
+    this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+      BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid.bind(this))
+    );
+    this.commentText = '';
     this.state = {
       currentComment:null,
-      i18n: I18n[props.screenProps.language]
+      currentStar: 0,
+      i18n: I18n[props.screenProps.language],
     }
   }
 
-  // ---------------------jpush&codepush
   componentDidMount() {
     this._jpushDidMount();
+    this._handleBackAndroid();
+    this._commentPopup();
     AppState.addEventListener('change',(nextState) => {
       if(nextState == 'active') {
+        this._commentPopup();
         CodePush.getUpdateMetadata().then(localPackage => {
           if (localPackage == null) {
               this._checkForUpdate();
@@ -47,14 +55,69 @@ const CommonHOC = WarppedComponent => class extends Component {
                   this._checkForUpdate();
               }
           }
-      });
+        });
       }
-    })
+    });
   }
 
   componentWillUnmount() {
     AppState.removeEventListener('change');
     JPushModule.removeReceiveNotificationListener('receiveNotification');
+    this._removeBackAndroidHandler();
+  }
+
+  componentWillReceiveProps() {
+    console.log('will receive props');
+  }
+
+  //api
+  _commentPopup() {
+    popupComment().then(data => {
+      if(data.ro.respCode == '0000') {
+        this.setState({
+          currentComment: data.data
+        },() => {
+          this.popupDialog.show();
+        })
+      }
+      console.log({345:data});
+    });
+  }
+
+  _addComment() {
+    let {currentComment: {orderId}, currentStar} = this.state;
+    addComment(orderId, currentStar, this.commentText).then(data => {
+      console.log(data);
+    })
+  }
+
+  // ---------------------jpush&codepush&backAndroidHandler
+
+  //back android
+  _handleBackAndroid() {
+    if (Platform.OS == 'android') {
+    this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+      BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid.bind(this))
+    );
+    }
+  }
+
+  onBackButtonPressAndroid() {
+    if(routeName == "Home") {
+      if(lastBackPressed && lastBackPressed + 2000 >= Date.now()) {
+        BackHandler.exitApp();
+      }
+      lastBackPressed = Date.now();
+      ToastAndroid.show(I18n[this.props.screenProps.language].pressToExit, ToastAndroid.SHORT);
+      return true;
+    }
+  }
+
+  _removeBackAndroidHandler() {
+    if(Platform.OS == 'android') {
+      this._didFocusSubscription && this._didFocusSubscription.remove();
+      this._willBlurSubscription && this._willBlurSubscription.remove();
+    }
   }
 
   // jpush did mounted
@@ -67,7 +130,7 @@ const CommonHOC = WarppedComponent => class extends Component {
     this._jpushCommonEvent();
   }
 
-  _jpush_android_setup = () => {
+  _jpush_android_setup() {
     JPushModule.initPush();
     JPushModule.notifyJSDidLoad(resultCode => {
       if (resultCode === 0) {
@@ -94,19 +157,6 @@ const CommonHOC = WarppedComponent => class extends Component {
             return;
         }
         this._syncInNonSilent(remotePackage);
-        // if (TextUtils.isEmpty(remotePackage.description)) {
-        //     this._syncInSilent(remotePackage);
-        // } else {
-        //     JSONUtils.parseJSONFromString(remotePackage.description, (resultJSON) => {
-        //         if (resultJSON.isSilentSync != null && !resultJSON.isSilentSync) {
-        //             this._syncInNonSilent(remotePackage);
-        //         } else {
-        //             this._syncInSilent(remotePackage);
-        //         }
-        //     }, (error) => {
-        //         this._syncInSilent(remotePackage);
-        //     });
-        // }
     })
 }
   // logic - update - silent
@@ -131,11 +181,6 @@ const CommonHOC = WarppedComponent => class extends Component {
           }
         }
       ]);
-
-      // setTimeout(
-      //   () => this._downloadMandatoryNewVersionWithRemotePackage(remotePackage),
-      //   1000
-      // );
       return;
     } else {
       Alert.alert(null, i18n.hot_reload_tips.has_new_function, [
@@ -184,46 +229,60 @@ const CommonHOC = WarppedComponent => class extends Component {
   // ---------------------------end
 
   _getComment(val) {
+    this.commentText = val;
     console.log(val)
   }
 
-  _renderEmojiBtn({defaultImage, activeImage, name}) {
+  _handleDialogDismiss() {
+    this._addComment();
+    console.log(123);
+  }
+
+  _renderEmojiBtn({defaultImage, activeImage, name, val}) {
     return (
       <TouchableWithoutFeedback key={name} onPress={() => {
         this.setState({
-          currentComment: name
+          currentStar: val
         })
       }} style={styles.emoji}>
-        <Image source={this.state.currentComment == name ? activeImage : defaultImage} style={styles.emoji}/>
+        <Image source={this.state.currentStar == val ? activeImage : defaultImage} style={styles.emoji}/>
       </TouchableWithoutFeedback>
     )
   }
 
   render() {
     const emoji_arr = [
-      {defaultImage: require('../asset/crazy-normal.png'), activeImage: require('../asset/crazy-press.png'), name: 'crazy'},
-      {defaultImage: require('../asset/hard-normal.png'), activeImage: require('../asset/hard-press.png'), name: 'hard'},
-      {defaultImage: require('../asset/allright-normal.png'), activeImage: require('../asset/allright-press.png'), name: 'allright'},
-      {defaultImage: require('../asset/well-normal.png'), activeImage: require('../asset/well-press.png'), name: 'well'},
-      {defaultImage: require('../asset/delicious-normal.png'), activeImage: require('../asset/delicious-press.png'), name: 'delicious'},
+      {defaultImage: require('../asset/crazy-normal.png'), activeImage: require('../asset/crazy-press.png'), name: 'crazy', val: 1},
+      {defaultImage: require('../asset/hard-normal.png'), activeImage: require('../asset/hard-press.png'), name: 'hard', val: 2},
+      {defaultImage: require('../asset/allright-normal.png'), activeImage: require('../asset/allright-press.png'), name: 'allright', val: 3},
+      {defaultImage: require('../asset/well-normal.png'), activeImage: require('../asset/well-press.png'), name: 'well', val: 4},
+      {defaultImage: require('../asset/delicious-normal.png'), activeImage: require('../asset/delicious-press.png'), name: 'delicious', val: 5},
     ];
+    let orderName = '',picture = 'https://img.xiumi.us/xmi/ua/18Wf8/i/947a1ce40e185b4aa6e8318e496e9748-sz_61730.jpg';
+    
+    if(this.state.currentComment !=null) {
+      orderName = this.state.currentComment.orderName;
+      picture = this.state.currentComment.picture;
+    }
+
     return (
       <Container>
         <PopupDialog
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           width={em(295)}
           height={em(435)}
+          onDismissed={() => this._handleDialogDismiss()}
           dialogStyle={styles.popupDialogContainer}
           dialogAnimation={slideAnimation}
         >
           <Image style={styles.topImg} reasizeMode="contain" source={require('../asset/commentTop.png')}/>
           <View style={styles.topTitle}>
             <Text style={styles.topTitleText}>给</Text>
-            <Text style={[styles.topTitleText, styles.foodNameText]} numberOfLines={1}>瑞士鸡腿+咖喱猪扒+hahahah</Text>
+            <Text style={[styles.topTitleText, styles.foodNameText]} numberOfLines={1}>{orderName}</Text>
             <Text style={styles.topTitleText}>打分</Text>
           </View>
           <View style={styles.content}>
-            <Image style={styles.contentImg} source={{uri: 'https://img.xiumi.us/xmi/ua/18Wf8/i/947a1ce40e185b4aa6e8318e496e9748-sz_61730.jpg'}}/>
+            <Image style={styles.contentImg} source={{uri: picture}}/>
             <View style={styles.emojiContainer}>
               {
                 emoji_arr.map(v => this._renderEmojiBtn(v))
@@ -231,7 +290,7 @@ const CommonHOC = WarppedComponent => class extends Component {
             </View>
             <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#999" 
             placeholder="例如:好評" clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/>
-            <CommonBottomBtn clickFunc={() => console.log(this.WarppedComponent.test())} style={{width: em(263)}}>推薦給好友</CommonBottomBtn>
+            <CommonBottomBtn clickFunc={() => this._addComment()} style={{width: em(263)}}>推薦給好友</CommonBottomBtn>
           </View>
         </PopupDialog>
         <WarppedComponent ref={w => this.WarppedComponent = w} {...this.props} showDialog={() => this.popupDialog.show()} hideDialog={() => this.popupDialog.dismiss()}/>
@@ -289,11 +348,11 @@ const styles = StyleSheet.create({
   },
   Input: {
     color: '#111',
-    fontSize: em(16),
+    fontSize: em(13),
     height: Platform.OS == 'ios' ? em(30) : 45 * (_winHeight / 592),
     width: _winWidth * 0.85,
     borderBottomWidth: 1,
-    borderBottomColor: '#EBEBEB',
+    borderBottomColor: '#9d9d9d',
     marginBottom: em(10)
   }
 })
