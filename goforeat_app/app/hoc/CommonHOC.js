@@ -9,6 +9,7 @@ import CodePushUtils from '../utils/CodePushUtils';
 import JPushModule from 'jpush-react-native';
 //utils
 import {em, _winWidth, _winHeight} from '../utils/global_params';
+import ToastUtils from '../utils/ToastUtil';
 //components
 import CommonBottomBtn from '../components/CommonBottomBtn';
 //language
@@ -30,6 +31,7 @@ const CommonHOC = WarppedComponent => class extends Component {
       BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid.bind(this))
     );
     this.commentText = '';
+    this.isCommentSubmit = false;
     this.state = {
       currentComment:null,
       currentStar: 0,
@@ -66,10 +68,6 @@ const CommonHOC = WarppedComponent => class extends Component {
     this._removeBackAndroidHandler();
   }
 
-  componentWillReceiveProps() {
-    console.log('will receive props');
-  }
-
   //api
   _commentPopup() {
     popupComment().then(data => {
@@ -80,15 +78,33 @@ const CommonHOC = WarppedComponent => class extends Component {
           this.popupDialog.show();
         })
       }
-      console.log({345:data});
     });
   }
 
   _addComment() {
+    if(this.state.currentComment == null) {
+      this.popupDialog.dismiss();
+      return;
+    };
     let {currentComment: {orderId}, currentStar} = this.state;
     addComment(orderId, currentStar, this.commentText).then(data => {
-      console.log(data);
+      if(data.ro.ok) {
+        this.isCommentSubmit = true;
+        this.popupDialog.dismiss();
+      } else {
+        ToastUtils.showWithMessage(data.ro.respMsg);
+      }
     })
+  }
+  
+  _getComment(val) {
+    this.commentText = val;
+  }
+
+  _handleDialogDismiss() {
+    if(!this.isCommentSubmit) {
+      this._addComment();
+    }
   }
 
   // ---------------------jpush&codepush&backAndroidHandler
@@ -228,16 +244,6 @@ const CommonHOC = WarppedComponent => class extends Component {
   }
   // ---------------------------end
 
-  _getComment(val) {
-    this.commentText = val;
-    console.log(val)
-  }
-
-  _handleDialogDismiss() {
-    this._addComment();
-    console.log(123);
-  }
-
   _renderEmojiBtn({defaultImage, activeImage, name, val}) {
     return (
       <TouchableWithoutFeedback key={name} onPress={() => {
@@ -288,7 +294,7 @@ const CommonHOC = WarppedComponent => class extends Component {
                 emoji_arr.map(v => this._renderEmojiBtn(v))
               }
             </View>
-            <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#999" 
+            <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#9d9d9d" 
             placeholder="例如:好評" clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/>
             <CommonBottomBtn clickFunc={() => this._addComment()} style={{width: em(263)}}>推薦給好友</CommonBottomBtn>
           </View>
@@ -347,7 +353,7 @@ const styles = StyleSheet.create({
     height: em(35)
   },
   Input: {
-    color: '#111',
+    color: '#9d9d9d',
     fontSize: em(13),
     height: Platform.OS == 'ios' ? em(30) : 45 * (_winHeight / 592),
     width: _winWidth * 0.85,
