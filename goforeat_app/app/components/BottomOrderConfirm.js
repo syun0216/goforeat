@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {View,Animated,Easing,StyleSheet,TouchableOpacity,Platform} from 'react-native';
+import {View,StyleSheet,TouchableOpacity,Platform} from 'react-native';
 import {Icon} from 'native-base';
 //utils
 import GLOBAL_PARAMS,{em} from '../utils/global_params';
@@ -20,13 +20,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingRight: em(15),
     backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#E5E5E5',
     borderBottomWidth: GLOBAL_PARAMS.isIphoneX() ? 1 : 0,
     borderBottomColor: '#E5E5E5',
+    left:0 ,
+    bottom: 0
   },
   commonView: { 
     flexDirection:'row',alignItems:'center',justifyContent: 'center',
@@ -41,11 +40,11 @@ const styles = StyleSheet.create({
   },
   confirmBtn: {
     backgroundColor:'#FF3348',
-    height:49,
+    height:40,
     minWidth:150,
     justifyContent:'center',
     alignItems:'center',
-    marginRight:-10,
+    borderRadius: 25,
     ...iPhoneXBottom
   },
   priceText: {
@@ -67,40 +66,15 @@ const styles = StyleSheet.create({
 export default class BottomOrderConfirm extends PureComponent {
   timer = null;
   static defaultProps = {
-    isShow: false,
     btnMessage: '立即預訂',
     btnClick: () => {},
     canClose: true
   }
 
   static propsType = {
-    isShow: PropTypes.bool,
     btnMessage: PropTypes.string,
     btnClick: PropTypes.func,
     canClose: PropTypes.bool
-  }
-
-  state = {
-    bottom: new Animated.Value(0)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.isShow) {
-      this.timer = setTimeout(() => {
-        Animated.timing(this.state.bottom, {
-          toValue: nextProps.isShow? 1: 0,
-          duration: 100,
-          easing: Easing.quad
-        }).start();
-        clearTimeout(this.timer);
-      }, 150);
-    }else {
-      Animated.timing(this.state.bottom, {
-        toValue: nextProps.isShow? 1: 0,
-        duration: 100,
-        easing: Easing.quad
-      }).start();
-    }
   }
 
   componentWillUnmount() {
@@ -112,13 +86,9 @@ export default class BottomOrderConfirm extends PureComponent {
   }
 
   render() {
-    let {total,btnClick,canClose} = this.props;
+    let {total,btnClick,canClose,btnMessage} = this.props;
     return (
-      <Animated.View style={[styles.bottomContainer,{justifyContent: canClose?'space-between':'flex-end',},{
-        bottom:this.state.bottom.interpolate({
-        inputRange: [0,1],
-        outputRange: [GLOBAL_PARAMS.isIphoneX()?-83:-49, 0]
-      })}]}>
+      <View style={[styles.bottomContainer,{justifyContent: canClose?'space-between':'flex-end',}]}>
         <View style={styles.commonView}>
           {canClose ?<TouchableOpacity style={styles.closeBtn} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,styles.iconClose]}/>
@@ -128,10 +98,10 @@ export default class BottomOrderConfirm extends PureComponent {
         </View>
         <TouchableOpacity style={styles.confirmBtn} onPress={() => btnClick()}>
           <View style={styles.commonView}>
-            <Text style={[styles.commonText,{color:'#fff'}]}>{this.props.btnMessage}</Text>
+            <Text style={{color:'#fff', fontSize: em(20)}}>{btnMessage}</Text>
           </View>
         </TouchableOpacity>  
-      </Animated.View>
+      </View>
     )
   }
 }
