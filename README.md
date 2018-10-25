@@ -13,10 +13,8 @@ app
 │   └── appStorage.js                                           app中的缓存
 ├── components                                                  组件
 │   ├── AdvertiseView.js                                        广告页
-│   ├── BackAndroidHandler.js                                   返回键处理
 │   ├── BlankPage.js                                            空白页提示
 │   ├── BottomIntroduce.js                                      底部介绍关于我们详情
-│   ├── BottomOrderConfirm.js                                   底部确认bar                                         
 │   ├── CommonBottomBtn.js                                      底部确认按钮
 │   ├── CommonFlatList.js                                       公用flatlist
 │   ├── CommonHeader.js                                         app公用navbar
@@ -24,7 +22,6 @@ app
 │   ├── CommonModal.js                                          app公用modal
 │   ├── Divider.js                                              间隔组件
 │   ├── ErrorPage.js                                            错误页组件
-│   ├── HomePageHOC.js                                          HomePage高阶组件,热更新、极光推送等功能
 │   ├── ImageGellery.js                                         图片浏览
 │   ├── ListFooter.js                                           列表上拉刷新显示状态组件
 │   ├── Loading.js                                              整屏加载组件
@@ -36,6 +33,8 @@ app
 │   ├── Tabbar.js                                               自定义tabbar
 │   ├── UnScalingText.js                                        不允许系统放大字体Text
 │   └── WarningTips.js                                          首页公告组件
+├── hoc                                                         高阶组件
+│   └── CommonHOC.js                                            公共高阶组件
 ├── language                                                    语言
 │   ├── en.js                                                   英文
 │   ├── i18n.js                                                 转换中(繁)英文

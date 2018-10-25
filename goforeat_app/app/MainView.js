@@ -161,22 +161,22 @@ const darwerView = DrawerNavigator(
       screen: CommonHOC(FoodListView),
     },
     MyOrderDrawer: {
-      screen: MyOrderView
+      screen: CommonHOC(MyOrderView)
     },
     PayTypeDrawer: {
-      screen: PaySettingView
+      screen: CommonHOC(PaySettingView)
     },
     CouponDrawer: {
-      screen: CouponView
+      screen: CommonHOC(CouponView)
     },
     UserHelpDrawer: {
-      screen: UserHelperView
+      screen: CommonHOC(UserHelperView)
     },
     SettingDrawer: {
-      screen: SettingView
+      screen: CommonHOC(SettingView)
     },
     UserInfoDrawer: {
-      screen: UserInfoView
+      screen: CommonHOC(UserInfoView)
     }
   },
   {
@@ -239,7 +239,7 @@ let MainView = StackNavigator(
       screen: darwerView,
     },
     Food: {
-      screen: FoodDetailsView
+      screen: CommonHOC(FoodDetailsView)
     },
     // Splash: {
     //   screen: SplashPageView
@@ -248,7 +248,7 @@ let MainView = StackNavigator(
       screen: MandatoryUpdateView
     },
     Content: {
-      screen: ContentView,
+      screen: CommonHOC(ContentView),
       navigationOptions: {
         tabBarVisible: false
       }
@@ -263,28 +263,28 @@ let MainView = StackNavigator(
       }
     },
     Statement: {
-      screen: StatementView
+      screen: CommonHOC(StatementView)
     },
     Order: {
-      screen: ConfirmOrderView
+      screen: CommonHOC(ConfirmOrderView)
     },
     PayType: {
-      screen: PaySettingView
+      screen: CommonHOC(PaySettingView)
     },
     Coupon: {
-      screen: CouponView
+      screen: CommonHOC(CouponView)
     },
     Credit: {
-      screen: CreditCardView
+      screen: CommonHOC(CreditCardView)
     },
     Manage_Card: {
-      screen: ManageCreditCardView
+      screen: CommonHOC(ManageCreditCardView)
     },
     MoreDetail: {
-      screen: MoreDetailView
+      screen: CommonHOC(MoreDetailView)
     },
     Feedback: {
-      screen: FeedbackView
+      screen: CommonHOC(FeedbackView)
     },
   },
   { headerMode: "none",
