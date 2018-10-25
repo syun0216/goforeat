@@ -11,7 +11,7 @@ function wp (percentage) {
 }
 
 const slideHeight = viewportHeight * 0.70;
-const slideWidth = wp(83);
+const slideWidth = wp(100)- em(30);
 const itemHorizontalMargin = wp(1);
 
 export const sliderWidth = viewportWidth;
@@ -22,9 +22,9 @@ const entryBorderRadius = 8;
 export default StyleSheet.create({
     slideInnerContainer: {
         width: itemWidth,
-        height: em(262),
+        height: em(260),
         paddingHorizontal: itemHorizontalMargin,
-        paddingBottom: 18, // needed for shadow
+        paddingBottom: em(10), // needed for shadow
         // backgroundColor: '#fff'
     },
     shadow: {
@@ -40,7 +40,7 @@ export default StyleSheet.create({
         // borderRadius: entryBorderRadius
     },
     imageContainer: {
-        height: em(250),
+        height: em(260),
         // marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
         backgroundColor: 'white',
         shadowColor: '#c5bbd0',

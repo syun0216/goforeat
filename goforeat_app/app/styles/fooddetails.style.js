@@ -6,7 +6,7 @@ import GLOBAL_PARAMS,{em} from '../utils/global_params';
 import Colors from '../utils/Colors';
 
 const common = {
-  marginLeft: GLOBAL_PARAMS._winWidth * 0.08,
+  marginLeft: em(15),
   fontColor: Colors.fontBlack,
 }
 
@@ -38,25 +38,24 @@ export default StyleSheet.create({
     width: GLOBAL_PARAMS._winWidth,
     paddingLeft: common.marginLeft,
     paddingRight: common.marginLeft,
-    paddingBottom: em(10),
   },
   IntroductionFoodNameCotainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    paddingBottom: em(10),
   },
   IntroductionFoodName: {
     fontSize: em(20),
     color: '#111',
     fontWeight: 'bold',
-    marginBottom: em(11),
     maxWidth: em(210)
   },
   IntroductionDetailBtn: {
     color: '#ff3348',
     fontSize: em(18),
-    paddingLeft: em(10),
-    paddingRight: em(10)
+    paddingLeft: em(20),
+    paddingRight: 0
   },
   IntroductionFoodBrief: {
     fontSize: em(14),
