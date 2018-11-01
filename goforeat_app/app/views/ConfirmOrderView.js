@@ -5,11 +5,12 @@ import {
   Content,
   Icon,
   Input,
-  Toast
+  Toast,
+  Footer
 } from "native-base";
 import Stripe from 'react-native-stripe-api';
 //components
-import BottomOrderConfirm from '../components/BottomOrderConfirm';
+import CommonBottomBtn from '../components/CommonBottomBtn';
 import CommonHeader from "../components/CommonHeader";
 import BlankPage from "../components/BlankPage";
 import Loading from "../components/Loading";
@@ -96,7 +97,7 @@ export default class ConfirmOrderView extends PureComponent {
       });
       this._input != null && this._input._root.clear();
       Toast.show({
-        text: '*月票不能和優惠碼一齊使用',
+        text: '*月票不能和優惠券一齊使用',
         duration: 3000,
         type: 'warning',
         position: 'bottom'
@@ -366,7 +367,7 @@ export default class ConfirmOrderView extends PureComponent {
   _renderNewCouponView() {
     let {couponDetail} = this.state;
     return (
-      <CommonItem style={{padding: 0, width: '100%'}} content={couponDetail != null ? `滿$${couponDetail.condition}可用,立減$${couponDetail.discount}` :'使用優惠券'} hasLeftIcon leftIcon={<Image source={require('../asset/coupon.png')} resizeMode="contain" style={{width: em(20),height: em(20), marginRight: em(11.5)}}/>} rightIcon={<Icon name="ios-arrow-forward-outline" style={ConfirmOrderStyles.ArrowShow} />} clickFunc={() => this.props.navigation.navigate('Coupon',{
+      <CommonItem style={{padding: 0, width: '100%',borderBottomWidth: 0}} content={couponDetail != null ? `滿$${couponDetail.condition}可用,立減$${couponDetail.discount}` :'使用優惠券'} hasLeftIcon leftIcon={<Image source={require('../asset/coupon.png')} resizeMode="contain" style={{width: em(20),height: em(20), marginRight: em(11.5)}}/>} rightIcon={<Icon name="ios-arrow-forward-outline" style={ConfirmOrderStyles.ArrowShow} />} clickFunc={() => this.props.navigation.navigate('Coupon',{
         callback:coupon => {
           if(!isEmpty(coupon)) {
             this.setState({ 
@@ -465,27 +466,19 @@ export default class ConfirmOrderView extends PureComponent {
   _renderBottomConfirmView() {
     let {discountsPrice} = this.state;
     let {total} = this.props.navigation.state.params;
-    let total_price = total - discountsPrice > 0 ? total - discountsPrice : 0;
     return (
-      <BottomOrderConfirm isShow={this.state.isBottomShow} total={total_price}  btnMessage={this.state.i18n.orderNow} btnClick={() => this._confirmOrder()} canClose={false}/>
-    )
-  }
-
-  _renderCouponView() {
-    const { isCouponPickModalShow } = this.state;
-    const closeFunc = () => {this.setState({isCouponPickModalShow: false})};
-    return (
-      <CommonModal modalVisible={isCouponPickModalShow} closeFunc={closeFunc} title="優惠券">
-        <CouponView hideHeader {...this.props}/>
-      </CommonModal>
+      <Footer style={{height:GLOBAL_PARAMS.isIphoneX()?em(83):em(50),backgroundColor: '#fff'}}>
+        <CommonBottomBtn style={{height: em(40)}} clickFunc={() => this._confirmOrder()}>
+          {this.state.i18n.orderNow}
+        </CommonBottomBtn>
+      </Footer>
     )
   }
 
   render() {
     let {i18n,orderDetail,isCouponPickModalShow,loading,loadingModal,isError,isExpired,expiredMessage} = this.state;
     return (
-      <Container> 
-        { isCouponPickModalShow ? this._renderCouponView() : null }
+      <Container>
         <CommonHeader
           canBack
           title={i18n.detailPage}
@@ -503,7 +496,7 @@ export default class ConfirmOrderView extends PureComponent {
           ) : null}
           {orderDetail != null ? this._renderNewOrderView() : null}
           {orderDetail !== null ? this._renderNewDetailsView() : null}
-          <View style={{height: 65}}/>
+          <View style={{height: 20}}/>
           </Content>
           {this._renderBottomConfirmView()}
       </Container>
