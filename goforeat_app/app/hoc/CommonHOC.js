@@ -26,7 +26,7 @@ const lastBackPressed = Date.now();
 
 const shareOptions = { //分享優惠券信息
   url: 'http://api.goforeat.hk/guide/download',
-  message: 'goforeat',
+  message: '日日有得食',
   title: '分享有得食搶優惠券'
 };
 
@@ -100,7 +100,7 @@ const CommonHOC = WarppedComponent => class extends Component {
     });
   }
 
-  _addComment() {
+  _addCommentApi() {
     if(this.state.currentComment == null) {
       this.popupDialog.dismiss();
       return;
@@ -109,15 +109,16 @@ const CommonHOC = WarppedComponent => class extends Component {
     addComment(orderId, currentStar, this.commentText).then(data => {
       if(data.ro.ok) {
         this.isCommentSubmit = true;
-        Share.open(shareOptions).catch((err) => { 
-          console.log({err});
-        });
         this.popupDialog.dismiss();
       } else {
         ToastUtils.showWithMessage(data.ro.respMsg);
       }
     });
-    if(currentStar == 5) {
+  }
+
+  _addComment() {
+    this._addCommentApi();
+    if(this.state.currentStar == 5) {
       Share.open(shareOptions).catch((err) => { 
         console.log({err});
       });
@@ -130,7 +131,7 @@ const CommonHOC = WarppedComponent => class extends Component {
 
   _handleDialogDismiss() {
     if(!this.isCommentSubmit) {
-      this._addComment();
+      this._addCommentApi();
     }
   }
 

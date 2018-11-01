@@ -393,12 +393,18 @@ class FoodDetailsView extends Component {
   }
 
   _renderBottomBtnView() {
-    let {i18n, isBottomContainerShow,foodCount, foodDetails} = this.state;
+    let {i18n, soldOut,foodCount, foodDetails} = this.state;
     return (
       <BottomOrderConfirm btnMessage={i18n.book} {...this.props} 
       isShow={true} 
       total={foodCount*foodDetails.price}
-      btnClick={() => this._goToOrder()}
+      btnClick={() => {
+        if(soldOut == HAS_FOODS) {
+          this._goToOrder()
+        } else {
+          ToastUtil.showWithMessage('已停止下單');
+        }
+      }}
       cancelOrder={this._cancelOrder}/>
     )
   }
