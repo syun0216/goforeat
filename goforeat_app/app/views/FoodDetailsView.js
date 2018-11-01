@@ -149,15 +149,13 @@ class FoodDetailsView extends Component {
     this.setState({
       isFavorite: !this.state.isFavorite,
       favoriteCount: !this.state.isFavorite ? this.state.favoriteCount+1:this.state.favoriteCount-1
-    },() => {
-      alert(123);
-      let status = this.state.isFavorite ? isFavorite : isNotFavorite;
-      myFavorite(foodId, status).then(data => {
-        if(data.ro.ok) {
-          return;
-        }
-      })
     });
+    let status = !this.state.isFavorite ? isFavorite : isNotFavorite;
+    myFavorite(foodId, status).then(data => {
+      if(data.ro.ok) {
+        return;
+      }
+    })
   }
 
   _goToOrder() {

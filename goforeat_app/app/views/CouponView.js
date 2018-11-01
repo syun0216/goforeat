@@ -19,7 +19,7 @@ export default class CouponView extends PureComponent{
 
   constructor(props) {
     super(props);
-    this._from_confirm_order = this.props.navigation.state.params != 'undefined'; // 从订单详情跳转过来
+    this._from_confirm_order = typeof this.props.navigation.state.params != 'undefined'; // 从订单详情跳转过来
     this.state = {
       i18n: I18n[props.screenProps.language],
       refreshing: false

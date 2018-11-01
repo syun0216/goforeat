@@ -12,13 +12,11 @@ import JSONUtils from '../utils/JSONUtils';
 import {getNewArticleList, adSpace} from '../api/request';
 import source from '../api/CancelToken';
 //components
-import CommonHeader from '../components/CommonHeader';
 import Text from '../components/UnScalingText';
 import WarningTips from '../components/WarningTips';
 import CommonFlatList from "../components/CommonFlatList";
 import AdervertiseView from '../components/AdvertiseView';
 import PlacePickerModel from '../components/PlacePickerModel';
-import HotReloadHOC from '../components/HomePageHOC';
 //language
 import I18n from '../language/i18n';
 //styles
@@ -33,6 +31,7 @@ class FoodListView extends Component {
   constructor(props) {
     super(props);
     this._interval = null;
+    this._isFirstReload = true; //判断是否为首次加载
     this.state = {
       currentItem: '',
       placeSelected: null,
@@ -51,19 +50,15 @@ class FoodListView extends Component {
     if(isAdShow) {
       hideAd();
     }
-    advertisementStorage.getData((error,data) => {
-      if(error == null) {
-        if(data != null) {
-          isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
-          this._advertiseInterval();
-        }
-        this._getAdvertise(data);
-      }
-    })
-  }
-
-  componentWillReceiveProps() {
-    if(!!this.flatlist) this.flatlist.outSideRefresh();
+    // advertisementStorage.getData((error,data) => {
+    //   if(error == null) {
+    //     if(data != null) {
+    //       isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
+    //       this._advertiseInterval();
+    //     }
+    //     this._getAdvertise(data);
+    //   }
+    // });
   }
 
   componentWillUnmount() {
@@ -123,6 +118,11 @@ class FoodListView extends Component {
     }
     this.setState({
       placeSelected: val,
+    },() => {
+      if(!this._isFirstReload) {
+        if(!!this.flatlist) this.flatlist.outSideRefresh();
+        this._isFirstReload = false;
+      }
     });
   }
   
@@ -139,7 +139,7 @@ class FoodListView extends Component {
 
   _renderRefreshBgView() {
     return (
-      <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={{position:'absolute',top:0,left: 0,height: 150,width: _winWidth}} />
+      <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={{position:'absolute',top:0,left: 0,height: 150,width: _winWidth,overflow: 'hidden',}} />
     )
   }
   
@@ -214,9 +214,8 @@ class FoodListView extends Component {
     return (
       <TouchableOpacity style={styles.articleItemContainer}
         onPress={() => {
-          console.log(item);
           this.props.navigation.navigate('Food', {dateFoodId: item.dateFoodId});
-        }}>
+        }} activeOpacity={0.6}>
         <Image source={{uri: item.thumbnail}} style={{width: _winWidth*0.45 - 10,height: em(160)}} resizeMode="cover"/>
         <View style={styles.articleItemDetails}>
           <View style={[styles.itemName, styles.marginBottom9]}>
@@ -249,7 +248,6 @@ class FoodListView extends Component {
   }
 
   render() {
-    let {i18n} = this.state;
     return (
     <Container style={{position:'relative'}}>
       {this._renderAdvertisementView()}
@@ -266,7 +264,7 @@ FoodListView.navigationOptions = ({screenProps}) => ({
   tabBarLabel: I18n[screenProps.language].weekMenu
 })
 
-export default HotReloadHOC(FoodListView);
+export default FoodListView;
 
 const styles = StyleSheet.create({
   articleItemContainer:{
