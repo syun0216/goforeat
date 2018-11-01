@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, Image, TouchableWithoutFeedback, Platform, TextInput, AppState, Alert, ToastAndroid, BackHandler} from 'react-native';
 import {Container, Input} from 'native-base';
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
+import Share from 'react-native-share';
 //codepush
 import CodePush from 'react-native-code-push';
 import CodePushUtils from '../utils/CodePushUtils';
@@ -23,6 +24,20 @@ const slideAnimation = new SlideAnimation({
 
 const lastBackPressed = Date.now();
 
+const shareOptions = { //分享優惠券信息
+  url: 'http://api.goforeat.hk/guide/download',
+  message: 'goforeat',
+  title: '分享有得食搶優惠券'
+};
+
+const commentKeyWord = {
+  1: '非常差',
+  2: '差',
+  3: '一般',
+  4: '好',
+  5: '非常好'
+}
+
 const CommonHOC = WarppedComponent => class extends Component {
 
   constructor(props) {
@@ -34,7 +49,8 @@ const CommonHOC = WarppedComponent => class extends Component {
     this.isCommentSubmit = false;
     this.state = {
       currentComment:null,
-      currentStar: 0,
+      currentStar: 5,
+      btnContent: '推薦好友領優惠券',
       i18n: I18n[props.screenProps.language],
     }
   }
@@ -60,6 +76,9 @@ const CommonHOC = WarppedComponent => class extends Component {
         });
       }
     });
+    // setTimeout(() => {
+    //   this.popupDialog.show();
+    // }, 1000); 
   }
 
   componentWillUnmount() {
@@ -90,11 +109,19 @@ const CommonHOC = WarppedComponent => class extends Component {
     addComment(orderId, currentStar, this.commentText).then(data => {
       if(data.ro.ok) {
         this.isCommentSubmit = true;
+        Share.open(shareOptions).catch((err) => { 
+          console.log({err});
+        });
         this.popupDialog.dismiss();
       } else {
         ToastUtils.showWithMessage(data.ro.respMsg);
       }
-    })
+    });
+    if(currentStar == 5) {
+      Share.open(shareOptions).catch((err) => { 
+        console.log({err});
+      });
+    }
   }
   
   _getComment(val) {
@@ -249,6 +276,16 @@ const CommonHOC = WarppedComponent => class extends Component {
       <TouchableWithoutFeedback key={name} onPress={() => {
         this.setState({
           currentStar: val
+        },() => {
+          if(this.state.currentStar == 5) {
+            this.setState({
+              btnContent: '推薦好友領優惠券'
+            })
+          } else {
+            this.setState({
+              btnContent: '確認提交'
+            })
+          }
         })
       }} style={styles.emoji}>
         <Image source={this.state.currentStar == val ? activeImage : defaultImage} style={styles.emoji}/>
@@ -265,6 +302,8 @@ const CommonHOC = WarppedComponent => class extends Component {
       {defaultImage: require('../asset/delicious-normal.png'), activeImage: require('../asset/delicious-press.png'), name: 'delicious', val: 5},
     ];
     let orderName = '',picture = 'https://img.xiumi.us/xmi/ua/18Wf8/i/947a1ce40e185b4aa6e8318e496e9748-sz_61730.jpg';
+
+    let {currentStar} = this.state;
     
     if(this.state.currentComment !=null) {
       orderName = this.state.currentComment.orderName;
@@ -293,10 +332,11 @@ const CommonHOC = WarppedComponent => class extends Component {
               {
                 emoji_arr.map(v => this._renderEmojiBtn(v))
               }
-            </View>
+              </View>
+            {/*<Text style={[styles.commentText,{color: currentStar < 3 ? '#ccc' : currentStar<= 4 ? '#f7ba2a' : '#ff630f'}]}>{commentKeyWord[currentStar]}</Text>*/}
             <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#9d9d9d" 
-            placeholder="例如:好評" clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/>
-            <CommonBottomBtn clickFunc={() => this._addComment()} style={{width: em(263)}}>推薦給好友</CommonBottomBtn>
+            placeholder={`例如:${commentKeyWord[currentStar]}`} clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/>
+            <CommonBottomBtn clickFunc={() => this._addComment()} style={{width: em(263)}}>{this.state.btnContent}</CommonBottomBtn>
           </View>
         </PopupDialog>
         <WarppedComponent ref={w => this.WarppedComponent = w} {...this.props} showDialog={() => this.popupDialog.show()} hideDialog={() => this.popupDialog.dismiss()}/>
@@ -351,6 +391,10 @@ const styles = StyleSheet.create({
   emoji: {
     width: em(35),
     height: em(35)
+  },
+  commentText: {
+    textAlign: 'center',
+    marginBottom: em(10),
   },
   Input: {
     color: '#9d9d9d',
