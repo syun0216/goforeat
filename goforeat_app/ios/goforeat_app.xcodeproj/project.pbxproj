@@ -42,6 +42,7 @@
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
 		C7BAEE73210C2D7E00C66166 /* language.strings in Resources */ = {isa = PBXBuildFile; fileRef = C7BAEE75210C2D7E00C66166 /* language.strings */; };
+		C7CA440B218FD7BB00CF5B62 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CA440A218FD7BB00CF5B62 /* Stripe.framework */; };
 		C7D69BD221149DDA008D1BF1 /* libprivatedata.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E003F020D1FE7200EB5F2A /* libprivatedata.a */; };
 		C7DDDD8820A0A25C00BD8639 /* index.ios.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */; };
 		C7DDDD8920A0A25C00BD8639 /* index.ios.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8620A0A25B00BD8639 /* index.ios.jsbundle.meta */; };
@@ -50,7 +51,6 @@
 		C7E008662054B20A008024BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E008652054B186008024BF /* libRNImagePicker.a */; };
 		CA1272DB3BF84043BEA26782 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA769471ABD14C6D9D8C56BB /* AppCenter-Config.plist */; };
 		DBF148A91C4F498687FC96AC /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE04579D78AE4C0CB6FB5E78 /* MaterialIcons.ttf */; };
-		DE69475640864AA7A166A457 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13F7238AC6F046D4936C77D5 /* Stripe.framework */; };
 		EEAADBBDC2E14921A67D4672 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 812CBB1CBD1B40428B72B630 /* Octicons.ttf */; };
 		F9A053B485B44437AF6713A3 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B620EC70262E4FA195E7529A /* Ionicons.ttf */; };
 /* End PBXBuildFile section */
@@ -216,20 +216,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNShare;
-		};
-		C76B2CD920C832DD00D63293 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C76B2CD520C832DD00D63293 /* RCTJCoreModule.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6212E9B41F3990DC00BDF51A;
-			remoteInfo = RCTJCoreModule;
-		};
-		C76B2CDF20C832FE00D63293 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C76B2CDB20C832FD00D63293 /* RCTJPushModule.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6280980A1CEDC407000D3A81;
-			remoteInfo = RCTJPushModule;
 		};
 		C78B95AD20FF1494009A8093 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -447,8 +433,6 @@
 		C7639D6A2069D578000A02BB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		C76B2CA620C8329C00D63293 /* libJPushRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJPushRN.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C76B2CD320C832A200D63293 /* libJCoreRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJCoreRN.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		C76B2CD520C832DD00D63293 /* RCTJCoreModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJCoreModule.xcodeproj; path = "../node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj"; sourceTree = "<group>"; };
-		C76B2CDB20C832FD00D63293 /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = "../node_modules/jpush-react-native/ios/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; };
 		C76B2CE120C8331700D63293 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		C771337E20F9BC47003AAA8A /* libBolts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBolts.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C771338020F9C1DF003AAA8A /* libFBSDKCoreKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFBSDKCoreKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -462,10 +446,10 @@
 		C7AC02DC20F5F7AB00BECAC4 /* React.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = React.xcconfig; path = "Pods/Target Support Files/React/React.xcconfig"; sourceTree = "<group>"; };
 		C7B10B73202C92C60098FAA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../../../../reactnativeproject/zhihuapp/ios/zhihurn/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C7B10B75202C93380098FAA2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = goforeat_app/Images.xcassets; sourceTree = "<group>"; };
-		C7BAEE6D210B743D00C66166 /* libRNI18n.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNI18n.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BAEE74210C2D7E00C66166 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/language.strings; sourceTree = "<group>"; };
 		C7BAEE76210C2D9700C66166 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/language.strings"; sourceTree = "<group>"; };
 		C7BAEE77210C2DAE00C66166 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/language.strings"; sourceTree = "<group>"; };
+		C7CA440A218FD7BB00CF5B62 /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Stripe.framework; path = ../../../../../../Downloads/Stripe.framework; sourceTree = "<group>"; };
 		C7D11E2920CFCB7300F9DB22 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		C7D5CAF32041104000B9BB87 /* goforeat_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = goforeat_app.entitlements; path = goforeat_app/goforeat_app.entitlements; sourceTree = "<group>"; };
 		C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = index.ios.jsbundle; path = bundle/index.ios.jsbundle; sourceTree = "<group>"; };
@@ -496,6 +480,7 @@
 				C771338320F9C20E003AAA8A /* libFBSDKLoginKit.a in Frameworks */,
 				C771338120F9C1DF003AAA8A /* libFBSDKCoreKit.a in Frameworks */,
 				C771337F20F9BC47003AAA8A /* libBolts.a in Frameworks */,
+				C7CA440B218FD7BB00CF5B62 /* Stripe.framework in Frameworks */,
 				C7E003F320D1FE7C00EB5F2A /* libcxxreact.a in Frameworks */,
 				C771337C20F8F2BD003AAA8A /* libReactNativePayments.a in Frameworks */,
 				C753EF0620CACE3000A1DCFD /* CodePush.h in Frameworks */,
@@ -511,7 +496,6 @@
 				7540EDD11C9A48A2883DA531 /* libCodePush.a in Frameworks */,
 				24989D1538F844BE9993BC45 /* libRCTFBSDK.a in Frameworks */,
 				38701AA931294289C0A55F78 /* libPods-goforeat_app.a in Frameworks */,
-				DE69475640864AA7A166A457 /* Stripe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,7 +540,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C7BAEE6D210B743D00C66166 /* libRNI18n.a */,
+				C7CA440A218FD7BB00CF5B62 /* Stripe.framework */,
 				C7796CE320FA3A2500BAB2FB /* libBVLinearGradient.a */,
 				C771338620F9C230003AAA8A /* libreact-native-splash-screen.a */,
 				C771338420F9C213003AAA8A /* libFBSDKShareKit.a */,
@@ -626,8 +610,6 @@
 				C744A37920F4EFEB00AD84DC /* RCTText.xcodeproj */,
 				C7E003C020D1FE7100EB5F2A /* React.xcodeproj */,
 				C7D11E2920CFCB7300F9DB22 /* BVLinearGradient.xcodeproj */,
-				C76B2CDB20C832FD00D63293 /* RCTJPushModule.xcodeproj */,
-				C76B2CD520C832DD00D63293 /* RCTJCoreModule.xcodeproj */,
 				C7A69A12207089D700E06981 /* CodePush.xcodeproj */,
 				C7639D342069D50A000A02BB /* RNShare.xcodeproj */,
 				C7E008602054B185008024BF /* RNImagePicker.xcodeproj */,
@@ -790,22 +772,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C76B2CD620C832DD00D63293 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C76B2CDA20C832DD00D63293 /* libRCTJCoreModule.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C76B2CDC20C832FD00D63293 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C76B2CE020C832FE00D63293 /* libRCTJPushModule.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		C78B95AA20FF1494009A8093 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -914,7 +880,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = DAG7VQ4V72;
+						DevelopmentTeam = 8279MQ8UYT;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
@@ -986,14 +952,6 @@
 				{
 					ProductGroup = C744A38920F4F04600AD84DC /* Products */;
 					ProjectRef = C744A38820F4F04600AD84DC /* RCTImage.xcodeproj */;
-				},
-				{
-					ProductGroup = C76B2CD620C832DD00D63293 /* Products */;
-					ProjectRef = C76B2CD520C832DD00D63293 /* RCTJCoreModule.xcodeproj */;
-				},
-				{
-					ProductGroup = C76B2CDC20C832FD00D63293 /* Products */;
-					ProjectRef = C76B2CDB20C832FD00D63293 /* RCTJPushModule.xcodeproj */;
 				},
 				{
 					ProductGroup = C744A3A520F4F08E00AD84DC /* Products */;
@@ -1203,20 +1161,6 @@
 			fileType = archive.ar;
 			path = libRNShare.a;
 			remoteRef = C7639D652069D50A000A02BB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C76B2CDA20C832DD00D63293 /* libRCTJCoreModule.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTJCoreModule.a;
-			remoteRef = C76B2CD920C832DD00D63293 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C76B2CE020C832FE00D63293 /* libRCTJPushModule.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTJPushModule.a;
-			remoteRef = C76B2CDF20C832FE00D63293 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C78B95AE20FF1494009A8093 /* libRCTBEEPickerManager.a */ = {
@@ -1551,7 +1495,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = DAG7VQ4V72;
+				DEVELOPMENT_TEAM = 8279MQ8UYT;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/AppCenter/AppCenter-SDK-Apple/iOS\"",
@@ -1581,7 +1525,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.syun.goforeat;
 				PRODUCT_NAME = goforeat_app;
 				PROVISIONING_PROFILE = "8111a5f3-7b4f-45a1-97da-8de9d1e7a768";
-				PROVISIONING_PROFILE_SPECIFIER = GoforeatAppadhoc;
+				PROVISIONING_PROFILE_SPECIFIER = GoforeatAppStore;
+				VALID_ARCHS = "arm64 arm64e armv7s armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1594,11 +1539,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODEPUSH_KEY = "loe6czezecl4T5wIpFxONddIqmCMd261912e-873f-4270-b887-25c360664c8c";
 				CODE_SIGN_ENTITLEMENTS = goforeat_app/goforeat_app.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: YE MA (DAG7VQ4V72)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: YE MA (DAG7VQ4V72)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Goforeat Technology Limited (8279MQ8UYT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Goforeat Technology Limited (8279MQ8UYT)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = DAG7VQ4V72;
+				DEVELOPMENT_TEAM = 8279MQ8UYT;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/AppCenter/AppCenter-SDK-Apple/iOS\"",
@@ -1629,7 +1574,8 @@
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = goforeat_app;
 				PROVISIONING_PROFILE = "8111a5f3-7b4f-45a1-97da-8de9d1e7a768";
-				PROVISIONING_PROFILE_SPECIFIER = GoforeatAppadhoc;
+				PROVISIONING_PROFILE_SPECIFIER = GoforeatAppStore;
+				VALID_ARCHS = "arm64 arm64e armv7s armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
