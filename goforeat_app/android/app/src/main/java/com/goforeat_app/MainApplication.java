@@ -3,14 +3,17 @@ package com.goforeat_app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import cn.jpush.reactnativejpush.JPushPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.reactnativepayments.ReactNativePaymentsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.beefe.picker.PickerViewPackage;
-import com.reactnativepayments.ReactNativePaymentsPackage;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.microsoft.codepush.react.CodePush;
 
 import cl.json.RNSharePackage;
@@ -64,19 +67,20 @@ public class MainApplication extends Application implements ReactApplication {
 //      String deploymentKey = BuildConfig.DEBUG ? "fMXsr1oL8ExCRlmMZD2nLEWHY0-rd261912e-873f-4270-b887-25c360664c8c" : "tbisaS3TKf-Bo3vwCkzIC-TJPf4cd261912e-873f-4270-b887-25c360664c8c";
             String deploymentKey = "fMXsr1oL8ExCRlmMZD2nLEWHY0-rd261912e-873f-4270-b887-25c360664c8c";
             return Arrays.<ReactPackage>asList(
-                    new MainReactPackage(),
+            new MainReactPackage(),
+            new JPushPackage(!BuildConfig.DEBUG, !BuildConfig.DEBUG),
+            new ReactNativePaymentsPackage(),
             new RNDeviceInfo(),
             new PickerViewPackage(),
-            new ReactNativePaymentsPackage(),
-                    new SplashScreenReactPackage(),
-                    new LinearGradientPackage(),
-                    new CodePush(deploymentKey, getApplicationContext(), BuildConfig.RELEASE),
-                    new RNSharePackage(),
-                    new ImagePickerPackage(),
-                    new AppCenterReactNativePushPackage(MainApplication.this),
-                    new Interactable(),
-                    new FBSDKPackage(mCallbackManager),
-                    new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
+            new SplashScreenReactPackage(),
+            new LinearGradientPackage(),
+            new CodePush(deploymentKey, getApplicationContext(), BuildConfig.RELEASE),
+            new RNSharePackage(),
+            new ImagePickerPackage(),
+            new AppCenterReactNativePushPackage(MainApplication.this),
+            new Interactable(),
+            new FBSDKPackage(mCallbackManager),
+            new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
             );
         }
 
@@ -94,7 +98,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppEventsLogger.activateApp(this);
+//        AppEventsLogger.activateApp(this);
         SoLoader.init(this, /* native exopackage */ false);
     }
 }
