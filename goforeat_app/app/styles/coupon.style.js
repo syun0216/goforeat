@@ -23,7 +23,7 @@ export default StyleSheet.create({
     paddingLeft: em(12),
     paddingRight: em(12),
     flexDirection: 'row',
-    zIndex: 10
+    zIndex: 100,
   },
   PriceContainer: {
     flexDirection: 'row',
@@ -59,6 +59,7 @@ export default StyleSheet.create({
   CouponBorder: {
     width: "100%",
     marginTop: -5,
+    
   },
   ItemBottom: {
     backgroundColor: '#fff',

@@ -25,7 +25,7 @@ export default StyleSheet.create({
     color: '#ccc'
   },
   ChangeBtnContainer: {
-    padding: em(10)
+    padding: em(10),
   },
   ChangeBtn: {
     color: '#333'

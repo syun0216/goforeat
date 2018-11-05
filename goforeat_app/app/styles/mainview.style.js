@@ -24,7 +24,7 @@ export default StyleSheet.create({
     height: em(65),
     marginTop: em(10),
     borderRadius:em(65/2),
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#fff',
     marginLeft: em(69/2)
   },
@@ -42,7 +42,8 @@ export default StyleSheet.create({
     fontSize: em(14),
   },
   topLoginBtn: {
-    // paddingBottom: em(10)
+    height: em (30),
+    justifyContent: 'center',
   },
   loginBtnText: {
     color: '#F8E71C',

@@ -56,12 +56,12 @@ export default class CouponView extends PureComponent{
             <Text style={CouponStyle.Price}>{discount}</Text>
           </View>
           <View style={CouponStyle.Content}>
-            <Text style={CouponStyle.ContentTop}>滿{condition}可用</Text>
+            <Text style={CouponStyle.ContentTop}>{condition > 0 ? `滿${condition}可用` : `無門檻使用`}</Text>
             <Text style={CouponStyle.ContentBottom}>優惠券</Text>
           </View>
           <View style={CouponStyle.Status}> 
             { useStatus == effective ? useBtn : useStatus == used ? isUsed : isExpired}
-          </View>
+        </View>
         </View>
         <Image style={CouponStyle.CouponBorder} source={_alreadyUsed ? require('../asset/border_gray.png') : require('../asset/border.png')} resizeMode="contain"/>
         <View style={CouponStyle.ItemBottom}>
