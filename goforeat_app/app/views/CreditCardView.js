@@ -157,11 +157,10 @@ export default class CreditCardView extends PureComponent {
         if(data.data == 0) {
           ToastUtils.showWithMessage(i18n.credit_card_tips.card_number_error);
         }else {
-          let _info_obj = {...this.state};
-          _info_obj.card = this._raw_card;
-          delete _info_obj.i18n;
-          creditCardStorage.setData(_info_obj);
-          this.props.screenProps.setCreditCardInfo(_info_obj);
+          let {i18n,...rest} = this.state;
+          rest.card = this._raw_card;
+          creditCardStorage.setData(rest);
+          this.props.screenProps.setCreditCardInfo(rest);
           payTypeStorage.setData('credit_card');
           this.props.screenProps.setPayType('credit_card');
           ToastUtils.showWithMessage(i18n.credit_card_tips.bind_success);
