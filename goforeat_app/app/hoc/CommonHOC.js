@@ -31,6 +31,7 @@ const shareOptions = { //分享優惠券信息
 };
 
 const commentKeyWord = {
+  0: '暫不評論',
   1: '非常差',
   2: '差',
   3: '一般',
@@ -76,9 +77,6 @@ const CommonHOC = WarppedComponent => class extends Component {
         });
       }
     });
-    // setTimeout(() => {
-    //   this.popupDialog.show();
-    // }, 1000); 
   }
 
   componentWillUnmount() {
@@ -130,9 +128,11 @@ const CommonHOC = WarppedComponent => class extends Component {
   }
 
   _handleDialogDismiss() {
-    if(!this.isCommentSubmit) {
+    this.setState({
+      currentStar: 0
+    }, () => {
       this._addCommentApi();
-    }
+    });
   }
 
   // ---------------------jpush&codepush&backAndroidHandler
@@ -147,7 +147,8 @@ const CommonHOC = WarppedComponent => class extends Component {
   }
 
   onBackButtonPressAndroid() {
-    if(routeName == "Home") {
+    let {routeName} = this.props.navigation.state;
+    if(routeName == "FoodDetails") {
       if(lastBackPressed && lastBackPressed + 2000 >= Date.now()) {
         BackHandler.exitApp();
       }
@@ -335,7 +336,7 @@ const CommonHOC = WarppedComponent => class extends Component {
               }
               </View>
             {/*<Text style={[styles.commentText,{color: currentStar < 3 ? '#ccc' : currentStar<= 4 ? '#f7ba2a' : '#ff630f'}]}>{commentKeyWord[currentStar]}</Text>*/}
-            <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#9d9d9d" 
+            <TextInput allowFontScaling={false} style={styles.Input} underlineColorAndroid="transparent" placeholderTextColor="#9d9d9d" 
             placeholder={`例如:${commentKeyWord[currentStar]}`} clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/>
             <CommonBottomBtn clickFunc={() => this._addComment()} style={{width: em(263)}}>{this.state.btnContent}</CommonBottomBtn>
           </View>
@@ -357,7 +358,8 @@ const styles = StyleSheet.create({
     height: em(99),
     position: 'absolute',
     top: em(-22),
-    left: 0
+    left: 0,
+    zIndex: 10
   },
   topTitle: {
     justifyContent: 'center',
