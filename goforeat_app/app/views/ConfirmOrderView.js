@@ -45,8 +45,9 @@ const PAY_TYPE = {
   ali_pay: 5
 }
 
-const api_key = 'pk_live_4JIHSKBnUDiaFHy2poHeT2ks';
-const client = new Stripe(api_key);
+// global.PaymentRequest = require('react-native-payments').PaymentRequest;
+const stripe_api_key = 'pk_live_B4fnSIHwLskDPFbD0siwsqs4';
+const client = new Stripe(stripe_api_key);
 
 export default class ConfirmOrderView extends PureComponent {
 
@@ -70,7 +71,7 @@ export default class ConfirmOrderView extends PureComponent {
       remark: '',
       isCouponPickModalShow: false,
       couponDetail: null,
-      i18n: I18n[this.props.screenProps.language],
+      i18n: I18n[props.screenProps.language],
       hasChangeDefaultPayment: null, // 记录默认选择支付方式是否被修改
     }
   }
@@ -155,7 +156,9 @@ export default class ConfirmOrderView extends PureComponent {
         let _pay_res = new Promise((resolve,reject) => {this.handlePayWithAppleOrAndroid(resolve, reject,defaultPayment)})
         _pay_res.then(data => {
           this._confirmOrderWithToken(data);
-        }).catch(err => ToastUtil.showWithMessage('取消了支付'));
+        }).catch(err => {
+          console.log({err});
+          ToastUtil.showWithMessage('取消了支付')});
       };break;
       case PAY_TYPE.credit_card: {
         this.setState({
@@ -200,7 +203,6 @@ export default class ConfirmOrderView extends PureComponent {
     }
     confirmOrder(orderId,totalMoney,defaultPayment,token,remark,_deductionId).then(
       data => {
-        console.log({123:data});
         this.setState({
           loadingModal: false
         })
@@ -271,14 +273,14 @@ export default class ConfirmOrderView extends PureComponent {
         {
           supportedMethods: ['apple-pay'],
           data: {
-            merchantIdentifier: 'merchant.com.syun.goforeat',
+            merchantIdentifier: 'merchant.com.goforeat',
             supportedNetworks: ['visa', 'mastercard'],
             countryCode: 'HK',
             currencyCode: 'HKD',
             paymentMethodTokenizationParameters: {
               parameters: {
                 gateway: 'stripe',
-                'stripe:publishableKey': 'pk_live_4JIHSKBnUDiaFHy2poHeT2ks',
+                'stripe:publishableKey': stripe_api_key,
                 'stripe:version': '13.0.3'
               }
             }
@@ -296,7 +298,7 @@ export default class ConfirmOrderView extends PureComponent {
           paymentMethodTokenizationParameters: {
             tokenizationType: 'NETWORK_TOKEN',
             parameters: {
-              publicKey: 'pk_live_4JIHSKBnUDiaFHy2poHeT2ks'
+              publicKey: stripe_api_key
             }
           }
         }
@@ -307,7 +309,7 @@ export default class ConfirmOrderView extends PureComponent {
       id: 'goforeat_pay',
       displayItems: [
         {
-          label: orderDetail[0].foodName,
+          label: 123,
           amount: { currency: 'HKD', value: totalMoney }
         }
       ],
@@ -316,13 +318,15 @@ export default class ConfirmOrderView extends PureComponent {
         amount: { currency: 'HKD', value: totalMoney }
       }
     };
+    
     const pr = new PaymentRequest(supportedMethods, details);
 
     pr
       .show()
       .then(paymentResponse => {
-        // console.log(123);
+        console.log(paymentResponse);
         resolve(paymentResponse);
+        paymentResponse.complete('success');
       })
       .catch(e => {
         // console.log(e)
@@ -367,7 +371,7 @@ export default class ConfirmOrderView extends PureComponent {
   _renderNewCouponView() {
     let {couponDetail} = this.state;
     return (
-      <CommonItem style={{padding: 0, width: '100%',borderBottomWidth: 0}} content={couponDetail != null ? `滿$${couponDetail.condition}可用,立減$${couponDetail.discount}` :'使用優惠券'} hasLeftIcon leftIcon={<Image source={require('../asset/coupon.png')} resizeMode="contain" style={{width: em(20),height: em(20), marginRight: em(11.5)}}/>} rightIcon={<Icon name="ios-arrow-forward-outline" style={ConfirmOrderStyles.ArrowShow} />} clickFunc={() => this.props.navigation.navigate('Coupon',{
+      <CommonItem style={{padding: 0, width: '100%',borderBottomWidth: 0}} content={couponDetail != null ? couponDetail.condition > 0 ? `滿$${couponDetail.condition}可用,立減$${couponDetail.discount}` : `無門檻使用,立減$${couponDetail.discount}` :'使用優惠券'} hasLeftIcon leftIcon={<Image source={require('../asset/coupon.png')} resizeMode="contain" style={{width: em(20),height: em(20), marginRight: em(11.5)}}/>} rightIcon={<Icon name="ios-arrow-forward-outline" style={ConfirmOrderStyles.ArrowShow} />} clickFunc={() => this.props.navigation.navigate('Coupon',{
         callback:coupon => {
           if(!isEmpty(coupon)) {
             this.setState({ 

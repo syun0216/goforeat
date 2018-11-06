@@ -96,6 +96,16 @@ export const EXPLAIN_PAY_TYPE = {
   7: {zh: '月票支付',en: 'Month Tikcet'}
 }
 
+export const SET_PAY_TYPE = {
+  cash: 1,
+  apple_pay: 2,
+  google_pay: 3,
+  wechat_pay: 4,
+  ali_pay: 5,
+  credit_card: 6,
+  month_ticket: 7,
+}
+
 export const em = (val) => val * ratioX 
 
 export const currentPlatform = Platform.OS == 'ios' ? 1 : 2;

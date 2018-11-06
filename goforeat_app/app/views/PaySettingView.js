@@ -10,7 +10,7 @@ import Loading from '../components/Loading';
 import ErrorPage from '../components/ErrorPage';
 //utils
 import {formatCard} from '../utils/FormatCardInfo';
-import {PAY_TYPE, EXPLAIN_PAY_TYPE, em} from '../utils/global_params';
+import {SET_PAY_TYPE, EXPLAIN_PAY_TYPE, em} from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
 import Colors from '../utils/Colors';
 //styles
@@ -33,6 +33,7 @@ const LIST_IMAGE = {
   6: require('../asset/creditcard.png'),
   7: require('../asset/ticket.png')
 };
+
 
 export default class PaySettingView extends PureComponent {
   constructor(props) {
@@ -71,7 +72,7 @@ export default class PaySettingView extends PureComponent {
       if(data.ro.ok) {
         let _arr = [];
         data.data.payments.forEach((v,i) => {
-          if(v.code == PAY_TYPE.credit_card) {
+          if(v.code == SET_PAY_TYPE.credit_card) {
             this.setState({
               hasCreditCardPay: true
             });
@@ -79,7 +80,7 @@ export default class PaySettingView extends PureComponent {
             _arr.push({
               content: EXPLAIN_PAY_TYPE[v.code][this.props.screenProps.language],hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE[v.code]),code: v.code
             });
-            if(v.code == PAY_TYPE.month_ticket) {
+            if(v.code == SET_PAY_TYPE.month_ticket) {
               _arr.push({
                 content: this.state.monthTicketQuantity,hasLeftIcon: true, leftIcon:(<Text style={{marginRight: 5,color: Colors.main_orange,fontSize: em(16)}}>月票數量</Text>), code: null
               })
@@ -173,8 +174,8 @@ export default class PaySettingView extends PureComponent {
     return (
       <View style={{marginTop: em(10)}}>
         <View style={PaySettingStyles.creditcardView}><Text style={PaySettingStyles.creditcardText}>{i18n.credit}</Text></View>
-        {creditCardInfo != null ? <CommonItem hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE[PAY_TYPE.credit_card])} content={_creditCardNumber} rightIcon={this._checkedImage(PAY_TYPE.credit_card)} clickFunc={() => this._checked(PAY_TYPE.credit_card)}/> : null}
-        <CommonItem content={creditCardInfo != null ? i18n.manageCard : i18n.setCard} hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE[PAY_TYPE.credit_card])}
+        {creditCardInfo != null ? <CommonItem hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE[SET_PAY_TYPE.credit_card])} content={_creditCardNumber} rightIcon={this._checkedImage(SET_PAY_TYPE.credit_card)} clickFunc={() => this._checked(SET_PAY_TYPE.credit_card)}/> : null}
+        <CommonItem content={creditCardInfo != null ? i18n.manageCard : i18n.setCard} hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE[SET_PAY_TYPE.credit_card])}
         clickFunc={() => {
           if(creditCardInfo != null) {
             this.props.navigation.navigate('Manage_Card');
@@ -206,7 +207,7 @@ export default class PaySettingView extends PureComponent {
                   item.code != null && this._checked(item.code);
                 }}
                 hasLeftIcon={item.hasLeftIcon} leftIcon={item.leftIcon} rightIcon={item.code != null ?this._checkedImage(item.code) : (<Text>{this.state.monthTicketEndTime}  到期</Text>)}
-                style={item.code != null ? item.code != PAY_TYPE.month_ticket ? {} : {borderBottomWidth: 0,} : {height: em(44),}} disabled={item.code == null}/>
+                style={item.code != null ? item.code != SET_PAY_TYPE.month_ticket ? {} : {borderBottomWidth: 0,} : {height: em(44),}} disabled={item.code == null}/>
               ))}
               { this.state.hasCreditCardPay ? this._renderManageCreditCard() : null}
             </View>

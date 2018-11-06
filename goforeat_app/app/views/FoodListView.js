@@ -8,6 +8,7 @@ import LinearGradient from 'react-native-linear-gradient';
 //utils
 import GLOBAL_PARAMS, { em, isEmpty } from '../utils/global_params';
 import JSONUtils from '../utils/JSONUtils';
+import {getDeviceId} from "../utils/DeviceInfo";
 //api
 import {getNewArticleList, adSpace} from '../api/request';
 import source from '../api/CancelToken';
@@ -50,15 +51,15 @@ class FoodListView extends Component {
     if(isAdShow) {
       hideAd();
     }
-    // advertisementStorage.getData((error,data) => {
-    //   if(error == null) {
-    //     if(data != null) {
-    //       isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
-    //       this._advertiseInterval();
-    //     }
-    //     this._getAdvertise(data);
-    //   }
-    // });
+    advertisementStorage.getData((error,data) => {
+      if(error == null) {
+        if(data != null) {
+          isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
+          this._advertiseInterval();
+        }
+        this._getAdvertise(data);
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -121,6 +122,8 @@ class FoodListView extends Component {
     },() => {
       if(!this._isFirstReload) {
         if(!!this.flatlist) this.flatlist.outSideRefresh();
+        this._isFirstReload = false;
+      } else {
         this._isFirstReload = false;
       }
     });
@@ -211,6 +214,7 @@ class FoodListView extends Component {
 
   _renderFoodListItemView (item,index) {
     if(typeof item === 'undefined') return;
+    let _device = getDeviceId().split(",")[0];
     return (
       <TouchableOpacity style={styles.articleItemContainer}
         onPress={() => {
@@ -223,14 +227,14 @@ class FoodListView extends Component {
             <Text style={styles.foodTime}>{item.date}</Text>
           </View>
           <View style={{height: em(75),marginBottom: 12.5,}}>
-            <Text style={styles.foodBrief} numberOfLines={5}>{item.brief}</Text>
+            <Text style={styles.foodBrief} numberOfLines={_device == 'iPhone6' ? 4 : 5}>{item.brief}</Text>
           </View>
           <View style={{flexDirection: 'row',justifyContent: 'space-between',}}>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.foodUnit}>$</Text>
               <Text style={styles.foodPrice}>{item.price}</Text>
             </View>
-            <Text style={{color: '#ff5858'}}>立即預訂</Text>
+            <Text style={{color: '#ff5858',fontSize: _device=='iPhone6' ? 13 : 16,}}>立即預訂</Text>
           </View>
         </View>
       </TouchableOpacity>

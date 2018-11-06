@@ -12,7 +12,7 @@ import CommonStyles from '../styles/common.style';
 import CreditCardStyles from '../styles/creditcard.style';
 //utils
 import ToastUtils from '../utils/ToastUtil';
-import {em} from '../utils/global_params';
+import {em, SET_PAY_TYPE} from '../utils/global_params';
 //cache
 import {creditCardStorage,payTypeStorage} from '../cache/appStorage';
 //api
@@ -161,8 +161,8 @@ export default class CreditCardView extends PureComponent {
           rest.card = this._raw_card;
           creditCardStorage.setData(rest);
           this.props.screenProps.setCreditCardInfo(rest);
-          payTypeStorage.setData('credit_card');
-          this.props.screenProps.setPayType('credit_card');
+          // payTypeStorage.setData(SET_PAY_TYPE['credit_card']);
+          // this.props.screenProps.setPayType(SET_PAY_TYPE['credit_card']);
           ToastUtils.showWithMessage(i18n.credit_card_tips.bind_success);
           this.props.navigation.goBack();
         }
