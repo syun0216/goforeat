@@ -43,9 +43,9 @@ const CommonHOC = WarppedComponent => class extends Component {
 
   constructor(props) {
     super(props);
-    this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-      BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid.bind(this))
-    );
+    // this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+    //   BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid.bind(this))
+    // );
     this.commentText = '';
     this.isCommentSubmit = false;
     this.state = {
@@ -58,7 +58,7 @@ const CommonHOC = WarppedComponent => class extends Component {
 
   componentDidMount() {
     this._jpushDidMount();
-    this._handleBackAndroid();
+    // this._handleBackAndroid();
     this._commentPopup();
     AppState.addEventListener('change',(nextState) => {
       if(nextState == 'active') {
@@ -80,9 +80,9 @@ const CommonHOC = WarppedComponent => class extends Component {
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change');
+    // AppState.removeEventListener('change');
     JPushModule.removeReceiveNotificationListener('receiveNotification');
-    this._removeBackAndroidHandler();
+    // this._removeBackAndroidHandler();
   }
 
   //api

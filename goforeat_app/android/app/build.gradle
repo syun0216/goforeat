@@ -111,8 +111,8 @@ android {
         applicationId "com.goforeat_app"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 16
-        versionName "1.2.2"
+        versionCode 17
+        versionName "1.2.3"
         manifestPlaceholders = [
                 JPUSH_APPKEY: "1d3225ebddcae3fc7ef8b0b5",
                 APP_CHANNEL : "default"
@@ -166,6 +166,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-payments')
     compile project(':jpush-react-native')
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-image-picker')

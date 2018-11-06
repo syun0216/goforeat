@@ -93,7 +93,14 @@ export const EXPLAIN_PAY_TYPE = {
   4: {zh: '微信支付',en: 'WeChat Pay'},
   5: {zh: '支付寶支付', en: 'Ali Pay'},
   6: {zh:'信用卡支付',en: 'Credit Card'},
-  7: {zh: '月票支付',en: 'Month Tikcet'}
+  7: {zh: '月票支付',en: 'Month Tikcet'},
+  cash: {zh:'現金支付',en: 'Cash Pay'},
+  apple_pay: {zh:'Apple Pay',en: 'Apple Pay'},
+  google_pay: {zh:'Google Pay', en: 'Google Pay'},
+  wechat_pay: {zh: '微信支付',en: 'WeChat Pay'},
+  ali_pay: {zh: '支付寶支付', en: 'Ali Pay'},
+  credit_card: {zh:'信用卡支付',en: 'Credit Card'},
+  month_ticket: {zh: '月票支付',en: 'Month Tikcet'}
 }
 
 export const SET_PAY_TYPE = {
