@@ -240,13 +240,6 @@
 			remoteGlobalIDString = F886647B1F4ADB500036D01B;
 			remoteInfo = "CodePush-tvOS";
 		};
-		C7D981AF20BE30630040CEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E06201E8D17B4A5E91F3EB2D /* RCTFBSDK.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
-			remoteInfo = RCTFBSDK;
-		};
 		C7E003D320D1FE7200EB5F2A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C7E003C020D1FE7100EB5F2A /* React.xcodeproj */;
@@ -446,7 +439,6 @@
 		C7E008602054B185008024BF /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		CE334579E2AE1321F4C986DE /* libPods-goforeat_app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-goforeat_app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC1A7DC5F6AF4FFA106522FB /* Pods-goforeat_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-goforeat_app.debug.xcconfig"; path = "Pods/Target Support Files/Pods-goforeat_app/Pods-goforeat_app.debug.xcconfig"; sourceTree = "<group>"; };
-		E06201E8D17B4A5E91F3EB2D /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		EE04579D78AE4C0CB6FB5E78 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		EFC912257F2D4B98B522A7B7 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		F1B9264B14C24335A3F1257F /* libReactNativePayments.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePayments.a; sourceTree = "<group>"; };
@@ -602,7 +594,6 @@
 				C7639D342069D50A000A02BB /* RNShare.xcodeproj */,
 				C7E008602054B185008024BF /* RNImagePicker.xcodeproj */,
 				A9814B88E9754704B69D6482 /* Interactable.xcodeproj */,
-				E06201E8D17B4A5E91F3EB2D /* RCTFBSDK.xcodeproj */,
 				A24F1B7385664399902B517B /* ReactNativePayments.xcodeproj */,
 			);
 			name = Libraries;
@@ -777,14 +768,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C7D981AC20BE30630040CEE4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C7D981B020BE30630040CEE4 /* libRCTFBSDK.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		C7E003C120D1FE7100EB5F2A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -915,10 +898,6 @@
 				{
 					ProductGroup = C744A3B720F4F14300AD84DC /* Products */;
 					ProjectRef = C744A3B620F4F14300AD84DC /* RCTBlob.xcodeproj */;
-				},
-				{
-					ProductGroup = C7D981AC20BE30630040CEE4 /* Products */;
-					ProjectRef = E06201E8D17B4A5E91F3EB2D /* RCTFBSDK.xcodeproj */;
 				},
 				{
 					ProductGroup = C744A38320F4F00E00AD84DC /* Products */;
@@ -1157,13 +1136,6 @@
 			fileType = archive.ar;
 			path = libCodePush.a;
 			remoteRef = C7A69A19207089D800E06981 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C7D981B020BE30630040CEE4 /* libRCTFBSDK.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTFBSDK.a;
-			remoteRef = C7D981AF20BE30630040CEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C7E003D420D1FE7200EB5F2A /* libReact.a */ = {
