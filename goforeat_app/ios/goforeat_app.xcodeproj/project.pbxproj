@@ -5,13 +5,13 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		081F6990D1B44D7D9A90986C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 500C59F6C4664701B262A79B /* EvilIcons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		16706ACB625944B8A7AFD074 /* libInteractable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E739A0010043368ED9364F /* libInteractable.a */; };
 		1A907FA3B3AA45C7AD5084D1 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DF37BA5B10E4E15873F7BE5 /* FontAwesome.ttf */; };
-		24989D1538F844BE9993BC45 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F1B58E1CAD4CD6A2C74C10 /* libRCTFBSDK.a */; };
 		2A8AB0A9F66240D89FE697AA /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F59F32BCEA04655909D887F /* Zocial.ttf */; };
 		364BC426419C465A9BCFE408 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4585A2C47929482BAB22DC52 /* Roboto_medium.ttf */; };
 		38701AA931294289C0A55F78 /* libPods-goforeat_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE334579E2AE1321F4C986DE /* libPods-goforeat_app.a */; };
@@ -20,7 +20,6 @@
 		4B71CFF15DF24D1AA2969016 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFC912257F2D4B98B522A7B7 /* Feather.ttf */; };
 		56EDFD5108CD46B2B7678F58 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55C187170CC144CDA049BB04 /* MaterialCommunityIcons.ttf */; };
 		5F1077B99DBB4D64909FB78C /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 734AFECD0FE74CD8B29BA12F /* rubicon-icon-font.ttf */; };
-		7540EDD11C9A48A2883DA531 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E815BFC39DF48B0ACC94E9A /* libCodePush.a */; };
 		7D0FF676BE8841F588308476 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA306BA9B518419E83BFF347 /* Foundation.ttf */; };
 		C199B0039AD94996BE1FDABE /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F70CF1BBF6934453B8C723CD /* SimpleLineIcons.ttf */; };
 		C753EF0620CACE3000A1DCFD /* CodePush.h in Frameworks */ = {isa = PBXBuildFile; fileRef = C753EF0520CACE3000A1DCFD /* CodePush.h */; };
@@ -39,16 +38,8 @@
 		C769E7122190729E00409140 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3DE20F4F26000AD84DC /* libRCTWebSocket.a */; };
 		C769E7132190729E00409140 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E003D420D1FE7200EB5F2A /* libReact.a */; };
 		C769E734219077B300409140 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3CD20F4F17B00AD84DC /* libRCTActionSheet.a */; };
-		C76B2CA720C8329C00D63293 /* libJPushRN.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CA620C8329C00D63293 /* libJPushRN.a */; };
-		C76B2CD420C832A200D63293 /* libJCoreRN.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CD320C832A200D63293 /* libJCoreRN.a */; };
 		C76B2CE220C8331700D63293 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CE120C8331700D63293 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C771337C20F8F2BD003AAA8A /* libReactNativePayments.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E19DEB20F0655B009CCF87 /* libReactNativePayments.a */; };
-		C771337F20F9BC47003AAA8A /* libBolts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771337E20F9BC47003AAA8A /* libBolts.a */; };
-		C771338120F9C1DF003AAA8A /* libFBSDKCoreKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771338020F9C1DF003AAA8A /* libFBSDKCoreKit.a */; };
-		C771338320F9C20E003AAA8A /* libFBSDKLoginKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771338220F9C20E003AAA8A /* libFBSDKLoginKit.a */; };
-		C771338520F9C213003AAA8A /* libFBSDKShareKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771338420F9C213003AAA8A /* libFBSDKShareKit.a */; };
-		C771338720F9C230003AAA8A /* libreact-native-splash-screen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C771338620F9C230003AAA8A /* libreact-native-splash-screen.a */; };
-		C7796CE420FA3A2500BAB2FB /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7796CE320FA3A2500BAB2FB /* libBVLinearGradient.a */; };
 		C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78B95AE20FF1494009A8093 /* libRCTBEEPickerManager.a */; };
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
@@ -249,20 +240,6 @@
 			remoteGlobalIDString = F886647B1F4ADB500036D01B;
 			remoteInfo = "CodePush-tvOS";
 		};
-		C7D11E2E20CFCB7300F9DB22 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C7D11E2920CFCB7300F9DB22 /* BVLinearGradient.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = BVLinearGradient;
-		};
-		C7D11E3020CFCB7300F9DB22 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C7D11E2920CFCB7300F9DB22 /* BVLinearGradient.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 64AA15081EF7F30100718508;
-			remoteInfo = "BVLinearGradient-tvOS";
-		};
 		C7D981AF20BE30630040CEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E06201E8D17B4A5E91F3EB2D /* RCTFBSDK.xcodeproj */;
@@ -461,7 +438,6 @@
 		C7BAEE76210C2D9700C66166 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/language.strings"; sourceTree = "<group>"; };
 		C7BAEE77210C2DAE00C66166 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/language.strings"; sourceTree = "<group>"; };
 		C7CA440A218FD7BB00CF5B62 /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Stripe.framework; path = ../../../../../../Downloads/Stripe.framework; sourceTree = "<group>"; };
-		C7D11E2920CFCB7300F9DB22 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		C7D5CAF32041104000B9BB87 /* goforeat_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = goforeat_app.entitlements; path = goforeat_app/goforeat_app.entitlements; sourceTree = "<group>"; };
 		C7DDDD8520A0A25B00BD8639 /* index.ios.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = index.ios.jsbundle; path = bundle/index.ios.jsbundle; sourceTree = "<group>"; };
 		C7DDDD8620A0A25B00BD8639 /* index.ios.jsbundle.meta */ = {isa = PBXFileReference; lastKnownFileType = text; name = index.ios.jsbundle.meta; path = bundle/index.ios.jsbundle.meta; sourceTree = "<group>"; };
@@ -497,27 +473,17 @@
 				C769E7132190729E00409140 /* libReact.a in Frameworks */,
 				C7D69BD221149DDA008D1BF1 /* libprivatedata.a in Frameworks */,
 				C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */,
-				C7796CE420FA3A2500BAB2FB /* libBVLinearGradient.a in Frameworks */,
-				C771338720F9C230003AAA8A /* libreact-native-splash-screen.a in Frameworks */,
-				C771338520F9C213003AAA8A /* libFBSDKShareKit.a in Frameworks */,
-				C771338320F9C20E003AAA8A /* libFBSDKLoginKit.a in Frameworks */,
-				C771338120F9C1DF003AAA8A /* libFBSDKCoreKit.a in Frameworks */,
-				C771337F20F9BC47003AAA8A /* libBolts.a in Frameworks */,
-				C7CA440B218FD7BB00CF5B62 /* Stripe.framework in Frameworks */,
 				C7E003F320D1FE7C00EB5F2A /* libcxxreact.a in Frameworks */,
 				C771337C20F8F2BD003AAA8A /* libReactNativePayments.a in Frameworks */,
 				C753EF0620CACE3000A1DCFD /* CodePush.h in Frameworks */,
+				C7CA440B218FD7BB00CF5B62 /* Stripe.framework in Frameworks */,
 				C76B2CE220C8331700D63293 /* UserNotifications.framework in Frameworks */,
-				C76B2CD420C832A200D63293 /* libJCoreRN.a in Frameworks */,
-				C76B2CA720C8329C00D63293 /* libJPushRN.a in Frameworks */,
 				C7639D6B2069D578000A02BB /* MessageUI.framework in Frameworks */,
 				C7639D692069D56E000A02BB /* Social.framework in Frameworks */,
 				C7639D672069D523000A02BB /* libRNShare.a in Frameworks */,
 				C7E008662054B20A008024BF /* libRNImagePicker.a in Frameworks */,
 				C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */,
 				16706ACB625944B8A7AFD074 /* libInteractable.a in Frameworks */,
-				7540EDD11C9A48A2883DA531 /* libCodePush.a in Frameworks */,
-				24989D1538F844BE9993BC45 /* libRCTFBSDK.a in Frameworks */,
 				38701AA931294289C0A55F78 /* libPods-goforeat_app.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -632,7 +598,6 @@
 				C744A38220F4F00E00AD84DC /* RCTGeolocation.xcodeproj */,
 				C744A37920F4EFEB00AD84DC /* RCTText.xcodeproj */,
 				C7E003C020D1FE7100EB5F2A /* React.xcodeproj */,
-				C7D11E2920CFCB7300F9DB22 /* BVLinearGradient.xcodeproj */,
 				C7A69A12207089D700E06981 /* CodePush.xcodeproj */,
 				C7639D342069D50A000A02BB /* RNShare.xcodeproj */,
 				C7E008602054B185008024BF /* RNImagePicker.xcodeproj */,
@@ -812,15 +777,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C7D11E2A20CFCB7300F9DB22 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C7D11E2F20CFCB7300F9DB22 /* libBVLinearGradient.a */,
-				C7D11E3120CFCB7300F9DB22 /* libBVLinearGradient.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		C7D981AC20BE30630040CEE4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -866,14 +822,6 @@
 				C7E19DEB20F0655B009CCF87 /* libReactNativePayments.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		9F83718BC8C040C88221269C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = /Users/sujunwen/Documents/Mywork/hk/goforeat/goforeat_app/node_modules/react-native-payments-addon-stripe/Carthage/Build/iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -944,10 +892,6 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = C7D11E2A20CFCB7300F9DB22 /* Products */;
-					ProjectRef = C7D11E2920CFCB7300F9DB22 /* BVLinearGradient.xcodeproj */;
-				},
 				{
 					ProductGroup = C7A69A13207089D700E06981 /* Products */;
 					ProjectRef = C7A69A12207089D700E06981 /* CodePush.xcodeproj */;
@@ -1213,20 +1157,6 @@
 			fileType = archive.ar;
 			path = libCodePush.a;
 			remoteRef = C7A69A19207089D800E06981 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C7D11E2F20CFCB7300F9DB22 /* libBVLinearGradient.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBVLinearGradient.a;
-			remoteRef = C7D11E2E20CFCB7300F9DB22 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C7D11E3120CFCB7300F9DB22 /* libBVLinearGradient.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBVLinearGradient.a;
-			remoteRef = C7D11E3020CFCB7300F9DB22 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C7D981B020BE30630040CEE4 /* libRCTFBSDK.a */ = {
