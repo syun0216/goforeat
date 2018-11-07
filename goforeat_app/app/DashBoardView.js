@@ -52,7 +52,7 @@ const dashboardmapDispatchToProps = dispatch => ({
   changeLanguage: (language) => dispatch({type: CHANGE_LANGUAGE,language}),
   stockPlace: (place) => dispatch({type: STOCK_PLACE,place}),
   deletePlace: () => dispatch({type: DELETE_PLACE}),
-  setPayType: (paytype) => dispatch({type: SET_PAY_TYPE,paytype}),
+  setPayType: (paytype,callback) => dispatch({type: SET_PAY_TYPE,paytype,callback}),
   setCreditCardInfo: (creditCardInfo) => dispatch({type: SET_CREDIT_CARD, creditCardInfo}),
   removeCreditCardInfo: () => dispatch({type: REMOVE_CREDIT_CARD}),
   showAd: () => dispatch({type: SHOW_AD}),

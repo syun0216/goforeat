@@ -161,8 +161,7 @@ export default class CreditCardView extends PureComponent {
           rest.card = this._raw_card;
           creditCardStorage.setData(rest);
           this.props.screenProps.setCreditCardInfo(rest);
-          // payTypeStorage.setData(SET_PAY_TYPE['credit_card']);
-          // this.props.screenProps.setPayType(SET_PAY_TYPE['credit_card']);
+          this.props.screenProps.setPayType(SET_PAY_TYPE['credit_card']);
           ToastUtils.showWithMessage(i18n.credit_card_tips.bind_success);
           this.props.navigation.goBack();
         }

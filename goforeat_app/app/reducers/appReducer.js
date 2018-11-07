@@ -18,6 +18,9 @@ import {
 import {userStorage} from "../cache/appStorage";
 //utils
 import Colors from "../utils/Colors";
+import {isEmpty} from '../utils/global_params';
+//api
+import {setPayment} from '../api/request';
 
 const initialState = {
   userState: {
@@ -115,6 +118,11 @@ export function placeSetting(state = initialState.placeState, action) {
 export function payType(state = initialState.paytypeState, action) {
   switch(action.type) {
     case SET_PAY_TYPE: {
+      setPayment(action.paytype).then(data => {
+        if(data.ro.ok) {
+          !isEmpty(action.callback) && action.callback();
+        }
+      })
       return {
         ...state,
         payType: action.paytype

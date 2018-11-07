@@ -52,9 +52,11 @@ export default class PaySettingView extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    const {creditCardInfo,language,paytype} = nextProps.screenProps;
     this.setState({
-      creditCardInfo: nextProps.screenProps.creditCardInfo,
-      i18n: I18n[nextProps.screenProps.language]
+      creditCardInfo: creditCardInfo,
+      i18n: I18n[language],
+      checkedName: paytype
     })
   }
 
@@ -111,11 +113,9 @@ export default class PaySettingView extends PureComponent {
 
   _setPayType(payment) {
     let _from_confirm_order = typeof this.props.navigation.state.params != 'undefined';
-    setPayment(payment).then(data => {
-      if(data.ro.ok) {
-        !_from_confirm_order && ToastUtil.showWithMessage('修改支付方式成功'); 
-      }
-    })
+    this.props.screenProps.setPayType(payment, () => {
+      !_from_confirm_order && ToastUtil.showWithMessage('修改支付方式成功');
+    });
   }
 
   _getMonthTicket() {
@@ -149,7 +149,6 @@ export default class PaySettingView extends PureComponent {
       {checkedName: name}
     );  
     this._setPayType(name);
-    this.props.screenProps.setPayType(name);
     _from_confirm_order && this.props.navigation.goBack();
   }
 
