@@ -1,5 +1,8 @@
 import {Platform, StyleSheet} from 'react-native';
-import {em,} from '../utils/global_params';
+import GLOBAL_PARAMS, {em} from '../utils/global_params';
+
+
+console.log(GLOBAL_PARAMS._winHeight)
 
 export default StyleSheet.create({
   CouponContainer: {
@@ -11,7 +14,7 @@ export default StyleSheet.create({
   CouponItemView: {
     height: em(120),
     borderRadius: em(8),
-    backgroundColor: '#fff',
+    backgroundColor: GLOBAL_PARAMS._winHeight == 736 && Platform.OS == 'ios' ? '#EF7333' : '#fff',
     margin: em(10)
   },
   ItemTop: {
