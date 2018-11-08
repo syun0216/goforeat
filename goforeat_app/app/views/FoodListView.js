@@ -16,7 +16,7 @@ import source from '../api/CancelToken';
 import Text from '../components/UnScalingText';
 import WarningTips from '../components/WarningTips';
 import CommonFlatList from "../components/CommonFlatList";
-import AdervertiseView from '../components/AdvertiseView';
+import AdvertiseView from '../components/AdvertiseView';
 import PlacePickerModel from '../components/PlacePickerModel';
 //language
 import I18n from '../language/i18n';
@@ -132,7 +132,7 @@ class FoodListView extends Component {
   //render functions
   _renderAdvertisementView() {
     return (
-      <AdervertiseView 
+      <AdvertiseView 
       modalVisible={this.state.isAdvertiseShow} seconds={this.state.advertiseCountdown} image={this.state.advertiseImg} data={this.state.advertiseData} countDown={this.state.advertiseCountdown}  closeFunc={() => this.setState({
         isAdvertiseShow: false
       })} {...this.props}

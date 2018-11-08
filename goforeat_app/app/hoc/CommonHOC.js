@@ -62,11 +62,10 @@ const CommonHOC = WarppedComponent => class extends Component {
     this._commentPopup();
     AppState.addEventListener('change',(nextState) => {
       if(nextState == 'active') {
-        this._commentPopup();
+        // this._commentPopup();
         CodePush.getUpdateMetadata().then(localPackage => {
           if (localPackage == null) {
-              this._checkForUpdate();
-              
+              this._checkForUpdate();    
           } else {
               if (localPackage.isPending) {
                   localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME)
