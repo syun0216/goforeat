@@ -266,7 +266,7 @@ export default class ConfirmOrderView extends PureComponent {
 
   handlePayWithAppleOrAndroid(resolve,reject,paytype) {
     let supportedMethods = ''
-    let {orderDetail:{totalMoney,orderDetail},discountsPrice} = this.state;
+    let {orderDetail:{totalMoney,orderDetail,foodName},discountsPrice} = this.state;
     totalMoney = totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
     if(Platform.OS == 'ios' && paytype == PAY_TYPE.apple_pay) {
       supportedMethods = [
@@ -309,27 +309,39 @@ export default class ConfirmOrderView extends PureComponent {
       id: 'goforeat_pay',
       displayItems: [
         {
-          label: 123,
+          label: foodName,
           amount: { currency: 'HKD', value: totalMoney }
         }
       ],
       total: {
-        label: 'Goforeat',
+        label: '總計',
         amount: { currency: 'HKD', value: totalMoney }
       }
     };
+
+    // const details = {
+    //   id: 'oneItem',
+    //   displayItems: [
+    //     {
+    //       label: 'Movie Ticket',
+    //       amount: { currency: 'USD', value: '15.00' }
+    //     }
+    //   ],
+    //   total: {
+    //     label: '123',
+    //     amount: { currency: 'USD', value: '15.00' }
+    //   }
+    // };
     
     const pr = new PaymentRequest(supportedMethods, details);
-
     pr
       .show()
       .then(paymentResponse => {
-        console.log(paymentResponse);
         resolve(paymentResponse);
         paymentResponse.complete('success');
       })
       .catch(e => {
-        // console.log(e)
+        console.log({e});
         pr.abort();
         reject();
       });
