@@ -39,7 +39,6 @@
 		C769E7132190729E00409140 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E003D420D1FE7200EB5F2A /* libReact.a */; };
 		C769E734219077B300409140 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3CD20F4F17B00AD84DC /* libRCTActionSheet.a */; };
 		C76B2CE220C8331700D63293 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CE120C8331700D63293 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		C771337C20F8F2BD003AAA8A /* libReactNativePayments.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E19DEB20F0655B009CCF87 /* libReactNativePayments.a */; };
 		C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78B95AE20FF1494009A8093 /* libRCTBEEPickerManager.a */; };
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
@@ -51,6 +50,7 @@
 		C7DDDD8A20A0A25C00BD8639 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C7DDDD8720A0A25B00BD8639 /* assets */; };
 		C7E003F320D1FE7C00EB5F2A /* libcxxreact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E003DC20D1FE7200EB5F2A /* libcxxreact.a */; };
 		C7E008662054B20A008024BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E008652054B186008024BF /* libRNImagePicker.a */; };
+		C7E44DDD219478ED00B0BEC1 /* libReactNativePayments.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E44DDA2194789F00B0BEC1 /* libReactNativePayments.a */; };
 		CA1272DB3BF84043BEA26782 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA769471ABD14C6D9D8C56BB /* AppCenter-Config.plist */; };
 		DBF148A91C4F498687FC96AC /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE04579D78AE4C0CB6FB5E78 /* MaterialIcons.ttf */; };
 		EEAADBBDC2E14921A67D4672 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 812CBB1CBD1B40428B72B630 /* Octicons.ttf */; };
@@ -359,9 +359,9 @@
 			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
 			remoteInfo = RNImagePicker;
 		};
-		C7E19DEA20F0655B009CCF87 /* PBXContainerItemProxy */ = {
+		C7E44DD92194789F00B0BEC1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A24F1B7385664399902B517B /* ReactNativePayments.xcodeproj */;
+			containerPortal = B9381A900AE1476C878901FD /* ReactNativePayments.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = ReactNativePayments;
@@ -391,11 +391,11 @@
 		74B056FC7429408ABD5A9F51 /* libAppCenterReactNativePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAppCenterReactNativePush.a; sourceTree = "<group>"; };
 		812CBB1CBD1B40428B72B630 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		8BB552E4C1164DEBA9574AE4 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		A24F1B7385664399902B517B /* ReactNativePayments.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePayments.xcodeproj; path = "../node_modules/react-native-payments/lib/ios/ReactNativePayments.xcodeproj"; sourceTree = "<group>"; };
 		A2F1B58E1CAD4CD6A2C74C10 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		A70A83F69EB5407BB143F54F /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
 		A9814B88E9754704B69D6482 /* Interactable.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Interactable.xcodeproj; path = "../node_modules/react-native-interactable/ios/Interactable.xcodeproj"; sourceTree = "<group>"; };
 		B620EC70262E4FA195E7529A /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		B9381A900AE1476C878901FD /* ReactNativePayments.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePayments.xcodeproj; path = "../node_modules/react-native-payments/lib/ios/ReactNativePayments.xcodeproj"; sourceTree = "<group>"; };
 		BA769471ABD14C6D9D8C56BB /* AppCenter-Config.plist */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "goforeat_app/AppCenter-Config.plist"; sourceTree = "<group>"; };
 		C744A37920F4EFEB00AD84DC /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		C744A38220F4F00E00AD84DC /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
@@ -451,6 +451,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7E44DDD219478ED00B0BEC1 /* libReactNativePayments.a in Frameworks */,
 				C769E734219077B300409140 /* libRCTActionSheet.a in Frameworks */,
 				C769E7092190729E00409140 /* libRCTAnimation.a in Frameworks */,
 				C769E70A2190729E00409140 /* libRCTBlob.a in Frameworks */,
@@ -466,7 +467,6 @@
 				C7D69BD221149DDA008D1BF1 /* libprivatedata.a in Frameworks */,
 				C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */,
 				C7E003F320D1FE7C00EB5F2A /* libcxxreact.a in Frameworks */,
-				C771337C20F8F2BD003AAA8A /* libReactNativePayments.a in Frameworks */,
 				C753EF0620CACE3000A1DCFD /* CodePush.h in Frameworks */,
 				C7CA440B218FD7BB00CF5B62 /* Stripe.framework in Frameworks */,
 				C76B2CE220C8331700D63293 /* UserNotifications.framework in Frameworks */,
@@ -594,7 +594,7 @@
 				C7639D342069D50A000A02BB /* RNShare.xcodeproj */,
 				C7E008602054B185008024BF /* RNImagePicker.xcodeproj */,
 				A9814B88E9754704B69D6482 /* Interactable.xcodeproj */,
-				A24F1B7385664399902B517B /* ReactNativePayments.xcodeproj */,
+				B9381A900AE1476C878901FD /* ReactNativePayments.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -799,10 +799,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C7E19DE720F0655A009CCF87 /* Products */ = {
+		C7E44DAD2194789E00B0BEC1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C7E19DEB20F0655B009CCF87 /* libReactNativePayments.a */,
+				C7E44DDA2194789F00B0BEC1 /* libReactNativePayments.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -936,8 +936,8 @@
 					ProjectRef = C7E003C020D1FE7100EB5F2A /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = C7E19DE720F0655A009CCF87 /* Products */;
-					ProjectRef = A24F1B7385664399902B517B /* ReactNativePayments.xcodeproj */;
+					ProductGroup = C7E44DAD2194789E00B0BEC1 /* Products */;
+					ProjectRef = B9381A900AE1476C878901FD /* ReactNativePayments.xcodeproj */;
 				},
 				{
 					ProductGroup = C7E008612054B185008024BF /* Products */;
@@ -1257,11 +1257,11 @@
 			remoteRef = C7E008642054B186008024BF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C7E19DEB20F0655B009CCF87 /* libReactNativePayments.a */ = {
+		C7E44DDA2194789F00B0BEC1 /* libReactNativePayments.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libReactNativePayments.a;
-			remoteRef = C7E19DEA20F0655B009CCF87 /* PBXContainerItemProxy */;
+			remoteRef = C7E44DD92194789F00B0BEC1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1445,6 +1445,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 				);
 				INFOPLIST_FILE = goforeat_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1492,6 +1493,7 @@
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/yoga",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 				);
 				INFOPLIST_FILE = goforeat_app/Info.plist;
