@@ -1,9 +1,6 @@
 import {Platform, StyleSheet} from 'react-native';
 import GLOBAL_PARAMS, {em} from '../utils/global_params';
 
-
-console.log(GLOBAL_PARAMS._winHeight)
-
 export default StyleSheet.create({
   CouponContainer: {
     backgroundColor: '#efefef',

@@ -105,8 +105,8 @@ export default {
   dialingFail: 'Failed to dial number',
   ticket: 'Coupon',
   user_info_tips: {
-    account: 'Account',
-    nick: 'Nickname',
+    phone: 'Account',
+    nickName: 'Nickname',
     email: 'Email',
     address: 'Address',
     gender: 'Gender',

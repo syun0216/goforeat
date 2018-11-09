@@ -105,8 +105,8 @@ export default {
   dialingFail: '撥打用戶號碼失敗',
   ticket: '優  惠  券',
   user_info_tips: {
-    account: '賬號',
-    nick: '暱稱',
+    phone: '賬號',
+    nickName: '暱稱',
     email: '郵箱',
     address: '地址',
     gender: '性別',

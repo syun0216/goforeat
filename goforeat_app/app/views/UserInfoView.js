@@ -22,6 +22,10 @@ const SECRET = 0;
 const FEMALE = 1;
 const MALE = 2;
 
+const getUserFormLabel = (key, language) => {
+  return language[key];
+};
+
 export default class UserInfoView extends PureComponent {
 
   constructor(props) {
@@ -61,9 +65,24 @@ export default class UserInfoView extends PureComponent {
   }
 
   _updateMyInfo() {
+    const { account, phoneType, profileImg, ...rest } = this.state.myInfo;
+    for(let key in rest) {
+      if(key != 'email') {
+        if(rest[key] == '') {
+          ToastUtil.showWithMessage(`請填寫${getUserFormLabel(key,this.state.i18n.user_info_tips)}信息`);
+          return;       
+        }
+      }else {
+        const reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        if(!reg.test(rest['email'])) {
+          ToastUtil.showWithMessage(`郵箱格式不對，請檢查!`);
+          return;
+        }        
+      }
+    }
     this.setState({
       loadingModal: true
-    })
+    });
     updateMyInfo(this.state.myInfo).then(data => {
       if(data.ro.ok) {
         ToastUtil.showWithMessage("更新成功");
@@ -76,6 +95,9 @@ export default class UserInfoView extends PureComponent {
         this.props.screenProps.userLogin(userInfo);
         this.rawMyInfo = JSON.stringify(this.state.myInfo);
         this.props.navigation.goBack();
+      } else {
+        ToastUtil.showWithMessage(data.ri.respMsg);
+        this.setState({loadingModal: false})
       }
     }).catch(err => {
       ToastUtil.showWithMessage("更新失敗");
@@ -198,16 +220,16 @@ export default class UserInfoView extends PureComponent {
   }
 
   _renderFormView() {
-    const {i18n:{user_info_tips:{account,nick,email:_email,address:_address,gender:_gender,male,female,secret}}} = this.state;
+    const {user_info_tips} = this.state.i18n;
     if(this.state.myInfo == null) return;
     let { myInfo:{ address, email, gender, nickName, phone } } = this.state;
 
     let _form_arr = [
-      {label: account, key: 'phone', value: phone},
-      {label: nick, key: 'nickName', value: nickName},
-      {label: _email, key: 'email', value: email},
-      {label: _address, key: 'address', value: address},
-      {label: _gender, key: 'gender', value: gender},
+      {label: getUserFormLabel('phone', user_info_tips), key: 'phone', value: phone},
+      {label: getUserFormLabel('nickName', user_info_tips), key: 'nickName', value: nickName},
+      {label: getUserFormLabel('email', user_info_tips), key: 'email', value: email},
+      {label: getUserFormLabel('address', user_info_tips), key: 'address', value: address},
+      {label: getUserFormLabel('gender', user_info_tips), key: 'gender', value: gender},
     ];
 
     const _changeText = (text, key) => {
@@ -220,9 +242,9 @@ export default class UserInfoView extends PureComponent {
     };
 
     let _segment = [
-      {text: male, value: MALE, icon: 'md-male'},
-      {text: female, value: FEMALE, icon: 'md-female'},
-      {text: secret, value: SECRET, icon: 'md-eye-off'},
+      {text: getUserFormLabel('male', user_info_tips), value: MALE, icon: 'md-male'},
+      {text: getUserFormLabel('female', user_info_tips), value: FEMALE, icon: 'md-female'},
+      {text: getUserFormLabel('secret', user_info_tips), value: SECRET, icon: 'md-eye-off'},
     ];
 
     const _segmentElement = (
