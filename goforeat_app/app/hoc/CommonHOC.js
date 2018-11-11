@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, TouchableWithoutFeedback, Platform, TextInput, AppState, Alert, ToastAndroid, BackHandler} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableWithoutFeedback, Platform, TextInput, AppState, Alert, ToastAndroid, BackHandler, NetInfo} from 'react-native';
 import {Container, Input} from 'native-base';
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
 import Share from 'react-native-share';
@@ -13,6 +13,7 @@ import {em, _winWidth, _winHeight} from '../utils/global_params';
 import ToastUtils from '../utils/ToastUtil';
 //components
 import CommonBottomBtn from '../components/CommonBottomBtn';
+import LoadingModal from '../components/LoadingModal';
 //language
 import I18n from '../language/i18n';
 //api
@@ -53,7 +54,8 @@ const CommonHOC = WarppedComponent => class extends Component {
       currentStar: 5,
       btnContent: '推薦好友領優惠券',
       i18n: I18n[props.screenProps.language],
-    }
+      LoadingModal: false
+    };  
   }
 
   componentDidMount() {
@@ -132,6 +134,18 @@ const CommonHOC = WarppedComponent => class extends Component {
     }, () => {
       this._addCommentApi();
     });
+  }
+
+  _showLoadingModal() {
+    this.setState({
+      LoadingModal: true
+    })
+  }
+
+  _hideLoadingModal() {
+    this.setState({
+      LoadingModal: false
+    })
   }
 
   // ---------------------jpush&codepush&backAndroidHandler
@@ -310,7 +324,6 @@ const CommonHOC = WarppedComponent => class extends Component {
       orderName = this.state.currentComment.orderName;
       picture = this.state.currentComment.picture;
     }
-
     return (
       <Container>
         <PopupDialog
@@ -340,7 +353,8 @@ const CommonHOC = WarppedComponent => class extends Component {
             <CommonBottomBtn clickFunc={() => this._addComment()} style={{width: em(263)}}>{this.state.btnContent}</CommonBottomBtn>
           </View>
         </PopupDialog>
-        <WarppedComponent ref={w => this.WarppedComponent = w} {...this.props} showDialog={() => this.popupDialog.show()} hideDialog={() => this.popupDialog.dismiss()}/>
+        {this.state.LoadingModal ? <LoadingModal /> : null}
+        <WarppedComponent ref={w => this.WarppedComponent = w} {...this.props} showLoading={this._showLoadingModal.bind(this)} hideLoading={this._hideLoadingModal.bind(this)}/>
       </Container>
     )
   }
