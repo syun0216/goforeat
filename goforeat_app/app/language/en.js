@@ -210,6 +210,7 @@ export default {
     time_not_null: 'Expiration date cannot be empty',
     cvc_nont_null: 'CVC cannot be empty',
     bind_success: 'Binding success',
+    bind_fail: 'Binding failed',
     card_number_error: 'The card number is incorrect',
   },
   common_tips: {

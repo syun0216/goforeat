@@ -208,8 +208,9 @@ export default {
     name_not_null: '姓名不能為空',
     card_not_null: '卡號不能為空',
     time_not_null: '有效期不能為空',
-    cvc_nont_null: 'CVC不能為空',
+    cvc_not_null: 'CVC不能為空',
     bind_success: '綁定成功',
+    bind_fail: '綁定成功失敗',
     card_number_error: '卡號有誤',
   },
   common_tips: {
