@@ -2,6 +2,7 @@ import {
   Dimensions,
   Platform
 } from 'react-native';
+import Stripe from 'react-native-stripe-api';
 
 const X = Dimensions.get('window').width;
 const Y = Dimensions.get('window').height;
@@ -116,6 +117,10 @@ export const SET_PAY_TYPE = {
 export const em = (val) => val * ratioX 
 
 export const currentPlatform = Platform.OS == 'ios' ? 1 : 2;
+
+export const stripe_api_key = 'pk_live_B4fnSIHwLskDPFbD0siwsqs4';
+
+export const client = new Stripe(stripe_api_key);
 
 export function isEmpty(v) {
   switch (typeof v) {
