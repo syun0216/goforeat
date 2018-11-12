@@ -318,7 +318,7 @@ const CommonHOC = WarppedComponent => class extends Component {
     ];
     let orderName = '',picture = 'https://img.xiumi.us/xmi/ua/18Wf8/i/947a1ce40e185b4aa6e8318e496e9748-sz_61730.jpg';
 
-    let {currentStar} = this.state;
+    let {currentStar, i18n} = this.state;
     
     if(this.state.currentComment !=null) {
       orderName = this.state.currentComment.orderName;
@@ -354,7 +354,7 @@ const CommonHOC = WarppedComponent => class extends Component {
           </View>
         </PopupDialog>
         {this.state.LoadingModal ? <LoadingModal /> : null}
-        <WarppedComponent ref={w => this.WarppedComponent = w} {...this.props} showLoading={this._showLoadingModal.bind(this)} hideLoading={this._hideLoadingModal.bind(this)}/>
+        <WarppedComponent ref={w => this.WarppedComponent = w} {...this.props} showLoading={this._showLoadingModal.bind(this)} hideLoading={this._hideLoadingModal.bind(this)} i18n={i18n}/>
       </Container>
     )
   }
