@@ -12,8 +12,9 @@ import CommonBottomBtn from '../components/CommonBottomBtn';
 import Text from '../components/UnScalingText';
 //utils
 import {em, SET_PAY_TYPE} from '../utils/global_params';
+import ToastUtil from '../utils/ToastUtil';
 //api
-import {getCreditCard} from '../api/request';
+import {getCreditCard, removeCreditCard} from '../api/request';
 
 const STATUS_IMAGE = {
   open_eye: require('../asset/openeye.png'),
@@ -58,9 +59,19 @@ export default class ManageCreditCardView extends PureComponent {
       [
         {text: this.i18n.cancel, onPress: () => {return null}, style: 'cancel'},
         {text: this.i18n.confirm, onPress: () => {
-          const {callback} = this.props.navigation.state.params;
-          callback && callback();
-          this.props.navigation.goBack();
+          this.props.showLoading();
+          removeCreditCard().then(data => {
+            this.props.hideLoading();
+            if(data.ro.ok) {
+              const {callback} = this.props.navigation.state.params;
+              callback && callback();
+              this.props.navigation.goBack();
+            } else {
+              ToastUtil.showWithMessage(data.ro.respMsg);
+            }
+          },() => {
+            this.props.hideLoading();
+          })
         }},
       ],
       { cancelable: false }
@@ -90,8 +101,10 @@ export default class ManageCreditCardView extends PureComponent {
       ))}
       <CommonBottomBtn clickFunc={() => this.props.navigation.navigate('Credit',{
         callback:() => {
+          const {callback} = this.props.navigation.state.params;
+          callback && callback();
           this._getCreditCard();
-        }
+        },
       })}>{this.i18n.changeCard}</CommonBottomBtn>
         <Text style={ManageCreditCardStyles.BottomInfo}>{this.i18n.bindCardOnce}</Text>
       </View>

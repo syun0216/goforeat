@@ -40,7 +40,6 @@ export default class PaySettingView extends PureComponent {
       loading: true,
       isError: false,
       payTypeList: [],
-      hasCreditCardPay: false,
       monthTicketQuantity: 0,
       monthTicketEndTime: '',
       creditCardInfo: null
@@ -59,9 +58,8 @@ export default class PaySettingView extends PureComponent {
     getPaySetting().then(data => {
       if(data.ro.ok) {
         let _arr = [];
-        if(data.data && data.data.defaultPayment == SET_PAY_TYPE.credit_card && data.data.hasOwnProperty('creditCard')) {
+        if(data.data && data.data.hasOwnProperty('creditCard')) {
           this.setState({
-            hasCreditCardPay: true,
             creditCardInfo: data.data.creditCard
           });
         }
@@ -102,8 +100,14 @@ export default class PaySettingView extends PureComponent {
   _setPayType(payment) {
     let _from_confirm_order = typeof this.props.navigation.state.params != 'undefined';
     this.props.screenProps.setPayType(payment, () => {
-      !_from_confirm_order && ToastUtil.showWithMessage('修改支付方式成功');
-    });
+      if(_from_confirm_order) {
+        const {callback} = this.props.navigation.state.params;
+        callback && callback();
+        this.props.navigation.goBack();
+      } else {
+        ToastUtil.showWithMessage('修改支付方式成功');
+      }
+    },() => this.props.hideLoading());
   }
 
   _getMonthTicket() {
@@ -137,7 +141,6 @@ export default class PaySettingView extends PureComponent {
       {checkedName: name}
     );  
     this._setPayType(name);
-    _from_confirm_order && this.props.navigation.goBack();
   }
 
   _checkedImage(name) {
@@ -167,7 +170,11 @@ export default class PaySettingView extends PureComponent {
           if(creditCardInfo != null) {
             this.props.navigation.navigate('Manage_Card', {
               callback: () => {
-                this._getPaySetting();
+                this.setState({
+                  creditCardInfo: null
+                }, () => {
+                  this._getPaySetting();
+                })
               }
             });
           }else {
@@ -204,7 +211,7 @@ export default class PaySettingView extends PureComponent {
                   hasLeftIcon={item.hasLeftIcon} leftIcon={item.leftIcon} rightIcon={item.code != null ?this._checkedImage(item.code) : (<Text>{this.state.monthTicketEndTime}  到期</Text>)}
                   style={item.code != null ? item.code != SET_PAY_TYPE.month_ticket ? {} : {borderBottomWidth: 0,} : {height: em(44),}} disabled={item.code == null}/>
                 ))}
-                { this.state.hasCreditCardPay ? this._renderManageCreditCard() : null}
+                { this._renderManageCreditCard()}
               </View>
             )}
             { this.state.isError ? <ErrorPage errorTips={this.i18n.common_tips.reload} errorToDo={() => this._getPaySetting()}/> : null}

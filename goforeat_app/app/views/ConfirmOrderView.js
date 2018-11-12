@@ -442,7 +442,10 @@ export default class ConfirmOrderView extends PureComponent {
       {title:i18n.foodTime,content: takeTime,hasPreIcon:false,fontColor:'#333333',canOpen:false,clickFunc:()=> {},disable: true},
       {title:i18n.payment,content:this._currentPayType(),hasPreIcon:false,fontColor:'#333333',canOpen:true,clickFunc:()=> {
         this.props.navigation.navigate('PayType',{
-          from:'confirm_order'
+          from:'confirm_order',
+          callback: () => {
+            this._createOrder();
+          }
         });
       }}
     ];
