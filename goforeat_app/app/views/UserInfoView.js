@@ -65,21 +65,21 @@ export default class UserInfoView extends PureComponent {
   }
 
   _updateMyInfo() {
-    const { account, phoneType, profileImg, ...rest } = this.state.myInfo;
-    for(let key in rest) {
-      if(key != 'email') {
-        if(rest[key] == '') {
-          ToastUtil.showWithMessage(`請填寫${getUserFormLabel(key,this.state.i18n.user_info_tips)}信息`);
-          return;       
-        }
-      }else {
-        const reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-        if(!reg.test(rest['email'])) {
-          ToastUtil.showWithMessage(`郵箱格式不對，請檢查!`);
-          return;
-        }        
-      }
-    }
+    // const { account, phoneType, profileImg, ...rest } = this.state.myInfo;
+    // for(let key in rest) {
+    //   if(key != 'email') {
+    //     if(rest[key] == '') {
+    //       ToastUtil.showWithMessage(`請填寫${getUserFormLabel(key,this.state.i18n.user_info_tips)}信息`);
+    //       return;       
+    //     }
+    //   }else {
+    //     const reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+    //     if(!reg.test(rest['email'])) {
+    //       ToastUtil.showWithMessage(`郵箱格式不對，請檢查!`);
+    //       return;
+    //     }        
+    //   }
+    // }
     this.setState({
       loadingModal: true
     });

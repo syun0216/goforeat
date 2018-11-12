@@ -23,7 +23,7 @@ import CommonItem from '../components/CommonItem';
 import CouponView from './CouponView';
 //utils
 import Colors from "../utils/Colors";
-import GLOBAL_PARAMS, { em, EXPLAIN_PAY_TYPE, isEmpty } from "../utils/global_params";
+import GLOBAL_PARAMS, { em, EXPLAIN_PAY_TYPE, isEmpty, client, stripe_api_key } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 import {getDeviceId} from "../utils/DeviceInfo";
 //api
@@ -46,8 +46,6 @@ const PAY_TYPE = {
 }
 
 // global.PaymentRequest = require('react-native-payments').PaymentRequest;
-const stripe_api_key = 'pk_live_B4fnSIHwLskDPFbD0siwsqs4';
-const client = new Stripe(stripe_api_key);
 
 export default class ConfirmOrderView extends PureComponent {
 
@@ -314,7 +312,7 @@ export default class ConfirmOrderView extends PureComponent {
         }
       ],
       total: {
-        label: '總計',
+        label: 'Goforeat Technoloy Limited',
         amount: { currency: 'HKD', value: totalMoney }
       }
     };
