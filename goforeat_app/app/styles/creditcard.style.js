@@ -1,6 +1,7 @@
 import {StyleSheet,Platform} from 'react-native';
 import GLOBAL_PARAMS,{em} from '../utils/global_params';
 import Colors from '../utils/Colors';
+import { Col } from 'native-base';
 
 export default StyleSheet.create({
   BtnView: {
@@ -52,11 +53,30 @@ export default StyleSheet.create({
     justifyContent:'flex-end',
     height: GLOBAL_PARAMS.widthAuto(60),
   },
-
   SelectBtn: {
     width: em(200),
     height: em(60),
     justifyContent:'center',
     paddingLeft: Platform.OS=='android'?4:0
+  },
+  BottomInfoBtn: {
+    flexDirection: 'row',
+    width: GLOBAL_PARAMS._winWidth*0.4,
+    alignSelf: 'center',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: em(10)
+  },
+  BottomInfoIcon: {
+    color: Colors.main_orange,
+    fontSize: em(25)
+  },
+  BottomInfoText: {
+    color: '#333'
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })

@@ -210,7 +210,7 @@ export default {
     time_not_null: '有效期不能為空',
     cvc_not_null: 'CVC不能為空',
     bind_success: '綁定成功',
-    bind_fail: '綁定成功失敗',
+    bind_fail: '綁定失敗',
     card_number_error: '卡號有誤',
   },
   common_tips: {

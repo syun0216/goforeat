@@ -15,10 +15,6 @@ import ToastUtil from '../utils/ToastUtil';
 import Colors from '../utils/Colors';
 //styles
 import PaySettingStyles from '../styles/paysetting.style';
-//cache
-import { payTypeStorage } from '../cache/appStorage';
-//language
-import I18n from '../language/i18n';
 //api
 import {getPaySetting,setPayment,getMonthTicket} from '../api/request';
 
@@ -38,26 +34,17 @@ const LIST_IMAGE = {
 export default class PaySettingView extends PureComponent {
   constructor(props) {
     super(props);
+    this.i18n = props.i18n;
     this.state = {
       checkedName: props.screenProps.paytype,
-      creditCardInfo: props.screenProps.creditCardInfo,
-      i18n: I18n[props.screenProps.language],
       loading: true,
       isError: false,
       payTypeList: [],
       hasCreditCardPay: false,
       monthTicketQuantity: 0,
-      monthTicketEndTime: ''
+      monthTicketEndTime: '',
+      creditCardInfo: null
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {creditCardInfo,language,paytype} = nextProps.screenProps;
-    this.setState({
-      creditCardInfo: creditCardInfo,
-      i18n: I18n[language],
-      checkedName: paytype
-    })
   }
 
   componentDidMount() {
@@ -69,16 +56,17 @@ export default class PaySettingView extends PureComponent {
 
   //api
   _getPaySetting() {
-    let {creditCardInfo} = this.state;
     getPaySetting().then(data => {
       if(data.ro.ok) {
         let _arr = [];
+        if(data.data && data.data.defaultPayment == SET_PAY_TYPE.credit_card && data.data.hasOwnProperty('creditCard')) {
+          this.setState({
+            hasCreditCardPay: true,
+            creditCardInfo: data.data.creditCard
+          });
+        }
         data.data.payments.forEach((v,i) => {
-          if(v.code == SET_PAY_TYPE.credit_card) {
-            this.setState({
-              hasCreditCardPay: true
-            });
-          }else {
+          if(v.code != SET_PAY_TYPE.credit_card) {
             _arr.push({
               content: EXPLAIN_PAY_TYPE[v.code][this.props.screenProps.language],hasLeftIcon: true,leftIcon:this._leftImage(LIST_IMAGE[v.code]),code: v.code
             });
@@ -165,21 +153,29 @@ export default class PaySettingView extends PureComponent {
   }
 
   _renderManageCreditCard() {
-    let { creditCardInfo,i18n } = this.state;
+    let { creditCardInfo } = this.state;
     let _creditCardNumber = '';
     if(creditCardInfo != null) {
-      _creditCardNumber = formatCard(creditCardInfo.card);
+      _creditCardNumber = '**** **** **** '+ creditCardInfo.tailNum;
     }
     return (
       <View style={{marginTop: em(10)}}>
-        <View style={PaySettingStyles.creditcardView}><Text style={PaySettingStyles.creditcardText}>{i18n.credit}</Text></View>
+        <View style={PaySettingStyles.creditcardView}><Text style={PaySettingStyles.creditcardText}>{this.i18n.credit}</Text></View>
         {creditCardInfo != null ? <CommonItem hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE[SET_PAY_TYPE.credit_card])} content={_creditCardNumber} rightIcon={this._checkedImage(SET_PAY_TYPE.credit_card)} clickFunc={() => this._checked(SET_PAY_TYPE.credit_card)}/> : null}
-        <CommonItem content={creditCardInfo != null ? i18n.manageCard : i18n.setCard} hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE[SET_PAY_TYPE.credit_card])}
+        <CommonItem content={creditCardInfo != null ? this.i18n.manageCard : this.i18n.setCard} hasLeftIcon leftIcon={this._leftImage(LIST_IMAGE[SET_PAY_TYPE.credit_card])}
         clickFunc={() => {
           if(creditCardInfo != null) {
-            this.props.navigation.navigate('Manage_Card');
+            this.props.navigation.navigate('Manage_Card', {
+              callback: () => {
+                this._getPaySetting();
+              }
+            });
           }else {
-            this.props.navigation.navigate("Credit");
+            this.props.navigation.navigate("Credit", {
+              callback: () => {
+                this._getPaySetting();
+              }
+            });
           }
         }}/>
       </View>
@@ -188,30 +184,30 @@ export default class PaySettingView extends PureComponent {
 
   _renderBottomConfirm() {
     return(
-      <CommonBottomBtn clickFunc={() => this.props.navigation.goBack()}>{this.state.i18n.confirm}</CommonBottomBtn>
+      <CommonBottomBtn clickFunc={() => this.props.navigation.goBack()}>{this.i18n.confirm}</CommonBottomBtn>
     )
   }
    
   render() {
-    let {i18n, payTypeList,monthTicketQuantity} = this.state;
+    let {payTypeList,monthTicketQuantity} = this.state;
     let _from_confirm_order = typeof this.props.navigation.state.params != 'undefined';
     return (
       <Container>
-      <CommonHeader title={i18n.payment} hasMenu={!_from_confirm_order} canBack={_from_confirm_order}/>
-        <Content style={{backgroundColor:'#efefef'}}>
-          {this.state.loading ? <Loading /> : (
-            <View>
-              {payTypeList.map((item,key) => (
-                <CommonItem key={key} content={item.code == null && monthTicketQuantity != 0 ? monthTicketQuantity : item.content} isEnd={item.isEnd} clickFunc={() =>{
-                  item.code != null && this._checked(item.code);
-                }}
-                hasLeftIcon={item.hasLeftIcon} leftIcon={item.leftIcon} rightIcon={item.code != null ?this._checkedImage(item.code) : (<Text>{this.state.monthTicketEndTime}  到期</Text>)}
-                style={item.code != null ? item.code != SET_PAY_TYPE.month_ticket ? {} : {borderBottomWidth: 0,} : {height: em(44),}} disabled={item.code == null}/>
-              ))}
-              { this.state.hasCreditCardPay ? this._renderManageCreditCard() : null}
-            </View>
-          )}
-          { this.state.isError ? <ErrorPage errorTips={i18n.common_tips.reload} errorToDo={() => this._getPaySetting()}/> : null}
+        <CommonHeader title={this.i18n.payment} hasMenu={!_from_confirm_order} canBack={_from_confirm_order}/>
+          <Content style={{backgroundColor:'#efefef'}}>
+            {this.state.loading ? <Loading /> : (
+              <View>
+                {payTypeList.map((item,key) => (
+                  <CommonItem key={key} content={item.code == null && monthTicketQuantity != 0 ? monthTicketQuantity : item.content} isEnd={item.isEnd} clickFunc={() =>{
+                    item.code != null && this._checked(item.code);
+                  }}
+                  hasLeftIcon={item.hasLeftIcon} leftIcon={item.leftIcon} rightIcon={item.code != null ?this._checkedImage(item.code) : (<Text>{this.state.monthTicketEndTime}  到期</Text>)}
+                  style={item.code != null ? item.code != SET_PAY_TYPE.month_ticket ? {} : {borderBottomWidth: 0,} : {height: em(44),}} disabled={item.code == null}/>
+                ))}
+                { this.state.hasCreditCardPay ? this._renderManageCreditCard() : null}
+              </View>
+            )}
+            { this.state.isError ? <ErrorPage errorTips={this.i18n.common_tips.reload} errorToDo={() => this._getPaySetting()}/> : null}
         </Content>
       </Container>
     )

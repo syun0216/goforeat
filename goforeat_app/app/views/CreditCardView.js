@@ -1,22 +1,21 @@
 import React, { PureComponent } from 'react';
 import { View,TouchableOpacity,TextInput,Keyboard,Platform } from 'react-native';
-import { Container,Content,Input } from 'native-base';
-import LinearGradient from 'react-native-linear-gradient';
+import { Container, Content, Icon } from 'native-base';
 import Picker from 'react-native-picker';
+import Modal from 'react-native-modal';
 //components
 import CommonHeader from '../components/CommonHeader';
 import CommonBottomBtn from '../components/CommonBottomBtn';
 import Text from '../components/UnScalingText';
 //styles
-import CommonStyles from '../styles/common.style';
 import CreditCardStyles from '../styles/creditcard.style';
 //utils
 import ToastUtils from '../utils/ToastUtil';
-import {em, SET_PAY_TYPE} from '../utils/global_params';
+import {em, client, setPayType} from '../utils/global_params';
 //cache
 import {creditCardStorage,payTypeStorage} from '../cache/appStorage';
 //api
-import {vaildCard} from '../api/request';
+import {vaildCard, setCreditCard} from '../api/request';
 //language
 import I18n from '../language/i18n';
 
@@ -30,7 +29,8 @@ export default class CreditCardView extends PureComponent {
       card: '',
       time: '',
       cvc: '',
-      i18n: I18n[props.screenProps.language]
+      i18n: I18n[props.screenProps.language],
+      isModalVisible: false
     }
   }
 
@@ -140,38 +140,51 @@ export default class CreditCardView extends PureComponent {
   }
 
   _bindCard() {
-    let {i18n} = this.state;
+    const {i18n, cvc, time} = this.state;
+    const {showLoading, hideLoading} = this.props; 
+    const {callback} = this.props.navigation.state.params;
     for(let i in this.state) {
       if(this.state[i] == '') {
         switch(i){
-          case "name": ToastUtils.showWithMessage(i18n.credit_card_tips.name_not_null);break;
-          case "card": ToastUtils.showWithMessage(i18n.credit_card_tips.card_not_null);break;
-          case "time": ToastUtils.showWithMessage(i18n.credit_card_tips.time_not_null);break;
-          case "cvc": ToastUtils.showWithMessage(i18n.credit_card_tips.cvc_not_null);break;
+          case "card": ToastUtils.showWithMessage(i18n.credit_card_tips.card_not_null);return;
+          case "time": ToastUtils.showWithMessage(i18n.credit_card_tips.time_not_null);return;
+          case "cvc": ToastUtils.showWithMessage(i18n.credit_card_tips.cvc_not_null);return;
         }
-        return ;
       }
     }
-    vaildCard(this._raw_card).then(data => {
-      if (data.ro.respCode == '0000') {
-        if(data.data == 0) {
-          ToastUtils.showWithMessage(i18n.credit_card_tips.card_number_error);
-        }else {
-          let {i18n,...rest} = this.state;
-          rest.card = this._raw_card;
-          creditCardStorage.setData(rest);
-          this.props.screenProps.setCreditCardInfo(rest);
-          this.props.screenProps.setPayType(SET_PAY_TYPE['credit_card']);
-          ToastUtils.showWithMessage(i18n.credit_card_tips.bind_success);
-          this.props.navigation.goBack();
-        }
-      }else {
-        ToastUtils.showWithMessage(data.ro.respMsg);
+    showLoading();
+    client.createToken({
+      number: this._raw_card ,
+      exp_month: time.substr(0,2), 
+      exp_year: time.substr(3,2), 
+      cvc: cvc,
+   }).then(token => {
+     console.log(token);
+     if(token&&token.hasOwnProperty('id')) {
+        return setCreditCard(token.id, time, this._raw_card.substr(-4));
+     } else {
+       throw token.error;
+     }
+   }).then(data => {
+     hideLoading();
+     if(data && data.ro.ok) {
+        callback&&callback();
+        ToastUtils.showWithMessage(i18n.credit_card_tips.bind_success);
+        this.props.navigation.goBack();
+     } else {
+        ToastUtils.showWithMessage(i18n.credit_card_tips.bind_fail);
+     }
+     console.log({data})
+   })
+   .catch(err => {
+      console.log({err});
+      hideLoading();
+      if(err.hasOwnProperty('type')) {
+        ToastUtils.showWithMessage(i18n.credit_card_tips.card_number_error)
+      } else {
+        ToastUtils.showWithMessage(i18n.credit_card_tips.bind_fail);
       }
-    })
-    .catch(err => {
-      ToastUtils.showWithMessage(i18n.common_tips.err);
-    })
+    });
   }
 
   _renderCommonInput(item,key) {
@@ -188,7 +201,7 @@ export default class CreditCardView extends PureComponent {
     return (
       <View style={Platform.OS == 'ios'?CreditCardStyles.CommonInputView:CreditCardStyles.CommonInputAndroidView} key={key}>
         <Text style={CreditCardStyles.InputTitle}>{item.label}</Text>
-        <TextInput allowFontScaling={false} style={Platform.OS=="android"?  CreditCardStyles.Input_Android:CreditCardStyles.Input} underlineColorAndroid="transparent" keyboardType={item.keyboard} placeholder={item.placeholder} maxLength={item.maxlength} onChangeText={item.changeTextFunc} defaultValue={this.state[item.name]}
+        <TextInput allowFontScaling={false} style={Platform.OS=="android"?  CreditCardStyles.Input_Android:CreditCardStyles.Input} clearButtonMode="while-editing" underlineColorAndroid="transparent" keyboardType={item.keyboard} placeholder={item.placeholder} maxLength={item.maxlength} onChangeText={item.changeTextFunc} defaultValue={this.state[item.name]}
         clearButtonMode="never"
         placeholderTextColor="#333333"/>
       </View>
@@ -198,7 +211,7 @@ export default class CreditCardView extends PureComponent {
   render() {
     let {i18n} = this.state;
     let _list_arr = [
-      {name:'name',label: i18n.cardUser,placeholder: i18n.nameRequire,maxlength:20,keyboard:'default',changeTextFunc: (value) => this._getName(value)},
+      // {name:'name',label: i18n.cardUser,placeholder: i18n.nameRequire,maxlength:20,keyboard:'default',changeTextFunc: (value) => this._getName(value)},
       {name:'card',label: i18n.card,placeholder: i18n.cardRequire,maxlength: 19,keyboard:'numeric',changeTextFunc: (value) => this._getCard(value)},
       {name:'time',label: i18n.date,placeholder: i18n.timeRequire,maxlength: 4,keyboard:'numeric',changeTextFunc: (value) => this._getTime(value)},
       {name:'cvc',label: 'CVC',placeholder: i18n.cvcRequire,maxlength: 3,keyboard:'numeric',changeTextFunc: (value) => this._getCVC(value)},
@@ -206,14 +219,30 @@ export default class CreditCardView extends PureComponent {
     return (
       <Container>
         <CommonHeader title={this.state.i18n.addCard} canBack/>
-        <Content style={{backgroundColor: '#efefef'}}>
+        <View style={{backgroundColor: '#efefef', flex: 1}}>
             <View>
               {
                 _list_arr.map((v,i) => this._renderCommonInput(v,i))
               }
             </View>
             <CommonBottomBtn clickFunc={() => this._bindCard()}>{i18n.addCardNow}</CommonBottomBtn>
-        </Content>
+            <TouchableOpacity style={CreditCardStyles.BottomInfoBtn} onPress={() => {
+              this.setState({
+                isModalVisible: !this.state.isModalVisible
+              },() => {
+                console.log(this.state.isModalVisible);
+              });
+
+            }}>
+              <Icon style={CreditCardStyles.BottomInfoIcon} name="md-alert"/>
+              <Text style={CreditCardStyles.BottomInfoText}>支付安全需知</Text>
+            </TouchableOpacity>  
+            <Modal style={CreditCardStyles.modalContainer} isVisible={this.state.isModalVisible}>
+              <View style={{ flex: 1 }}>
+                <Text>Hello!</Text>
+              </View>
+            </Modal>
+        </View>
       </Container>
     )
   }

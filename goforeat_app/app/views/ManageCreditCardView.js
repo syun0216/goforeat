@@ -11,12 +11,9 @@ import BlankPage from '../components/BlankPage';
 import CommonBottomBtn from '../components/CommonBottomBtn';
 import Text from '../components/UnScalingText';
 //utils
-import {formatCard} from '../utils/FormatCardInfo';
 import {em, SET_PAY_TYPE} from '../utils/global_params';
-//cache 
-import {payTypeStorage} from '../cache/appStorage';
-//language
-import I18n from '../language/i18n';
+//api
+import {getCreditCard} from '../api/request';
 
 const STATUS_IMAGE = {
   open_eye: require('../asset/openeye.png'),
@@ -26,9 +23,28 @@ const STATUS_IMAGE = {
 
 export default class ManageCreditCardView extends PureComponent {
 
-  state={
-    isCardNumberShow: false,
-    i18n: I18n[this.props.screenProps.language]
+  constructor(props) {
+    super(props);
+    this.i18n = props.i18n;
+    this.state={
+      isCardNumberShow: false,
+      creditCardInfo: null
+    }
+  }
+
+  componentDidMount() {
+    this._getCreditCard();
+  }
+
+  //api
+  _getCreditCard() {
+    getCreditCard().then(data => {
+      if(data.ro.ok) {
+        this.setState({
+          creditCardInfo: data.data
+        })
+      }
+    });
   }
 
   _generate_text(val) {
@@ -36,17 +52,15 @@ export default class ManageCreditCardView extends PureComponent {
   }
 
   _unbindCard() {
-    let {i18n} = this.state;
     Alert.alert(
-      i18n.tips,
-      i18n.manage_card_tips.alert_cancel,
+      this.i18n.tips,
+      this.i18n.manage_card_tips.alert_cancel,
       [
-        {text: i18n.cancel, onPress: () => {return null}, style: 'cancel'},
-        {text: i18n.confirm, onPress: () => {
+        {text: this.i18n.cancel, onPress: () => {return null}, style: 'cancel'},
+        {text: this.i18n.confirm, onPress: () => {
+          const {callback} = this.props.navigation.state.params;
+          callback && callback();
           this.props.navigation.goBack();
-          this.props.screenProps.setPayType(SET_PAY_TYPE['cash']);
-          this.props.screenProps.removeCreditCardInfo();
-          payTypeStorage.removeData();
         }},
       ],
       { cancelable: false }
@@ -55,36 +69,37 @@ export default class ManageCreditCardView extends PureComponent {
   }
 
   _renderContentView(_creditCardInfo) {
-    let {i18n} = this.state;
     let _list_arr = [
-      {content: i18n.cardUser,rightIcon:this._generate_text(_creditCardInfo.name)},
-      {content: i18n.cardType,rightIcon:this._generate_text(i18n.card)},
-      {content: i18n.date,rightIcon: this._generate_text(_creditCardInfo.time)}
+      {content: this.i18n.cardType,rightIcon:this._generate_text(this.i18n.card)},
+      {content: this.i18n.date,rightIcon: this._generate_text(_creditCardInfo.time)}
     ];
     return (
       <View>
         <View style={ManageCreditCardStyles.CardImageContainer}>
         <Image style={ManageCreditCardStyles.CardImage} source={require('../asset/card_bg.png')} resizeMode="cover"/>
         <View style={ManageCreditCardStyles.CardInfo}>
-          <Text style={ManageCreditCardStyles.CardType}>{i18n.card}</Text>
-          <Text style={ManageCreditCardStyles.CardNumber}>{formatCard(_creditCardInfo.card,this.state.isCardNumberShow)}</Text>
+          <Text style={ManageCreditCardStyles.CardType}>{this.i18n.card}</Text>
+          <Text style={ManageCreditCardStyles.CardNumber}>{`**** **** **** ${_creditCardInfo.tailNum}`}</Text>
           </View>
-          <TouchableOpacity onPress={() => this.setState({isCardNumberShow:!this.state.isCardNumberShow})} style={ManageCreditCardStyles.EyeBtn}>
+          {/*<TouchableOpacity onPress={() => this.setState({isCardNumberShow:!this.state.isCardNumberShow})} style={ManageCreditCardStyles.EyeBtn}>
             <Image style={ManageCreditCardStyles.EyeImage} source={this.state.isCardNumberShow?STATUS_IMAGE.open_eye:STATUS_IMAGE.close_eye} resizeMode="contain"/>
-          </TouchableOpacity>
+          </TouchableOpacity>*/}
       </View>
       {_list_arr.map((v,i) => (
         <CommonItem key={i} content={v.content} rightIcon={v.rightIcon} disabled={true} contentStyle={{marginLeft: 33/2 - 10}}/>
       ))}
-      <CommonBottomBtn clickFunc={() => this.props.navigation.navigate('Credit')}>{i18n.changeCard}</CommonBottomBtn>
-        <Text style={ManageCreditCardStyles.BottomInfo}>{i18n.bindCardOnce}</Text>
+      <CommonBottomBtn clickFunc={() => this.props.navigation.navigate('Credit',{
+        callback:() => {
+          this._getCreditCard();
+        }
+      })}>{this.i18n.changeCard}</CommonBottomBtn>
+        <Text style={ManageCreditCardStyles.BottomInfo}>{this.i18n.bindCardOnce}</Text>
       </View>
     )
   }
 
   render() {
-    let {i18n} = this.state;
-    let _creditCardInfo = this.props.screenProps.creditCardInfo == null ? null : this.props.screenProps.creditCardInfo;
+    let {creditCardInfo} = this.state;
     return (
       <Container>
         <Header iosBarStyle="dark-content" androidStatusBarColor="#fff" style={ManageCreditCardStyles.header}>
@@ -94,16 +109,16 @@ export default class ManageCreditCardView extends PureComponent {
             </Button>
           </Left>
           <Body style={{minWidth: em(200),}}>
-            <Text allowFontScaling={false} style={{color: '#333',fontSize: 16}} numberOfLines={1}>{i18n.manageCardTitle}</Text>
+            <Text allowFontScaling={false} style={{color: '#333',fontSize: 16}} numberOfLines={1}>{this.i18n.manageCardTitle}</Text>
           </Body>
           <Right />
         </Header>
         <Content>
-          {_creditCardInfo == null ? <BlankPage message="暫無卡片信息"/> : this._renderContentView(_creditCardInfo)}
+          {creditCardInfo == null ? null : this._renderContentView(creditCardInfo)}
         </Content>
         <Footer style={ManageCreditCardStyles.Footer}>
           <TouchableOpacity style={ManageCreditCardStyles.FooterBtn} onPress={() => this._unbindCard()}>
-            <Text style={ManageCreditCardStyles.BottomInfo}>{i18n.cancelBind}</Text>
+            <Text style={ManageCreditCardStyles.BottomInfo}>{this.i18n.cancelBind}</Text>
           </TouchableOpacity>
         </Footer>
       </Container>
