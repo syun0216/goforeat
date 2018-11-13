@@ -5,7 +5,7 @@ import {
   Platform,
   TouchableOpacity
 } from "react-native";
-import { Container, Content } from "native-base";
+import { Container, Content, Icon } from "native-base";
 import LinearGradient from 'react-native-linear-gradient';
 //navigation
 import {
@@ -38,7 +38,7 @@ import CouponView from './views/CouponView';
 //api
 import source from "./api/CancelToken";
 //utils
-import GLOBAL_PARAMS from "./utils/global_params";
+import GLOBAL_PARAMS, { em } from "./utils/global_params";
 //store
 import store from "./store";
 //components
@@ -205,13 +205,13 @@ const darwerView = DrawerNavigator(
           <View>
             <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={MainViewStyles.drawerTopContainer}>
               <Image source={_alreadyLogin && profileImg != '' ? {uri: profileImg}: require('./asset/notlogged.png')} style={MainViewStyles.drawerTopImage}/>
-              <View style={MainViewStyles.drawerTopImageContainer}>
-                <Text style={MainViewStyles.topName}>{_alreadyLogin ? username:'日日有得食'}</Text>
-                {_alreadyLogin ? <Text style={mainviewStyle.topNickName}>{nickName}</Text> : null}
-                <TouchableOpacity style={MainViewStyles.topLoginBtn} onPress={() => customItemPress(customLoginBtnRoute, props.navigation) }>
-                  <Text style={MainViewStyles.loginBtnText}>{_alreadyLogin?'去更改':'立即登錄'}</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity onPress={() => customItemPress(customLoginBtnRoute, props.navigation) } style={MainViewStyles.drawerTopImageContainer}>
+                <View style={{height:em(70),justifyContent:'space-around'}}>
+                  <Text style={MainViewStyles.topName}>{_alreadyLogin ? nickName:'日日有得食'}</Text>
+                  {_alreadyLogin ? <Text style={mainviewStyle.topNickName}>{username}</Text> : <Text style={mainviewStyle.topNickName}>立即登錄</Text>}
+                </View>
+                <Text style={MainViewStyles.loginBtnText}>{_alreadyLogin?'去更改':''} <Icon name="ios-arrow-forward-outline" style={mainviewStyle.loginBtnArrow}/></Text>
+              </TouchableOpacity>
             </LinearGradient>
           </View>
           <Content style={MainViewStyles.drawerContent}>
@@ -235,15 +235,15 @@ const darwerView = DrawerNavigator(
 
 let MainView = StackNavigator(
   {
+    // Splash: {
+    //   screen: SplashPageView
+    // },
     Home: {
       screen: darwerView,
     },
     Food: {
       screen: CommonHOC(FoodDetailsView)
     },
-    // Splash: {
-    //   screen: SplashPageView
-    // },
     Mandatory: {
       screen: MandatoryUpdateView
     },
