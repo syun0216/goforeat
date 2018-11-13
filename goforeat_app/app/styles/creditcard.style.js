@@ -74,9 +74,33 @@ export default StyleSheet.create({
   BottomInfoText: {
     color: '#333'
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
+  panelTitle: {
+    textAlign: 'center',
+    fontWeight: '700',
+    fontSize: em(25),
+    marginBottom: em(20)
+  },
+  panelItemInfo: {
+    flexDirection: 'row',
+    width: GLOBAL_PARAMS._winWidth*0.9,
+    marginBottom: em(20),
     alignItems: 'center'
+  },
+  panelItemImg: {
+    flex: 1,
+    marginRight:em(15),
+  },
+  panelItemContainer: {
+    width: GLOBAL_PARAMS._winWidth*0.7
+  },
+  panelItemTitle: {
+    color: Colors.main_orange,
+    fontSize: em(20),
+    marginBottom: em(10)
+  },
+  panelItemDesc: {
+    color: '#333',
+    fontSize: em(14),
+    textAlign: 'justify'
   }
 })

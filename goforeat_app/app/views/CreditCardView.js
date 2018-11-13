@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react';
-import { View,TouchableOpacity,TextInput,Keyboard,Platform } from 'react-native';
+import React, { Component } from 'react';
+import { View,TouchableOpacity,TextInput,Keyboard,Platform, Image } from 'react-native';
 import { Container, Content, Icon } from 'native-base';
 import Picker from 'react-native-picker';
-import Modal from 'react-native-modal';
 //components
 import CommonHeader from '../components/CommonHeader';
 import CommonBottomBtn from '../components/CommonBottomBtn';
 import Text from '../components/UnScalingText';
+import SlideUpPanel from '../components/SlideUpPanel';
 //styles
 import CreditCardStyles from '../styles/creditcard.style';
 //utils
@@ -19,18 +19,18 @@ import {vaildCard, setCreditCard} from '../api/request';
 //language
 import I18n from '../language/i18n';
 
-export default class CreditCardView extends PureComponent {
+export default class CreditCardView extends Component {
   constructor(props) {
     super(props);
     let {creditCardInfo} = props.screenProps;
     this._raw_card = '';
+    this.i18n = props.i18n;
     this.state = {
       name: creditCardInfo ? creditCardInfo.name : '',
       card: '',
       time: '',
       cvc: '',
-      i18n: I18n[props.screenProps.language],
-      isModalVisible: false
+      isModalVisible: true
     }
   }
 
@@ -48,12 +48,6 @@ export default class CreditCardView extends PureComponent {
 
   componentWillUnmount() {
     Picker.hide();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      i18n: I18n[nextProps.screenProps.language]
-    })
   }
 
   //logic
@@ -101,7 +95,6 @@ export default class CreditCardView extends PureComponent {
   }
 
   _showDatePicker() {
-    let {i18n} = this.state;
     let _today = new Date();
     let _selected_val = [`${_today.getMonth() +1}月`,_today.getFullYear()+'年'];
 
@@ -109,8 +102,8 @@ export default class CreditCardView extends PureComponent {
       pickerData: this._createDateData(),
       pickerFontColor: [255, 0 ,0, 1],
       pickerTitleText: '',
-      pickerConfirmBtnText:i18n.confirm,
-      pickerCancelBtnText: i18n.cancel,
+      pickerConfirmBtnText:this.i18n.confirm,
+      pickerCancelBtnText: this.i18n.cancel,
       pickerConfirmBtnColor: [255,76,20,1],
       pickerCancelBtnColor:[102,102,102,1],
       pickerToolBarBg: [255,255,255,1],
@@ -139,16 +132,17 @@ export default class CreditCardView extends PureComponent {
     Picker.hide();
   }
 
+
   _bindCard() {
-    const {i18n, cvc, time} = this.state;
+    const {cvc, time} = this.state;
     const {showLoading, hideLoading} = this.props; 
     const {callback} = this.props.navigation.state.params;
     for(let i in this.state) {
       if(this.state[i] == '') {
         switch(i){
-          case "card": ToastUtils.showWithMessage(i18n.credit_card_tips.card_not_null);return;
-          case "time": ToastUtils.showWithMessage(i18n.credit_card_tips.time_not_null);return;
-          case "cvc": ToastUtils.showWithMessage(i18n.credit_card_tips.cvc_not_null);return;
+          case "card": ToastUtils.showWithMessage(this.i18n.credit_card_tips.card_not_null);return;
+          case "time": ToastUtils.showWithMessage(this.i18n.credit_card_tips.time_not_null);return;
+          case "cvc": ToastUtils.showWithMessage(this.i18n.credit_card_tips.cvc_not_null);return;
         }
       }
     }
@@ -169,10 +163,10 @@ export default class CreditCardView extends PureComponent {
      hideLoading();
      if(data && data.ro.ok) {
         callback&&callback();
-        ToastUtils.showWithMessage(i18n.credit_card_tips.bind_success);
+        ToastUtils.showWithMessage(this.i18n.credit_card_tips.bind_success);
         this.props.navigation.goBack();
      } else {
-        ToastUtils.showWithMessage(i18n.credit_card_tips.bind_fail);
+        ToastUtils.showWithMessage(this.i18n.credit_card_tips.bind_fail);
      }
      console.log({data})
    })
@@ -180,20 +174,20 @@ export default class CreditCardView extends PureComponent {
       console.log({err});
       hideLoading();
       if(err.hasOwnProperty('type')) {
-        ToastUtils.showWithMessage(i18n.credit_card_tips.card_number_error)
+        ToastUtils.showWithMessage(this.i18n.credit_card_tips.card_number_error)
       } else {
-        ToastUtils.showWithMessage(i18n.credit_card_tips.bind_fail);
+        ToastUtils.showWithMessage(this.i18n.credit_card_tips.bind_fail);
       }
     });
   }
 
   _renderCommonInput(item,key) {
-    if(item.label == this.state.i18n.date) {
+    if(item.label == this.i18n.date) {
       return (
         <View style={Platform.OS == 'ios'?CreditCardStyles.CommonInputView:CreditCardStyles.CommonInputAndroidView} key={key}>
           <Text style={CreditCardStyles.InputTitle}>{item.label}</Text>
           <TouchableOpacity style={CreditCardStyles.SelectBtn} onPress={() => {Picker.show();Keyboard.dismiss()}}>
-            <Text style={{color: '#333333',fontSize: em(16)}}>{this.state.time != ''  ? this.state.time : this.state.i18n.timeRequire}</Text>
+            <Text style={{color: '#333333',fontSize: em(16)}}>{this.state.time != ''  ? this.state.time : this.i18n.timeRequire}</Text>
           </TouchableOpacity>
         </View>
       )
@@ -208,40 +202,52 @@ export default class CreditCardView extends PureComponent {
     )
   }
 
+  _renderInfoDetailPanel() {
+    const _arr = [
+      {img: require('../asset/stripe.png'), title: '符合業界標準的保安技術', desc: '有得食選用stripe-獲得Facebook、Uber等巨頭青睞的可靠電子支付系統。'},
+      {img: require('../asset/card.png'), title: '卡信息由stripe存取', desc: '您的信用卡信息由stripe存取和保護，有得食伺服器不會儲存任何信用卡資料。'},
+      {img: require('../asset/dollar.png'), title: '為何會受到一個$0的賬單', desc: '為確保有效,stripe會進行一次$0元扣款測試,您的賬戶不會扣除任何費用。'},
+    ];
+    return (
+      <SlideUpPanel ref={r => this.slideUpPanel = r}>
+        <Text style={CreditCardStyles.panelTitle}>
+          有得食支付安全
+        </Text>
+        { _arr.map((item,key) => (
+          <View key={key} style={CreditCardStyles.panelItemInfo}>
+            <Image style={CreditCardStyles.panelItemImg} source={item.img} resizeMode="contain"/>
+            <View style={CreditCardStyles.panelItemContainer}>
+              <Text style={CreditCardStyles.panelItemTitle}>{item.title}</Text>
+              <Text style={CreditCardStyles.panelItemDesc}>{item.desc}</Text>
+            </View>
+          </View>
+        )) }
+      </SlideUpPanel>
+    )
+  }
+
   render() {
-    let {i18n} = this.state;
     let _list_arr = [
-      // {name:'name',label: i18n.cardUser,placeholder: i18n.nameRequire,maxlength:20,keyboard:'default',changeTextFunc: (value) => this._getName(value)},
-      {name:'card',label: i18n.card,placeholder: i18n.cardRequire,maxlength: 19,keyboard:'numeric',changeTextFunc: (value) => this._getCard(value)},
-      {name:'time',label: i18n.date,placeholder: i18n.timeRequire,maxlength: 4,keyboard:'numeric',changeTextFunc: (value) => this._getTime(value)},
-      {name:'cvc',label: 'CVC',placeholder: i18n.cvcRequire,maxlength: 3,keyboard:'numeric',changeTextFunc: (value) => this._getCVC(value)},
+      // {name:'name',label: this.i18n.cardUser,placeholder: this.i18n.nameRequire,maxlength:20,keyboard:'default',changeTextFunc: (value) => this._getName(value)},
+      {name:'card',label: this.i18n.card,placeholder: this.i18n.cardRequire,maxlength: 19,keyboard:'numeric',changeTextFunc: (value) => this._getCard(value)},
+      {name:'time',label: this.i18n.date,placeholder: this.i18n.timeRequire,maxlength: 4,keyboard:'numeric',changeTextFunc: (value) => this._getTime(value)},
+      {name:'cvc',label: 'CVC',placeholder: this.i18n.cvcRequire,maxlength: 3,keyboard:'numeric',changeTextFunc: (value) => this._getCVC(value)},
     ];
     return (
       <Container>
-        <CommonHeader title={this.state.i18n.addCard} canBack/>
+        <CommonHeader title={this.i18n.addCard} canBack/>
         <View style={{backgroundColor: '#efefef', flex: 1}}>
-            <View>
-              {
-                _list_arr.map((v,i) => this._renderCommonInput(v,i))
-              }
-            </View>
-            <CommonBottomBtn clickFunc={() => this._bindCard()}>{i18n.addCardNow}</CommonBottomBtn>
-            <TouchableOpacity style={CreditCardStyles.BottomInfoBtn} onPress={() => {
-              this.setState({
-                isModalVisible: !this.state.isModalVisible
-              },() => {
-                console.log(this.state.isModalVisible);
-              });
-
-            }}>
-              <Icon style={CreditCardStyles.BottomInfoIcon} name="md-alert"/>
-              <Text style={CreditCardStyles.BottomInfoText}>支付安全需知</Text>
-            </TouchableOpacity>  
-            <Modal style={CreditCardStyles.modalContainer} isVisible={this.state.isModalVisible}>
-              <View style={{ flex: 1 }}>
-                <Text>Hello!</Text>
-              </View>
-            </Modal>
+          <View>
+            {
+              _list_arr.map((v,i) => this._renderCommonInput(v,i))
+            }
+          </View>
+          <CommonBottomBtn clickFunc={() => this._bindCard()}>{this.i18n.addCardNow}</CommonBottomBtn>
+          <TouchableOpacity style={CreditCardStyles.BottomInfoBtn} onPress={() => this.slideUpPanel._snapTo()}>
+            <Icon style={CreditCardStyles.BottomInfoIcon} name="md-alert"/>
+            <Text style={CreditCardStyles.BottomInfoText}>支付安全需知</Text>
+          </TouchableOpacity>
+          { this._renderInfoDetailPanel() }  
         </View>
       </Container>
     )

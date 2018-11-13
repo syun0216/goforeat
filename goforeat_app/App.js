@@ -31,13 +31,6 @@ class App extends Component < {} > {
         }
       }
     })
-    creditCardStorage.getData((error,data) => {
-      if(error == null) {
-        if(data != null) {
-          store.dispatch({type: 'SET_CREDIT_CARD', creditCardInfo: data});
-        }
-      }
-    })
     languageStorage.getData((error,data) => {
       if(error == null) {
         if(data != null) {
