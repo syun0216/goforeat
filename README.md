@@ -97,24 +97,24 @@ app
 
 ```
 
-### v 1.2.2 概覽
+### v 1.2.4 概覽
  <p align="left">
   <img src="./display/launch_screen.png" width="200">
   <img src="./display/v1200.png" width="200">
-  <img src="./display/v1221.png" width="200">
-  <img src="./display/v1222.png" width="200">
+  <img src="./display/v1241.png" width="200">
+  <img src="./display/v1242.png" width="200">
 </p>
 <p align="left">
-  <img src="./display/v1223.png" width="200">
-  <img src="./display/v1224.png" width="200">
+  <img src="./display/v1246.png" width="200">
+  <img src="./display/v1243.png" width="200">
+  <img src="./display/v1244.png" width="200">
+  <img src="./display/v1245.png" width="200">
+</p>
+<p align="left">
   <img src="./display/v1225.png" width="200">
-  <img src="./display/v1226.png" width="200">
-</p>
-<p align="left">
-  <img src="./display/v1228.png" width="200">
-  <img src="./display/v1229.png" width="200">
   <img src="./display/v1206.png" width="200">
   <img src="./display/v12210.png" width="200">
+  <img src="./display/v1247.png" width="200">
 </p>
 
 ### 附錄
