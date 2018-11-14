@@ -14,9 +14,7 @@ import CommonBottomBtn from '../components/CommonBottomBtn';
 import CommonHeader from "../components/CommonHeader";
 import BlankPage from "../components/BlankPage";
 import Loading from "../components/Loading";
-import LoadingModal from "../components/LoadingModal";
 import ErrorPage from "../components/ErrorPage";
-import CommonModal from "../components/CommonModal";
 import Text from '../components/UnScalingText';
 import CommonItem from '../components/CommonItem';
 //views
@@ -104,6 +102,8 @@ export default class ConfirmOrderView extends PureComponent {
     }
   }
 
+
+  
   _createOrder() {
     let {i18n} = this.state;
     createNewOrder(this.dateFoodId, this.amount).then(
@@ -159,24 +159,6 @@ export default class ConfirmOrderView extends PureComponent {
           ToastUtil.showWithMessage('取消了支付')});
       };break;
       case PAY_TYPE.credit_card: {
-        this.setState({
-          loadingModal: true
-        });
-        token = await client.createToken({
-          number: creditCardInfo.card ,
-          exp_month: creditCardInfo.time.substr(0,2), 
-          exp_year: creditCardInfo.time.substr(3,2), 
-          cvc: creditCardInfo.cvc,
-          // address_zip: '12345'
-       });
-       if(!token.hasOwnProperty('id')) {
-        ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.not_support)
-        this.setState({
-          loadingModal: false
-        })
-        return ;
-      }
-       token = token.id;
        this._confirmOrderWithToken(token);
       };break;
       case PAY_TYPE.cash:case PAY_TYPE.month_ticket: {
@@ -199,11 +181,11 @@ export default class ConfirmOrderView extends PureComponent {
       _appleAndAndroidPayRes = token;
       token = _appleAndAndroidPayRes.details.paymentToken;
     }
+    this.props.showLoading();
+
     confirmOrder(orderId,totalMoney,defaultPayment,token,remark,_deductionId).then(
       data => {
-        this.setState({
-          loadingModal: false
-        })
+        this.props.hideLoading();
         if (data.ro.respCode == '0000') {
           ToastUtil.showWithMessage(i18n.confirmorder_tips.success.order);
           if(defaultPayment == PAY_TYPE.android_pay || defaultPayment == PAY_TYPE.apple_pay) {
@@ -217,9 +199,7 @@ export default class ConfirmOrderView extends PureComponent {
       },
       () => {
         // ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.order);
-        this.setState({
-          loadingModal: false
-        })
+        this.props.hideLoading();
       }
     );
   }
@@ -493,7 +473,7 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   render() {
-    let {i18n,orderDetail,isCouponPickModalShow,loading,loadingModal,isError,isExpired,expiredMessage} = this.state;
+    let {i18n,orderDetail,loading,isError,isExpired,expiredMessage} = this.state;
     return (
       <Container>
         <CommonHeader
@@ -503,7 +483,6 @@ export default class ConfirmOrderView extends PureComponent {
           {...this["props"]}
         />
         {loading ? <Loading/> : null}
-        {loadingModal ? <LoadingModal message={i18n.paying}/> : null}
         {isError ? (
           <ErrorPage errorToDo={() => this._createOrder()} errorTips={i18n.common_tips.reload}/>
         ) : null}

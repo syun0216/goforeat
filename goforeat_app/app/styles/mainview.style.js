@@ -56,8 +56,9 @@ export default StyleSheet.create({
   },
   loginBtnArrow: {
     color: '#fff',
-    fontSize: em(20),
+    fontSize: em(16),
     fontWeight: '800',
+    marginBottom: em(-5)
   },
   drawerContent: {
     backgroundColor: Colors.main_white

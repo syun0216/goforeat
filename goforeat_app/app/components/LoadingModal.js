@@ -50,7 +50,7 @@ const LoadingModal = props => (
 )
 
 LoadingModal.defaultProps = {
-  message: "Loading...",
+  message: "Requesting...",
   style: {}
 };
 
