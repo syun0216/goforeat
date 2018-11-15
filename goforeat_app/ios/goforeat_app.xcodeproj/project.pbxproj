@@ -1473,7 +1473,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODEPUSH_KEY = "loe6czezecl4T5wIpFxONddIqmCMd261912e-873f-4270-b887-25c360664c8c";
 				CODE_SIGN_ENTITLEMENTS = goforeat_app/goforeat_app.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Goforeat Technology Limited (8279MQ8UYT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Goforeat Technology Limited (8279MQ8UYT)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;

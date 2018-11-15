@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.in-app-payments</key>
 	<array>
-		<string>merchant.com.goforeat</string>
+		<string>merchant.com.goforeat.valid.stripe</string>
 	</array>
 </dict>
 </plist>
