@@ -17,11 +17,9 @@ import Loading from "../components/Loading";
 import ErrorPage from "../components/ErrorPage";
 import Text from '../components/UnScalingText';
 import CommonItem from '../components/CommonItem';
-//views
-import CouponView from './CouponView';
 //utils
 import Colors from "../utils/Colors";
-import GLOBAL_PARAMS, { em, EXPLAIN_PAY_TYPE, isEmpty, client, stripe_api_key } from "../utils/global_params";
+import GLOBAL_PARAMS, { em, EXPLAIN_PAY_TYPE, isEmpty, client, stripe_api_key, merchant_id } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 import {getDeviceId} from "../utils/DeviceInfo";
 //api
@@ -69,6 +67,7 @@ export default class ConfirmOrderView extends PureComponent {
       couponDetail: null,
       i18n: I18n[props.screenProps.language],
       hasChangeDefaultPayment: null, // 记录默认选择支付方式是否被修改
+      
     }
   }
 
@@ -251,7 +250,7 @@ export default class ConfirmOrderView extends PureComponent {
         {
           supportedMethods: ['apple-pay'],
           data: {
-            merchantIdentifier: 'merchant.com.goforeat',
+            merchantIdentifier: merchant_id,
             supportedNetworks: ['visa', 'mastercard'],
             countryCode: 'HK',
             currencyCode: 'HKD',
@@ -492,6 +491,7 @@ export default class ConfirmOrderView extends PureComponent {
           ) : null}
           {orderDetail != null ? this._renderNewOrderView() : null}
           {orderDetail !== null ? this._renderNewDetailsView() : null}
+
           <View style={{height: 20}}/>
           </Content>
           {this._renderBottomConfirmView()}

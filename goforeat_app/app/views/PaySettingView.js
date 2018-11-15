@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {View,Image,Platform} from 'react-native';
+import {View,Image} from 'react-native';
 import {Container,Content} from 'native-base';
 //components
 import CommonItem from '../components/CommonItem';
@@ -9,14 +9,13 @@ import CommonBottomBtn from '../components/CommonBottomBtn';
 import Loading from '../components/Loading';
 import ErrorPage from '../components/ErrorPage';
 //utils
-import {formatCard} from '../utils/FormatCardInfo';
 import {SET_PAY_TYPE, EXPLAIN_PAY_TYPE, em} from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
 import Colors from '../utils/Colors';
 //styles
 import PaySettingStyles from '../styles/paysetting.style';
 //api
-import {getPaySetting,setPayment,getMonthTicket} from '../api/request';
+import {getPaySetting,getMonthTicket} from '../api/request';
 
 const _checked = '../asset/checked.png';
 const _unchecked = '../asset/unchecked.png';

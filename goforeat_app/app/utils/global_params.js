@@ -122,6 +122,8 @@ export const stripe_api_key = 'pk_live_B4fnSIHwLskDPFbD0siwsqs4';
 
 export const client = new Stripe(stripe_api_key);
 
+export const merchant_id = 'merchant.com.goforeat.valid.stripe';
+
 export function isEmpty(v) {
   switch (typeof v) {
     case 'undefined':
