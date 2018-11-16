@@ -9,7 +9,7 @@ import CommonBottomBtn from '../components/CommonBottomBtn';
 import Loading from '../components/Loading';
 import ErrorPage from '../components/ErrorPage';
 //utils
-import {SET_PAY_TYPE, EXPLAIN_PAY_TYPE, em} from '../utils/global_params';
+import {SET_PAY_TYPE, EXPLAIN_PAY_TYPE, em, isEmpty} from '../utils/global_params';
 import ToastUtil from '../utils/ToastUtil';
 import Colors from '../utils/Colors';
 //styles
@@ -98,6 +98,7 @@ export default class PaySettingView extends PureComponent {
 
   _setPayType(payment) {
     let _from_confirm_order = typeof this.props.navigation.state.params != 'undefined';
+    _from_confirm_order && this.props.showLoading();
     this.props.screenProps.setPayType(payment, () => {
       if(_from_confirm_order) {
         const {callback} = this.props.navigation.state.params;
@@ -180,6 +181,8 @@ export default class PaySettingView extends PureComponent {
             this.props.navigation.navigate("Credit", {
               callback: () => {
                 this._getPaySetting();
+                const {callback} = this.props.navigation.state.params;
+                callback && callback();
               }
             });
           }

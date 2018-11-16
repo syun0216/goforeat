@@ -66,7 +66,6 @@ export default class ConfirmOrderView extends PureComponent {
       isCouponPickModalShow: false,
       couponDetail: null,
       i18n: I18n[props.screenProps.language],
-      hasChangeDefaultPayment: null, // 记录默认选择支付方式是否被修改
       
     }
   }
@@ -83,9 +82,6 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      hasChangeDefaultPayment: nextProps.screenProps.paytype
-    });
     if(nextProps.screenProps.paytype == PAY_TYPE.month_ticket) {
       this.setState({
         discountsPrice: 0,
@@ -135,10 +131,9 @@ export default class ConfirmOrderView extends PureComponent {
   };
 
   async _confirmOrder() {
-    let {i18n, orderDetail: {defaultPayment},hasChangeDefaultPayment} = this.state;
+    let {i18n, orderDetail: {defaultPayment}} = this.state;
     let {creditCardInfo} = this.props.screenProps;
     let token = null;
-    defaultPayment = hasChangeDefaultPayment != null ? hasChangeDefaultPayment : defaultPayment;
     if (this.state.orderDetail === null) {
       ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.confirm_order);
       return;
@@ -170,9 +165,8 @@ export default class ConfirmOrderView extends PureComponent {
   };
 
   _confirmOrderWithToken(token) {
-    let {hasChangeDefaultPayment, couponDetail, orderDetail:{totalMoney,orderId,defaultPayment},discountsPrice,coupon,remark} = this.state;
+    let { couponDetail, orderDetail:{totalMoney,orderId,defaultPayment},discountsPrice,coupon,remark} = this.state;
     totalMoney = totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
-    defaultPayment = hasChangeDefaultPayment != null ? hasChangeDefaultPayment : defaultPayment;
     let {i18n} = this.state;
     let _appleAndAndroidPayRes = null;
     let _deductionId = isEmpty(couponDetail) ? null : couponDetail.deductionId;
@@ -187,9 +181,6 @@ export default class ConfirmOrderView extends PureComponent {
         this.props.hideLoading();
         if (data.ro.respCode == '0000') {
           ToastUtil.showWithMessage(i18n.confirmorder_tips.success.order);
-          if(defaultPayment == PAY_TYPE.android_pay || defaultPayment == PAY_TYPE.apple_pay) {
-            _appleAndAndroidPayRes.complete('success');
-          }
           this.props.navigation.navigate('MyOrderDrawer',{replaceRoute: true,index: 0,confirm: true});
         } else {
           let _message = defaultPayment == PAY_TYPE.credit_card ? `,${i18n.confirmorder_tips.fail.check_card}` : '';
@@ -295,20 +286,6 @@ export default class ConfirmOrderView extends PureComponent {
         amount: { currency: 'HKD', value: totalMoney }
       }
     };
-
-    // const details = {
-    //   id: 'oneItem',
-    //   displayItems: [
-    //     {
-    //       label: 'Movie Ticket',
-    //       amount: { currency: 'USD', value: '15.00' }
-    //     }
-    //   ],
-    //   total: {
-    //     label: '123',
-    //     amount: { currency: 'USD', value: '15.00' }
-    //   }
-    // };
     
     const pr = new PaymentRequest(supportedMethods, details);
     pr

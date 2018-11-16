@@ -153,7 +153,6 @@ export default class CreditCardView extends Component {
       exp_year: time.substr(3,2), 
       cvc: cvc,
    }).then(token => {
-     console.log(token);
      if(token&&token.hasOwnProperty('id')) {
         return setCreditCard(token.id, time, this._raw_card.substr(-4));
      } else {
