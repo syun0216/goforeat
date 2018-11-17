@@ -38,7 +38,29 @@ const commentKeyWord = {
   3: '一般',
   4: '好',
   5: '非常好'
+};
+
+const jpushCommonUrlDefined = {
+  url: 1, // web页面
+  schema: 2 //普通的app页面
 }
+
+// jpush 跳转页面example
+/*
+  url = {
+    title: '一日一味餸,日日有得食',
+    url: 'https://v.xiumi.us/board/v5/3Clvd/102129725',
+    type: 1
+  }
+
+  schema = {
+    extraParams: {
+      ...
+    },
+    schema: 'Food',
+    type: 2
+  }
+*/ 
 
 const CommonHOC = WarppedComponent => class extends Component {
 
@@ -202,7 +224,14 @@ const CommonHOC = WarppedComponent => class extends Component {
     }
     JPushModule.addReceiveOpenNotificationListener(map => {
       if(typeof map.extras['type'] != "undefined") {
-        map.extras.type == 1 && this.props.navigation.navigate("Content", {data: map.extras,kind: 'jpush'})
+        switch(map.extras.type) {
+          case jpushCommonUrlDefined.url: {
+            this.props.navigation.navigate("Content", {data: map.extras,kind: 'jpush'});
+          };break;
+          case jpushCommonUrlDefined.schema: {
+            this.props.navigation.navigate(map.extras.schema, {...map.extras.extraParams})
+          };break;
+        }
       } 
     })
   }
@@ -308,7 +337,7 @@ const CommonHOC = WarppedComponent => class extends Component {
     )
   }
 
-  render() {
+  _renderPopupDialogView() {
     const emoji_arr = [
       {defaultImage: require('../asset/crazy-normal.png'), activeImage: require('../asset/crazy-press.png'), name: 'crazy', val: 1},
       {defaultImage: require('../asset/hard-normal.png'), activeImage: require('../asset/hard-press.png'), name: 'hard', val: 2},
@@ -316,43 +345,46 @@ const CommonHOC = WarppedComponent => class extends Component {
       {defaultImage: require('../asset/well-normal.png'), activeImage: require('../asset/well-press.png'), name: 'well', val: 4},
       {defaultImage: require('../asset/delicious-normal.png'), activeImage: require('../asset/delicious-press.png'), name: 'delicious', val: 5},
     ];
-    let orderName = '',picture = 'https://img.xiumi.us/xmi/ua/18Wf8/i/947a1ce40e185b4aa6e8318e496e9748-sz_61730.jpg';
+    const {currentStar,currentComment: {orderName, picture}} = this.state;
+    const defaultImg = "https://img.xiumi.us/xmi/ua/18Wf8/i/98c314a76260a9634beecfd27c28770d-sz_80962.jpg?x-oss-process=style/xmr";
 
-    let {currentStar, i18n} = this.state;
+    return (
+      <PopupDialog
+        ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+        width={em(295)}
+        height={em(435)}
+        onDismissed={() => this._handleDialogDismiss()}
+        dialogStyle={styles.popupDialogContainer}
+        dialogAnimation={slideAnimation}
+      >
+        <Image style={styles.topImg} reasizeMode="contain" source={require('../asset/commentTop.png')}/>
+        <View style={styles.topTitle}>
+          <Text style={styles.topTitleText}>给</Text>
+          <Text style={[styles.topTitleText, styles.foodNameText]} numberOfLines={1}>{orderName || '有得食'}</Text>
+          <Text style={styles.topTitleText}>打分</Text>
+        </View>
+        <View style={styles.content}>
+          <Image style={styles.contentImg} source={{uri: picture || defaultImg}}/>
+          <View style={styles.emojiContainer}>
+            {
+              emoji_arr.map(v => this._renderEmojiBtn(v))
+            }
+            </View>
+          {/*<Text style={[styles.commentText,{color: currentStar < 3 ? '#ccc' : currentStar<= 4 ? '#f7ba2a' : '#ff630f'}]}>{commentKeyWord[currentStar]}</Text>*/}
+          <TextInput allowFontScaling={false} style={styles.Input} underlineColorAndroid="transparent" placeholderTextColor="#9d9d9d" 
+          placeholder={`例如:${commentKeyWord[currentStar]}`} clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/>
+          <CommonBottomBtn clickFunc={() => this._addComment()} style={{width: em(263)}}>{this.state.btnContent}</CommonBottomBtn>
+        </View>
+      </PopupDialog>
+    )
+  }
+
+  render() {
+    let {i18n} = this.state;
     
-    if(this.state.currentComment !=null) {
-      orderName = this.state.currentComment.orderName;
-      picture = this.state.currentComment.picture;
-    }
     return (
       <Container>
-        <PopupDialog
-          ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-          width={em(295)}
-          height={em(435)}
-          onDismissed={() => this._handleDialogDismiss()}
-          dialogStyle={styles.popupDialogContainer}
-          dialogAnimation={slideAnimation}
-        >
-          <Image style={styles.topImg} reasizeMode="contain" source={require('../asset/commentTop.png')}/>
-          <View style={styles.topTitle}>
-            <Text style={styles.topTitleText}>给</Text>
-            <Text style={[styles.topTitleText, styles.foodNameText]} numberOfLines={1}>{orderName}</Text>
-            <Text style={styles.topTitleText}>打分</Text>
-          </View>
-          <View style={styles.content}>
-            <Image style={styles.contentImg} source={{uri: picture}}/>
-            <View style={styles.emojiContainer}>
-              {
-                emoji_arr.map(v => this._renderEmojiBtn(v))
-              }
-              </View>
-            {/*<Text style={[styles.commentText,{color: currentStar < 3 ? '#ccc' : currentStar<= 4 ? '#f7ba2a' : '#ff630f'}]}>{commentKeyWord[currentStar]}</Text>*/}
-            <TextInput allowFontScaling={false} style={styles.Input} underlineColorAndroid="transparent" placeholderTextColor="#9d9d9d" 
-            placeholder={`例如:${commentKeyWord[currentStar]}`} clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/>
-            <CommonBottomBtn clickFunc={() => this._addComment()} style={{width: em(263)}}>{this.state.btnContent}</CommonBottomBtn>
-          </View>
-        </PopupDialog>
+        {this.state.currentComment != null ? this._renderPopupDialogView() : null}
         {this.state.LoadingModal ? <LoadingModal /> : null}
         <WarppedComponent ref={w => this.WarppedComponent = w} {...this.props} showLoading={this._showLoadingModal.bind(this)} hideLoading={this._hideLoadingModal.bind(this)} i18n={i18n}/>
       </Container>
@@ -371,8 +403,7 @@ const styles = StyleSheet.create({
     height: em(99),
     position: 'absolute',
     top: em(-22),
-    left: 0,
-    zIndex: 10
+    left: 0
   },
   topTitle: {
     justifyContent: 'center',
