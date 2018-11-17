@@ -12,6 +12,7 @@ import BlankPage from '../components/BlankPage';
 import Divider from '../components/Divider';
 //i18n
 import I18n from '../language/i18n';
+import { loading } from '../reducers/appReducer';
 
 let requestParams = {
   nextOffset: 0,
@@ -141,7 +142,8 @@ export default class CommonFlatList extends Component{
 
   _onRefreshToRequestFirstPageData() {
     this.setState({
-      refreshing: true
+      refreshing: true,
+      nextPageLoading: LOADING
     }, () => {
       this.init();
       this._requestFirstPage();
