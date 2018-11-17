@@ -105,9 +105,10 @@ app
   <img src="./display/v1242.png" width="200">
 </p>
 <p align="left">
+  <img src="./display/v1248.png" width="200">
   <img src="./display/v1246.png" width="200">
   <img src="./display/v1243.png" width="200">
-  <img src="./display/v1244.png" width="200">
+  <!-- <img src="./display/v1244.png" width="200"> -->
   <img src="./display/v1245.png" width="200">
 </p>
 <p align="left">
