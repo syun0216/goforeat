@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, TouchableWithoutFeedback, Platform, TextInput, AppState, Alert, ToastAndroid, BackHandler, NetInfo} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableWithoutFeedback, Platform, TextInput, AppState, Alert, ToastAndroid, BackHandler, } from 'react-native';
 import {Container, Input} from 'native-base';
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
 import Share from 'react-native-share';
@@ -66,9 +66,6 @@ const CommonHOC = WarppedComponent => class extends Component {
 
   constructor(props) {
     super(props);
-    // this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-    //   BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid.bind(this))
-    // );
     this.commentText = '';
     this.isCommentSubmit = false;
     this.state = {
@@ -82,7 +79,6 @@ const CommonHOC = WarppedComponent => class extends Component {
 
   componentDidMount() {
     this._jpushDidMount();
-    // this._handleBackAndroid();
     this._commentPopup();
     AppState.addEventListener('change',(nextState) => {
       if(nextState == 'active') {
@@ -171,34 +167,6 @@ const CommonHOC = WarppedComponent => class extends Component {
   }
 
   // ---------------------jpush&codepush&backAndroidHandler
-
-  //back android
-  _handleBackAndroid() {
-    if (Platform.OS == 'android') {
-    this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-      BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid.bind(this))
-    );
-    }
-  }
-
-  onBackButtonPressAndroid() {
-    let {routeName} = this.props.navigation.state;
-    if(routeName == "FoodDetails") {
-      if(lastBackPressed && lastBackPressed + 2000 >= Date.now()) {
-        BackHandler.exitApp();
-      }
-      lastBackPressed = Date.now();
-      ToastAndroid.show(I18n[this.props.screenProps.language].pressToExit, ToastAndroid.SHORT);
-      return true;
-    }
-  }
-
-  _removeBackAndroidHandler() {
-    if(Platform.OS == 'android') {
-      this._didFocusSubscription && this._didFocusSubscription.remove();
-      this._willBlurSubscription && this._willBlurSubscription.remove();
-    }
-  }
 
   // jpush did mounted
   _jpushDidMount() {
@@ -422,7 +390,7 @@ const styles = StyleSheet.create({
     maxWidth: em(100)
   },
   content: {
-    padding: em(16),
+    padding: em(16)
   },
   contentImg: {
     width: '100%',
@@ -433,7 +401,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: em(12),
     marginBottom: em(24),
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   emoji: {
     width: em(35),
@@ -446,11 +414,11 @@ const styles = StyleSheet.create({
   Input: {
     color: '#9d9d9d',
     fontSize: em(13),
-    height: Platform.OS == 'ios' ? em(30) : 45 * (_winHeight / 592),
+    height: Platform.OS == 'ios' ? em(30) : 40 * (_winHeight / 592),
     width: _winWidth * 0.85,
     borderBottomWidth: 1,
     borderBottomColor: '#9d9d9d',
-    marginBottom: em(10)
+    marginBottom: Platform.OS == "android"?0:em(10),
   }
 })
 

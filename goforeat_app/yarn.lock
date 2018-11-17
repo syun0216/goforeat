@@ -4231,6 +4231,13 @@ prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+prop-types@^15.6.1:
+  version "15.6.2"
+  resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
+  dependencies:
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 proxy-agent@2:
   version "2.2.0"
   resolved "https://registry.npmjs.org/proxy-agent/-/proxy-agent-2.2.0.tgz#e853cd8400013562d23c8dc9e1deaf9b0b0a153a"
@@ -4354,6 +4361,12 @@ react-mixin@^3.0.5:
     object-assign "^4.0.1"
     smart-mixin "^2.0.0"
 
+react-native-animatable@^1.2.4:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/react-native-animatable/-/react-native-animatable-1.3.0.tgz#b5c3940fc758cfd9b2fe54613a457c4b6962b46e"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-awesome-card-io@^0.7.0:
   version "0.7.0"
   resolved "https://registry.npmjs.org/react-native-awesome-card-io/-/react-native-awesome-card-io-0.7.0.tgz#102a068491fac055345d7dea89ae83584487825b"
@@ -4460,6 +4473,13 @@ react-native-linear-gradient@^2.4.0:
   resolved "https://registry.npmjs.org/react-native-linear-gradient/-/react-native-linear-gradient-2.4.0.tgz#51d8ea12bb72a59bede9edc87b694b16b64cf435"
   dependencies:
     prop-types "^15.5.10"
+
+react-native-modal@*:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/react-native-modal/-/react-native-modal-7.0.0.tgz#85bda8b52e0e9181e09bd2ec636ed7cec10d74c3"
+  dependencies:
+    prop-types "^15.6.1"
+    react-native-animatable "^1.2.4"
 
 react-native-payments-addon-stripe@^0.4.0:
   version "0.4.0"

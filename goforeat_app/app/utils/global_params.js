@@ -119,6 +119,7 @@ export const em = (val) => val * ratioX
 export const currentPlatform = Platform.OS == 'ios' ? 1 : 2;
 
 export const stripe_api_key = 'pk_live_B4fnSIHwLskDPFbD0siwsqs4';
+// export const stripe_api_key = 'pk_test_sAsyJfErUopDzZKHgdCHIxet';
 
 export const client = new Stripe(stripe_api_key);
 

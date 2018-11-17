@@ -9,6 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import GLOBAL_PARAMS, { em, isEmpty } from '../utils/global_params';
 import JSONUtils from '../utils/JSONUtils';
 import {getDeviceId} from "../utils/DeviceInfo";
+import BackAndroidHandler from "../utils/BackAndroidHandler";
 //api
 import {getNewArticleList, adSpace} from '../api/request';
 import source from '../api/CancelToken';
@@ -23,7 +24,7 @@ import I18n from '../language/i18n';
 //styles
 import FoodDetailsStyles from '../styles/fooddetails.style';
 //storage
-import {placeStorage, advertisementStorage} from '../cache/appStorage';
+import {advertisementStorage} from '../cache/appStorage';
 
 const { isIphoneX, bottomDistance, iPhoneXBottom, _winHeight, _winWidth } = GLOBAL_PARAMS;
 
@@ -51,15 +52,15 @@ class FoodListView extends Component {
     if(isAdShow) {
       hideAd();
     }
-    advertisementStorage.getData((error,data) => {
-      if(error == null) {
-        if(data != null) {
-          isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
-          this._advertiseInterval();
-        }
-        this._getAdvertise(data);
-      }
-    });
+    // advertisementStorage.getData((error,data) => {
+    //   if(error == null) {
+    //     if(data != null) {
+    //       isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
+    //       this._advertiseInterval();
+    //     }
+    //     this._getAdvertise(data);
+    //   }
+    // });
   }
 
   componentWillUnmount() {
@@ -149,7 +150,7 @@ class FoodListView extends Component {
   _renderTopTitleView() {
     return (
       <View style={{marginTop: em(10), marginLeft: em(15)}}>
-        <Text style={[FoodDetailsStyles.DateFormatWeekText, {color: '#efefef'}]}>
+        <Text style={[FoodDetailsStyles.DateFormatWeekText, {color: '#333'}]}>
         精選菜品</Text>
       </View>
     )
@@ -229,12 +230,12 @@ class FoodListView extends Component {
           <View style={{height: em(75),marginBottom: 12.5,}}>
             <Text style={styles.foodBrief} numberOfLines={_device == 'iPhone6' ? 4 : 5}>{item.brief}</Text>
           </View>
-          <View style={{flexDirection: 'row',justifyContent: 'space-between',}}>
+          <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.foodUnit}>$</Text>
               <Text style={styles.foodPrice}>{item.price}</Text>
             </View>
-            <Text style={{color: '#ff5858',fontSize: _device=='iPhone6' ? 13 : 16,}}>立即預訂</Text>
+            <Text style={{color: '#ff5858',fontSize: _device=='iPhone6' ? 13 : 16,marginTop:Platform.OS == 'android' ? -3:0}}>立即預訂</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -255,10 +256,10 @@ class FoodListView extends Component {
     return (
     <Container style={{position:'relative'}}>
       {this._renderAdvertisementView()}
-      {this._renderRefreshBgView()}
+      {/*this._renderRefreshBgView()*/}
       {this._renderPlacePicker()}
       {this._renderHeaderView()}
-      {/*this._renderWarningView()*/}
+      {this._renderWarningView()}
       {this._renderFlatListView()} 
     </Container>)
     }

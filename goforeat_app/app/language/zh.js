@@ -211,7 +211,7 @@ export default {
     cvc_not_null: 'CVC不能為空',
     bind_success: '綁定成功',
     bind_fail: '綁定失敗',
-    card_number_error: '卡號有誤',
+    card_number_error: '卡片不合法,請檢查',
   },
   common_tips: {
     err: '發生未知錯誤',

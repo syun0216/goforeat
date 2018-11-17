@@ -1,26 +1,30 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button,Platform } from 'react-native';
-import CommonHeader from './components/CommonHeader';
-import {Container,Content} from 'native-base'
-global.PaymentRequest = require('react-native-payments').PaymentRequest;
-const ReactNativePaymentsVersion = require('react-native-payments/package.json')
-  .version;
-import { NativeModules } from 'react-native';
-const { ReactNativePayments } = NativeModules;
+import React, { Component } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import Modal from "react-native-modal";
 
-export default class StripeExample extends Component {
-  constructor() {
-    super();
-  }
+export default class SplashPageView extends Component {
+  state = {
+    isModalVisible: false
+  };
 
-  componentDidMount() {
-    test();
-  }
+  _toggleModal = () =>
+    this.setState({ isModalVisible: !this.state.isModalVisible });
 
   render() {
     return (
-      <Container>
-      </Container>
+      <View style={{ flex: 1,justifyContent: 'center',alignItems: 'center' }}>
+        <TouchableOpacity onPress={this._toggleModal}>
+          <Text>Show Modal</Text>
+        </TouchableOpacity>
+        <Modal isVisible={this.state.isModalVisible}>
+          <View style={{ flex: 1 }}>
+            <Text>Hello!</Text>
+            <TouchableOpacity onPress={this._toggleModal}>
+              <Text>Hide me!</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </View>
     );
   }
 }

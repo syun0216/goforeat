@@ -28,6 +28,7 @@
     "react-native-image-progress": "^1.1.0",
     "react-native-interactable": "^0.1.10",
     "react-native-linear-gradient": "^2.4.0",
+    "react-native-modal": "*",
     "react-native-payments": "^0.7.0",
     "react-native-payments-addon-stripe": "^0.4.0",
     "react-native-payments-cli": "^0.2.0",
