@@ -160,7 +160,7 @@ export default class PeopleView extends Component {
         <Text style={MyOrderStyles.paymentStatus}>{i18n.paymentStatus}</Text>
         <View style={MyOrderStyles.payInner}>
           <View style={MyOrderStyles.payTypeView}>
-            <Text style={MyOrderStyles.payTypeText}>{EXPLAIN_PAY_TYPE[item.payment][language] || i18n.cash}</Text>
+            <Text style={MyOrderStyles.payTypeText}>{EXPLAIN_PAY_TYPE[item.payment || 1][language] || i18n.cash}</Text>
           </View>
           {_isDelivering ? <TouchableOpacity onPress={() => this._cancelOrder(item.orderId, EXPLAIN_PAY_TYPE[item.payment],item.status)} style={MyOrderStyles.payStatusBtn}>
             <Text style={MyOrderStyles.payStatusText}>{i18n.myorder_tips.common.cancel_order_btn}</Text>
