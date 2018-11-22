@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {View,Image,StyleSheet,Platform} from 'react-native';
+import LottieView from 'lottie-react-native';
 //utils
-import GLOBAL_PARAMS from '../utils/global_params';
+import GLOBAL_PARAMS,{em} from '../utils/global_params';
 import Colors from "../utils/Colors";
 //components
 import Text from './UnScalingText';
@@ -18,7 +19,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems:'center',
     padding: GLOBAL_PARAMS.em(60),
-    backgroundColor: "transparent",
     height: GLOBAL_PARAMS._winHeight
   },
   blankContainerAndroid: {
@@ -39,8 +39,15 @@ const styles = StyleSheet.create({
 const BlankPage = ({message,style,hasBottomBtn,clickFunc}) => {
   return (
     <View style={[Platform.OS=='ios'?styles.blankContainer:styles.blankContainerAndroid,style]}>
-      <Image source={require('../asset/cry.png')} style={{width: GLOBAL_PARAMS.em(80),height: GLOBAL_PARAMS.em(80),marginTop: GLOBAL_PARAMS.em(20)}} resizeMode="contain"/>
-      <Text  allowFontScaling={false} style={{fontSize: GLOBAL_PARAMS.em(16),marginTop:GLOBAL_PARAMS.em(20),color:'#cdcdcd',fontWeight:'bold'}}>{message}</Text>
+      <LottieView
+        ref={lv => this._lv = lv}
+        autoPlay={true}
+        style={{width: em(120),height: em(120)}}
+        source={require('../animations/emoji_wink.json')}
+        loop={false}
+        enableMergePathsAndroidForKitKatAndAbove
+      />
+      <Text  allowFontScaling={false} style={{fontSize: GLOBAL_PARAMS.em(16),color:'#cdcdcd',fontWeight:'bold'}}>{message}</Text>
       {
         hasBottomBtn ? <CommonBottomBtn style={{width: GLOBAL_PARAMS._winWidth*0.5}} clickFunc={() => clickFunc()}>去下單</CommonBottomBtn> : null
       }
