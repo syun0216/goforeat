@@ -53,6 +53,10 @@ pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
   
+  pod 'lottie-ios', :path => '../node_modules/lottie-ios'
+  
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
   post_install do |installer|
       installer.pods_project.targets.each do |target|
           if target.name == "React"

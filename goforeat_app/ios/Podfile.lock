@@ -17,6 +17,10 @@ PODS:
     - React
   - JPushRN (2.2.13):
     - React
+  - lottie-ios (2.5.0)
+  - lottie-react-native (2.5.10):
+    - lottie-ios
+    - React
   - React (0.52.2):
     - React/Core (= 0.52.2)
   - react-native-splash-screen (3.0.9):
@@ -75,6 +79,8 @@ DEPENDENCIES:
   - FBSDKShareKit
   - JCoreRN (from `../node_modules/jcore-react-native`)
   - JPushRN (from `../node_modules/jpush-react-native`)
+  - lottie-ios (from `../node_modules/lottie-ios`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React/ART (from `../node_modules/react-native`)
   - React/BatchedBridge (from `../node_modules/react-native`)
@@ -102,6 +108,10 @@ EXTERNAL SOURCES:
     :path: ../node_modules/jcore-react-native
   JPushRN:
     :path: ../node_modules/jpush-react-native
+  lottie-ios:
+    :path: ../node_modules/lottie-ios
+  lottie-react-native:
+    :path: ../node_modules/lottie-react-native
   React:
     :path: ../node_modules/react-native
   react-native-splash-screen:
@@ -119,11 +129,13 @@ SPEC CHECKSUMS:
   FBSDKShareKit: 1869cb24db2cea90666a50cb9d568deb38e2d16e
   JCoreRN: 5dff1e0264ee9fd57a0bc9b8cb2411b3c553e241
   JPushRN: bdaefc1f0442d90ef4035f47e29e4268ee6a11f2
+  lottie-ios: 9f24be3ecb13412223b6ac70d97437742b0e3de1
+  lottie-react-native: db4bd75685428c4ad0ec2f913145abff3d38b640
   React: 43e97926f429d846050880666de1809e22dd5cc5
   react-native-splash-screen: 8e3f866dc79bfe533baeffd0a38c33f7a7eae7f8
   RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 70e8ee62c3d1d16773d971f97260f1812b69c2d4
+PODFILE CHECKSUM: 05a798250fadd540a25b410f6524c4e26ecd2559
 
 COCOAPODS: 1.4.0
