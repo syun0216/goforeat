@@ -14,14 +14,13 @@ import {
   Icon,
 } from "native-base";
 import Carousel from "react-native-snap-carousel";
-import LinearGradient from 'react-native-linear-gradient';
+import LottieView from 'lottie-react-native';
 import { sliderWidth, itemWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
 //styles
 import styles from "../styles/index.style";
 import FoodDetailsStyles from "../styles/fooddetails.style";
 // utils
-import Colors from "../utils/Colors";
 import GLOBAL_PARAMS,{em} from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //api
@@ -117,6 +116,8 @@ class FoodDetailsView extends Component {
             soldOut: data.data.status,
             favoriteCount: data.data.likeCount,
             isFavorite:data.data.like == isFavorite
+          }, () => {
+            this.state.isFavorite && this._lv ? this._lv.play() : this._lv.reset();
           })
         }
       },() => {
@@ -149,6 +150,12 @@ class FoodDetailsView extends Component {
     this.setState({
       isFavorite: !this.state.isFavorite,
       favoriteCount: !this.state.isFavorite ? this.state.favoriteCount+1:this.state.favoriteCount-1
+    }, () => {
+      if(this.state.isFavorite) {
+        this._lv && this._lv.play();
+      } else {
+        this._lv && this._lv.reset();
+      }
     });
     let status = !this.state.isFavorite ? isFavorite : isNotFavorite;
     myFavorite(foodId, status).then(data => {
@@ -265,15 +272,32 @@ class FoodDetailsView extends Component {
     );
   }
 
+  _renderHeartView() {
+    return (
+      <LottieView
+        ref={lv => this._lv = lv}
+        autoPlay={false}
+        style={{width: em(55),height: em(55),position: 'absolute',left: em(-15),top: em(-6)}}
+        source={require('../animations/like_button.json')}
+        loop={false}
+        enableMergePathsAndroidForKitKatAndAbove
+      />
+    )
+  }
+
   _renderIntroductionView() {
     let {foodDetails:{foodName, canteenName, foodBrief}, isFavorite, favoriteCount} = this.state;
-    const _isFavorite = () => (isFavorite ? <Icon style={FoodDetailsStyles.canteenFavorite} name="md-heart"/> : <Icon style={FoodDetailsStyles.canteenFavorite} name="md-heart-outline"/>);
+    const _isFavorite = () => (isFavorite ? null : <Icon style={FoodDetailsStyles.canteenFavorite} name="md-heart-outline"/>);
     return (
       <View style={FoodDetailsStyles.IntroductionView}>
       <View style={FoodDetailsStyles.IntroductionFoodNameCotainer}>
         <Text style={FoodDetailsStyles.IntroductionFoodName} numberOfLines={1}>{foodName}</Text>
         <TouchableWithoutFeedback onPress={() => this._onFavorite()}>
-          <Text style={FoodDetailsStyles.canteenName}>{_isFavorite()} {favoriteCount}次贊</Text>
+          <View style={{position:'relative',flexDirection: 'row'}}>
+            {this._renderHeartView()} 
+            {_isFavorite()}
+            <Text style={FoodDetailsStyles.canteenName}>{favoriteCount}次贊</Text>
+          </View>
         </TouchableWithoutFeedback>
       </View>
       <View style={FoodDetailsStyles.IntroductionFoodNameCotainer}>

@@ -228,7 +228,8 @@ export default StyleSheet.create({
   },
   canteenFavorite: {
     fontSize: em(20),
-    color: Colors.main_orange
+    color: '#959595',
+    marginRight: em(8),
   },
   canteenFavoriteActive: {
     fontSize: em(20),
