@@ -124,6 +124,7 @@ export default class PeopleView extends Component {
 
   _renderFoodDetailView(item) {
     let {i18n} = this.state;
+    let {language} = this.props.screenProps;
     let _picture = !item.picture ? require('../asset/default_pic.png') : {uri:item.picture};
     return (
       <View style={MyOrderStyles.FoodContainer}>
@@ -146,6 +147,10 @@ export default class PeopleView extends Component {
             <Text style={CommonStyles.common_info_text}>{i18n.foodAddress}</Text>
             <Text style={[CommonStyles.common_info_text,{maxWidth: GLOBAL_PARAMS.em(180)}]} numberOfLines={1}>{item.takeAddressDetail}</Text>
           </View>
+          <View style={MyOrderStyles.FoodCommonView}>
+            <Text style={CommonStyles.common_info_text}>{i18n.paymentStatus}</Text>
+            <Text style={[CommonStyles.common_info_text,{maxWidth: GLOBAL_PARAMS.em(180)}]} numberOfLines={1}>{EXPLAIN_PAY_TYPE[item.payment || 1][language] || i18n.cash}</Text>
+          </View>
         </View>
       </View>
     )
@@ -154,14 +159,11 @@ export default class PeopleView extends Component {
   _renderPayView(item) {
     let _isDelivering = item.status === _ORDER_DELIVERING;
     let {i18n} = this.state;
-    let {language} = this.props.screenProps;
+    
     return (
       <View style={MyOrderStyles.payContainer}>
-        <Text style={MyOrderStyles.paymentStatus}>{i18n.paymentStatus}</Text>
+        <Text style={MyOrderStyles.paymentStatus}>取餐號:{item.mealCode}</Text>
         <View style={MyOrderStyles.payInner}>
-          <View style={MyOrderStyles.payTypeView}>
-            <Text style={MyOrderStyles.payTypeText}>{EXPLAIN_PAY_TYPE[item.payment || 1][language] || i18n.cash}</Text>
-          </View>
           {_isDelivering ? <TouchableOpacity onPress={() => this._cancelOrder(item.orderId, EXPLAIN_PAY_TYPE[item.payment],item.status)} style={MyOrderStyles.payStatusBtn}>
             <Text style={MyOrderStyles.payStatusText}>{i18n.myorder_tips.common.cancel_order_btn}</Text>
           </TouchableOpacity> : null}
