@@ -14,8 +14,8 @@ export default StyleSheet.create({
     paddingBottom: em(10)
   },
   FoodImage: {
-    width: em(80),
-    height: em(80),
+    width: em(95),
+    height: em(100),
     marginRight: em(15)
   },
   FoodInnerContainer: {

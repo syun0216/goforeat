@@ -3,15 +3,14 @@ import { colors } from './index.style';
 import {em} from '../utils/global_params';
 
 const IS_IOS = Platform.OS === 'ios';
-const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+const { width: viewportWidth } = Dimensions.get('window');
 
 function wp (percentage) {
     const value = (percentage * viewportWidth) / 100;
     return Math.round(value);
 }
 
-const slideHeight = viewportHeight * 0.70;
-const slideWidth = wp(100)- em(30);
+const slideWidth = wp(80);
 const itemHorizontalMargin = wp(1);
 
 export const sliderWidth = viewportWidth;
