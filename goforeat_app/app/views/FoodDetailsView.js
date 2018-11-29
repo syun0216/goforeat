@@ -15,7 +15,7 @@ import {
 } from "native-base";
 import Carousel from "react-native-snap-carousel";
 import LottieView from 'lottie-react-native';
-import { sliderWidth, itemWidth } from "../styles/SliderEntry.style";
+import { sliderWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
 //styles
 import styles from "../styles/index.style";
@@ -46,6 +46,15 @@ const IS_INTERCEPT = 3;
 
 const isFavorite = 1;
 const isNotFavorite = 0;
+
+function wp (percentage) {
+  const value = (percentage * GLOBAL_PARAMS._winWidth) / 100;
+  return Math.round(value);
+}
+
+const slideWidthSingle = wp(100)- em(30);
+const slideWidthMulti = wp(80);
+const itemHorizontalMargin = wp(1);
 
 class FoodDetailsView extends Component {
 
@@ -232,6 +241,7 @@ class FoodDetailsView extends Component {
 
   _renderMainView() {
     const { foodDetails } = this.state;
+    const itemWidth = foodDetails.extralImage.length > 1 ? slideWidthMulti : slideWidthSingle;
     return foodDetails != null  ? (
       <View style={[styles.exampleContainer, { marginTop: -15 }]}>
         <Carousel
@@ -239,7 +249,7 @@ class FoodDetailsView extends Component {
           data={foodDetails.extralImage}
           renderItem={this._renderItemWithParallax.bind(this)}
           sliderWidth={sliderWidth}
-          itemWidth={itemWidth}
+          itemWidth={itemWidth + itemHorizontalMargin}
           hasParallaxImages={false}
           firstItem={SLIDER_1_FIRST_ITEM}
           inactiveSlideScale={0.94}
@@ -259,11 +269,14 @@ class FoodDetailsView extends Component {
   }
 
   _renderItemWithParallax({ item, index }, parallaxProps) {
+    const itemWidth = this.state.foodDetails.extralImage.length > 1 ? slideWidthMulti : slideWidthSingle;
     return (
       <SliderEntry
         ref={(se) => this._SliderEntry = se}
         data={item}
         even={(index + 1) % 2 === 0}
+        length={this.state.foodDetails.extralImage.length || 1}
+        width={itemWidth+itemHorizontalMargin}
         clickFunc={() => this._handleDoubleTap()}
         {...this.props}
         // parallax={true}

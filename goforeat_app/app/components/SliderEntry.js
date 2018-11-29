@@ -13,18 +13,16 @@ class SliderEntry extends Component {
             count: 0
         }
     }
-
     
-
     image() {
-        const { data  } = this.props;
+        const { data } = this.props;
         return (
             <TouchableWithoutFeedback onPress={() => {
                 if(this.props.clickFunc) {
                     this.props.clickFunc();
                 }
             }}>
-                <Image source={{uri: data}} style={styles.image}/>
+                <Image source={{uri: data}} style={[styles.image]}/>
             </TouchableWithoutFeedback>
         )
     }
@@ -51,10 +49,11 @@ class SliderEntry extends Component {
     }
 
     render () {
+        const { width } = this.props;
         return (
             <TouchableOpacity
               activeOpacity={1}
-              style={styles.slideInnerContainer}
+              style={[styles.slideInnerContainer,{width}]}
               >
                 <View style={[styles.imageContainer]}>
                     { this.image() }
@@ -71,7 +70,9 @@ SliderEntry.propTypes = {
     parallax: PropTypes.bool,
     parallaxProps: PropTypes.object,
     star: PropTypes.number,
-    clickFunc: PropTypes.func
+    clickFunc: PropTypes.func,
+    width: PropTypes.number,
+    length: PropTypes.number
 }
 
 const userStateToProps = (state) => ({
