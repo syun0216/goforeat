@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
-import {View,TouchableOpacity,StyleSheet,Image,Platform,ActivityIndicator,Linking} from 'react-native'
+import {View,TouchableOpacity,StyleSheet,Image,Platform,ActivityIndicator,Linking,Animated} from 'react-native'
 import {
   Container,
   Header,
 } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
+import LottieView from 'lottie-react-native';
 //utils
 import GLOBAL_PARAMS, { em, isEmpty } from '../utils/global_params';
 import JSONUtils from '../utils/JSONUtils';
@@ -41,9 +42,11 @@ class FoodListView extends Component {
       advertiseData: null,
       advertiseCountdown: 5,
       warningTipsData: [],
+      star: null,
       isAdvertiseShow: false,
       isWarningTipShow: false,
-      i18n: I18n[props.screenProps.language]
+      i18n: I18n[props.screenProps.language],
+      progress: new Animated.Value(0)
     };
   }
 
@@ -52,15 +55,15 @@ class FoodListView extends Component {
     if(isAdShow) {
       hideAd();
     }
-    advertisementStorage.getData((error,data) => {
-      if(error == null) {
-        if(data != null) {
-          isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
-          this._advertiseInterval();
-        }
-        this._getAdvertise(data);
-      }
-    });
+    // advertisementStorage.getData((error,data) => {
+    //   if(error == null) {
+    //     if(data != null) {
+    //       isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
+    //       this._advertiseInterval();
+    //     }
+    //     this._getAdvertise(data);
+    //   }
+    // });
   }
 
   componentWillUnmount() {
@@ -146,12 +149,28 @@ class FoodListView extends Component {
       <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={{position:'absolute',top:0,left: 0,height: 150,width: _winWidth,overflow: 'hidden',}} />
     )
   }
+
+  _renderStarView(progress) {
+    return (
+      <LottieView
+        ref={lv => this._lv = lv}
+        autoPlay={this.state.star==5}
+        style={{width: em(20),height: em(20),transform:[{scale:2.3}],position: 'absolute',top: em(0.5),left: em(-4)}}
+        source={require('../animations/rating.json')}
+        loop={false}
+        progress={Math.round(progress*10)/20}
+        enableMergePathsAndroidForKitKatAndAbove
+      />
+    )
+  }
   
   _renderTopTitleView() {
     return (
-      <View style={{marginTop: em(10), marginLeft: em(15)}}>
+      <View style={{marginTop: em(10), marginLeft: em(15),marginRight: em(15),
+        justifyContent: 'space-between',flexDirection: 'row',position: 'relative'}}>
         <Text style={[FoodDetailsStyles.DateFormatWeekText, {color: '#333'}]}>
         精選菜品</Text>
+        <Text>{this.state.star && this._renderStarView(this.state.star/5)}評分:{this.state.star}</Text>
       </View>
     )
   }
@@ -225,12 +244,23 @@ class FoodListView extends Component {
         <View style={styles.articleItemDetails}>
           <View style={[styles.itemName, styles.marginBottom9]}>
             <Text style={styles.foodName} numberOfLines={1}>{item.name}</Text>
-            <Text style={styles.foodTime}>{item.date}</Text>
           </View>
-          <View style={{height: em(75),marginBottom: 12.5,}}>
+          {/*<View style={{height: em(75),marginBottom: 12.5,}}>
             <Text style={styles.foodBrief} numberOfLines={_device == 'iPhone6' ? 4 : 5}>{item.brief}</Text>
+          </View>*/}
+          <View style={styles.foodCommonContainer}>
+            <Text style={styles.foodCommon}>日期</Text>
+            <Text style={styles.foodCommon}>{item.date}</Text>
           </View>
-          <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
+          <View style={styles.foodCommonContainer}>
+            <Text style={styles.foodCommon}>餐廳</Text>
+            <Text style={styles.foodCommon}>{item.canteenName}</Text>
+          </View>
+          <View style={styles.foodCommonContainer}>
+            <Text style={styles.foodCommon}>堂食</Text>
+            <Text style={[styles.foodCommon,item.originPrice?{textDecorationLine:'line-through',textDecorationColor:'#666'}:{}]}>{item.originPrice ? `$${parseFloat(item.originPrice).toFixed(2)}` : '暫無'}</Text>
+          </View>
+          <View style={styles.foodCommonContainer}>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.foodUnit}>$</Text>
               <Text style={styles.foodPrice}>{item.price}</Text>
@@ -248,7 +278,7 @@ class FoodListView extends Component {
       return null;
     }
     return (
-      <CommonFlatList ref={c => this.flatlist = c} requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} renderHeader={() => this._renderTopTitleView()} extraParams={{placeId: this.state.placeSelected.id}} {...this.props}/>
+      <CommonFlatList ref={c => this.flatlist = c} requestFunc={getNewArticleList} renderItem={(item,index) => this._renderFoodListItemView(item,index)} renderHeader={() => this._renderTopTitleView()} extraParams={{placeId: this.state.placeSelected.id}} getRawData={(data) => {this.setState({star: data.star})}} {...this.props}/>
     )
   }
 
@@ -289,28 +319,32 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   articleItemDetails: {
-    padding: 17,
+    padding: 10,
     flex: 1,
     backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#ededeb',
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
+    overflow: 'hidden',
+    justifyContent: 'space-between'
   },
   itemName: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  foodCommonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
   foodName: {
     fontSize: em(18),
     color: '#111',
-    fontWeight: '800',
-    maxWidth: em(110)
+    fontWeight: '800'
   },
-  foodTime: {
+  foodCommon: {
     fontSize: em(13),
-    color: '#666',
-    lineHeight: em(20)
+    color: '#666'
   },
   foodBrief: {
     fontSize: em(11),
