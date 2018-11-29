@@ -57,7 +57,7 @@ export default class CommonFlatList extends Component{
   }
 
   getData(offset, successCallback, failCallback) {
-    const { extraParams } = this.props;
+    const { extraParams, getRawData } = this.props;
     const { i18n } = this.state;
     let _requestParams = {
       offset
@@ -67,6 +67,7 @@ export default class CommonFlatList extends Component{
     }
     this.props.requestFunc(_requestParams).then(data => {
       if(data.ro.ok) {
+        getRawData && getRawData(data.data);
         successCallback(data.data.list);
         this.getFlatListCount();
       }else{
@@ -254,6 +255,7 @@ CommonFlatList.propsType = {
   offset: PropTypes.number,
   extraParams: PropTypes.object,
   getCount: PropTypes.func,
+  getRawData: PropTypes.func,
   style: PropTypes.object
 };
 
