@@ -21,15 +21,29 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.9.5</string>
+	<string>0.9.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>goforeat</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb2036279879923166</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>GFE</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>goforeat</string>
 			</array>
 		</dict>
 	</array>
