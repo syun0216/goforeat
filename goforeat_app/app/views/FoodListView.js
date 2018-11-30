@@ -284,7 +284,7 @@ class FoodListView extends Component {
 
   render() {
     return (
-    <Container style={{position:'relative'}}>
+    <Container style={{position:'relative',backgroundColor: '#efefef',}}>
       {this._renderAdvertisementView()}
       {/*this._renderRefreshBgView()*/}
       {this._renderPlacePicker()}
@@ -306,13 +306,13 @@ const styles = StyleSheet.create({
     height: em(160),
     flex:1,
     borderRadius: 8,
-    margin: 10,
+    marginTop: 10,
     marginLeft: 15,
     marginRight: 15,
     borderRadius :5,
     flexDirection: 'row',
-    shadowColor: '#ededeb',
-    shadowOffset: { width: 0, height: 4 },
+    shadowColor: '#333',
+    shadowOffset: { width: 3, height: 5 },
     shadowOpacity: 0.8,
     shadowRadius: 8,
     backgroundColor: '#fff',
@@ -322,8 +322,8 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#ededeb',
+    // borderWidth: 1,
+    // borderColor: '#ededeb',
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
     overflow: 'hidden',
