@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {View,StyleSheet,TouchableOpacity,Platform} from 'react-native';
 import {Icon} from 'native-base';
+import LinearGradient from 'react-native-linear-gradient';
 //utils
 import GLOBAL_PARAMS,{em} from '../utils/global_params';
 import Colors from '../utils/Colors';
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 1,
     paddingRight: em(15),
+    paddingLeft: em(10),
     backgroundColor: '#fff',
     borderBottomWidth: GLOBAL_PARAMS.isIphoneX() ? 1 : 0,
     borderBottomColor: '#E5E5E5',
@@ -38,13 +40,25 @@ const styles = StyleSheet.create({
   commonIcon: {
     fontSize: em(18)
   },
-  confirmBtn: {
-    backgroundColor:'#FF3348',
-    height:40,
-    minWidth:150,
+  shareBtn: {
+    height:36,
+    minWidth:em(100),
     justifyContent:'center',
     alignItems:'center',
-    borderRadius: 25,
+    borderTopLeftRadius: 25,
+    borderBottomLeftRadius: 25,
+    overflow: 'hidden',
+    // marginRight: -12,
+    ...iPhoneXBottom
+  },
+  confirmBtn: {
+    height:36,
+    minWidth:em(100),
+    justifyContent:'center',
+    alignItems:'center',
+    borderTopRightRadius: 25,
+    borderBottomRightRadius: 25,
+    overflow: 'hidden',
     ...iPhoneXBottom
   },
   priceText: {
@@ -68,12 +82,14 @@ export default class BottomOrderConfirm extends PureComponent {
   static defaultProps = {
     btnMessage: '立即預訂',
     btnClick: () => {},
+    shareClick: () => {},
     canClose: true
   }
 
   static propsType = {
     btnMessage: PropTypes.string,
     btnClick: PropTypes.func,
+    shareClick: PropTypes.func,
     canClose: PropTypes.bool
   }
 
@@ -86,21 +102,32 @@ export default class BottomOrderConfirm extends PureComponent {
   }
 
   render() {
-    let {total,btnClick,canClose,btnMessage} = this.props;
+    let {total,btnClick,shareClick,canClose,btnMessage} = this.props;
     return (
-      <View style={[styles.bottomContainer,{justifyContent: canClose?'space-between':'flex-end',}]}>
+      <View style={[styles.bottomContainer,{justifyContent: 'space-between'}]}>
         <View style={styles.commonView}>
-          {canClose ?<TouchableOpacity style={styles.closeBtn} onPress={this._cancelOrder}>
+          {/*canClose ?<TouchableOpacity style={styles.closeBtn} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,styles.iconClose]}/>
-          </TouchableOpacity> : null}
-          <Text style={{marginLeft: 5,fontSize: em(13),...iPhoneXBottom}}>HKD{" "}</Text>
+          </TouchableOpacity> : null*/}
+          <Text style={{marginLeft: 5,fontSize: em(13),...iPhoneXBottom}}>總計 ${" "}</Text>
           <Text style={[styles.commonText,styles.priceText]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
         </View>
-        <TouchableOpacity style={styles.confirmBtn} onPress={() => btnClick()}>
-          <View style={styles.commonView}>
-            <Text style={{color:'#fff', fontSize: em(20)}}>{btnMessage}</Text>
-          </View>
-        </TouchableOpacity>  
+        <View style={{flexDirection:'row'}}>
+          <TouchableOpacity  onPress={() => shareClick()}>
+            <LinearGradient style={styles.shareBtn} colors={['#fbb85a','#FF9500']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} >
+              <View style={styles.commonView}>
+                <Text style={{color:'#fff', fontSize: em(18),fontWeight:'800'}}>分享</Text>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => btnClick()}>
+            <LinearGradient style={styles.confirmBtn} colors={['#ff7a3f','#fb5b13']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}}>
+              <View style={styles.commonView}>
+                <Text style={{color:'#fff', fontSize: em(18),fontWeight:'800'}}>預訂</Text>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>  
+        </View>
       </View>
     )
   }
