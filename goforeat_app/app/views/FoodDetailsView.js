@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableWithoutFeedback
 } from "react-native";
+import Share from 'react-native-share';
 import {
   Container,
   Icon,
@@ -92,15 +93,18 @@ class FoodDetailsView extends Component {
   componentWillMount() {
     this._onRefreshToRequestFirstPageData(this.dateFoodId);
   }
-
+  
   componentDidMount() {
     // console.log('homepage didmount', this.props.screenProps);
     AppState.addEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState))
     
     this._current_offset = 0;
   }
-
+  
   componentWillUnmount() {
+    if(this.timer) {
+      clearTimeout(this.timer)
+    }
     AppState.removeEventListener('change', (nextAppState) =>this._handleAppStateChange(nextAppState));
     if(this._timer !== null) {
       clearTimeout(this._timer);
@@ -347,10 +351,10 @@ class FoodDetailsView extends Component {
           {canteenAddress != null ? <Text style={FoodDetailsStyles.canteenName}>餐廳地址:{canteenAddress}</Text> : null}
           <Text style={FoodDetailsStyles.IntroductionFoodBrief} >{foodBrief}</Text>
           <View style={FoodDetailsStyles.AddPriceViewPriceContainer}>
-            <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>HKD</Text>
+            <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>$</Text>
             <Text style={FoodDetailsStyles.AddPriceViewPrice}>{price}</Text>
             {
-              originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>HKD {originPrice}</Text> : null
+              originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>$ {originPrice}</Text> : null
             }
             {originPrice != null ? <View style={FoodDetailsStyles.AddPriceViewStriping}/> : null}
           </View>
@@ -364,10 +368,10 @@ class FoodDetailsView extends Component {
     return (
       <View style={FoodDetailsStyles.AddPriceView}>
         <View style={FoodDetailsStyles.AddPriceViewPriceContainer}>
-          <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>HKD</Text>
+          <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>$</Text>
           <Text style={FoodDetailsStyles.AddPriceViewPrice}>{foodDetails.price}</Text>
           {
-            foodDetails.originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>HKD {foodDetails.originPrice}</Text> : null
+            foodDetails.originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>$ {foodDetails.originPrice}</Text> : null
           }
           {foodDetails.originPrice != null ? <View style={FoodDetailsStyles.AddPriceViewStriping}/> : null}
         </View>
@@ -430,7 +434,7 @@ class FoodDetailsView extends Component {
   }
 
   _renderBottomBtnView() {
-    let {i18n, soldOut,foodCount, foodDetails} = this.state;
+    let {i18n, soldOut,foodCount, foodDetails,foodDetails:{foodName}} = this.state;
     return (
       <BottomOrderConfirm btnMessage={i18n.book} {...this.props} 
       isShow={true} 
@@ -440,6 +444,34 @@ class FoodDetailsView extends Component {
           this._goToOrder()
         } else {
           ToastUtil.showWithMessage('已停止下單');
+        }
+      }}
+      shareClick={() => {
+        if(soldOut == HAS_FOODS) {
+          const shareOptions = { //分享優惠券信息
+            url: `https://h5.goforeat.hk/#/foodDetails/${this.dateFoodId}`,
+            message: foodName,
+            title: '新人註冊領$20優惠券',
+            social: 'whatsapp'
+          };
+          this.timer = setTimeout(() => {
+            Share.shareSingle(Object.assign(shareOptions, {
+              "social": "whatsapp"
+            }))
+            .then(info => {
+              console.log(info)
+              this.setState({
+                modalVisible: false
+              });
+            })
+            .catch((err) => { 
+              alert(`WhatsApp:${err && err.error && err.error.message}`)
+              console.log(err);
+              return;
+            });
+          },300);
+        } else {
+          ToastUtil.showWithMessage('已停止分享');
         }
       }}
       cancelOrder={this._cancelOrder}/>
