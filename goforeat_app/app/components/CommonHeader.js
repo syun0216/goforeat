@@ -66,7 +66,11 @@ const CommonHeader = (props) => {
               </TouchableOpacity>
             ) : null}
           </Left>
-          <Body style={{minWidth: GLOBAL_PARAMS.em(200),marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex: 1}}><Text allowFontScaling={false} style={[{color: props.textColor,fontSize:GLOBAL_PARAMS.em(18),fontWeight:'800'},props.titleStyle]} numberOfLines={1}>{props.title}</Text></Body>
+          <Body style={{minWidth: GLOBAL_PARAMS.em(200),marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex: 1}}>
+          {props.children ||
+          <Text allowFontScaling={false} style={[{color: props.textColor,fontSize:GLOBAL_PARAMS.em(18),fontWeight:'800'},props.titleStyle]} numberOfLines={1}>{props.title}</Text>}
+          
+          </Body>
           <Right style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex:1}}>
             {props.hasRight ? (props.rightElement !== null ? <props.rightElement {...props}/> : (
               <Button transparent onPress={() => props.rightClick()}>
