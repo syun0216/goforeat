@@ -9,28 +9,15 @@ import CodePushUtils from '../utils/CodePushUtils';
 //jpush
 import JPushModule from 'jpush-react-native';
 //utils
-import {em, _winWidth, _winHeight} from '../utils/global_params';
+import { _winWidth, _winHeight} from '../utils/global_params';
 import ToastUtils from '../utils/ToastUtil';
 //components
 import CommonComment from '../components/CommonComment';
 import LoadingModal from '../components/LoadingModal';
 //language
 import I18n from '../language/i18n';
-//api
-import { popupComment, addComment } from '../api/request';
- 
-const slideAnimation = new SlideAnimation({
-  slideFrom: 'bottom',
-});
 
 const lastBackPressed = Date.now();
-
-const shareOptions = { //分享優惠券信息
-  url: 'http://api.goforeat.hk/guide/download',
-  message: '日日有得食',
-  title: '分享有得食搶優惠券'
-};
-
 
 
 const jpushCommonUrlDefined = {
