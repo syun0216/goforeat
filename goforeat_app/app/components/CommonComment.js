@@ -14,7 +14,7 @@ import CommonBottomBtn from '../components/CommonBottomBtn';
 import LoadingModal from '../components/LoadingModal';
 
 const shareOptions = { //分享優惠券信息
-  url: 'http://h5.goforeat.hk',
+  url: 'https://h5.goforeat.hk/#',
   message: '日日有得食',
   title: '分享有得食搶優惠券'
 };
@@ -163,15 +163,32 @@ class CommonComment extends Component {
   _addComment() {
     this._addCommentApi();
     if(this.state.currentStar == 5) {
-      Share.open(shareOptions)
-      .then(info => {
-        this.setState({
-          modalVisible: false
+      setTimeout(() => {
+        Share.shareSingle(Object.assign(shareOptions, {
+          "social": "whatsapp"
+        }))
+        .then(info => {
+          console.log(info)
+          this.setState({
+            modalVisible: false
+          });
+        })
+        .catch((err) => { 
+          alert(`WhatsApp:${err && err.error && err.error.message}`)
+          console.log(err);
+          return;
         });
-      })
-      .catch((err) => { 
-        console.log({err});
-      });
+      },300);
+      
+      // Share.open(shareOptions)
+      // .then(info => {
+      //   this.setState({
+      //     modalVisible: false
+      //   });
+      // })
+      // .catch((err) => { 
+      //   console.log({err});
+      // });
     }
   }
 
