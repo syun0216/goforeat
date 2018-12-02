@@ -19,10 +19,11 @@ import {languageStorage} from './cache/appStorage';
 
 const LANGUAGE_BTN = [
   '繁體中文',
-  'English'
+  'English',
+  'Cancel'
 ];
 const DESTRUCTIVE_INDEX = 3;
-const CANCEL_INDEX = 4;
+const CANCEL_INDEX = 2;
 export default class SettingView extends PureComponent{
   popupDialog = null;
   _actionSheet = null;
@@ -102,17 +103,24 @@ export default class SettingView extends PureComponent{
                 title: i18n.langChoose,
               },
               buttonIndex => {
-                if(this.state.lang_idx == buttonIndex) return;
-                this.setState({
-                  lang_idx: buttonIndex,
-                  language: LANGUAGE_BTN[buttonIndex]
-                })
-                if(LANGUAGE_BTN[buttonIndex] == 'English') {
-                  this.props.screenProps.changeLanguage('en');
-                  languageStorage.setData('en');
-                } else {
-                  languageStorage.setData('zh');
-                  this.props.screenProps.changeLanguage('zh');
+                if(this.state.lang_idx == buttonIndex && buttonIndex == CANCEL_INDEX) return;
+                switch(LANGUAGE_BTN[buttonIndex]) {
+                  case 'English':{
+                    this.props.screenProps.changeLanguage('en');
+                    languageStorage.setData('en');
+                    this.setState({
+                      lang_idx: buttonIndex,
+                      language: LANGUAGE_BTN[buttonIndex]
+                    })
+                  };break;
+                  case '繁體中文': {
+                    languageStorage.setData('zh');
+                    this.props.screenProps.changeLanguage('zh');
+                    this.setState({
+                      lang_idx: buttonIndex,
+                      language: LANGUAGE_BTN[buttonIndex]
+                    })
+                  }
                 }
               }
             )
