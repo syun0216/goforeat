@@ -20,10 +20,10 @@ const ListFooter = ({loadingStatus,errorToDo,language}) => {
         <View style={styles.commonContainer}>
           <LottieView 
             autoPlay
-            style={{width:em(20),height: em(20),transform:[{scale: 2},{translateY:em(-1)}]}}
-            source={require('../animations/custom_load.json')}
+            style={{width:em(20),height: em(20),transform:[{scale: 2},{translateY:em(0)}]}}
+            source={require('../animations/material_wave_loading.json')}
             loop
-            speed={2}
+            speed={1.5}
             enableMergePathsAndroidForKitKatAndAbove
           />
         </View>
