@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {View,StyleSheet,TouchableOpacity,Platform} from 'react-native';
+import {View,StyleSheet,TouchableOpacity,Platform,Image} from 'react-native';
 import {Icon} from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 //utils
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   shareBtn: {
     height:36,
-    minWidth:em(100),
+    minWidth:em(80),
     justifyContent:'center',
     alignItems:'center',
     borderTopLeftRadius: 25,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   confirmBtn: {
     height:36,
-    minWidth:em(100),
+    minWidth:em(120),
     justifyContent:'center',
     alignItems:'center',
     borderTopRightRadius: 25,
@@ -114,16 +114,17 @@ export default class BottomOrderConfirm extends PureComponent {
         </View>
         <View style={{flexDirection:'row'}}>
           <TouchableOpacity  onPress={() => shareClick()}>
-            <LinearGradient style={styles.shareBtn} colors={['#fbb85a','#FF9500']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} >
+            <LinearGradient style={styles.shareBtn} colors={['#FFC500','#FF9402']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} >
               <View style={styles.commonView}>
-                <Text style={{color:'#fff', fontSize: em(18),fontWeight:'800'}}>分享</Text>
+                <Text style={{color:'#fff', fontSize: em(16),fontWeight:'800'}}>分享</Text>
               </View>
             </LinearGradient>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => btnClick()}>
-            <LinearGradient style={styles.confirmBtn} colors={['#ff7a3f','#fb5b13']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}}>
+            <LinearGradient style={styles.confirmBtn} colors={['#FF7A00','#FE560A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}}>
               <View style={styles.commonView}>
-                <Text style={{color:'#fff', fontSize: em(18),fontWeight:'800'}}>預訂</Text>
+                <Text style={{color:'#fff', fontSize: em(16),fontWeight:'800'}}>立即預訂</Text>
+                <Image style={{width: em(15),height: em(15),marginLeft: em(3)}}  source={require('../asset/double-arrow.png')}/>
               </View>
             </LinearGradient>
           </TouchableOpacity>  
