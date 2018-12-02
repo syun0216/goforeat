@@ -1,12 +1,13 @@
 import React,{ Component } from 'react';
 import { StyleSheet, View, Image, TouchableWithoutFeedback, Platform, TextInput, Text } from 'react-native';
+import { Footer } from 'native-base';
 import PropTypes from 'prop-types';
 import CommonModal from './CommonModal';
 import Share from 'react-native-share';
 //api
 import { popupComment, addComment } from '../api/request';
 //utils
-import {em, _winWidth, _winHeight} from '../utils/global_params';
+import GLOBAL_PARAMS, {em, _winWidth, _winHeight} from '../utils/global_params';
 import ToastUtils from '../utils/ToastUtil';
 import Color from '../utils/Colors';
 //components
@@ -45,13 +46,12 @@ const styles = StyleSheet.create({
   topTitle: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: em(40),
     flexDirection: 'row'
   },
   topTitleText: {
     color: '#ef3f15',
     fontSize: em(22),
-    // marginBottom: em(10),
+    marginTop: em(10),
   },
   foodNameText: {
     marginRight: em(8),
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   contentImg: {
     width: '100%',
-    height: em(250),
+    height: em(180),
     borderRadius: em(15),
   },
   emojiContainer:{
@@ -80,16 +80,25 @@ const styles = StyleSheet.create({
     marginBottom: em(10),
   },
   Input: {
+    marginTop: em(5),
+    padding: em(10),
     color: '#9d9d9d',
     fontSize: em(13),
-    height: Platform.OS == 'ios' ? em(30) : 40 * (_winHeight / 592),
+    height: em(80),
+    backgroundColor: '#ece8f4',
+    borderRadius: 5,
+    // height: Platform.OS == 'ios' ? em(30) : 40 * (_winHeight / 592),
     width: _winWidth * 0.85,
-    borderBottomWidth: 1,
-    borderBottomColor: '#9d9d9d',
-    marginBottom: Platform.OS == "android"?0:em(10),
+    // marginBottom: Platform.OS == "android"?0:em(10),
+  },
+  tagContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   tagView: {
     padding: 10,
+    marginRight: 5,
+    marginBottom: 5,
     borderWidth: 1,
     borderColor: '#9d9d9d',
     borderRadius: 5,
@@ -117,13 +126,7 @@ class CommonComment extends Component {
       currentStar: 5,
       btnContent: '推薦好友領優惠券',
       modalVisible: false,
-      commentGroup: {
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-        5: []
-      }
+      commentTags: []
     };
   }
 
@@ -147,8 +150,12 @@ class CommonComment extends Component {
     if(this.state.currentComment == null) {
       return;
     };
+    let {commentTags} = this.state;
+    this.commentText && commentTags.push(this.commentText);
+    commentTags = commentTags.join(',');
+    console.log('_comment :', commentTags);
     let {currentComment: {orderId}, currentStar} = this.state;
-    addComment(orderId, currentStar, this.commentText).then(data => {
+    addComment(orderId, currentStar, commentTags).then(data => {
       if(data.ro.ok) {
         this.isCommentSubmit = true;
         // this.setState({
@@ -168,14 +175,15 @@ class CommonComment extends Component {
           "social": "whatsapp"
         }))
         .then(info => {
-          console.log(info)
           this.setState({
             modalVisible: false
           });
         })
         .catch((err) => { 
           alert(`WhatsApp:${err && err.error && err.error.message}`)
-          console.log(err);
+          this.setState({
+            modalVisible: false
+          });
           return;
         });
       },300);
@@ -228,9 +236,42 @@ class CommonComment extends Component {
 
   _renderTagView() {
     const { currentStar } = this.state;
+    let commentArr = [];
+    switch(currentStar) {
+      case 1: {
+        commentArr = ['服務差','味道差','菜品差'];
+      };break;
+      case 2: {
+        commentArr = ['服務一般','味道一般','溫度不夠'];
+      };break;
+      case 3: case 4: case 5: {
+        commentArr = ['味道贊','服務好','菜品健康','準時','溫度夠']
+      };break;
+    }
+    commentArr.push('文字評價');
+    const tag = (item, key) => (
+      <TouchableWithoutFeedback onPress={() => {
+        const {commentTags} = this.state;
+        if(commentTags.indexOf(item) > -1) {
+          commentTags.splice(commentTags.indexOf(item), 1);
+        } else {
+          commentTags.push(item);
+        }
+        console.log('commentTags :', commentTags);
+        this.setState({
+          commentTags: commentTags
+        })
+      }} key={key}>
+        <View style={[styles.tagView,this.state.commentTags.indexOf(item)>-1?styles.tagViewActive: null]}>
+          <Text style={[styles.tagViewText,this.state.commentTags.indexOf(item)>-1?styles.tagViewTextActive: null]}>{item}</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    )
     return (
-      <View style={[styles.tagView]}>
-        <Text style={[styles.tagViewText]}>{commentKeyWord[currentStar]}</Text>
+      <View style={styles.tagContainer}>
+        {
+          commentArr.map((item,idx) => tag(item, idx))
+        }
       </View>
     )
   }
@@ -253,15 +294,16 @@ class CommonComment extends Component {
           <Text style={[styles.topTitleText, styles.foodNameText]} numberOfLines={1}>{orderName || '有得食'}</Text>
         </View>
         <View style={styles.content}>
-          <Image style={styles.contentImg} source={{uri: picture || defaultImg}}/>
+          <Image style={styles.contentImg} source={{uri: picture || defaultImg}} resizeMode="cover"/>
           <View style={styles.emojiContainer}>
             {
               emoji_arr.map(v => this._renderEmojiBtn(v))
             }
             </View>
-          <Text style={[styles.commentText,{color: currentStar < 3 ? '#ccc' : currentStar<= 4 ? '#f7ba2a' : '#ff630f'}]}>{commentKeyWord[currentStar]}</Text>
-          <TextInput allowFontScaling={false} style={styles.Input} underlineColorAndroid="transparent" placeholderTextColor="#9d9d9d" 
-          placeholder="您的評價" clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/>
+          {/*<Text style={[styles.commentText,{color: currentStar < 3 ? '#ccc' : currentStar<= 4 ? '#f7ba2a' : '#ff630f'}]}>{commentKeyWord[currentStar]}</Text>*/}
+          {this._renderTagView()}
+          {this.state.commentTags.indexOf('文字評價')> -1 ?<TextInput numberOfLines={4} multiline allowFontScaling={false} style={styles.Input} underlineColorAndroid="transparent" placeholderTextColor="#9d9d9d" 
+          placeholder="您的評價" clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/> : null}
           <CommonBottomBtn clickFunc={() => this._addComment()}>{this.state.btnContent}</CommonBottomBtn>
         </View>
       </View>
