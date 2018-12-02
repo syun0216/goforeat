@@ -37,10 +37,11 @@ import I18n from './language/i18n';
 
 const BUTTONS = [
   GLOBAL_PARAMS.phoneType.HK.label,
-  GLOBAL_PARAMS.phoneType.CHN.label
+  GLOBAL_PARAMS.phoneType.CHN.label,
+  'Cancel'
 ];
 const DESTRUCTIVE_INDEX = 3;
-const CANCEL_INDEX = 4;
+const CANCEL_INDEX = 2;
 
 export default class CustomLoginView extends PureComponent {
   _textInput = null;
