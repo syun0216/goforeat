@@ -20,6 +20,7 @@
 #import <React/RCTRootView.h>
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>  //Facebook sdk core
+#import <React/RCTLinkingManager.h> //wechat
 
 
 @implementation AppDelegate
@@ -65,6 +66,12 @@
 
   completionHandler();
 }
+  
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+            options:(NSDictionary<NSString*, id> *)options
+  {
+    return [RCTLinkingManager application:application openURL:url options:options]; //wechat
+  }
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

@@ -1797,6 +1797,10 @@ eventemitter3@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/eventemitter3/-/eventemitter3-3.0.0.tgz#fc29ecf233bd19fbd527bb4089bbf665dc90c1e3"
 
+events@1.0.2:
+  version "1.0.2"
+  resolved "http://registry.npmjs.org/events/-/events-1.0.2.tgz#75849dcfe93d10fb057c30055afdbd51d06a8e24"
+
 exec-sh@^0.2.0:
   version "0.2.1"
   resolved "https://registry.npmjs.org/exec-sh/-/exec-sh-0.2.1.tgz#163b98a6e89e6b65b47c2a28d215bc1f63989c38"
@@ -4609,6 +4613,12 @@ react-native-vector-icons@~4.4.2:
     lodash "^4.0.0"
     prop-types "^15.5.10"
     yargs "^8.0.2"
+
+react-native-wechat@^1.9.10:
+  version "1.9.10"
+  resolved "https://registry.npmjs.org/react-native-wechat/-/react-native-wechat-1.9.10.tgz#e9e26aba60ecf17d878a17047136cb8d223056bb"
+  dependencies:
+    events "1.0.2"
 
 react-native@0.52.2:
   version "0.52.2"
