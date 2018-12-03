@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 import Share from 'react-native-share';
+// import WeChat from 'react-native-wechat';
 import {
   Container,
   Icon,
@@ -34,10 +35,13 @@ import BottomOrderConfirm from '../components/BottomOrderConfirm';
 import Text from '../components/UnScalingText';
 import SlideUpPanel from '../components/SlideUpPanel';
 import CommonHeader from '../components/CommonHeader';
+import ShareComponent from '../components/ShareComponent';
 // language
 import I18n from "../language/i18n";
 //cache 
 import {placeStorage} from '../cache/appStorage';
+
+const WeChat = require('react-native-wechat');
 
 const SLIDER_1_FIRST_ITEM = 0;
 
@@ -57,10 +61,13 @@ const slideWidthSingle = wp(100)- em(30);
 const slideWidthMulti = wp(80);
 const itemHorizontalMargin = wp(1);
 
+const { _winHeight, _winWidth } = GLOBAL_PARAMS;
+
 class FoodDetailsView extends Component {
 
   constructor(props) {
     super(props);
+    WeChat.registerApp('wx5b3f09ef08ffa7a7');
     this._current_offset = 0; 
     this._SliderEntry = null; 
     this._timer = null; // 延迟加载首页
@@ -84,6 +91,7 @@ class FoodDetailsView extends Component {
       briefNumbersOfLines: GLOBAL_PARAMS._winHeight>667? 4: 3,
       foodCount: 1,
       isFavorite: false,
+      isShareListShow: false,
       favoriteCount: 56,
       showMoreDetail: false,
       i18n: I18n[props.screenProps.language]
@@ -130,7 +138,9 @@ class FoodDetailsView extends Component {
             favoriteCount: data.data.likeCount,
             isFavorite:data.data.like == isFavorite
           }, () => {
-            this.state.isFavorite && this._lv ? this._lv.play() : this._lv.reset();
+            if(Platform.OS == 'ios') {
+              this.state.isFavorite && this._lv ? this._lv.play() : this._lv.reset();
+            }
           })
         }
       },() => {
@@ -148,6 +158,7 @@ class FoodDetailsView extends Component {
   }
 
   _handleDoubleTap() {
+    if(this.state.isFavorite) return;
     const now = Date.now();
     const DOUBLE_PRESS_DELAY = 300;
     if(this.lastTap && (now - this.lastTap < DOUBLE_PRESS_DELAY)) {
@@ -165,9 +176,9 @@ class FoodDetailsView extends Component {
       favoriteCount: !this.state.isFavorite ? this.state.favoriteCount+1:this.state.favoriteCount-1
     }, () => {
       if(this.state.isFavorite) {
-        this._lv && this._lv.play();
+        this._lv && Platform.OS == 'ios' && this._lv.play();
       } else {
-        this._lv && this._lv.reset();
+        this._lv && Platform.OS == 'ios' && this._lv.reset();
       }
     });
     let status = !this.state.isFavorite ? isFavorite : isNotFavorite;
@@ -304,14 +315,14 @@ class FoodDetailsView extends Component {
 
   _renderIntroductionView() {
     let {foodDetails:{foodName, canteenName, foodBrief}, isFavorite, favoriteCount} = this.state;
-    const _isFavorite = () => (isFavorite ? null : <Icon style={FoodDetailsStyles.canteenFavorite} name="md-heart-outline"/>);
+    const _isFavorite = () => (isFavorite ? Platform.OS == 'android'&& <Icon style={FoodDetailsStyles.canteenFavoriteActive} name="md-heart"/> : <Icon style={FoodDetailsStyles.canteenFavorite} name="md-heart-outline"/>);
     return (
       <View style={FoodDetailsStyles.IntroductionView}>
       <View style={FoodDetailsStyles.IntroductionFoodNameCotainer}>
         <Text style={FoodDetailsStyles.IntroductionFoodName} numberOfLines={1}>{foodName}</Text>
         <TouchableWithoutFeedback onPress={() => this._onFavorite()}>
           <View style={{position:'relative',flexDirection: 'row'}}>
-            {this._renderHeartView()} 
+            {Platform.OS == 'ios' && this._renderHeartView()} 
             {_isFavorite()}
             <Text style={FoodDetailsStyles.canteenName}>{favoriteCount}次贊</Text>
           </View>
@@ -434,7 +445,7 @@ class FoodDetailsView extends Component {
   }
 
   _renderBottomBtnView() {
-    let {i18n, soldOut,foodCount, foodDetails,foodDetails:{foodName}} = this.state;
+    let {i18n, soldOut,foodCount, foodDetails} = this.state;
     return (
       <BottomOrderConfirm btnMessage={i18n.book} {...this.props} 
       isShow={true} 
@@ -448,34 +459,71 @@ class FoodDetailsView extends Component {
       }}
       shareClick={() => {
         if(soldOut == HAS_FOODS) {
-          const shareOptions = { //分享優惠券信息
-            url: `https://h5.goforeat.hk/#/foodDetails/${this.dateFoodId}`,
-            message: foodName,
-            title: '新人註冊領$20優惠券',
-            social: 'whatsapp'
-          };
-          this.timer = setTimeout(() => {
-            Share.shareSingle(Object.assign(shareOptions, {
-              "social": "whatsapp"
-            }))
-            .then(info => {
-              console.log(info)
-              this.setState({
-                modalVisible: false
-              });
-            })
-            .catch((err) => { 
-              alert(`WhatsApp:${err && err.error && err.error.message}`)
-              console.log(err);
-              return;
-            });
-          },300);
+          this.setState({
+            isShareListShow: true
+          })
+          this._shareList && this._shareList._toShowShareListView();
         } else {
           ToastUtil.showWithMessage('已停止分享');
         }
       }}
       cancelOrder={this._cancelOrder}/>
     )
+  }
+
+  _pressToShare(type) {
+    const {foodDetails:{foodName,extralImage}} = this.state;
+    switch(type) {
+      case 'whatsapp': {
+        const shareOptions = { //分享優惠券信息
+          url: `https://h5.goforeat.hk/#/foodDetails/${this.dateFoodId}`,
+          message: foodName,
+          title: '新人註冊領$20優惠券',
+          social: 'whatsapp'
+        };
+        this.timer = setTimeout(() => {
+          Share.shareSingle(Object.assign(shareOptions, {
+            "social": "whatsapp"
+          }))
+          .then(info => {
+            console.log(info)
+            this.setState({
+              modalVisible: false
+            });
+          })
+          .catch((err) => { 
+            alert(`WhatsApp:${err && err.error && err.error.message}`)
+            console.log(err);
+            return;
+          });
+        },300);
+      };break;
+      case 'wechat': {
+        WeChat.isWXAppInstalled()
+          .then((isInstalled) => {
+            console.log(isInstalled);
+              if (isInstalled) {
+                  WeChat.shareToSession({
+                      title: '新人註冊領$20優惠券',
+                      description: foodName,
+                      thumbImage: extralImage[0],
+                      type: 'news',
+                      webpageUrl: `https://h5.goforeat.hk/#/foodDetails/${this.dateFoodId}`
+                  })
+                  .catch((error) => {
+                  if(error.message == -2){
+                      ToastUtil.showWithMessage('分享失敗');
+                  }
+                  else{
+                      ToastUtil.showWithMessage('分享成功');
+                  }
+                  });
+              } else {
+                  ToastUtil.showWithMessage('WeChat is not installed');
+              }
+          });
+      };break;
+    }
   }
 
   _renderErrorView() {
@@ -488,17 +536,40 @@ class FoodDetailsView extends Component {
     )
   }
 
+  _renderPreventClickView() {
+    return <TouchableWithoutFeedback onPress={() => {
+      this.setState({
+        isShareListShow: false
+      },() => {
+        this._shareList&&this._shareList._toHideShareListView()
+      })
+    }}>
+        <View style={{
+          width: _winWidth,
+          height: _winHeight,
+          position: 'absolute',
+          zIndex: 99,
+          top: 0,
+          left: 0,
+          backgroundColor: '#000',
+          opacity: 0.3
+        }}/>
+    </TouchableWithoutFeedback>
+}
+
   render() {
-    let { loading, isError,foodDetails } = this.state;
+    let { loading, isError,foodDetails,isShareListShow } = this.state;
     
     return (
       <Container style={FoodDetailsStyles.ContainerBg}>
         {this._renderHeaderView()}
         {isError ? this._renderErrorView() : null}
+        {isShareListShow && this._renderPreventClickView()}
         {loading ? <Loading /> : null}
         {foodDetails != null ? this._renderContentView() : null}
         {foodDetails != null ? this._renderBottomBtnView() : null}
         {foodDetails != null ? this._renderMoreDetailModal() : null}
+        {foodDetails && <ShareComponent ref={sl => this._shareList = sl} getShareType={(type) => this._pressToShare(type)}/>}
       </Container>
     );
   }
