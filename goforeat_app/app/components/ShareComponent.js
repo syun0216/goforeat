@@ -106,7 +106,7 @@ _toHideShareListView() {
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} onPress={() => this._shareMonents('wechat')}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    <Image style={{width: 36, height: 36}} source={require('../asset/wechat2.png')}/>
+                    <Image style={{width: 35, height: 30}} source={require('../asset/wechat2.png')}/>
                     <Text style={{fontSize: 12, color: Colors.fontBlack, marginTop: 6}}>WeChat</Text>
                 </View>
             </TouchableOpacity>
