@@ -3,6 +3,7 @@ package com.goforeat_app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.theweflex.react.WeChatPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.reactnativepayments.ReactNativePaymentsPackage;
 import cn.jpush.reactnativejpush.JPushPackage;
@@ -70,6 +71,7 @@ public class MainApplication extends Application implements ReactApplication {
             String deploymentKey = "fMXsr1oL8ExCRlmMZD2nLEWHY0-rd261912e-873f-4270-b887-25c360664c8c";
             return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new WeChatPackage(),
             new LottiePackage(),
             new ReactNativePaymentsPackage(),
             new JPushPackage(!BuildConfig.DEBUG, !BuildConfig.DEBUG),
