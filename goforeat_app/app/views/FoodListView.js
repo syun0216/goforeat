@@ -155,7 +155,7 @@ class FoodListView extends Component {
       <LottieView
         ref={lv => this._lv = lv}
         autoPlay={this.state.star==5}
-        style={{width: em(20),height: em(20),transform:[{scale:2.3}],position: 'absolute',top: em(0.5),left: em(-4)}}
+        style={[{width: em(20),height: em(20),transform:[{scale:2.3}],position: 'absolute'},Platform.OS =='ios'? {top: em(0.5),left: em(-4)}:{}]}
         source={require('../animations/rating.json')}
         loop={false}
         progress={Math.round(progress*10)/20}
@@ -170,7 +170,12 @@ class FoodListView extends Component {
         justifyContent: 'space-between',flexDirection: 'row',position: 'relative'}}>
         <Text style={[FoodDetailsStyles.DateFormatWeekText, {color: '#333'}]}>
         精選菜品</Text>
-        <Text>{this.state.star && this._renderStarView(this.state.star/5)}評分:{this.state.star}</Text>
+        {
+          Platform.OS === 'ios' ? (<Text>{this.state.star && this._renderStarView(this.state.star/5)}評分:{this.state.star}</Text>) : (
+          <Text>評分:{this.state.star}</Text>
+          )
+        }
+        
       </View>
     )
   }
@@ -252,13 +257,13 @@ class FoodListView extends Component {
             <Text style={styles.foodCommon}>日期</Text>
             <Text style={styles.foodCommon}>{item.date}</Text>
           </View>
-          <View style={styles.foodCommonContainer}>
+          {/*<View style={styles.foodCommonContainer}>
             <Text style={styles.foodCommon}>餐廳</Text>
             <Text style={styles.foodCommon}>{item.canteenName}</Text>
-          </View>
+        </View>*/}
           <View style={styles.foodCommonContainer}>
             <Text style={styles.foodCommon}>堂食</Text>
-            <Text style={[styles.foodCommon,item.originPrice?{textDecorationLine:'line-through',textDecorationColor:'#666'}:{}]}>{item.originPrice ? `$${parseFloat(item.originPrice).toFixed(2)}` : '暫無'}</Text>
+            <Text style={[styles.foodCommon,item.originPrice?{textDecorationLine:'line-through',textDecorationColor:'#666'}:{}]}>{item.originPrice ? `$${parseFloat(item.originPrice).toFixed(2)}` : '市價'}</Text>
           </View>
           <View style={styles.foodCommonContainer}>
             <View style={{flexDirection: 'row'}}>
