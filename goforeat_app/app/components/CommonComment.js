@@ -126,7 +126,7 @@ class CommonComment extends Component {
       currentStar: 5,
       btnContent: '推薦好友領優惠券',
       modalVisible: false,
-      commentTags: []
+      commentTags: ["文字評價"]
     };
   }
 
@@ -158,9 +158,9 @@ class CommonComment extends Component {
     addComment(orderId, currentStar, commentTags).then(data => {
       if(data.ro.ok) {
         this.isCommentSubmit = true;
-        // this.setState({
-        //   modalVisible: false
-        // });
+        this.setState({
+          modalVisible: false
+        });
       } else {
         ToastUtils.showWithMessage(data.ro.respMsg);
       }
@@ -175,15 +175,15 @@ class CommonComment extends Component {
           "social": "whatsapp"
         }))
         .then(info => {
-          this.setState({
-            modalVisible: false
-          });
+          // this.setState({
+          //   modalVisible: false
+          // });
         })
         .catch((err) => { 
           alert(`WhatsApp:${err && err.error && err.error.message}`)
-          this.setState({
-            modalVisible: false
-          });
+          // this.setState({
+          //   modalVisible: false
+          // });
           return;
         });
       },300);
@@ -286,7 +286,7 @@ class CommonComment extends Component {
     ];
     const {currentStar,currentComment: {orderName, picture}} = this.state;
     const defaultImg = "https://img.xiumi.us/xmi/ua/18Wf8/i/98c314a76260a9634beecfd27c28770d-sz_80962.jpg?x-oss-process=style/xmr";
-
+    console.log(this.state.commentTags);
     return (
       <View>
         {/*<Image style={styles.topImg} reasizeMode="contain" source={require('../asset/commentTop.png')}/>*/}
