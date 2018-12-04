@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#ccc',
     width: _winWidth,
-    height: 150
+    height: 200
   },
   shareTop: {
     width: _winWidth, height: 40, borderBottomWidth: 1, borderColor: "#ccc"
@@ -70,27 +70,12 @@ _toHideShareListView() {
     this.props.getShareType && this.props.getShareType(type);
   }
 
-  _renderPreventClickView() {
-    return this.state.showShareList ? (<TouchableWithoutFeedback onPress={() => this._toHideShareListView()}>
-        <View style={{
-            width: _winWidth,
-            height: _winHeight,
-            position: 'absolute',
-            zIndex: 99,
-            top: 0,
-            left: 0,
-            backgroundColor: '#5b7492',
-            opacity: 0.3
-        }}/>
-    </TouchableWithoutFeedback>) : null;
-}
-
   render() {
     return (
       <Animated.View style={[styles.shareContainer,{
         bottom: this.state.positionTop.interpolate({
           inputRange: [0, 1],
-          outputRange: [-150, 0]
+          outputRange: [-200, 0]
       }),
       opacity: this.state.fadeInOpacity
       }]}>
@@ -100,13 +85,13 @@ _toHideShareListView() {
         <View style={{flex: 1, flexDirection: 'row'}}>
             <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} onPress={() => this._shareMonents('whatsapp')}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    <Image style={{width: 30, height: 30}} source={require('../asset/whatsapp2.png')}/>
-                    <Text style={{fontSize: 12, color: Colors.fontBlack, marginTop: 10}}>WhatsApp</Text>
+                    <Image style={{width: 50, height: 50}} source={require('../asset/whatsapp2.png')}/>
+                    <Text style={{fontSize: 12, color: Colors.fontBlack, marginTop: 6}}>WhatsApp</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} onPress={() => this._shareMonents('wechat')}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    <Image style={{width: 35, height: 30}} source={require('../asset/wechat2.png')}/>
+                    <Image style={{width: 50, height: 50}} source={require('../asset/wechat2.png')}/>
                     <Text style={{fontSize: 12, color: Colors.fontBlack, marginTop: 6}}>WeChat</Text>
                 </View>
             </TouchableOpacity>
