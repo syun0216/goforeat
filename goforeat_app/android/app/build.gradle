@@ -112,7 +112,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 19
-        versionName "1.2.5"
+        versionName "0.0.1"
         manifestPlaceholders = [
                 JPUSH_APPKEY: "1d3225ebddcae3fc7ef8b0b5",
                 APP_CHANNEL : "default"
