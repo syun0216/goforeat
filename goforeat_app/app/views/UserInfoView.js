@@ -96,7 +96,7 @@ export default class UserInfoView extends PureComponent {
         this.rawMyInfo = JSON.stringify(this.state.myInfo);
         this.props.navigation.goBack();
       } else {
-        ToastUtil.showWithMessage(data.ri.respMsg);
+        ToastUtil.showWithMessage(data.ro.respMsg);
         this.setState({loadingModal: false})
       }
     }).catch(err => {

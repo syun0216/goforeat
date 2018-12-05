@@ -49,7 +49,7 @@ const FeedbackView = props => {
       <CommonHeader title={i18n[language].feedback} canBack {...props}/>
       <Content style={{backgroundColor: '#efefef'}}>
         <TextInput
-        style={{width:GLOBAL_PARAMS._winWidth * 0.9,height:GLOBAL_PARAMS._winHeight*0.15,marginTop:em(15),borderWidth:1,borderColor: '#ccc',borderRadius: 5,alignSelf: 'center',backgroundColor: '#fff',textAlign:'justify',marginBottom: em(15),padding: em(10)}}
+        style={{width:GLOBAL_PARAMS._winWidth * 0.9,height:GLOBAL_PARAMS._winHeight*0.15,marginTop:em(15),borderWidth:1,borderColor: '#ccc',borderRadius: 5,alignSelf: 'center',backgroundColor: '#fff',textAlign:'justify',marginBottom: em(15),padding: em(10),textAlignVertical: 'top'}}
         multiline={true}
         underlineColorAndroid='rgba(0,0,0,0)'
         numberOfLines={4}

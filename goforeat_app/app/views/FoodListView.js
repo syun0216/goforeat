@@ -55,15 +55,15 @@ class FoodListView extends Component {
     if(isAdShow) {
       hideAd();
     }
-    // advertisementStorage.getData((error,data) => {
-    //   if(error == null) {
-    //     if(data != null) {
-    //       isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
-    //       this._advertiseInterval();
-    //     }
-    //     this._getAdvertise(data);
-    //   }
-    // });
+    advertisementStorage.getData((error,data) => {
+      if(error == null) {
+        if(data != null) {
+          isAdShow && this.setState({advertiseImg: data.image,advertiseData: data,isAdvertiseShow: true});
+          this._advertiseInterval();
+        }
+        this._getAdvertise(data);
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -158,7 +158,7 @@ class FoodListView extends Component {
         style={[{width: em(20),height: em(20),transform:[{scale:2.3}],position: 'absolute'},Platform.OS =='ios'? {top: em(0.5),left: em(-4)}:{}]}
         source={require('../animations/rating.json')}
         loop={false}
-        progress={Math.round(progress*10)/20}
+        progress={progress*10/20}
         enableMergePathsAndroidForKitKatAndAbove
       />
     )
@@ -257,20 +257,20 @@ class FoodListView extends Component {
             <Text style={styles.foodCommon}>日期</Text>
             <Text style={styles.foodCommon}>{item.date}</Text>
           </View>
-          {/*<View style={styles.foodCommonContainer}>
+          <View style={styles.foodCommonContainer}>
             <Text style={styles.foodCommon}>餐廳</Text>
             <Text style={styles.foodCommon}>{item.canteenName}</Text>
-        </View>*/}
+          </View>
           <View style={styles.foodCommonContainer}>
             <Text style={styles.foodCommon}>堂食</Text>
-            <Text style={[styles.foodCommon,item.originPrice?{textDecorationLine:'line-through',textDecorationColor:'#666'}:{}]}>{item.originPrice ? `$${parseFloat(item.originPrice).toFixed(2)}` : '市價'}</Text>
+            <Text style={[styles.foodCommon,item.originPrice?{textDecorationLine:'line-through',textDecorationColor:'#666'}:{}]}>{item.originPrice ? `HKD${parseFloat(item.originPrice).toFixed(2)}` : '市價'}</Text>
           </View>
           <View style={styles.foodCommonContainer}>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.foodUnit}>$</Text>
+              <Text style={styles.foodUnit}>HKD</Text>
               <Text style={styles.foodPrice}>{item.price}</Text>
             </View>
-            <Text style={{color: '#ff5858',fontSize: _device=='iPhone6' ? 13 : 16,marginTop:Platform.OS == 'android' ? -3:0}}>立即預訂</Text>
+            <Text style={{color: '#ff5858',fontSize: _winWidth < 375 ? 13 : 16,marginTop:Platform.OS == 'android' ? -3:0}}>立即預訂</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -360,10 +360,11 @@ const styles = StyleSheet.create({
   foodUnit: {
     fontSize: em(14),
     color: '#666',
-    marginRight: em(5)
+    marginRight: em(3),
+    marginTop: Platform.OS === 'android' ? em(-3.5) : 0
   },
   foodPrice: {
-    fontSize: em(18),
+    fontSize: _winWidth<375?em(16) : em(18),
     color: '#2a2a2a',
     lineHeight: em(18)
   },

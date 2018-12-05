@@ -362,12 +362,11 @@ class FoodDetailsView extends Component {
           {canteenAddress != null ? <Text style={FoodDetailsStyles.canteenName}>餐廳地址:{canteenAddress}</Text> : null}
           <Text style={FoodDetailsStyles.IntroductionFoodBrief} >{foodBrief}</Text>
           <View style={FoodDetailsStyles.AddPriceViewPriceContainer}>
-            <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>$</Text>
+            <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>HKD</Text>
             <Text style={FoodDetailsStyles.AddPriceViewPrice}>{price}</Text>
             {
-              originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>$ {originPrice}</Text> : null
+              originPrice != null ? <Text style={[FoodDetailsStyles.AddPriceViewOriginPrice,{textDecorationLine:'line-through'}]}>堂食HKD {originPrice}</Text> : null
             }
-            {originPrice != null ? <View style={FoodDetailsStyles.AddPriceViewStriping}/> : null}
           </View>
         </View>
       </SlideUpPanel>
@@ -379,10 +378,10 @@ class FoodDetailsView extends Component {
     return (
       <View style={FoodDetailsStyles.AddPriceView}>
         <View style={FoodDetailsStyles.AddPriceViewPriceContainer}>
-          <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>$</Text>
+          <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>HKD</Text>
           <Text style={FoodDetailsStyles.AddPriceViewPrice}>{foodDetails.price}</Text>
           {
-            foodDetails.originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>$ {foodDetails.originPrice}</Text> : null
+            foodDetails.originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>堂食 HKD {foodDetails.originPrice}</Text> : null
           }
           {foodDetails.originPrice != null ? <View style={FoodDetailsStyles.AddPriceViewStriping}/> : null}
         </View>
@@ -476,9 +475,9 @@ class FoodDetailsView extends Component {
     switch(type) {
       case 'whatsapp': {
         const shareOptions = { //分享優惠券信息
-          url: `https://h5.goforeat.hk/#/foodDetails/${this.dateFoodId}`,
+          url: `https://m.goforeat.hk/#/foodDetails/${this.dateFoodId}`,
           message: foodName,
-          title: '新人註冊領$20優惠券',
+          title: '新人註冊領HKD20優惠券',
           social: 'whatsapp'
         };
         this.timer = setTimeout(() => {
@@ -504,11 +503,11 @@ class FoodDetailsView extends Component {
             console.log(isInstalled);
               if (isInstalled) {
                   WeChat.shareToSession({
-                      title: '新人註冊領$20優惠券',
+                      title: '新人註冊領HKD20優惠券',
                       description: foodName,
                       thumbImage: extralImage[0],
                       type: 'news',
-                      webpageUrl: `https://h5.goforeat.hk/#/foodDetails/${this.dateFoodId}`
+                      webpageUrl: `https://m.goforeat.hk/#/foodDetails/${this.dateFoodId}`
                   })
                   .catch((error) => {
                   if(error.message == -2){

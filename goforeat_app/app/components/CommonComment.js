@@ -15,7 +15,7 @@ import CommonBottomBtn from '../components/CommonBottomBtn';
 import LoadingModal from '../components/LoadingModal';
 
 const shareOptions = { //分享優惠券信息
-  url: 'https://h5.goforeat.hk/#',
+  url: 'https://m.goforeat.hk/#',
   message: '日日有得食',
   title: '分享有得食搶優惠券'
 };
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     // height: Platform.OS == 'ios' ? em(30) : 40 * (_winHeight / 592),
     width: _winWidth * 0.85,
+    textAlignVertical: "top"
     // marginBottom: Platform.OS == "android"?0:em(10),
   },
   tagContainer: {
@@ -151,9 +152,8 @@ class CommonComment extends Component {
       return;
     };
     let {commentTags} = this.state;
-    this.commentText && commentTags.push(this.commentText);
+    this.commentText && (commentTags.push(this.commentText),commentTags.splice(commentTags.indexOf('文字評價'),1));
     commentTags = commentTags.join(',');
-    console.log('_comment :', commentTags);
     let {currentComment: {orderId}, currentStar} = this.state;
     addComment(orderId, currentStar, commentTags).then(data => {
       if(data.ro.ok) {
@@ -314,7 +314,7 @@ class CommonComment extends Component {
   render() {
     const { modalVisible, currentComment } = this.state;
     return (
-      <CommonModal modalVisible={modalVisible} title="填寫評論領優惠券" closeFunc={() => this.setState({modalVisible: false})}>
+      <CommonModal modalVisible={modalVisible} title="填寫評論領優惠券" closeFunc={() => this._closeModal()}>
         {currentComment && this._renderCommentView()}
       </CommonModal>
     )

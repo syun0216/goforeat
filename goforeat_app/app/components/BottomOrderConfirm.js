@@ -109,7 +109,7 @@ export default class BottomOrderConfirm extends PureComponent {
           {/*canClose ?<TouchableOpacity style={styles.closeBtn} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,styles.iconClose]}/>
           </TouchableOpacity> : null*/}
-          <Text style={{marginLeft: 5,fontSize: em(13),...iPhoneXBottom}}>總計 ${" "}</Text>
+          <Text style={{marginLeft: 5,fontSize: em(13),...iPhoneXBottom}}>HKD{" "}</Text>
           <Text style={[styles.commonText,styles.priceText]} numberOfLines={1}>{GLOBAL_PARAMS._winWidth<350?total:total.toFixed(2)}</Text>
         </View>
         <View style={{flexDirection:'row'}}>
