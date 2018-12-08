@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {View,ActivityIndicator,Text,TouchableOpacity,StyleSheet} from 'react-native'
+import {View,ActivityIndicator,Text,TouchableOpacity,StyleSheet,Platform} from 'react-native'
 import GLOBAL_PARAMS,{em} from '../utils/global_params';
 import LottieView from 'lottie-react-native';
 //language
@@ -18,14 +18,20 @@ const ListFooter = ({loadingStatus,errorToDo,language}) => {
     case GLOBAL_PARAMS.httpStatus.LOADING:{
       return (
         <View style={styles.commonContainer}>
-          <LottieView 
-            autoPlay
-            style={{width:em(20),height: em(20),transform:[{scale: 2},{translateY:em(0)}]}}
-            source={require('../animations/material_wave_loading.json')}
-            loop
-            speed={1.5}
-            enableMergePathsAndroidForKitKatAndAbove
-          />
+          {Platform.OS == 'ios' ? (
+            <LottieView 
+              autoPlay
+              style={{width:em(20),height: em(20),transform:[{scale: 2},{translateY:em(0)}]}}
+              source={require('../animations/material_wave_loading.json')}
+              loop
+              speed={1.5}
+              enableMergePathsAndroidForKitKatAndAbove
+            />
+          ) : (
+            <View style={styles.commonContainer}>
+              <ActivityIndicator style={{flex:1,}} size='small' color='#000'/>
+            </View>
+          )}
         </View>
       )
     }
