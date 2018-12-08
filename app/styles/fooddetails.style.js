@@ -230,11 +230,13 @@ export default StyleSheet.create({
     fontSize: em(20),
     color: '#959595',
     marginRight: em(8),
+    width: em(20),
   },
   canteenFavoriteActive: {
     fontSize: em(20),
     marginRight: em(8),
-    color: Colors.main_orange
+    color: Colors.main_orange,
+    width: em(20),
   },
   canteenImg: Platform.OS == 'ios' ? {
     width: em(16),
