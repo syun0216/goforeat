@@ -73,3 +73,9 @@
 -keep class com.tencent.mm.sdk.** {
   *;
 }
+
+-ignorewarnings
+
+-keep class * {
+    public private *;
+}
