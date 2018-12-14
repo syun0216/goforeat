@@ -54,7 +54,8 @@ buck-out/
 
 ios/Pods
 android/app/app-release.apk
-android/app/release/app-release.apk
+android/app/release
+android/app/debug
 
 # 项目内
 app/api

@@ -111,7 +111,7 @@ android {
         applicationId "com.goforeat_app"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 20
+        versionCode 21
         versionName "1.2.5"
         manifestPlaceholders = [
                 JPUSH_APPKEY: "1d3225ebddcae3fc7ef8b0b5",
