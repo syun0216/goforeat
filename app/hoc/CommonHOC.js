@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, TouchableWithoutFeedback, Platform, TextInput, AppState, Alert, ToastAndroid, BackHandler, } from 'react-native';
+import { Platform,  AppState, Alert, Image } from 'react-native';
 import {Container, Input} from 'native-base';
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
 import Share from 'react-native-share';
@@ -9,11 +9,13 @@ import CodePushUtils from '../utils/CodePushUtils';
 //jpush
 import JPushModule from 'jpush-react-native';
 //utils
-import { _winWidth, _winHeight} from '../utils/global_params';
+import { _winWidth, _winHeight, em} from '../utils/global_params';
 import ToastUtils from '../utils/ToastUtil';
 //components
 import CommonComment from '../components/CommonComment';
 import LoadingModal from '../components/LoadingModal';
+import CommonModal from '../components/CommonModal';
+import LoginView from '../CustomLoginView';
 //language
 import I18n from '../language/i18n';
 
@@ -44,8 +46,11 @@ const jpushCommonUrlDefined = {
 
 const CommonHOC = WarppedComponent => class extends Component {
 
+  static navigationOptions = WarppedComponent.navigationOptions;
+
   constructor(props) {
     super(props);
+ 
     this.state = {
       i18n: I18n[props.screenProps.language],
       LoadingModal: false
@@ -53,6 +58,7 @@ const CommonHOC = WarppedComponent => class extends Component {
   }
 
   componentDidMount() {
+    console.log(1111,this.props);
     this._jpushDidMount();
     AppState.addEventListener('change',(nextState) => {
       if(nextState == 'active') {
@@ -209,11 +215,20 @@ const CommonHOC = WarppedComponent => class extends Component {
   }
   // ---------------------------end
 
+  _renderLoginModal() {
+    return (
+      <CommonModal isHeaderShow={false} modalVisible={this.props.screenProps.showLogin}>
+        <LoginView {...this.props}/>
+      </CommonModal>
+    )
+  }
+
   render() {
     let {i18n} = this.state;
     return (
       <Container>
         {this.state.LoadingModal ? <LoadingModal /> : null}
+        {this._renderLoginModal()}
         <CommonComment />
         <WarppedComponent ref={w => this.WarppedComponent = w} {...this.props} showLoading={this._showLoadingModal.bind(this)} hideLoading={this._hideLoadingModal.bind(this)} i18n={i18n}/>
       </Container>

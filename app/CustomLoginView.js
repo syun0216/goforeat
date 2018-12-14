@@ -157,23 +157,28 @@ export default class CustomLoginView extends PureComponent {
         };
         userStorage.setData(_user);
         this.props.screenProps.userLogin(_user);
-        if(typeof params === 'undefined') {
-          this.props.navigation.goBack()
-        }else {
-          if(params.page == 'Order') {
-            this.props.navigation.navigate('Order',
-              {
-                  replaceRoute: true,
-                  ...params
-              })
-          }else {
-            let {callback} = this.props.navigation.state.params;
-            this.props.navigation.goBack();
-            requestAnimationFrame(() => {
-              callback();
-            })
-          }
-        }
+        this.props.screenProps.toggleLogin(false);
+        let _timer = setTimeout(() => {
+          this.props.navigation.navigate(this.props.screenProps.toPage);
+          clearTimeout(_timer);
+        },300);
+        // if(typeof params === 'undefined') {
+        //   this.props.navigation.goBack()
+        // }else {
+        //   if(params.page == 'Order') {
+        //     this.props.navigation.navigate('Order',
+        //       {
+        //           replaceRoute: true,
+        //           ...params
+        //       })
+        //   }else {
+        //     let {callback} = this.props.navigation.state.params;
+        //     this.props.navigation.goBack();
+        //     requestAnimationFrame(() => {
+        //       callback();
+        //     })
+        //   }
+        // }
         JPushModule.getRegistrationID(registrationId => {
           saveDevices(registrationId,data.data.sid).then(sdata => {
           });
@@ -237,13 +242,7 @@ export default class CustomLoginView extends PureComponent {
           <Image source={require('./asset/logoTop.png')} style={LoginStyle.TopImageViewTitle}/>
         </View>
         <TouchableOpacity style={LoginStyle.CloseBtn} 
-        onPress={() => {navigation.goBack();
-          if(navigation.state.params) {
-            if(navigation.state.params.page == 'Order') {
-              navigation.state.params.reloadFunc();
-            }
-          }
-        }}>
+        onPress={() => this.props.screenProps.toggleLogin(false)}>
           <Icon
             name="ios-arrow-back"
             style={LoginStyle.CloseImage}
