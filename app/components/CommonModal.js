@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 class CommonModal extends Component {
 
   render() {
-    const { modalVisible, closeFunc, title, children } = this.props;
+    const { modalVisible, closeFunc, title, children, isHeaderShow } = this.props;
     const CloseIcon = () => (
       <TouchableOpacity style={styles.closeIcon} onPress={closeFunc}>
         <Icon name="md-close" style={[{ fontSize: GLOBAL_PARAMS.em(22), color: '#fff' }]}/>
@@ -34,7 +34,7 @@ class CommonModal extends Component {
       visible={modalVisible}
       onRequestClose={() => closeFunc()}>
         <Container>
-          <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>
+          {isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
           <Content>
             {children}
           </Content>
@@ -47,11 +47,13 @@ class CommonModal extends Component {
 CommonModal.propsType = {
   title: PropTypes.string,
   modalVisible: PropTypes.bool,
-  closeFunc: PropTypes.func
+  closeFunc: PropTypes.func,
+  isHeaderShow: PropTypes.bool
 }
 
 CommonModal.defaultProps = {
-  modalVisible: false
+  modalVisible: false,
+  isHeaderShow: true
 }
 
 export default CommonModal;

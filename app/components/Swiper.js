@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {View,Text,StyleSheet} from 'react-native'
+import {View,StyleSheet} from 'react-native'
 import Image from "react-native-image-progress";
 import Swiper from 'react-native-swiper'
-import GLOBAL_PARAMS from '../utils/global_params'
-import Colors from '../utils/Colors'
+import GLOBAL_PARAMS from '../utils/global_params';
 
 const styles = StyleSheet.create({
   wrapper: {

@@ -35,6 +35,8 @@ const dashboardStateToProps = (state) => {
   return({
   nav: state.nav,
   user: state.auth.username,
+  showLogin: state.login.showLogin,
+  toPage: state.login.toPage,
   userInfo: state.auth,
   sid: state.auth.sid,
   refresh: state.refresh.refreshParams,
@@ -48,6 +50,8 @@ const dashboardStateToProps = (state) => {
 const dashboardmapDispatchToProps = dispatch => ({
   userLogin: (user) => dispatch({type:LOGIN,...user}),
   userLogout: () => dispatch({type:LOGOUT}),
+  toggleLogin: (status) => dispatch({type:'CHANGE_LOGIN_STATUS', showLogin: status}),
+  setToPageParams: (toPage) => dispatch({type:'SET_LOGIN_TO_PAGE', toPage}),
   refreshReset: (val) => dispatch({type:REFRESH,refresh:val}),
   changeLanguage: (language) => dispatch({type: CHANGE_LANGUAGE,language}),
   stockPlace: (place) => dispatch({type: STOCK_PLACE,place}),

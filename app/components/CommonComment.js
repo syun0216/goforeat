@@ -314,7 +314,7 @@ class CommonComment extends Component {
   render() {
     const { modalVisible, currentComment } = this.state;
     return (
-      <CommonModal modalVisible={modalVisible} title="填寫評論領優惠券" closeFunc={() => this._closeModal()}>
+      <CommonModal modalVisible={modalVisible} title="填寫評論領5HKD優惠券" closeFunc={() => this._closeModal()}>
         {currentComment && this._renderCommentView()}
       </CommonModal>
     )

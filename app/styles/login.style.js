@@ -1,26 +1,23 @@
-import {
-  StyleSheet,
-  Platform
-} from 'react-native';
-import GLOBAL_PARAMS,{em} from '../utils/global_params';
-import Colors from '../utils/Colors';
-import CommonStyles from '../styles/common.style';
+import { StyleSheet, Platform } from "react-native";
+import GLOBAL_PARAMS, { em } from "../utils/global_params";
+import Colors from "../utils/Colors";
+import CommonStyles from "../styles/common.style";
 
 const diffPlatform = {
   content_height: Platform.select({
     ios: GLOBAL_PARAMS._winHeight * 0.6,
     android: GLOBAL_PARAMS._winHeight * 0.55
   })
-}
+};
 
 export default StyleSheet.create({
   LoginContainer: {
-    backgroundColor: '#fff'
+    backgroundColor: "#fff"
   },
   //_renderTopImage
   TopImageView: {
     width: GLOBAL_PARAMS._winWidth,
-    position: 'relative',
+    position: "relative"
   },
   TopImage: {
     width: GLOBAL_PARAMS._winWidth,
@@ -28,12 +25,12 @@ export default StyleSheet.create({
   },
   TopImageViewInner: {
     width: GLOBAL_PARAMS._winWidth,
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     height: GLOBAL_PARAMS._winHeight * 0.25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   TopImageViewTitle: {
     width: GLOBAL_PARAMS._winWidth * 0.5,
@@ -43,46 +40,46 @@ export default StyleSheet.create({
   CloseBtn: {
     width: 40,
     height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
     top: GLOBAL_PARAMS._winHeight * 0.09,
-    left: 20,
+    left: 20
     // zIndex: 100
   },
   CloseImage: {
     fontSize: em(40),
-    color: '#fff'
+    color: "#fff"
   },
   //_renderContentView
   ContentView: {
     width: GLOBAL_PARAMS._winWidth,
     height: diffPlatform.content_height,
     paddingLeft: 10,
-    paddingRight: 10,
+    paddingRight: 10
   },
   Title: {
-    color: '#111111',
+    color: "#111111",
     fontSize: em(26),
-    fontWeight: '600',
+    fontWeight: "600",
     height: GLOBAL_PARAMS._winHeight * 0.15,
     lineHeight: GLOBAL_PARAMS._winHeight * 0.15,
-    marginLeft: 5,
+    marginLeft: 5
   },
   LoginBtn: {
     ...CommonStyles.btn,
-    alignSelf: 'center'
+    alignSelf: "center"
   },
   CommonView: {
     height: GLOBAL_PARAMS._winHeight * 0.225,
-    justifyContent: 'center'
+    justifyContent: "center"
   },
   CommonInputView: {
     height: 60,
     borderBottomWidth: 1,
-    borderBottomColor: '#EBEBEB',
-    flexDirection: 'row',
-    alignItems: 'center'
+    borderBottomColor: "#EBEBEB",
+    flexDirection: "row",
+    alignItems: "center"
   },
   Icon: {
     width: 17,
@@ -91,9 +88,9 @@ export default StyleSheet.create({
     marginLeft: 5
   },
   ChangePhoneTypeBtn: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginRight: 15,
     marginTop: 5
   },
@@ -108,12 +105,12 @@ export default StyleSheet.create({
   },
   CommonInput: {
     flex: 1,
-    color: '#111111',
+    color: "#111111",
     marginTop: 7
   },
   BtnView: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center"
   },
   SendBtn: {
     padding: 5,
@@ -121,10 +118,10 @@ export default StyleSheet.create({
     paddingRight: 15,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#999999',
+    borderColor: "#999999",
     marginRight: 10
   },
   SendText: {
-    color: '#999999'
-  },
-})
+    color: "#999999"
+  }
+});

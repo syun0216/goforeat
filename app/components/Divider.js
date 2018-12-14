@@ -2,7 +2,6 @@ import React from 'react'
 import {View} from 'react-native'
 import PropTypes from 'prop-types'
 //utils
-import GLOBAL_PARAMS from '../utils/global_params';
 import Colors from '../utils/Colors';
 
 const Divider = ({height,bgColor}) => (

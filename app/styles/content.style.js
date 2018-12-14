@@ -1,6 +1,3 @@
-import {StyleSheet,Platform} from 'react-native';
-import GLOBAL_PARAMS from '../utils/global_params';
+import { StyleSheet, Platform } from "react-native";
 
-export default StyleSheet.create({
-  
-})
+export default StyleSheet.create({});

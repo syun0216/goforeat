@@ -1,57 +1,56 @@
-import {StyleSheet,Platform} from 'react-native';
-import {em} from '../utils/global_params';
+import { StyleSheet, Platform } from "react-native";
+import { em } from "../utils/global_params";
 
 export default StyleSheet.create({
   UserInfoContent: {
-    backgroundColor: '#efefef',
+    backgroundColor: "#efefef"
   },
   FinishBtn: {
     paddingRight: 10
   },
   FinishText: {
-    color: '#fff'
+    color: "#fff"
   },
   AvatarView: {
     padding: em(10),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   AvatarImg: {
     width: em(80),
     height: em(80),
-    borderRadius: em(40),
+    borderRadius: em(40)
   },
   AccountDisable: {
-    color: '#ccc'
+    color: "#ccc"
   },
   ChangeBtnContainer: {
-    padding: em(10),
+    padding: em(10)
   },
   ChangeBtn: {
-    color: '#333'
+    color: "#333"
   },
   Segment: {
-    backgroundColor: 'transparent'
+    backgroundColor: "transparent"
   },
   SegmentActiveBtn: {
-    backgroundColor: '#ff630f',
-    borderColor: '#ff630f',
+    backgroundColor: "#ff630f",
+    borderColor: "#ff630f",
     paddingLeft: em(8),
     paddingRight: em(8)
   },
   SegmentDefaultBtn: {
-    backgroundColor: '#fff',
-    borderColor: '#ff630f',
+    backgroundColor: "#fff",
+    borderColor: "#ff630f",
     paddingLeft: em(8),
     paddingRight: em(8)
   },
   SegmentActiveText: {
-    color: '#fff',
-    fontSize: em(16),
+    color: "#fff",
+    fontSize: em(16)
   },
   SegmentDefaultText: {
-    color: '#333',
-    fontSize: em(16),
+    color: "#333",
+    fontSize: em(16)
   }
-
-})
+});

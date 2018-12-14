@@ -201,7 +201,7 @@ class FoodDetailsView extends Component {
       this.props.navigation.navigate("Order", _defaultObj);
   }else {
     if(this.dateFoodId){
-      this.props.navigation.navigate("Login", Object.assign(_defaultObj,{reloadFunc: () => this._reloadWhenCancelLogin()}));
+      this.props.navigation.navigate("Order", Object.assign(_defaultObj,{reloadFunc: () => this._reloadWhenCancelLogin()}));
       }
     }
   }
@@ -365,7 +365,7 @@ class FoodDetailsView extends Component {
             <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>HKD</Text>
             <Text style={FoodDetailsStyles.AddPriceViewPrice}>{price}</Text>
             {
-              originPrice != null ? <Text style={[FoodDetailsStyles.AddPriceViewOriginPrice,{textDecorationLine:'line-through'}]}>堂食HKD {originPrice}</Text> : null
+              originPrice != null ? <Text style={[FoodDetailsStyles.AddPriceViewOriginPrice,{textDecorationLine:'line-through'}]}>套餐價HKD {originPrice}</Text> : null
             }
           </View>
         </View>
@@ -381,7 +381,7 @@ class FoodDetailsView extends Component {
           <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>HKD</Text>
           <Text style={FoodDetailsStyles.AddPriceViewPrice}>{foodDetails.price}</Text>
           {
-            foodDetails.originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>堂食 HKD {foodDetails.originPrice}</Text> : null
+            foodDetails.originPrice != null ? <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>套餐價 HKD {foodDetails.originPrice}</Text> : null
           }
           {foodDetails.originPrice != null ? <View style={FoodDetailsStyles.AddPriceViewStriping}/> : null}
         </View>
@@ -500,23 +500,27 @@ class FoodDetailsView extends Component {
       case 'wechat': {
         WeChat.isWXAppInstalled()
           .then((isInstalled) => {
-            console.log(isInstalled);
               if (isInstalled) {
-                  WeChat.shareToSession({
-                      title: '新人註冊領HKD20優惠券',
-                      description: foodName,
-                      thumbImage: extralImage[0],
-                      type: 'news',
-                      webpageUrl: `https://m.goforeat.hk/#/foodDetails/${this.dateFoodId}`
-                  })
-                  .catch((error) => {
-                  if(error.message == -2){
-                      ToastUtil.showWithMessage('分享失敗');
-                  }
-                  else{
-                      ToastUtil.showWithMessage('分享成功');
-                  }
-                  });
+                let _obj = {
+                  title: '新人註冊領HKD20優惠券',
+                  description: foodName,
+                  thumbImage: extralImage[0],
+                  type: 'news',
+                  webpageUrl: `https://m.goforeat.hk/#/foodDetails/${this.dateFoodId}`
+                };
+                // Platform.OS=='ios' && (
+                //   _obj['thumbImage'] = extralImage[0]
+                // );
+                WeChat.shareToSession(_obj)
+                .catch((error) => {
+                  console.log(error);
+                if(error.message == -2){
+                    ToastUtil.showWithMessage('分享失敗');
+                }
+                else{
+                    ToastUtil.showWithMessage('分享成功');
+                }
+                });
               } else {
                   ToastUtil.showWithMessage('WeChat is not installed');
               }

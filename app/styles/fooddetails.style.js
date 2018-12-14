@@ -1,14 +1,11 @@
-import {
-  StyleSheet,
-  Platform
-} from 'react-native';
-import GLOBAL_PARAMS,{em} from '../utils/global_params';
-import Colors from '../utils/Colors';
+import { StyleSheet, Platform } from "react-native";
+import GLOBAL_PARAMS, { em } from "../utils/global_params";
+import Colors from "../utils/Colors";
 
 const common = {
   marginLeft: em(15),
-  fontColor: Colors.fontBlack,
-}
+  fontColor: Colors.fontBlack
+};
 
 export default StyleSheet.create({
   // _renderDateFormat
@@ -18,7 +15,7 @@ export default StyleSheet.create({
   },
   DateFormatWeekText: {
     fontSize: em(20),
-    fontWeight: 'bold'
+    fontWeight: "bold"
   },
   DateFormatDateText: {
     color: Colors.fontGray,
@@ -30,52 +27,52 @@ export default StyleSheet.create({
     marginLeft: common.marginLeft
   },
   DeadLineDateText: {
-    color: '#999999',
+    color: "#999999",
     fontSize: em(16)
   },
   //_renderIntrodutionView
   IntroductionView: {
     width: GLOBAL_PARAMS._winWidth,
     paddingLeft: common.marginLeft,
-    paddingRight: common.marginLeft,
+    paddingRight: common.marginLeft
   },
   IntroductionFoodNameCotainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingBottom: em(10),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    paddingBottom: em(10)
   },
   IntroductionFoodName: {
     fontSize: em(20),
-    color: '#111',
-    fontWeight: 'bold',
+    color: "#111",
+    fontWeight: "bold",
     maxWidth: em(210)
   },
   IntroductionDetailBtn: {
-    color: '#ff3348',
+    color: "#ff3348",
     fontSize: em(18),
     paddingLeft: em(20),
     paddingRight: 0
   },
   IntroductionFoodBrief: {
     fontSize: em(14),
-    color: '#999999',
-    textAlign: 'justify',
-    lineHeight: Platform.OS == 'ios' ? em(20) : em(25),
+    color: "#999999",
+    textAlign: "justify",
+    lineHeight: Platform.OS == "ios" ? em(20) : em(25)
   },
   // _renderAddPriceView
   AddPriceView: {
     width: GLOBAL_PARAMS._winWidth,
     paddingLeft: common.marginLeft,
     paddingRight: common.marginLeft,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   AddPriceViewPriceContainer: {
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'flex-end'
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "flex-end"
   },
   AddPriceViewPriceUnit: {
     fontSize: em(18),
@@ -84,34 +81,36 @@ export default StyleSheet.create({
   },
   AddPriceViewPrice: {
     fontSize: em(25),
-    color: '#ff3348',
+    color: "#ff3348",
     marginRight: GLOBAL_PARAMS._winWidth < 340 ? em(10) : em(15),
     marginBottom: -4
   },
   AddPriceViewOriginPrice: {
     fontSize: em(16),
-    color: '#9B9B9B'
+    color: "#9B9B9B"
   },
   AddPriceViewStriping: {
     width: GLOBAL_PARAMS._winWidth < 340 ? em(60) : em(75),
-    transform: [{
-      rotate: '-5deg'
-    }],
-    backgroundColor: '#9B9B9B',
+    transform: [
+      {
+        rotate: "-5deg"
+      }
+    ],
+    backgroundColor: "#9B9B9B",
     height: 2,
-    position: 'absolute',
+    position: "absolute",
     bottom: 8,
     right: GLOBAL_PARAMS._winWidth < 340 ? em(-3) : em(-8),
     opacity: 0.63
   },
   AddPriceViewCountContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   AddPriceViewCommonBtn: {
     width: em(40),
-    alignItems: 'center'
+    alignItems: "center"
   },
   AddPriceViewAddImage: {
     width: em(25),
@@ -121,7 +120,7 @@ export default StyleSheet.create({
     color: Colors.fontBlack,
     fontSize: em(28),
     width: em(40),
-    textAlign: 'center'
+    textAlign: "center"
   },
   AddPriceViewRemoveImage: {
     width: em(34),
@@ -130,11 +129,12 @@ export default StyleSheet.create({
   },
   //_renderPlacePickerBtn
   PlacePickerBtn: {
-    flexDirection: 'row',
+    flexDirection: "row",
     // marginLeft: Platform.OS == 'ios' ? em(-45) : em(-30),
     flex: 1,
-    marginTop: Platform.OS == 'ios' ? GLOBAL_PARAMS.isIphoneX() ? 15 : 0 : em(-8),
-    position: 'relative',
+    marginTop:
+      Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? 15 : 0) : em(-8),
+    position: "relative"
   },
   PlacePickerBtnBgAbsolute: {
     backgroundColor: Colors.main_white,
@@ -142,12 +142,12 @@ export default StyleSheet.create({
     borderRadius: 100,
     // width: em(250),
     flex: 1,
-    height: em(35),
+    height: em(35)
   },
   PlacePickerBtnImage: {
     width: em(20),
     height: em(20),
-    position: 'absolute',
+    position: "absolute",
     top: em(8),
     right: em(12)
   },
@@ -155,61 +155,61 @@ export default StyleSheet.create({
     color: Colors.main_white,
     marginLeft: 10,
     fontSize: em(16),
-    position: 'absolute',
+    position: "absolute",
     left: em(8),
-    top: Platform.OS == 'android' ? em(7) : em(8),
-    maxWidth: Platform.OS == 'ios' ? em(218) : em(250),
+    top: Platform.OS == "android" ? em(7) : em(8),
+    maxWidth: Platform.OS == "ios" ? em(218) : em(250)
   },
   //render
   ContainerBg: {
-    backgroundColor: '#fff'
+    backgroundColor: "#fff"
   },
   Header: {
     borderBottomWidth: 0,
     padding: 0,
     marginTop: GLOBAL_PARAMS.isIphoneX() ? -GLOBAL_PARAMS.iPhoneXTop : 0,
-    marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0,
+    marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0
   },
   linearGradient: {
     height: GLOBAL_PARAMS.isIphoneX() ? 64 + GLOBAL_PARAMS.iPhoneXTop : 64,
     width: GLOBAL_PARAMS._winWidth,
-    marginTop: Platform.OS == 'ios' ? -15 : 0,
-    paddingTop: Platform.OS == 'ios' ? 15 : 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    marginTop: Platform.OS == "ios" ? -15 : 0,
+    paddingTop: Platform.OS == "ios" ? 15 : 0,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row"
   },
   MenuBtn: {
-    width: GLOBAL_PARAMS._winWidth*0.15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: Platform.OS == 'ios' ? 0 : -8,
+    width: GLOBAL_PARAMS._winWidth * 0.15,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: Platform.OS == "ios" ? 0 : -8,
     height: 50,
-    position: 'relative',
+    position: "relative"
   },
   MenuBtnAndroid: {
-    width: GLOBAL_PARAMS._winWidth*0.15,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: GLOBAL_PARAMS._winWidth * 0.15,
+    justifyContent: "center",
+    alignItems: "center",
     height: 50,
-    position: 'relative',
+    position: "relative",
     marginRight: 10
   },
   MenuImage: {
     width: em(23),
     height: em(23),
-    marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,
+    marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0
   },
   locationImage: {
     width: em(19),
     height: em(19),
-    marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,
+    marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0
   },
   HeaderContent: {
     flex: 1,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center"
   },
   BottomView: {
     height: 80,
@@ -219,31 +219,38 @@ export default StyleSheet.create({
   panelTitle: {
     fontSize: em(20),
     marginTop: em(10),
-    marginBottom: em(10),
+    marginBottom: em(10)
   },
-  panelImage: {height: em(250),marginTop: em(10),marginBottom: em(10),borderRadius: em(8)},
+  panelImage: {
+    height: em(250),
+    marginTop: em(10),
+    marginBottom: em(10),
+    borderRadius: em(8)
+  },
   canteenName: {
     fontSize: em(18),
-    color: '#999'
+    color: "#999"
   },
   canteenFavorite: {
     fontSize: em(20),
-    color: '#959595',
+    color: "#959595",
     marginRight: em(8),
-    width: em(20),
+    width: em(20)
   },
   canteenFavoriteActive: {
     fontSize: em(20),
     marginRight: em(8),
     color: Colors.main_orange,
-    width: em(20),
+    width: em(20)
   },
-  canteenImg: Platform.OS == 'ios' ? {
-    width: em(16),
-    height: em(13)
-  } : {
-    width: em(45),
-    height: em(40)
-  }
-
-})
+  canteenImg:
+    Platform.OS == "ios"
+      ? {
+          width: em(16),
+          height: em(13)
+        }
+      : {
+          width: em(45),
+          height: em(40)
+        }
+});

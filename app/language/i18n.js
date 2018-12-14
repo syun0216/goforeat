@@ -1,8 +1,9 @@
-import zh from './zh';
-import en from './en';
+import zh from "./zh";
+import en from "./en";
 
 const i18n = {
-  zh,en
+  zh,
+  en
 };
 
 export default i18n;

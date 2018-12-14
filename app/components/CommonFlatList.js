@@ -191,6 +191,7 @@ export default class CommonFlatList extends Component{
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
+            title="loading..."
             onRefresh={() => this._onRefreshToRequestFirstPageData()}
           />
         }

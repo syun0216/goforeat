@@ -12,7 +12,7 @@ export default class SplashPageView extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1,justifyContent: 'center',alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <TouchableOpacity onPress={this._toggleModal}>
           <Text>Show Modal</Text>
         </TouchableOpacity>

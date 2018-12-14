@@ -15,19 +15,23 @@ import {
   HIDE_AD
 } from "../actions";
 //cache
-import {userStorage} from "../cache/appStorage";
+import { userStorage } from "../cache/appStorage";
 //utils
 import Colors from "../utils/Colors";
-import {isEmpty} from '../utils/global_params';
+import { isEmpty } from "../utils/global_params";
 //api
-import {setPayment} from '../api/request';
+import { setPayment } from "../api/request";
 
 const initialState = {
   userState: {
     username: null,
     sid: null,
-    nickName: '',
-    profileImg: ''
+    nickName: "",
+    profileImg: ""
+  },
+  loginState: {
+    showLogin: false,
+    toPage: null
   },
   placeState: {
     place: null
@@ -39,10 +43,10 @@ const initialState = {
     theme: Colors.main_orange
   },
   languageState: {
-    language: 'zh'
+    language: "zh"
   },
   paytypeState: {
-    payType: 'cash'
+    payType: "cash"
   },
   creditState: {
     creditCardInfo: null
@@ -53,8 +57,8 @@ const initialState = {
 };
 
 export function toggleAd(state = initialState.advertimentState, action) {
-  switch(action.type) {
-    case SHOW_AD: 
+  switch (action.type) {
+    case SHOW_AD:
       return {
         ...state,
         isAdvertisementShow: true
@@ -64,16 +68,17 @@ export function toggleAd(state = initialState.advertimentState, action) {
         ...state,
         isAdvertisementShow: false
       };
-    default: return state;
+    default:
+      return state;
   }
 }
 
 export function loading(state = initialState.loading, action) {
   switch (action.type) {
     case IS_LOADING:
-      return true
+      return true;
     case IS_NOT_LOADING:
-      return false
+      return false;
     default:
       return state;
   }
@@ -90,63 +95,87 @@ export function auth(state = initialState.userState, action) {
         profileImg: action.profileImg
       };
     case LOGOUT:
-    userStorage.removeData();
+      userStorage.removeData();
       return {
         ...state,
         username: null
-      };  
+      };
     default:
       return state;
   }
 }
 
-export function placeSetting(state = initialState.placeState, action) { 
-  switch(action.type) {
-    case STOCK_PLACE: {
-    return {
-      ...state,
-      place: action.place
-    }}
-    case DELETE_PLACE: return {
-      ...state,
-      place: null
+export function login(state = initialState.loginState, action) {
+  switch (action.type) {
+    case "CHANGE_LOGIN_STATUS": {
+      return {
+        ...state,
+        showLogin: action.showLogin
+      };
     }
-    default: return state;
+    case "SET_LOGIN_TO_PAGE": {
+      return {
+        ...state,
+        toPage: action.toPage
+      };
+    }
+    default:
+      return state;
   }
- }
+}
+
+export function placeSetting(state = initialState.placeState, action) {
+  switch (action.type) {
+    case STOCK_PLACE: {
+      return {
+        ...state,
+        place: action.place
+      };
+    }
+    case DELETE_PLACE:
+      return {
+        ...state,
+        place: null
+      };
+    default:
+      return state;
+  }
+}
 
 export function payType(state = initialState.paytypeState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case SET_PAY_TYPE: {
       setPayment(action.paytype).then(data => {
-        if(data.ro.ok) {
+        if (data.ro.ok) {
           !isEmpty(action.callback) && action.callback();
         }
-      })
+      });
       return {
         ...state,
         payType: action.paytype
-      }
+      };
     }
-    default: return state;
+    default:
+      return state;
   }
 }
 
 export function creditCardInfo(state = initialState.creditState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case SET_CREDIT_CARD: {
       return {
         ...state,
         creditCardInfo: action.creditCardInfo
-      }
-    };
+      };
+    }
     case REMOVE_CREDIT_CARD: {
       return {
         ...state,
         creditCardInfo: null
-      }
+      };
     }
-    default: return state;
+    default:
+      return state;
   }
 }
 
@@ -174,9 +203,11 @@ export function theme(state = initialState.themeState, action) {
   }
 }
 
-export function language(state=initialState.languageState,action) {
-  switch(action.type) {
-    case CHANGE_LANGUAGE: return {...state,language: action.language};
-    default: return state
+export function language(state = initialState.languageState, action) {
+  switch (action.type) {
+    case CHANGE_LANGUAGE:
+      return { ...state, language: action.language };
+    default:
+      return state;
   }
 }

@@ -1,11 +1,17 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Platform, Animated, ScrollView } from 'react-native';
-import Interactable from 'react-native-interactable';
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Platform,
+  Animated
+} from "react-native";
+import Interactable from "react-native-interactable";
 
 const Screen = {
-  width: Dimensions.get('window').width,
-  height: Dimensions.get('window').height - 75
-}
+  width: Dimensions.get("window").width,
+  height: Dimensions.get("window").height - 75
+};
 
 export default class SlideUpPanel extends Component {
   constructor(props) {
@@ -13,14 +19,14 @@ export default class SlideUpPanel extends Component {
     this._deltaY = new Animated.Value(Screen.height + 100);
     this.state = {
       panelTop: 64
-    }
+    };
   }
 
   _snapTo() {
-    if(Platform.OS == 'ios') {
-      this.animationRef.snapTo({y: this.state.panelTop})
+    if (Platform.OS == "ios") {
+      this.animationRef.snapTo({ y: this.state.panelTop });
     } else {
-      this.animationRef.snapTo({index: 0})
+      this.animationRef.snapTo({ index: 0 });
     }
   }
 
@@ -28,13 +34,13 @@ export default class SlideUpPanel extends Component {
     let _top = Screen.height - viewHeight;
     this.setState({
       panelTop: _top > 0 ? _top : 64
-    })
+    });
   }
 
   render() {
     return (
-        <View style={styles.panelContainer} pointerEvents={'box-none'}>
-          {/*<Animated.View
+      <View style={styles.panelContainer} pointerEvents={"box-none"}>
+        {/*<Animated.View
           onPress={() => console.log(123)}
             pointerEvents={'box-none'}
             style={[styles.panelContainer, {
@@ -45,21 +51,22 @@ export default class SlideUpPanel extends Component {
               extrapolateRight: 'clamp'
             })
           }]} />*/}
-          <Interactable.View
-            ref = {ref => this.animationRef = ref}
-            verticalOnly={true}
-            snapPoints={[{y: this.state.panelTop}, {y: Screen.height + 100}]}
-            boundaries={{top: -300}}
-            initialPosition={{y: Screen.height + 100}}
-            animatedValueY={this._deltaY}>
-            <View style={styles.panel}>
-              <View style={styles.panelHeader}>
-                <View style={styles.panelHandle} />
-              </View>
-              {this.props.children}              
+        <Interactable.View
+          ref={ref => (this.animationRef = ref)}
+          verticalOnly={true}
+          snapPoints={[{ y: this.state.panelTop }, { y: Screen.height + 100 }]}
+          boundaries={{ top: -300 }}
+          initialPosition={{ y: Screen.height + 100 }}
+          animatedValueY={this._deltaY}
+        >
+          <View style={styles.panel}>
+            <View style={styles.panelHeader}>
+              <View style={styles.panelHandle} />
             </View>
-          </Interactable.View>
-        </View>
+            {this.props.children}
+          </View>
+        </Interactable.View>
+      </View>
     );
   }
 }
@@ -67,36 +74,36 @@ export default class SlideUpPanel extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#efefef',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#efefef"
   },
   panelContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0,
+    right: 0
   },
   panel: {
     height: Screen.height + 300,
     padding: 20,
-    backgroundColor: '#f7f5eee8',
+    backgroundColor: "#f7f5eee8",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 0},
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 0 },
     shadowRadius: 5,
     shadowOpacity: 0.4
   },
   panelHeader: {
-    alignItems: 'center'
+    alignItems: "center"
   },
   panelHandle: {
     width: 40,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#00000040',
+    backgroundColor: "#00000040",
     marginBottom: 10
   },
   panelTitle: {
@@ -105,24 +112,24 @@ const styles = StyleSheet.create({
   },
   panelSubtitle: {
     fontSize: 14,
-    color: 'gray',
+    color: "gray",
     height: 30,
     marginBottom: 10
   },
   panelButton: {
     padding: 20,
     borderRadius: 10,
-    backgroundColor: '#318bfb',
-    alignItems: 'center',
+    backgroundColor: "#318bfb",
+    alignItems: "center",
     marginVertical: 10
   },
   panelButtonTitle: {
     fontSize: 17,
-    fontWeight: 'bold',
-    color: 'white'
+    fontWeight: "bold",
+    color: "white"
   },
   photo: {
-    width: Screen.width-40,
+    width: Screen.width - 40,
     height: 225,
     marginTop: 30
   },

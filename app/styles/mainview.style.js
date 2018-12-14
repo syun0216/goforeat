@@ -1,9 +1,6 @@
-import {
-  StyleSheet,
-  Platform
-} from 'react-native';
-import GLOBAL_PARAMS,{em} from '../utils/global_params';
-import Colors from '../utils/Colors';
+import { StyleSheet, Platform } from "react-native";
+import GLOBAL_PARAMS, { em } from "../utils/global_params";
+import Colors from "../utils/Colors";
 
 export default StyleSheet.create({
   //tabbar
@@ -23,41 +20,41 @@ export default StyleSheet.create({
     width: em(65),
     height: em(65),
     marginTop: em(5),
-    borderRadius:em(65/2),
+    borderRadius: em(65 / 2),
     borderWidth: 1,
-    borderColor: '#fff',
-    marginLeft: em(10),
+    borderColor: "#fff",
+    marginLeft: em(10)
   },
   drawerTopImageContainer: {
     flex: 1,
     marginLeft: em(15),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     height: em(70),
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: "row",
+    alignItems: "center"
   },
   topName: {
-    color: '#fff',
+    color: "#fff",
     fontSize: em(20)
   },
   topNickName: {
-    color: '#fff',
-    fontSize: em(13),
+    color: "#fff",
+    fontSize: em(13)
   },
   topLoginBtn: {
-    height: em (30),
-    justifyContent: 'center',
+    height: em(30),
+    justifyContent: "center"
   },
   loginBtnText: {
-    color: '#F8E71C',
+    color: "#F8E71C",
     fontSize: em(16),
     marginRight: em(10),
-    fontWeight: '800'
+    fontWeight: "800"
   },
   loginBtnArrow: {
-    color: '#fff',
+    color: "#fff",
     fontSize: em(16),
-    fontWeight: '800',
+    fontWeight: "800",
     marginBottom: em(-5)
   },
   drawerContent: {
@@ -69,21 +66,21 @@ export default StyleSheet.create({
   drawerItemBtn: {
     padding: em(20),
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "center"
   },
   drawerItemImage: {
     width: em(22),
     height: em(22)
   },
   drawerItemIcon: {
-    color: '#EE6723',
+    color: "#EE6723",
     fontSize: em(25)
   },
   drawerItemText: {
-    fontSize: Platform.OS == 'ios' ? em(20) : em(18),
+    fontSize: Platform.OS == "ios" ? em(20) : em(18),
     textAlignVertical: "center",
     marginLeft: em(25),
     color: Colors.fontBlack,
-    fontWeight: '700',
+    fontWeight: "700"
   }
-})
+});
