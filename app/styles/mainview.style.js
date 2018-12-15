@@ -64,7 +64,7 @@ export default StyleSheet.create({
     backgroundColor: Colors.main_white
   },
   drawerItemBtn: {
-    padding: em(20),
+    padding: em(15),
     flexDirection: "row",
     alignItems: "center"
   },

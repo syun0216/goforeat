@@ -145,6 +145,7 @@ export default class CustomLoginView extends PureComponent {
       ToastUtil.showWithMessage(i18n.login_tips.fail.code_null)
       return
     }
+    this.props.showLoading();
     checkCode(phone,selectedValue.value,this.token,password).then(data => {
       if(data.ro.respCode == '0000'){
         ToastUtil.showWithMessage(i18n.login_tips.success.login);
@@ -187,6 +188,7 @@ export default class CustomLoginView extends PureComponent {
         })
       }
       else{
+        this.props.hideLoading();
         ToastUtil.showWithMessage(data.ro.respMsg);
       }
     })

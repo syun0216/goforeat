@@ -170,12 +170,7 @@ class FoodListView extends Component {
         justifyContent: 'space-between',flexDirection: 'row',position: 'relative'}}>
         <Text style={[FoodDetailsStyles.DateFormatWeekText, {color: '#333'}]}>
         精選菜品</Text>
-        {
-          Platform.OS === 'ios' ? (<Text>{this.state.star && this._renderStarView(this.state.star/5)}評分:{this.state.star}</Text>) : (
-          <Text>評分:{this.state.star}</Text>
-          )
-        }
-        
+        <Text>互動評分:{this.state.star}/5</Text>
       </View>
     )
   }
@@ -245,25 +240,25 @@ class FoodListView extends Component {
         onPress={() => {
           this.props.navigation.navigate('Food', {dateFoodId: item.dateFoodId});
         }} activeOpacity={0.6}>
-        <Image source={{uri: item.thumbnail}} style={{width: _winWidth*0.45 - 10,height: em(160)}} resizeMode="cover"/>
+        <Image source={{uri: item.thumbnail}} style={{width: _winWidth*0.45 - 10,height: em(170)}} resizeMode="cover"/>
         <View style={styles.articleItemDetails}>
           <View style={[styles.itemName, styles.marginBottom9]}>
             <Text style={styles.foodName} numberOfLines={1}>{item.name}</Text>
           </View>
-          {/*<View style={{height: em(75),marginBottom: 12.5,}}>
-            <Text style={styles.foodBrief} numberOfLines={_device == 'iPhone6' ? 4 : 5}>{item.brief}</Text>
-          </View>*/}
           <View style={styles.foodCommonContainer}>
             <Text style={styles.foodCommon}>日期</Text>
             <Text style={styles.foodCommon}>{item.date}</Text>
           </View>
-          <View style={styles.foodCommonContainer}>
+          {/* <View style={styles.foodCommonContainer}>
             <Text style={styles.foodCommon}>餐廳</Text>
             <Text style={styles.foodCommon}>{item.canteenName}</Text>
-          </View>
+          </View> */}
           <View style={styles.foodCommonContainer}>
-            <Text style={styles.foodCommon}>堂食</Text>
+            <Text style={styles.foodCommon}>套餐價</Text>
             <Text style={[styles.foodCommon,item.originPrice?{textDecorationLine:'line-through',textDecorationColor:'#666'}:{}]}>{item.originPrice ? `HKD${parseFloat(item.originPrice).toFixed(2)}` : '市價'}</Text>
+          </View>
+          <View>
+            <Text style={styles.foodBrief}>成分: {item.component || ''}</Text>
           </View>
           <View style={styles.foodCommonContainer}>
             <View style={{flexDirection: 'row'}}>
@@ -308,7 +303,7 @@ export default FoodListView;
 
 const styles = StyleSheet.create({
   articleItemContainer:{
-    height: em(160),
+    height: em(170),
     flex:1,
     borderRadius: 8,
     marginTop: 10,
@@ -352,8 +347,8 @@ const styles = StyleSheet.create({
     color: '#666'
   },
   foodBrief: {
-    fontSize: em(11),
-    color: '#999',
+    fontSize: em(13),
+    color: '#666',
     textAlign: 'justify',
     lineHeight: 16
   },
