@@ -12,7 +12,8 @@ import {
   SET_CREDIT_CARD,
   REMOVE_CREDIT_CARD,
   SHOW_AD,
-  HIDE_AD
+  HIDE_AD,
+  STORE_PLACE_LIST
 } from "../actions";
 //cache
 import { userStorage } from "../cache/appStorage";
@@ -34,7 +35,8 @@ const initialState = {
     toPage: null
   },
   placeState: {
-    place: null
+    place: null,
+    placeList: [],
   },
   goodsListState: {
     refreshParams: null //註冊后返回首頁強刷
@@ -137,6 +139,12 @@ export function placeSetting(state = initialState.placeState, action) {
         ...state,
         place: null
       };
+    case STORE_PLACE_LIST: {
+      return {
+        ...state,
+        placeList: action.placeList
+      }
+    };
     default:
       return state;
   }
