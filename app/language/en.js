@@ -1,6 +1,7 @@
 export default {
   goforeat: "Goforeat",
   myorder: "My Order",
+  pickPlace: "Pick up place",
   contact: "Contact Us",
   about: "About Us",
   setting: "Setting",

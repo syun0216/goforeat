@@ -1,6 +1,7 @@
 export default {
   goforeat: "有得食",
   myorder: "我的訂單",
+  pickPlace: "取  餐  點",
   contact: "用戶支援",
   about: "關於我們",
   setting: "系統設置",
