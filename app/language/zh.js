@@ -188,7 +188,8 @@ export default {
     },
     common: {
       cancel_order: "確定要取消訂單嗎？",
-      cancel_order_btn: "取消訂單"
+      cancel_order_btn: "取消訂單",
+      pick_place_btn: "取餐點"
     }
   },
   hot_reload_tips: {

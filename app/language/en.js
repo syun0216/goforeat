@@ -191,7 +191,8 @@ export default {
     },
     common: {
       cancel_order: "Are you sure you want to cancel the order?",
-      cancel_order_btn: "cancel order"
+      cancel_order_btn: "cancel order",
+      pick_place_btn: "Pick up place"
     }
   },
   hot_reload_tips: {
