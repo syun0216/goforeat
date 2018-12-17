@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   tagContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   tagView: {
     padding: 10,
@@ -169,35 +169,26 @@ class CommonComment extends Component {
 
   _addComment() {
     this._addCommentApi();
-    if(this.state.currentStar == 5) {
-      setTimeout(() => {
-        Share.shareSingle(Object.assign(shareOptions, {
-          "social": "whatsapp"
-        }))
-        .then(info => {
-          // this.setState({
-          //   modalVisible: false
-          // });
-        })
-        .catch((err) => { 
-          alert(`WhatsApp:${err && err.error && err.error.message}`)
-          // this.setState({
-          //   modalVisible: false
-          // });
-          return;
+  }
+
+  _share() {
+    setTimeout(() => {
+      Share.shareSingle(Object.assign(shareOptions, {
+        "social": "whatsapp"
+      }))
+      .then(info => {
+        this.setState({
+          modalVisible: false
         });
-      },300);
-      
-      // Share.open(shareOptions)
-      // .then(info => {
-      //   this.setState({
-      //     modalVisible: false
-      //   });
-      // })
-      // .catch((err) => { 
-      //   console.log({err});
-      // });
-    }
+      })
+      .catch((err) => { 
+        alert(`WhatsApp:${err && err.error && err.error.message}`)
+        this.setState({
+          modalVisible: false
+        });
+        return;
+      });
+    },300);
   }
 
   _getComment(val) {
@@ -304,7 +295,10 @@ class CommonComment extends Component {
           {this._renderTagView()}
           {this.state.commentTags.indexOf('文字評價')> -1 ?<TextInput numberOfLines={4} multiline allowFontScaling={false} style={styles.Input} underlineColorAndroid="transparent" placeholderTextColor="#9d9d9d" 
           placeholder="您的評價" clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/> : null}
-          <CommonBottomBtn clickFunc={() => this._addComment()}>{this.state.btnContent}</CommonBottomBtn>
+          <View style={{flexDirection: 'row',justifyContent: 'space-around',}}>
+            <CommonBottomBtn style={{width: GLOBAL_PARAMS._winWidth * .2}} clickFunc={() => this._share()}>分享</CommonBottomBtn>
+            <CommonBottomBtn style={{width: GLOBAL_PARAMS._winWidth * .7}} clickFunc={() => this._addComment()}>填寫評論領取5HKD優惠券</CommonBottomBtn>
+          </View>
         </View>
       </View>
     )
