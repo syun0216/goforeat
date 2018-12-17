@@ -30,6 +30,7 @@ import MoreDetailView from "./views/MoreDetailView";
 import FeedbackView from "./views/FeedbackView";
 import UserInfoView from "./views/UserInfoView";
 import CouponView from "./views/CouponView";
+import PickPlaceView from "./views/PickPlaceView";
 //api
 import source from "./api/CancelToken";
 //utils
@@ -166,6 +167,9 @@ const darwerView = DrawerNavigator(
     MyOrderDrawer: {
       screen: CommonHOC(MyOrderView)
     },
+    PickPlaceDrawer: {
+      screen: CommonHOC(PickPlaceView)
+    },
     PayTypeDrawer: {
       screen: CommonHOC(PaySettingView)
     },
@@ -187,7 +191,7 @@ const darwerView = DrawerNavigator(
     drawerWidth: GLOBAL_PARAMS._winWidth * 0.75,
     drawerPosition: "left",
     contentComponent: props => {
-      let { language } = props.screenProps;
+      let { language } = store.getState().language;
       let _drawItemArr = [
         {
           title: i18n[language].dailyFood,
@@ -196,6 +200,10 @@ const darwerView = DrawerNavigator(
         {
           title: i18n[language].myorder,
           leftImage: require("./asset/order.png")
+        },
+        {
+          title: i18n[language].pickPlace,
+          leftImage: require("./asset/location.png")
         },
         {
           title: i18n[language].payment,
@@ -318,15 +326,6 @@ let MainView = StackNavigator(
         tabBarVisible: false
       }
     },
-    // Login: {
-    //   screen: CustomLoginView,
-    //   navigationOptions: {
-    //     tabBarVisible: false,
-    //     transitionConfig: {
-    //       isModal: true
-    //     }
-    //   }
-    // },
     Statement: {
       screen: CommonHOC(StatementView)
     },
@@ -387,23 +386,6 @@ MainView.router.getStateForAction = (action, state) => {
   if (action.type === NavigationActions.NAVIGATE) {
     source.cancel();
   }
-  if (
-    typeof state !== "undefined" &&
-    state.routes[state.routes.length - 1].routeName === "Search"
-  ) {
-    const routes = state.routes.slice(0, state.routes.length - 1);
-    return defaultGetStateForAction(action, {
-      ...state,
-      routes,
-      index: routes.length - 1
-    });
-  }
-  // if(action.type != 'Navigation/SET_PARAMS') {
-  //   if(action.routeName == 'DrawerClose' || action.routeName == 'ShopTab') { //监听首页
-  //     store.dispatch({type:'REFRESH',refresh: new Date()});
-  //   }
-  // }
-
   if (state && action.type === NavigationActions.NAVIGATE) {
     if (action.params && action.params.replaceRoute) {
       //replaceRoute值 仅仅作为一个标识，进到这个方法之后就没有作用了

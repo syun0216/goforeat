@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Image } from "react-native";
+import {connect} from 'react-redux';
+//actions
+import { STORE_PLACE_LIST, STOCK_PLACE } from '../actions';
 //utils
 import ToastUtils from "../utils/ToastUtil";
 //api
 import { foodPlaces } from "../api/request";
 //cache
-import { placeStorage } from "../cache/appStorage";
+import { placeStorage, placeListStorage } from "../cache/appStorage";
 //components
 import CommonItem from "./CommonItem";
 import CommonModal from "./CommonModal";
@@ -36,7 +39,6 @@ class PlacePickerModel extends Component {
       if (error === null) {
         if (data !== null) {
           this.getPlace(data);
-          this.props.screenProps.stockPlace(data);
         } else {
           this.getPlace();
         }
@@ -93,9 +95,10 @@ class PlacePickerModel extends Component {
               placeList: data.data
             });
           });
-
           this.props.getSeletedValue(_data);
-          this.props.screenProps.stockPlace(_data);
+          this.props.stockPlaceList(data.data);
+          placeListStorage.setData(data.data);
+          this.props.stockPlace(_data);
           placeStorage.setData(_data);
         } else {
           ToastUtils.showWithMessage(data.ro.repMsg);
@@ -119,7 +122,7 @@ class PlacePickerModel extends Component {
         this.props.getSeletedValue(item);
         let _timer = setTimeout(() => {
           clearTimeout(_timer);
-          this.props.screenProps.stockPlace(item);
+          this.props.stockPlace(item);
           placeStorage.setData(item);
           this.props.closeFunc();
         }, 200);
@@ -151,4 +154,16 @@ class PlacePickerModel extends Component {
   }
 }
 
-export default PlacePickerModel;
+const placePickerModalStateToProps = state => {
+  return ({
+    place: state.placeSetting.place,
+    placeList: state.placeSetting.placeList
+  })
+}
+
+const placePickerDispatchToProps = dispatch => ({
+  stockPlace: (place) => dispatch({type: STOCK_PLACE,place}),
+  stockPlaceList: placeList => dispatch({type: STORE_PLACE_LIST, placeList})
+})
+
+export default connect(placePickerModalStateToProps, placePickerDispatchToProps)(PlacePickerModel);

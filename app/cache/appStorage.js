@@ -45,6 +45,8 @@ export const userStorage = new storageFactory('storage_key_user_data');
 
 export const placeStorage = new storageFactory('storage_key_place');
 
+export const placeListStorage = new storageFactory('storage_key_place_list');
+
 export const languageStorage = new storageFactory('storage_key_language');
 
 export const payTypeStorage = new storageFactory('storage_key_pay');
