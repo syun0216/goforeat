@@ -38,9 +38,6 @@ const initialState = {
     place: null,
     placeList: [],
   },
-  goodsListState: {
-    refreshParams: null //註冊后返回首頁強刷
-  },
   themeState: {
     theme: Colors.main_orange
   },
@@ -55,8 +52,24 @@ const initialState = {
   },
   advertimentState: {
     isAdvertisementShow: true
-  }
+  },
+  pageState: {} //页面缓存
 };
+
+export function pageCache(state = initialState.pageState, action) {
+  switch(action.type) {
+    case 'SAVE_CACHE': {
+      return {
+        ...state,
+        ...action.pageCache
+      }
+    };
+    case 'RESET_CACHE': {
+      return {}
+    };
+    default: return {}
+  }
+}
 
 export function toggleAd(state = initialState.advertimentState, action) {
   switch (action.type) {
@@ -129,21 +142,16 @@ export function login(state = initialState.loginState, action) {
 export function placeSetting(state = initialState.placeState, action) {
   switch (action.type) {
     case STOCK_PLACE: {
-      return {
-        ...state,
-        place: action.place
-      };
+      state['place'] = action.place;
+      return state;
     }
-    case DELETE_PLACE:
-      return {
-        ...state,
-        place: null
-      };
+    case DELETE_PLACE:{
+      state['place'] = null;
+      return state;
+    }
     case STORE_PLACE_LIST: {
-      return {
-        ...state,
-        placeList: action.placeList
-      }
+      state['placeList'] = action.placeList;
+      return state;
     };
     default:
       return state;
@@ -163,37 +171,6 @@ export function payType(state = initialState.paytypeState, action) {
         payType: action.paytype
       };
     }
-    default:
-      return state;
-  }
-}
-
-export function creditCardInfo(state = initialState.creditState, action) {
-  switch (action.type) {
-    case SET_CREDIT_CARD: {
-      return {
-        ...state,
-        creditCardInfo: action.creditCardInfo
-      };
-    }
-    case REMOVE_CREDIT_CARD: {
-      return {
-        ...state,
-        creditCardInfo: null
-      };
-    }
-    default:
-      return state;
-  }
-}
-
-export function refresh(state = initialState.goodsListState, action) {
-  switch (action.type) {
-    case REFRESH:
-      return {
-        ...state,
-        refreshParams: action.refresh
-      };
     default:
       return state;
   }
