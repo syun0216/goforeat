@@ -13,24 +13,23 @@ import Colors from "../utils/Colors";
 
 const styles = StyleSheet.create({
   loadingContainer: {
-    // position:'absolute',
-    // top:0,
-    // left:0,
-    // flex:1,
-    backgroundColor: "#fff",
-    justifyContent: "flex-start",
-    padding: GLOBAL_PARAMS.em(60),
+    position:'absolute',
+    top:0,
+    left:0,
+    bottom: 0,
+    right: 0,
+    flex:1,
+    backgroundColor: 'transparent',
+    justifyContent: "center",
     zIndex: 10000,
-    height: GLOBAL_PARAMS._winHeight
   },
   loadingContainerAndroid: {
     position: "absolute",
     top: 0,
     left: 0,
     flex: 1,
-    justifyContent: "flex-start",
-    padding: GLOBAL_PARAMS.em(60),
-    backgroundColor: Colors.main_white,
+    justifyContent: "center",
+    backgroundColor: 'transparent',
     width: GLOBAL_PARAMS._winWidth,
     height: GLOBAL_PARAMS._winHeight,
     zIndex: 10
@@ -50,21 +49,20 @@ const Loading = props => {
       <View
         style={{
           alignSelf: "center",
-          // backgroundColor: Colors.fontBlack,
-          // borderRadius: 20,
-          // opacity: 0.8,
-          padding: 25
+          borderRadius: 20,
+          backgroundColor: 'rgba(255,255,255,0.5)',
+          padding: 20,
         }}
       >
         <Image
           source={require("../asset/Coffeeloading.gif")}
-          style={{ width: em(60), height: em(60) }}
+          style={{ width: em(60), height: em(50)}}
           resizeMode="contain"
         />
         <Text
           allowFontScaling={false}
           style={{
-            color: Colors.deep_gray,
+            color: Colors.fontBlack,
             marginTop: 10,
             fontSize: GLOBAL_PARAMS.em(14)
           }}
