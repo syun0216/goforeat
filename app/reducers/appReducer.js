@@ -1,19 +1,20 @@
 import {
   LOGIN,
   LOGOUT,
-  IS_LOADING,
-  IS_NOT_LOADING,
+  SHOW_LOADING,
+  SHOW_LOADING_MODAL,
+  HIDE_LOADING,
+  HIDE_LOADING_MODAL,
   CHANGE_LANGUAGE,
   STOCK_PLACE,
   DELETE_PLACE,
   CHANGE_THEME,
-  REFRESH,
   SET_PAY_TYPE,
-  SET_CREDIT_CARD,
-  REMOVE_CREDIT_CARD,
   SHOW_AD,
   HIDE_AD,
-  STORE_PLACE_LIST
+  STORE_PLACE_LIST,
+  SAVE_CACHE,
+  RESET_CACHE
 } from "../actions";
 //cache
 import { userStorage } from "../cache/appStorage";
@@ -34,9 +35,13 @@ const initialState = {
     showLogin: false,
     toPage: null
   },
+  loadingState: {
+    showLoading: true,
+    showLoadingModal: false
+  },
   placeState: {
     place: null,
-    placeList: [],
+    placeList: []
   },
   themeState: {
     theme: Colors.main_orange
@@ -57,17 +62,18 @@ const initialState = {
 };
 
 export function pageCache(state = initialState.pageState, action) {
-  switch(action.type) {
-    case 'SAVE_CACHE': {
+  switch (action.type) {
+    case SAVE_CACHE: {
       return {
         ...state,
         ...action.pageCache
-      }
-    };
-    case 'RESET_CACHE': {
-      return {}
-    };
-    default: return {}
+      };
+    }
+    case RESET_CACHE: {
+      return {};
+    }
+    default:
+      return {};
   }
 }
 
@@ -88,12 +94,28 @@ export function toggleAd(state = initialState.advertimentState, action) {
   }
 }
 
-export function loading(state = initialState.loading, action) {
+export function loading(state = initialState.loadingState, action) {
   switch (action.type) {
-    case IS_LOADING:
-      return true;
-    case IS_NOT_LOADING:
-      return false;
+    case SHOW_LOADING:
+      return {
+        ...state,
+        showLoading: true
+      };
+    case HIDE_LOADING:
+      return {
+        ...state,
+        showLoading: false
+      };
+    case SHOW_LOADING_MODAL:
+      return {
+        ...state,
+        showLoadingModal: true
+      };
+    case HIDE_LOADING_MODAL:
+      return {
+        ...state,
+        hideLoadingModal: false
+      };
     default:
       return state;
   }
@@ -142,17 +164,17 @@ export function login(state = initialState.loginState, action) {
 export function placeSetting(state = initialState.placeState, action) {
   switch (action.type) {
     case STOCK_PLACE: {
-      state['place'] = action.place;
+      state["place"] = action.place;
       return state;
     }
-    case DELETE_PLACE:{
-      state['place'] = null;
+    case DELETE_PLACE: {
+      state["place"] = null;
       return state;
     }
     case STORE_PLACE_LIST: {
-      state['placeList'] = action.placeList;
+      state["placeList"] = action.placeList;
       return state;
-    };
+    }
     default:
       return state;
   }

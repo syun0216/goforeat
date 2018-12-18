@@ -7,12 +7,10 @@ import {
   Image
 } from "react-native";
 import { Container, Content, Icon, Input, Toast, Footer } from "native-base";
-import Stripe from "react-native-stripe-api";
 //components
 import CommonBottomBtn from "../components/CommonBottomBtn";
 import CommonHeader from "../components/CommonHeader";
 import BlankPage from "../components/BlankPage";
-import Loading from "../components/Loading";
 import ErrorPage from "../components/ErrorPage";
 import Text from "../components/UnScalingText";
 import CommonItem from "../components/CommonItem";
@@ -91,6 +89,7 @@ export default class ConfirmOrderView extends PureComponent {
 
   componentDidMount() {
     this.timer = setTimeout(() => {
+      this.props.showLoading && this.props.showLoading();
       this._createOrder();
       clearTimeout(this.timer);
     }, 500);
@@ -120,6 +119,7 @@ export default class ConfirmOrderView extends PureComponent {
     let { i18n } = this.state;
     createNewOrder(this.dateFoodId, this.amount).then(
       data => {
+        this.props.hideLoading && this.props.hideLoading();
         if (data.ro.respCode == "0000") {
           this.setState({
             loading: false,
@@ -141,6 +141,7 @@ export default class ConfirmOrderView extends PureComponent {
         }
       },
       () => {
+        this.props.hideLoading && this.props.hideLoading();
         this.setState({ loading: false, isError: true });
         ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.get_order);
       }
@@ -219,7 +220,7 @@ export default class ConfirmOrderView extends PureComponent {
       _appleAndAndroidPayRes = token;
       token = _appleAndAndroidPayRes.details.paymentToken;
     }
-    this.props.showLoading();
+    this.props.showLoadingModal();
 
     confirmOrder(
       orderId,
@@ -230,7 +231,7 @@ export default class ConfirmOrderView extends PureComponent {
       _deductionId
     ).then(
       data => {
-        this.props.hideLoading();
+        this.props.hideLoadingModal();
         if (data.ro.respCode == "0000") {
           ToastUtil.showWithMessage(i18n.confirmorder_tips.success.order);
           this.props.navigation.navigate("MyOrderDrawer", {
@@ -248,7 +249,7 @@ export default class ConfirmOrderView extends PureComponent {
       },
       () => {
         // ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.order);
-        this.props.hideLoading();
+        this.props.hideLoadingModal();
       }
     );
   }
@@ -696,7 +697,6 @@ export default class ConfirmOrderView extends PureComponent {
           titleStyle={{ fontSize: 18, fontWeight: "bold" }}
           {...this["props"]}
         />
-        {loading ? <Loading /> : null}
         {isError ? (
           <ErrorPage
             errorToDo={() => this._createOrder()}

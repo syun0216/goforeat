@@ -49,7 +49,7 @@ export default class CommonFlatList extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.navigation)
+    this.props.showLoading&& this.props.showLoading();
     this.init();
     this._timer = setTimeout(() => {
       this._requestFirstPage();
@@ -122,6 +122,7 @@ export default class CommonFlatList extends Component {
     this.getData(
       requestParams.nextOffset,
       data => {
+        this.props.hideLoading && this.props.hideLoading();
         if (data.length == 0) {
           this.setState({
             listData: data,
@@ -137,6 +138,7 @@ export default class CommonFlatList extends Component {
         });
       },
       () => {
+        this.props.hideLoading && this.props.hideLoading();
         this.setState({
           firstPageLoading: LOAD_FAILED
         });
@@ -301,7 +303,7 @@ export default class CommonFlatList extends Component {
     return (
       <View style={[{ flex: 1, position: 'relative' }, style]}>
         {showToTop && this._renderToTop()}
-        {firstPageLoading == LOADING ? <Loading /> : null}
+        {/* {firstPageLoading == LOADING ? <Loading /> : null} */}
         {firstPageLoading == LOAD_FAILED ? <Error /> : null}
         {firstPageLoading == NO_DATA ? <Blank /> : null}
         {firstPageLoading == LOAD_SUCCESS ? this._renderCommonListView() : null}

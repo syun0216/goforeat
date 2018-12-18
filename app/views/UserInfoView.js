@@ -50,6 +50,11 @@ export default class UserInfoView extends PureComponent {
   }
 
   componentDidMount() {
+    this._timer = setTimeout(() => {
+      this.props.showLoading && this.props.showLoading();
+      clearTimeout(this._timer);
+      this._getMyInfo();
+    }, 500);
     this._getMyInfo();
   }
 
@@ -57,6 +62,7 @@ export default class UserInfoView extends PureComponent {
   _getMyInfo() {
     getMyInfo().then(data => {
       // console.log(data);
+      this.props.hideLoading && this.props.hideLoading();
       if (data.ro.ok) {
         this.rawMyInfo = JSON.stringify(data.data);
         this.setState({

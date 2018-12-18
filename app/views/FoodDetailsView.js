@@ -109,14 +109,7 @@ class FoodDetailsView extends Component {
         }
       );
     } else {
-      this.setState(
-        {
-          loading: true
-        },
-        () => {
-          this._onRefreshToRequestFirstPageData(this.dateFoodId);
-        }
-      );
+      this._onRefreshToRequestFirstPageData(this.dateFoodId);
     }
     this._current_offset = 0;
   }
@@ -136,6 +129,7 @@ class FoodDetailsView extends Component {
     getFoodDetails(id).then(
       data => {
         if (data.ro.respCode == "0000") {
+          this.props.hideLoading && this.props.hideLoading();
           this.setState(
             {
               foodDetails: data.data,
@@ -157,6 +151,7 @@ class FoodDetailsView extends Component {
         }
       },
       () => {
+        this.props.hideLoading && this.props.hideLoading();
         this.setState({ isError: true, loading: false, refreshing: false });
       }
     );
@@ -165,9 +160,10 @@ class FoodDetailsView extends Component {
   _onRefreshToRequestFirstPageData(id) {
     if (!id) return;
     this._timer = setTimeout(() => {
+      this.props.showLoading && this.props.showLoading();
       clearTimeout(this._timer);
       this._getFoodDetails(id);
-    }, 800);
+    }, 500);
   }
 
   _handleDoubleTap() {

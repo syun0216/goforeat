@@ -13,10 +13,13 @@ import ToastUtils from "../utils/ToastUtil";
 //components
 import CommonComment from "../components/CommonComment";
 import LoadingModal from "../components/LoadingModal";
+import Loading from "../components/Loading";
 import CommonModal from "../components/CommonModal";
 import LoginView from "../CustomLoginView";
 //language
 import I18n from "../language/i18n";
+//actions
+import { SAVE_CACHE, RESET_CACHE, SHOW_LOADING, SHOW_LOADING_MODAL, HIDE_LOADING, HIDE_LOADING_MODAL } from "../actions";
 
 const lastBackPressed = Date.now();
 
@@ -45,12 +48,10 @@ const jpushCommonUrlDefined = {
 const CommonHOC = WarppedComponent => {
   class Basic extends Component {
     static navigationOptions = WarppedComponent.navigationOptions;
-
     constructor(props) {
       super(props);
       this.state = {
         i18n: I18n[props.screenProps.language],
-        loadingModal: false
       };
     }
 
@@ -94,18 +95,6 @@ const CommonHOC = WarppedComponent => {
     }
 
     //api
-
-    _showLoadingModal() {
-      this.setState({
-        loadingModal: true
-      });
-    }
-
-    _hideLoadingModal() {
-      this.setState({
-        loadingModal: false
-      });
-    }
 
     // ---------------------jpush&codepush&backAndroidHandler
 
@@ -252,8 +241,6 @@ const CommonHOC = WarppedComponent => {
         >
           <LoginView
             {...this.props}
-            showLoading={this._showLoadingModal.bind(this)}
-            hideLoading={this._hideLoadingModal.bind(this)}
             i18n={i18n}
           />
         </CommonModal>
@@ -261,19 +248,20 @@ const CommonHOC = WarppedComponent => {
     }
 
     render() {
-      const { i18n, loadingModal } = this.state;
+      const { i18n } = this.state;
+      const { isLoading, isLoadingModal } = this.props;
       return (
         <Container>
-          {loadingModal && <LoadingModal />}
+          {isLoadingModal && <LoadingModal />}
+          {isLoading && <Loading />}
           {this._renderLoginModal()}
           <CommonComment />
           <WarppedComponent
             ref={w => (this.WarppedComponent = w)}
-            showLoading={this._showLoadingModal.bind(this)}
-            hideLoading={this._hideLoadingModal.bind(this)}
             saveCache={this._saveCache.bind(this)}
             getCache={this._getCache.bind(this)}
             i18n={i18n}
+            toast={msg => ToastUtils.showWithMessage(msg)}
             {...this.props}
           />
         </Container>
@@ -282,12 +270,19 @@ const CommonHOC = WarppedComponent => {
   }
 
   const stateToBasic = state => ({
-    pageCache: state.pageCache
+    pageCache: state.pageCache,
+    isLoading: state.loading.showLoading,
+    isLoadingModal: state.loading.showLoadingModal
   });
 
   const dispatchToBasic = dispatch => ({
-    savePageCache: pageCache => dispatch({ type: "SAVE_CACHE", pageCache }),
-    resetPageCache: () => dispatch({ type: "RESET_CACHE" })
+    savePageCache: pageCache => dispatch({ type: SAVE_CACHE, pageCache }),
+    resetPageCache: () => dispatch({ type: RESET_CACHE }),
+    showLoading: () => dispatch({type: SHOW_LOADING}),
+    showLoadingModal: () => dispatch({type: SHOW_LOADING_MODAL}),
+    hideLoading: () => dispatch({type: HIDE_LOADING}),
+    hideLoadingModal: () => dispatch({type: HIDE_LOADING_MODAL}),
+    dispatch
   });
 
   return connect(

@@ -42,12 +42,18 @@ export default class ManageCreditCardView extends PureComponent {
   }
 
   componentDidMount() {
-    this._getCreditCard();
+    this._timer = setTimeout(() => {
+      this.props.showLoading && this.props.showLoading();
+      this._getCreditCard();
+      clearTimeout(this._timer);
+    }, 500);
   }
 
   //api
   _getCreditCard() {
     getCreditCard().then(data => {
+      this.props.hideLoading && this.props.hideLoading();
+    this._getCreditCard();
       if (data.ro.ok) {
         this.setState({
           creditCardInfo: data.data
@@ -79,10 +85,10 @@ export default class ManageCreditCardView extends PureComponent {
         {
           text: this.i18n.confirm,
           onPress: () => {
-            this.props.showLoading();
+            this.props.showLoadingModal();
             removeCreditCard().then(
               data => {
-                this.props.hideLoading();
+                this.props.hideLoadingModal();
                 if (data.ro.ok) {
                   const { callback } = this.props.navigation.state.params;
                   callback && callback();
@@ -92,7 +98,7 @@ export default class ManageCreditCardView extends PureComponent {
                 }
               },
               () => {
-                this.props.hideLoading();
+                this.props.hideLoadingModal();
               }
             );
           }

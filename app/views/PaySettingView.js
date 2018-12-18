@@ -51,6 +51,7 @@ export default class PaySettingView extends PureComponent {
 
   componentDidMount() {
     let _timer = setTimeout(() => {
+      this.props.showLoading && this.props.showLoading();
       this._getPaySetting();
       clearTimeout(_timer);
     }, 300);
@@ -60,6 +61,7 @@ export default class PaySettingView extends PureComponent {
   _getPaySetting() {
     getPaySetting()
       .then(data => {
+        this.props.hideLoading && this.props.hideLoading();
         if (data.ro.ok) {
           let _arr = [];
           if (data.data && data.data.hasOwnProperty("creditCard")) {
@@ -122,10 +124,11 @@ export default class PaySettingView extends PureComponent {
   _setPayType(payment) {
     let _from_confirm_order =
       typeof this.props.navigation.state.params != "undefined";
-    _from_confirm_order && this.props.showLoading();
+    _from_confirm_order && this.props.showLoadingModal();
     this.props.screenProps.setPayType(
       payment,
       () => {
+        this.props.hideLoadingModal()
         if (_from_confirm_order) {
           const { callback } = this.props.navigation.state.params;
           callback && callback();
@@ -134,7 +137,7 @@ export default class PaySettingView extends PureComponent {
           ToastUtil.showWithMessage("修改支付方式成功");
         }
       },
-      () => this.props.hideLoading()
+      () => this.props.hideLoadingModal()
     );
   }
 
@@ -282,9 +285,7 @@ export default class PaySettingView extends PureComponent {
           canBack={_from_confirm_order}
         />
         <Content style={{ backgroundColor: "#efefef" }}>
-          {this.state.loading ? (
-            <Loading />
-          ) : (
+          {!this.state.loading && (
             <View>
               {payTypeList.map((item, key) => (
                 <CommonItem

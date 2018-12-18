@@ -148,7 +148,7 @@ export default class CreditCardView extends Component {
 
   _bindCard() {
     const { cvc, time } = this.state;
-    const { showLoading, hideLoading } = this.props;
+    const { showLoadingModal, hideLoadingModal } = this.props;
     const { callback } = this.props.navigation.state.params;
     for (let i in this.state) {
       if (this.state[i] == "") {
@@ -169,7 +169,7 @@ export default class CreditCardView extends Component {
         }
       }
     }
-    showLoading();
+    showLoadingModal();
     client
       .createToken({
         number: this._raw_card,
@@ -185,7 +185,7 @@ export default class CreditCardView extends Component {
         }
       })
       .then(data => {
-        hideLoading();
+        hideLoadingModal();
         if (data && data.ro.ok) {
           callback && callback();
           ToastUtils.showWithMessage(this.i18n.credit_card_tips.bind_success);
@@ -197,7 +197,7 @@ export default class CreditCardView extends Component {
       })
       .catch(err => {
         console.log({ err });
-        hideLoading();
+        hideLoadingModal();
         if (err.hasOwnProperty("type")) {
           ToastUtils.showWithMessage(
             this.i18n.credit_card_tips.card_number_error

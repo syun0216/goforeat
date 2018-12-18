@@ -46,7 +46,7 @@ export default class UserHelper extends Component {
         leftIcon: _left_icon(require("../asset/feedback.png")),
         isEnd: false,
         clickFunc: () => {
-          props.navigation.navigate("Feedback");
+          this.props.navigation.navigate("Feedback");
         }
       }
       // {content: i18n[language].online,isEnd: true,clickFunc: () => {ToastUtil.showWithMessage('該功能暫未開放')}},

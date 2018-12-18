@@ -6,7 +6,7 @@
 
  import Toast from 'react-native-root-toast';
 
-let ToastUtil = {
+const ToastUtil = {
 
     showWithMessage(message) {
         Toast.show(message, {duration: Toast.durations.SHORT,position:Toast.positions.CENTER});
@@ -29,4 +29,4 @@ let ToastUtil = {
     },
 };
 
-module.exports = ToastUtil;
+export default ToastUtil;
