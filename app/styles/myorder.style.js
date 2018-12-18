@@ -89,8 +89,13 @@ export default StyleSheet.create({
     marginLeft: em(5)
   },
   payStatusText: {
-    color: "#ff3348",
+    color: "#FF3348",
     fontSize: em(16)
+  },
+  pickNumber: {
+    color: "#ff3348",
+    fontSize: em(20),
+    marginTop: -3,
   },
   //renderTotalPriceView
   totalContainer: {
@@ -100,7 +105,7 @@ export default StyleSheet.create({
   },
   totalStatusText: {
     fontSize: em(16),
-    color: "#FF3348",
+    color: "#111",
     marginTop: -3
   },
   totalInnerView: {
