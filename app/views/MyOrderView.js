@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { View, TouchableOpacity, Alert, Platform, Image } from "react-native";
 import { Container, Tabs, Tab, TabHeading } from "native-base";
+import PopupDialog, {
+  SlideAnimation,
+  DialogButton
+} from "react-native-popup-dialog";
 //utils
 import GLOBAL_PARAMS, {
   EXPLAIN_PAY_TYPE,
@@ -13,6 +17,8 @@ import { myOrder, cancelOrder } from "../api/request";
 import CommonHeader from "../components/CommonHeader";
 import Text from "../components/UnScalingText";
 import CommonFlatList from "../components/CommonFlatList";
+//utils
+import { em } from "../utils/global_params";
 //language
 import I18n from "../language/i18n";
 //styles
@@ -29,6 +35,10 @@ const _ORDER_DELIVERING = 1;
 const _ORDER_FINISHED = 2;
 const _ORDER_ALL = null;
 
+const slideAnimation = new SlideAnimation({
+  slideFrom: "bottom"
+});
+
 export default class PeopleView extends Component {
   timer = null;
   _tabs = null;
@@ -42,6 +52,9 @@ export default class PeopleView extends Component {
     this.state = {
       currentTab: _TAB_DELIVERING,
       currentStatus: _ORDER_DELIVERING,
+      currentPickImage:
+        "https://www.plumfood.hk/wp-content/uploads/2018/08/20180613-ct-hsbc-1024x424.jpg",
+      currentPickTitle: "",
       i18n: I18n[props.screenProps.language],
       hasDelivering: false,
       listCount: 0
@@ -133,6 +146,7 @@ export default class PeopleView extends Component {
         {this._renderFoodDetailView(item)}
         {this._renderPayView(item)}
         {this._renderTotalPriceView(item)}
+        {}
       </View>
     );
   }
@@ -223,7 +237,10 @@ export default class PeopleView extends Component {
 
     return (
       <View style={MyOrderStyles.payContainer}>
-        <Text style={MyOrderStyles.paymentStatus}>取餐號:{item.mealCode}</Text>
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          <Text>取餐號:</Text>
+          <Text style={MyOrderStyles.pickNumber}>{item.mealCode}</Text>
+        </View>
         <View style={MyOrderStyles.payInner}>
           {_isDelivering ? (
             <TouchableOpacity
@@ -241,6 +258,24 @@ export default class PeopleView extends Component {
               </Text>
             </TouchableOpacity>
           ) : null}
+          <TouchableOpacity
+            onPress={() => {
+              this.setState(
+                {
+                  currentPickImage: item.takePointPicture || "https://www.plumfood.hk/wp-content/uploads/2018/08/20180613-ct-hsbc-1024x424.jpg",
+                  currentPickTitle: item.takeAddressDetail || ""
+                },
+                () => {
+                  this.popupDialog.show();
+                }
+              );
+            }}
+            style={[MyOrderStyles.payStatusBtn, { borderColor: "#111" }]}
+          >
+            <Text style={[MyOrderStyles.payStatusText, { color: "#111" }]}>
+              {i18n.myorder_tips.common.pick_place_btn}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -264,6 +299,39 @@ export default class PeopleView extends Component {
     );
   }
 
+  _renderPopupDialog() {
+    return (
+      <PopupDialog
+        ref={popupDialog => {
+          this.popupDialog = popupDialog;
+        }}
+        width={em(295)}
+        height={em(270)}
+        dialogAnimation={slideAnimation}
+        dialogTitle={
+          <Text style={{ textAlign: "center", margin: em(10) }}>
+            {this.state.currentPickTitle}
+          </Text>
+        }
+        actions={[
+          <DialogButton
+            key={0}
+            textStyle={{ color: "#fff" }}
+            text="關閉"
+            onPress={() => {
+              this.popupDialog.dismiss();
+            }}
+          />
+        ]}
+      >
+        <Image
+          source={{ uri: this.state.currentPickImage }}
+          style={{ width: em(295), height: em(250), borderRadius: 8 }}
+        />
+      </PopupDialog>
+    );
+  }
+
   render() {
     let { i18n, listCount } = this.state;
     let _order_arr = [
@@ -278,6 +346,7 @@ export default class PeopleView extends Component {
     ];
     return (
       <Container style={{ position: "relative" }}>
+        {this._renderPopupDialog()}
         <CommonHeader hasMenu hasTabs title={i18n.myorder} />
         <Tabs
           tabBarUnderlineStyle={MyOrderStyles.tabBarUnderlineStyle}
