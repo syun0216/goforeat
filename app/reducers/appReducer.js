@@ -95,30 +95,22 @@ export function toggleAd(state = initialState.advertimentState, action) {
 }
 
 export function loading(state = initialState.loadingState, action) {
+
   switch (action.type) {
     case SHOW_LOADING:
-      return {
-        ...state,
-        showLoading: true
-      };
+      state.showLoading = true;
+      break;
     case HIDE_LOADING:
-      return {
-        ...state,
-        showLoading: false
-      };
+      state.showLoading = false;
+      break;
     case SHOW_LOADING_MODAL:
-      return {
-        ...state,
-        showLoadingModal: true
-      };
+      state.showLoadingModal = true;
+      break;
     case HIDE_LOADING_MODAL:
-      return {
-        ...state,
-        hideLoadingModal: false
-      };
-    default:
-      return state;
+      state.showLoadingModal = false;
+      break;
   }
+  return state;
 }
 
 export function auth(state = initialState.userState, action) {
