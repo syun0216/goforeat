@@ -86,11 +86,11 @@ export default StyleSheet.create({
     marginBottom: -4
   },
   AddPriceViewOriginPrice: {
-    fontSize: em(16),
+    fontSize: em(14),
     color: "#9B9B9B"
   },
   AddPriceViewStriping: {
-    width: GLOBAL_PARAMS._winWidth < 340 ? em(60) : em(75),
+    width: GLOBAL_PARAMS._winWidth < 340 ? em(60) : em(85),
     transform: [
       {
         rotate: "-5deg"
@@ -100,7 +100,7 @@ export default StyleSheet.create({
     height: 2,
     position: "absolute",
     bottom: 8,
-    right: GLOBAL_PARAMS._winWidth < 340 ? em(-3) : em(-8),
+    right: em(-3),
     opacity: 0.63
   },
   AddPriceViewCountContainer: {

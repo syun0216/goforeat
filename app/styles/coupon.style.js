@@ -1,62 +1,59 @@
 import { Platform, StyleSheet } from "react-native";
-import GLOBAL_PARAMS, { em } from "../utils/global_params";
+import GLOBAL_PARAMS  from "../utils/global_params";
 
 export default StyleSheet.create({
   CouponContainer: {
     backgroundColor: "#efefef",
-    padding: em(20),
-    paddingLeft: em(12),
-    paddingRight: em(12)
+    padding: 20,
+    paddingLeft: 12,
+    paddingRight: 12
   },
   CouponItemView: {
-    height: em(120),
-    borderRadius: em(8),
-    backgroundColor:
-      GLOBAL_PARAMS._winHeight == 736 && Platform.OS == "ios"
-        ? "#EF7333"
-        : "#fff",
-    margin: em(10)
+    height: 120,
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    margin: 10
   },
   ItemTop: {
     backgroundColor: "#ef7333",
-    height: em(80),
-    borderTopLeftRadius: em(8),
-    borderTopRightRadius: em(8),
+    height: 80,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
     position: "relative",
-    paddingLeft: em(12),
-    paddingRight: em(12),
+    paddingLeft: 12,
+    paddingRight: 12,
     flexDirection: "row",
     zIndex: 100
   },
   PriceContainer: {
     flexDirection: "row",
-    height: em(80),
+    height: 80,
     alignItems: "center"
   },
   Unit: {
     color: "#fff",
-    fontSize: em(20),
-    marginBottom: em(-20)
+    fontSize: 20,
+    marginBottom: -20
   },
   Price: {
     color: "#fff",
-    fontSize: em(60),
+    fontSize: 60,
     fontWeight: "800"
   },
   Content: {
-    height: em(80),
+    height: 80,
     justifyContent: "center",
-    marginLeft: em(20),
+    marginLeft: 20,
     position: "absolute",
-    left: em(92)
+    left: 92
   },
   ContentTop: {
-    fontSize: em(14),
+    fontSize: 14,
     color: "#fff",
-    marginBottom: em(5)
+    marginBottom: 5
   },
   ContentBottom: {
-    fontSize: em(24),
+    fontSize: 24,
     color: "#fff"
   },
   CouponBorder: {
@@ -65,50 +62,50 @@ export default StyleSheet.create({
   },
   ItemBottom: {
     backgroundColor: "#fff",
-    height: em(40),
-    borderBottomLeftRadius: em(8),
-    borderBottomRightRadius: em(8),
+    height: 40,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingLeft: em(12),
-    paddingRight: em(12)
+    paddingLeft: 12,
+    paddingRight: 12
   },
   ItemBottomLeft: {
     color: "#ef7333",
-    fontSize: em(14),
-    marginTop: em(-5)
+    fontSize: 14,
+    marginTop: -5
   },
   ItemBottomRight: {
     color: "#999",
-    fontSize: em(14),
-    marginTop: em(-5)
+    fontSize: 14,
+    marginTop: -5
   },
   Status: {
-    height: em(80),
+    height: 80,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    right: em(12),
+    right: 12,
     zIndex: 10
   },
   UseBtn: {
-    width: em(152 / 2),
-    height: em(28),
+    width: 152/ 2,
+    height: 28,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-    borderRadius: em(14)
+    borderRadius: 14
   },
   BtnText: {
-    fontSize: em(14),
+    fontSize: 14,
     color: "#ef7333"
   },
   StatusImg: {
-    width: em(70),
-    height: em(70),
-    marginTop: em(32),
-    marginRight: em(8),
+    width: 70,
+    height: 70,
+    marginTop: 32,
+    marginRight: 8,
     zIndex: 10
   },
   isUsed: {
