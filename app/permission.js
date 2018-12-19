@@ -4,7 +4,6 @@ import store from "./store/index";
 export function AuthInterceptor(action, state) {
   const authRoutes = [
     "MyOrderDrawer",
-    "Content",
     "Order",
     "PayTypeDrawer",
     "CouponDrawer",

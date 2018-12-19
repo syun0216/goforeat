@@ -114,7 +114,7 @@ export const SET_PAY_TYPE = {
   month_ticket: 7,
 }
 
-export const em = (val) => val * ratioX 
+export const em = (val) => {return GLOBAL_PARAMS.isIphoneX() ?  val * ratioX * 1.1 :  val * ratioX}
 
 export const currentPlatform = Platform.OS == 'ios' ? 1 : 2;
 
