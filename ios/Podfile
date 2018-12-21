@@ -57,6 +57,8 @@ pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
   
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
+#  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+
   post_install do |installer|
       installer.pods_project.targets.each do |target|
           if target.name == "React"

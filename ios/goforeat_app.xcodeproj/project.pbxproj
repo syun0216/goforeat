@@ -47,6 +47,7 @@
 		C769E7132190729E00409140 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7E003D420D1FE7200EB5F2A /* libReact.a */; };
 		C769E734219077B300409140 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C744A3CD20F4F17B00AD84DC /* libRCTActionSheet.a */; };
 		C76B2CE220C8331700D63293 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B2CE120C8331700D63293 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C76CDFC821CC80B70072D7FB /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C76CDF9B21CC80A60072D7FB /* libFastImage.a */; };
 		C78B95AF20FF14A2009A8093 /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78B95AE20FF1494009A8093 /* libRCTBEEPickerManager.a */; };
 		C7A69A1B20708A0600E06981 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A69A18207089D800E06981 /* libCodePush.a */; };
 		C7B10B76202C93380098FAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B10B75202C93380098FAA2 /* Images.xcassets */; };
@@ -229,6 +230,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNShare;
+		};
+		C76CDF9A21CC80A60072D7FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C76CDF9321CC80A50072D7FB /* FastImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A287971D1DE0C0A60081BDFA;
+			remoteInfo = FastImage;
 		};
 		C78B95AD20FF1494009A8093 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -446,6 +454,7 @@
 		C76B2CA620C8329C00D63293 /* libJPushRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJPushRN.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C76B2CD320C832A200D63293 /* libJCoreRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJCoreRN.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C76B2CE120C8331700D63293 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		C76CDF9321CC80A50072D7FB /* FastImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
 		C771337E20F9BC47003AAA8A /* libBolts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBolts.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C771338020F9C1DF003AAA8A /* libFBSDKCoreKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFBSDKCoreKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C771338220F9C20E003AAA8A /* libFBSDKLoginKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFBSDKLoginKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -486,6 +495,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C76CDFC821CC80B70072D7FB /* libFastImage.a in Frameworks */,
 				C73FF71D21B36528007704C8 /* libz.tbd in Frameworks */,
 				C73FF71C21B36517007704C8 /* libc++.tbd in Frameworks */,
 				C73FF71A21B364FC007704C8 /* SystemConfiguration.framework in Frameworks */,
@@ -627,6 +637,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C76CDF9321CC80A50072D7FB /* FastImage.xcodeproj */,
 				C7BAD81421B27FCB00A4B50B /* RCTWeChat.xcodeproj */,
 				C78B95A920FF1494009A8093 /* RCTBEEPickerManager.xcodeproj */,
 				C744A3E920F4F63400AD84DC /* RCTAnimation.xcodeproj */,
@@ -807,6 +818,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C76CDF9421CC80A50072D7FB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C76CDF9B21CC80A60072D7FB /* libFastImage.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C78B95AA20FF1494009A8093 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -943,6 +962,10 @@
 				{
 					ProductGroup = C7A69A13207089D700E06981 /* Products */;
 					ProjectRef = C7A69A12207089D700E06981 /* CodePush.xcodeproj */;
+				},
+				{
+					ProductGroup = C76CDF9421CC80A50072D7FB /* Products */;
+					ProjectRef = C76CDF9321CC80A50072D7FB /* FastImage.xcodeproj */;
 				},
 				{
 					ProductGroup = C72A41D9202DEF210081D503 /* Products */;
@@ -1184,6 +1207,13 @@
 			fileType = archive.ar;
 			path = libRNShare.a;
 			remoteRef = C7639D652069D50A000A02BB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C76CDF9B21CC80A60072D7FB /* libFastImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFastImage.a;
+			remoteRef = C76CDF9A21CC80A60072D7FB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C78B95AE20FF1494009A8093 /* libRCTBEEPickerManager.a */ = {
