@@ -707,12 +707,12 @@ export default class ConfirmOrderView extends PureComponent {
           {isExpired ? (
             <BlankPage message={expiredMessage} style={{ marginLeft: -10 }} />
           ) : null}
-          {orderDetail != null ? this._renderNewOrderView() : null}
-          {orderDetail !== null ? this._renderNewDetailsView() : null}
+          {orderDetail != null && this._renderNewOrderView()}
+          {orderDetail !== null && this._renderNewDetailsView()}
 
           <View style={{ height: 20 }} />
         </Content>
-        {this._renderBottomConfirmView()}
+        {orderDetail != null && this._renderBottomConfirmView()}
       </Container>
     );
   }

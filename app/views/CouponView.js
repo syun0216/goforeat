@@ -1,29 +1,79 @@
 import React, { PureComponent } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
-import { Container, Content } from "native-base";
+import { Container, Content, Icon, Item, Input } from "native-base";
+import PopupDialog,{SlideAnimation,DialogButton} from 'react-native-popup-dialog';
+import LottieView from "lottie-react-native";
 //components
 import CommonHeader from "../components/CommonHeader";
 import CommonFlatList from "../components/CommonFlatList";
 //styles
 import CouponStyle from "../styles/coupon.style";
 //api
-import { myCoupon } from "../api/request";
+import { myCoupon, getCoupon } from "../api/request";
 //i18n
 import I18n from "../language/i18n";
+//utils
+import GLOBAL_PARAMS, { em } from "../utils/global_params";
 
 const effective = 1;
 const used = 3;
 const expired = 4;
 
+const slideAnimation = new SlideAnimation({
+  slideFrom: "bottom"
+});
+
 export default class CouponView extends PureComponent {
+  _exchangeCode = '';
+  state= {
+    exchangeCodeRes: null
+  };
   constructor(props) {
     super(props);
     this._from_confirm_order =
       typeof this.props.navigation.state.params != "undefined"; // 从订单详情跳转过来
-    this.state = {
-      i18n: I18n[props.screenProps.language],
-      refreshing: false
+  }
+
+  //api
+  _getCoupon = () => {
+    if(this._exchangeCode == '') {
+      this.props.toast('請填寫優惠碼');
+      return ;
     };
+    
+    this.props.showLoadingModal && this.props.showLoadingModal();
+    getCoupon(this._exchangeCode).then(data => {
+      this.props.hideLoadingModal && this.props.hideLoadingModal();
+      if(data.ro.ok) {
+        this.popupDialog.show();
+        this.setState({
+          exchangeCodeRes: data.data
+        },() => {
+          this._lv&&this._lv.play();
+        })
+      }else {
+        this.props.toast(data.ro.respMsg);
+      }
+    })
+  }
+
+  _getExchangeCode = code => {
+    this._exchangeCode = code;
+  }
+
+  _renderSearchBar() {
+    return (
+      <Item style={{ paddingLeft: em(8), paddingRight: em(5) }}>
+        <Input 
+          placeholder="輸入優惠碼"
+          allowFontScaling={false}
+          onChangeText={code => this._getExchangeCode(code)}
+         />
+        <TouchableOpacity onPress={this._getCoupon} style={{width: em(50),alignItems: 'flex-end',}}>
+          <Icon name="md-return-right" style={{ color: "#666" }} />
+        </TouchableOpacity>
+      </Item>
+    );
   }
 
   _renderCouponItem(item, index) {
@@ -114,6 +164,48 @@ export default class CouponView extends PureComponent {
     );
   }
 
+  _renderGiftCoupon() {
+    const {exchangeCodeRes} = this.state;
+    return(
+      <PopupDialog
+        ref={popupDialog => {
+          this.popupDialog = popupDialog;
+        }}
+        width={GLOBAL_PARAMS._winWidth*.9}
+        height={em(340)}
+        dialogAnimation={slideAnimation}
+        onDismiss={() => {
+          this._commonFlatList && this._commonFlatList.outSideRefresh();
+        }}
+        // dialogTitle={
+        //   <Text style={{ textAlign: "center", margin: em(10) }}>
+        //     {this.state.currentPickTitle}
+        //   </Text>
+        // }
+        actions={[
+          <DialogButton
+            key={0}
+            textStyle={{ color: "#fff" }}
+            text="關閉"
+            onPress={() => {
+              this.popupDialog.dismiss();
+            }}
+          />
+        ]}
+      >
+        <LottieView
+          ref={lv => (this._lv = lv)}
+          autoPlay={true}
+          style={{ width: em(180), height: em(180), alignSelf: 'center', }}
+          source={require("../animations/newAnimation.json")}
+          loop={false}
+          enableMergePathsAndroidForKitKatAndAbove
+        />
+        {exchangeCodeRes !=null&&this._renderCouponItem(exchangeCodeRes, 1)}
+      </PopupDialog>
+    )
+  }
+
   render() {
     let Header = () => (
       <CommonHeader
@@ -128,7 +220,10 @@ export default class CouponView extends PureComponent {
     return (
       <Container>
         <Header />
+        {this._renderSearchBar()}
+        {this._renderGiftCoupon()}
         <CommonFlatList
+          ref={cf => this._commonFlatList = cf}
           style={{ backgroundColor: "#efefef" }}
           requestFunc={myCoupon}
           renderItem={(item, index) => this._renderCouponItem(item, index)}
