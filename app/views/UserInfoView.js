@@ -75,6 +75,8 @@ export default class UserInfoView extends PureComponent {
         this.props.screenProps.userLogout();
         this.props.navigation.goBack();
       }
+    }).catch(() => {
+      this.props.hideLoading && this.props.hideLoading();
     });
   }
 
