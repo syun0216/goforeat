@@ -12,7 +12,8 @@ import {
 import { Container, Header } from "native-base";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
-import LottieView from "lottie-react-native";
+import Placeholder from "rn-placeholder";
+import FastImage from "react-native-fast-image";
 //actions
 import { SHOW_AD, HIDE_AD } from "../actions";
 //utils
@@ -66,7 +67,6 @@ class FoodListView extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props.navigation);
     let { isAdShow, hideAd } = this.props;
     if (isAdShow) {
       hideAd();
@@ -312,6 +312,28 @@ class FoodListView extends Component {
     );
   }
 
+  _renderIndicator() {
+    const numOfIndicators = _winHeight / em(180);
+    return (
+      <View style={styles.articleItemContainer}>
+        <Placeholder.ImageContent
+          position="left"
+          hasRadius
+          lineNumber={5}
+          textSize={14}
+          lineSpacing={5}
+          color="#ccc"
+          width="100%"
+          lastLineWidth="30%"
+          firstLineWidth="10%"
+          onReady={this.props.isLoading}
+        >
+           <Text>Placeholder finished</Text>
+        </Placeholder.ImageContent>
+      </View>
+    );
+  }
+
   _renderFoodListItemView(item, index) {
     if (typeof item === "undefined") return;
     let _device = getDeviceId().split(",")[0];
@@ -325,11 +347,16 @@ class FoodListView extends Component {
         }}
         activeOpacity={0.6}
       >
-        <Image
+        <FastImage 
+        source={{ uri: item.thumbnail }}
+        style={{ width: _winWidth * 0.45 - 10, height: em(170) }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+        {/* <Image
           source={{ uri: item.thumbnail }}
           style={{ width: _winWidth * 0.45 - 10, height: em(170) }}
           resizeMode="cover"
-        />
+        /> */}
         <View style={styles.articleItemDetails}>
           <View style={[styles.itemName, styles.marginBottom9]}>
             <Text style={styles.foodName} numberOfLines={1}>
@@ -397,6 +424,7 @@ class FoodListView extends Component {
       <CommonFlatList
         ref={c => (this.flatlist = c)}
         requestFunc={getNewArticleList}
+        // renderIndicator={() => this._renderIndicator()}
         renderItem={(item, index) => this._renderFoodListItemView(item, index)}
         renderHeader={() => this._renderTopTitleView()}
         extraParams={{ placeId: this.state.placeSelected.id }}
@@ -449,7 +477,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     shadowColor: "#333",
     shadowOffset: { width: 3, height: 5 },
-    shadowOpacity: 0.8,
+    shadowOpacity: 0,
     shadowRadius: 8,
     backgroundColor: "#fff",
     overflow: "hidden"

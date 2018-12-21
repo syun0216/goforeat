@@ -133,7 +133,6 @@ class FoodDetailsView extends Component {
           this.setState(
             {
               foodDetails: data.data,
-              loading: false,
               refreshing: false,
               soldOut: data.data.status,
               favoriteCount: data.data.likeCount,

@@ -5,6 +5,7 @@ import PopupDialog, {
   SlideAnimation,
   DialogButton
 } from "react-native-popup-dialog";
+import FastImage from "react-native-fast-image";
 //utils
 import GLOBAL_PARAMS, {
   EXPLAIN_PAY_TYPE,
@@ -52,8 +53,7 @@ export default class PeopleView extends Component {
     this.state = {
       currentTab: _TAB_DELIVERING,
       currentStatus: _ORDER_DELIVERING,
-      currentPickImage:
-        "https://www.plumfood.hk/wp-content/uploads/2018/08/20180613-ct-hsbc-1024x424.jpg",
+      currentPickImage: null,
       currentPickTitle: "",
       i18n: I18n[props.screenProps.language],
       hasDelivering: false,
@@ -159,9 +159,9 @@ export default class PeopleView extends Component {
       : { uri: item.picture };
     return (
       <View style={MyOrderStyles.FoodContainer}>
-        <Image
+        <FastImage
           style={MyOrderStyles.FoodImage}
-          reasizeMode="contain"
+          reasizeMode={FastImage.resizeMode.contain}
           source={_picture}
         />
         <View style={MyOrderStyles.FoodInnerContainer}>
@@ -262,7 +262,7 @@ export default class PeopleView extends Component {
             onPress={() => {
               this.setState(
                 {
-                  currentPickImage: item.takePointPicture || "https://www.plumfood.hk/wp-content/uploads/2018/08/20180613-ct-hsbc-1024x424.jpg",
+                  currentPickImage: item.takePointPicture,
                   currentPickTitle: item.takeAddressDetail || ""
                 },
                 () => {
@@ -324,8 +324,8 @@ export default class PeopleView extends Component {
           />
         ]}
       >
-        <Image
-          source={{ uri: this.state.currentPickImage }}
+        <FastImage
+          source={this.state.currentPickImage ? { uri: this.state.currentPickImage }: require("../asset/gardenListDefault.png")}
           style={{ width: em(295), height: em(250), borderRadius: 8 }}
         />
       </PopupDialog>
