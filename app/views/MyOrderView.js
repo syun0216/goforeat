@@ -146,7 +146,6 @@ export default class PeopleView extends Component {
         {this._renderFoodDetailView(item)}
         {this._renderPayView(item)}
         {this._renderTotalPriceView(item)}
-        {}
       </View>
     );
   }
@@ -326,7 +325,7 @@ export default class PeopleView extends Component {
       >
         <FastImage
           source={this.state.currentPickImage ? { uri: this.state.currentPickImage }: require("../asset/gardenListDefault.png")}
-          style={{ width: em(295), height: em(250), borderRadius: 8 }}
+          style={{ width: em(295), height: em(250), borderBottomLeftRadius: 8,borderBottomRightRadius: 8 }}
         />
       </PopupDialog>
     );
