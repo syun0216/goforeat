@@ -67,6 +67,7 @@ export default class CouponView extends PureComponent {
         <Input 
           placeholder="輸入優惠碼"
           allowFontScaling={false}
+          clearButtonMode="while-editing"
           onChangeText={code => this._getExchangeCode(code)}
          />
         <TouchableOpacity onPress={this._getCoupon} style={{width: em(50),alignItems: 'flex-end',}}>
@@ -174,7 +175,7 @@ export default class CouponView extends PureComponent {
         width={GLOBAL_PARAMS._winWidth*.9}
         height={em(340)}
         dialogAnimation={slideAnimation}
-        onDismiss={() => {
+        onDismissed={() => {
           this._commonFlatList && this._commonFlatList.outSideRefresh();
         }}
         // dialogTitle={
