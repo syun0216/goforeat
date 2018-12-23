@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import {
   FlatList,
@@ -31,7 +31,7 @@ const {
   httpStatus: { LOADING, LOAD_SUCCESS, LOAD_FAILED, NO_DATA, NO_MORE_DATA }
 } = GLOBAL_PARAMS;
 
-export default class CommonFlatList extends Component {
+export default class CommonFlatList extends PureComponent {
   constructor(props) {
     super(props);
     this._timer = null;
@@ -60,7 +60,7 @@ export default class CommonFlatList extends Component {
   componentWillUnmount() {
     this.init();
     clearTimeout(this._timer);
-  }
+  }  
 
   init() {
     requestParams.currentOffset = 0;
@@ -279,6 +279,7 @@ export default class CommonFlatList extends Component {
   }
 
   render() {
+    console.log("render");
     const { firstPageLoading, showToTop } = this.state;
     const { i18n } = this.props;
     const {
@@ -303,7 +304,7 @@ export default class CommonFlatList extends Component {
     return (
       <View style={[{ flex: 1, position: 'relative' }, style]}>
         {showToTop && this._renderToTop()}
-        {/* {firstPageLoading == LOADING ? <Loading /> : null} */}
+        {firstPageLoading == LOADING && this.props.renderIndicator && this.props.renderIndicator()}
         {firstPageLoading == LOAD_FAILED ? <Error /> : null}
         {firstPageLoading == NO_DATA ? <Blank /> : null}
         {firstPageLoading == LOAD_SUCCESS ? this._renderCommonListView() : null}
@@ -316,6 +317,7 @@ CommonFlatList.propsType = {
   requestFunc: PropTypes.func,
   renderItem: PropTypes.func,
   renderHeader: PropTypes.func,
+  renderIndicator: PropTypes.func,
   isRefreshControlShow: PropTypes.bool,
   isBlankInfoBtnShow: PropTypes.bool,
   isItemSeparatorShow: PropTypes.bool,
