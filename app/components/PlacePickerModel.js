@@ -35,15 +35,40 @@ class PlacePickerModel extends Component {
   };
 
   componentDidMount() {
-    placeStorage.getData((error, data) => {
+    placeListStorage.getData((error, placeList) => {
       if (error === null) {
-        if (data !== null) {
-          this.getPlace(data);
+        if (placeList !== null) {
+          console.log(placeList);
+          this.setState({
+            placeList: placeList
+          },() => {
+            this.props.stockPlaceList(placeList);
+            placeStorage.getData((error, place) => {
+              if (error === null) {
+                if (place !== null) {
+                  this.setState({
+                    selected: place.name
+                  })
+                  this.props.getSeletedValue(place);
+                  this.props.stockPlace(place);
+                } else {
+                  this.props.getSeletedValue(placeList[0]);
+                  this.props.stockPlace(placeList[0]);
+                  this.setState({
+                    selected: placeList[0].name
+                  })
+                }
+              }
+            });
+          });
         } else {
           this.getPlace();
         }
+      } else {
+        this.getPlace();
       }
     });
+    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -80,17 +105,13 @@ class PlacePickerModel extends Component {
 
   //api
   getPlace(storage_data) {
+    
     foodPlaces().then(
       data => {
         if (data.ro.respCode === "0000") {
           let _data =
             typeof storage_data != "undefined" ? storage_data : data.data[0];
           this.setStateAsync({ selected: _data.name }).then(() => {
-            data.data = data.data.map(v => ({
-              ...v,
-              content: v.name,
-              clickFunc: () => this._onValueChange(v)
-            }));
             this.setState({
               placeList: data.data
             });
@@ -142,8 +163,8 @@ class PlacePickerModel extends Component {
           ? this.state.placeList.map((item, idx) => (
               <CommonItem
                 key={idx}
-                content={item.content}
-                clickFunc={item.clickFunc}
+                content={item.name}
+                clickFunc={() => this._onValueChange(item)}
                 hasRightIcon
                 rightIcon={this._checkedImage(item.name)}
               />
