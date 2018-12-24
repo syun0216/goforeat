@@ -238,6 +238,7 @@ const CommonHOC = WarppedComponent => {
         <CommonModal
           isHeaderShow={false}
           modalVisible={this.props.screenProps.showLogin}
+          closeFunc={() => this.props.toggleLogin(false)}
         >
           <LoginView
             {...this.props}
@@ -276,6 +277,7 @@ const CommonHOC = WarppedComponent => {
   });
 
   const dispatchToBasic = dispatch => ({
+    toggleLogin:status => dispatch({ type: "CHANGE_LOGIN_STATUS", showLogin: status }),
     savePageCache: pageCache => dispatch({ type: SAVE_CACHE, pageCache }),
     resetPageCache: () => dispatch({ type: RESET_CACHE }),
     showLoading: () => dispatch({type: SHOW_LOADING}),

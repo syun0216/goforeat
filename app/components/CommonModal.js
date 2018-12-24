@@ -32,7 +32,9 @@ class CommonModal extends Component {
       animationType={"slide"}
       transparent={false}
       visible={modalVisible}
-      onRequestClose={() => closeFunc()}>
+      onRequestClose={() => {
+        closeFunc && closeFunc();
+      }}>
         <Container>
           {isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
           <Content>
