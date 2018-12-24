@@ -18,20 +18,18 @@ class PickPlaceView extends React.Component {
     return (
       <Container>
         <CommonHeader hasMenu title={i18n[language].pickPlace} {...this.props} />
-        <Content>
+        <Content style={{backgroundColor: '#efefef'}}>
           {placeList.map((item, key) => (
-            <Card key={key} style={{width: GLOBAL_PARMAS._winWidth* 0.9,marginLeft: GLOBAL_PARMAS._winWidth*0.05,marginBottom: GLOBAL_PARMAS._winWidth*0.05,}}>
-              <CardItem cardBody>
-                <FastImage style={{width:'100%', height: em(250)}} source={{
-                  uri: item.picture,
-                  priority: FastImage.priority.normal
-                }} resizeMode={FastImage.resizeMode.contain}/>
-                {/* <Image source={{uri: item.picture || '',cache: 'only-if-cached',}} style={{width:'100%',height: em(250)}} resizeMode="cover"/> */}
-              </CardItem>
-              <CardItem>
-                <Body><Text>{item.name || '暫無名稱'}</Text></Body>
-              </CardItem>
-            </Card>
+            <View key={key} style={[{width: GLOBAL_PARMAS._winWidth* 0.9,marginLeft: GLOBAL_PARMAS._winWidth*0.05,marginBottom: GLOBAL_PARMAS._winWidth*0.05,borderRadius: 8,backgroundColor: '#fff'},key==0&&{marginTop:GLOBAL_PARMAS._winWidth*.05}]}>
+              <FastImage style={{width:'100%', height: em(250),borderTopLeftRadius: 8,borderTopRightRadius: 8,}} source={{
+                uri: item.picture,
+                priority: FastImage.priority.normal
+              }} resizeMode={FastImage.resizeMode.contain}/>
+              {/* <Image source={{uri: item.picture || '',cache: 'only-if-cached',}} style={{width:'100%',height: em(250)}} resizeMode="cover"/> */}
+              <View style={{padding: GLOBAL_PARMAS._winWidth*.05,alignItems: 'flex-start',}}>
+                <Text>{item.name || '暫無名稱'}</Text>
+              </View>
+            </View>
           ))}
         </Content>
       </Container>
