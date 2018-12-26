@@ -37,10 +37,10 @@ class PlacePickerModel extends Component {
   componentDidMount() {
     placeListStorage.getData((error, placeList) => {
       if (error === null) {
-        if (placeList !== null) {
-          console.log(placeList);
+        let currentDate = +new Date;
+        if (placeList !== null && placeList.cacheTime && (currentDate - placeList.cacheTime < 86400000 )) {
           this.setState({
-            placeList: placeList
+            placeList: placeList.data
           },() => {
             this.props.stockPlaceList(placeList);
             placeStorage.getData((error, place) => {
@@ -116,9 +116,10 @@ class PlacePickerModel extends Component {
               placeList: data.data
             });
           });
+          let cacheTime = +new Date();
           this.props.getSeletedValue(_data);
           this.props.stockPlaceList(data.data);
-          placeListStorage.setData(data.data);
+          placeListStorage.setData({data: data.data, cacheTime});
           this.props.stockPlace(_data);
           placeStorage.setData(_data);
         } else {
