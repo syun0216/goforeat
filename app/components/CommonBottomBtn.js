@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View,TouchableOpacity } from 'react-native';
+import { View,TouchableOpacity,ActivityIndicator } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 //styles
 import CommonStyles from '../styles/common.style';
@@ -20,9 +20,9 @@ import {em} from '../utils/global_params';
 const CommonBottomBtn = props => {
   return (
     <View style={[CommonStyles.common_btn_container,props.containerStyle]}>
-      <TouchableOpacity onPress={props.clickFunc}>
+      <TouchableOpacity onPress={props.clickFunc} disabled={props.loading}>
         <LinearGradient colors={['#FF9F48','#FF4141']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={[CommonStyles.btn,props.style]}>
-          <Text style={{color:'#fff',fontSize:em(17),backgroundColor:'transparent',fontWeight:"700",}}>{props.children}</Text>
+          {props.loading ? (<ActivityIndicator color="#fff" size="small"/>) : (<Text style={{color:'#fff',fontSize:em(17),backgroundColor:'transparent',fontWeight:"700",}}>{props.children}</Text>)}
         </LinearGradient>
       </TouchableOpacity>
     </View>
