@@ -3,10 +3,10 @@ import {
   Image,
   View,
   TouchableOpacity,
-  Animated,
-  Easing,
-  Keyboard,
-  KeyboardAvoidingView
+  Platform,
+  KeyboardAvoidingView,
+  ToastAndroid,
+  ActivityIndicator
 } from "react-native";
 import { Input, Icon, ActionSheet } from "native-base";
 //utils
@@ -27,7 +27,6 @@ import CommonStyle from "./styles/common.style";
 //components
 import CommonBottomBtn from "./components/CommonBottomBtn";
 import Text from "./components/UnScalingText";
-import I18n from "./language/i18n";
 
 const BUTTONS = [
   GLOBAL_PARAMS.phoneType.HK.label,
@@ -48,10 +47,10 @@ export default class CustomLoginView extends PureComponent {
     phone: null,
     password: null,
     selectedValue: GLOBAL_PARAMS.phoneType.HK,
-    codeContent: I18n[this.props.screenProps.language].sendCode,
+    codeContent: this.props.i18n.sendCode,
     isCodeDisabled: false,
     isKeyBoardShow: false,
-    i18n: I18n[this.props.screenProps.language]
+    loading: false
   };
 
   componentWillUnmount() {
@@ -72,9 +71,9 @@ export default class CustomLoginView extends PureComponent {
   }
 
   _sendPhoneAndGetCode() {
-    let { i18n } = this.state;
+    let { i18n } = this.props;
     if (this.phone === null) {
-      ToastUtil.showWithMessage(i18n.login_tips.fail.phone_null);
+      this._toast(i18n.login_tips.fail.phone_null);
       return;
     }
     getCode(this.phone, this.state.selectedValue.value).then(
@@ -117,22 +116,26 @@ export default class CustomLoginView extends PureComponent {
     this.password = password;
   }
 
+  _toast(message) {
+    Platform.OS == 'ios' ? (alert(message)) : ToastAndroid.show(message, ToastAndroid.SHORT);
+  }
+
   _login() {
-    let { i18n } = this.state;
+    let { i18n } = this.props;
     let { params } = this.props.navigation.state;
     let { selectedValue, password } = this.state;
     if (this.phone === null) {
-      ToastUtil.showWithMessage(i18n.login_tips.fail.phone_null);
+      this._toast(i18n.login_tips.fail.phone_null);
       return;
     }
     if (this.password === null) {
-      ToastUtil.showWithMessage(i18n.login_tips.fail.code_null);
+      this._toast(i18n.login_tips.fail.code_null);
       return;
     }
-    this.props.showLoadingModal();
+    this.setState({loading: true});
     checkCode(this.phone, selectedValue.value, this.token, this.password)
       .then(data => {
-        this.props.hideLoadingModal();
+        this.setState({loading: false});
         if (data.ro.respCode == "0000") {
           ToastUtil.showWithMessage(i18n.login_tips.success.login);
           const { account, sid, nickName, profileImg } = data.data;
@@ -149,23 +152,6 @@ export default class CustomLoginView extends PureComponent {
             this.props.navigation.navigate(this.props.screenProps.toPage);
             clearTimeout(_timer);
           }, 300);
-          // if(typeof params === 'undefined') {
-          //   this.props.navigation.goBack()
-          // }else {
-          //   if(params.page == 'Order') {
-          //     this.props.navigation.navigate('Order',
-          //       {
-          //           replaceRoute: true,
-          //           ...params
-          //       })
-          //   }else {
-          //     let {callback} = this.props.navigation.state.params;
-          //     this.props.navigation.goBack();
-          //     requestAnimationFrame(() => {
-          //       callback();
-          //     })
-          //   }
-          // }
           JPushModule.getRegistrationID(
             registrationId => {
               saveDevices(registrationId, data.data.sid).then(sdata => {});
@@ -175,18 +161,18 @@ export default class CustomLoginView extends PureComponent {
             }
           );
         } else {
-          this.props.hideLoadingModal();
+          this.setState({loading: false});
           ToastUtil.showWithMessage(data.ro.respMsg);
         }
       })
       .catch(err => {
-        this.props.hideLoadingModal();
+        this.setState({loading: false});
         ToastUtil.showWithMessage(i18n.common_tips.err);
       });
   }
 
   _showActionSheet = () => {
-    let { i18n } = this.state;
+    let { i18n } = this.props;
     if (this._actionSheet !== null) {
       // Call as you would ActionSheet.show(config, callback)
       this._actionSheet._root.showActionSheet(
@@ -238,7 +224,8 @@ export default class CustomLoginView extends PureComponent {
   }
 
   _renderContentView() {
-    let { i18n } = this.state;
+    let { i18n } = this.props;
+    const { loading } = this.state;
     return (
       <View style={LoginStyle.ContentView}>
         <Text style={LoginStyle.Title}>{i18n.signInPhone}</Text>
@@ -317,7 +304,7 @@ export default class CustomLoginView extends PureComponent {
             </TouchableOpacity>
           </View>
         </View>
-        <CommonBottomBtn clickFunc={() => this._login()}>
+        <CommonBottomBtn clickFunc={() => this._login()} loading={loading}>
           {i18n.loginOrRegister}
         </CommonBottomBtn>
       </View>
