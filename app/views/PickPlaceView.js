@@ -1,5 +1,5 @@
 import React from "react";
-import {View} from 'react-native';
+import {View, StyleSheet, Platform} from 'react-native';
 import {CardItem, Card, Container, Content, Body} from 'native-base';
 import Image from 'react-native-image-progress';
 import {connect} from 'react-redux';
@@ -12,6 +12,11 @@ import CommonHeader from '../components/CommonHeader';
 //i18n
 import i18n from '../language/i18n';
 
+const styles = StyleSheet.create({
+  img: Platform.OS == 'ios'?{width:'100%', height: em(250),borderTopLeftRadius: 8,borderTopRightRadius: 8,}:
+  {width:GLOBAL_PARMAS._winWidth*0.9,height:em(250),marginTop: GLOBAL_PARMAS._winWidth*0.05}
+})
+
 class PickPlaceView extends React.Component {
   render() {
     const {placeList, screenProps:{language}} = this.props;
@@ -21,7 +26,7 @@ class PickPlaceView extends React.Component {
         <Content style={{backgroundColor: '#efefef'}}>
           {placeList.map((item, key) => (
             <View key={key} style={[{width: GLOBAL_PARMAS._winWidth* 0.9,marginLeft: GLOBAL_PARMAS._winWidth*0.05,marginBottom: GLOBAL_PARMAS._winWidth*0.05,borderRadius: 8,backgroundColor: '#fff'},key==0&&{marginTop:GLOBAL_PARMAS._winWidth*.05}]}>
-              <FastImage style={{width:'100%', height: em(250),borderTopLeftRadius: 8,borderTopRightRadius: 8,}} source={{
+              <FastImage style={styles.img} source={{
                 uri: item.picture,
                 priority: FastImage.priority.normal
               }} resizeMode={FastImage.resizeMode.contain}/>

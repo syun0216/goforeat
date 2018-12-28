@@ -43,17 +43,20 @@ export default class ManageCreditCardView extends PureComponent {
 
   componentDidMount() {
     this._timer = setTimeout(() => {
-      this.props.showLoading && this.props.showLoading();
       this._getCreditCard();
       clearTimeout(this._timer);
     }, 500);
   }
 
+  componentWillUnmount() {
+    this._timer && clearTimeout(this._timer);
+  }
+
   //api
   _getCreditCard() {
+    this.props.showLoading && this.props.showLoading();
     getCreditCard().then(data => {
       this.props.hideLoading && this.props.hideLoading();
-    this._getCreditCard();
       if (data.ro.ok) {
         this.setState({
           creditCardInfo: data.data

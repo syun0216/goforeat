@@ -43,7 +43,6 @@ export default class UserInfoView extends PureComponent {
       photoData: null,
       myInfo: null,
       currentGender: SECRET,
-      loading: true,
       loadingModal: false,
       i18n: I18n[props.screenProps.language]
     };
@@ -67,7 +66,6 @@ export default class UserInfoView extends PureComponent {
         this.rawMyInfo = JSON.stringify(data.data);
         this.setState({
           myInfo: data.data,
-          loading: false,
           loadingModal: false
         });
       } else if (data.ro.respCode == "10006" || data.ro.respCode == "10007") {
@@ -251,6 +249,7 @@ export default class UserInfoView extends PureComponent {
         user_info_tips: { finish }
       }
     } = this.state;
+    if (this.state.myInfo == null) return;
     return (
       <CommonBottomBtn clickFunc={() => this._updateMyInfo()}>
         {finish}
@@ -403,12 +402,11 @@ export default class UserInfoView extends PureComponent {
   }
 
   render() {
-    let { loading, loadingModal } = this.state;
+    let { loadingModal } = this.state;
     return (
       <Container>
         {this._renderHeaderView()}
         <Content style={UserInfoStyle.UserInfoContent}>
-          {loading ? <Loading /> : null}
           {loadingModal ? <LoadingModal /> : null}
           {this._renderAvatarView()}
           {this._renderFormView()}

@@ -20,7 +20,6 @@ import { SHOW_AD, HIDE_AD } from "../actions";
 import GLOBAL_PARAMS, { em, isEmpty } from "../utils/global_params";
 import JSONUtils from "../utils/JSONUtils";
 import { getDeviceId } from "../utils/DeviceInfo";
-import BackAndroidHandler from "../utils/BackAndroidHandler";
 //api
 import { getNewArticleList, adSpace } from "../api/request";
 import source from "../api/CancelToken";
@@ -71,20 +70,20 @@ class FoodListView extends Component {
     if (isAdShow) {
       hideAd();
     }
-    // advertisementStorage.getData((error, data) => {
-    //   if (error == null) {
-    //     if (data != null) {
-    //       isAdShow &&
-    //         this.setState({
-    //           advertiseImg: data.image,
-    //           advertiseData: data,
-    //           isAdvertiseShow: true
-    //         });
-    //       this._advertiseInterval();
-    //     }
-    //     this._getAdvertise(data);
-    //   }
-    // });
+    advertisementStorage.getData((error, data) => {
+      if (error == null) {
+        if (data != null) {
+          isAdShow &&
+            this.setState({
+              advertiseImg: data.image,
+              advertiseData: data,
+              isAdvertiseShow: true
+            });
+          this._advertiseInterval();
+        }
+        this._getAdvertise(data);
+      }
+    });
   }
 
   componentWillUnmount() {
