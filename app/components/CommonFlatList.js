@@ -215,7 +215,7 @@ export default class CommonFlatList extends PureComponent {
         activeOpacity={1}
         style={{ position: "absolute", right: 10, bottom: 50,zIndex: 10 }}
         onPress={() => {
-          console.log('this._flatlist :', this._flatlist);
+          // console.log('this._flatlist :', this._flatlist);
           this._flatlist && this._flatlist.scrollToIndex({animated: true, index: 0});
         }}
       >
@@ -279,7 +279,7 @@ export default class CommonFlatList extends PureComponent {
   }
 
   render() {
-    console.log("render");
+    // console.log("render");
     const { firstPageLoading, showToTop } = this.state;
     const { i18n } = this.props;
     const {

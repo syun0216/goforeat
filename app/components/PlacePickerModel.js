@@ -42,7 +42,7 @@ class PlacePickerModel extends Component {
           this.setState({
             placeList: placeList.data
           },() => {
-            this.props.stockPlaceList(placeList);
+            this.props.stockPlaceList(placeList.data);
             placeStorage.getData((error, place) => {
               if (error === null) {
                 if (place !== null) {

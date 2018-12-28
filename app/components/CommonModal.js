@@ -29,6 +29,8 @@ class CommonModal extends Component {
     )
     return (
       <Modal 
+      transparent
+      style={{ zIndex: 1 }}
       animationType={"slide"}
       transparent={false}
       visible={modalVisible}
@@ -37,7 +39,7 @@ class CommonModal extends Component {
       }}>
         <Container>
           {isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
-          <Content>
+          <Content bounces={false}>
             {children}
           </Content>
         </Container>
