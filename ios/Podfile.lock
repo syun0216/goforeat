@@ -70,6 +70,8 @@ PODS:
     - React/RCTBlob
   - RNDeviceInfo (0.21.5):
     - React
+  - RNVectorIcons (6.1.0):
+    - React
   - yoga (0.52.2.React)
 
 DEPENDENCIES:
@@ -99,6 +101,7 @@ DEPENDENCIES:
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
@@ -118,6 +121,8 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native-splash-screen
   RNDeviceInfo:
     :path: ../node_modules/react-native-device-info
+  RNVectorIcons:
+    :path: ../node_modules/react-native-vector-icons
   yoga:
     :path: ../node_modules/react-native/ReactCommon/yoga
 
@@ -134,8 +139,9 @@ SPEC CHECKSUMS:
   React: 43e97926f429d846050880666de1809e22dd5cc5
   react-native-splash-screen: 8e3f866dc79bfe533baeffd0a38c33f7a7eae7f8
   RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
+  RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 94063868e4ed8134fe9ba721c3757b84e75d47e6
+PODFILE CHECKSUM: 2b3db4302626a830602ccad65f5c5ab1709720ee
 
 COCOAPODS: 1.4.0

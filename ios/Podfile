@@ -17,8 +17,6 @@ target 'goforeat_app' do
 
   platform :ios, '9.0'
 
-#  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
 #  pod 'Picker', :path => '../node_modules/react-native-picker'
 
 pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
@@ -49,6 +47,7 @@ pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
