@@ -163,6 +163,9 @@ export default {
       load: "加載文章失敗"
     }
   },
+  coupon_tips: {
+    title: "我的優惠券",
+  },
   confirmorder_tips: {
     success: {
       order: "下單成功",
@@ -226,5 +229,14 @@ export default {
     load_all: "已經全部加載完畢",
     reload_again: "再次刷新 或檢查網絡",
     send_success: "提交成功"
+  },
+  creditCard_tips: {
+    security_tips: '支付安全需知',
+    item1_title: '符合業界標準的保安技術',
+    item1_desc: '有得食選用stripe 支付系統。現時Facebook、Uber 都使用這套系統。',
+    item2_title: '卡信息由stripe存取',
+    item2_desc: '您的信用卡信息由stripe存取和保護，有得食伺服器不會儲存任何信用卡資料。',
+    item3_title: '為何會收到一個$0的賬單',
+    item3_desc: '為確保有效,stripe會進行一次$0元扣款測試,您的賬戶不會扣除任何費用。'
   }
 };

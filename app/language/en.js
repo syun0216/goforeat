@@ -26,7 +26,7 @@ export default {
   card: "Credit Card",
   paying: "In payment...",
   changeCard: "Change Your Card",
-  addCard: "Add a Credit or Debit Card",
+  addCard: "Add Credit Card",
   bindCardOnce: "Only one credit card can be bound",
   addCardNow: "Bind immediately",
   cancelBind: "Unbind",
@@ -166,6 +166,9 @@ export default {
       load: "Failed to load the article"
     }
   },
+  coupon_tips: {
+    title: "Promotions",
+  },
   confirmorder_tips: {
     success: {
       order: "Order successfully",
@@ -230,5 +233,14 @@ export default {
     load_all: "Already loaded all",
     reload_again: "Refresh or check the network again",
     send_success: "Submitted successfully"
+  },
+  creditCard_tips: {
+    security_tips: 'Gofoeat cares about paymetn security',
+    item1_title: 'Industry-standard Security',
+    item1_desc: 'Goforeat uses stripe - the same trusted payment gateway used by Facebook,Uber and more.',
+    item2_title: 'Stored with Stripes',
+    item2_desc: 'Your credit card information are stored with and protected by Stripe.No credit information is ever stored on our server.',
+    item3_title: '$0 Transaction',
+    item3_desc: 'The $0 transaction was atest conducted by Stripe to verify your card,and you will not be charged.'
   }
 };
