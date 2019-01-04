@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   Platform
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import {
   Container,
   Footer,
@@ -122,10 +123,10 @@ const AdvertiseView = ({
               }, 0);
             }}
           >
-            <Image
+            <FastImage
               source={{ uri: image }}
               style={styles.ContentImg}
-              reasizeMode="cover"
+              resizeMode={FastImage.resizeMode.cover}
             />
           </TouchableWithoutFeedback>
         </View>
