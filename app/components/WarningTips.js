@@ -8,6 +8,7 @@ import {
   Animated,
   Platform
 } from "react-native";
+import Antd from 'react-native-vector-icons/AntDesign';
 //utils
 import GLOBAL_PAMRAS, { em } from "../utils/global_params";
 //components
@@ -22,14 +23,14 @@ const ITEM_HEIGHT = Platform.select({
 
 const styles = StyleSheet.create({
   warn_container: {
-    backgroundColor: "#FEFCEB",
+    backgroundColor: "transparent",
     width: GLOBAL_PAMRAS._winWidth,
     height: em(36),
     flexDirection: "row",
     justifyContent: "space-around",
     paddingTop: 9,
     paddingBottom: 9,
-    paddingLeft: em(15),
+    paddingLeft: 15,
     paddingRight: em(5),
     alignItems: "center",
     overflow: "hidden"
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
   warning_text_container: {
     flexDirection: "column",
-    backgroundColor: "#FEFCEB",
+    backgroundColor: "transparent",
     position: "relative",
     width: GLOBAL_PAMRAS._winWidth * 0.8,
     maxWidth: GLOBAL_PAMRAS._winWidth * 0.8,
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     ...ITEM_HEIGHT
   },
   warning_text: {
-    color: "#F86B25",
+    color: "#fff",
     fontSize: em(14),
     padding: em(9)
   },
@@ -159,11 +160,12 @@ export default class WarningTips extends PureComponent {
     let { warningTipsData } = this.state;
     return this.state.isWarningTipShow ? (
       <View style={styles.warn_container}>
-        <Image
+        {/* <Image
           source={require("../asset/warning.png")}
           style={styles.warning_img}
           resizeMode="contain"
-        />
+        /> */}
+        <Antd name="pushpino" style={{fontSize: em(20), color: "#fff"}}/>
         <View style={styles.warning_text_container}>
           <Animated.View
             onLayout={({ nativeEvent: e }) => this._layout(e)}
@@ -185,11 +187,12 @@ export default class WarningTips extends PureComponent {
           style={styles.close_btn}
           onPress={() => this.setState({ isWarningTipShow: false })}
         >
-          <Image
+          {/* <Image
             source={require("../asset/close_red.png")}
             style={styles.warning_close}
             resizeMode="cover"
-          />
+          /> */}
+          <Antd name="close" style={{fontSize: em(20), color: "#fff"}}/>
         </TouchableOpacity>
       </View>
     ) : null;

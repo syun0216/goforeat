@@ -4,6 +4,7 @@ import {StyleSheet,Platform,TouchableWithoutFeedback,TouchableOpacity,Image,View
 import {withNavigation} from 'react-navigation';
 import {Header,Left,Body,Right,Icon,Button} from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
+import Antd from 'react-native-vector-icons/AntDesign';
 //utils
 import Colors from '../utils/Colors';
 import GLOBAL_PARAMS, {em} from "../utils/global_params";
@@ -27,8 +28,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   MenuBtn: {
-    width: em(23),
-    height: em(23)
+    fontSize: em(25),
+    color: '#fff'
   }
 })
 
@@ -44,17 +45,17 @@ const CommonHeader = (props) => {
             {props.canBack ? (props.leftElement !== null ? props.leftElement : (
               Platform.OS == 'ios' ? 
               (<Button transparent onPress={() => {props.navigation.goBack();}}>
-                <Icon
+                <Antd
                   size={20}
-                  name="ios-arrow-back"
+                  name="left"
                   style={[CommonStyles.common_icon_back,{color: props.textColor}]}
                 />
               </Button>) :
               (
                 <TouchableWithoutFeedback onPress={() => {props.navigation.goBack();}}>
-                <Icon
+                <Antd
                   size={20}
-                  name="ios-arrow-back"
+                  name="left"
                   style={[CommonStyles.common_icon_back,{color: props.textColor}]}
                 />
               </TouchableWithoutFeedback>
@@ -62,7 +63,8 @@ const CommonHeader = (props) => {
             )) : props.hasMenu ? (
               <TouchableOpacity style={Platform.OS == 'ios' ? FoodDetailsStyle.MenuBtn : FoodDetailsStyle.MenuBtnAndroid} onPress={() => {
                 props.leftClickIntercept(props);}}>
-                <Image source={require('../asset/menu.png')} style={styles.MenuBtn} resizeMode="contain"/>
+                <Antd name="menu-fold" style={styles.MenuBtn}/>
+                {/* <Image source={require('../asset/menu.png')} style={styles.MenuBtn} resizeMode="contain"/> */}
               </TouchableOpacity>
             ) : null}
           </Left>
@@ -74,7 +76,7 @@ const CommonHeader = (props) => {
           <Right style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex:1}}>
             {props.hasRight ? (props.rightElement !== null ? <props.rightElement {...props}/> : (
               <Button transparent onPress={() => props.rightClick()}>
-              <Icon name={props.rightIcon} size={25} style={{fontSize:GLOBAL_PARAMS.em(23),color: Colors.main_white,paddingRight: 10}} /></Button>
+              <Antd name={props.rightIcon} size={25} style={{fontSize:GLOBAL_PARAMS.em(23),color: Colors.main_white,paddingRight: 10}} /></Button>
             )) : null}
           </Right>
         </LinearGradient> 
