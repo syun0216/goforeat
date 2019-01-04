@@ -196,8 +196,8 @@ export default StyleSheet.create({
     marginRight: 10
   },
   MenuImage: {
-    width: em(23),
-    height: em(23),
+    fontSize: em(25),
+    color: '#fff',
     marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0
   },
   locationImage: {
@@ -209,7 +209,7 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   BottomView: {
     height: 80,

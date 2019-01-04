@@ -85,11 +85,11 @@ export default StyleSheet.create({
     paddingRight: em(10),
     borderRadius: em(20),
     borderWidth: 1,
-    borderColor: "#FF3348",
+    borderColor: "#111",
     marginLeft: em(5)
   },
   payStatusText: {
-    color: "#FF3348",
+    color: "#111",
     fontSize: em(16)
   },
   pickNumber: {
