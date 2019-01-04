@@ -250,6 +250,8 @@ export default class CommonFlatList extends PureComponent {
           <RefreshControl
             refreshing={refreshing}
             title="loading..."
+            tintColor={this.props.refreshControlTintColor || '#666'}
+            titleColor={this.props.refreshControlTitleColor || '#666'}
             onRefresh={() => this._onRefreshToRequestFirstPageData()}
           />
         }
