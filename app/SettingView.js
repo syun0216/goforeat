@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableWithoutFeedback
 } from "react-native";
+import {PullPicker} from 'teaset';
 import { Container, ActionSheet } from "native-base";
 //utils
 import ToastUtil from "./utils/ToastUtil";
@@ -120,14 +121,11 @@ export default class SettingView extends PureComponent {
         rightIcon: <Text>{this.state.language}</Text>,
         clickFunc: () => {
           if (this._actionSheet != null) {
-            this._actionSheet._root.showActionSheet(
-              {
-                options: LANGUAGE_BTN,
-                cancelButtonIndex: CANCEL_INDEX,
-                destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                title: i18n.langChoose
-              },
-              buttonIndex => {
+            PullPicker.show(
+              i18n.langChoose,
+              LANGUAGE_BTN,
+              this.state.language,
+              (item, buttonIndex) => {
                 if (
                   this.state.lang_idx == buttonIndex &&
                   buttonIndex == CANCEL_INDEX
@@ -155,6 +153,41 @@ export default class SettingView extends PureComponent {
                 }
               }
             );
+            // this._actionSheet._root.showActionSheet(
+            //   {
+            //     options: LANGUAGE_BTN,
+            //     cancelButtonIndex: CANCEL_INDEX,
+            //     destructiveButtonIndex: DESTRUCTIVE_INDEX,
+            //     title: i18n.langChoose
+            //   },
+            //   buttonIndex => {
+            //     if (
+            //       this.state.lang_idx == buttonIndex &&
+            //       buttonIndex == CANCEL_INDEX
+            //     )
+            //       return;
+            //     switch (LANGUAGE_BTN[buttonIndex]) {
+            //       case "English":
+            //         {
+            //           this.props.screenProps.changeLanguage("en");
+            //           languageStorage.setData("en");
+            //           this.setState({
+            //             lang_idx: buttonIndex,
+            //             language: LANGUAGE_BTN[buttonIndex]
+            //           });
+            //         }
+            //         break;
+            //       case "繁體中文": {
+            //         languageStorage.setData("zh");
+            //         this.props.screenProps.changeLanguage("zh");
+            //         this.setState({
+            //           lang_idx: buttonIndex,
+            //           language: LANGUAGE_BTN[buttonIndex]
+            //         });
+            //       }
+            //     }
+            //   }
+            // );
           }
         }
       },
