@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS == 'ios' ? 15 : 0,
     justifyContent:'center',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   MenuBtn: {
     fontSize: em(25),
@@ -39,6 +39,8 @@ const CommonHeader = (props) => {
       <Header style={[props.headerStyle,{
         marginTop: GLOBAL_PARAMS.isIphoneX() ? -GLOBAL_PARAMS.iPhoneXTop : 0,
         marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0,
+        elevation: 0,
+        borderWidth: 0,
       }]} hasTabs iosBarStyle={props.iosBarStyle} androidStatusBarColor="#333">
         <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.linearGradient}>
           <Left style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex: 1}}>

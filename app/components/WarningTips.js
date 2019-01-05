@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
   warning_text: {
     color: "#fff",
     fontSize: em(14),
+    paddingLeft: em(22),
     padding: em(9)
   },
   close_btn: {

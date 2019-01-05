@@ -229,6 +229,7 @@ export default class CommonFlatList extends PureComponent {
     return (
       <FlatList
         ref={fl => (this._flatlist = fl)}
+        contentContainerStyle={this.props.style}
         data={this.state.listData}
         onScroll={sview => this._onScroll(sview)}
         scrollEventThrottle={80}
