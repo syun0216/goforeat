@@ -173,7 +173,7 @@ export default class ContentView extends Component {
           title={kind == "article" ? food_title : title}
           canBack
           hasRight
-          rightIcon="md-share-alt"
+          rightIcon="sharealt"
           rightClick={() => this.setState({ shareboxVisible: true })}
         />
         {this.state.loading ? <Loading /> : null}
