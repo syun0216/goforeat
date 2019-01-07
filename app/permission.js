@@ -9,7 +9,8 @@ export function AuthInterceptor(action, state) {
     "CouponDrawer",
     "Credit",
     "Manage_Card",
-    "UserInfoDrawer"
+    "UserInfoDrawer",
+    "Coupon",
   ];
   if (state && action.type == NavigationActions.NAVIGATE) {
     return (

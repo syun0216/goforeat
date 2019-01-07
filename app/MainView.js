@@ -2,6 +2,7 @@ import React from "react";
 import { View, Image, Platform, TouchableOpacity } from "react-native";
 import { Container, Content, Icon } from "native-base";
 import LinearGradient from "react-native-linear-gradient";
+import Antd from 'react-native-vector-icons/AntDesign';
 //navigation
 import {
   StackNavigator,
@@ -349,6 +350,9 @@ let MainView = StackNavigator(
     },
     Feedback: {
       screen: CommonHOC(FeedbackView)
+    },
+    PickPlace: {
+      screen: CommonHOC(PickPlaceView)
     }
   },
   {

@@ -126,7 +126,7 @@ export default class BottomOrderConfirm extends PureComponent {
             HKD{" "}
           </Text>
           <Text style={[styles.commonText, styles.priceText]} numberOfLines={1}>
-            {GLOBAL_PARAMS._winWidth < 350 ? total : total.toFixed(2)}
+            {GLOBAL_PARAMS._winWidth < 350 ? total : total ? total.toFixed(2) : '--'}
           </Text>
         </View>
         <View style={{ flexDirection: "row" }}>

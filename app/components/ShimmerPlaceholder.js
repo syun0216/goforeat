@@ -121,7 +121,7 @@ ShimmerPlaceHolder.defaultProps = {
   widthShimmer: 1,
   duration: 1000,
   delay: 0,
-  colorShimmer: ["#efefef", "#ccc", "#efefef"],
+  colorShimmer: ["#efefef", "#ddd", "#efefef"],
   reverse: false,
   autoRun: false,
   visible: false,

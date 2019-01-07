@@ -178,15 +178,9 @@ export default class CommonFlatList extends PureComponent {
   }
 
   _onErrorRequestFirstPage() {
-    this.setState(
-      {
-        firstPageLoading: LOADING
-      },
-      () => {
-        this.init();
-        this._requestFirstPage();
-      }
-    );
+    this.props.showLoading&& this.props.showLoading();
+    this.init();
+    this._requestFirstPage();
   }
 
   _onErrorToRequestNextPage() {
