@@ -238,5 +238,9 @@ export default {
     item2_desc: '您的信用卡信息由stripe存取和保護，有得食伺服器不會儲存任何信用卡資料。',
     item3_title: '為何會收到一個$0的賬單',
     item3_desc: '為確保有效,stripe會進行一次$0元扣款測試,您的賬戶不會扣除任何費用。'
+  },
+  foodlist_tips: {
+    title: '精選菜品',
+    sub_title: '互動評分'
   }
 };

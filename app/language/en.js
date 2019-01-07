@@ -3,7 +3,7 @@ export default {
   myorder: "My Order",
   pickPlace: "Pick up place",
   contact: "Contact Us",
-  about: "About Us",
+  about: "About Goforeat",
   setting: "Setting",
   payment: "Payment Method",
   help: "Need Help?",
@@ -101,7 +101,7 @@ export default {
   dailyFood: "Daily",
   refresh: "Refresh",
   follow: "Follow us",
-  tutorial: "Tutorial",
+  tutorial: "How to use Goforeat",
   dialing: "Whether to call",
   dialingToCancelOrder: "Call customer service for a refund now?",
   notSupportDialing: "Call not supported",
@@ -110,15 +110,15 @@ export default {
   ticket: "Coupon",
   user_info_tips: {
     phone: "Account",
-    nickName: "Nickname",
+    nickName: "Name",
     email: "Email",
     address: "Address",
     gender: "Gender",
     male: "Male",
     female: "Female",
-    secret: "Unknown",
-    changeAvatar: "Change avatar",
-    finish: "Finish",
+    secret: "Other",
+    changeAvatar: "Update Profile Picture",
+    finish: "save",
     title: "Modify data",
     tips_quit: "The information has not been saved, is it quit?",
     tips_avatar_success: "Update avatar successfully",
@@ -242,5 +242,9 @@ export default {
     item2_desc: 'Your credit card information are stored with and protected by Stripe.No credit information is ever stored on our server.',
     item3_title: '$0 Transaction',
     item3_desc: 'The $0 transaction was atest conducted by Stripe to verify your card,and you will not be charged.'
+  },
+  foodlist_tips: {
+    title: 'Daily Special',
+    sub_title: 'Rating'
   }
 };
