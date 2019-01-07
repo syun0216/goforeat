@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 import Share from "react-native-share";
+import Antd from "react-native-vector-icons/AntDesign";
 // import WeChat from 'react-native-wechat';
 import { Container, Icon } from "native-base";
 import Carousel from "react-native-snap-carousel";
@@ -33,6 +34,7 @@ import Text from "../components/UnScalingText";
 import SlideUpPanel from "../components/SlideUpPanel";
 import CommonHeader from "../components/CommonHeader";
 import ShareComponent from "../components/ShareComponent";
+import ShimmerPlaceHolder from "../components/ShimmerPlaceholder";
 // language
 import I18n from "../language/i18n";
 //cache
@@ -102,7 +104,7 @@ class FoodDetailsView extends Component {
         },
         () => {
           if (Platform.OS == "ios") {
-            this.state.isFavorite && this._lv
+            this.state.isFavorite && this._lv && this._lv
               ? this._lv.play()
               : this._lv.reset();
           }
@@ -129,7 +131,7 @@ class FoodDetailsView extends Component {
     getFoodDetails(id).then(
       data => {
         if (data.ro.respCode == "0000") {
-          this.props.hideLoading && this.props.hideLoading();
+          // this.props.hideLoading && this.props.hideLoading();
           this.setState(
             {
               foodDetails: data.data,
@@ -140,7 +142,7 @@ class FoodDetailsView extends Component {
             },
             () => {
               if (Platform.OS == "ios") {
-                this.state.isFavorite && this._lv
+                this.state.isFavorite && this._lv && this._lv
                   ? this._lv.play()
                   : this._lv.reset();
               }
@@ -159,7 +161,7 @@ class FoodDetailsView extends Component {
   _onRefreshToRequestFirstPageData(id) {
     if (!id) return;
     this._timer = setTimeout(() => {
-      this.props.showLoading && this.props.showLoading();
+      // this.props.showLoading && this.props.showLoading();
       clearTimeout(this._timer);
       this._getFoodDetails(id);
     }, 500);
@@ -265,6 +267,13 @@ class FoodDetailsView extends Component {
   }
 
   _renderDateFormat() {
+    if(!this.state.foodDetails) {
+      return (
+      <View style={FoodDetailsStyles.DateFormatView}>
+        <ShimmerPlaceHolder autoRun={true} style={{width: 125,height: 25}}></ShimmerPlaceHolder>
+        <ShimmerPlaceHolder autoRun={true} style={{width: 250,marginTop: 5}}></ShimmerPlaceHolder>
+      </View>)
+    }
     return (
       <View style={FoodDetailsStyles.DateFormatView}>
         <Text style={FoodDetailsStyles.DateFormatWeekText}>
@@ -279,6 +288,9 @@ class FoodDetailsView extends Component {
 
   _renderMainView() {
     const { foodDetails } = this.state;
+    if(!foodDetails) {
+      return <ShimmerPlaceHolder autoRun={true} hasBorder style={[styles.exampleContainer,{ width: slideWidthSingle,height: em(250),marginLeft: 15 }]}></ShimmerPlaceHolder>
+    }
     const itemWidth =
       foodDetails.extralImage.length > 1 ? slideWidthMulti : slideWidthSingle;
     return foodDetails != null ? (
@@ -347,6 +359,23 @@ class FoodDetailsView extends Component {
   }
 
   _renderIntroductionView() {
+    if(!this.state.foodDetails) {
+      return (
+        <View style={FoodDetailsStyles.IntroductionView}>
+          <View style={FoodDetailsStyles.IntroductionFoodNameCotainer}>
+            <ShimmerPlaceHolder autoRun={true} style={{ width: 150,height: 25 }} />
+            <ShimmerPlaceHolder autoRun={true} style={{ width: 80,height: 20 }} />
+          </View>
+          <View style={FoodDetailsStyles.IntroductionFoodNameCotainer}>
+            <ShimmerPlaceHolder autoRun={true} style={{ width: 100,height: 20 }} />
+            <ShimmerPlaceHolder autoRun={true} style={{ width: 20,height: 20 }} />
+          </View>
+          <ShimmerPlaceHolder autoRun={true} style={{ width: slideWidthSingle,marginBottom: 5, }} />
+          <ShimmerPlaceHolder autoRun={true} style={{ width: slideWidthSingle,marginBottom: 5, }} />
+          <ShimmerPlaceHolder autoRun={true} style={{ width: slideWidthSingle}} />
+        </View>  
+      )
+    }
     let {
       foodDetails: { foodName, canteenName, foodBrief },
       isFavorite,
@@ -355,15 +384,15 @@ class FoodDetailsView extends Component {
     const _isFavorite = () =>
       isFavorite ? (
         Platform.OS == "android" && (
-          <Icon
+          <Antd
             style={FoodDetailsStyles.canteenFavoriteActive}
-            name="md-heart"
+            name="heart"
           />
         )
       ) : (
-        <Icon
+        <Antd
           style={FoodDetailsStyles.canteenFavorite}
-          name="md-heart-outline"
+          name="hearto"
         />
       );
     return (
@@ -488,6 +517,12 @@ class FoodDetailsView extends Component {
   _renderAddPriceView() {
     const { foodDetails, soldOut } = this.state;
     const { i18n } = this.props;
+    if(!foodDetails) return (
+      <View style={[FoodDetailsStyles.AddPriceView,{marginTop: 10}]}>
+        <ShimmerPlaceHolder autoPlay={true} style={{width: 100,height: 20}}/>
+        <ShimmerPlaceHolder autoPlay={true} style={{width: 100,height: 20}}/>
+      </View>
+    );
     return (
       <View style={FoodDetailsStyles.AddPriceView}>
         <View style={FoodDetailsStyles.AddPriceViewPriceContainer}>
@@ -551,7 +586,6 @@ class FoodDetailsView extends Component {
   }
 
   _renderContentView() {
-    const main_view = this._renderMainView();
     let {
       foodDetails,
       refreshing,
@@ -571,16 +605,12 @@ class FoodDetailsView extends Component {
           />
         }
       >
-        {foodDetails != null ? this._renderDateFormat() : null}
-        {main_view}
-        {foodDetails != null ? (
-          <View>
-            {this._renderIntroductionView()}
-            {this._renderAddPriceView()}
-          </View>
-        ) : (
-          <BlankPage style={{ marginTop: 50 }} message="暂无数据" />
-        )}
+        {this._renderDateFormat()}
+        {this._renderMainView()}
+        <View>
+          {this._renderIntroductionView()}
+          {this._renderAddPriceView()}
+        </View>
         {<View style={FoodDetailsStyles.BottomView} />}
       </ScrollView>
     );
@@ -594,8 +624,9 @@ class FoodDetailsView extends Component {
         btnMessage={i18n.book}
         {...this.props}
         isShow={true}
-        total={foodCount * foodDetails.price}
+        total={foodDetails ? foodCount * foodDetails.price : null}
         btnClick={() => {
+          if(!foodDetails) return;
           if (soldOut == HAS_FOODS) {
             this._goToOrder();
           } else {
@@ -603,6 +634,7 @@ class FoodDetailsView extends Component {
           }
         }}
         shareClick={() => {
+          if(!foodDetails) return;
           if (soldOut == HAS_FOODS) {
             this.setState({
               isShareListShow: true
@@ -732,10 +764,9 @@ class FoodDetailsView extends Component {
         {this._renderHeaderView()}
         {isError ? this._renderErrorView() : null}
         {isShareListShow && this._renderPreventClickView()}
-        {loading ? <Loading /> : null}
-        {foodDetails != null ? this._renderContentView() : null}
-        {foodDetails != null ? this._renderBottomBtnView() : null}
-        {foodDetails != null ? this._renderMoreDetailModal() : null}
+        {this._renderContentView()}
+        {this._renderBottomBtnView()}
+        {foodDetails && this._renderMoreDetailModal()}
         {foodDetails && (
           <ShareComponent
             ref={sl => (this._shareList = sl)}
