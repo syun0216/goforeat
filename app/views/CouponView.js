@@ -80,15 +80,16 @@ export default class CouponView extends PureComponent {
   _renderCouponItem(item, index) {
     const { condition, discount, endTime, deductionId, type, useStatus } = item;
     const _alreadyUsed = useStatus != effective;
+    const {goBack, state:{params}} = this.props.navigation;
 
     const useBtn = (
       <TouchableOpacity
         style={CouponStyle.UseBtn}
         onPress={() => {
           if (this._from_confirm_order) {
-            this.props.navigation.state.params.callback(item);
+            params.callback && params.callback(item);
           }
-          this.props.navigation.goBack();
+          goBack();
         }}
       >
         <Text style={CouponStyle.BtnText}>立即使用</Text>
@@ -212,7 +213,7 @@ export default class CouponView extends PureComponent {
       <CommonHeader
         hasMenu={!this._from_confirm_order}
         canBack={this._from_confirm_order}
-        title="我的優惠券"
+        title={this.props.i18n.coupon_tips.title}
       />
     );
 
