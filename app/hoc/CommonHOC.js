@@ -57,6 +57,7 @@ const CommonHOC = WarppedComponent => {
 
     componentDidMount() {
       this._jpushDidMount();
+      this.props.isLoading && this.props.hideLoading();
       AppState.addEventListener("change", nextState => {
         console.log(nextState);
         if (nextState == "active") {
