@@ -46,7 +46,6 @@ export default StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: entryBorderRadius,
-    elevation: 6,
     borderRadius: entryBorderRadius
   },
   imageContainerEven: {
