@@ -266,28 +266,27 @@ export default class CreditCardView extends Component {
   }
 
   _renderInfoDetailPanel() {
+    const {i18n} = this.props;
     const _arr = [
       {
         img: require("../asset/stripe.png"),
-        title: "符合業界標準的保安技術",
-        desc: "有得食選用stripe 支付系統。現時Facebook、Uber 都使用這套系統。"
+        title: i18n.creditCard_tips.item1_title,
+        desc: i18n.creditCard_tips.item1_desc
       },
       {
         img: require("../asset/card.png"),
-        title: "卡信息由stripe存取",
-        desc:
-          "您的信用卡信息由stripe存取和保護，有得食伺服器不會儲存任何信用卡資料。"
+        title: i18n.creditCard_tips.item2_title,
+        desc: i18n.creditCard_tips.item2_desc
       },
       {
         img: require("../asset/dollar.png"),
-        title: "為何會收到一個$0的賬單",
-        desc:
-          "為確保有效,stripe會進行一次$0元扣款測試,您的賬戶不會扣除任何費用。"
+        title: i18n.creditCard_tips.item3_title,
+        desc:i18n.creditCard_tips.item3_desc
       }
     ];
     return (
       <SlideUpPanel ref={r => (this.slideUpPanel = r)}>
-        <Text style={CreditCardStyles.panelTitle}>有得食重視支付安全</Text>
+        <Text style={CreditCardStyles.panelTitle}>{i18n.creditCard_tips.security_tips}</Text>
         {_arr.map((item, key) => (
           <View key={key} style={CreditCardStyles.panelItemInfo}>
             <Image
