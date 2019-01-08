@@ -38,7 +38,7 @@ class PlacePickerModel extends Component {
     placeListStorage.getData((error, placeList) => {
       if (error === null) {
         let currentDate = +new Date;
-        if (placeList !== null && placeList.cacheTime && (currentDate - placeList.cacheTime < 86400000 )) {
+        if (placeList !== null && placeList.cacheTime && (currentDate - placeList.cacheTime < 10800000 )) { // 缓存超过3个小时则更新
           this.setState({
             placeList: placeList.data
           },() => {
