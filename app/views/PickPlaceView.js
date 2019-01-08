@@ -19,18 +19,18 @@ const styles = StyleSheet.create({
 
 class PickPlaceView extends React.Component {
   render() {
-    const {placeList, screenProps:{language}} = this.props;
+    const {placeList, screenProps:{language},navigation: {state: {params}}} = this.props;
+    console.log(params);
     return (
       <Container>
-        <CommonHeader hasMenu title={i18n[language].pickPlace} {...this.props} />
+        <CommonHeader hasMenu={!params} canBack={params && params.navigate} title={i18n[language].pickPlace} {...this.props} />
         <Content style={{backgroundColor: '#efefef'}}>
           {placeList.map((item, key) => (
             <View key={key} style={[{width: GLOBAL_PARMAS._winWidth* 0.9,marginLeft: GLOBAL_PARMAS._winWidth*0.05,marginBottom: GLOBAL_PARMAS._winWidth*0.05,borderRadius: 8,backgroundColor: '#fff'},key==0&&{marginTop:GLOBAL_PARMAS._winWidth*.05}]}>
-              <FastImage style={styles.img} source={{
-                uri: item.picture,
+              <FastImage style={styles.img} source={item.picture ? {
+                uri: item.picture || '',
                 priority: FastImage.priority.normal
-              }} resizeMode={FastImage.resizeMode.contain}/>
-              {/* <Image source={{uri: item.picture || '',cache: 'only-if-cached',}} style={{width:'100%',height: em(250)}} resizeMode="cover"/> */}
+              } : require('../asset/gardenListDefault.png')} resizeMode={FastImage.resizeMode.contain}/>
               <View style={{padding: GLOBAL_PARMAS._winWidth*.05,alignItems: 'flex-start',}}>
                 <Text>{item.name || '暫無名稱'}</Text>
               </View>
