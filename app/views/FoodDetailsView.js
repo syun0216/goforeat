@@ -289,7 +289,7 @@ class FoodDetailsView extends Component {
   _renderMainView() {
     const { foodDetails } = this.state;
     if(!foodDetails) {
-      return <ShimmerPlaceHolder autoRun={true} hasBorder style={[styles.exampleContainer,{ width: slideWidthSingle,height: em(250),marginLeft: 15 }]}></ShimmerPlaceHolder>
+      return <ShimmerPlaceHolder autoRun={true} style={[styles.exampleContainer,{ width: slideWidthSingle,height: em(250),marginLeft: 15 }]}></ShimmerPlaceHolder>
     }
     const itemWidth =
       foodDetails.extralImage.length > 1 ? slideWidthMulti : slideWidthSingle;
