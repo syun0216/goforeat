@@ -6,14 +6,15 @@ import {
   Image,
   Platform,
   ActivityIndicator,
-  Linking,
-  Animated
+  BackHandler,
+  ToastAndroid
 } from "react-native";
 import { Container, Header } from "native-base";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
-import Placeholder from "rn-placeholder";
 import FastImage from "react-native-fast-image";
+import Antd from "react-native-vector-icons/AntDesign";
+import {PopoverPicker} from 'teaset';
 //actions
 import { SHOW_AD, HIDE_AD } from "../actions";
 //utils
@@ -29,13 +30,11 @@ import WarningTips from "../components/WarningTips";
 import CommonFlatList from "../components/CommonFlatList";
 import AdvertiseView from "../components/AdvertiseView";
 import PlacePickerModel from "../components/PlacePickerModel";
-//language
-import I18n from "../language/i18n";
+import ShimmerPlaceHolder from "../components/ShimmerPlaceholder";
 //styles
 import FoodDetailsStyles from "../styles/fooddetails.style";
 //storage
 import { advertisementStorage } from "../cache/appStorage";
-import { dispatch } from "rxjs/internal/observable/range";
 
 const {
   isIphoneX,
@@ -45,6 +44,8 @@ const {
   _winWidth
 } = GLOBAL_PARAMS;
 
+let lastBackPressed = Date.now();
+
 class FoodListView extends Component {
   _interval = null;
   _isFirstReload = null;
@@ -52,6 +53,7 @@ class FoodListView extends Component {
     super(props);
     this._interval = null;
     this._isFirstReload = true; //判断是否为首次加载
+    // Platform.OS == 'android' && BackHandler.addEventListener('hardareBackPress', this.onBackButtonPressAndroid.bind(this));
     this.state = {
       currentItem: "",
       placeSelected: null,
@@ -61,7 +63,8 @@ class FoodListView extends Component {
       warningTipsData: [],
       star: null,
       isAdvertiseShow: false,
-      isWarningTipShow: false
+      isWarningTipShow: false,
+      test: false
     };
   }
 
@@ -70,28 +73,38 @@ class FoodListView extends Component {
     if (isAdShow) {
       hideAd();
     }
-    advertisementStorage.getData((error, data) => {
-      if (error == null) {
-        if (data != null) {
-          isAdShow &&
-            this.setState({
-              advertiseImg: data.image,
-              advertiseData: data,
-              isAdvertiseShow: true
-            });
-          this._advertiseInterval();
-        }
-        this._getAdvertise(data);
-      }
-    });
+    // advertisementStorage.getData((error, data) => {
+    //   if (error == null) {
+    //     if (data != null) {
+    //       isAdShow &&
+    //         this.setState({
+    //           advertiseImg: data.image,
+    //           advertiseData: data,
+    //           isAdvertiseShow: true
+    //         });
+    //       this._advertiseInterval();
+    //     }
+    //     this._getAdvertise(data);
+    //   }
+    // });
   }
 
   componentWillUnmount() {
     source.cancel();
-    clearInterval(this._interval);
+    // BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid.bind(this));
+    // clearInterval(this._interval);
   }
 
   //logic functions
+
+  onBackButtonPressAndroid() {
+    if(lastBackPressed && lastBackPressed + 2000 >= Date.now()) {
+      BackHandler.exitApp()
+    }
+    lastBackPressed = Date.now();
+    ToastAndroid.show("再按一次退出app", ToastAndroid.SHORT);
+    return true;
+  }
 
   _getAdvertise(old_data) {
     adSpace()
@@ -190,7 +203,7 @@ class FoodListView extends Component {
           position: "absolute",
           top: 0,
           left: 0,
-          height: 150,
+          height: _winHeight*0.6,
           width: _winWidth,
           overflow: "hidden"
         }}
@@ -200,21 +213,27 @@ class FoodListView extends Component {
 
   _renderTopTitleView() {
     return (
-      <View
+      <LinearGradient
+        colors={["#FF7F0B", "#FF1A1A"]}
+        start={{ x: 0.0, y: 0.0 }}
+        end={{ x: 1.0, y: 0.0 }}
         style={{
-          marginTop: em(10),
-          marginLeft: em(15),
-          marginRight: em(15),
+          paddingTop: em(10),
+          paddingBottom: em(10),
+          paddingLeft: em(15),
+          paddingRight: em(15),
           justifyContent: "space-between",
           flexDirection: "row",
           position: "relative"
         }}
       >
-        <Text style={[FoodDetailsStyles.DateFormatWeekText, { color: "#333" }]}>
-          精選菜品
+        <Text style={[FoodDetailsStyles.DateFormatWeekText, { color: "#fff" }]}>
+          {this.props.i18n.foodlist_tips.title}
         </Text>
-        <Text>互動評分:{this.state.star}/5</Text>
-      </View>
+        <Text style={{ color: "#fff", fontWeight: "700" }}>
+          {this.props.i18n.foodlist_tips.sub_title}:{this.state.star}/5
+        </Text>
+      </LinearGradient>
     );
   }
 
@@ -251,11 +270,12 @@ class FoodListView extends Component {
             onPress={() => navigate("DrawerOpen", { callback: this._add })}
             style={FoodDetailsStyles.MenuBtn}
           >
-            <Image
+            <Antd name="menu-fold" style={FoodDetailsStyles.MenuImage} />
+            {/* <Image
               source={require("../asset/menu.png")}
               style={FoodDetailsStyles.MenuImage}
               resizeMode="contain"
-            />
+            /> */}
           </TouchableOpacity>
           <View style={FoodDetailsStyles.HeaderContent}>
             {placeSelected != null ? (
@@ -265,14 +285,41 @@ class FoodListView extends Component {
             )}
           </View>
           <TouchableOpacity
-            onPress={() => Linking.openURL(scheme)}
+            onPress={() =>{
+              PopoverPicker.show(
+                {x: _winWidth - 115, y: -50, width:100, height:100},
+                ["查看配送點","兌換優惠碼", "反饋"],
+                this.state.modalSelectedIndex,
+                (item, index) => {
+                  switch(index) {
+                    case 0: {
+                      this.props.navigation.navigate('PickPlace', {
+                        navigate: true
+                      });break;
+                    }
+                    case 1: {
+                      this.props.navigation.navigate('Coupon', {
+                        navigate: true
+                      });break;
+                    }
+                    case 2: {
+                      this.props.navigation.navigate('Feedback', {
+                        navigate: true
+                      });break;
+                    }
+                  }
+                },
+                {modal: false}
+              );
+            }}
             style={FoodDetailsStyles.MenuBtn}
           >
-            <Image
+            {/* <Image
               source={require("../asset/location_white.png")}
               style={FoodDetailsStyles.locationImage}
               resizeMode="contain"
-            />
+            /> */}
+            <Antd name="appstore-o" style={{color: '#fff',fontSize: em(23)}}/>
           </TouchableOpacity>
         </LinearGradient>
       </Header>
@@ -315,20 +362,13 @@ class FoodListView extends Component {
     const numOfIndicators = _winHeight / em(180);
     return (
       <View style={styles.articleItemContainer}>
-        <Placeholder.ImageContent
-          position="left"
-          hasRadius
-          lineNumber={5}
-          textSize={14}
-          lineSpacing={5}
-          color="#ccc"
-          width="100%"
-          lastLineWidth="30%"
-          firstLineWidth="10%"
-          onReady={this.props.isLoading}
-        >
-           <Text>Placeholder finished</Text>
-        </Placeholder.ImageContent>
+        <ShimmerPlaceHolder style={{
+            width: _winWidth * 0.45 - 10,
+            height: em(150),
+            alignSelf: "center"
+          }} autoRun={true}>
+          <Text>Wow, awesome here.</Text>
+        </ShimmerPlaceHolder>
       </View>
     );
   }
@@ -338,17 +378,29 @@ class FoodListView extends Component {
     let _device = getDeviceId().split(",")[0];
     return (
       <TouchableOpacity
-        style={styles.articleItemContainer}
+        style={[
+          styles.articleItemContainer,
+          index == 0 && {
+            borderTopRightRadius: 8,
+            borderTopLeftRadius: 8,
+          }
+        ]}
         onPress={() => {
           this.props.navigation.navigate("Food", {
             dateFoodId: item.dateFoodId
           });
         }}
-        activeOpacity={0.6}
+        activeOpacity={1}
       >
-        <FastImage 
-        source={{ uri: item.thumbnail }}
-        style={{ width: _winWidth * 0.45 - 10, height: em(170) }}
+        <FastImage
+          source={{ uri: item.thumbnail }}
+          borderRadius={10}
+          style={{
+            width: _winWidth * 0.45 - 10,
+            height: em(155),
+            alignSelf: "center",
+            borderRadius: 10
+          }}
           resizeMode={FastImage.resizeMode.cover}
         />
         {/* <Image
@@ -422,11 +474,14 @@ class FoodListView extends Component {
     return (
       <CommonFlatList
         ref={c => (this.flatlist = c)}
+        // style={{borderWidth: 1,}}
         requestFunc={getNewArticleList}
         // renderIndicator={() => this._renderIndicator()}
         renderItem={(item, index) => this._renderFoodListItemView(item, index)}
         renderHeader={() => this._renderTopTitleView()}
         extraParams={{ placeId: this.state.placeSelected.id }}
+        refreshControlTitleColor="#fff"
+        refreshControlTintColor="#fff"
         getRawData={data => {
           this.setState({ star: data.star });
         }}
@@ -437,9 +492,10 @@ class FoodListView extends Component {
 
   render() {
     return (
-      <Container style={{ position: "relative", backgroundColor: "#efefef" }}>
+      <Container style={{ position: "relative", backgroundColor: "#fff" }}>
         {this._renderAdvertisementView()}
-        {/*this._renderRefreshBgView()*/}
+        {this.state.star && this._renderRefreshBgView()}
+        {/* {this._renderIndicator()} */}
         {this._renderPlacePicker()}
         {this._renderHeaderView()}
         {this._renderWarningView()}
@@ -469,20 +525,20 @@ const styles = StyleSheet.create({
   articleItemContainer: {
     height: em(170),
     flex: 1,
-    marginTop: 10,
-    marginLeft: 15,
-    marginRight: 15,
-    borderRadius: 5,
+    paddingTop: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
     flexDirection: "row",
     shadowColor: "#333",
     shadowOffset: { width: 3, height: 5 },
     shadowOpacity: 0,
-    shadowRadius: 8,
+    shadowRadius: 10,
     backgroundColor: "#fff",
     overflow: "hidden"
   },
   articleItemDetails: {
-    padding: 10,
+    paddingLeft: em(10),
+    // paddingRight: 0,
     flex: 1,
     backgroundColor: "#fff",
     // borderWidth: 1,
