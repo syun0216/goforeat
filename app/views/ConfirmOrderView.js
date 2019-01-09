@@ -34,6 +34,7 @@ import Divider from "../components/Divider";
 import ConfirmOrderStyles from "../styles/confirmorder.style";
 //language
 import I18n from "../language/i18n";
+import ShimmerPlaceHolder from "../components/ShimmerPlaceholder";
 
 const PAY_TYPE = {
   cash: 1,
@@ -89,7 +90,6 @@ export default class ConfirmOrderView extends PureComponent {
 
   componentDidMount() {
     this.timer = setTimeout(() => {
-      this.props.showLoading && this.props.showLoading();
       this._createOrder();
       clearTimeout(this.timer);
     }, 500);
@@ -119,7 +119,6 @@ export default class ConfirmOrderView extends PureComponent {
     let { i18n } = this.state;
     createNewOrder(this.dateFoodId, this.amount).then(
       data => {
-        this.props.hideLoading && this.props.hideLoading();
         if (data.ro.respCode == "0000") {
           this.setState({
             loading: false,
@@ -141,7 +140,6 @@ export default class ConfirmOrderView extends PureComponent {
         }
       },
       () => {
-        this.props.hideLoading && this.props.hideLoading();
         this.setState({ loading: false, isError: true });
         ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.get_order);
       }
@@ -462,11 +460,26 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _renderNewOrderView() {
-    let { i18n } = this.state;
+    if (this.state.orderDetail == null) {
+      return (
+        <View style={styles.commonNewContainer}>
+          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop]}>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "100%",height: 25}}/>
+          </View>
+          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop]}>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "100%",height: 25}}/>
+          </View>
+          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop, styles.commonMarginBottom]}>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "100%",height: 25}}/>
+          </View>
+        </View>
+      );
+    }
     let {
       orderDetail: { totalMoney, foodName, foodMoney, foodNum, defaultPayment },
       hasChangeDefaultPayment,
-      discountsPrice
+      discountsPrice,
+      i18n
     } = this.state;
     defaultPayment =
       hasChangeDefaultPayment != null
@@ -523,6 +536,32 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _renderNewDetailsView() {
+    if(this.state.orderDetail == null) {
+      return (
+        <View style={styles.commonNewContainer}>
+          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop]}>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "20%",height: 50}}/>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "75%",height: 50}}/>
+          </View>
+          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop]}>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "20%",height: 50}}/>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "75%",height: 50}}/>
+          </View>
+          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop, styles.commonMarginBottom]}>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "20%",height: 50}}/>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "75%",height: 50}}/>
+          </View>
+          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop, styles.commonMarginBottom]}>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "20%",height: 50}}/>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "75%",height: 50}}/>
+          </View>
+          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop, styles.commonMarginBottom]}>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "20%",height: 50}}/>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "75%",height: 50}}/>
+          </View>
+        </View>
+      );
+    }
     let { i18n } = this.state;
     let {
       orderDetail: { takeTime, takeDate, takeAddress }
@@ -661,8 +700,6 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _renderBottomConfirmView() {
-    let { discountsPrice } = this.state;
-    let { total } = this.props.navigation.state.params;
     return (
       <Footer
         style={{
@@ -672,6 +709,8 @@ export default class ConfirmOrderView extends PureComponent {
       >
         <CommonBottomBtn
           style={{ height: em(40) }}
+          disabled={this.state.orderDetail == null}
+          loading={this.state.orderDetail == null}
           clickFunc={() => this._confirmOrder()}
         >
           {this.state.i18n.orderNow}
@@ -707,12 +746,12 @@ export default class ConfirmOrderView extends PureComponent {
           {isExpired ? (
             <BlankPage message={expiredMessage} style={{ marginLeft: -10 }} />
           ) : null}
-          {orderDetail != null && this._renderNewOrderView()}
-          {orderDetail !== null && this._renderNewDetailsView()}
+          {this._renderNewOrderView()}
+          {this._renderNewDetailsView()}
 
           <View style={{ height: 20 }} />
         </Content>
-        {orderDetail != null && this._renderBottomConfirmView()}
+        {this._renderBottomConfirmView()}
       </Container>
     );
   }

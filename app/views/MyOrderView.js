@@ -241,7 +241,25 @@ export default class PeopleView extends Component {
           <Text style={MyOrderStyles.pickNumber}>{item.mealCode}</Text>
         </View>
         <View style={MyOrderStyles.payInner}>
-          {_isDelivering ? (
+          <TouchableOpacity
+              onPress={() => {
+                this.setState(
+                  {
+                    currentPickImage: item.takePointPicture,
+                    currentPickTitle: item.takeAddressDetail || ""
+                  },
+                  () => {
+                    this.popupDialog.show();
+                  }
+                );
+              }}
+              style={[MyOrderStyles.payStatusBtn, { borderColor: "#ff5858" }]}
+            >
+            <Text style={[MyOrderStyles.payStatusText, { color: "#ff5858" }]}>
+              {i18n.myorder_tips.common.pick_place_btn}
+            </Text>
+          </TouchableOpacity>
+          {_isDelivering && (
             <TouchableOpacity
               onPress={() =>
                 this._cancelOrder(
@@ -256,25 +274,7 @@ export default class PeopleView extends Component {
                 {i18n.myorder_tips.common.cancel_order_btn}
               </Text>
             </TouchableOpacity>
-          ) : null}
-          <TouchableOpacity
-            onPress={() => {
-              this.setState(
-                {
-                  currentPickImage: item.takePointPicture,
-                  currentPickTitle: item.takeAddressDetail || ""
-                },
-                () => {
-                  this.popupDialog.show();
-                }
-              );
-            }}
-            style={[MyOrderStyles.payStatusBtn, { borderColor: "#111" }]}
-          >
-            <Text style={[MyOrderStyles.payStatusText, { color: "#111" }]}>
-              {i18n.myorder_tips.common.pick_place_btn}
-            </Text>
-          </TouchableOpacity>
+          )}
         </View>
       </View>
     );
