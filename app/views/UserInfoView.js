@@ -11,6 +11,7 @@ import {
   Button
 } from "native-base";
 import ImagePicker from "react-native-image-picker";
+import CustomizeContainer from "../components/CustomizeContainer";
 //api
 import { getMyInfo, updateMyInfo, uploadAvatar } from "../api/request";
 //components
@@ -404,7 +405,7 @@ export default class UserInfoView extends PureComponent {
   render() {
     let { loadingModal } = this.state;
     return (
-      <Container>
+      <CustomizeContainer.SafeView mode="linear">
         {this._renderHeaderView()}
         <Content style={UserInfoStyle.UserInfoContent}>
           {loadingModal ? <LoadingModal /> : null}
@@ -412,7 +413,7 @@ export default class UserInfoView extends PureComponent {
           {this._renderFormView()}
           {this._renderFinishBtn()}
         </Content>
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

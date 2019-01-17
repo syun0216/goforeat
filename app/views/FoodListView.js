@@ -31,10 +31,12 @@ import CommonFlatList from "../components/CommonFlatList";
 import AdvertiseView from "../components/AdvertiseView";
 import PlacePickerModel from "../components/PlacePickerModel";
 import ShimmerPlaceHolder from "../components/ShimmerPlaceholder";
+import CustomizeContainer from "../components/CustomizeContainer";
 //styles
 import FoodDetailsStyles from "../styles/fooddetails.style";
 //storage
 import { advertisementStorage } from "../cache/appStorage";
+import Divider from "../components/Divider";
 
 const {
   isIphoneX,
@@ -43,6 +45,10 @@ const {
   _winHeight,
   _winWidth
 } = GLOBAL_PARAMS;
+
+const HAS_FOODS = 1;
+const NO_MORE_FOODS = 2;
+const IS_INTERCEPT = 3;
 
 let lastBackPressed = Date.now();
 
@@ -62,6 +68,7 @@ class FoodListView extends Component {
       advertiseCountdown: 5,
       warningTipsData: [],
       star: null,
+      listDataLength: 0,
       isAdvertiseShow: false,
       isWarningTipShow: false,
       test: false
@@ -319,7 +326,7 @@ class FoodListView extends Component {
               style={FoodDetailsStyles.locationImage}
               resizeMode="contain"
             /> */}
-            <Antd name="appstore-o" style={{color: '#fff',fontSize: em(23)}}/>
+            <Antd name="appstore-o" style={FoodDetailsStyles.moreIcon}/>
           </TouchableOpacity>
         </LinearGradient>
       </Header>
@@ -359,18 +366,9 @@ class FoodListView extends Component {
   }
 
   _renderIndicator() {
-    const numOfIndicators = _winHeight / em(180);
     return (
-      <View style={styles.articleItemContainer}>
-        <ShimmerPlaceHolder style={{
-            width: _winWidth * 0.45 - 10,
-            height: em(150),
-            alignSelf: "center"
-          }} autoRun={true}>
-          <Text>Wow, awesome here.</Text>
-        </ShimmerPlaceHolder>
-      </View>
-    );
+      <Divider height={1} bgColor="#ccc"/>
+    )
   }
 
   _renderFoodListItemView(item, index) {
@@ -455,7 +453,9 @@ class FoodListView extends Component {
                 marginTop: Platform.OS == "android" ? -3 : 0
               }}
             >
-              立即預訂
+              {
+                item.status && (item.status == HAS_FOODS ? '立即預訂' : item.status == NO_MORE_FOODS ? '已售完' : '已截單') || '立即預訂'
+              }
             </Text>
           </View>
         </View>
@@ -474,7 +474,6 @@ class FoodListView extends Component {
     return (
       <CommonFlatList
         ref={c => (this.flatlist = c)}
-        // style={{borderWidth: 1,}}
         requestFunc={getNewArticleList}
         // renderIndicator={() => this._renderIndicator()}
         renderItem={(item, index) => this._renderFoodListItemView(item, index)}
@@ -483,7 +482,7 @@ class FoodListView extends Component {
         refreshControlTitleColor="#fff"
         refreshControlTintColor="#fff"
         getRawData={data => {
-          this.setState({ star: data.star });
+          this.setState({ star: data.star});
         }}
         {...this.props}
       />
@@ -492,7 +491,7 @@ class FoodListView extends Component {
 
   render() {
     return (
-      <Container style={{ position: "relative", backgroundColor: "#fff" }}>
+      <CustomizeContainer.SafeView mode="linear" style={{ position: "relative", backgroundColor: "#fff" }}>
         {this._renderAdvertisementView()}
         {this.state.star && this._renderRefreshBgView()}
         {/* {this._renderIndicator()} */}
@@ -500,7 +499,7 @@ class FoodListView extends Component {
         {this._renderHeaderView()}
         {this._renderWarningView()}
         {this._renderFlatListView()}
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }
@@ -523,9 +522,9 @@ export default connect(
 
 const styles = StyleSheet.create({
   articleItemContainer: {
-    height: em(170),
+    height: em(190),
     flex: 1,
-    paddingTop: 15,
+    // paddingBottom: 15,
     paddingLeft: 15,
     paddingRight: 15,
     flexDirection: "row",
@@ -534,9 +533,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     shadowRadius: 10,
     backgroundColor: "#fff",
-    overflow: "hidden"
+    overflow: "hidden",
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
   },
   articleItemDetails: {
+    height: em(150),
     paddingLeft: em(10),
     // paddingRight: 0,
     flex: 1,

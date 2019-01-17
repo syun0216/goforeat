@@ -18,6 +18,7 @@ import { myOrder, cancelOrder } from "../api/request";
 import CommonHeader from "../components/CommonHeader";
 import Text from "../components/UnScalingText";
 import CommonFlatList from "../components/CommonFlatList";
+import CustomizeContainer from "../components/CustomizeContainer";
 //utils
 import { em } from "../utils/global_params";
 //language
@@ -344,7 +345,7 @@ export default class PeopleView extends Component {
       { title: i18n.all, tab: _TAB_ALL, status: _ORDER_ALL }
     ];
     return (
-      <Container style={{ position: "relative" }}>
+      <CustomizeContainer.SafeView mode="linear" style={{ position: "relative" }}>
         {this._renderPopupDialog()}
         <CommonHeader hasMenu hasTabs title={i18n.myorder} />
         <Tabs
@@ -396,7 +397,7 @@ export default class PeopleView extends Component {
             </Tab>
           ))}
         </Tabs>
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

@@ -20,6 +20,7 @@ import CommonHeader from "./components/CommonHeader";
 import CommonItem from "./components/CommonItem";
 import CommonBottomBtn from "./components/CommonBottomBtn";
 import Text from "./components/UnScalingText";
+import CustomizeContainer from "./components/CustomizeContainer";
 //language
 import I18n from "./language/i18n";
 //api
@@ -182,7 +183,7 @@ export default class SettingView extends PureComponent {
       _list_arr.unshift(_setting_ios);
     }
     return (
-      <Container style={{ backgroundColor: "#efefef" }}>
+      <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef" }}>
         <CommonHeader title={i18n.setting} hasMenu />
         <ScrollView>
           <TouchableWithoutFeedback
@@ -230,7 +231,7 @@ export default class SettingView extends PureComponent {
             this._actionSheet = a;
           }}
         />
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

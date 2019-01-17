@@ -274,7 +274,8 @@ const CommonHOC = WarppedComponent => {
   const stateToBasic = state => ({
     pageCache: state.pageCache,
     isLoading: state.loading.showLoading,
-    isLoadingModal: state.loading.showLoadingModal
+    isLoadingModal: state.loading.showLoadingModal,
+    currentPlace: state.placeSetting.place
   });
 
   const dispatchToBasic = dispatch => ({

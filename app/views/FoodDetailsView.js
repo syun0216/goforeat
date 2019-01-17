@@ -35,6 +35,7 @@ import SlideUpPanel from "../components/SlideUpPanel";
 import CommonHeader from "../components/CommonHeader";
 import ShareComponent from "../components/ShareComponent";
 import ShimmerPlaceHolder from "../components/ShimmerPlaceholder";
+import CustomizeContainer from "../components/CustomizeContainer";
 // language
 import I18n from "../language/i18n";
 //cache
@@ -760,7 +761,7 @@ class FoodDetailsView extends Component {
     let { loading, isError, foodDetails, isShareListShow } = this.state;
 
     return (
-      <Container style={FoodDetailsStyles.ContainerBg}>
+      <CustomizeContainer.SafeView mode="linear" style={FoodDetailsStyles.ContainerBg}>
         {this._renderHeaderView()}
         {isError ? this._renderErrorView() : null}
         {isShareListShow && this._renderPreventClickView()}
@@ -773,7 +774,7 @@ class FoodDetailsView extends Component {
             getShareType={type => this._pressToShare(type)}
           />
         )}
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

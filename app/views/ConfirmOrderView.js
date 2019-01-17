@@ -14,6 +14,7 @@ import BlankPage from "../components/BlankPage";
 import ErrorPage from "../components/ErrorPage";
 import Text from "../components/UnScalingText";
 import CommonItem from "../components/CommonItem";
+import CustomizeContainer from "../components/CustomizeContainer";
 //utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS, {
@@ -65,6 +66,7 @@ export default class ConfirmOrderView extends PureComponent {
 
   constructor(props) {
     super(props);
+    console.log(props);
     this.props.navigation.setParams({ i18n: this.props.i18n });
     this.dateFoodId = this.props.navigation.state.params.dateFoodId;
     this.amount = this.props.navigation.state.params.amount;
@@ -211,6 +213,7 @@ export default class ConfirmOrderView extends PureComponent {
     let { i18n } = this.state;
     let _appleAndAndroidPayRes = null;
     let _deductionId = isEmpty(couponDetail) ? null : couponDetail.deductionId;
+    let placeId = isEmpty(this.props.currentPlace.id) ? null : this.props.currentPlace.id;
     if (
       defaultPayment == PAY_TYPE.android_pay ||
       defaultPayment == PAY_TYPE.apple_pay
@@ -219,14 +222,14 @@ export default class ConfirmOrderView extends PureComponent {
       token = _appleAndAndroidPayRes.details.paymentToken;
     }
     this.props.showLoadingModal();
-
     confirmOrder(
       orderId,
       totalMoney,
       defaultPayment,
       token,
       remark,
-      _deductionId
+      _deductionId,
+      placeId
     ).then(
       data => {
         this.props.hideLoadingModal();
@@ -703,7 +706,7 @@ export default class ConfirmOrderView extends PureComponent {
     return (
       <Footer
         style={{
-          height: GLOBAL_PARAMS.isIphoneX() ? em(83) : em(50),
+          height: em(50),
           backgroundColor: "#fff"
         }}
       >
@@ -729,7 +732,7 @@ export default class ConfirmOrderView extends PureComponent {
       expiredMessage
     } = this.state;
     return (
-      <Container>
+      <CustomizeContainer.SafeView mode="linear">
         <CommonHeader
           canBack
           title={i18n.detailPage}
@@ -752,7 +755,7 @@ export default class ConfirmOrderView extends PureComponent {
           <View style={{ height: 20 }} />
         </Content>
         {this._renderBottomConfirmView()}
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

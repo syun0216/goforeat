@@ -8,6 +8,7 @@ import Text from "../components/UnScalingText";
 import CommonBottomBtn from "../components/CommonBottomBtn";
 import Loading from "../components/Loading";
 import ErrorPage from "../components/ErrorPage";
+import CustomizeContainer from "../components/CustomizeContainer";
 //utils
 import {
   SET_PAY_TYPE,
@@ -278,13 +279,13 @@ export default class PaySettingView extends PureComponent {
     let _from_confirm_order =
       typeof this.props.navigation.state.params != "undefined";
     return (
-      <Container>
+      <CustomizeContainer.SafeView mode="linear" barStyle="dark-content" style={{ backgroundColor: "#efefef"}}>
         <CommonHeader
           title={this.i18n.payment}
           hasMenu={!_from_confirm_order}
           canBack={_from_confirm_order}
         />
-        <Content style={{ backgroundColor: "#efefef" }}>
+        <Content>
           {!this.state.loading && (
             <View>
               {payTypeList.map((item, key) => (
@@ -328,7 +329,7 @@ export default class PaySettingView extends PureComponent {
             />
           ) : null}
         </Content>
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

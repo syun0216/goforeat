@@ -4,6 +4,7 @@ import { Container, Content } from "native-base";
 //components
 import CommonHeader from "../components/CommonHeader";
 import CommonBottomBtn from "../components/CommonBottomBtn";
+import CustomizeContainer from "../components/CustomizeContainer";
 //language
 import i18n from "../language/i18n";
 //utils
@@ -47,7 +48,7 @@ const FeedbackView = props => {
     _feedback.memberInfo = memberInfo;
   };
   return (
-    <Container>
+    <CustomizeContainer.SafeView mode="linear">
       <CommonHeader title={i18n[language].feedback} canBack {...props} />
       <Content style={{ backgroundColor: "#efefef" }}>
         <TextInput
@@ -93,7 +94,7 @@ const FeedbackView = props => {
           {i18n[language].sendFeedback}
         </CommonBottomBtn>
       </Content>
-    </Container>
+    </CustomizeContainer.SafeView>
   );
 };
 

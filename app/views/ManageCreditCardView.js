@@ -20,11 +20,13 @@ import CommonItem from "../components/CommonItem";
 import BlankPage from "../components/BlankPage";
 import CommonBottomBtn from "../components/CommonBottomBtn";
 import Text from "../components/UnScalingText";
+import CustomizeContainer from "../components/CustomizeContainer";
 //utils
 import { em, SET_PAY_TYPE } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //api
 import { getCreditCard, removeCreditCard } from "../api/request";
+import CommonHeader from "../components/CommonHeader";
 
 const STATUS_IMAGE = {
   open_eye: require("../asset/openeye.png"),
@@ -174,35 +176,8 @@ export default class ManageCreditCardView extends PureComponent {
   render() {
     let { creditCardInfo } = this.state;
     return (
-      <Container>
-        <Header
-          iosBarStyle="dark-content"
-          androidStatusBarColor="#fff"
-          style={ManageCreditCardStyles.header}
-        >
-          <Left>
-            <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon
-                name="ios-arrow-back"
-                size={20}
-                style={[
-                  { color: "#333" },
-                  Platform.OS == "ios" ? CommonStyles.common_icon_back : null
-                ]}
-              />
-            </Button>
-          </Left>
-          <Body style={{ minWidth: em(200) }}>
-            <Text
-              allowFontScaling={false}
-              style={{ color: "#333", fontSize: 16 }}
-              numberOfLines={1}
-            >
-              {this.i18n.manageCardTitle}
-            </Text>
-          </Body>
-          <Right />
-        </Header>
+      <CustomizeContainer.SafeView mode="linear">
+        <CommonHeader canBack title={this.i18n.manageCardTitle}/>
         <Content>
           {creditCardInfo == null
             ? null
@@ -218,7 +193,7 @@ export default class ManageCreditCardView extends PureComponent {
             </Text>
           </TouchableOpacity>
         </Footer>
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

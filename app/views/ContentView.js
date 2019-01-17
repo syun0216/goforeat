@@ -18,6 +18,7 @@ import source from "../api/CancelToken";
 //components
 import Loading from "../components/Loading";
 import CommonHeader from "../components/CommonHeader";
+import CustomizeContainer from "../components/CustomizeContainer";
 //language
 import I18n from "../language/i18n";
 
@@ -168,7 +169,7 @@ export default class ContentView extends Component {
     } = this.props.navigation.state.params;
     title = typeof title == "undefined" ? "有得食" : title;
     return (
-      <Container>
+      <CustomizeContainer.SafeView mode="linear">
         <CommonHeader
           title={kind == "article" ? food_title : title}
           canBack
@@ -181,7 +182,7 @@ export default class ContentView extends Component {
           {this._renderArticleContentView()}
           {this._renderShareSheet()}
         </View>
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

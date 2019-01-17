@@ -133,7 +133,7 @@ export default StyleSheet.create({
     // marginLeft: Platform.OS == 'ios' ? em(-45) : em(-30),
     flex: 1,
     marginTop:
-      Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? 15 : 0) : em(-8),
+      Platform.OS == "ios" ? 0 : em(-8),
     position: "relative"
   },
   PlacePickerBtnBgAbsolute: {
@@ -165,16 +165,16 @@ export default StyleSheet.create({
     backgroundColor: "#fff"
   },
   Header: {
+    height: 79,
     borderBottomWidth: 0,
     padding: 0,
-    marginTop: GLOBAL_PARAMS.isIphoneX() ? -GLOBAL_PARAMS.iPhoneXTop : 0,
+    marginTop:
+      Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? -44 : -20) : 0,
     marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0
   },
   linearGradient: {
-    height: GLOBAL_PARAMS.isIphoneX() ? 64 + GLOBAL_PARAMS.iPhoneXTop : 64,
+    height: 64,
     width: GLOBAL_PARAMS._winWidth,
-    marginTop: Platform.OS == "ios" ? -15 : 0,
-    paddingTop: Platform.OS == "ios" ? 15 : 0,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row"
@@ -198,12 +198,10 @@ export default StyleSheet.create({
   MenuImage: {
     fontSize: em(25),
     color: '#fff',
-    marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0
   },
-  locationImage: {
-    width: em(19),
-    height: em(19),
-    marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0
+  moreIcon: {
+    color: '#fff',
+    fontSize: em(23),
   },
   HeaderContent: {
     flex: 1,

@@ -14,6 +14,7 @@ import CommonHeader from "../components/CommonHeader";
 import CommonBottomBtn from "../components/CommonBottomBtn";
 import Text from "../components/UnScalingText";
 import SlideUpPanel from "../components/SlideUpPanel";
+import CustomizeContainer from "../components/CustomizeContainer";
 //styles
 import CreditCardStyles from "../styles/creditcard.style";
 //utils
@@ -333,7 +334,7 @@ export default class CreditCardView extends Component {
       }
     ];
     return (
-      <Container>
+      <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef"}}>
         <CommonHeader title={this.i18n.addCard} canBack />
         <View style={{ backgroundColor: "#efefef", flex: 1 }}>
           <View>{_list_arr.map((v, i) => this._renderCommonInput(v, i))}</View>
@@ -349,7 +350,7 @@ export default class CreditCardView extends Component {
           </TouchableOpacity>
           {this._renderInfoDetailPanel()}
         </View>
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

@@ -9,6 +9,7 @@ import LinkingUtils from "../utils/LinkingUtils";
 import Colors from "../utils/Colors";
 import ToastUtil from "../utils/ToastUtil";
 import { em } from "../utils/global_params";
+import CustomizeContainer from "../components/CustomizeContainer";
 //language
 import i18n from "../language/i18n";
 //styles
@@ -52,7 +53,7 @@ export default class UserHelper extends Component {
       // {content: i18n[language].online,isEnd: true,clickFunc: () => {ToastUtil.showWithMessage('該功能暫未開放')}},
     ];
     return (
-      <Container>
+      <CustomizeContainer.SafeView mode="linear">
         <CommonHeader hasMenu title={i18n[language].contact} {...this.props} />
         <Content style={{ backgroundColor: Colors.main_white }}>
           <View>
@@ -68,7 +69,7 @@ export default class UserHelper extends Component {
             ))}
           </View>
         </Content>
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

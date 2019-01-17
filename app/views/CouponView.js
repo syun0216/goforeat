@@ -6,6 +6,7 @@ import LottieView from "lottie-react-native";
 //components
 import CommonHeader from "../components/CommonHeader";
 import CommonFlatList from "../components/CommonFlatList";
+import CustomizeContainer from "../components/CustomizeContainer";
 //styles
 import CouponStyle from "../styles/coupon.style";
 //api
@@ -220,18 +221,17 @@ export default class CouponView extends PureComponent {
     const isHeaderHide = typeof this.props.hideHeader !== undefined;
     // console.log(this.props.hideHeader);
     return (
-      <Container>
+      <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef" }}>
         <Header />
         {this._renderSearchBar()}
         {this._renderGiftCoupon()}
         <CommonFlatList
           ref={cf => this._commonFlatList = cf}
-          style={{ backgroundColor: "#efefef" }}
           requestFunc={myCoupon}
           renderItem={(item, index) => this._renderCouponItem(item, index)}
           {...this.props}
         />
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 }

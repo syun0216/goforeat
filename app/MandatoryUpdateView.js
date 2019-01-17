@@ -18,6 +18,7 @@ import * as ViewStatus from "./utils/ViewStatus";
 import GLOBAL_PARAMS from "./utils/global_params";
 import ToastUtils from "./utils/ToastUtil";
 import CommonHeader from "./components/CommonHeader";
+import CustomizeContainer from "./components/CustomizeContainer";
 
 //TODO: 在用户量较大情况下,更新逻辑优化
 export default class MandatoryUpdateView extends Component {
@@ -45,7 +46,7 @@ export default class MandatoryUpdateView extends Component {
 
   render() {
     return (
-      <Container>
+      <CustomizeContainer.SafeView mode="linear">
         <CommonHeader canBack title="更新界面" />
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -58,7 +59,7 @@ export default class MandatoryUpdateView extends Component {
             ? this._renderRetryView()
             : null}
         </View>
-      </Container>
+      </CustomizeContainer.SafeView>
     );
   }
 

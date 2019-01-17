@@ -9,6 +9,7 @@ import GLOBAL_PARMAS,{em} from '../utils/global_params';
 //component 
 import Text from '../components/UnScalingText';
 import CommonHeader from '../components/CommonHeader';
+import CustomizeContainer from "../components/CustomizeContainer";
 //i18n
 import i18n from '../language/i18n';
 
@@ -22,7 +23,7 @@ class PickPlaceView extends React.Component {
     const {placeList, screenProps:{language},navigation: {state: {params}}} = this.props;
     console.log(params);
     return (
-      <Container>
+      <CustomizeContainer.SafeView mode="linear">
         <CommonHeader hasMenu={!params} canBack={params && params.navigate} title={i18n[language].pickPlace} {...this.props} />
         <Content style={{backgroundColor: '#efefef'}}>
           {placeList.map((item, key) => (
@@ -37,7 +38,7 @@ class PickPlaceView extends React.Component {
             </View>
           ))}
         </Content>
-      </Container>
+      </CustomizeContainer.SafeView>
     )
 
   }
