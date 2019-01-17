@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import {Modal,TouchableOpacity,StyleSheet} from 'react-native';
 import {Container,Content,Icon} from 'native-base';
+import CustomizeContainer from './CustomizeContainer';
 //components
 import CommonHeader from './CommonHeader';
 //utils
@@ -37,12 +38,12 @@ class CommonModal extends Component {
       onRequestClose={() => {
         closeFunc && closeFunc();
       }}>
-        <Container>
+        <CustomizeContainer.SafeView mode="linear">
           {isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
           <Content bounces={false}>
             {children}
           </Content>
-        </Container>
+        </CustomizeContainer.SafeView>
       </Modal>
     )
   }

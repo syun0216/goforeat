@@ -8,7 +8,7 @@ const X = Dimensions.get('window').width;
 const Y = Dimensions.get('window').height;
 
 //计算屏幕比例
-const ratioX = X < 414 ? (X < 375 ? (X < 320 ? 0.75 : 0.875) : 1) : 1.104;
+const ratioX = X < 414 ? (X < 375 ? (X < 320 ? 0.75 : 0.875) : 1) : 1;
 const ratioY = Y < 568 ? (Y < 480 ? 0.75 : 0.875) : 1;
 
 // iPhoneX
@@ -114,7 +114,7 @@ export const SET_PAY_TYPE = {
   month_ticket: 7,
 }
 
-export const em = (val) => {return GLOBAL_PARAMS.isIphoneX() ?  val * ratioX * 1.1 :  val * ratioX}
+export const em = (val) => {return GLOBAL_PARAMS.isIphoneX() ?  val * ratioX :  val * ratioX}
 
 export const currentPlatform = Platform.OS == 'ios' ? 1 : 2;
 

@@ -5,6 +5,7 @@ import {withNavigation} from 'react-navigation';
 import {Header,Left,Body,Right,Icon,Button} from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
 import Antd from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
 //utils
 import Colors from '../utils/Colors';
 import GLOBAL_PARAMS, {em} from "../utils/global_params";
@@ -14,18 +15,19 @@ import FoodDetailsStyle from "../styles/fooddetails.style";
 //components
 import Text from './UnScalingText';
 
-const HEADER_HEIGHT = 64;
+const HEADER_HEIGHT = 44;
 const TEXT_HEIGHT = 18;
 
 const styles = StyleSheet.create({
   linearGradient: {
-    height: GLOBAL_PARAMS.isIphoneX() ? HEADER_HEIGHT + GLOBAL_PARAMS.iPhoneXTop: HEADER_HEIGHT,
+    height: Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? HEADER_HEIGHT+44 : HEADER_HEIGHT+20) : 0,
     width: GLOBAL_PARAMS._winWidth,
-    marginTop: Platform.OS == 'ios' ? -15 : -4,
+    marginTop:
+    Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? -44 : -20) : 0,
     paddingTop: Platform.OS == 'ios' ? 15 : 0,
     justifyContent:'center',
     alignItems: 'center',
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   MenuBtn: {
     fontSize: em(25),
@@ -42,19 +44,20 @@ const CommonHeader = (props) => {
   return (
     <View>
       <Header style={[props.headerStyle,{
+        height: 60,
         marginTop: GLOBAL_PARAMS.isIphoneX() ? -GLOBAL_PARAMS.iPhoneXTop : 0,
         marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0,
         elevation: 0,
         borderWidth: 0,
       }]} hasTabs iosBarStyle={props.iosBarStyle} androidStatusBarColor="#666">
         <LinearGradient colors={['#FF7F0B','#FF1A1A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={styles.linearGradient}>
-          <Left style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex: 1}}>
+          <Left style={{flex: 1}}>
             {props.canBack ? (props.leftElement !== null ? props.leftElement : (
               Platform.OS == 'ios' ? 
               (<Button transparent onPress={() => {props.navigation.goBack();}}>
-                <Antd
+                <Entypo
                   size={20}
-                  name="left"
+                  name="chevron-thin-left"
                   style={[CommonStyles.common_icon_back,{color: props.textColor}]}
                 />
               </Button>) :
@@ -75,12 +78,12 @@ const CommonHeader = (props) => {
               </TouchableOpacity>
             ) : null}
           </Left>
-          <Body style={{minWidth: GLOBAL_PARAMS.em(200),marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex: 1}}>
+          <Body style={{minWidth: GLOBAL_PARAMS.em(200),flex: 1}}>
           {props.children ||
           <Text allowFontScaling={false} style={[{color: props.textColor,fontSize:GLOBAL_PARAMS.em(18),fontWeight:'800'},props.titleStyle]} numberOfLines={1}>{props.title}</Text>}
           
           </Body>
-          <Right style={{marginTop: GLOBAL_PARAMS.isIphoneX() ? 15 : 0,flex:1}}>
+          <Right style={{flex:1}}>
             {props.hasRight ? (props.rightElement !== null ? <props.rightElement {...props}/> : (
               <Button transparent onPress={() => props.rightClick()}>
               <Antd name={props.rightIcon} size={25} style={{fontSize:GLOBAL_PARAMS.em(23),color: Colors.main_white,paddingRight: 10}} /></Button>

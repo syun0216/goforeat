@@ -96,7 +96,7 @@ export default class ShareComponent extends Component {
           {
             bottom: this.state.positionTop.interpolate({
               inputRange: [0, 1],
-              outputRange: [-200, 0]
+              outputRange: [-240, 0]
             }),
             opacity: this.state.fadeInOpacity
           }
