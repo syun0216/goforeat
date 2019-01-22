@@ -165,7 +165,7 @@ export default StyleSheet.create({
     backgroundColor: "#fff"
   },
   Header: {
-    height: 79,
+    height: Platform.OS == 'android' ? 64 : 79,
     borderBottomWidth: 0,
     padding: 0,
     marginTop:

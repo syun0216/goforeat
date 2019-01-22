@@ -37,7 +37,7 @@ const SafeView = props => (
       />
     )}
     <Container>
-      <StatusBar barStyle={props.barStyle}/>
+      <StatusBar barStyle={props.barStyle} androidStatusBarColor="#666"/>
       {props.children}
     </Container>
   </SafeAreaView>

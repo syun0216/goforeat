@@ -36,7 +36,7 @@ const common = {
     fontSize: em(18)
   },
   common_icon_back: {
-    fontSize: em(25),
+    fontSize: em(20),
     paddingLeft: em(10),
     paddingRight: em(20)
   },
