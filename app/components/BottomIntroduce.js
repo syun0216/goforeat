@@ -17,7 +17,7 @@ const BottomIntroduce = props => {
       <View style={CommonStyle.BottomViewInner}>
         <TouchableOpacity
           onPress={() => {
-            Linking.openURL("https://www.instagram.com/goforeat.hk").catch(
+            Linking.openURL("https://www.instagram.com/mealtime.hk").catch(
               err => alert(err)
             );
           }}
