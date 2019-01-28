@@ -25,7 +25,7 @@ const linear = {
 };
 
 const SafeView = props => (
-  <SafeAreaView style={[{ flex: 1, backgroundColor: "transparent" },props.style]}>
+  <SafeAreaView style={[{ flex: 1, backgroundColor: "transparent" },props.style]} forceInset={{bottom: 'never'}}>
     {props.mode == "default" ? (
       <View style={[styles,{backgroundColor: props.statusbarColor}]} />
     ) : (

@@ -15,7 +15,7 @@ import Colors from "../utils/Colors";
 import Text from "./UnScalingText";
 
 const iPhoneXBottom = {
-  marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom : 0
+  marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom+ 10 : 0
 };
 
 const styles = StyleSheet.create({
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 25,
     overflow: "hidden",
     // marginRight: -12,
+    ...iPhoneXBottom
   },
   confirmBtn: {
     height: 36,
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     borderBottomRightRadius: 25,
     overflow: "hidden",
+    ...iPhoneXBottom
   },
   priceText: {
     color: "#FF3348",
@@ -70,11 +72,13 @@ const styles = StyleSheet.create({
       Platform.OS == "ios" ? (GLOBAL_PARAMS._winWidth < 350 ? 60 : 100) : 80,
     marginTop: -5,
     fontWeight: "600",
+    ...iPhoneXBottom
   },
   iconClose: {
     color: Colors.main_gray,
     fontSize: GLOBAL_PARAMS.em(28),
     marginTop: 3,
+    ...iPhoneXBottom
   },
   closeBtn: {
     width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50,
@@ -116,7 +120,7 @@ export default class BottomOrderConfirm extends PureComponent {
           {/*canClose ?<TouchableOpacity style={styles.closeBtn} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,styles.iconClose]}/>
           </TouchableOpacity> : null*/}
-          <Text style={{ marginLeft: 5, fontSize: em(13) }}>
+          <Text style={{ marginLeft: 5, fontSize: em(13),...iPhoneXBottom }}>
             HKD{" "}
           </Text>
           <Text style={[styles.commonText, styles.priceText]} numberOfLines={1}>

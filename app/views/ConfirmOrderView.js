@@ -707,7 +707,8 @@ export default class ConfirmOrderView extends PureComponent {
       <Footer
         style={{
           height: em(50),
-          backgroundColor: "#fff"
+          backgroundColor: "#fff",
+          height: GLOBAL_PARAMS.isIphoneX() ? em(50)+GLOBAL_PARAMS.iPhoneXBottom : em(50),
         }}
       >
         <CommonBottomBtn
