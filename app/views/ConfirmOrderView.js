@@ -121,10 +121,12 @@ export default class ConfirmOrderView extends PureComponent {
     let { i18n } = this.state;
     createNewOrder(this.dateFoodId, this.amount).then(
       data => {
-        if (data.ro.respCode == "0000") {
+        if (data.ro.respCode == "0000" && data.data) {
           this.setState({
             loading: false,
             orderDetail: data.data,
+            discountsPrice: data.data.deduction && data.data.deduction.discount || 0,
+            couponDetail: data.data.deduction || null,
             isBottomShow: true,
             isError: false
           });
@@ -479,7 +481,7 @@ export default class ConfirmOrderView extends PureComponent {
       );
     }
     let {
-      orderDetail: { totalMoney, foodName, foodMoney, foodNum, defaultPayment },
+      orderDetail: { totalMoney, foodName, foodMoney, foodNum, defaultPayment, deduction },
       hasChangeDefaultPayment,
       discountsPrice,
       i18n
@@ -488,6 +490,7 @@ export default class ConfirmOrderView extends PureComponent {
       hasChangeDefaultPayment != null
         ? hasChangeDefaultPayment
         : defaultPayment;
+    
     totalMoney =
       totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
     return (
