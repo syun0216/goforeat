@@ -319,6 +319,8 @@ export default class PaySettingView extends PureComponent {
                   disabled={item.code == null}
                 />
               ))}
+              <CommonItem hasLeftIcon
+              leftIcon={this._leftImage(require('../asset/ticket.png'))} content="購買月票" clickFunc={() => this.props.navigation.navigate('MonthTicket')}/>
               {this._renderManageCreditCard()}
             </View>
           )}
