@@ -71,7 +71,6 @@ export default StyleSheet.create({
     alignSelf: "center"
   },
   CommonView: {
-    height: GLOBAL_PARAMS._winHeight * 0.225,
     justifyContent: "center"
   },
   CommonInputView: {
