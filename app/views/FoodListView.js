@@ -261,6 +261,7 @@ class FoodListView extends Component {
         ios: `http://maps.apple.com/?q=${name}&ll=${lon},${lat}`
       });
     }
+    const menuElement = title => (<Text style={{padding: em(5)}}>{title}</Text>)
     return (
       <Header
         style={FoodDetailsStyles.Header}
@@ -294,8 +295,8 @@ class FoodListView extends Component {
           <TouchableOpacity
             onPress={() =>{
               PopoverPicker.show(
-                {x: _winWidth - 115, y: -50, width:100, height:100},
-                ["查看配送點","兌換優惠碼", "反饋"],
+                {x: _winWidth - 135, y: -50, width:100, height:100},
+                [menuElement("查看配送點"),menuElement("兌換優惠碼"), menuElement('反饋')],
                 this.state.modalSelectedIndex,
                 (item, index) => {
                   switch(index) {
@@ -454,7 +455,7 @@ class FoodListView extends Component {
               }}
             >
               {
-                item.status && (item.status == HAS_FOODS ? '立即預訂' : item.status == NO_MORE_FOODS ? '已售完' : '已截單') || '立即預訂'
+                item.status && (item.status == HAS_FOODS ? '立即預訂' : item.status == NO_MORE_FOODS ? '已售罄' : '已截單') || '立即預訂'
               }
             </Text>
           </View>
