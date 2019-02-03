@@ -115,6 +115,7 @@ export default class PaySettingView extends PureComponent {
         // console.log(data);
       })
       .catch(err => {
+        this.props.hideLoading && this.props.hideLoading();
         this.setState({
           loading: false,
           isError: true
@@ -161,6 +162,7 @@ export default class PaySettingView extends PureComponent {
         }
       })
       .catch(err => {
+        this.props.hideLoading && this.props.hideLoading();
         this.setState({
           loading: false,
           isError: false
@@ -320,7 +322,9 @@ export default class PaySettingView extends PureComponent {
                 />
               ))}
               <CommonItem hasLeftIcon
-              leftIcon={this._leftImage(require('../asset/ticket.png'))} content="購買月票" clickFunc={() => this.props.navigation.navigate('MonthTicket')}/>
+              leftIcon={this._leftImage(require('../asset/ticket.png'))} content="購買月票" clickFunc={() => this.props.navigation.navigate('MonthTicket',{
+                callback: () => this._getMonthTicket()
+              })}/>
               {this._renderManageCreditCard()}
             </View>
           )}
