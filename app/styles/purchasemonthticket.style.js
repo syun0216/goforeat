@@ -94,13 +94,24 @@ export default StyleSheet.create({
     color: '#fff',
     fontSize: em(17)
   },
+  payBtn: {
+    width: GLOBAL_PARAMS._winWidth *.95,
+    paddingLeft: GLOBAL_PARAMS._winWidth*.025,
+    height: em(50),
+    borderRadius: em(50),
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom : 0
+
+  },
   confirmView: {
     backgroundColor: '#fff',
     minWidth: 300,
-    minHeight: 260,
+    minHeight: 300,
     paddingLeft: GLOBAL_PARAMS._winWidth * .025,
     paddingRight: GLOBAL_PARAMS._winWidth * .025,
-    position: 'relative'
+    position: 'relative',
   },
   confirmOrderBar: {
     justifyContent: 'space-between',
@@ -113,19 +124,19 @@ export default StyleSheet.create({
   },
   confirmTopTitle: {
     padding: em(10),
-    borderBottomWidth: 1,
-    borderColor: '#ccc'
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',    
   },
   confirmTopTitleText: {
     color: '#333',
-    fontSize: em(17)
+    fontSize: em(20),
+    fontWeight: '700'
   },
   confirmContent: {
-    flexDirection: 'row',
-    flex: 1,
     justifyContent:'center',
     alignItems: 'flex-start',
-    marginTop: em(40)
+    marginTop: em(20),
   },
   confirmCommonText: {
     color: '#333',
@@ -135,5 +146,10 @@ export default StyleSheet.create({
     color: '#ff5858',
     fontSize: em(30),
     marginTop: em(-13)
+  },
+  checPayTypeItem: {
+    borderBottomWidth: 0,
+    paddingLeft: GLOBAL_PARAMS* 0.06,
+    paddingRight: GLOBAL_PARAMS* 0.06
   }
 });

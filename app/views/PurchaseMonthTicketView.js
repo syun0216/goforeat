@@ -12,18 +12,32 @@ import {
 import CommonHeader from "../components/CommonHeader";
 import CustomizeContainer from "../components/CustomizeContainer";
 import BlankPage from "../components/BlankPage";
+import CommonItem from "../components/CommonItem";
 //style
 import PurchaseMonthTicketStyles from "../styles/purchasemonthticket.style";
+import PaySettingStyles from "../styles/paysetting.style";
 //utils
 import Colors from "../utils/Colors";
-import { stripe_api_key, merchant_id, PAY_TYPE } from "../utils/global_params";
+import {
+  stripe_api_key,
+  merchant_id,
+  SET_PAY_TYPE,
+  em
+} from "../utils/global_params";
+
+const CHECKED = require("../asset/checked.png");
+const UNCHECKED = require("../asset/unchecked.png");
 
 export default class PurchaseMonthTicketView extends PureComponent {
   _overlayViewKey = null; // overlayview的唯一key值
+  _overlayView = null;
+  _pullView = null;
   state = {
     monthTicketList: [],
     currentMonthTicketSelect: {},
-    currentMonthTicketOrder: null
+    currentMonthTicketOrder: null,
+    currentPayType: SET_PAY_TYPE.credit_card,
+    test: 1
   };
 
   componentDidMount() {
@@ -72,7 +86,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
   }
 
   _payMonthTicket(token, payment) {
-    const {callback} = this.props.navigation.state.params;
+    const { callback } = this.props.navigation.state.params;
     const { orderId, price } = this.state.currentMonthTicketOrder;
     let params = {
       orderId,
@@ -82,26 +96,26 @@ export default class PurchaseMonthTicketView extends PureComponent {
     };
     confirmMonthTicket(params)
       .then(data => {
-        Overlay.hide(this._overlayViewKey);
+        this._pullView && this._pullView.close();
         this.props.hideLoadingModal();
         if (data.ro.ok) {
           this.props.toast(data.ro.respMsg || "購買成功");
           this.props.navigation.goBack();
-          callback&&callback();
+          callback && callback();
         } else {
           this.props.toast(data.ro.respMsg || "購買失敗");
         }
       })
       .catch(err => {
         console.log(err);
-        Overlay.hide(this._overlayViewKey);
+        this._pullView && this._pullView.close();
         this.props.hideLoadingModal();
         this.props.toast("購買失敗");
       });
   }
 
   _payWithApplePay() {
-    const {price} = this.state.currentMonthTicketOrder;
+    const { price } = this.state.currentMonthTicketOrder;
     this.props.showLoadingModal();
     let supportedMethods = [
       {
@@ -122,10 +136,10 @@ export default class PurchaseMonthTicketView extends PureComponent {
       }
     ];
     const details = {
-      id: 'goforeat_month_ticket',
+      id: "goforeat_month_ticket",
       displayItems: [
         {
-          label: '購買月票',
+          label: "購買月票",
           amount: { currency: "HKD", value: price }
         }
       ],
@@ -135,75 +149,136 @@ export default class PurchaseMonthTicketView extends PureComponent {
       }
     };
     const prForMonthTicket = new PaymentRequest(supportedMethods, details);
-    prForMonthTicket.show().then(res => {
-      if(res.details&&res.details.paymentToken) {
-        this._payMonthTicket(res.details.paymentToken, PAY_TYPE.apple_pay);
-      }
-    }).catch(e => {
-      this.props.hideLoadingModal();
-      prForMonthTicket.abort();
-    })
+    prForMonthTicket
+      .show()
+      .then(res => {
+        if (res.details && res.details.paymentToken) {
+          this._payMonthTicket(
+            res.details.paymentToken,
+            SET_PAY_TYPE.apple_pay
+          );
+        }
+      })
+      .catch(e => {
+        this.props.hideLoadingModal();
+        prForMonthTicket.abort();
+      });
   }
 
   _payWithCreditCard() {
     this.props.showLoadingModal();
-    this._payMonthTicket(null, PAY_TYPE.credit_card);
+    this._payMonthTicket(null, SET_PAY_TYPE.credit_card);
+  }
+
+  _showItemChecked(paytype) {
+    if (this.state.currentPayType == paytype) {
+      return (
+        <Image
+          source={CHECKED}
+          style={[
+            PaySettingStyles.payRightImage,
+            { marginRight: 16, width: em(24), height: em(24) }
+          ]}
+          resizeMode="contain"
+        />
+      );
+    } else {
+      return (
+        <Image
+          source={UNCHECKED}
+          style={[
+            PaySettingStyles.payRightImage,
+            { marginRight: 16, width: em(24), height: em(24) }
+          ]}
+          resizeMode="contain"
+        />
+      );
+    }
+  }
+
+  _checked(paytype) {
+    if (this.state.currentPayType == paytype) {
+      return;
+    }
+    this.setState({ currentPayType: paytype },() => {
+      Overlay.hide(this._overlayViewKey);
+      this._overlayViewKey = Overlay.show(this.OverlayContent());
+    });
+  }
+
+  OverlayContent() {
+    const { price, amount } = this.state.currentMonthTicketOrder;
+    return (
+      <Overlay.PullView
+        ref={pullview => (this._pullView = pullview)}
+        side="bottom"
+        modal={false}
+        rootTransform="scale"
+      >
+      <View style={PurchaseMonthTicketStyles.confirmView}>
+        <View style={PurchaseMonthTicketStyles.confirmTopTitle}>
+          <Text style={PurchaseMonthTicketStyles.confirmTopTitleText}>
+            購買月票{amount}張
+          </Text>
+          <Text style={PurchaseMonthTicketStyles.confirmTopTitleText}>
+            HKD {price}
+          </Text>
+        </View>
+        <View style={PurchaseMonthTicketStyles.confirmContent}>
+          <CommonItem
+            style={PurchaseMonthTicketStyles.checPayTypeItem}
+            hasLeftIcon
+            leftIcon={
+              <Image
+                source={require("../asset/creditcard.png")}
+                style={PaySettingStyles.payLeftImage}
+                resizeMode="contain"
+              />
+            }
+            content="信用卡支付"
+            hasRightIcon
+            rightIcon={this._showItemChecked(SET_PAY_TYPE.credit_card)}
+            clickFunc={() => this._checked(SET_PAY_TYPE.credit_card)}
+          />
+          <CommonItem
+            style={PurchaseMonthTicketStyles.checPayTypeItem}
+            content="Apple Pay"
+            hasLeftIcon
+            leftIcon={
+              <Image
+                source={require("../asset/apple_pay.png")}
+                style={PaySettingStyles.payLeftImage}
+                resizeMode="contain"
+              />
+            }
+            resizeMode="contain"
+            hasRightIcon
+            rightIcon={this._showItemChecked(SET_PAY_TYPE.apple_pay)}
+            clickFunc={() => this._checked(SET_PAY_TYPE.apple_pay)}
+          />
+        </View>
+        <View style={PurchaseMonthTicketStyles.confirmOrderBar}>
+          <TouchableOpacity
+            style={PurchaseMonthTicketStyles.payBtn}
+            onPress={() => {
+              if (this.state.currentPayType == SET_PAY_TYPE.credit_card) {
+                this._payWithCreditCard();
+              } else {
+                this._payWithApplePay();
+              }
+            }}
+          >
+            <Text style={PurchaseMonthTicketStyles.submitBtnText}>去支付</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      </Overlay.PullView>
+    );
   }
 
   _showOverlayConfirmView() {
-    const { price, amount } = this.state.currentMonthTicketOrder;
-    const _overlayView = (
-      <Overlay.PullView side="bottom" modal={false}>
-        <View style={PurchaseMonthTicketStyles.confirmView}>
-          <View style={PurchaseMonthTicketStyles.confirmTopTitle}>
-            <Text style={PurchaseMonthTicketStyles.confirmTopTitleText}>
-              選擇支付方式
-            </Text>
-          </View>
-          <View style={PurchaseMonthTicketStyles.confirmContent}>
-            <Text style={PurchaseMonthTicketStyles.confirmCommonText}>
-              請您支付HKD
-            </Text>
-            <Text
-              style={PurchaseMonthTicketStyles.confirmStrongText}
-            >{`  ${price}  `}</Text>
-            <Text style={PurchaseMonthTicketStyles.confirmCommonText}>
-              以獲得
-            </Text>
-            <Text
-              style={PurchaseMonthTicketStyles.confirmStrongText}
-            >{`  ${amount}  `}</Text>
-            <Text style={PurchaseMonthTicketStyles.confirmCommonText}>
-              張月票
-            </Text>
-          </View>
-          <View style={PurchaseMonthTicketStyles.confirmOrderBar}>
-            <TouchableOpacity
-              style={[
-                PurchaseMonthTicketStyles.submitBtn,
-                { backgroundColor: Colors.main_orange }
-              ]}
-              onPress={() => this._payWithCreditCard()}
-            >
-              <Text style={PurchaseMonthTicketStyles.submitBtnText}>
-                信用卡支付
-              </Text>
-            </TouchableOpacity>
-            {Platform.OS == "ios" && (
-              <TouchableOpacity
-                style={PurchaseMonthTicketStyles.submitBtn}
-                onPress={() => this._payWithApplePay()}
-              >
-                <Text style={PurchaseMonthTicketStyles.submitBtnText}>
-                  Apple Pay
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-      </Overlay.PullView>
-    );
-    this._overlayViewKey = Overlay.show(_overlayView);
+      
+    this._overlayViewKey = Overlay.show(this.OverlayContent());
   }
 
   _renderTopTitle() {
