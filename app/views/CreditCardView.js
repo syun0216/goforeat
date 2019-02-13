@@ -192,7 +192,7 @@ export default class CreditCardView extends Component {
           ToastUtils.showWithMessage(this.i18n.credit_card_tips.bind_success);
           this.props.navigation.goBack();
         } else {
-          ToastUtils.showWithMessage(this.i18n.credit_card_tips.bind_fail);
+          ToastUtils.showWithMessage(data.ro.respMsg || this.i18n.credit_card_tips.bind_fail);
         }
         console.log({ data });
       })
@@ -336,7 +336,7 @@ export default class CreditCardView extends Component {
     return (
       <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef"}}>
         <CommonHeader title={this.i18n.addCard} canBack />
-        <View style={{ backgroundColor: "#efefef", flex: 1 }}>
+        <Content>
           <View>{_list_arr.map((v, i) => this._renderCommonInput(v, i))}</View>
           <CommonBottomBtn clickFunc={() => this._bindCard()}>
             {this.i18n.addCardNow}
@@ -349,7 +349,7 @@ export default class CreditCardView extends Component {
             <Text style={CreditCardStyles.BottomInfoText}>支付安全需知</Text>
           </TouchableOpacity>
           {this._renderInfoDetailPanel()}
-        </View>
+        </Content>
       </CustomizeContainer.SafeView>
     );
   }

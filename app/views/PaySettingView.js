@@ -281,14 +281,14 @@ export default class PaySettingView extends PureComponent {
     let _from_confirm_order =
       typeof this.props.navigation.state.params != "undefined";
     return (
-      <CustomizeContainer.SafeView mode="linear" barStyle="dark-content" style={{ backgroundColor: "#efefef"}}>
+      <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef"}}>
         <CommonHeader
           title={this.i18n.payment}
           hasMenu={!_from_confirm_order}
           canBack={_from_confirm_order}
         />
         <Content>
-          {!this.state.loading && (
+          {!this.state.loading && !this.state.isError && (
             <View>
               {payTypeList.map((item, key) => (
                 <CommonItem

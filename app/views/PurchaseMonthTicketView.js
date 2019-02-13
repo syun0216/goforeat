@@ -32,6 +32,9 @@ export default class PurchaseMonthTicketView extends PureComponent {
   _overlayViewKey = null; // overlayview的唯一key值
   _overlayView = null;
   _pullView = null;
+  _timer = null;
+  _paymentRequest = null;
+
   state = {
     monthTicketList: [],
     currentMonthTicketSelect: {},
@@ -41,12 +44,21 @@ export default class PurchaseMonthTicketView extends PureComponent {
   };
 
   componentDidMount() {
-    this._getMonthTicketList();
+    this._timer = setTimeout(() => {
+      this.props.showLoading && this.props.showLoading();
+      this._getMonthTicketList();
+      clearTimeout(this._timer);
+    }, 400);
+  }
+
+  componentWillUnmount() {
+    this._timer && clearTimeout(this._timer);
   }
 
   _getMonthTicketList() {
     getMonthTicketList()
       .then(data => {
+        this.props.hideLoading && this.props.hideLoading();
         if (data.ro.ok && data.data.list.length > 0) {
           this.setState({
             monthTicketList: data.data.list,
@@ -57,6 +69,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
         }
       })
       .catch(err => {
+        this.props.hideLoading && this.props.hideLoading();
         this.props.toast("獲取數據失敗");
       });
   }
@@ -99,11 +112,17 @@ export default class PurchaseMonthTicketView extends PureComponent {
         this._pullView && this._pullView.close();
         this.props.hideLoadingModal();
         if (data.ro.ok) {
+          this.state.currentPayType == SET_PAY_TYPE.apple_pay && this._paymentRequest && this._paymentRequest.complete("success");
           this.props.toast(data.ro.respMsg || "購買成功");
           this.props.navigation.goBack();
           callback && callback();
         } else {
           this.props.toast(data.ro.respMsg || "購買失敗");
+          if(data.ro.respCode == "20010") {
+            this.props.navigation.navigate('Credit', {
+              callback: () => this.props.navigation.goBack()
+            });
+          }
         }
       })
       .catch(err => {
@@ -148,11 +167,12 @@ export default class PurchaseMonthTicketView extends PureComponent {
         amount: { currency: "HKD", value: price }
       }
     };
-    const prForMonthTicket = new PaymentRequest(supportedMethods, details);
-    prForMonthTicket
+    const prMonthTicket = new PaymentRequest(supportedMethods, details);
+    prMonthTicket
       .show()
       .then(res => {
         if (res.details && res.details.paymentToken) {
+          this._paymentRequest = res;
           this._payMonthTicket(
             res.details.paymentToken,
             SET_PAY_TYPE.apple_pay
@@ -161,7 +181,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
       })
       .catch(e => {
         this.props.hideLoadingModal();
-        prForMonthTicket.abort();
+        prMonthTicket.abort();
       });
   }
 
@@ -213,7 +233,6 @@ export default class PurchaseMonthTicketView extends PureComponent {
         ref={pullview => (this._pullView = pullview)}
         side="bottom"
         modal={false}
-        rootTransform="scale"
       >
       <View style={PurchaseMonthTicketStyles.confirmView}>
         <View style={PurchaseMonthTicketStyles.confirmTopTitle}>
@@ -325,6 +344,23 @@ export default class PurchaseMonthTicketView extends PureComponent {
     );
   }
 
+  _renderInfoView() {
+    return(
+      <View style={PurchaseMonthTicketStyles.infoView}>
+        <View style={PurchaseMonthTicketStyles.infoViewTop}>
+          <View style={PurchaseMonthTicketStyles.grayDivider}></View>
+          <Text style={PurchaseMonthTicketStyles.dividerText}>購買月票须知</Text>
+          <View style={PurchaseMonthTicketStyles.grayDivider}></View>
+        </View>
+        <View style={PurchaseMonthTicketStyles.infoContent}>
+          <Text style={PurchaseMonthTicketStyles.infoContentText}>1.月票只會在購買當天的一個月內有效</Text>
+          <Text style={PurchaseMonthTicketStyles.infoContentText}>2.使用期限請查看支付方式的月票到期日</Text>
+          <Text style={PurchaseMonthTicketStyles.infoContentText}>3.如有任何爭議，Mealtime有得食保留最終解釋權</Text>
+        </View>
+      </View>
+    )
+  }
+
   render() {
     const { monthTicketList, currentMonthTicketSelect } = this.state;
     return (
@@ -336,9 +372,8 @@ export default class PurchaseMonthTicketView extends PureComponent {
             monthTicketList.map((item, key) =>
               this._renderTicketItem(item, key)
             )
-          ) : (
-            <BlankPage message="加载中..." />
-          )}
+          ) : null}
+          {this._renderInfoView()}
         </Content>
         <Footer style={PurchaseMonthTicketStyles.footer}>
           <Left style={{ flexDirection: "row", alignItems: "center" }}>

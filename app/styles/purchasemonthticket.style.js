@@ -149,7 +149,34 @@ export default StyleSheet.create({
   },
   checPayTypeItem: {
     borderBottomWidth: 0,
-    paddingLeft: GLOBAL_PARAMS* 0.06,
-    paddingRight: GLOBAL_PARAMS* 0.06
+    paddingLeft: GLOBAL_PARAMS._winWidth* 0.06,
+    paddingRight: GLOBAL_PARAMS._winWidth* 0.06
+  },
+  infoView: {
+  },
+  infoViewTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems:'center',
+    marginTop: em(20),
+  },
+  grayDivider: {
+    backgroundColor: '#ccc',
+    width: 0.25*GLOBAL_PARAMS._winWidth,
+    height: 1
+  },
+  dividerText: {
+    fontSize: em(19),
+    color: '#959595'
+  },
+  infoContent: {
+    paddingLeft: GLOBAL_PARAMS._winWidth* 0.04,
+    paddingRight: GLOBAL_PARAMS._winWidth* 0.04,
+    marginTop: em(25),
+  },
+  infoContentText: {
+    color: '#959595',
+    fontSize:em (16),
+    lineHeight: em(30),
   }
 });
