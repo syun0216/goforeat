@@ -20,8 +20,6 @@ import CreditCardStyles from "../styles/creditcard.style";
 //utils
 import ToastUtils from "../utils/ToastUtil";
 import { em, client, setPayType } from "../utils/global_params";
-//cache
-import { creditCardStorage, payTypeStorage } from "../cache/appStorage";
 //api
 import { vaildCard, setCreditCard } from "../api/request";
 //language
@@ -334,9 +332,9 @@ export default class CreditCardView extends Component {
       }
     ];
     return (
-      <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef"}}>
+      <CustomizeContainer.SafeView mode="linear">
         <CommonHeader title={this.i18n.addCard} canBack />
-        <Content>
+        <Content style={{ backgroundColor: "#efefef",flex: 1}}>
           <View>{_list_arr.map((v, i) => this._renderCommonInput(v, i))}</View>
           <CommonBottomBtn clickFunc={() => this._bindCard()}>
             {this.i18n.addCardNow}
@@ -348,8 +346,8 @@ export default class CreditCardView extends Component {
             <Icon style={CreditCardStyles.BottomInfoIcon} name="md-alert" />
             <Text style={CreditCardStyles.BottomInfoText}>支付安全需知</Text>
           </TouchableOpacity>
+          </Content>
           {this._renderInfoDetailPanel()}
-        </Content>
       </CustomizeContainer.SafeView>
     );
   }

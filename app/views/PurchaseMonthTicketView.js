@@ -259,7 +259,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
             rightIcon={this._showItemChecked(SET_PAY_TYPE.credit_card)}
             clickFunc={() => this._checked(SET_PAY_TYPE.credit_card)}
           />
-          <CommonItem
+          {Platform.OS == 'ios' && (<CommonItem
             style={PurchaseMonthTicketStyles.checPayTypeItem}
             content="Apple Pay"
             hasLeftIcon
@@ -274,7 +274,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
             hasRightIcon
             rightIcon={this._showItemChecked(SET_PAY_TYPE.apple_pay)}
             clickFunc={() => this._checked(SET_PAY_TYPE.apple_pay)}
-          />
+          />)}
         </View>
         <View style={PurchaseMonthTicketStyles.confirmOrderBar}>
           <TouchableOpacity

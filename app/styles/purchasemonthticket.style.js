@@ -1,5 +1,6 @@
 import {
-  StyleSheet
+  StyleSheet,
+  Platform
 } from "react-native";
 import GLOBAL_PARAMS, {
   em,
@@ -108,7 +109,7 @@ export default StyleSheet.create({
   confirmView: {
     backgroundColor: '#fff',
     minWidth: 300,
-    minHeight: 300,
+    minHeight:Platform.OS == 'ios' ? 300 : 230,
     paddingLeft: GLOBAL_PARAMS._winWidth * .025,
     paddingRight: GLOBAL_PARAMS._winWidth * .025,
     position: 'relative',
