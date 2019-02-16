@@ -4,15 +4,12 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  AppState,
   RefreshControl,
   Platform,
   TouchableWithoutFeedback
 } from "react-native";
 import Share from "react-native-share";
 import Antd from "react-native-vector-icons/AntDesign";
-// import WeChat from 'react-native-wechat';
-import { Container, Icon } from "native-base";
 import Carousel from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
 import { sliderWidth } from "../styles/SliderEntry.style";
@@ -21,14 +18,17 @@ import SliderEntry from "../components/SliderEntry";
 import styles from "../styles/index.style";
 import FoodDetailsStyles from "../styles/fooddetails.style";
 // utils
-import GLOBAL_PARAMS, { em } from "../utils/global_params";
+import GLOBAL_PARAMS, {
+  em,
+  HAS_FOODS,
+  NO_MORE_FOODS,
+  IS_INTERCEPT
+} from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //api
 import { getFoodDetails, myFavorite } from "../api/request";
 //components
 import ErrorPage from "../components/ErrorPage";
-import Loading from "../components/Loading";
-import BlankPage from "../components/BlankPage";
 import BottomOrderConfirm from "../components/BottomOrderConfirm";
 import Text from "../components/UnScalingText";
 import SlideUpPanel from "../components/SlideUpPanel";
@@ -36,18 +36,10 @@ import CommonHeader from "../components/CommonHeader";
 import ShareComponent from "../components/ShareComponent";
 import ShimmerPlaceHolder from "../components/ShimmerPlaceholder";
 import CustomizeContainer from "../components/CustomizeContainer";
-// language
-import I18n from "../language/i18n";
-//cache
-import { placeStorage } from "../cache/appStorage";
 
 const WeChat = require("react-native-wechat");
 
 const SLIDER_1_FIRST_ITEM = 0;
-
-const HAS_FOODS = 1;
-const NO_MORE_FOODS = 2;
-const IS_INTERCEPT = 3;
 
 const isFavorite = 1;
 const isNotFavorite = 0;
@@ -96,9 +88,7 @@ class FoodDetailsView extends Component {
   }
 
   componentDidMount() {
-    if (
-      this.props.getCache(`Food${this.dateFoodId}`)
-    ) {
+    if (this.props.getCache(`Food${this.dateFoodId}`)) {
       this.setState(
         {
           ...this.props.getCache(`Food${this.dateFoodId}`)
@@ -268,12 +258,19 @@ class FoodDetailsView extends Component {
   }
 
   _renderDateFormat() {
-    if(!this.state.foodDetails) {
+    if (!this.state.foodDetails) {
       return (
-      <View style={FoodDetailsStyles.DateFormatView}>
-        <ShimmerPlaceHolder autoRun={true} style={{width: 125,height: 25}}></ShimmerPlaceHolder>
-        <ShimmerPlaceHolder autoRun={true} style={{width: 250,marginTop: 5}}></ShimmerPlaceHolder>
-      </View>)
+        <View style={FoodDetailsStyles.DateFormatView}>
+          <ShimmerPlaceHolder
+            autoRun={true}
+            style={{ width: 125, height: 25 }}
+          />
+          <ShimmerPlaceHolder
+            autoRun={true}
+            style={{ width: 250, marginTop: 5 }}
+          />
+        </View>
+      );
     }
     return (
       <View style={FoodDetailsStyles.DateFormatView}>
@@ -289,8 +286,16 @@ class FoodDetailsView extends Component {
 
   _renderMainView() {
     const { foodDetails } = this.state;
-    if(!foodDetails) {
-      return <ShimmerPlaceHolder autoRun={true} style={[styles.exampleContainer,{ width: slideWidthSingle,height: em(250),marginLeft: 15 }]}></ShimmerPlaceHolder>
+    if (!foodDetails) {
+      return (
+        <ShimmerPlaceHolder
+          autoRun={true}
+          style={[
+            styles.exampleContainer,
+            { width: slideWidthSingle, height: em(250), marginLeft: 15 }
+          ]}
+        />
+      );
     }
     const itemWidth =
       foodDetails.extralImage.length > 1 ? slideWidthMulti : slideWidthSingle;
@@ -360,22 +365,43 @@ class FoodDetailsView extends Component {
   }
 
   _renderIntroductionView() {
-    if(!this.state.foodDetails) {
+    if (!this.state.foodDetails) {
       return (
         <View style={FoodDetailsStyles.IntroductionView}>
           <View style={FoodDetailsStyles.IntroductionFoodNameCotainer}>
-            <ShimmerPlaceHolder autoRun={true} style={{ width: 150,height: 25 }} />
-            <ShimmerPlaceHolder autoRun={true} style={{ width: 80,height: 20 }} />
+            <ShimmerPlaceHolder
+              autoRun={true}
+              style={{ width: 150, height: 25 }}
+            />
+            <ShimmerPlaceHolder
+              autoRun={true}
+              style={{ width: 80, height: 20 }}
+            />
           </View>
           <View style={FoodDetailsStyles.IntroductionFoodNameCotainer}>
-            <ShimmerPlaceHolder autoRun={true} style={{ width: 100,height: 20 }} />
-            <ShimmerPlaceHolder autoRun={true} style={{ width: 20,height: 20 }} />
+            <ShimmerPlaceHolder
+              autoRun={true}
+              style={{ width: 100, height: 20 }}
+            />
+            <ShimmerPlaceHolder
+              autoRun={true}
+              style={{ width: 20, height: 20 }}
+            />
           </View>
-          <ShimmerPlaceHolder autoRun={true} style={{ width: slideWidthSingle,marginBottom: 5, }} />
-          <ShimmerPlaceHolder autoRun={true} style={{ width: slideWidthSingle,marginBottom: 5, }} />
-          <ShimmerPlaceHolder autoRun={true} style={{ width: slideWidthSingle}} />
-        </View>  
-      )
+          <ShimmerPlaceHolder
+            autoRun={true}
+            style={{ width: slideWidthSingle, marginBottom: 5 }}
+          />
+          <ShimmerPlaceHolder
+            autoRun={true}
+            style={{ width: slideWidthSingle, marginBottom: 5 }}
+          />
+          <ShimmerPlaceHolder
+            autoRun={true}
+            style={{ width: slideWidthSingle }}
+          />
+        </View>
+      );
     }
     let {
       foodDetails: { foodName, canteenName, foodBrief },
@@ -385,16 +411,10 @@ class FoodDetailsView extends Component {
     const _isFavorite = () =>
       isFavorite ? (
         Platform.OS == "android" && (
-          <Antd
-            style={FoodDetailsStyles.canteenFavoriteActive}
-            name="heart"
-          />
+          <Antd style={FoodDetailsStyles.canteenFavoriteActive} name="heart" />
         )
       ) : (
-        <Antd
-          style={FoodDetailsStyles.canteenFavorite}
-          name="hearto"
-        />
+        <Antd style={FoodDetailsStyles.canteenFavorite} name="hearto" />
       );
     return (
       <View style={FoodDetailsStyles.IntroductionView}>
@@ -518,12 +538,19 @@ class FoodDetailsView extends Component {
   _renderAddPriceView() {
     const { foodDetails, soldOut } = this.state;
     const { i18n } = this.props;
-    if(!foodDetails) return (
-      <View style={[FoodDetailsStyles.AddPriceView,{marginTop: 10}]}>
-        <ShimmerPlaceHolder autoPlay={true} style={{width: 100,height: 20}}/>
-        <ShimmerPlaceHolder autoPlay={true} style={{width: 100,height: 20}}/>
-      </View>
-    );
+    if (!foodDetails)
+      return (
+        <View style={[FoodDetailsStyles.AddPriceView, { marginTop: 10 }]}>
+          <ShimmerPlaceHolder
+            autoPlay={true}
+            style={{ width: 100, height: 20 }}
+          />
+          <ShimmerPlaceHolder
+            autoPlay={true}
+            style={{ width: 100, height: 20 }}
+          />
+        </View>
+      );
     return (
       <View style={FoodDetailsStyles.AddPriceView}>
         <View style={FoodDetailsStyles.AddPriceViewPriceContainer}>
@@ -540,48 +567,34 @@ class FoodDetailsView extends Component {
             <View style={FoodDetailsStyles.AddPriceViewStriping} />
           ) : null}
         </View>
-        {soldOut == HAS_FOODS ? (
-          <View style={FoodDetailsStyles.AddPriceViewCountContainer}>
-            <TouchableOpacity
-              onPress={() => this._remove()}
-              style={FoodDetailsStyles.AddPriceViewCommonBtn}
-            >
-              <Image
-                source={require("../asset/remove.png")}
-                style={FoodDetailsStyles.AddPriceViewAddImage}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <Text
-              style={FoodDetailsStyles.AddPriceViewCountText}
-              numberOfLines={1}
-            >
-              {this.state.foodCount}
-            </Text>
-            <TouchableOpacity
-              onPress={() => this._add()}
-              style={FoodDetailsStyles.AddPriceViewCommonBtn}
-            >
-              <Image
-                source={require("../asset/add.png")}
-                style={FoodDetailsStyles.AddPriceViewRemoveImage}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
-        ) : soldOut == NO_MORE_FOODS ? (
-          <View style={FoodDetailsStyles.AddPriceViewCountContainer}>
-            <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>
-              {i18n.soldout}
-            </Text>
-          </View>
-        ) : (
-          <View style={FoodDetailsStyles.AddPriceViewCountContainer}>
-            <Text style={FoodDetailsStyles.AddPriceViewPriceUnit}>
-              {i18n.intercept}
-            </Text>
-          </View>
-        )}
+        <View style={FoodDetailsStyles.AddPriceViewCountContainer}>
+          <TouchableOpacity
+            onPress={() => this._remove()}
+            style={FoodDetailsStyles.AddPriceViewCommonBtn}
+          >
+            <Image
+              source={require("../asset/remove.png")}
+              style={FoodDetailsStyles.AddPriceViewAddImage}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+          <Text
+            style={FoodDetailsStyles.AddPriceViewCountText}
+            numberOfLines={1}
+          >
+            {this.state.foodCount}
+          </Text>
+          <TouchableOpacity
+            onPress={() => this._add()}
+            style={FoodDetailsStyles.AddPriceViewCommonBtn}
+          >
+            <Image
+              source={require("../asset/add.png")}
+              style={FoodDetailsStyles.AddPriceViewRemoveImage}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -626,8 +639,9 @@ class FoodDetailsView extends Component {
         {...this.props}
         isShow={true}
         total={foodDetails ? foodCount * foodDetails.price : null}
+        status={soldOut}
         btnClick={() => {
-          if(!foodDetails) return;
+          if (!foodDetails) return;
           if (soldOut == HAS_FOODS) {
             this._goToOrder();
           } else {
@@ -635,7 +649,7 @@ class FoodDetailsView extends Component {
           }
         }}
         shareClick={() => {
-          if(!foodDetails) return;
+          if (!foodDetails) return;
           if (soldOut == HAS_FOODS) {
             this.setState({
               isShareListShow: true
@@ -761,7 +775,10 @@ class FoodDetailsView extends Component {
     let { loading, isError, foodDetails, isShareListShow } = this.state;
 
     return (
-      <CustomizeContainer.SafeView mode="linear" style={FoodDetailsStyles.ContainerBg}>
+      <CustomizeContainer.SafeView
+        mode="linear"
+        style={FoodDetailsStyles.ContainerBg}
+      >
         {this._renderHeaderView()}
         {isError ? this._renderErrorView() : null}
         {isShareListShow && this._renderPreventClickView()}

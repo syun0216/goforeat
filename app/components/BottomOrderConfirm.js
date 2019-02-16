@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 //utils
-import GLOBAL_PARAMS, { em } from "../utils/global_params";
+import GLOBAL_PARAMS, { em, HAS_FOODS, NO_MORE_FOODS, IS_INTERCEPT } from "../utils/global_params";
 import Colors from "../utils/Colors";
 //components
 import Text from "./UnScalingText";
@@ -92,14 +92,16 @@ export default class BottomOrderConfirm extends PureComponent {
     btnMessage: "立即預訂",
     btnClick: () => {},
     shareClick: () => {},
-    canClose: true
+    canClose: true,
+    status: HAS_FOODS
   };
 
   static propsType = {
     btnMessage: PropTypes.string,
     btnClick: PropTypes.func,
     shareClick: PropTypes.func,
-    canClose: PropTypes.bool
+    canClose: PropTypes.bool,
+    status: PropTypes.number
   };
 
   componentWillUnmount() {
@@ -111,7 +113,8 @@ export default class BottomOrderConfirm extends PureComponent {
   };
 
   render() {
-    let { total, btnClick, shareClick, canClose, btnMessage } = this.props;
+    let { total, btnClick, shareClick, canClose, btnMessage, status } = this.props;
+    const canSold = status == HAS_FOODS;
     return (
       <View
         style={[styles.bottomContainer, { justifyContent: "space-between" }]}
@@ -128,10 +131,10 @@ export default class BottomOrderConfirm extends PureComponent {
           </Text>
         </View>
         <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity onPress={() => shareClick()}>
+          <TouchableOpacity onPress={() => shareClick()} disabled={!canSold}>
             <LinearGradient
               style={styles.shareBtn}
-              colors={["#FFC500", "#FF9402"]}
+              colors={canSold ? ["#FFC500", "#FF9402"]: ["#DDD","#CCC"]}
               start={{ x: 0.0, y: 0.0 }}
               end={{ x: 1.0, y: 0.0 }}
             >
@@ -144,10 +147,10 @@ export default class BottomOrderConfirm extends PureComponent {
               </View>
             </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => btnClick()}>
+          <TouchableOpacity onPress={() => btnClick()} disabled={!canSold}>
             <LinearGradient
-              style={styles.confirmBtn}
-              colors={["#FF7A00", "#FE560A"]}
+              style={[styles.confirmBtn,]}
+              colors={canSold ? ["#FF7A00", "#FE560A"]: ["#CCC","#CCC"]}
               start={{ x: 0.0, y: 0.0 }}
               end={{ x: 1.0, y: 0.0 }}
             >
@@ -155,12 +158,12 @@ export default class BottomOrderConfirm extends PureComponent {
                 <Text
                   style={{ color: "#fff", fontSize: em(16), fontWeight: "800" }}
                 >
-                  立即預訂
+                  {canSold ? "立即預訂" : status == NO_MORE_FOODS ? '已售罄' : '已截單'}
                 </Text>
-                <Image
+                {canSold && <Image
                   style={{ width: em(15), height: em(15), marginLeft: em(3) }}
                   source={require("../asset/double-arrow.png")}
-                />
+                />}
               </View>
             </LinearGradient>
           </TouchableOpacity>
