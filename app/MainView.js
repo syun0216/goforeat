@@ -380,13 +380,17 @@ const defaultGetStateForAction = MainView.router.getStateForAction;
 
 // 拦截路由主方法
 MainView.router.getStateForAction = (action, state) => {
-  // console.log('action', action)
+  console.log('action', action)
   // console.log('state', state)
   const mustLogin = AuthInterceptor(action, state);
   if (mustLogin) {
+    let _action = {...action};
+    if(_action.routeName == "UserInfoDrawer") {
+      _action.routeName = "FoodDetails";
+    }
     requestAnimationFrame(() => {
       store.dispatch({ type: "CHANGE_LOGIN_STATUS", showLogin: true });
-      store.dispatch({ type: "SET_LOGIN_TO_PAGE", toPage: action });
+      store.dispatch({ type: "SET_LOGIN_TO_PAGE", toPage: _action });
     });
     // return defaultGetStateForAction(newAction, state);
     return;

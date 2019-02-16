@@ -148,4 +148,8 @@ export function isEmpty(v) {
   return false;
 }
 
+export const HAS_FOODS = 1;
+export const NO_MORE_FOODS = 2;
+export const IS_INTERCEPT = 3;
+
 export default GLOBAL_PARAMS;
