@@ -35,6 +35,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
+import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
+
 
 import cn.jpush.reactnativejpush.JPushPackage;
 
@@ -73,6 +75,7 @@ public class MainApplication extends Application implements ReactApplication {
             String deploymentKey = "fMXsr1oL8ExCRlmMZD2nLEWHY0-rd261912e-873f-4270-b887-25c360664c8c";
             return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new RNFusedLocationPackage(),
             new VectorIconsPackage(),
             new FastImageViewPackage(),
             new WeChatPackage(),

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Image } from "react-native";
+import { Image, View, Text } from "react-native";
 import {connect} from 'react-redux';
 //actions
 import { STORE_PLACE_LIST, STOCK_PLACE } from '../actions';
 //utils
 import ToastUtils from "../utils/ToastUtil";
+import Colors from "../utils/Colors";
 //api
 import { foodPlaces } from "../api/request";
 //cache
@@ -27,6 +28,8 @@ class PlacePickerModel extends Component {
     closeFunc: PropTypes.func,
     title: PropTypes.string
   };
+  
+  _currentPosition = null;
 
   state = {
     placeList: null,
@@ -35,46 +38,58 @@ class PlacePickerModel extends Component {
   };
 
   componentDidMount() {
-    placeListStorage.getData((error, placeList) => {
-      if (error === null) {
-        let currentDate = +new Date;
-        if (placeList !== null && placeList.cacheTime && (currentDate - placeList.cacheTime < 10800000 )) { // 缓存超过3个小时则更新
-          this.setState({
-            placeList: placeList.data
-          },() => {
-            this.props.stockPlaceList(placeList.data);
-            placeStorage.getData((error, place) => {
-              if (error === null) {
-                if (place !== null) {
-                  this.setState({
-                    selected: place.name
-                  })
-                  this.props.getSeletedValue(place);
-                  this.props.stockPlace(place);
-                } else {
-                  this.props.getSeletedValue(placeList[0]);
-                  this.props.stockPlace(placeList[0]);
-                  this.setState({
-                    selected: placeList[0].name
-                  })
+    navigator.geolocation.getCurrentPosition(position => {
+      placeListStorage.getData((error, placeList) => {
+        if (error === null) {
+          let currentDate = +new Date;
+          if (placeList !== null && placeList.cacheTime && (currentDate - placeList.cacheTime < 10800000 )) { // 缓存超过3个小时则更新
+            this.setState({
+              placeList: placeList.data
+            },() => {
+              this.props.stockPlaceList(placeList.data);
+              placeStorage.getData((error, place) => {
+                if (error === null) {
+                  if (place !== null) {
+                    this.setState({
+                      selected: place.name
+                    })
+                    this.props.getSeletedValue(place);
+                    this.props.stockPlace(place);
+                  } else {
+                    this.props.getSeletedValue(placeList[0]);
+                    this.props.stockPlace(placeList[0]);
+                    this.setState({
+                      selected: placeList[0].name
+                    })
+                  }
                 }
-              }
+              });
             });
-          });
+          } else {
+            this.getPlace(position);
+          }
         } else {
-          this.getPlace();
+          this.getPlace(position);
         }
-      } else {
-        this.getPlace();
-      }
-    });
-    
+      });
+    }, err => {
+      this.getPlace();
+    })
+    return;
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       i18n: I18n[nextProps.screenProps.language]
     });
+  }
+
+  _getCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(position => {
+      this._currentPosition = position;
+    }, err => {
+      console.log(err)
+    })
   }
 
   _checkedImage(name) {
@@ -104,9 +119,9 @@ class PlacePickerModel extends Component {
   }
 
   //api
-  getPlace(storage_data) {
-    
-    foodPlaces().then(
+  getPlace(position, storage_data) {
+    const {latitude, longitude} = position.coords || {latitude: "",longitude: ""};
+    foodPlaces(latitude, longitude).then(
       data => {
         if (data.ro.respCode === "0000") {
           let _data =
@@ -167,7 +182,12 @@ class PlacePickerModel extends Component {
                 content={item.name}
                 clickFunc={() => this._onValueChange(item)}
                 hasRightIcon
-                rightIcon={this._checkedImage(item.name)}
+                rightIcon={
+                  <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                    <Text style={{marginRight: 10, color: Colors.main_orange}}>{`${item.length && item.length.toFixed(2) || "--"}  km`}</Text>
+                    {this._checkedImage(item.name)}
+                  </View>
+                }
               />
             ))
           : null}

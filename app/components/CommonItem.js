@@ -12,7 +12,7 @@ import GLOBAL_PARAMS,{em} from '../utils/global_params';
 const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: Colors.main_white,
-    height: GLOBAL_PARAMS.widthAuto(55),
+    // height: GLOBAL_PARAMS.widthAuto(55),
     width: GLOBAL_PARAMS._winWidth,
     padding:em(10),
     flexDirection: 'row',
@@ -26,11 +26,14 @@ const styles = StyleSheet.create({
   itemLeftView: {
     flexDirection: 'row',
     justifyContent:'space-between',
-    alignItems:'center'
+    alignItems:'center',
+    flexWrap: 'wrap',
+    maxWidth: em(220)
   },
   itemText: {
     fontSize: em(16),
     color: '#333',
+    lineHeight: em(30)
   },
   itemIcon: {
     fontSize: em(20),
@@ -51,7 +54,7 @@ const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,c
     }}>
       <View style={styles.itemLeftView}>
         {hasLeftIcon ? leftIcon:null}
-        <Text numberOfLines={1} style={[styles.itemText,contentStyle]}>{content}</Text>
+        <Text style={[styles.itemText,contentStyle]}>{content}</Text>
       </View>
       {hasRightIcon ? rightIcon : null}
     </TouchableOpacity>

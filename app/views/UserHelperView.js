@@ -14,7 +14,7 @@ import CustomizeContainer from "../components/CustomizeContainer";
 import i18n from "../language/i18n";
 //styles
 import PaySettingStyles from "../styles/paysetting.style";
-const EMAIL = "contact@goforeat.hk";
+const EMAIL = "food@mealtime.hk";
 
 export default class UserHelper extends Component {
   render() {

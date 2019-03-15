@@ -106,13 +106,15 @@ android {
     }
 //    aaptOptions.cruncherEnabled = false
 //    aaptOptions.useNewCruncher = false
-
+    lintOptions {
+        checkReleaseBuilds false
+    }
     defaultConfig {
         applicationId "com.goforeat_app"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 23
-        versionName "1.2.7"
+        versionCode 26
+        versionName "1.2.9"
         multiDexEnabled true
         manifestPlaceholders = [
                 JPUSH_APPKEY: "1d3225ebddcae3fc7ef8b0b5",
@@ -167,13 +169,17 @@ android {
 }
 
 dependencies {
+    compile(project(':react-native-geolocation-service')) {
+        exclude group: 'com.google.android.gms', module: 'play-services-location'
+    }
+    compile 'com.google.android.gms:play-services-location:+'
     compile project(':react-native-vector-icons')
     compile 'com.android.support:multidex:1.0.0'
     compile project(':react-native-fast-image')
     compile project(':react-native-wechat')
     compile project(':lottie-react-native')
     compile project(':react-native-payments')
-    compile project(':jpush-react-native')
+//    compile project(':jpush-react-native')
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-payments')

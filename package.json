@@ -24,6 +24,7 @@
     "react-native-device-info": "^0.22.2",
     "react-native-fast-image": "^5.1.1",
     "react-native-fbsdk": "^0.8.0",
+    "react-native-geolocation-service": "^2.0.0",
     "react-native-i18n": "^2.0.12",
     "react-native-image-gallery": "^2.1.5",
     "react-native-image-picker": "^0.26.7",
