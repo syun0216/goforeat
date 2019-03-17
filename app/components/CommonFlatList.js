@@ -296,6 +296,7 @@ export default class CommonFlatList extends PureComponent {
         message={blankBtnMessage}
         hasBottomBtn={isBlankInfoBtnShow}
         clickFunc={blankBtnFunc}
+        style={{backgroundColor: 'transparent'}}
       />
     );
     return (

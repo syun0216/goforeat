@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Image, View, Text } from "react-native";
+import { Image, View, Text, PermissionsAndroid, Platform, AppState } from "react-native";
 import {connect} from 'react-redux';
 //actions
 import { STORE_PLACE_LIST, STOCK_PLACE } from '../actions';
@@ -38,11 +38,41 @@ class PlacePickerModel extends Component {
   };
 
   componentDidMount() {
+    if(Platform.OS == "ios") {
+      this._getLocationByApi()
+    } else if(Platform.OS == "android"){
+      this._locationCanUseInAndroid()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      i18n: I18n[nextProps.screenProps.language]
+    });
+  }
+
+  async _locationCanUseInAndroid() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      )
+      if(granted) {
+        this._getLocationByApi();
+      } else {
+        this.getPlace();
+      }
+    }catch(err) {
+      this.getPlace();
+    }
+  }
+
+  _getLocationByApi() {
+    console.log(11111111);
     navigator.geolocation.getCurrentPosition(position => {
       placeListStorage.getData((error, placeList) => {
         if (error === null) {
-          let currentDate = +new Date;
-          if (placeList !== null && placeList.cacheTime && (currentDate - placeList.cacheTime < 10800000 )) { // 缓存超过3个小时则更新
+          let currentDate = +new Date; 
+          if (placeList !== null && placeList.cacheTime && (currentDate - placeList.cacheTime < 600000 )) { // 缓存超过10分钟则更新
             this.setState({
               placeList: placeList.data
             },() => {
@@ -74,21 +104,8 @@ class PlacePickerModel extends Component {
       });
     }, err => {
       this.getPlace();
-    })
-    return;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      i18n: I18n[nextProps.screenProps.language]
-    });
-  }
-
-  _getCurrentLocation() {
-    navigator.geolocation.getCurrentPosition(position => {
-      this._currentPosition = position;
-    }, err => {
-      console.log(err)
+    },{
+      timeout: 3000
     })
   }
 
@@ -120,7 +137,7 @@ class PlacePickerModel extends Component {
 
   //api
   getPlace(position, storage_data) {
-    const {latitude, longitude} = position.coords || {latitude: "",longitude: ""};
+    const {latitude, longitude} =!!position && position.coords || {latitude: "",longitude: ""};
     foodPlaces(latitude, longitude).then(
       data => {
         if (data.ro.respCode === "0000") {
@@ -184,7 +201,7 @@ class PlacePickerModel extends Component {
                 hasRightIcon
                 rightIcon={
                   <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                    <Text style={{marginRight: 10, color: Colors.main_orange}}>{`${item.length && item.length.toFixed(2) || "--"}  km`}</Text>
+                    <Text style={{marginRight: 10, color: Colors.main_orange}}>{item.length && item.length.toFixed(2)+"  km" || null}</Text>
                     {this._checkedImage(item.name)}
                   </View>
                 }

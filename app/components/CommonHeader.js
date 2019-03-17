@@ -55,7 +55,7 @@ const CommonHeader = props => (
       {props.canBack ? (
         props.leftElement !== null ? (
           props.leftElement
-        ) : Platform.OS == "ios" ? (
+        ) :  (
           <Button
             transparent
             onPress={() => {
@@ -71,21 +71,6 @@ const CommonHeader = props => (
               ]}
             />
           </Button>
-        ) : (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              props.navigation.goBack();
-            }}
-          >
-            <Antd
-              size={20}
-              name="left"
-              style={[
-                CommonStyles.common_icon_back,
-                { color: props.textColor }
-              ]}
-            />
-          </TouchableWithoutFeedback>
         )
       ) : props.hasMenu ? (
         <TouchableOpacity

@@ -424,7 +424,8 @@ export default class ConfirmOrderView extends PureComponent {
     let { couponDetail } = this.state;
     return (
       <CommonItem
-        style={{ padding: 0, width: "100%", borderBottomWidth: 0 }}
+        style={{ padding: 0, width: "100%", borderBottomWidth: 0 , paddingTop: 10,
+        paddingBottom: 10}}
         content={
           couponDetail != null
             ? couponDetail.condition > 0
@@ -472,6 +473,9 @@ export default class ConfirmOrderView extends PureComponent {
             <ShimmerPlaceHolder autoRun={true} style={{width: "100%",height: 25}}/>
           </View>
           <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop]}>
+            <ShimmerPlaceHolder autoRun={true} style={{width: "100%",height: 25}}/>
+          </View>
+          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop, styles.commonMarginBottom]}>
             <ShimmerPlaceHolder autoRun={true} style={{width: "100%",height: 25}}/>
           </View>
           <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop, styles.commonMarginBottom]}>
