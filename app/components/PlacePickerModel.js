@@ -28,6 +28,10 @@ class PlacePickerModel extends Component {
     closeFunc: PropTypes.func,
     title: PropTypes.string
   };
+
+  static defaultProps = {
+    modalVisible: false
+  }
   
   _currentPosition = null;
 
@@ -45,7 +49,27 @@ class PlacePickerModel extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.modalVisible != this.props.modalVisible || JSON.stringify(this.state.placeList) != JSON.stringify(nextState.placeList);
+  }
+
   componentWillReceiveProps(nextProps) {
+    if(nextProps.modalVisible && nextProps.modalVisible != this.props.modalVisible) {
+      navigator.geolocation.getCurrentPosition(position => {
+        placeStorage.getData((error, place) => {
+          if (error === null) {
+            if (place !== null) {
+              this.getPlace(position, place);
+            } else {
+              this.getPlace();
+            }
+          }
+        });
+        
+      }, err => {
+        this.getPlace();
+      })
+    }
     this.setState({
       i18n: I18n[nextProps.screenProps.language]
     });
@@ -67,12 +91,11 @@ class PlacePickerModel extends Component {
   }
 
   _getLocationByApi() {
-    console.log(11111111);
     navigator.geolocation.getCurrentPosition(position => {
       placeListStorage.getData((error, placeList) => {
         if (error === null) {
-          let currentDate = +new Date; 
-          if (placeList !== null && placeList.cacheTime && (currentDate - placeList.cacheTime < 600000 )) { // 缓存超过10分钟则更新
+          let currentDate = + new Date; 
+          if (placeList !== null) { // 缓存超过3个小时则更新
             this.setState({
               placeList: placeList.data
             },() => {
@@ -136,7 +159,7 @@ class PlacePickerModel extends Component {
   }
 
   //api
-  getPlace(position, storage_data) {
+  async getPlace(position, storage_data) {
     const {latitude, longitude} =!!position && position.coords || {latitude: "",longitude: ""};
     foodPlaces(latitude, longitude).then(
       data => {
