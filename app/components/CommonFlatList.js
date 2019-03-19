@@ -198,6 +198,8 @@ export default class CommonFlatList extends PureComponent {
   }
 
   _onScroll(sview) {
+    const { getScrollTop } = this.props;
+    !!getScrollTop && getScrollTop(sview.nativeEvent.contentOffset.y);
     this.setState({
       showToTop: sview.nativeEvent.contentOffset.y > 100
     });
@@ -324,7 +326,8 @@ CommonFlatList.propsType = {
   offset: PropTypes.number,
   extraParams: PropTypes.object,
   getCount: PropTypes.func,
-  getRawData: PropTypes.func,
+  getRawData: PropTypes.func, // 获取最原始的列表数据
+  getScrollTop: PropTypes.func, //获取滚动高度
   style: PropTypes.object
 };
 
