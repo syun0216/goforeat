@@ -84,7 +84,7 @@ class PlacePickerModel extends Component {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       )
-      if(granted) {
+      if(granted == PermissionsAndroid.RESULTS.GRANTED) { // 用户允许授权访问gps
         this._getLocationByApi();
       } else {
         this.getPlace();
@@ -99,7 +99,7 @@ class PlacePickerModel extends Component {
       placeListStorage.getData((error, placeList) => {
         if (error === null) {
           let currentDate = + new Date; 
-          if (placeList !== null) { // 缓存超过3个小时则更新
+          if (placeList !== null) { // 有缓存则读缓存
             this.setState({
               placeList: placeList.data
             },() => {
