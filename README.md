@@ -100,22 +100,21 @@ app
 ### v 1.2.4 概覽
  <p align="left">
   <img src="./display/launch_screen.png" width="200">
-  <img src="./display/v1200.png" width="200">
-  <img src="./display/v1241.png" width="200">
-  <img src="./display/v1242.png" width="200">
+  <img src="./display/v1.3.0-1.png" width="200">
+  <img src="./display/v1.3.0-2.png" width="200">
+  <img src="./display/v1.3.0-3.png" width="200">
 </p>
 <p align="left">
-  <img src="./display/v1248.png" width="200">
-  <img src="./display/v1246.png" width="200">
-  <img src="./display/v1243.png" width="200">
+  <img src="./display/v1.3.0-4.png" width="200">
+  <img src="./display/v1.3.0-5.png" width="200">
+  <img src="./display/v1.3.0-6.png" width="200">
   <!-- <img src="./display/v1244.png" width="200"> -->
-  <img src="./display/v1245.png" width="200">
+  <img src="./display/v1.3.0-7.png" width="200">
 </p>
 <p align="left">
-  <img src="./display/v1225.png" width="200">
-  <img src="./display/v1206.png" width="200">
-  <img src="./display/v12210.png" width="200">
-  <img src="./display/v1247.png" width="200">
+  <img src="./display/v1.3.0-8.png" width="200">
+  <img src="./display/v1.3.0-9.png" width="200">
+  <img src="./display/v1.3.0-10.png" width="200">
 </p>
 
 ### 附錄
