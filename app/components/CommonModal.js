@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import {Modal,TouchableOpacity,StyleSheet} from 'react-native';
-import {Content,Icon, Header, Item, Input,Button} from 'native-base';
+import {Content,Icon, Header, Item, Input,Button, Container} from 'native-base';
 import Text from './UnScalingText';
 import CustomizeContainer from './CustomizeContainer';
 //components
@@ -39,10 +39,10 @@ class CommonModal extends Component {
       onRequestClose={() => {
         closeFunc && closeFunc();
       }}>
-        <CustomizeContainer.SafeView mode={isSearchHeader?'default':'linear'}>
+        <Container>
           {isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
           {isSearchHeader && (
-            <Header searchBar rounded>
+            <Header searchBar rounded style={{backgroundColor: '#fff'}} androidStatusBarColor="#666">
               <Item>
                 <Icon name="ios-search" />
                 <Input placeholder="輸入要搜索的地點" allowFontScaling={false}
@@ -60,7 +60,7 @@ class CommonModal extends Component {
           <Content bounces={false}>
             {children}
           </Content>
-        </CustomizeContainer.SafeView>
+        </Container>
       </Modal>
     )
   }

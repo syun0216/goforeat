@@ -21,14 +21,14 @@ export default StyleSheet.create({
   },
   TopImage: {
     width: GLOBAL_PARAMS._winWidth,
-    height: GLOBAL_PARAMS._winHeight * 0.25
+    height: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS._winHeight * 0.25 + GLOBAL_PARAMS.iPhoneXTop : GLOBAL_PARAMS._winHeight * 0.25
   },
   TopImageViewInner: {
     width: GLOBAL_PARAMS._winWidth,
     position: "absolute",
     top: 0,
     left: 0,
-    height: GLOBAL_PARAMS._winHeight * 0.25,
+    height: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS._winHeight * 0.27 + GLOBAL_PARAMS.iPhoneXTop : GLOBAL_PARAMS._winHeight * 0.27,
     justifyContent: "center",
     alignItems: "center"
   },
@@ -43,7 +43,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    top: GLOBAL_PARAMS._winHeight * 0.09,
+    top: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS._winHeight * 0.09 + GLOBAL_PARAMS.iPhoneXTop : GLOBAL_PARAMS._winHeight * 0.09,
     left: 20
     // zIndex: 100
   },
