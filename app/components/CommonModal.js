@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import {Modal,TouchableOpacity,StyleSheet} from 'react-native';
-import {Container,Content,Icon} from 'native-base';
+import {Content,Icon, Header, Item, Input,Button} from 'native-base';
+import Text from './UnScalingText';
 import CustomizeContainer from './CustomizeContainer';
 //components
 import CommonHeader from './CommonHeader';
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
 class CommonModal extends Component {
 
   render() {
-    const { modalVisible, closeFunc, title, children, isHeaderShow } = this.props;
+    const { modalVisible, closeFunc, getSearchContent, title, children, isHeaderShow, isSearchHeader } = this.props;
     const CloseIcon = () => (
       <TouchableOpacity style={styles.closeIcon} onPress={closeFunc}>
         <Icon name="md-close" style={[{ fontSize: GLOBAL_PARAMS.em(22), color: '#fff' }]}/>
@@ -38,8 +39,24 @@ class CommonModal extends Component {
       onRequestClose={() => {
         closeFunc && closeFunc();
       }}>
-        <CustomizeContainer.SafeView mode="linear">
+        <CustomizeContainer.SafeView mode={isSearchHeader?'default':'linear'}>
           {isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
+          {isSearchHeader && (
+            <Header searchBar rounded>
+              <Item>
+                <Icon name="ios-search" />
+                <Input placeholder="輸入要搜索的地點" allowFontScaling={false}
+                clearButtonMode="while-editing"
+                onChangeText={place => getSearchContent && getSearchContent(place)}
+                />
+              </Item>
+              <Button transparent onPress={() => {
+                closeFunc && closeFunc();
+              }}>
+                <Text>關閉</Text>
+              </Button>
+            </Header>
+          )}
           <Content bounces={false}>
             {children}
           </Content>
@@ -53,12 +70,15 @@ CommonModal.propsType = {
   title: PropTypes.string,
   modalVisible: PropTypes.bool,
   closeFunc: PropTypes.func,
-  isHeaderShow: PropTypes.bool
+  getSearchContent: PropTypes.func,
+  isHeaderShow: PropTypes.bool,
+  isSearchHeader: PropTypes.bool,
 }
 
 CommonModal.defaultProps = {
   modalVisible: false,
-  isHeaderShow: true
+  isHeaderShow: true,
+  isSearchHeader: false
 }
 
 export default CommonModal;

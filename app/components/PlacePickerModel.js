@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Image, View, Text, PermissionsAndroid, Platform, AppState } from "react-native";
+import { Image, View, Text, PermissionsAndroid, Platform, TouchableOpacity, Header } from "react-native";
+import { Input, Item, Icon, Button } from 'native-base';
 import {connect} from 'react-redux';
 //actions
 import { STORE_PLACE_LIST, STOCK_PLACE } from '../actions';
@@ -14,6 +15,8 @@ import { placeStorage, placeListStorage } from "../cache/appStorage";
 //components
 import CommonItem from "./CommonItem";
 import CommonModal from "./CommonModal";
+import BlankPage from "./BlankPage";
+import LoadingModal from "./LoadingModal";
 //language
 import I18n from "../language/i18n";
 //styles
@@ -33,11 +36,12 @@ class PlacePickerModel extends Component {
     modalVisible: false
   }
   
-  _currentPosition = null;
+  _rawPlaceList = null;
 
   state = {
     placeList: null,
     selected: null,
+    loading: false,
     i18n: I18n[this.props.screenProps.language]
   };
 
@@ -158,17 +162,34 @@ class PlacePickerModel extends Component {
     });
   }
 
+  _sortCheckedToFirstPlace(list, checkedEl) { // 将选择项排列在数组的首位
+    let checked = checkedEl;
+    let newList = list.slice(0);
+    for(let idx in newList) {
+      if(newList[idx].id == checkedEl.id) {
+        checked = newList.splice(idx, 1);
+        break;
+      }
+    }
+    newList.unshift(checked[0]);
+    return newList;
+  }
+
   //api
   async getPlace(position, storage_data) {
     const {latitude, longitude} =!!position && position.coords || {latitude: "",longitude: ""};
+    this.setState({loading: true})
     foodPlaces(latitude, longitude).then(
       data => {
         if (data.ro.respCode === "0000") {
           let _data =
             typeof storage_data != "undefined" ? storage_data : data.data[0];
+          let _sortList = this._sortCheckedToFirstPlace(data.data, _data);
+          this._rawPlaceList = _sortList; // 保存一份原始數據
           this.setStateAsync({ selected: _data.name }).then(() => {
             this.setState({
-              placeList: data.data
+              placeList: _sortList,
+              loading: false
             });
           });
           let cacheTime = +new Date();
@@ -178,11 +199,17 @@ class PlacePickerModel extends Component {
           this.props.stockPlace(_data);
           placeStorage.setData(_data);
         } else {
+          this.setState({
+            loading:false
+          });
           ToastUtils.showWithMessage(data.ro.repMsg);
           this.props.getSeletedValue(null);
         }
       },
       () => {
+        this.setState({
+          loading:false
+        });
         ToastUtils.showWithMessage(this.state.i18n.common_tips.network_err);
         this.props.getSeletedValue(null);
       }
@@ -207,13 +234,25 @@ class PlacePickerModel extends Component {
     );
   }
 
+  _filterPickPlace(place){
+    if(/^[A-Za-z]+$/.test(place)) {
+      place = place.toLowerCase();
+    }
+    this.setState({
+      placeList: this._rawPlaceList.filter(v => v.name.toLowerCase().indexOf(place) > -1)
+    })
+  }
+
   render() {
     const { modalVisible, closeFunc } = this.props;
     return (
       <CommonModal
         modalVisible={modalVisible}
         closeFunc={closeFunc}
+        getSearchContent={content => this._filterPickPlace(content)}
         title={this.state.i18n.address}
+        isHeaderShow={false}
+        isSearchHeader
       >
         {this.state.placeList != null
           ? this.state.placeList.map((item, idx) => (
@@ -230,7 +269,13 @@ class PlacePickerModel extends Component {
                 }
               />
             ))
-          : null}
+          : null }
+          {
+            this.state.placeList &&  this.state.placeList.length == 0 && <BlankPage message="沒有搜索數據"/>
+          }
+          {
+            this.state.loading && <LoadingModal message="loading..."/>
+          }
       </CommonModal>
     );
   }
