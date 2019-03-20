@@ -49,7 +49,9 @@ class PlacePickerModel extends Component {
     if(Platform.OS == "ios") {
       this._getLocationByApi()
     } else if(Platform.OS == "android"){
-      this._locationCanUseInAndroid()
+      this._locationCanUseInAndroid(
+        () => this._getLocationByApi()
+      )
     }
   }
 
@@ -59,33 +61,50 @@ class PlacePickerModel extends Component {
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.modalVisible && nextProps.modalVisible != this.props.modalVisible) {
-      navigator.geolocation.getCurrentPosition(position => {
-        placeStorage.getData((error, place) => {
-          if (error === null) {
-            if (place !== null) {
-              this.getPlace(position, place);
-            } else {
-              this.getPlace();
-            }
-          }
-        });
-        
-      }, err => {
-        this.getPlace();
-      })
+     if(Platform.OS == 'ios') {
+       this._getCurrentPosition(
+         position => this._getSelectPlace(
+            place => this.getPlace(position, place)
+         ) 
+       )
+     } else if(Platform.OS == 'android'){
+       this._locationCanUseInAndroid(
+         () => this._getCurrentPosition(
+           position => this._getSelectPlace(
+             place => this.getPlace(position, place)
+           )
+         )
+       )
+     }
     }
     this.setState({
       i18n: I18n[nextProps.screenProps.language]
     });
   }
 
-  async _locationCanUseInAndroid() {
+  _getCurrentPosition(callbackWithPosition) {
+    navigator.geolocation.getCurrentPosition(position => {
+      !!callbackWithPosition && callbackWithPosition(position)
+    }).catch(err => {
+      callbackWithPosition && callbackWithPosition(null);
+    })
+  }
+
+  _getSelectPlace(callbackWithSelectedPlace) {
+    placeStorage.getData((error, place) => {
+      if (error === null) {
+        callbackWithSelectedPlace && callbackWithSelectedPlace(place);
+      }
+    });
+  }
+
+  async _locationCanUseInAndroid(callbackWhenGranted) {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       )
       if(granted == PermissionsAndroid.RESULTS.GRANTED) { // 用户允许授权访问gps
-        this._getLocationByApi();
+        callbackWhenGranted && callbackWhenGranted();
       } else {
         this.getPlace();
       }
@@ -94,7 +113,7 @@ class PlacePickerModel extends Component {
     }
   }
 
-  _getLocationByApi() {
+  _getLocationByApi() { // 不打开model情况下执行
     navigator.geolocation.getCurrentPosition(position => {
       placeListStorage.getData((error, placeList) => {
         if (error === null) {
