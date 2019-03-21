@@ -290,7 +290,7 @@ class PlacePickerModel extends Component {
             ))
           : null }
           {
-            this.state.placeList &&  this.state.placeList.length == 0 && <BlankPage message="沒有搜索數據"/>
+            this.state.placeList &&  this.state.placeList.length == 0 && <BlankPage message="沒有搜索數據" style={{backgroundColor: 'transparent'}}/>
           }
           {
             this.state.loading && <LoadingModal message="loading..."/>

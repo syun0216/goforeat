@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {Modal,TouchableOpacity,StyleSheet} from 'react-native';
 import {Content,Icon, Header, Item, Input,Button, Container} from 'native-base';
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 
-class CommonModal extends Component {
+class CommonModal extends PureComponent {
 
   render() {
     const { modalVisible, closeFunc, getSearchContent, title, children, isHeaderShow, isSearchHeader } = this.props;

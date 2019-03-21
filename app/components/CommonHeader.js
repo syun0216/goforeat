@@ -56,8 +56,7 @@ const CommonHeader = props => (
         props.leftElement !== null ? (
           props.leftElement
         ) :  (
-          <Button
-            transparent
+          <TouchableWithoutFeedback
             onPress={() => {
               props.navigation.goBack();
             }}
@@ -70,7 +69,7 @@ const CommonHeader = props => (
                 { color: props.textColor }
               ]}
             />
-          </Button>
+          </TouchableWithoutFeedback>
         )
       ) : props.hasMenu ? (
         <TouchableOpacity
