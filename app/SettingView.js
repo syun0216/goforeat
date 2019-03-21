@@ -109,8 +109,8 @@ export default class SettingView extends PureComponent {
         isEnd: false,
         clickFunc: () => {
           let _url = Platform.select({
-            ios: "https://www.youtube.com/watch?v=Ggs2uUg8LuQ",
-            android: "https://www.youtube.com/watch?v=gD5g_dII418"
+            ios: "https://www.youtube.com/watch?v=o7NtHPgx9JY",
+            android: "https://www.youtube.com/watch?v=DsQJSMO5U_I"
           });
           Linking.openURL(_url).catch(err => alert(err));
         }
