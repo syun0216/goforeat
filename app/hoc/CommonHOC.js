@@ -238,6 +238,7 @@ const CommonHOC = WarppedComponent => {
       return (
         <CommonModal
           isHeaderShow={false}
+          type="login"
           modalVisible={this.props.screenProps.showLogin}
           closeFunc={() => this.props.toggleLogin(false)}
         >
