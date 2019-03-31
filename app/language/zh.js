@@ -17,6 +17,7 @@ export default {
   cancelOrder: "已取消",
   cash: "現金支付",
   credit: "信用卡支付",
+  otherPayment: "其他支付方式",
   manageCard: "管理您的信用卡",
   setCard: "設定您的信用卡",
   manageCardTitle: "管理我的銀行卡",

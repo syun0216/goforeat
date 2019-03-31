@@ -17,6 +17,7 @@ export default {
   cancelOrder: "Cancelled",
   cash: "Cash Pay",
   credit: "Pay with Credit Card",
+  otherPayment: "Other paytype",
   manageCard: "More Credit Cards Payment Options",
   setCard: "Set your credit card",
   manageCardTitle: "Credit Cards Payment Options",
