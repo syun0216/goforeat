@@ -22,25 +22,10 @@ const styles = StyleSheet.create({
 
 class CommonModal extends PureComponent {
 
-  render() {
-    const { modalVisible, closeFunc, getSearchContent, title, children, isHeaderShow, isSearchHeader } = this.props;
-    const CloseIcon = () => (
-      <TouchableOpacity style={styles.closeIcon} onPress={closeFunc}>
-        <Icon name="md-close" style={[{ fontSize: GLOBAL_PARAMS.em(22), color: '#fff' }]}/>
-      </TouchableOpacity>
-    )
+  _renderSearchMode() {
+    const {getSearchContent, children,isSearchHeader,closeFunc} = this.props;
     return (
-      <Modal 
-      transparent
-      style={{ zIndex: 1 }}
-      animationType={"slide"}
-      transparent={false}
-      visible={modalVisible}
-      onRequestClose={() => {
-        closeFunc && closeFunc();
-      }}>
-        <Container>
-          {isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
+      <Container>
           {isSearchHeader && (
             <Header searchBar rounded style={{backgroundColor: '#fff'}} androidStatusBarColor="#666">
               <Item>
@@ -61,6 +46,41 @@ class CommonModal extends PureComponent {
             {children}
           </Content>
         </Container>
+    )
+  }
+
+  _renderDefaultMode() {
+    const { title, children, isHeaderShow,closeFunc} = this.props;
+    const CloseIcon = () => (
+      <TouchableOpacity style={styles.closeIcon} onPress={closeFunc}>
+        <Icon name="md-close" style={[{ fontSize: GLOBAL_PARAMS.em(22), color: '#fff' }]}/>
+      </TouchableOpacity>
+    )
+    return (
+      <CustomizeContainer.SafeView mode="linear" >
+        {isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
+        <Content bounces={false}>
+            {children}
+          </Content>
+      </CustomizeContainer.SafeView>  
+    )
+  }
+
+  render() {
+    const { modalVisible, closeFunc, type } = this.props;
+    return (
+      <Modal 
+      transparent
+      style={{ zIndex: 1 }}
+      animationType={"slide"}
+      transparent={false}
+      visible={modalVisible}
+      onRequestClose={() => {
+        closeFunc && closeFunc();
+      }}>
+        {
+          type == 'default' ? this._renderDefaultMode() : this._renderSearchMode()
+        }
       </Modal>
     )
   }
@@ -73,12 +93,14 @@ CommonModal.propsType = {
   getSearchContent: PropTypes.func,
   isHeaderShow: PropTypes.bool,
   isSearchHeader: PropTypes.bool,
+  type: PropTypes.string
 }
 
 CommonModal.defaultProps = {
   modalVisible: false,
   isHeaderShow: true,
-  isSearchHeader: false
+  isSearchHeader: false,
+  type: 'default'
 }
 
 export default CommonModal;

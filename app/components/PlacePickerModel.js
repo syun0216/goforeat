@@ -272,6 +272,7 @@ class PlacePickerModel extends Component {
         title={this.state.i18n.address}
         isHeaderShow={false}
         isSearchHeader
+        type="search"
       >
         {this.state.placeList != null
           ? this.state.placeList.map((item, idx) => (

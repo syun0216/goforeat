@@ -205,6 +205,10 @@ export default class CommonFlatList extends PureComponent {
     });
   }
 
+  _scrollToTop() {
+    this._flatlist && this._flatlist.scrollToIndex({animated: true, index: 0});
+  }
+
   _renderToTop() {
     return (
       <TouchableOpacity
@@ -212,7 +216,7 @@ export default class CommonFlatList extends PureComponent {
         style={{ position: "absolute", right: 10, bottom: 50,zIndex: 10 }}
         onPress={() => {
           // console.log('this._flatlist :', this._flatlist);
-          this._flatlist && this._flatlist.scrollToIndex({animated: true, index: 0});
+          this._scrollToTop();
         }}
       >
         <Image style={{ width: em(60), height: em(60) }} resizeMode="cover" source={require("../asset/toTop.png")}/>
