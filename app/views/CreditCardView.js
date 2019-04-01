@@ -186,13 +186,15 @@ export default class CreditCardView extends Component {
       .then(data => {
         hideLoadingModal();
         if (data && data.ro.ok) {
-          callback && callback();
+          if(typeof callback != "undefined") {
+            callback();
+          }
           ToastUtils.showWithMessage(this.i18n.credit_card_tips.bind_success);
           this.props.navigation.goBack();
         } else {
           ToastUtils.showWithMessage(data.ro.respMsg || this.i18n.credit_card_tips.bind_fail);
         }
-        console.log({ data });
+        console.log("bindCardInfo", data);
       })
       .catch(err => {
         console.log({ err });
