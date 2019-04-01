@@ -185,7 +185,7 @@ export default class SettingView extends PureComponent {
     return (
       <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef" }}>
         <CommonHeader title={i18n.setting} hasMenu />
-        <ScrollView>
+        <ScrollView bounces={false}>
           <TouchableWithoutFeedback
             delayLongPress={4000}
             onLongPress={() => {
