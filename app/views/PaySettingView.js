@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { View, Image } from "react-native";
+import { View, Image, Alert } from "react-native";
 import { Container, Content } from "native-base";
 //components
 import CommonItem from "../components/CommonItem";
@@ -9,6 +9,7 @@ import CommonBottomBtn from "../components/CommonBottomBtn";
 import Loading from "../components/Loading";
 import ErrorPage from "../components/ErrorPage";
 import CustomizeContainer from "../components/CustomizeContainer";
+import Divider from "../components/Divider";
 //utils
 import {
   SET_PAY_TYPE,
@@ -79,7 +80,7 @@ export default class PaySettingView extends PureComponent {
                 leftIcon: this._leftImage(LIST_IMAGE[v.code]),
                 code: v.code
               });
-              if (v.code == SET_PAY_TYPE.month_ticket) {
+              if (v.code == SET_PAY_TYPE.month_ticket && this.state.monthTicketQuantity > 0) {
                 _arr.push({
                   content: this.state.monthTicketQuantity,
                   hasLeftIcon: true,
@@ -218,7 +219,7 @@ export default class PaySettingView extends PureComponent {
       _creditCardNumber = "**** **** **** " + creditCardInfo.tailNum;
     }
     return (
-      <View style={{ marginTop: em(10) }}>
+      <View>
         <View style={PaySettingStyles.creditcardView}>
           <Text style={PaySettingStyles.creditcardText}>
             {this.i18n.credit}
@@ -257,8 +258,11 @@ export default class PaySettingView extends PureComponent {
               this.props.navigation.navigate("Credit", {
                 callback: () => {
                   this._getPaySetting();
-                  const { callback } = this.props.navigation.state.params;
-                  callback && callback();
+                  // const { callback } = this.props.navigation.state.params;
+                  // !!callback && callback();
+                  // if(typeof callback != "undefined") {
+                  //   callback();
+                  // }
                 }
               });
             }
@@ -287,9 +291,16 @@ export default class PaySettingView extends PureComponent {
           hasMenu={!_from_confirm_order}
           canBack={_from_confirm_order}
         />
-        <Content>
+        <Content bounces={false}>
           {!this.state.loading && !this.state.isError && (
             <View>
+              {this._renderManageCreditCard()}
+              <Divider bgColor='#efefef' height={em(10)}/>
+              <View style={PaySettingStyles.creditcardView}>
+                <Text style={PaySettingStyles.creditcardText}>
+                  {this.i18n.otherPayment}
+                </Text>
+              </View>
               {payTypeList.map((item, key) => (
                 <CommonItem
                   key={key}
@@ -298,7 +309,7 @@ export default class PaySettingView extends PureComponent {
                       ? monthTicketQuantity
                       : item.content
                   }
-                  isEnd={item.isEnd}
+                  // isEnd={item.isEnd}
                   clickFunc={() => {
                     item.code != null && this._checked(item.code);
                   }}
@@ -315,17 +326,35 @@ export default class PaySettingView extends PureComponent {
                     item.code != null
                       ? item.code != SET_PAY_TYPE.month_ticket
                         ? {}
-                        : { borderBottomWidth: 0 }
+                        : this.state.monthTicketQuantity > 0 && { borderBottomWidth: 0 }
                       : { height: em(44) }
                   }
                   disabled={item.code == null}
                 />
               ))}
+              
               <CommonItem hasLeftIcon
               leftIcon={this._leftImage(require('../asset/ticket.png'))} content="購買月票" clickFunc={() => this.props.navigation.navigate('MonthTicket',{
                 callback: () => this._getMonthTicket()
               })}/>
-              {this._renderManageCreditCard()}
+              <Divider bgColor='#efefef' height={em(10)}/>
+              <CommonItem hasLeftIcon leftIcon={this._leftImage(require('../asset/tuangou.png'))} content="團購優惠券" clickFunc={() => {
+                Alert.alert(
+                  this.props.i18n.tips,
+                  "是否使用HKD420購買10張優惠券?",
+                  [
+                    {
+                      text: this.props.i18n.cancel,
+                      onPress: () => {
+                        return null;
+                      },
+                      style: "cancel"
+                    },
+                    { text: this.props.i18n.confirm, onPress: () => {} }
+                  ],
+                  { cancelable: false }
+                );
+              }}/>
             </View>
           )}
           {this.state.isError ? (
