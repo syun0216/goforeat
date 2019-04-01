@@ -15,6 +15,8 @@ import GLOBAL_PAMRAS, { em } from "../utils/global_params";
 import Text from "./UnScalingText";
 //api
 import { queryList } from "../api/request";
+//cache
+import {warningTipsStorage} from "../cache/appStorage";
 
 const ITEM_HEIGHT = Platform.select({
   ios: { height: em(36) },
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingTop: 9,
     paddingBottom: 9,
-    paddingLeft: 15,
+    paddingLeft: em(5),
     paddingRight: em(5),
     alignItems: "center",
     overflow: "hidden"
@@ -45,7 +47,7 @@ const styles = StyleSheet.create({
     position: "relative",
     width: GLOBAL_PAMRAS._winWidth * 0.8,
     maxWidth: GLOBAL_PAMRAS._winWidth * 0.8,
-    height: em(36)
+    height: em(36), 
   },
   warningt_text_inner_container: {
     // flexDirection: 'column',
@@ -97,8 +99,27 @@ export default class WarningTips extends PureComponent {
     isWarningTipShow: false
   };
 
-  componentWillMount() {
-    this._getWarningTips();
+  componentDidMount() {
+    warningTipsStorage.getData((error, data) => {
+      if(!error) {
+        let currentTime = + new Date();
+        if(data) {
+          if(currentTime - data.cacheTime > 10800000) {
+            this._getWarningTips();
+          }else {
+            this.setState({
+              warningTipsData: data.data,
+              isWarningTipShow: true
+            },() => {
+              if (data.data.length == 1) return;
+              this._loopDisplay(0, data.data.length);
+            })
+          }
+        } else {
+          this._getWarningTips();
+        }
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -114,6 +135,8 @@ export default class WarningTips extends PureComponent {
         // data.data = data.data.concat(data.data);
         // data.data = data.data.concat(data.data);
         // console.log(data);
+        let cacheTime = + new Date();
+        warningTipsStorage.setData({data: data.data, cacheTime})
         this.setState(
           {
             warningTipsData: data.data,
@@ -166,7 +189,7 @@ export default class WarningTips extends PureComponent {
           style={styles.warning_img}
           resizeMode="contain"
         /> */}
-        <Antd name="pushpino" style={{fontSize: em(20), color: "#fff"}}/>
+        <Antd name="notification" style={{fontSize: em(20), color: "#fff",transform: [{rotateY: "-180deg"}]}}/>
         <View style={styles.warning_text_container}>
           <Animated.View
             onLayout={({ nativeEvent: e }) => this._layout(e)}
@@ -184,17 +207,12 @@ export default class WarningTips extends PureComponent {
             {warningTipsData.map((v, i) => WARNING_CONTENT(v, i, navigation))}
           </Animated.View>
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.close_btn}
           onPress={() => this.setState({ isWarningTipShow: false })}
         >
-          {/* <Image
-            source={require("../asset/close_red.png")}
-            style={styles.warning_close}
-            resizeMode="cover"
-          /> */}
           <Antd name="close" style={{fontSize: em(20), color: "#fff"}}/>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     ) : null;
   }
