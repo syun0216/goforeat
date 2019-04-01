@@ -248,7 +248,7 @@ export default StyleSheet.create({
           height: em(13)
         }
       : {
-          width: em(45),
-          height: em(40)
+          width: 45,
+          height: 40
         }
 });

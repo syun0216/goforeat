@@ -60,10 +60,10 @@ export default StyleSheet.create({
   },
   Title: {
     color: "#111111",
-    fontSize: em(26),
+    fontSize: em(23),
     fontWeight: "600",
-    height: GLOBAL_PARAMS._winHeight * 0.15,
-    lineHeight: GLOBAL_PARAMS._winHeight * 0.15,
+    height: GLOBAL_PARAMS._winHeight * 0.1,
+    lineHeight: GLOBAL_PARAMS._winHeight * 0.1,
     marginLeft: 5
   },
   LoginBtn: {
