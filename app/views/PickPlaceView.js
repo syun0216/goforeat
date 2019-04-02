@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import FastImage from "react-native-fast-image";
 //utils
 import GLOBAL_PARMAS,{em} from '../utils/global_params';
+import Colors from '../utils/Colors';
 //component 
 import Text from '../components/UnScalingText';
 import CommonHeader from '../components/CommonHeader';
@@ -20,13 +21,22 @@ const styles = StyleSheet.create({
 
 class PickPlaceView extends React.Component {
   render() {
-    const {placeList, screenProps:{language},navigation: {state: {params}}} = this.props;
-    console.log(params);
+    const {placeList, place, screenProps:{language},navigation: {state: {params}}} = this.props;
+    console.log(place);
+    let _formatData = placeList.slice(0);
+    let _selectPlace = null;
+    for(let idx in _formatData) {
+      if(_formatData[idx].id == place.id) {
+        _selectPlace = _formatData.splice(idx, 1);
+        // _selectPlace = _selectPlace[0].name + '  (當前選擇點)';
+      }
+    }
+    _formatData.unshift(_selectPlace[0]);
     return (
       <CustomizeContainer.SafeView mode="linear">
         <CommonHeader hasMenu={!params} canBack={params && params.navigate} title={i18n[language].pickPlace} {...this.props} />
         <Content style={{backgroundColor: '#efefef'}}>
-          {placeList.map((item, key) => (
+          {_formatData.map((item, key) => (
             <View key={key} style={[{width: GLOBAL_PARMAS._winWidth* 0.9,marginLeft: GLOBAL_PARMAS._winWidth*0.05,marginBottom: GLOBAL_PARMAS._winWidth*0.05,borderRadius: 8,backgroundColor: '#fff'},key==0&&{marginTop:GLOBAL_PARMAS._winWidth*.05}]}>
               <FastImage style={styles.img} source={item.picture ? {
                 uri: item.picture || '',
@@ -34,6 +44,7 @@ class PickPlaceView extends React.Component {
               } : require('../asset/gardenListDefault.png')} resizeMode={FastImage.resizeMode.contain}/>
               <View style={{padding: GLOBAL_PARMAS._winWidth*.05,alignItems: 'flex-start',}}>
                 <Text>{item.name || '暫無名稱'}</Text>
+                {key == 0 && <Text style={{color: Colors.main_orange,fontSize: 15,marginTop: 8}}>(當前選擇點)</Text>}
               </View>
             </View>
           ))}
@@ -46,7 +57,8 @@ class PickPlaceView extends React.Component {
 
 const placePickerModalStateToProps = state => {
   return ({
-    placeList: state.placeSetting.placeList
+    placeList: state.placeSetting.placeList,
+    place: state.placeSetting.place
   })
 }
 
