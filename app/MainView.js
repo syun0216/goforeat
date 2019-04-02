@@ -364,14 +364,14 @@ let MainView = StackNavigator(
     cardStyle: {
       backgroundColor: "#fff"
     },
-    transitionConfig: (): Object => ({
-      containerStyle: {
-        backgroundColor: "#fff"
-      },
-      screenInterpolator: sceneProps => {
-        return CardStackStyleInterpolator.forHorizontal(sceneProps);
-      }
-    })
+    // transitionConfig: (): Object => ({
+    //   containerStyle: {
+    //     backgroundColor: "#fff"
+    //   },
+    //   screenInterpolator: sceneProps => {
+    //     return CardStackStyleInterpolator.forHorizontal(sceneProps);
+    //   }
+    // })
   }
 );
 
