@@ -88,7 +88,7 @@ export const PAY_TYPE = {
 };
 
 export const EXPLAIN_PAY_TYPE = {
-  1: {zh:'現金支付',en: 'Cash Pay'},
+  1: {zh:'現金支付（請自備零錢）',en: 'Cash Pay'},
   2: {zh:'Apple Pay',en: 'Apple Pay'},
   3: {zh:'Google Pay', en: 'Google Pay'},
   4: {zh: '微信支付',en: 'WeChat Pay'},
