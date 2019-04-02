@@ -8,7 +8,7 @@ import {
   ToastAndroid,
   ActivityIndicator
 } from "react-native";
-import { Input, Icon, ActionSheet } from "native-base";
+import { Input, Icon, ActionSheet,Footer, Container, Content } from "native-base";
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
 import ToastUtil from "./utils/ToastUtil";
@@ -17,13 +17,12 @@ import { userStorage } from "./cache/appStorage";
 //api
 import { getCode, checkCode, saveDevices } from "./api/request";
 import source from "./api/CancelToken";
-//language
-import i18n from "./language/i18n";
 //jpush
 import JPushModule from "jpush-react-native";
 //styles
 import LoginStyle from "./styles/login.style";
 import CommonStyle from "./styles/common.style";
+import ManageCreditCardStyles from "./styles/managecreditcard.style";
 //components
 import CommonBottomBtn from "./components/CommonBottomBtn";
 import Text from "./components/UnScalingText";
@@ -213,12 +212,12 @@ export default class CustomLoginView extends PureComponent {
             style={LoginStyle.TopImageViewTitle}
           />
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={LoginStyle.CloseBtn}
           onPress={() => this.props.screenProps.toggleLogin(false)}
         >
           <Icon name="ios-arrow-back" style={LoginStyle.CloseImage} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   }
@@ -341,20 +340,34 @@ export default class CustomLoginView extends PureComponent {
 
   render() {
     return (
-      <KeyboardAvoidingView
-        style={[
-          LoginStyle.LoginContainer
-        ]}
-      >
-        {this._renderTopImage()}
-        {this._renderContentView()}
-        {/*this._renderBottomView()*/}
-        <ActionSheet
-          ref={a => {
-            this._actionSheet = a;
-          }}
-        />
-      </KeyboardAvoidingView>
+      <Container>
+        <Content bounces={false}>
+          <KeyboardAvoidingView
+            style={[
+              LoginStyle.LoginContainer
+            ]}
+          >
+            {this._renderTopImage()}
+            {this._renderContentView()}
+            {/*this._renderBottomView()*/}
+            <ActionSheet
+              ref={a => {
+                this._actionSheet = a;
+              }}
+            />
+          </KeyboardAvoidingView>
+        </Content>
+        <Footer style={ManageCreditCardStyles.Footer}>
+          <TouchableOpacity
+            style={ManageCreditCardStyles.FooterBtn}
+            onPress={() => this.props.screenProps.toggleLogin(false)}
+          >
+            <Text style={ManageCreditCardStyles.BottomInfo}>
+              暫不登錄
+            </Text>
+          </TouchableOpacity>
+        </Footer>
+      </Container>
     );
   }
 }
