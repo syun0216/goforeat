@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import {
   View,
   TouchableOpacity,
@@ -7,7 +7,9 @@ import {
   Platform,
   ActivityIndicator,
   BackHandler,
-  ToastAndroid
+  ToastAndroid,
+  Animated,
+  Easing
 } from "react-native";
 import { Container, Header } from "native-base";
 import { connect } from "react-redux";
@@ -52,7 +54,7 @@ const IS_INTERCEPT = 3;
 
 let lastBackPressed = Date.now();
 
-class FoodListView extends Component {
+class FoodListView extends PureComponent {
   _interval = null;
   _isFirstReload = null;
   constructor(props) {
@@ -70,8 +72,10 @@ class FoodListView extends Component {
       star: null,
       listDataLength: 0,
       isAdvertiseShow: false,
-      isWarningTipShow: false,
-      test: false
+      isWarningTipShow: true,
+      searchBarOpacity: new Animated.Value(1), 
+      warningTipsScale: new Animated.Value(1),
+      searchBtnShow: false,
     };
   }
 
@@ -80,20 +84,20 @@ class FoodListView extends Component {
     if (isAdShow) {
       hideAd();
     }
-    advertisementStorage.getData((error, data) => {
-      if (error == null) {
-        if (data != null) {
-          isAdShow &&
-            this.setState({
-              advertiseImg: data.image,
-              advertiseData: data,
-              isAdvertiseShow: true
-            });
-          this._advertiseInterval();
-        }
-        this._getAdvertise(data);
-      }
-    });
+    // advertisementStorage.getData((error, data) => {
+    //   if (error == null) {
+    //     if (data != null) {
+    //       isAdShow &&
+    //         this.setState({
+    //           advertiseImg: data.image,
+    //           advertiseData: data,
+    //           isAdvertiseShow: true
+    //         });
+    //       this._advertiseInterval();
+    //     }
+    //     this._getAdvertise(data);
+    //   }
+    // });
   }
 
   componentWillUnmount() {
@@ -166,19 +170,61 @@ class FoodListView extends Component {
       this.setState({ isError: true, loading: false });
       return;
     }
+    if(!!this.state.placeSelected && val.name == this.state.placeSelected.name) {
+      return;
+    }
     this.setState(
       {
         placeSelected: val
       },
       () => {
         if (!this._isFirstReload) {
-          if (!!this.flatlist) this.flatlist.outSideRefresh();
+          if (!!this.flatlist) {
+            this.flatlist.outSideRefresh();
+            this.setState({
+              searchBtnShow: false,
+              isWarningTipShow: true,
+            });
+            this.state.searchBarOpacity.setValue(1);
+            this.state.warningTipsScale.setValue(1);
+          };
           this._isFirstReload = false;
         } else {
           this._isFirstReload = false;
         }
       }
     );
+  }
+
+  _getScrollTop(scrollTop) {
+    if(scrollTop > em(50)) {
+      // Animated.spring(this.state.searchBarOpacity, {
+      //   toValue: 1 - scrollTop / 150 < 0 ? 0 : (1 - scrollTop / 150),
+      //   duration: 500,
+      //   easing: Easing.linear
+      // }).start();
+      this.setState({
+        searchBtnShow: scrollTop > em(100)
+      });
+      this.setState({
+        isWarningTipShow: scrollTop < em(100)
+      })
+      Animated.parallel(['searchBarOpacity', 'warningTipsScale'].map(property => {
+        return Animated.spring(this.state[property], {
+          toValue: 1 - scrollTop / em(100) < 0 ? 0 : (1 - scrollTop / em(100)),
+          duration: 300,
+          easing: Easing.linear
+        })
+      })).start();
+    } else {
+      Animated.parallel(['searchBarOpacity', 'warningTipsScale'].map(property => {
+        return Animated.spring(this.state[property], {
+          toValue: 1,
+          duration: 300,
+          easing: Easing.linear
+        })
+      })).start();
+    }
   }
 
   //render functions
@@ -245,7 +291,14 @@ class FoodListView extends Component {
   }
 
   _renderWarningView() {
-    return <WarningTips {...this.props} />;
+    return (
+      <Animated.View style={{height: this.state.warningTipsScale.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 40]
+      })}}>
+        <WarningTips {...this.props} />
+      </Animated.View>
+    )
   }
 
   _renderHeaderView() {
@@ -285,50 +338,54 @@ class FoodListView extends Component {
               resizeMode="contain"
             /> */}
           </TouchableOpacity>
-          <View style={FoodDetailsStyles.HeaderContent}>
-            {placeSelected != null ? (
-              this._renderPlacePickerBtn()
-            ) : (
+          {this.state.searchBtnShow ? <View style={[FoodDetailsStyles.HeaderContent, ]}><Text style={{color: '#fff', fontSize: em(18),fontWeight: 'bold',marginRight: em(-52)}}>精選菜品</Text></View> :
+          <Animated.View style={[FoodDetailsStyles.HeaderContent,{opacity: this.state.searchBarOpacity}]}>
+            {placeSelected != null ? this._renderPlacePickerBtn() : (
               <ActivityIndicator color="#fff" size="small" />
             )}
+          </Animated.View>}
+          <View style={{flexDirection: 'row', alignItems:'center'}}>
+            {this.state.searchBtnShow && <TouchableOpacity style={[FoodDetailsStyles.MenuBtn,{marginRight: -8}]} onPress={() => this.setState({ showPlacePicker: true })}>
+              <Antd name="enviromento" style={FoodDetailsStyles.moreIcon}/>
+            </TouchableOpacity>} 
+            <TouchableOpacity
+              onPress={() =>{
+                PopoverPicker.show(
+                  {x: _winWidth - 135, y: -50, width:100, height:100},
+                  [menuElement("查看配送點"),menuElement("兌換優惠碼"), menuElement('反饋')],
+                  this.state.modalSelectedIndex,
+                  (item, index) => {
+                    switch(index) {
+                      case 0: {
+                        this.props.navigation.navigate('PickPlace', {
+                          navigate: true
+                        });break;
+                      }
+                      case 1: {
+                        this.props.navigation.navigate('Coupon', {
+                          navigate: true
+                        });break;
+                      }
+                      case 2: {
+                        this.props.navigation.navigate('Feedback', {
+                          navigate: true
+                        });break;
+                      }
+                    }
+                  },
+                  {modal: false}
+                );
+              }}
+              style={FoodDetailsStyles.MenuBtn}
+            >
+              {/* <Image
+                source={require("../asset/location_white.png")}
+                style={FoodDetailsStyles.locationImage}
+                resizeMode="contain"
+              /> */}
+              <Antd name="appstore-o" style={FoodDetailsStyles.moreIcon}/>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={() =>{
-              PopoverPicker.show(
-                {x: _winWidth - 135, y: -50, width:100, height:100},
-                [menuElement("查看配送點"),menuElement("兌換優惠碼"), menuElement('反饋')],
-                this.state.modalSelectedIndex,
-                (item, index) => {
-                  switch(index) {
-                    case 0: {
-                      this.props.navigation.navigate('PickPlace', {
-                        navigate: true
-                      });break;
-                    }
-                    case 1: {
-                      this.props.navigation.navigate('Coupon', {
-                        navigate: true
-                      });break;
-                    }
-                    case 2: {
-                      this.props.navigation.navigate('Feedback', {
-                        navigate: true
-                      });break;
-                    }
-                  }
-                },
-                {modal: false}
-              );
-            }}
-            style={FoodDetailsStyles.MenuBtn}
-          >
-            {/* <Image
-              source={require("../asset/location_white.png")}
-              style={FoodDetailsStyles.locationImage}
-              resizeMode="contain"
-            /> */}
-            <Antd name="appstore-o" style={FoodDetailsStyles.moreIcon}/>
-          </TouchableOpacity>
         </LinearGradient>
       </Header>
     );
@@ -485,6 +542,9 @@ class FoodListView extends Component {
         getRawData={data => {
           this.setState({ star: data.star});
         }}
+        getScrollTop={
+          scrollTop => this._getScrollTop(scrollTop)
+        }
         {...this.props}
       />
     );
@@ -498,7 +558,7 @@ class FoodListView extends Component {
         {/* {this._renderIndicator()} */}
         {this._renderPlacePicker()}
         {this._renderHeaderView()}
-        {this._renderWarningView()}
+        {this.state.isWarningTipShow && this._renderWarningView()}
         {this._renderFlatListView()}
       </CustomizeContainer.SafeView>
     );
