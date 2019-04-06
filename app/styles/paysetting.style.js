@@ -5,7 +5,8 @@ export default StyleSheet.create({
   payLeftImage: {
     width: em(20),
     height: em(20),
-    marginRight: em(11.5)
+    marginRight: em(11.5),
+    marginLeft: em(5),
   },
   payRightImage: {
     width: em(20),

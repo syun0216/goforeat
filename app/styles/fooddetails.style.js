@@ -132,8 +132,6 @@ export default StyleSheet.create({
     flexDirection: "row",
     // marginLeft: Platform.OS == 'ios' ? em(-45) : em(-30),
     flex: 1,
-    marginTop:
-      Platform.OS == "ios" ? 0 : em(-8),
     position: "relative"
   },
   PlacePickerBtnBgAbsolute: {
@@ -165,11 +163,10 @@ export default StyleSheet.create({
     backgroundColor: "#fff"
   },
   Header: {
-    height: Platform.OS == 'android' ? 64 : 79,
+    height: Platform.OS == 'ios' ? 79 : 64,
     borderBottomWidth: 0,
     padding: 0,
-    marginTop:
-      Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? -44 : -20) : 0,
+    marginTop: Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? -44 : -20) : 0,
     marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0
   },
   linearGradient: {
@@ -183,7 +180,7 @@ export default StyleSheet.create({
     width: GLOBAL_PARAMS._winWidth * 0.15,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: Platform.OS == "ios" ? 0 : -8,
+    marginTop: 0,
     height: 50,
     position: "relative"
   },
@@ -191,9 +188,8 @@ export default StyleSheet.create({
     width: GLOBAL_PARAMS._winWidth * 0.15,
     justifyContent: "center",
     alignItems: "center",
-    height: 50,
+    height: 64,
     position: "relative",
-    marginRight: 10
   },
   MenuImage: {
     fontSize: em(25),
@@ -248,7 +244,7 @@ export default StyleSheet.create({
           height: em(13)
         }
       : {
-          width: 45,
-          height: 40
+          width: em(45),
+          height: em(40)
         }
 });

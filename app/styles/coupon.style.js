@@ -9,7 +9,7 @@ export default StyleSheet.create({
     paddingRight: 12
   },
   CouponItemView: {
-    height: 120,
+    height: Platform.OS == 'ios' ? 120 : 135,
     borderRadius: 8,
     backgroundColor: "#fff",
     margin: 10
