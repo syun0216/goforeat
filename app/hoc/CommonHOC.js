@@ -24,8 +24,8 @@ import { SAVE_CACHE, RESET_CACHE, SHOW_LOADING, SHOW_LOADING_MODAL, HIDE_LOADING
 const lastBackPressed = Date.now();
 
 const jpushCommonUrlDefined = {
-  url: 1, // web页面
-  schema: 2 //普通的app页面
+  url: "1", // web页面
+  schema: "2" //普通的app页面
 };
 
 // jpush 跳转页面example
@@ -122,6 +122,7 @@ const CommonHOC = WarppedComponent => {
         JPushModule.setBadge(0, success => {});
       }
       JPushModule.addReceiveOpenNotificationListener(map => {
+        // console.log("map-------------jpush", map);
         if (typeof map.extras["type"] != "undefined") {
           switch (map.extras.type) {
             case jpushCommonUrlDefined.url:
@@ -134,9 +135,8 @@ const CommonHOC = WarppedComponent => {
               break;
             case jpushCommonUrlDefined.schema:
               {
-                this.props.navigation.navigate(map.extras.schema, {
-                  ...map.extras.extraParams
-                });
+                const {schema, type, ...rest} = map.extras;
+                this.props.navigation.navigate(!!map.extras.schema ? map.extras.schema : "Food", rest);
               }
               break;
           }
