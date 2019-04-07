@@ -15,7 +15,7 @@ import Colors from "../utils/Colors";
 import Text from "./UnScalingText";
 
 const iPhoneXBottom = {
-  marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom+ 10 : 0
+  marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom+ 25 : 0
 };
 
 const styles = StyleSheet.create({

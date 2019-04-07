@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#ccc",
     width: _winWidth,
-    height: 200
+    height: 200,
   },
   shareTop: {
     width: _winWidth,

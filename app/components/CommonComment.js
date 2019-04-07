@@ -4,6 +4,7 @@ import { Footer } from 'native-base';
 import PropTypes from 'prop-types';
 import CommonModal from './CommonModal';
 import Share from 'react-native-share';
+import FastImage from 'react-native-fast-image';
 //api
 import { popupComment, addComment } from '../api/request';
 //utils
@@ -285,19 +286,19 @@ class CommonComment extends Component {
           <Text style={[styles.topTitleText, styles.foodNameText]} numberOfLines={1}>{orderName || '有得食'}</Text>
         </View>
         <View style={styles.content}>
-          <Image style={styles.contentImg} source={{uri: picture || defaultImg}} resizeMode="cover"/>
+          <FastImage style={styles.contentImg} source={{uri: picture || defaultImg}} resizeMode={FastImage.resizeMode.cover}/>
           <View style={styles.emojiContainer}>
             {
               emoji_arr.map(v => this._renderEmojiBtn(v))
             }
-            </View>
+            </View> 
           {/*<Text style={[styles.commentText,{color: currentStar < 3 ? '#ccc' : currentStar<= 4 ? '#f7ba2a' : '#ff630f'}]}>{commentKeyWord[currentStar]}</Text>*/}
           {this._renderTagView()}
           {this.state.commentTags.indexOf('文字評價')> -1 ?<TextInput numberOfLines={4} multiline allowFontScaling={false} style={styles.Input} underlineColorAndroid="transparent" placeholderTextColor="#9d9d9d" 
           placeholder="您的評價" clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/> : null}
           <View style={{flexDirection: 'row',justifyContent: 'space-around',}}>
             <CommonBottomBtn style={{width: GLOBAL_PARAMS._winWidth * .2}} clickFunc={() => this._share()}>分享</CommonBottomBtn>
-            <CommonBottomBtn style={{width: GLOBAL_PARAMS._winWidth * .7}} clickFunc={() => this._addComment()}>填寫評論領取5HKD優惠券</CommonBottomBtn>
+            <CommonBottomBtn style={{width: GLOBAL_PARAMS._winWidth * .7}} clickFunc={() => this._addComment()}>填寫評論即可領取優惠券</CommonBottomBtn>
           </View>
         </View>
       </View>
