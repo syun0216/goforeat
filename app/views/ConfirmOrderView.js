@@ -368,6 +368,10 @@ export default class ConfirmOrderView extends PureComponent {
         amount: { currency: "HKD", value: totalMoney }
       }
     };
+    if(totalMoney == 0) {
+      ToastUtil.showWithMessage('當前訂單總額為0,請切換到現金支付方式!');
+      return;
+    }
 
     const pr = new PaymentRequest(supportedMethods, details);
     pr.show()
