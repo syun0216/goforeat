@@ -251,11 +251,11 @@ const darwerView = DrawerNavigator(
             >
               <Image
                 source={
-                  _alreadyLogin && profileImg != ""
-                    ? { uri: profileImg }
+                  _alreadyLogin 
+                    ? profileImg != "" && profileImg ? { uri: profileImg } : require("./asset/defaultAvatar.png")
                     : require("./asset/notlogged.png")
                 }
-                style={MainViewStyles.drawerTopImage}
+                style={[MainViewStyles.drawerTopImage, !profileImg && {borderWidth: 0}]}
               />
               <TouchableOpacity
                 onPress={() =>
@@ -267,7 +267,7 @@ const darwerView = DrawerNavigator(
                   style={{ height: em(70), justifyContent: "space-around" }}
                 >
                   <Text style={MainViewStyles.topName}>
-                    {_alreadyLogin ? nickName : "日日有得食"}
+                    {_alreadyLogin ? nickName || "日日有得食" : "日日有得食"}
                   </Text>
                   {_alreadyLogin ? (
                     <Text style={mainviewStyle.topNickName}>{username}</Text>

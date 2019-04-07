@@ -139,7 +139,6 @@ export default class UserInfoView extends PureComponent {
       () => {
         uploadAvatar(photoData)
           .then(data => {
-            console.log(data);
             if (data.data.ro.ok) {
               this.setState({
                 photoData: photoData,
@@ -153,6 +152,7 @@ export default class UserInfoView extends PureComponent {
             }
           })
           .catch(err => {
+            console.log(err);
             this.setState({ loadingModal: false });
             ToastUtil.showWithMessage(tips_fail);
           });
@@ -171,12 +171,14 @@ export default class UserInfoView extends PureComponent {
     };
 
     ImagePicker.showImagePicker(options, async response => {
+      console.log(response);
       if (response.didCancel) {
         console.log(response);
       } else if (response.error) {
         console.log(response);
       } else if (response.customButton) {
       } else {
+        console.log(1234)
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
         this._uploadAvatar(response);
@@ -267,7 +269,7 @@ export default class UserInfoView extends PureComponent {
     if (this.state.myInfo == null) return;
     let { photoData, myInfo } = this.state;
     let _photo =
-      photoData == null ? { uri: myInfo.profileImg } : { uri: photoData.uri };
+      photoData == null ? myInfo.profileImg ? { uri: myInfo.profileImg } : require('../asset/defaultAvatar.png') : { uri: photoData.uri };
     return (
       <View style={UserInfoStyle.AvatarView}>
         <Image style={UserInfoStyle.AvatarImg} source={_photo} />
