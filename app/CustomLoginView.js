@@ -161,6 +161,7 @@ export default class CustomLoginView extends PureComponent {
           );
         } else {
           this.setState({loading: false});
+          alert(data.ro.respMsg);
           ToastUtil.showWithMessage(data.ro.respMsg);
         }
       })
