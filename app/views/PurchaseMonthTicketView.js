@@ -40,7 +40,6 @@ export default class PurchaseMonthTicketView extends PureComponent {
     currentMonthTicketSelect: {},
     currentMonthTicketOrder: null,
     currentPayType: SET_PAY_TYPE.credit_card,
-    test: 1
   };
 
   componentDidMount() {
@@ -120,7 +119,13 @@ export default class PurchaseMonthTicketView extends PureComponent {
           this.props.toast(data.ro.respMsg || "購買失敗");
           if(data.ro.respCode == "20010") {
             this.props.navigation.navigate('Credit', {
-              callback: () => this.props.navigation.goBack()
+              callback: () => {
+                const {callback} = this.props.navigation.state.params;
+                if(typeof callback != "undefined") {
+                  callback();
+                }
+                this.props.navigation.goBack()
+              }
             });
           }
         }
@@ -320,6 +325,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
     const { currentMonthTicketSelect } = this.state;
     return (
       <TouchableOpacity
+        activeOpacity={0.8}
         onPress={() => this.setState({ currentMonthTicketSelect: item })}
         style={[
           PurchaseMonthTicketStyles.ticketItem,
@@ -366,7 +372,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
     return (
       <CustomizeContainer.SafeView mode="linear">
         <CommonHeader title="購買月票" canBack />
-        <Content style={{ marginTop: 10 }}>
+        <Content>
           {this._renderTopTitle()}
           {monthTicketList.length > 0 ? (
             monthTicketList.map((item, key) =>
