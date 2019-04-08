@@ -64,7 +64,7 @@ export default class CouponView extends PureComponent {
 
   _renderSearchBar() {
     return (
-      <Item style={{ paddingLeft: em(8), paddingRight: em(5) }}>
+      <Item style={{ paddingLeft: em(8), paddingRight: em(5),backgroundColor: '#fff' }}>
         <Input 
           placeholder="輸入優惠碼"
           allowFontScaling={false}
