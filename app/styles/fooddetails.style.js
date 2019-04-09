@@ -167,7 +167,8 @@ export default StyleSheet.create({
     borderBottomWidth: 0,
     padding: 0,
     marginTop: Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? -44 : -20) : 0,
-    marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0
+    marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXTop : 0,
+    elevation: 0
   },
   linearGradient: {
     height: 64,
