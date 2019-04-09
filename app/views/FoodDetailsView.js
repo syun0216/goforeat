@@ -14,6 +14,7 @@ import Carousel from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
 import { sliderWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
+import {Popover, Label} from "teaset";
 //styles
 import styles from "../styles/index.style";
 import FoodDetailsStyles from "../styles/fooddetails.style";
@@ -558,14 +559,14 @@ class FoodDetailsView extends Component {
           <Text style={FoodDetailsStyles.AddPriceViewPrice}>
             {foodDetails.price}
           </Text>
-          {foodDetails.originPrice != null ? (
+          {/* {foodDetails.originPrice != null ? (
             <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>
               套餐價 HKD {foodDetails.originPrice}
             </Text>
-          ) : null}
-          {foodDetails.originPrice != null ? (
+          ) : null} */}
+          {/* {foodDetails.originPrice != null ? (
             <View style={FoodDetailsStyles.AddPriceViewStriping} />
-          ) : null}
+          ) : null} */}
         </View>
         <View style={FoodDetailsStyles.AddPriceViewCountContainer}>
           <TouchableOpacity
@@ -599,6 +600,24 @@ class FoodDetailsView extends Component {
     );
   }
 
+  _renderMealComponentsPrice() {
+    if(!this.state.foodDetails) {
+      return (
+        <View style={[FoodDetailsStyles.AddPriceView,{ marginTop: 10 }]}>
+          <ShimmerPlaceHolder
+            autoRun={true}
+            style={{ width: slideWidthSingle }}
+          />
+        </View>
+      )
+    }
+    return (
+      <View style={FoodDetailsStyles.AddPriceView}>
+        <Text style={[FoodDetailsStyles.AddPriceViewOriginPrice, {textDecorationLine:'line-through'}]}>{this.state.foodDetails.priceInfo || ''}</Text>
+      </View>
+    )
+  }
+
   _renderContentView() {
     let {
       foodDetails,
@@ -624,6 +643,7 @@ class FoodDetailsView extends Component {
         <View>
           {this._renderIntroductionView()}
           {this._renderAddPriceView()}
+          {this._renderMealComponentsPrice()}
         </View>
         {<View style={FoodDetailsStyles.BottomView} />}
       </ScrollView>
