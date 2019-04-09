@@ -1,6 +1,6 @@
 import React,{PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {Modal,TouchableOpacity,StyleSheet} from 'react-native';
+import {Modal,TouchableOpacity,StyleSheet,Platform, StatusBar} from 'react-native';
 import {Content,Icon, Header, Item, Input,Button, Container} from 'native-base';
 import Text from './UnScalingText';
 import CustomizeContainer from './CustomizeContainer';

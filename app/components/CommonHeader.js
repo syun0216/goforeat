@@ -22,7 +22,7 @@ import FoodDetailsStyle from "../styles/fooddetails.style";
 //components
 import Text from "./UnScalingText";
 
-const HEADER_HEIGHT = 64;
+const HEADER_HEIGHT = 50;
 const TEXT_HEIGHT = 18;
 
 const styles = StyleSheet.create({

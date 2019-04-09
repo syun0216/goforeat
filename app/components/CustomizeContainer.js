@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StatusBar } from "react-native";
+import { View, Platform, StatusBar } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { Container } from "native-base";
 import LinearGradient from "react-native-linear-gradient";
@@ -24,6 +24,11 @@ const linear = {
   zIndex:10
 };
 
+const linearAndroid = {
+  height: StatusBar.currentHeight,
+  width: GLOBAL_PARAMS._winWidth,
+};
+
 const SafeView = props => (
   <SafeAreaView style={[{ flex: 1, backgroundColor: "transparent" },props.style]} forceInset={props.forceInset}>
     {props.mode == "default" ? (
@@ -33,11 +38,11 @@ const SafeView = props => (
         colors={['#FF7F0B', '#FF1A1A']}
         start={{ x: 0.0, y: 0.0 }}
         end={{ x: 1.0, y: 0.0 }}
-        style={linear}
+        style={Platform.OS == 'ios' ? linear : linearAndroid}
       />
     )}
     <Container>
-      <StatusBar barStyle={props.barStyle} androidStatusBarColor="#666"/>
+      <StatusBar barStyle={props.barStyle} backgroundColor='transparent' translucent/>
       {props.children}
     </Container>
   </SafeAreaView>

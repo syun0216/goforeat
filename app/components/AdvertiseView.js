@@ -8,7 +8,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Platform
+  Platform,
+  StatusBar
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import {
@@ -108,6 +109,7 @@ const AdvertiseView = ({
       onRequestClose={() => closeFunc()}
     >
       <Container>
+        <StatusBar backgroundColor="#000000"/>
         <View style={{ position: "relative" }}>
           <TouchableWithoutFeedback
             onPress={() => {
