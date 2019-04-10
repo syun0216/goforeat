@@ -84,20 +84,20 @@ class FoodListView extends PureComponent {
     if (isAdShow) {
       hideAd();
     }
-    // advertisementStorage.getData((error, data) => {
-    //   if (error == null) {
-    //     if (data != null) {
-    //       isAdShow &&
-    //         this.setState({
-    //           advertiseImg: data.image,
-    //           advertiseData: data,
-    //           isAdvertiseShow: true
-    //         });
-    //       this._advertiseInterval();
-    //     }
-    //     this._getAdvertise(data);
-    //   }
-    // });
+    advertisementStorage.getData((error, data) => {
+      if (error == null) {
+        if (data != null) {
+          isAdShow &&
+            this.setState({
+              advertiseImg: data.image,
+              advertiseData: data,
+              isAdvertiseShow: true
+            });
+          this._advertiseInterval();
+        }
+        this._getAdvertise(data);
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -198,32 +198,31 @@ class FoodListView extends PureComponent {
 
   _getScrollTop(scrollTop) {
     if(scrollTop > em(50)) {
-      // Animated.spring(this.state.searchBarOpacity, {
-      //   toValue: 1 - scrollTop / 150 < 0 ? 0 : (1 - scrollTop / 150),
-      //   duration: 500,
-      //   easing: Easing.linear
-      // }).start();
       this.setState({
         searchBtnShow: scrollTop > em(100)
       });
       this.setState({
         isWarningTipShow: scrollTop < em(100)
       })
-      Animated.parallel(['searchBarOpacity', 'warningTipsScale'].map(property => {
-        return Animated.spring(this.state[property], {
-          toValue: 1 - scrollTop / em(100) < 0 ? 0 : (1 - scrollTop / em(100)),
-          duration: 300,
-          easing: Easing.linear
-        })
-      })).start();
+      // if(Platform.OS == 'ios') {
+        Animated.parallel(['searchBarOpacity', 'warningTipsScale'].map(property => {
+          return Animated.spring(this.state[property], {
+            toValue: 1 - scrollTop / em(100) < 0 ? 0 : (1 - scrollTop / em(100)),
+            duration: 300,
+            easing: Easing.linear
+          })
+        })).start();
+      // }
     } else {
-      Animated.parallel(['searchBarOpacity', 'warningTipsScale'].map(property => {
-        return Animated.spring(this.state[property], {
-          toValue: 1,
-          duration: 300,
-          easing: Easing.linear
-        })
-      })).start();
+      // if(Platform.OS == 'ios') {
+        Animated.parallel(['searchBarOpacity', 'warningTipsScale'].map(property => {
+          return Animated.spring(this.state[property], {
+            toValue: 1,
+            duration: 300,
+            easing: Easing.linear
+          })
+        })).start();
+      // }
     }
   }
 
@@ -319,7 +318,7 @@ class FoodListView extends PureComponent {
       <Header
         style={FoodDetailsStyles.Header}
         iosBarStyle="light-content"
-        androidStatusBarColor="#333"
+        androidStatusBarColor="transparent"
       >
         <LinearGradient
           colors={["#FF7F0B", "#FF1A1A"]}
