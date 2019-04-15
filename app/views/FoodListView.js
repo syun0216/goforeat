@@ -164,6 +164,15 @@ class FoodListView extends PureComponent {
     }, 1000);
   }
 
+  _initMenuStatus() {
+    this.setState({
+      searchBtnShow: false,
+      isWarningTipShow: true,
+    });
+    this.state.searchBarOpacity.setValue(1);
+    this.state.warningTipsScale.setValue(1);
+  }
+
   _getSeletedValue(val) {
     if (val == null) {
       // this._picker.getPlace();
@@ -181,12 +190,7 @@ class FoodListView extends PureComponent {
         if (!this._isFirstReload) {
           if (!!this.flatlist) {
             this.flatlist.outSideRefresh();
-            this.setState({
-              searchBtnShow: false,
-              isWarningTipShow: true,
-            });
-            this.state.searchBarOpacity.setValue(1);
-            this.state.warningTipsScale.setValue(1);
+            this._initMenuStatus();
           };
           this._isFirstReload = false;
         } else {
@@ -197,6 +201,10 @@ class FoodListView extends PureComponent {
   }
 
   _getScrollTop(scrollTop) {
+    console.log('scrollTop', scrollTop);
+    if(scrollTop <= 0) {
+      this._initMenuStatus();
+    }
     if(scrollTop > em(50)) {
       this.setState({
         searchBtnShow: scrollTop > em(100)
