@@ -54,7 +54,7 @@ export default class UserHelper extends Component {
     ];
     return (
       <CustomizeContainer.SafeView mode="linear">
-        <CommonHeader hasMenu title={i18n[language].contact} {...this.props} />
+        <CommonHeader canBack title={i18n[language].contact} {...this.props} />
         <Content bounces={false} style={{ backgroundColor: Colors.main_white }}>
           <View>
             {_list_arr.map((item, key) => (

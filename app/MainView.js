@@ -163,7 +163,7 @@ const customItemPress = ({ route, focused }, navigation) => {
 
 const darwerView = DrawerNavigator(
   {
-    FoodDetails: {
+    FoodListDrawer: {
       screen: CommonHOC(FoodListView)
     },
     MyOrderDrawer: {
@@ -189,7 +189,7 @@ const darwerView = DrawerNavigator(
     }
   },
   {
-    initialRouteName: "FoodDetails",
+    initialRouteName: "FoodListDrawer",
     drawerWidth: GLOBAL_PARAMS._winWidth * 0.75,
     drawerPosition: "left",
     contentComponent: props => {
@@ -259,7 +259,7 @@ const darwerView = DrawerNavigator(
               />
               <TouchableOpacity
                 onPress={() =>
-                  customItemPress(customLoginBtnRoute, props.navigation)
+                  props.navigation.navigate('UserInfo')
                 }
                 style={MainViewStyles.drawerTopImageContainer}
               >
@@ -289,8 +289,16 @@ const darwerView = DrawerNavigator(
             <View style={MainViewStyles.drawerInnerContent}>
               <DrawerItems
                 {...props}
-                onItemPress={({ route, focused }) =>
-                  customItemPress({ route, focused }, props.navigation)
+                onItemPress={({ route, focused }) => {
+                  // customItemPress({ route, focused }, props.navigation)
+                  // console.log(route);
+                  if(route.routeName == 'FoodListDrawer') {
+                    customItemPress({ route, focused }, props.navigation)
+                  }else {
+                    let _route = route.routeName.split('D')[0];
+                    props.navigation.navigate(_route)
+                    }
+                  }
                 }
                 getLabel={scene => {
                   if (scene.route.routeName == "UserInfoDrawer") {
@@ -316,8 +324,35 @@ let MainView = StackNavigator(
     Home: {
       screen: darwerView
     },
+    UserInfo: {
+      screen: CommonHOC(UserInfoView)
+    },
     Food: {
       screen: CommonHOC(FoodDetailsView)
+    },
+    FoodList: {
+      screen: CommonHOC(FoodListView)
+    },
+    MyOrder: {
+      screen: CommonHOC(MyOrderView)
+    },
+    PickPlace: {
+      screen: CommonHOC(PickPlaceView)
+    },
+    PayType: {
+      screen: CommonHOC(PaySettingView)
+    },
+    Coupon: {
+      screen: CommonHOC(CouponView)
+    },
+    UserHelp: {
+      screen: CommonHOC(UserHelperView)
+    },
+    Setting: {
+      screen: CommonHOC(SettingView)
+    },
+    UserInfo: {
+      screen: CommonHOC(UserInfoView)
     },
     Mandatory: {
       screen: MandatoryUpdateView
@@ -380,7 +415,7 @@ const defaultGetStateForAction = MainView.router.getStateForAction;
 
 // 拦截路由主方法
 MainView.router.getStateForAction = (action, state) => {
-  console.log('action', action)
+  // console.log('action', action)
   // console.log('state', state)
   const mustLogin = AuthInterceptor(action, state);
   if (mustLogin) {

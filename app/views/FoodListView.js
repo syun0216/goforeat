@@ -84,20 +84,20 @@ class FoodListView extends PureComponent {
     if (isAdShow) {
       hideAd();
     }
-    advertisementStorage.getData((error, data) => {
-      if (error == null) {
-        if (data != null) {
-          isAdShow &&
-            this.setState({
-              advertiseImg: data.image,
-              advertiseData: data,
-              isAdvertiseShow: true
-            });
-          this._advertiseInterval();
-        }
-        this._getAdvertise(data);
-      }
-    });
+    // advertisementStorage.getData((error, data) => {
+    //   if (error == null) {
+    //     if (data != null) {
+    //       isAdShow &&
+    //         this.setState({
+    //           advertiseImg: data.image,
+    //           advertiseData: data,
+    //           isAdvertiseShow: true
+    //         });
+    //       this._advertiseInterval();
+    //     }
+    //     this._getAdvertise(data);
+    //   }
+    // });
   }
 
   componentWillUnmount() {

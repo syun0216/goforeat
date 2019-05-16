@@ -292,8 +292,7 @@ export default class PaySettingView extends PureComponent {
       <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef"}}>
         <CommonHeader
           title={this.i18n.payment}
-          hasMenu={!_from_confirm_order}
-          canBack={_from_confirm_order}
+          canBack
         />
         <Content bounces={false}>
           {!this.state.loading && !this.state.isError && (

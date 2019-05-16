@@ -34,7 +34,7 @@ class PickPlaceView extends React.Component {
     _formatData.unshift(_selectPlace[0]);
     return (
       <CustomizeContainer.SafeView mode="linear">
-        <CommonHeader hasMenu={!params} canBack={params && params.navigate} title={i18n[language].pickPlace} {...this.props} />
+        <CommonHeader canBack title={i18n[language].pickPlace} {...this.props} />
         <Content style={{backgroundColor: '#efefef'}}>
           {_formatData.map((item, key) => (
             <View key={key} style={[{width: GLOBAL_PARMAS._winWidth* 0.9,marginLeft: GLOBAL_PARMAS._winWidth*0.05,marginBottom: GLOBAL_PARMAS._winWidth*0.05,borderRadius: 8,backgroundColor: '#fff'},key==0&&{marginTop:GLOBAL_PARMAS._winWidth*.05}]}>

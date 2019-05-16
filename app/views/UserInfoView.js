@@ -240,7 +240,7 @@ export default class UserInfoView extends PureComponent {
     return (
       <CommonHeader
         title={title}
-        hasMenu
+        canBack
         leftClickIntercept={() => this._alreadySaveCheck()}
       />
     );

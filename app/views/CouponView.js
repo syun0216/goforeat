@@ -212,8 +212,9 @@ export default class CouponView extends PureComponent {
   render() {
     let Header = () => (
       <CommonHeader
-        hasMenu={!this._from_confirm_order}
-        canBack={this._from_confirm_order}
+        // hasMenu={!this._from_confirm_order}
+        // canBack={this._from_confirm_order}
+        canBack
         title={this.props.i18n.coupon_tips.title}
       />
     );

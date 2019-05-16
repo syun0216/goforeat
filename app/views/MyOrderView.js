@@ -347,7 +347,7 @@ export default class PeopleView extends Component {
     return (
       <CustomizeContainer.SafeView mode="linear" style={{ position: "relative" }}>
         {this._renderPopupDialog()}
-        <CommonHeader hasMenu hasTabs title={i18n.myorder} />
+        <CommonHeader canBack hasTabs title={i18n.myorder} />
         <Tabs
           tabBarUnderlineStyle={MyOrderStyles.tabBarUnderlineStyle}
           ref={t => (this._tabs = t)}
