@@ -182,7 +182,7 @@ class PlacePickerModel extends Component {
   }
 
   _sortCheckedToFirstPlace(list, checkedEl) { // 将选择项排列在数组的首位
-    let checked = checkedEl;
+    let checked = [];
     let newList = list.slice(0);
     for(let idx in newList) {
       if(newList[idx].id == checkedEl.id) {
@@ -190,8 +190,22 @@ class PlacePickerModel extends Component {
         break;
       }
     }
+    if(checked.length == 0) {
+      checked = [newList[0]];
+    }
     newList.unshift(checked[0]);
     return newList;
+  }
+
+  _checkCacheInList(item, list) { //检查缓存是否在列表中
+    let isInList = false;
+    for(let v of list) {
+      if(v.id == item.id) {
+        isInList = true;
+        break;
+      }
+    }
+    return isInList;
   }
 
   //api
@@ -201,14 +215,27 @@ class PlacePickerModel extends Component {
     foodPlaces(latitude, longitude).then(
       data => {
         if (data.ro.respCode === "0000") {
-          let _data =
-            typeof storage_data != "undefined" ? storage_data : data.data[0];
+          console.log(12345,data.data[0]);
+          console.log(12345,storage_data);
+          let _data = data.data[0];
+          if(typeof storage_data != "undefined") { // 如果有缓存数据
+            if(this._checkCacheInList(storage_data, data.data)) { //如果缓存数据在列表中 未被服务器删除
+              _data = storage_data;
+            }else {// 否则则显示列表第一个
+              _data = data.data[0];
+            }
+          }else {
+            _data = data.data[0];
+          }
           let _sortList = this._sortCheckedToFirstPlace(data.data, _data);
           this._rawPlaceList = _sortList; // 保存一份原始數據
-          this.setStateAsync({ selected: _data.name }).then(() => {
+          this.setStateAsync({ selected: _data.name}).then(() => {
+            console.log('state');
             this.setState({
               placeList: _sortList,
               loading: false
+            },() => {
+              console.log('state2');
             });
           });
           let cacheTime = +new Date();
