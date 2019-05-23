@@ -46,7 +46,7 @@ const linearDirection = Platform.select({
 
 const CommonHeader = props => (
   <LinearGradient
-    colors={["#FF7F0B", "#FF1A1A"]}
+    colors={["#FF7A00", "#FE560A"]}
     start={{ x: 0.0, y: 0.0 }}
     end={{ x: 1.0, y: 0.0 }}
     style={styles.linearGradient}
@@ -151,7 +151,7 @@ const CommonHeader = props => (
 //         androidStatusBarColor="#666"
 //       >
 //         <LinearGradient
-//           colors={["#FF7F0B", "#FF1A1A"]}
+//           colors={["#FF7A00", "#FE560A"]}
 //           start={{ x: 0.0, y: 0.0 }}
 //           end={{ x: 1.0, y: 0.0 }}
 //           style={styles.linearGradient}
@@ -248,7 +248,7 @@ const CommonHeader = props => (
 //         </LinearGradient>
 //       </Header>
 //       <LinearGradient
-//         colors={["#FF7F0B", "#FF1A1A"]}
+//         colors={["#FF7A00", "#FE560A"]}
 //         start={{ x: 0.0, y: 0.0 }}
 //         end={{ x: 1.0, y: 0.0 }}
 //         style={{ height: props.headerHeight }}

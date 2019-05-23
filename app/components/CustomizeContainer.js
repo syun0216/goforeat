@@ -35,7 +35,7 @@ const SafeView = props => (
       <View style={[styles,{backgroundColor: props.statusbarColor}]} />
     ) : (
       <LinearGradient
-        colors={['#FF7F0B', '#FF1A1A']}
+        colors={['#FF7A00', '#FE560A']}
         start={{ x: 0.0, y: 0.0 }}
         end={{ x: 1.0, y: 0.0 }}
         style={Platform.OS == 'ios' ? linear : linearAndroid}

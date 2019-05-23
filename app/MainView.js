@@ -244,7 +244,7 @@ const darwerView = DrawerNavigator(
         <Container>
           <View>
             <LinearGradient
-              colors={["#FF7F0B", "#FF1A1A"]}
+              colors={["#FF7A00", "#FE560A"]}
               start={{ x: 0.0, y: 0.0 }}
               end={{ x: 1.0, y: 0.0 }}
               style={MainViewStyles.drawerTopContainer}
@@ -258,7 +258,7 @@ const darwerView = DrawerNavigator(
                 style={[MainViewStyles.drawerTopImage, !profileImg && {borderWidth: 0}]}
               />
               <TouchableOpacity
-                onPress={() =>
+                onPress={() => 
                   props.navigation.navigate('UserInfo')
                 }
                 style={MainViewStyles.drawerTopImageContainer}
