@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { StyleSheet, View, Image, TouchableWithoutFeedback, Platform, TextInput, Text } from 'react-native';
+import { StyleSheet, View, Image, TouchableWithoutFeedback, Animated, TextInput, Text, Keyboard,Easing } from 'react-native';
 import { Footer } from 'native-base';
 import PropTypes from 'prop-types';
 import CommonModal from './CommonModal';
@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
 })
 
 class CommonComment extends Component {
-
   constructor(props) {
     super(props);
     this.commentText = '';
@@ -128,13 +127,41 @@ class CommonComment extends Component {
       currentStar: 5,
       btnContent: '推薦好友領優惠券',
       modalVisible: false,
-      commentTags: ["文字評價"]
+      commentTags: ["文字評價"],
+      containerTop: new Animated.Value(0)
     };
+  }
+
+  componentWillMount () {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => this._keyboardDidShow(e));
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this._keyboardDidHide());
   }
 
   componentDidMount() {
     this._commentPopup();
   }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow (e) {
+    // this._keyboard_height = e.startCoordinates.height - e.endCoordinates.height;
+    this._toggleKeyBoard(1);
+  }
+
+  _keyboardDidHide () {
+    this._toggleKeyBoard(0);
+  }
+
+  _toggleKeyBoard(val) {
+    Animated.timing(this.state.containerTop, {
+      toValue: val,
+      duration: 200,
+      easing: Easing.linear
+    }).start();
+}
 
   //api
   _commentPopup() {
@@ -280,7 +307,10 @@ class CommonComment extends Component {
     const defaultImg = "https://img.xiumi.us/xmi/ua/18Wf8/i/98c314a76260a9634beecfd27c28770d-sz_80962.jpg?x-oss-process=style/xmr";
     console.log(this.state.commentTags);
     return (
-      <View>
+      <Animated.View style={{transform: [{translateY: this.state.containerTop.interpolate({
+        inputRange: [0,1],
+        outputRange: [0,GLOBAL_PARAMS._winHeight<667?-GLOBAL_PARAMS._winHeight*0.12:-100]
+      })}]}}>
         {/*<Image style={styles.topImg} reasizeMode="contain" source={require('../asset/commentTop.png')}/>*/}
         <View style={styles.topTitle}>
           <Text style={[styles.topTitleText, styles.foodNameText]} numberOfLines={1}>{orderName || '有得食'}</Text>
@@ -301,7 +331,7 @@ class CommonComment extends Component {
             <CommonBottomBtn style={{width: GLOBAL_PARAMS._winWidth * .7}} clickFunc={() => this._addComment()}>填寫評論即可領取優惠券</CommonBottomBtn>
           </View>
         </View>
-      </View>
+      </Animated.View>
     )
   }
 
