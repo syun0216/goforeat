@@ -104,7 +104,7 @@ export default class WarningTips extends PureComponent {
       if(!error) {
         let currentTime = + new Date();
         if(data) {
-          if(currentTime - data.cacheTime > 10800000) {
+          if(currentTime - data.cacheTime > 1800000) {
             this._getWarningTips();
           }else {
             this.setState({
