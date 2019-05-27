@@ -13,6 +13,7 @@ export default {
   skip: "跳過",
   all: "全部",
   finished: "已完成",
+  commented: "待评价",
   delivering: "待配送",
   cancelOrder: "已取消",
   cash: "現金支付",

@@ -14,6 +14,7 @@ export default {
   all: "Total",
   delivering: "Deliver",
   finished: "Finished",
+  "commented": "Comment",
   cancelOrder: "Cancelled",
   cash: "Cash Pay",
   credit: "Pay with Credit Card",
