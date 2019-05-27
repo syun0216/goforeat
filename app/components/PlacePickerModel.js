@@ -24,6 +24,8 @@ import PaySettingStyles from "../styles/paysetting.style";
 
 const _checked = "../asset/checked.png";
 const _unchecked = "../asset/unchecked.png";
+
+let defaultData = {name: '請先選擇最接近的大廈',id: null, hasTips: true};
 class PlacePickerModel extends Component {
   static propsType = {
     content: PropTypes.string,
@@ -124,18 +126,21 @@ class PlacePickerModel extends Component {
             },() => {
               this.props.stockPlaceList(placeList.data);
               placeStorage.getData((error, place) => {
+                console.log(place)
                 if (error === null) {
                   if (place !== null) {
+                    console.log(place);
                     this.setState({
                       selected: place.name
                     })
                     this.props.getSeletedValue(place);
                     this.props.stockPlace(place);
-                  } else {
-                    this.props.getSeletedValue(placeList[0]);
-                    this.props.stockPlace(placeList[0]);
+                  } else { // 没有缓存默认一个提示
+                    defaultData.id = placeList.data[0].id
+                    this.props.getSeletedValue(defaultData);
+                    this.props.stockPlace(defaultData);
                     this.setState({
-                      selected: placeList[0].name
+                      selected: defaultData.name
                     })
                   }
                 }
@@ -217,33 +222,29 @@ class PlacePickerModel extends Component {
         if (data.ro.respCode === "0000") {
           console.log(12345,data.data[0]);
           console.log(12345,storage_data);
-          let _data = data.data[0];
+          let _data = {
+            ...defaultData,
+            id: data.data[0].id
+          }; // 如果沒有緩存信息就進行提示
           if(typeof storage_data != "undefined") { // 如果有缓存数据
-            if(this._checkCacheInList(storage_data, data.data)) { //如果缓存数据在列表中 未被服务器删除
+            if(storage_data && this._checkCacheInList(storage_data, data.data)) { //如果缓存数据在列表中 未被服务器删除
               _data = storage_data;
-            }else {// 否则则显示列表第一个
-              _data = data.data[0];
             }
-          }else {
-            _data = data.data[0];
           }
           let _sortList = this._sortCheckedToFirstPlace(data.data, _data);
           this._rawPlaceList = _sortList; // 保存一份原始數據
           this.setStateAsync({ selected: _data.name}).then(() => {
-            console.log('state');
             this.setState({
               placeList: _sortList,
               loading: false
-            },() => {
-              console.log('state2');
             });
           });
           let cacheTime = +new Date();
           this.props.getSeletedValue(_data);
           this.props.stockPlaceList(data.data);
           placeListStorage.setData({data: data.data, cacheTime});
-          this.props.stockPlace(_data);
-          placeStorage.setData(_data);
+          // this.props.stockPlace(_data);
+          // placeStorage.setData(_data);
         } else {
           this.setState({
             loading:false
