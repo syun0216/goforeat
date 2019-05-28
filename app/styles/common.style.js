@@ -15,8 +15,8 @@ const common = {
   common_btn_container: {
     marginTop: em(20),
     marginBottom: em(20),
-    justifyContent: "center",
-    alignItems: "center"
+    // justifyContent: "center",
+    // alignItems: "center"
   },
   common_row: {
     flex: 1,

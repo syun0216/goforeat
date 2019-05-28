@@ -12,7 +12,8 @@ export default StyleSheet.create({
   FoodImage: {
     width: em(95),
     height: em(100),
-    marginRight: em(15)
+    marginRight: em(15),
+    borderRadius: em(5)
   },
   FoodInnerContainer: {
     flex: 1

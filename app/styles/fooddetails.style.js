@@ -136,26 +136,28 @@ export default StyleSheet.create({
   },
   PlacePickerBtnBgAbsolute: {
     backgroundColor: Colors.main_white,
-    opacity: 0.2,
+    // opacity: 0.2,
     borderRadius: 100,
     // width: em(250),
     flex: 1,
-    height: em(35)
+    height: em(32)
   },
   PlacePickerBtnImage: {
-    width: em(20),
-    height: em(20),
+    // width: em(30),
+    // height: em(30),
     position: "absolute",
-    top: em(8),
-    right: em(12)
+    top: em(6),
+    right: em(10),
+    color: '#9C9FA1',
+    fontSize: em(18)
   },
   PlacePickerBtnText: {
-    color: Colors.main_white,
+    color: '#9C9FA1',
     marginLeft: 10,
     fontSize: em(16),
     position: "absolute",
     left: em(8),
-    top: Platform.OS == "android" ? em(7) : em(8),
+    top: Platform.OS == "android" ? em(7) : em(7),
     maxWidth: Platform.OS == "ios" ? em(218) : em(250)
   },
   //render
@@ -247,5 +249,16 @@ export default StyleSheet.create({
       : {
           width: em(45),
           height: em(40)
-        }
+        },
+  addFruitView: {
+    flexDirection: 'row',
+    
+    justifyContent: 'space-between',
+    paddingLeft: common.marginLeft,
+    paddingRight: common.marginLeft
+  },
+  addFruitText: {
+    color: "#959595",
+    fontSize: em(18)
+  }
 });
