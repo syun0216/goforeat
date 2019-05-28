@@ -127,138 +127,9 @@ const CommonHeader = props => (
   </LinearGradient>
 );
 
-// const CommonHeader = props => {
-//   return (
-//     <View>
-//       <Header
-//         style={[
-//           props.headerStyle,
-//           {
-//             height: HEADER_HEIGHT,
-//             marginTop: GLOBAL_PARAMS.isIphoneX()
-//               ? -GLOBAL_PARAMS.iPhoneXTop
-//               : 0,
-//             marginBottom: GLOBAL_PARAMS.isIphoneX()
-//               ? GLOBAL_PARAMS.iPhoneXTop
-//               : 0,
-//             elevation: 0,
-//             borderWidth: 0,
-//             background: "transparent"
-//           }
-//         ]}
-//         hasTabs
-//         iosBarStyle={props.iosBarStyle}
-//         androidStatusBarColor="#666"
-//       >
-//         <LinearGradient
-//           colors={["#FF7A00", "#FE560A"]}
-//           start={{ x: 0.0, y: 0.0 }}
-//           end={{ x: 1.0, y: 0.0 }}
-//           style={styles.linearGradient}
-//         >
-//           <Left style={{ flex: 1 }}>
-//             {props.canBack ? (
-//               props.leftElement !== null ? (
-//                 props.leftElement
-//               ) : Platform.OS == "ios" ? (
-//                 <Button
-//                   transparent
-//                   onPress={() => {
-//                     props.navigation.goBack();
-//                   }}
-//                 >
-//                   <Entypo
-//                     size={20}
-//                     name="chevron-thin-left"
-//                     style={[
-//                       CommonStyles.common_icon_back,
-//                       { color: props.textColor }
-//                     ]}
-//                   />
-//                 </Button>
-//               ) : (
-//                 <TouchableWithoutFeedback
-//                   onPress={() => {
-//                     props.navigation.goBack();
-//                   }}
-//                 >
-//                   <Antd
-//                     size={20}
-//                     name="left"
-//                     style={[
-//                       CommonStyles.common_icon_back,
-//                       { color: props.textColor }
-//                     ]}
-//                   />
-//                 </TouchableWithoutFeedback>
-//               )
-//             ) : props.hasMenu ? (
-//               <TouchableOpacity
-//                 style={
-//                   Platform.OS == "ios"
-//                     ? FoodDetailsStyle.MenuBtn
-//                     : FoodDetailsStyle.MenuBtnAndroid
-//                 }
-//                 onPress={() => {
-//                   props.leftClickIntercept(props);
-//                 }}
-//               >
-//                 <Antd name="menu-fold" style={styles.MenuBtn} />
-//                 {/* <Image source={require('../asset/menu.png')} style={styles.MenuBtn} resizeMode="contain"/> */}
-//               </TouchableOpacity>
-//             ) : null}
-//           </Left>
-//           <Body style={{ minWidth: GLOBAL_PARAMS.em(200), flex: 1 }}>
-//             {props.children || (
-//               <Text
-//                 allowFontScaling={false}
-//                 style={[
-//                   {
-//                     color: props.textColor,
-//                     fontSize: GLOBAL_PARAMS.em(18),
-//                     fontWeight: "800"
-//                   },
-//                   props.titleStyle
-//                 ]}
-//                 numberOfLines={1}
-//               >
-//                 {props.title}
-//               </Text>
-//             )}
-//           </Body>
-//           <Right style={{ flex: 1 }}>
-//             {props.hasRight ? (
-//               props.rightElement !== null ? (
-//                 <props.rightElement {...props} />
-//               ) : (
-//                 <Button transparent onPress={() => props.rightClick()}>
-//                   <Antd
-//                     name={props.rightIcon}
-//                     size={25}
-//                     style={{
-//                       fontSize: GLOBAL_PARAMS.em(23),
-//                       color: Colors.main_white,
-//                       paddingRight: 10
-//                     }}
-//                   />
-//                 </Button>
-//               )
-//             ) : null}
-//           </Right>
-//         </LinearGradient>
-//       </Header>
-//       <LinearGradient
-//         colors={["#FF7A00", "#FE560A"]}
-//         start={{ x: 0.0, y: 0.0 }}
-//         end={{ x: 1.0, y: 0.0 }}
-//         style={{ height: props.headerHeight }}
-//       />
-//     </View>
-//   );
-// };
-
 CommonHeader.defaultProps = {
   title: "詳情",
+  subTitle: null,
   canBack: false,
   hasMenu: false,
   hasTabs: false,
@@ -278,6 +149,7 @@ CommonHeader.defaultProps = {
 
 CommonHeader.propsType = {
   title: PropTypes.String,
+  subTitle: PropTypes.String,
   hasTabs: PropTypes.bool,
   hasMenu: PropTypes.bool,
   canBack: PropTypes.bool,
