@@ -64,7 +64,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
             currentMonthTicketSelect: data.data.list[0]
           });
         } else {
-          this.props.toast("獲取數據失敗");
+          this.props.toast("暫無月票銷售");
         }
       })
       .catch(err => {
@@ -361,7 +361,8 @@ export default class PurchaseMonthTicketView extends PureComponent {
         <View style={PurchaseMonthTicketStyles.infoContent}>
           <Text style={PurchaseMonthTicketStyles.infoContentText}>1.月票只會在購買當天的一個月內有效</Text>
           <Text style={PurchaseMonthTicketStyles.infoContentText}>2.使用期限請查看支付方式的月票到期日</Text>
-          <Text style={PurchaseMonthTicketStyles.infoContentText}>3.如有任何爭議，Mealtime有得食保留最終解釋權</Text>
+          <Text style={PurchaseMonthTicketStyles.infoContentText}>3.月票每日僅限使用一張</Text>
+          <Text style={PurchaseMonthTicketStyles.infoContentText}>4.如有任何爭議，Mealtime有得食保留最終解釋權</Text>
         </View>
       </View>
     )
@@ -395,6 +396,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
             <TouchableOpacity
               style={PurchaseMonthTicketStyles.submitBtn}
               onPress={() => this._createMonthTicket()}
+              disabled={monthTicketList.length == 0}
             >
               <Text style={PurchaseMonthTicketStyles.submitBtnText}>購買</Text>
             </TouchableOpacity>
