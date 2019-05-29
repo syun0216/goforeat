@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, TouchableOpacity, Alert, Platform, Image } from "react-native";
 import { Container, Tabs, Tab, TabHeading } from "native-base";
+import Antd from "react-native-vector-icons/AntDesign";
 import PopupDialog, {
   SlideAnimation,
   DialogButton
@@ -21,21 +22,24 @@ import CommonFlatList from "../components/CommonFlatList";
 import CustomizeContainer from "../components/CustomizeContainer";
 //utils
 import { em } from "../utils/global_params";
+import Colors from "../utils/Colors";
 //language
 import I18n from "../language/i18n";
 //styles
 import MyOrderStyles from "../styles/myorder.style";
 import CommonStyles from "../styles/common.style";
 
-const _TAB_DELIVERING = 0;
-const _TAB_FINISHED = 1;
-const _TAB_CANCEL = 2;
-const _TAB_ALL = 3;
+const _TAB_DELIVERING = 0; //待配送
+const _TAB_FINISHED = 1; // 已完成
+const _TAB_CANCEL = 2; // 已取消
+const _TAB_ALL = 3; // 全部订单
+const _TAB_COMMENT = 1; // 待评价
 
-const _ORDER_CANCEL = -1;
-const _ORDER_DELIVERING = 1;
-const _ORDER_FINISHED = 2;
-const _ORDER_ALL = null;
+const _ORDER_CANCEL = -1; // 用户取消
+const _ORDER_DELIVERING = 1; // 待配送
+const _ORDER_FINISHED = 2; //已完成
+const _ORDER_ALL = null; // 全部
+const _ORDER_COMMENT = 3; // 待评价
 
 const slideAnimation = new SlideAnimation({
   slideFrom: "bottom"
@@ -202,15 +206,29 @@ export default class PeopleView extends Component {
             <Text style={CommonStyles.common_info_text}>
               {i18n.foodAddress}
             </Text>
-            <Text
-              style={[
-                CommonStyles.common_info_text,
-                { maxWidth: GLOBAL_PARAMS.em(180) }
-              ]}
-              numberOfLines={1}
-            >
-              {item.takeAddressDetail}
-            </Text>
+            <TouchableOpacity onPress={() => {
+                this.setState(
+                  {
+                    currentPickImage: item.takePointPicture,
+                    currentPickTitle: item.takeAddressDetail || ""
+                  },
+                  () => {
+                    this.popupDialog.show();
+                  }
+                );
+              }} style={{flexDirection: "row"}}>
+              <Text
+                style={[
+                  CommonStyles.common_info_text,
+                  { maxWidth: GLOBAL_PARAMS.em(130), color: Colors.main_orange },
+                ]}
+                numberOfLines={1}
+              >
+                {item.takeAddressDetail}
+              </Text>
+              <Antd name="doubleright" style={{color: Colors.main_orange, marginTop: em(2)}}/>
+            </TouchableOpacity>  
+
           </View>
           <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>
@@ -242,7 +260,7 @@ export default class PeopleView extends Component {
           <Text style={MyOrderStyles.pickNumber}>{item.mealCode}</Text>
         </View>
         <View style={MyOrderStyles.payInner}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
               onPress={() => {
                 this.setState(
                   {
@@ -259,23 +277,11 @@ export default class PeopleView extends Component {
             <Text style={[MyOrderStyles.payStatusText, { color: "#ff5858" }]}>
               {i18n.myorder_tips.common.pick_place_btn}
             </Text>
-          </TouchableOpacity>
-          {_isDelivering && (
-            <TouchableOpacity
-              onPress={() =>
-                this._cancelOrder(
-                  item.orderId,
-                  EXPLAIN_PAY_TYPE[item.payment],
-                  item.status
-                )
-              }
-              style={MyOrderStyles.payStatusBtn}
-            >
-              <Text style={MyOrderStyles.payStatusText}>
-                {i18n.myorder_tips.common.cancel_order_btn}
-              </Text>
-            </TouchableOpacity>
-          )}
+          </TouchableOpacity> */}
+          <View style={MyOrderStyles.totalInnerView}>
+            <Text style={MyOrderStyles.totalUnitText}>{i18n.total} HKD</Text>
+            <Text style={MyOrderStyles.totalPriceText}>{item.totalMoney}</Text>
+          </View>
         </View>
       </View>
     );
@@ -291,10 +297,22 @@ export default class PeopleView extends Component {
             {this._switchOrderStatus(item.status)}
           </Text>
         </View>
-        <View style={MyOrderStyles.totalInnerView}>
-          <Text style={MyOrderStyles.totalUnitText}>{i18n.total} HKD</Text>
-          <Text style={MyOrderStyles.totalPriceText}>{item.totalMoney}</Text>
-        </View>
+        {_isDelivering && (
+            <TouchableOpacity
+              onPress={() =>
+                this._cancelOrder(
+                  item.orderId,
+                  EXPLAIN_PAY_TYPE[item.payment],
+                  item.status
+                )
+              }
+              style={MyOrderStyles.payStatusBtn}
+            >
+              <Text style={MyOrderStyles.payStatusText}>
+                {i18n.myorder_tips.common.cancel_order_btn}
+              </Text>
+            </TouchableOpacity>
+          )}
       </View>
     );
   }
@@ -340,7 +358,7 @@ export default class PeopleView extends Component {
         tab: _TAB_DELIVERING,
         status: _ORDER_DELIVERING
       },
-      { title: i18n.finished, tab: _TAB_FINISHED, status: _ORDER_FINISHED },
+      { title: i18n.commented, tab: _TAB_COMMENT, status: _ORDER_COMMENT },
       { title: i18n.cancelOrder, tab: _TAB_CANCEL, status: _ORDER_CANCEL },
       { title: i18n.all, tab: _TAB_ALL, status: _ORDER_ALL }
     ];
