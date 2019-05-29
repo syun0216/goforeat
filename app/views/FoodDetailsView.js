@@ -86,7 +86,8 @@ class FoodDetailsView extends Component {
       isShareListShow: false, // 是否展示分享列表
       favoriteCount: 56, // 收藏总数
       showMoreDetail: false, //是否展示更多内容
-      isAddFruit: false // 是否添加水果
+      isAddFruit: false, // 是否添加水果
+      isIntroOpen: false, // 是否展開菜品介紹
     };
   }
 
@@ -472,9 +473,19 @@ class FoodDetailsView extends Component {
               briefNumbersOfLines: Math.ceil(height / _lineHeight)
             });
           }}
+          numberOfLines={this.state.isIntroOpen ? 6 : 2}
         >
           {foodBrief}
         </Text>
+        <TouchableOpacity
+          style={{alignSelf: 'flex-end',margin: em(5)}}
+         onPress={() => {
+          this.setState({
+            isIntroOpen: !this.state.isIntroOpen
+          })
+        }}>
+          <Text style={{color: '#ff5050',fontSize: em(15),}}>{this.state.isIntroOpen ? '收起' : '展開'}</Text>
+        </TouchableOpacity>
       </View>
     );
   }
