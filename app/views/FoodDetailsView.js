@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   RefreshControl,
   Platform,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Switch
 } from "react-native";
 import Share from "react-native-share";
 import Antd from "react-native-vector-icons/AntDesign";
@@ -59,7 +60,7 @@ const { _winHeight, _winWidth } = GLOBAL_PARAMS;
 class FoodDetailsView extends Component {
   constructor(props) {
     super(props);
-    WeChat.registerApp("wx5b3f09ef08ffa7a7");
+    WeChat.registerApp("wx5b3f09ef08ffa7a7"); // 微信id
     this._current_offset = 0;
     this._SliderEntry = null;
     this._timer = null; // 延迟加载首页
@@ -67,24 +68,25 @@ class FoodDetailsView extends Component {
     this.lastTap = null; //双击点赞
     this.state = {
       slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
-      shopDetail: null,
-      foodDetails: null,
+      shopDetail: null, // 商店详情
+      foodDetails: null, // 菜品详情
       soldOut: HAS_FOODS, // 是否已售罄
-      isError: false,
-      loading: false,
-      refreshing: false,
-      placeSelected: null,
-      formatDate: {
+      isError: false, // 是否加载出错
+      loading: false, // 是否显示加载器
+      refreshing: false, // 是否在刷新
+      placeSelected: null, // 地区选择
+      formatDate: { // 格式化日期
         date: "",
         week: "",
         endDate: ""
       },
-      briefNumbersOfLines: GLOBAL_PARAMS._winHeight > 667 ? 4 : 3,
-      foodCount: 1,
-      isFavorite: false,
-      isShareListShow: false,
-      favoriteCount: 56,
-      showMoreDetail: false
+      briefNumbersOfLines: GLOBAL_PARAMS._winHeight > 667 ? 4 : 3, // 简介显示多少列
+      foodCount: 1, // 购买菜品数量
+      isFavorite: false, // 是否被收藏
+      isShareListShow: false, // 是否展示分享列表
+      favoriteCount: 56, // 收藏总数
+      showMoreDetail: false, //是否展示更多内容
+      isAddFruit: false // 是否添加水果
     };
   }
 
@@ -118,8 +120,13 @@ class FoodDetailsView extends Component {
     this.isMounted = false;
   }
 
-  //api
-  _getFoodDetails(id) {
+  /**
+   * 获取菜品详情
+   *
+   * @param {*} id 菜品和地区关联的id
+   * @memberof FoodDetailsView
+   */
+  _getFoodDetails(id) { 
     getFoodDetails(id).then(
       data => {
         if (data.ro.respCode == "0000") {
@@ -150,7 +157,7 @@ class FoodDetailsView extends Component {
     );
   }
 
-  _onRefreshToRequestFirstPageData(id) {
+  _onRefreshToRequestFirstPageData(id) { // 刷新页面
     if (!id) return;
     this._timer = setTimeout(() => {
       // this.props.showLoading && this.props.showLoading();
@@ -159,7 +166,7 @@ class FoodDetailsView extends Component {
     }, 500);
   }
 
-  _handleDoubleTap() {
+  _handleDoubleTap() { // 双击图片点赞功能
     if (this.state.isFavorite) return;
     const now = Date.now();
     const DOUBLE_PRESS_DELAY = 300;
@@ -170,7 +177,7 @@ class FoodDetailsView extends Component {
     }
   }
 
-  _onFavorite() {
+  _onFavorite() { // 点击关注功能
     let { foodId } = this.state.foodDetails;
 
     this.setState(
@@ -197,16 +204,18 @@ class FoodDetailsView extends Component {
     });
   }
 
-  _goToOrder() {
+  _goToOrder() { // 去下单
     let {
       foodDetails: { price },
-      foodCount
+      foodCount,
+      isAddFruit
     } = this.state;
     let _defaultObj = {
       page: "Order",
       dateFoodId: this.dateFoodId,
       amount: foodCount,
-      total: foodCount * price
+      total: foodCount * price,
+      addStatus: isAddFruit ? 1 : 0
     };
     if (this.props.screenProps.user !== null) {
       this.props.navigation.navigate("Order", _defaultObj);
@@ -222,14 +231,14 @@ class FoodDetailsView extends Component {
     }
   }
 
-  _add() {
+  _add() { //添加一个菜品
     this.setState({
       foodCount: this.state.foodCount + 1,
       isBottomContainerShow: true
     });
   }
 
-  _remove() {
+  _remove() { // 删除一个菜品
     if (this.state.foodCount == 1) {
       this.props.navigation.setParams({ visible: true });
       this.setState({
@@ -244,16 +253,16 @@ class FoodDetailsView extends Component {
     });
   }
 
-  _reloadWhenCancelLogin() {
+  _reloadWhenCancelLogin() { // 选择不登录时刷新
     this._onRefreshToRequestFirstPageData(this.dateFoodId);
   }
 
-  _cancelOrder = () => {
+  _cancelOrder = () => { // 取消下单
     this.props.navigation.goBack();
   };
 
   //render function
-  _renderHeaderView() {
+  _renderHeaderView() { 
     const { i18n } = this.props;
     return <CommonHeader title={i18n.dailyFood} canBack />;
   }
@@ -618,6 +627,19 @@ class FoodDetailsView extends Component {
     )
   }
 
+  _renderIsAddedFruitView(foodDetails) { //是否加入水果
+    return (
+      <View style={FoodDetailsStyles.addFruitView}>
+        <Text style={FoodDetailsStyles.addFruitText}>{foodDetails.addName} + HKD {foodDetails.addPrice}</Text>
+        <Switch onTintColor="#FF7A00" value={this.state.isAddFruit} onValueChange={val => {
+          this.setState({
+            isAddFruit: val
+          })
+        }}/>
+      </View>
+    )
+  }
+
   _renderContentView() {
     let {
       foodDetails,
@@ -644,6 +666,7 @@ class FoodDetailsView extends Component {
           {this._renderIntroductionView()}
           {this._renderAddPriceView()}
           {this._renderMealComponentsPrice()}
+          {foodDetails && foodDetails.addStatus ?this._renderIsAddedFruitView(foodDetails) : null}
         </View>
         {<View style={FoodDetailsStyles.BottomView} />}
       </ScrollView>
@@ -651,14 +674,14 @@ class FoodDetailsView extends Component {
   }
 
   _renderBottomBtnView() {
-    const { soldOut, foodCount, foodDetails } = this.state;
+    const { soldOut, foodCount, foodDetails, isAddFruit } = this.state;
     const { i18n } = this.props;
     return (
       <BottomOrderConfirm
         btnMessage={i18n.book}
         {...this.props}
         isShow={true}
-        total={foodDetails ? foodCount * foodDetails.price : null}
+        total={foodDetails ? (foodCount * (parseInt(foodDetails.price) + (isAddFruit ? parseInt(foodDetails.addPrice) : 0))) : null}
         status={soldOut}
         btnClick={() => {
           if (!foodDetails) return;
@@ -705,14 +728,14 @@ class FoodDetailsView extends Component {
               })
             )
               .then(info => {
-                console.log(info);
+                // console.log(info);
                 this.setState({
                   modalVisible: false
                 });
               })
               .catch(err => {
                 alert(`WhatsApp:${err && err.error && err.error.message}`);
-                console.log(err);
+                // console.log(err);
                 return;
               });
           }, 300);
@@ -735,7 +758,7 @@ class FoodDetailsView extends Component {
               //   _obj['thumbImage'] = extralImage[0]
               // );
               WeChat.shareToSession(_obj).catch(error => {
-                console.log(error);
+                // console.log(error);
                 if (error.message == -2) {
                   ToastUtil.showWithMessage("分享失敗");
                 } else {
