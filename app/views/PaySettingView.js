@@ -24,7 +24,7 @@ import Colors from "../utils/Colors";
 //styles
 import PaySettingStyles from "../styles/paysetting.style";
 //api
-import { getPaySetting, getMonthTicket } from "../api/request";
+import { getPaySetting, getMonthTicket, getPaySettingNew } from "../api/request";
 
 const _checked = "../asset/checked.png";
 const _unchecked = "../asset/unchecked.png";
@@ -65,7 +65,7 @@ export default class PaySettingView extends PureComponent {
 
   //api
   _getPaySetting() {
-    getPaySetting()
+    getPaySettingNew()
       .then(data => {
         this.props.hideLoading && this.props.hideLoading();
         if (data.ro.ok) {
@@ -84,24 +84,24 @@ export default class PaySettingView extends PureComponent {
                 leftIcon: this._leftImage(LIST_IMAGE[v.code]),
                 code: v.code
               });
-              if (v.code == SET_PAY_TYPE.month_ticket) {
-                _arr.push({
-                  content: this.state.monthTicketQuantity,
-                  hasLeftIcon: true,
-                  leftIcon: (
-                    <Text
-                      style={{
-                        marginRight: 5,
-                        color: Colors.main_orange,
-                        fontSize: em(16)
-                      }}
-                    >
-                      月票數量
-                    </Text>
-                  ),
-                  code: null
-                });
-              }
+              // if (v.code == SET_PAY_TYPE.month_ticket) {
+              //   _arr.push({
+              //     content: this.state.monthTicketQuantity,
+              //     hasLeftIcon: true,
+              //     leftIcon: (
+              //       <Text
+              //         style={{
+              //           marginRight: 5,
+              //           color: Colors.main_orange,
+              //           fontSize: em(16)
+              //         }}
+              //       >
+              //         月票數量
+              //       </Text>
+              //     ),
+              //     code: null
+              //   });
+              // }
             }
           });
           this.setState({
@@ -109,7 +109,7 @@ export default class PaySettingView extends PureComponent {
             payTypeList: _arr,
             checkedName: data.data.defaultPayment
           });
-          this._getMonthTicket();
+          // this._getMonthTicket();
         } else {
           ToastUtil.showWithMessage(data.ro.respMsg);
           if (data.ro.respCode == "10006" || data.ro.respCode == "10007") {
@@ -120,6 +120,7 @@ export default class PaySettingView extends PureComponent {
         // console.log(data);
       })
       .catch(err => {
+        console.log("err",err);
         this.props.hideLoading && this.props.hideLoading();
         this.setState({
           loading: false,
@@ -342,9 +343,7 @@ export default class PaySettingView extends PureComponent {
                 </Text>
               </View>
               <CommonItem hasLeftIcon
-              leftIcon={this._leftImage(require('../asset/ticket.png'))} content="購買月票" clickFunc={() => this.props.navigation.navigate('MonthTicket',{
-                callback: () => this._getMonthTicket()
-              })}/>
+              leftIcon={this._leftImage(require('../asset/ticket.png'))} content="購買月票" clickFunc={() => this.props.navigation.navigate('MonthTicket')}/>
               {/* <CommonItem hasLeftIcon leftIcon={this._leftImage(require('../asset/tuangou.png'))} content="團購優惠券" clickFunc={() => {
                 Alert.alert(
                   this.props.i18n.tips,
