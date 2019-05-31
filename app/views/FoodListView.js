@@ -9,7 +9,8 @@ import {
   BackHandler,
   ToastAndroid,
   Animated,
-  Easing
+  Easing,
+  Alert
 } from "react-native";
 import { Container, Header } from "native-base";
 import { connect } from "react-redux";
@@ -84,20 +85,20 @@ class FoodListView extends PureComponent {
     if (isAdShow) {
       hideAd();
     }
-    // advertisementStorage.getData((error, data) => {
-    //   if (error == null) {
-    //     if (data != null) {
-    //       isAdShow &&
-    //         this.setState({
-    //           advertiseImg: data.image,
-    //           advertiseData: data,
-    //           isAdvertiseShow: true
-    //         });
-    //       this._advertiseInterval();
-    //     }
-    //     this._getAdvertise(data);
-    //   }
-    // });
+    advertisementStorage.getData((error, data) => {
+      if (error == null) {
+        if (data != null) {
+          isAdShow &&
+            this.setState({
+              advertiseImg: data.image,
+              advertiseData: data,
+              isAdvertiseShow: true
+            });
+          this._advertiseInterval();
+        }
+        this._getAdvertise(data);
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -201,7 +202,8 @@ class FoodListView extends PureComponent {
   }
 
   _getScrollTop(scrollTop) {
-    console.log('scrollTop', scrollTop);
+    // console.log('scrollTop', scrollTop);
+    // console.log('height', GLOBAL_PARAMS._winHeight);
     if(scrollTop <= 0) {
       this._initMenuStatus();
     }
@@ -256,7 +258,7 @@ class FoodListView extends PureComponent {
   _renderRefreshBgView() {
     return (
       <LinearGradient
-        colors={["#FF7F0B", "#FF1A1A"]}
+        colors={["#FF7A00", "#FE560A"]}
         start={{ x: 0.0, y: 0.0 }}
         end={{ x: 1.0, y: 0.0 }}
         style={{
@@ -274,7 +276,7 @@ class FoodListView extends PureComponent {
   _renderTopTitleView() {
     return (
       <LinearGradient
-        colors={["#FF7F0B", "#FF1A1A"]}
+        colors={["#FF7A00", "#FE560A"]}
         start={{ x: 0.0, y: 0.0 }}
         end={{ x: 1.0, y: 0.0 }}
         style={{
@@ -329,7 +331,7 @@ class FoodListView extends PureComponent {
         androidStatusBarColor="transparent"
       >
         <LinearGradient
-          colors={["#FF7F0B", "#FF1A1A"]}
+          colors={["#FF7A00", "#FE560A"]}
           start={{ x: 0.0, y: 0.0 }}
           end={{ x: 1.0, y: 0.0 }}
           style={FoodDetailsStyles.linearGradient}
@@ -401,6 +403,7 @@ class FoodListView extends PureComponent {
   _renderPlacePickerBtn() {
     return (
       <TouchableOpacity
+        activeOpacity={0.8}
         style={FoodDetailsStyles.PlacePickerBtn}
         onPress={() => this.setState({ showPlacePicker: true })}
       >
@@ -408,11 +411,12 @@ class FoodListView extends PureComponent {
         <Text style={FoodDetailsStyles.PlacePickerBtnText} numberOfLines={1}>
           {this.state.placeSelected.name}
         </Text>
-        <Image
+        {/* <Image
           source={require("../asset/arrow_down.png")}
           style={FoodDetailsStyles.PlacePickerBtnImage}
           resizeMode="contain"
-        />
+        /> */}
+        <Antd name="search1" style={FoodDetailsStyles.PlacePickerBtnImage}/>
       </TouchableOpacity>
     );
   }
@@ -440,7 +444,26 @@ class FoodListView extends PureComponent {
     if (typeof item === "undefined") return;
     let _device = getDeviceId().split(",")[0];
     return (
-      <TouchableOpacity
+      <TouchableOpacity style={styles.itemContainer}
+      onPress={() => {
+        const {placeSelected} = this.state;
+        if(placeSelected && typeof placeSelected.hasTips == "undefined") {
+          this.props.navigation.navigate("Food", {
+            dateFoodId: item.dateFoodId
+          });
+        }else {
+          Alert.alert(
+            this.props.i18n.tips,
+            placeSelected.name,
+            [
+              { text: this.props.i18n.confirm, onPress: () => {return null} }
+            ],
+            { cancelable: false }
+          )
+        }
+      }} activeOpacity={1}>
+        <Text style={styles.dateText}>{item.date}</Text>
+        <View
         style={[
           styles.articleItemContainer,
           index == 0 && {
@@ -448,21 +471,16 @@ class FoodListView extends PureComponent {
             borderTopLeftRadius: 8,
           }
         ]}
-        onPress={() => {
-          this.props.navigation.navigate("Food", {
-            dateFoodId: item.dateFoodId
-          });
-        }}
-        activeOpacity={1}
       >
         <FastImage
           source={{ uri: item.thumbnail }}
-          borderRadius={10}
+          borderRadius={5}
           style={{
-            width: _winWidth * 0.45 - 10,
-            height: em(155),
+            width: '100%',
+            height: em(200),
             alignSelf: "center",
-            borderRadius: 10
+            // borderRadius: em(2),
+            marginBottom: em(5),
           }}
           resizeMode={FastImage.resizeMode.cover}
         />
@@ -477,16 +495,16 @@ class FoodListView extends PureComponent {
               {item.name}
             </Text>
           </View>
-          <View style={styles.foodCommonContainer}>
+          {/* <View style={styles.foodCommonContainer}>
             <Text style={styles.foodCommon}>日期</Text>
             <Text style={styles.foodCommon}>{item.date}</Text>
-          </View>
+          </View> */}
           {/* <View style={styles.foodCommonContainer}>
             <Text style={styles.foodCommon}>餐廳</Text>
             <Text style={styles.foodCommon}>{item.canteenName}</Text>
           </View> */}
-          <View style={styles.foodCommonContainer}>
-            <Text style={styles.foodCommon}>套餐價</Text>
+          {/* <View style={styles.foodCommonContainer}>
+            <Text style={styles.foodCommon}>套餐價: </Text>
             <Text
               style={[
                 styles.foodCommon,
@@ -502,30 +520,44 @@ class FoodListView extends PureComponent {
                 ? `HKD${parseFloat(item.originPrice).toFixed(2)}`
                 : "市價"}
             </Text>
-          </View>
-          <View>
-            <Text style={styles.foodBrief}>成分: {item.component || ""}</Text>
-          </View>
-          <View style={styles.foodCommonContainer}>
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.foodUnit}>HKD</Text>
-              <Text style={styles.foodPrice}>{item.price}</Text>
-            </View>
-            <Text
-              style={{
-                color: "#ff5858",
-                fontSize: _winWidth < 375 ? 13 : 16,
-                marginTop: Platform.OS == "android" ? -3 : 0
-              }}
-            >
-              {
-                item.status && (item.status == HAS_FOODS ? '立即預訂' : item.status == NO_MORE_FOODS ? '已售罄' : '已截單') || '立即預訂'
-              }
+          </View> */}
+          {
+            item.prePrice ? (
+              <View style={styles.foodCommonContainer}>
+                <Text style={[styles.foodCommon]}>是日價:   </Text>
+                <Text style={[styles.foodCommon,{textDecorationLine:'line-through'}]}>
+                  {` HKD${item.dayPrice}`}
+                </Text>
+              </View>
+            ) : null
+          }
+          <View style={[styles.foodCommonContainer]}>
+            <Text style={styles.foodCommon}>{item.prePrice ? `預購價:   ` : `是日價:   `} </Text>
+            <Text style={styles.foodCommon}>
+            HKD{parseInt(item.prePrice ? `${item.prePrice}` : `${item.dayPrice}`).toFixed(2)}
             </Text>
           </View>
+          <View>
+            <Text numberOfLines={4} style={styles.foodBrief}>成分:   {item.component || ""}</Text>
+          </View>
         </View>
+      </View>
+      <View style={styles.confirmBtn}>
+        <Text
+          style={{
+            color: "#fff",
+            alignSelf: 'flex-end',
+            fontSize: em(20),
+            marginTop: Platform.OS == "android" ? -3 : 0
+          }}
+        >
+          {
+            item.status && (item.status == HAS_FOODS ? '立即預訂' : item.status == NO_MORE_FOODS ? '已售罄' : '已截單') || '立即預訂'
+          }
+        </Text>
+      </View>
       </TouchableOpacity>
-    );
+      );
   }
 
   _renderFlatListView() {
@@ -589,35 +621,47 @@ export default connect(
 )(FoodListView);
 
 const styles = StyleSheet.create({
+  itemContainer: {
+    backgroundColor: '#fff',
+    padding: 15,
+    // height: em(190),
+    borderBottomWidth: em(15),
+    borderBottomColor: '#f0f0f0',
+    justifyContent: 'center',
+    position: 'relative'
+  },
+  dateText: {
+    fontSize: em(20),
+    color: "#333",
+    marginBottom: em(10),
+    fontWeight: "800"
+  },
   articleItemContainer: {
-    height: em(190),
-    flex: 1,
+    // flex: 1,
     // paddingBottom: 15,
-    paddingLeft: 15,
-    paddingRight: 15,
-    flexDirection: "row",
+    // flexDirection: "row",
     shadowColor: "#333",
     shadowOffset: { width: 3, height: 5 },
     shadowOpacity: 0,
     shadowRadius: 10,
     backgroundColor: "#fff",
-    overflow: "hidden",
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
+    // overflow: "hidden",
+    // alignItems: 'center',
+    
   },
   articleItemDetails: {
-    height: em(150),
-    paddingLeft: em(10),
+    // height: em(100),
+    // paddingLeft: em(10),
     // paddingRight: 0,
+    marginTop: em(5),
     flex: 1,
     backgroundColor: "#fff",
     // borderWidth: 1,
     // borderColor: '#ededeb',
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
-    overflow: "hidden",
-    justifyContent: "space-between"
+    // overflow: "hidden",
+    // justifyContent: "space-between"
   },
   itemName: {
     flexDirection: "row",
@@ -625,35 +669,45 @@ const styles = StyleSheet.create({
   },
   foodCommonContainer: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "flex-start",
+    marginBottom: em(5)
   },
   foodName: {
-    fontSize: em(18),
+    fontSize: em(20),
     color: "#111",
-    fontWeight: "800"
+    fontWeight: "800",
+    maxWidth: em(220)
   },
   foodCommon: {
-    fontSize: em(13),
+    fontSize: em(18),
     color: "#666"
   },
   foodBrief: {
-    fontSize: em(13),
-    color: "#666",
+    fontSize: em(14),
+    color: "#959595",
     textAlign: "justify",
-    lineHeight: 16
+    lineHeight: 20,
   },
   foodUnit: {
-    fontSize: em(14),
+    fontSize: em(15),
     color: "#666",
     marginRight: em(3),
     marginTop: Platform.OS === "android" ? em(-3.5) : 0
   },
   foodPrice: {
-    fontSize: _winWidth < 375 ? em(16) : em(18),
+    fontSize: _winWidth < 375 ? em(20) : em(20),
     color: "#2a2a2a",
-    lineHeight: em(18)
+    lineHeight: em(20)
   },
   marginBottom9: {
     marginBottom: em(10)
+  },
+  confirmBtn: {
+    position: "absolute",
+    right: 15,
+    top: em(260),
+    backgroundColor: '#ff5050',
+    padding: em(5),
+    borderRadius: em(2.5)
   }
 });
