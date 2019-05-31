@@ -289,6 +289,7 @@ export default class PeopleView extends Component {
 
   _renderTotalPriceView(item) {
     let _isDelivering = item.status === _ORDER_DELIVERING;
+    let _isCommenting = item.status == _ORDER_FINISHED;
     let { i18n } = this.state;
     return (
       <View style={MyOrderStyles.totalContainer}>
@@ -310,6 +311,18 @@ export default class PeopleView extends Component {
             >
               <Text style={MyOrderStyles.payStatusText}>
                 {i18n.myorder_tips.common.cancel_order_btn}
+              </Text>
+            </TouchableOpacity>
+          )}
+        {_isCommenting && (
+            <TouchableOpacity
+              onPress={() =>
+                {}
+              }
+              style={[MyOrderStyles.payStatusBtn, {borderColor: '#ff5050',}]}
+            >
+              <Text style={[MyOrderStyles.payStatusText, {color: '#ff5050'}]}>
+                評論得優惠券
               </Text>
             </TouchableOpacity>
           )}
