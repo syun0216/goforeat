@@ -175,11 +175,11 @@ const darwerView = DrawerNavigator(
     PayTypeDrawer: {
       screen: CommonHOC(PaySettingView)
     },
+    MonthTicketDrawer: {
+      screen: CommonHOC(PurchaseMonthTicketView)
+    },
     CouponDrawer: {
       screen: CommonHOC(CouponView)
-    },
-    UserHelpDrawer: {
-      screen: CommonHOC(UserHelperView)
     },
     SettingDrawer: {
       screen: CommonHOC(SettingView)
@@ -212,12 +212,12 @@ const darwerView = DrawerNavigator(
           leftImage: require("./asset/payment.png")
         },
         {
-          title: i18n[language].ticket,
-          leftImage: require("./asset/coupon.png")
+          title: i18n[language].myMonthTicket,
+          leftImage: require("./asset/monthticket.png")
         },
         {
-          title: i18n[language].contact,
-          leftImage: require("./asset/help.png")
+          title: i18n[language].ticket,
+          leftImage: require("./asset/coupon.png")
         },
         {
           title: i18n[language].setting,

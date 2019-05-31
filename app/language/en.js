@@ -69,6 +69,7 @@ export default {
   foodAddress: "Pick-up Area",
   foodTime: "Pick-up Time",
   useMonthTicket: "Use Month Ticket",
+  myMonthTicket: "My Month Ticket",
   useCoupon: "Use coupon",
   discount: "Discounted price",
   bookPhone: "My Phone Number",

@@ -66,6 +66,7 @@ export default {
   foodAddress: "取餐地點",
   foodTime: "取餐時間",
   useMonthTicket: "使用月票",
+  myMonthTicket: "我的月票",
   useCoupon: "使用優惠券(優惠券不能與月票一齊使用)",
   discount: "優惠金額",
   bookPhone: "下單電話",
