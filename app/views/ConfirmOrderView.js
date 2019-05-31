@@ -28,7 +28,7 @@ import GLOBAL_PARAMS, {
 import ToastUtil from "../utils/ToastUtil";
 import { getDeviceId } from "../utils/DeviceInfo";
 //api
-import { createNewOrder, confirmOrder, useCoupon } from "../api/request";
+import { createNewOrder, confirmOrder, useCoupon, confirmOrderV1 } from "../api/request";
 //component
 import Divider from "../components/Divider";
 //styles
@@ -51,7 +51,6 @@ const PAY_TYPE = {
 
 export default class ConfirmOrderView extends PureComponent {
   static navigationOptions = ({ navigation, navigationOptions }) => {
-    console.log({ navigation });
     const { params } = navigation.state;
     return {
       headerTintColor: "#fff",
@@ -66,10 +65,10 @@ export default class ConfirmOrderView extends PureComponent {
 
   constructor(props) {
     super(props);
-    console.log(props);
     this.props.navigation.setParams({ i18n: this.props.i18n });
-    this.dateFoodId = this.props.navigation.state.params.dateFoodId;
-    this.amount = this.props.navigation.state.params.amount;
+    this.dateFoodId = this.props.navigation.state.params.dateFoodId; // 菜品和地区关联id
+    this.amount = this.props.navigation.state.params.amount; // 菜品数量
+    this.addStatus = this.props.navigation.state.params.addStatus; //是否添加水果
     this._popupDialog = null;
     this._input = null;
     this.timer = null;
@@ -84,9 +83,9 @@ export default class ConfirmOrderView extends PureComponent {
       coupon: null,
       discountsPrice: 0,
       remark: "",
-      isCouponPickModalShow: false,
       couponDetail: null,
-      i18n: I18n[props.screenProps.language]
+      isMonthTicketUsed: false, //是否使用月票
+      i18n: I18n[props.screenProps.language],
     };
   }
 
@@ -119,7 +118,8 @@ export default class ConfirmOrderView extends PureComponent {
 
   _createOrder() {
     let { i18n } = this.state;
-    createNewOrder(this.dateFoodId, this.amount).then(
+    // console.log("addStatus", this.addStatus);
+    createNewOrder(this.dateFoodId, this.amount, this.props.currentPlace.id, this.addStatus).then(
       data => {
         if (data.ro.respCode == "0000" && data.data) {
           this.setState({
@@ -130,6 +130,12 @@ export default class ConfirmOrderView extends PureComponent {
             isBottomShow: true,
             isError: false
           });
+          if(data.data.monthTicketAmount > 0) {
+            this.setState({
+              isMonthTicketUsed: true
+            })
+            ToastUtil.showWithMessage("已為您抵購一張月票!");
+          }
         } else {
           if (data.ro.respCode == "10006" || data.ro.respCode == "10007") {
             this.props.screenProps.userLogout();
@@ -148,6 +154,21 @@ export default class ConfirmOrderView extends PureComponent {
         ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.get_order);
       }
     );
+  }
+
+  _countTotal() { // 计算最后总价
+    let _total = 0;
+    let {
+      orderDetail: { totalMoney, foodMoney, foodNum, addPrice, monthTicketAmount, foodUnitPrice },
+      isMonthTicketUsed,
+      discountsPrice
+    } = this.state;
+    if(monthTicketAmount > 0 && isMonthTicketUsed) { // 证明有月票进行抵购或者月票是否可用
+      _total = foodUnitPrice * (foodNum - 1) + (typeof addPrice != "undefined" && addPrice ? addPrice : 0); // 月票抵购一份饭
+    }else { //如果没有月票 就进行优惠券抵购
+      _total = totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
+    }
+    return _total;
   }
 
   async _confirmOrder() {
@@ -206,12 +227,11 @@ export default class ConfirmOrderView extends PureComponent {
     let {
       couponDetail,
       orderDetail: { totalMoney, orderId, defaultPayment },
-      discountsPrice,
+      isMonthTicketUsed,
       coupon,
       remark
     } = this.state;
-    totalMoney =
-      totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
+    totalMoney = this._countTotal();
     let { i18n } = this.state;
     let _appleAndAndroidPayRes = null;
     let _deductionId = isEmpty(couponDetail) ? null : couponDetail.deductionId;
@@ -224,16 +244,18 @@ export default class ConfirmOrderView extends PureComponent {
       token = _appleAndAndroidPayRes.details.paymentToken;
     }
     this.props.showLoadingModal();
-    confirmOrder(
+    confirmOrderV1(
       orderId,
       totalMoney,
       defaultPayment,
       token,
-      remark,
       _deductionId,
+      isMonthTicketUsed,
+      remark,
       placeId
     ).then(
       data => {
+        console.log(9999999,data);
         this.props.hideLoadingModal();
         if (data.ro.respCode == "0000") {
           ToastUtil.showWithMessage(i18n.confirmorder_tips.success.order);
@@ -254,7 +276,9 @@ export default class ConfirmOrderView extends PureComponent {
         // ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.order);
         this.props.hideLoadingModal();
       }
-    );
+    ).catch(err => {
+      console.log('err', err)
+    });
   }
 
   _useCoupon = () => {
@@ -305,6 +329,33 @@ export default class ConfirmOrderView extends PureComponent {
         : defaultPayment;
     return EXPLAIN_PAY_TYPE[defaultPayment][this.props.screenProps.language];
   };
+
+  _renderMonthTicketView() {
+    const {orderDetail: {monthTicketAmount}, isMonthTicketUsed} = this.state;
+    return (
+      <View style={{flexDirection: 'row', justifyContent: "space-between",flex: 1, paddingRight: em(5)}}>
+        <Text>{isMonthTicketUsed ? monthTicketAmount ? '1張' : '不可用' : '不使用月票抵購'}</Text>
+        <Text>剩餘{monthTicketAmount || '--'}張</Text>
+      </View>
+    )
+  }
+
+  _renderCouponView() {
+    const {orderDetail: {monthTicketAmount}, couponDetail, discountsPrice, isMonthTicketUsed} = this.state;
+    return (
+      <View style={{flexDirection: 'row', justifyContent: "space-between",flex: 1, paddingRight: em(5)}}>
+        <View style={{flexDirection: 'row', justifyContent: "space-between"}}>
+          <Image
+            source={require("../asset/coupon.png")}
+            resizeMode="contain"
+            style={{ width: em(18), height: em(18), marginRight: em(11.5) }}
+          />
+          <Text>{isMonthTicketUsed && monthTicketAmount ? `優惠券` : couponDetail ? `通用` : "不可用"}</Text>
+        </View>  
+        <Text>{isMonthTicketUsed && monthTicketAmount ? "10張" : couponDetail ? `- HKD ${parseInt(couponDetail.discount).toFixed(2)}` : "0張"}</Text>
+      </View>
+    )
+  }
 
   //private function
 
@@ -482,14 +533,12 @@ export default class ConfirmOrderView extends PureComponent {
           <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop, styles.commonMarginBottom]}>
             <ShimmerPlaceHolder autoRun={true} style={{width: "100%",height: 25}}/>
           </View>
-          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop, styles.commonMarginBottom]}>
-            <ShimmerPlaceHolder autoRun={true} style={{width: "100%",height: 25}}/>
-          </View>
         </View>
       );
     }
     let {
-      orderDetail: { totalMoney, foodName, foodMoney, foodNum, defaultPayment, deduction },
+      orderDetail: { totalMoney, foodName, foodMoney, foodNum, defaultPayment, monthTicketAmount, addName, addPrice, foodUnitPrice },
+      isMonthTicketUsed,
       hasChangeDefaultPayment,
       discountsPrice,
       i18n
@@ -499,7 +548,7 @@ export default class ConfirmOrderView extends PureComponent {
         ? hasChangeDefaultPayment
         : defaultPayment;
     
-    totalMoney =
+    totalMoney = isMonthTicketUsed && monthTicketAmount ? totalMoney :
       totalMoney - discountsPrice > 0 ? totalMoney - discountsPrice : 0;
     return (
       <View style={styles.commonNewContainer}>
@@ -508,24 +557,45 @@ export default class ConfirmOrderView extends PureComponent {
             {foodName}
           </Text>
           <Text style={ConfirmOrderStyles.MoneyUnit} numberOfLines={1}>
-            HKD {foodMoney.toFixed(2)}
+            HKD {parseInt(foodUnitPrice * foodNum).toFixed(2)}
           </Text>
         </View>
-        <View style={[ConfirmOrderStyles.CountView, styles.commonMarginBottom]}>
+        <View style={[ConfirmOrderStyles.CountView, styles.commonMarginBottom, {marginTop: em(5)}]}>
           <Text style={ConfirmOrderStyles.CountText}>{i18n.quantity}:</Text>
           <Text style={ConfirmOrderStyles.FoodNum}>{foodNum}</Text>
         </View>
-        {discountsPrice > 0 ? (
-          <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop]}>
-            <Text style={ConfirmOrderStyles.TotalText}>{i18n.discount}</Text>
-            <View style={ConfirmOrderStyles.NewsInner}>
-              <Text style={ConfirmOrderStyles.CouponUnit}>- HKD</Text>
-              <Text style={ConfirmOrderStyles.CouponMoney} numberOfLines={1}>
-                {discountsPrice.toFixed(2)}
+        {
+          typeof addName != 'undefined' && typeof addPrice != "undefined" ? (
+            <View style={[ConfirmOrderStyles.NewsInner, {marginTop: em(5)}]}>
+              <Text style={ConfirmOrderStyles.FoodName} numberOfLines={1}>
+                {addName}
+              </Text>
+              <Text style={ConfirmOrderStyles.MoneyUnit} numberOfLines={1}>
+                HKD {parseInt(addPrice).toFixed(2)}
               </Text>
             </View>
-          </View>
-        ) : null}
+          ) : null
+        }
+        {
+          typeof addName != 'undefined' && typeof addPrice != "undefined" ? 
+          (<View style={[ConfirmOrderStyles.CountView, styles.commonMarginBottom, {marginTop: em(5)}]}>
+            <Text style={ConfirmOrderStyles.CountText}>{i18n.quantity}:</Text>
+            <Text style={ConfirmOrderStyles.FoodNum}>{foodNum}</Text>
+          </View>) : null
+        }
+        {
+          isMonthTicketUsed && monthTicketAmount ? null : discountsPrice > 0 ? (
+            <View style={[ConfirmOrderStyles.NewsInner, styles.commonMarginTop]}>
+              <Text style={ConfirmOrderStyles.TotalText}>{i18n.discount}</Text>
+              <View style={ConfirmOrderStyles.NewsInner}>
+                <Text style={ConfirmOrderStyles.CouponUnit}>- HKD</Text>
+                <Text style={ConfirmOrderStyles.CouponMoney} numberOfLines={1}>
+                  {discountsPrice.toFixed(2)}
+                </Text>
+              </View>
+            </View>
+          ) : null
+        }
         <View
           style={[
             ConfirmOrderStyles.NewsInner,
@@ -542,9 +612,6 @@ export default class ConfirmOrderView extends PureComponent {
           </View>
         </View>
         <Divider bgColor="#EBEBEB" height={1} />
-        {defaultPayment == PAY_TYPE.month_ticket
-          ? null
-          : this._renderNewCouponView()}
       </View>
     );
   }
@@ -607,6 +674,49 @@ export default class ConfirmOrderView extends PureComponent {
         canOpen: false,
         clickFunc: () => {},
         disable: true
+      },
+      {
+        title: i18n.useMonthTicket,
+        isCustomContent: true,
+        content: this._renderMonthTicketView(),
+        hasPreIcon: false,
+        fontColor: "#333333",
+        canOpen: true,
+        clickFunc: () => {
+          this.props.navigation.navigate("MonthTicket", {
+            from: 'confirm_order',
+            isUsed: this.state.isMonthTicketUsed,
+            callback: isUse => {
+              this.setState({
+                isMonthTicketUsed: isUse
+              });
+            }
+          });
+        },
+        // disable: true
+      },
+      {
+        title: i18n.useCoupon,
+        isCustomContent: true,
+        content: this._renderCouponView(),
+        hasPreIcon: false,
+        fontColor: "#333333",
+        canOpen: true,
+        clickFunc: () => {
+          this.props.navigation.navigate("Coupon", {
+            callback: coupon => {
+              if (!isEmpty(coupon)) {
+                this.setState({
+                  couponDetail: coupon,
+                  discountsPrice: coupon.discount
+                });
+              }
+              // console.log({coupon})
+            },
+            from: "confirm_order"
+          })
+        },
+        // disable: true
       },
       {
         title: i18n.payment,
@@ -687,24 +797,22 @@ export default class ConfirmOrderView extends PureComponent {
                 resizeMode="contain"
               />
             ) : null}
-            <Text
-              style={{
-                fontSize: 18,
-                color: item.fontColor,
-                marginRight: item.hasPreIcon ? 20 : 0
-              }}
-              numberOfLines={1}
-            >
-              {item.content}
-            </Text>
+            {
+              item.isCustomContent ? item.content : (<Text
+                style={{
+                  fontSize: 18,
+                  color: item.fontColor,
+                  marginRight: item.hasPreIcon ? 20 : 0
+                }}
+                numberOfLines={1}
+              >
+                {item.content}
+              </Text>)
+            }
           </View>
           {item.canOpen ? (
             <Icon
-              name={
-                item.title == i18n.payment
-                  ? "ios-arrow-forward-outline"
-                  : "ios-arrow-down-outline"
-              }
+              name="ios-arrow-forward-outline"
               style={ConfirmOrderStyles.ArrowShow}
             />
           ) : null}
@@ -717,13 +825,18 @@ export default class ConfirmOrderView extends PureComponent {
     return (
       <Footer
         style={{
-          height: em(50),
           backgroundColor: "#fff",
-          height: GLOBAL_PARAMS.isIphoneX() ? em(50)+GLOBAL_PARAMS.iPhoneXBottom : em(50),
+          height: GLOBAL_PARAMS.isIphoneX() ? em(60)+GLOBAL_PARAMS.iPhoneXBottom : em(60),
+          justifyContent: 'space-around',
+          alignItems: "center"
         }}
       >
+        <View style={{flexDirection: 'row', justifyContent:'space-between',alignItems:'center'}}>
+          <Text style={{color: '#666', fontSize: em(14)}}>還需支付 HKD  </Text>
+          <Text style={{color: '#ff5050', fontSize: em(28),marginTop:em(-8)}}>{this.state.orderDetail ? this._countTotal().toFixed(2) : "--"}</Text>
+        </View>
         <CommonBottomBtn
-          style={{ height: em(40) }}
+          style={{ height: em(40),width: em(140),alignSelf: 'center',marginBottom: 0,}}
           disabled={this.state.orderDetail == null}
           loading={this.state.orderDetail == null}
           clickFunc={() => this._confirmOrder()}
