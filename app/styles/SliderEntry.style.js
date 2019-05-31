@@ -21,7 +21,7 @@ const entryBorderRadius = 8;
 export default StyleSheet.create({
   slideInnerContainer: {
     width: itemWidth,
-    height: em(260),
+    height: em(230),
     paddingHorizontal: itemHorizontalMargin,
     paddingBottom: em(10) // needed for shadow
     // backgroundColor: '#fff'
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     // borderRadius: entryBorderRadius
   },
   imageContainer: {
-    height: em(260),
+    height: em(230),
     // marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
     backgroundColor: "white",
     shadowColor: "#c5bbd0",

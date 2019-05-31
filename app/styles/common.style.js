@@ -17,6 +17,7 @@ const common = {
     marginBottom: em(20),
     // justifyContent: "center",
     // alignItems: "center"
+    alignSelf: 'center',
   },
   common_row: {
     flex: 1,

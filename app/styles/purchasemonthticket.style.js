@@ -7,6 +7,24 @@ import GLOBAL_PARAMS, {
 } from "../utils/global_params";
 
 export default StyleSheet.create({
+  detailTitle: {
+    fontSize: em(22),
+    fontWeight: '700',
+  },
+  detailSubTitle: {
+    fontSize: em(18),
+    color: '#959595',
+  },
+  detailQuantity: {
+    color: '#ff5050',
+    alignSelf: 'flex-end',
+    fontSize: em(25),
+  },
+  detailDate: {
+    fontSize: em(18),
+    color: '#959595',
+    alignSelf: 'flex-end',
+  },
   topTitleView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -16,7 +34,7 @@ export default StyleSheet.create({
     marginBottom: em(20)
   },
   topTitle: {
-    fontSize: em(35),
+    fontSize: em(30),
     fontWeight: '700',
     marginBottom: em(20)
   },
