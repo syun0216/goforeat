@@ -56,3 +56,5 @@ export const creditCardStorage = new storageFactory('storage_credit_card');
 export const advertisementStorage = new storageFactory('storage_advertisement');
 
 export const warningTipsStorage = new storageFactory('storage_warning_tips');
+
+export const debugStorage = new storageFactory('storage_debug');
