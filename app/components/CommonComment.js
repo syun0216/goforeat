@@ -6,7 +6,7 @@ import CommonModal from './CommonModal';
 import Share from 'react-native-share';
 import FastImage from 'react-native-fast-image';
 //api
-import { popupComment, addComment } from '../api/request';
+import { popupComment, addComment, getCommentByOrderId } from '../api/request';
 //utils
 import GLOBAL_PARAMS, {em, _winWidth, _winHeight} from '../utils/global_params';
 import ToastUtils from '../utils/ToastUtil';
@@ -137,10 +137,6 @@ class CommonComment extends Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this._keyboardDidHide());
   }
 
-  componentDidMount() {
-    this._commentPopup();
-  }
-
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
@@ -163,16 +159,28 @@ class CommonComment extends Component {
     }).start();
 }
 
+_reinit() {
+  this.setState({
+    currentComment: null,
+    currentStar: 5,
+    commentTags: ["文字評價"]
+  });
+}
+
   //api
-  _commentPopup() {
-    popupComment().then(data => {
-      if(data.ro.respCode == '0000') {
-        this.setState({
-          currentComment: data.data,
-          modalVisible: true
-        })
-      }
-    });
+  _commentPopup = (orderId) => {
+    // console.log('orderId :', orderId);
+    if(orderId) {
+      getCommentByOrderId(orderId).then(data => {
+        if(data.ro.respCode == '0000') {
+          console.log(data);
+          this.setState({
+            currentComment: data.data,
+            modalVisible: true
+          })
+        }
+      });
+    }
   }
 
   _addCommentApi() {
@@ -188,9 +196,14 @@ class CommonComment extends Component {
         this.isCommentSubmit = true;
         this.setState({
           modalVisible: false
+        },() => {
+          if(typeof this.props.callback != "undefined") {
+            this.props.callback();
+          }
+          this._reinit();
         });
       } else {
-        ToastUtils.showWithMessage(data.ro.respMsg);
+        alert(data.ro.respMsg);
       }
     });
   }
@@ -276,7 +289,7 @@ class CommonComment extends Component {
         } else {
           commentTags.push(item);
         }
-        console.log('commentTags :', commentTags);
+        // console.log('commentTags :', commentTags);
         this.setState({
           commentTags: commentTags
         })
@@ -348,7 +361,8 @@ class CommonComment extends Component {
 
 
 CommonComment.propsType = {
-  modalVisible: PropTypes.bool
+  modalVisible: PropTypes.bool,
+  callback: PropTypes.func
 }
 
 export default CommonComment;
