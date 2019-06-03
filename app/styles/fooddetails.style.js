@@ -252,7 +252,7 @@ export default StyleSheet.create({
         },
   addFruitView: {
     flexDirection: 'row',
-    
+    position: 'relative',
     justifyContent: 'space-between',
     paddingLeft: common.marginLeft,
     paddingRight: common.marginLeft
@@ -260,5 +260,11 @@ export default StyleSheet.create({
   addFruitText: {
     color: "#959595",
     fontSize: em(18)
+  },
+  fruitTips: {
+    position: 'absolute',
+    bottom: em(-25),
+    right: common.marginLeft,
+    color: "#959595"
   }
 });

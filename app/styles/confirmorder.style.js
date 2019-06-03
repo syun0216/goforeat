@@ -122,7 +122,8 @@ export default StyleSheet.create({
     height: em(20),
     color: "#C8C7C7",
     marginTop: -6,
-    fontSize: em(25)
+    fontSize: em(25),
+    marginLeft: em(2)
   },
   //renderCouponBtnView
   CouponInput: {

@@ -66,7 +66,8 @@ export default StyleSheet.create({
   },
   payInner: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    position: 'relative'
   },
   payTypeView: {
     padding: em(5),
