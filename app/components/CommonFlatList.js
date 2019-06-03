@@ -100,7 +100,7 @@ export default class CommonFlatList extends PureComponent {
   }
 
   // public
-  outSideRefresh() {
+  outSideRefresh = () => {
     this.init();
     this.setState(
       {

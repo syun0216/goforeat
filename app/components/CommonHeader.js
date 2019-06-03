@@ -89,7 +89,27 @@ const CommonHeader = props => (
     </Left>
     <Body style={{ minWidth: 200, flex: 1 }}>
       {props.children || (
-        <Text
+        props.subTitle ? (
+          <View style={{justifyContent: 'center',}}>
+            <Text
+              allowFontScaling={false}
+              style={[
+                {
+                  color: props.textColor,
+                  fontSize: GLOBAL_PARAMS.em(18),
+                  fontWeight: "800"
+                },
+                props.titleStyle
+              ]}
+              numberOfLines={1}>
+              {props.title}
+            </Text>
+            <Text allowFontScaling={false} style={{color: props.textColor, fontSize: GLOBAL_PARAMS.em(14), marginTop: Platform.OS == 'ios' ? em(5) : em(1),}}>
+              {props.subTitle}
+            </Text>
+          </View>
+        ) : (
+          <Text
           allowFontScaling={false}
           style={[
             {
@@ -103,6 +123,7 @@ const CommonHeader = props => (
         >
           {props.title}
         </Text>
+        )
       )}
     </Body>
     <Right>
