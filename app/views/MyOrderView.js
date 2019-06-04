@@ -14,12 +14,13 @@ import GLOBAL_PARAMS, {
 } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //api
-import { myOrder, cancelOrder } from "../api/request";
+import { myOrder, cancelOrder, popupComment } from "../api/request";
 //components
 import CommonHeader from "../components/CommonHeader";
 import Text from "../components/UnScalingText";
 import CommonFlatList from "../components/CommonFlatList";
 import CustomizeContainer from "../components/CustomizeContainer";
+import CommonComment from "../components/CommonComment";
 //utils
 import { em } from "../utils/global_params";
 import Colors from "../utils/Colors";
@@ -48,6 +49,7 @@ const slideAnimation = new SlideAnimation({
 export default class PeopleView extends Component {
   timer = null;
   _tabs = null;
+  _commentView = null;
   _current_tab = _TAB_DELIVERING;
   _delivering_list = [];
   _section_list = null;
@@ -124,6 +126,8 @@ export default class PeopleView extends Component {
         return i18n.delivering;
       case 2:
         return i18n.finish;
+      case 3: 
+        return i18n.uncomment
     }
   }
 
@@ -162,7 +166,7 @@ export default class PeopleView extends Component {
       ? require("../asset/default_pic.png")
       : { uri: item.picture };
     return (
-      <View style={MyOrderStyles.FoodContainer}>
+      <View style={[MyOrderStyles.FoodContainer,{height: item.addAmount ? em(120) : (110)}]}>
         <FastImage
           style={MyOrderStyles.FoodImage}
           reasizeMode={FastImage.resizeMode.contain}
@@ -170,26 +174,45 @@ export default class PeopleView extends Component {
         />
         <View style={MyOrderStyles.FoodInnerContainer}>
           <View style={MyOrderStyles.FoodTitleView}>
-            <Text
-              style={[
-                CommonStyles.common_title_text,
-                { maxWidth: GLOBAL_PARAMS.em(130) }
-              ]}
-              numberOfLines={1}
-            >
-              {item.orderName}
-            </Text>
-            <View style={{ flexDirection: "row", marginTop: -2 }}>
+            <View>
+              <Text
+                style={[
+                  CommonStyles.common_title_text,
+                  { maxWidth: GLOBAL_PARAMS.em(150) }
+                ]}
+                numberOfLines={1}
+              >
+                {item.orderName}
+              </Text>
+            </View>
+            <View style={{ flexDirection: "row"}}>
               <Text
                 style={[CommonStyles.common_title_text, { marginRight: 5 }]}
               >
-                {i18n.quantity}:
+                ×
               </Text>
               <Text style={CommonStyles.common_important_text}>
                 {item.amount}
               </Text>
             </View>
           </View>
+          {
+            item.addAmount ? (
+              <View style={[MyOrderStyles.FoodTitleView]}>
+                <Text style={CommonStyles.common_title_text}>{item.addName}</Text>
+                <View style={{ flexDirection: "row"}}>
+                  <Text
+                    style={[CommonStyles.common_title_text, { marginRight: 5 }]}
+                  >
+                    ×
+                  </Text>
+                  <Text style={CommonStyles.common_important_text}>
+                    {item.addAmount}
+                  </Text>
+                </View>
+              </View>
+            ) : null
+          }
           <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>{i18n.foodTime}</Text>
             <Text
@@ -226,7 +249,7 @@ export default class PeopleView extends Component {
               >
                 {item.takeAddressDetail}
               </Text>
-              <Antd name="doubleright" style={{color: Colors.main_orange, marginTop: em(2)}}/>
+              <Antd name="doubleright" style={{color: Colors.main_orange, marginTop:  Platform.OS == 'ios' ? em(2) : em(4)}}/>
             </TouchableOpacity>  
 
           </View>
@@ -278,7 +301,11 @@ export default class PeopleView extends Component {
               {i18n.myorder_tips.common.pick_place_btn}
             </Text>
           </TouchableOpacity> */}
-          <View style={MyOrderStyles.totalInnerView}>
+          <View style={[MyOrderStyles.totalInnerView, item.status == _ORDER_ALL || item.status == _ORDER_CANCEL && {
+            position: 'absolute',
+            right: 0,
+            bottom: em(-20)
+          }]}>
             <Text style={MyOrderStyles.totalUnitText}>{i18n.total} HKD</Text>
             <Text style={MyOrderStyles.totalPriceText}>{item.totalMoney}</Text>
           </View>
@@ -289,7 +316,7 @@ export default class PeopleView extends Component {
 
   _renderTotalPriceView(item) {
     let _isDelivering = item.status === _ORDER_DELIVERING;
-    let _isCommenting = item.status == _ORDER_FINISHED;
+    let _isCommenting = item.status == _ORDER_COMMENT;
     let { i18n } = this.state;
     return (
       <View style={MyOrderStyles.totalContainer}>
@@ -317,7 +344,13 @@ export default class PeopleView extends Component {
         {_isCommenting && (
             <TouchableOpacity
               onPress={() =>
-                {}
+                {
+                  // console.log(this._commentView);
+                  // console.log(item);
+                  this._commentView._commentPopup(item.orderId, () => {
+
+                  })
+                }
               }
               style={[MyOrderStyles.payStatusBtn, {borderColor: '#ff5050',}]}
             >
@@ -357,7 +390,7 @@ export default class PeopleView extends Component {
       >
         <FastImage
           source={this.state.currentPickImage ? { uri: this.state.currentPickImage }: require("../asset/gardenListDefault.png")}
-          style={{ width: em(295), height: em(250), borderBottomLeftRadius: 8,borderBottomRightRadius: 8 }}
+          style={{ width: em(295), height: em(250), borderBottomLeftRadius: 8,borderBottomRightRadius: 8, }}
         />
       </PopupDialog>
     );
@@ -428,6 +461,10 @@ export default class PeopleView extends Component {
             </Tab>
           ))}
         </Tabs>
+        <CommonComment ref={c => this._commentView = c} callback={() => {
+          this[`${_TAB_COMMENT}flatlist`].outSideRefresh();
+          ToastUtil.showWithMessage("添加評論成功!");
+        }}/>
       </CustomizeContainer.SafeView>
     );
   }
