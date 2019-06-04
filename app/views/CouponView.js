@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
+import { isEmpty } from "lodash";
 import { Container, Content, Icon, Item, Input } from "native-base";
 import PopupDialog,{SlideAnimation,DialogButton} from 'react-native-popup-dialog';
 import LottieView from "lottie-react-native";
@@ -220,7 +221,10 @@ export default class CouponView extends PureComponent {
     );
 
     const isHeaderHide = typeof this.props.hideHeader !== undefined;
-    // console.log(this.props.hideHeader);
+    let payMoney = null;
+    if(!isEmpty(this.props.navigation.state.params) && typeof this.props.navigation.state.params.payMoney != "undefined") {
+      payMoney = this.props.navigation.state.params.payMoney;
+    }
     return (
       <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef" }}>
         <Header />
@@ -229,6 +233,7 @@ export default class CouponView extends PureComponent {
         <CommonFlatList
           ref={cf => this._commonFlatList = cf}
           requestFunc={myCoupon}
+          extraParams={{payMoney}}
           renderItem={(item, index) => this._renderCouponItem(item, index)}
           {...this.props}
         />

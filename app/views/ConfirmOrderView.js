@@ -233,6 +233,7 @@ export default class ConfirmOrderView extends PureComponent {
     } = this.state;
     totalMoney = this._countTotal();
     let { i18n } = this.state;
+    let useMonthTicket  = isMonthTicketUsed ? 1 : 0;
     let _appleAndAndroidPayRes = null;
     let _deductionId = isEmpty(couponDetail) ? null : couponDetail.deductionId;
     let placeId = isEmpty(this.props.currentPlace.id) ? null : this.props.currentPlace.id;
@@ -250,7 +251,7 @@ export default class ConfirmOrderView extends PureComponent {
       defaultPayment,
       token,
       _deductionId,
-      isMonthTicketUsed,
+      useMonthTicket,
       remark,
       placeId
     ).then(
@@ -334,8 +335,8 @@ export default class ConfirmOrderView extends PureComponent {
     const {orderDetail: {monthTicketAmount}, isMonthTicketUsed} = this.state;
     return (
       <View style={{flexDirection: 'row', justifyContent: "space-between",flex: 1, paddingRight: em(5)}}>
-        <Text>{isMonthTicketUsed ? monthTicketAmount ? '1張' : '不可用' : '不使用月票抵購'}</Text>
-        <Text>剩餘{monthTicketAmount || '--'}張</Text>
+        <Text>{isMonthTicketUsed ? monthTicketAmount ? '1張' :   '不可用' : monthTicketAmount  ? '不使用月票抵購' : '不可用'}</Text>
+        <Text>剩餘{monthTicketAmount || '0'}張</Text>
       </View>
     )
   }
@@ -348,11 +349,11 @@ export default class ConfirmOrderView extends PureComponent {
           <Image
             source={require("../asset/coupon.png")}
             resizeMode="contain"
-            style={{ width: em(18), height: em(18), marginRight: em(11.5) }}
+            style={{ width: em(18), height: em(18), marginRight: em(11.5),marginTop: Platform.OS == 'android' ? em(2) : 0 }}
           />
           <Text>{isMonthTicketUsed && monthTicketAmount ? `優惠券` : couponDetail ? `通用` : "不可用"}</Text>
         </View>  
-        <Text>{isMonthTicketUsed && monthTicketAmount ? "10張" : couponDetail ? `- HKD ${parseInt(couponDetail.discount).toFixed(2)}` : "0張"}</Text>
+        <Text>{isMonthTicketUsed && monthTicketAmount ? `${couponDetail&&couponDetail.totalAmount || '0'}張` : couponDetail ? `- HKD ${parseInt(couponDetail.discount).toFixed(2)}` : "0張"}</Text>
       </View>
     )
   }
@@ -477,6 +478,7 @@ export default class ConfirmOrderView extends PureComponent {
 
   _renderNewCouponView() {
     let { couponDetail } = this.state;
+    const payMoney = this._countTotal();
     return (
       <CommonItem
         style={{ padding: 0, width: "100%", borderBottomWidth: 0 , paddingTop: 10,
@@ -513,6 +515,7 @@ export default class ConfirmOrderView extends PureComponent {
               }
               // console.log({coupon})
             },
+            payMoney,
             from: "confirm_order"
           })
         }
@@ -707,12 +710,13 @@ export default class ConfirmOrderView extends PureComponent {
             callback: coupon => {
               if (!isEmpty(coupon)) {
                 this.setState({
-                  couponDetail: coupon,
+                  couponDetail: {...this.state.couponDetail, ...coupon},
                   discountsPrice: coupon.discount
                 });
               }
               // console.log({coupon})
             },
+            payMoney: this._countTotal(),
             from: "confirm_order"
           })
         },
@@ -767,7 +771,7 @@ export default class ConfirmOrderView extends PureComponent {
             allowFontScaling={false}
             style={ConfirmOrderStyles.Input}
             placeholderTextColor="#999"
-            placeholder="例如:加飯、少辣"
+            placeholder="餐食恕無法滿足特殊要求"
             clearButtonMode="while-editing"
             onChangeText={val => this._getRemark(val)}
           />
@@ -933,7 +937,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     elevation: 3,
     marginBottom: 10,
-    backgroundColor: Colors.main_white
+    backgroundColor: Colors.main_white,
   },
   commonDetailsContainer: {
     justifyContent: "space-around",
