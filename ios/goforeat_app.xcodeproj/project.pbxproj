@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		081F6990D1B44D7D9A90986C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 500C59F6C4664701B262A79B /* EvilIcons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -32,6 +33,8 @@
 		C73FF71A21B364FC007704C8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C73FF71921B364FC007704C8 /* SystemConfiguration.framework */; };
 		C73FF71C21B36517007704C8 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C73FF71B21B36517007704C8 /* libc++.tbd */; };
 		C73FF71D21B36528007704C8 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C1B00796C84DB38A5A5F6B /* libz.tbd */; };
+		C75204A5228DA2FE0058E647 /* libFBSDKLoginKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C75204A4228DA2FE0058E647 /* libFBSDKLoginKit.a */; };
+		C75204DB228DA3EB0058E647 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C75204DA228DA3DD0058E647 /* libRCTFBSDK.a */; };
 		C753EF0620CACE3000A1DCFD /* CodePush.h in Frameworks */ = {isa = PBXBuildFile; fileRef = C753EF0520CACE3000A1DCFD /* CodePush.h */; };
 		C7639D672069D523000A02BB /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D662069D50A000A02BB /* libRNShare.a */; };
 		C7639D692069D56E000A02BB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7639D682069D56E000A02BB /* Social.framework */; };
@@ -226,6 +229,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
+		};
+		C75204D9228DA3DD0058E647 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C75204D5228DA3DD0058E647 /* RCTFBSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
+			remoteInfo = RCTFBSDK;
 		};
 		C7639D652069D50A000A02BB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -454,6 +464,8 @@
 		C744A3CE20F4F20500AD84DC /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
 		C744A3D620F4F26000AD84DC /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		C744A3E920F4F63400AD84DC /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		C75204A4228DA2FE0058E647 /* libFBSDKLoginKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFBSDKLoginKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C75204D5228DA3DD0058E647 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		C753EF0520CACE3000A1DCFD /* CodePush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CodePush.h; path = "../node_modules/react-native-code-push/ios/CodePush/CodePush.h"; sourceTree = "<group>"; };
 		C7639D342069D50A000A02BB /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
 		C7639D682069D56E000A02BB /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -502,6 +514,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75204DB228DA3EB0058E647 /* libRCTFBSDK.a in Frameworks */,
+				C75204A5228DA2FE0058E647 /* libFBSDKLoginKit.a in Frameworks */,
 				C76CDFC821CC80B70072D7FB /* libFastImage.a in Frameworks */,
 				C73FF71D21B36528007704C8 /* libz.tbd in Frameworks */,
 				C73FF71C21B36517007704C8 /* libc++.tbd in Frameworks */,
@@ -584,6 +598,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C75204A4228DA2FE0058E647 /* libFBSDKLoginKit.a */,
 				C73FF71B21B36517007704C8 /* libc++.tbd */,
 				C73FF71921B364FC007704C8 /* SystemConfiguration.framework */,
 				C73FF6E921B364EE007704C8 /* CoreTelephony.framework */,
@@ -648,6 +663,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C75204D5228DA3DD0058E647 /* RCTFBSDK.xcodeproj */,
 				C76CDF9321CC80A50072D7FB /* FastImage.xcodeproj */,
 				C7BAD81421B27FCB00A4B50B /* RCTWeChat.xcodeproj */,
 				C78B95A920FF1494009A8093 /* RCTBEEPickerManager.xcodeproj */,
@@ -821,6 +837,14 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		C75204D6228DA3DD0058E647 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C75204DA228DA3DD0058E647 /* libRCTFBSDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C7639D352069D50A000A02BB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -900,14 +924,6 @@
 				C7E44DDA2194789F00B0BEC1 /* libReactNativePayments.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		044E02A203A04EFBAA43BC3B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = /Users/sujunwen/Documents/Mywork/hk/goforeat/node_modules/react-native-payments-addon-stripe/Carthage/Build/iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1006,6 +1022,10 @@
 				{
 					ProductGroup = C744A3B720F4F14300AD84DC /* Products */;
 					ProjectRef = C744A3B620F4F14300AD84DC /* RCTBlob.xcodeproj */;
+				},
+				{
+					ProductGroup = C75204D6228DA3DD0058E647 /* Products */;
+					ProjectRef = C75204D5228DA3DD0058E647 /* RCTFBSDK.xcodeproj */;
 				},
 				{
 					ProductGroup = C744A38320F4F00E00AD84DC /* Products */;
@@ -1220,6 +1240,13 @@
 			fileType = archive.ar;
 			path = libRCTAnimation.a;
 			remoteRef = C744A3F020F4F63400AD84DC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C75204DA228DA3DD0058E647 /* libRCTFBSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTFBSDK.a;
+			remoteRef = C75204D9228DA3DD0058E647 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C7639D662069D50A000A02BB /* libRNShare.a */ = {

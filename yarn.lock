@@ -1755,7 +1755,7 @@ escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
 
-escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
+escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
@@ -2647,6 +2647,13 @@ inquirer@^3.0.6, inquirer@^3.2.0:
     string-width "^2.1.0"
     strip-ansi "^4.0.0"
     through "^2.3.6"
+
+invariant@2.2.4:
+  version "2.2.4"
+  resolved "https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
+  integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
+  dependencies:
+    loose-envify "^1.0.0"
 
 invariant@^2.0.0, invariant@^2.2.2:
   version "2.2.2"
@@ -4326,6 +4333,11 @@ qs@4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/qs/-/qs-4.0.0.tgz#c31d9b74ec27df75e543a86c78728ed8d4623607"
 
+qs@6.6.0:
+  version "6.6.0"
+  resolved "https://registry.npmjs.org/qs/-/qs-6.6.0.tgz#a99c0f69a8d26bf7ef012f871cdabb0aee4424c2"
+  integrity sha512-KIJqT9jQJDQx5h5uAVPimw6yVg2SekOKu959OCtktD3FjzbpvaPr8i4zzg07DOMz+igA4W/aNM7OV8H37pFYfA==
+
 qs@^6.5.1, qs@~6.5.1:
   version "6.5.1"
   resolved "https://registry.npmjs.org/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
@@ -4527,6 +4539,14 @@ react-native-image-progress@^1.1.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-instagram-login@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/react-native-instagram-login/-/react-native-instagram-login-1.1.1.tgz#51d33c252b414949e4458fb444e5f898db18bba5"
+  integrity sha512-bMUpS5DHx9PUiRTJu9fgGhwOJW/6oLxUSKt2qvskAuI9svhZSCa83HrPJCe9WzsBlYwn2L99LsN6d+nugRsoZA==
+  dependencies:
+    qs "6.6.0"
+    react-native-webview "^5.2.0"
+
 react-native-interactable@^0.1.10:
   version "0.1.10"
   resolved "https://registry.npmjs.org/react-native-interactable/-/react-native-interactable-0.1.10.tgz#65b9a68f6a84ba1c0e2ad5478b1f22ffb29c0526"
@@ -4666,6 +4686,14 @@ react-native-vector-icons@~4.4.2:
     lodash "^4.0.0"
     prop-types "^15.5.10"
     yargs "^8.0.2"
+
+react-native-webview@^5.2.0:
+  version "5.8.2"
+  resolved "https://registry.npmjs.org/react-native-webview/-/react-native-webview-5.8.2.tgz#dcc9c802f145183cfc828944350bd43f968aa72c"
+  integrity sha512-WvB5vH3xaxwXbk0RFGDIkM+MEeMfrfkhXdgYW1qj/xUuioeH5lduCpR+sID8+OR35zx+pBuamQ9jSlRGuREJrw==
+  dependencies:
+    escape-string-regexp "1.0.5"
+    invariant "2.2.4"
 
 react-native-wechat@^1.9.10:
   version "1.9.10"
