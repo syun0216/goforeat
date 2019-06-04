@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Share from "react-native-share";
 import Antd from "react-native-vector-icons/AntDesign";
+import {Overlay} from "teaset";
 import Carousel from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
 import { sliderWidth } from "../styles/SliderEntry.style";
@@ -28,7 +29,7 @@ import GLOBAL_PARAMS, {
 } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //api
-import { getFoodDetails, myFavorite } from "../api/request";
+import { getFoodDetails, myFavorite, getCommentList } from "../api/request";
 //components
 import ErrorPage from "../components/ErrorPage";
 import BottomOrderConfirm from "../components/BottomOrderConfirm";
@@ -38,6 +39,7 @@ import CommonHeader from "../components/CommonHeader";
 import ShareComponent from "../components/ShareComponent";
 import ShimmerPlaceHolder from "../components/ShimmerPlaceholder";
 import CustomizeContainer from "../components/CustomizeContainer";
+import CommonFlatList from "../components/CommonFlatList";
 
 const WeChat = require("react-native-wechat");
 
@@ -58,6 +60,7 @@ const itemHorizontalMargin = wp(1);
 const { _winHeight, _winWidth } = GLOBAL_PARAMS;
 
 class FoodDetailsView extends Component {
+  _commentView = null;
   constructor(props) {
     super(props);
     WeChat.registerApp("wx5b3f09ef08ffa7a7"); // 微信id
@@ -265,7 +268,8 @@ class FoodDetailsView extends Component {
   //render function
   _renderHeaderView() { 
     const { i18n } = this.props;
-    return <CommonHeader title={i18n.dailyFood} canBack />;
+    const { foodDetails } = this.state;
+    return <CommonHeader title={foodDetails ? foodDetails.title : i18n.dailyFood} subTitle={foodDetails ? foodDetails.subTitle : null} canBack />;
   }
 
   _renderDateFormat() {
@@ -458,7 +462,12 @@ class FoodDetailsView extends Component {
           ) : null}
           <Text
             style={FoodDetailsStyles.IntroductionDetailBtn}
-            onPress={() => this.slideUpPanel._snapTo()}
+            onPress={() => 
+              {
+                this.slideUpPanel._snapTo()
+                // Overlay.show(this._renderCommentModel())
+              }
+            }
           >
             {this.props.i18n.foodDetail}
           </Text>
@@ -556,6 +565,33 @@ class FoodDetailsView extends Component {
     );
   }
 
+  _renderCommentModel() {
+    if(!this.state.foodDetails) return;
+    const {foodDetails:{foodId}} = this.state;
+
+    return (
+      <Overlay.PullView ref={pv => this._commentView = pv} side="bottom" modal={false}>
+        <View style={{height: GLOBAL_PARAMS._winHeight*0.7}}>
+          <CommonFlatList 
+            ref={c => this._flatList = c}
+            requestFunc={getCommentList}
+            renderItem={(item, idx) => this._renderCommentItem(item,idx)}
+            extraParams={{foodId: foodId }}
+            {...this.props}
+          />
+        </View>
+      </Overlay.PullView>
+    )
+  }
+
+  _renderCommentItem(item, idx) {
+    return (
+      <View key={idx}>
+        <Text>{item.nickName}</Text>
+      </View>
+    )
+  }
+
   _renderAddPriceView() {
     const { foodDetails, soldOut } = this.state;
     const { i18n } = this.props;
@@ -639,6 +675,7 @@ class FoodDetailsView extends Component {
   }
 
   _renderIsAddedFruitView(foodDetails) { //是否加入水果
+    const {isAddFruit} = this.state;
     return (
       <View style={FoodDetailsStyles.addFruitView}>
         <Text style={FoodDetailsStyles.addFruitText}>{foodDetails.addName} + HKD {foodDetails.addPrice}</Text>
@@ -647,6 +684,7 @@ class FoodDetailsView extends Component {
             isAddFruit: val
           })
         }}/>
+        <Text style={FoodDetailsStyles.fruitTips}>{isAddFruit ? "真抵!" : "加埋更抵食~"}</Text>
       </View>
     )
   }
@@ -671,7 +709,7 @@ class FoodDetailsView extends Component {
           />
         }
       >
-        {this._renderDateFormat()}
+        {/* {this._renderDateFormat()} */}
         {this._renderMainView()}
         <View>
           {this._renderIntroductionView()}
@@ -839,6 +877,7 @@ class FoodDetailsView extends Component {
         {this._renderContentView()}
         {this._renderBottomBtnView()}
         {foodDetails && this._renderMoreDetailModal()}
+        {/* {foodDetails && this._renderCommentModel()} */}
         {foodDetails && (
           <ShareComponent
             ref={sl => (this._shareList = sl)}
