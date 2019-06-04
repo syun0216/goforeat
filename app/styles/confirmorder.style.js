@@ -119,9 +119,8 @@ export default StyleSheet.create({
   },
   ArrowShow: {
     width: em(20),
-    height: em(20),
     color: "#C8C7C7",
-    marginTop: -6,
+    marginTop: -2,
     fontSize: em(25),
     marginLeft: em(2)
   },

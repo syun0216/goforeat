@@ -157,7 +157,7 @@ export default StyleSheet.create({
     fontSize: em(16),
     position: "absolute",
     left: em(8),
-    top: Platform.OS == "android" ? em(7) : em(7),
+    top: Platform.OS == "android" ? em(5) : em(7),
     maxWidth: Platform.OS == "ios" ? em(218) : em(250)
   },
   //render
