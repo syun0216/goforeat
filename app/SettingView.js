@@ -15,6 +15,7 @@ import { Container, ActionSheet } from "native-base";
 import ToastUtil from "./utils/ToastUtil";
 import { getVersion } from "./utils/DeviceInfo";
 import GLOBAL_PARAMS, { em } from "./utils/global_params";
+import {isDebugVersion} from "./utils/DeviceInfo";
 //components
 import CommonHeader from "./components/CommonHeader";
 import CommonItem from "./components/CommonItem";
@@ -158,6 +159,13 @@ export default class SettingView extends PureComponent {
         }
       },
       {
+        content: i18n.contact,
+        isEnd: false,
+        clickFunc: () => {
+          this.props.navigation.navigate("UserHelp");
+        }
+      },
+      {
         content: i18n.policy,
         isEnd: false,
         clickFunc: () => {
@@ -189,8 +197,12 @@ export default class SettingView extends PureComponent {
           <TouchableWithoutFeedback
             delayLongPress={4000}
             onLongPress={() => {
-              languageStorage.removeAll();
-              alert("清除緩存成功");
+              if(isDebugVersion()) {
+                this.props.navigation.navigate('Debug');
+              }else {
+                languageStorage.removeAll();
+                alert("清除緩存成功");
+              }
             }}
           >
             <View

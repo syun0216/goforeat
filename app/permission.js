@@ -13,7 +13,9 @@ export function AuthInterceptor(action, state) {
         "Coupon",
         "MyOrder",
         "PayType",
-        "UserInfo"
+        "UserInfo",
+        "MonthTicket",
+        "MonthTicketDrawer"
     ];
     if (state && action.type == NavigationActions.NAVIGATE) {
         return (

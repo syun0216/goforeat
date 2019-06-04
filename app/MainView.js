@@ -33,6 +33,7 @@ import UserInfoView from "./views/UserInfoView";
 import CouponView from "./views/CouponView";
 import PickPlaceView from "./views/PickPlaceView";
 import PurchaseMonthTicketView from './views/PurchaseMonthTicketView';
+import DebugView from './debugView';
 //api
 import source from "./api/CancelToken";
 //utils
@@ -392,7 +393,10 @@ let MainView = StackNavigator(
     },
     MonthTicket: {
       screen: CommonHOC(PurchaseMonthTicketView)
-    }
+    },
+    // Debug: {
+    //   screen: CommonHOC(DebugView)
+    // },
   },
   {
     headerMode: "none",
