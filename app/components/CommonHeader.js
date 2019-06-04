@@ -104,7 +104,7 @@ const CommonHeader = props => (
               numberOfLines={1}>
               {props.title}
             </Text>
-            <Text allowFontScaling={false} style={{color: props.textColor, fontSize: GLOBAL_PARAMS.em(14), marginTop: Platform.OS == 'ios' ? em(5) : em(1),}}>
+            <Text allowFontScaling={false} style={{color: props.textColor, fontSize: GLOBAL_PARAMS.em(14), marginTop: Platform.OS == 'ios' ? em(5) : 0,}}>
               {props.subTitle}
             </Text>
           </View>

@@ -57,7 +57,7 @@ class CommonModal extends PureComponent {
       </TouchableOpacity>
     )
     return (
-      <CustomizeContainer.SafeView mode="linear" >
+      <CustomizeContainer.SafeView mode={Platform.OS == 'ios' ? 'linear' : 'none'} >
         {isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
         <Content bounces={false}>
             {children}

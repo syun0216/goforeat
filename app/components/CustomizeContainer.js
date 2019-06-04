@@ -31,7 +31,7 @@ const linearAndroid = {
 
 const SafeView = props => (
   <SafeAreaView style={[{ flex: 1, backgroundColor: "transparent" },props.style]} forceInset={props.forceInset}>
-    {props.mode == "default" ? (
+    {props.mode != 'none' ? props.mode == "default" ? (
       <View style={[styles,{backgroundColor: props.statusbarColor}]} />
     ) : (
       <LinearGradient
@@ -40,7 +40,7 @@ const SafeView = props => (
         end={{ x: 1.0, y: 0.0 }}
         style={Platform.OS == 'ios' ? linear : linearAndroid}
       />
-    )}
+    ) : null}
     <Container>
       <StatusBar barStyle={props.barStyle} backgroundColor='transparent' translucent/>
       {props.children}
