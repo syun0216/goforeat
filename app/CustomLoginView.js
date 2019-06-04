@@ -6,9 +6,10 @@ import {
   Platform,
   KeyboardAvoidingView,
   ToastAndroid,
-  ActivityIndicator
 } from "react-native";
 import { Input, Icon, ActionSheet,Footer, Container, Content } from "native-base";
+import { LoginButton, AccessToken } from 'react-native-fbsdk';
+// import InstagramLogin from 'react-native-instagram-login'
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
 import ToastUtil from "./utils/ToastUtil";
@@ -42,6 +43,7 @@ export default class CustomLoginView extends PureComponent {
   _actionSheet = null;
   phone = null;
   password = null;
+  instagramLogin = null;
   state = {
     phone: null,
     password: null,
@@ -148,7 +150,13 @@ export default class CustomLoginView extends PureComponent {
           this.props.screenProps.userLogin(_user);
           this.props.screenProps.toggleLogin(false);
           let _timer = setTimeout(() => {
-            this.props.navigation.navigate(this.props.screenProps.toPage);
+            let {toPage} = this.props.screenProps;
+            if(toPage.routeName && toPage.routeName == 'UserInfo') {
+              this.props.navigation.navigate('DrawerClose');
+            }else {
+              this.props.navigation.navigate(toPage);
+            }
+            // console.log(1111111111111,this.props.screenProps.toPage);
             clearTimeout(_timer);
           }, 300);
           JPushModule.getRegistrationID(
@@ -307,6 +315,7 @@ export default class CustomLoginView extends PureComponent {
         <CommonBottomBtn clickFunc={() => this._login()} loading={loading}>
           {i18n.loginOrRegister}
         </CommonBottomBtn>
+        {/* {this._renderFbLoginView()} */}
       </View>
     );
   }
@@ -339,6 +348,48 @@ export default class CustomLoginView extends PureComponent {
     );
   }
 
+  _renderFbLoginView() {
+    return (
+      <View style={{alignItems: 'center'}}>
+        <LoginButton
+            onLoginFinished={
+              (error, result) => {
+                if (error) {
+                  console.log("login has error: " + result.error);
+                } else if (result.isCancelled) {
+                  console.log("login is cancelled.");
+                } else {
+                  AccessToken.getCurrentAccessToken().then(
+                    (data) => {
+                      alert(data.accessToken.toString())
+                    }
+                  )
+                }
+              }
+          }
+        onLogoutFinished={() => console.log("logout.")}/>
+      </View>
+    )
+  }
+
+  // _renderInstagramLoginView() {
+  //   return (
+  //     <View>
+  //       <TouchableOpacity onPress={()=> this.instagramLogin.show()}>
+  //         <Text>Login</Text>
+  //       </TouchableOpacity>
+  //       <InstagramLogin
+  //           ref= {ref => this.instagramLogin= ref}
+  //           clientId='xxxxxxxxxx'
+  //           redirectUrl='yourRedirectUrl'
+  //           scopes={['public_content', 'follower_list']}
+  //           onLoginSuccess={(token) => this.setState({ token })}
+  //           onLoginFailure={(data) => console.log(data)}
+  //       />
+  //     </View>
+  //   )
+  // }
+
   render() {
     return (
       <Container>
@@ -350,6 +401,7 @@ export default class CustomLoginView extends PureComponent {
           >
             {this._renderTopImage()}
             {this._renderContentView()}
+            
             {/*this._renderBottomView()*/}
             <ActionSheet
               ref={a => {

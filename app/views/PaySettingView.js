@@ -336,14 +336,14 @@ export default class PaySettingView extends PureComponent {
                   disabled={item.code == null}
                 />
               ))}
-              <Divider bgColor='#efefef' height={em(10)}/>
-              <View style={PaySettingStyles.creditcardView}>
+              {/* <Divider bgColor='#efefef' height={em(10)}/> */}
+              {/* <View style={PaySettingStyles.creditcardView}>
                 <Text style={PaySettingStyles.creditcardText}>
                   更多服務
                 </Text>
               </View>
               <CommonItem hasLeftIcon
-              leftIcon={this._leftImage(require('../asset/ticket.png'))} content="購買月票" clickFunc={() => this.props.navigation.navigate('MonthTicket')}/>
+              leftIcon={this._leftImage(require('../asset/ticket.png'))} content="購買月票" clickFunc={() => this.props.navigation.navigate('MonthTicket')}/> */}
               {/* <CommonItem hasLeftIcon leftIcon={this._leftImage(require('../asset/tuangou.png'))} content="團購優惠券" clickFunc={() => {
                 Alert.alert(
                   this.props.i18n.tips,

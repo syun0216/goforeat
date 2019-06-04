@@ -139,10 +139,12 @@ export default class UserInfoView extends PureComponent {
       () => {
         uploadAvatar(photoData)
           .then(data => {
+            this.setState({
+              loadingModal: false
+            });
             if (data.data.ro.ok) {
               this.setState({
-                photoData: photoData,
-                loadingModal: false
+                photoData: photoData
               });
               let { userInfo } = this.props.screenProps;
               userInfo.profileImg = data.data.data;

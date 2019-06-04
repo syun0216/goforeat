@@ -6,7 +6,9 @@ import { Overlay } from "teaset";
 import {
   getMonthTicketList,
   createMonthTicket,
-  confirmMonthTicket
+  confirmMonthTicket,
+  getMonthTicket,
+  getMonthTicketInfo
 } from "../api/request";
 //components
 import CommonHeader from "../components/CommonHeader";
@@ -17,8 +19,7 @@ import CommonItem from "../components/CommonItem";
 import PurchaseMonthTicketStyles from "../styles/purchasemonthticket.style";
 import PaySettingStyles from "../styles/paysetting.style";
 //utils
-import Colors from "../utils/Colors";
-import {
+import GLOBAL_PARAMS,{
   stripe_api_key,
   merchant_id,
   SET_PAY_TYPE,
@@ -40,12 +41,17 @@ export default class PurchaseMonthTicketView extends PureComponent {
     currentMonthTicketSelect: {},
     currentMonthTicketOrder: null,
     currentPayType: SET_PAY_TYPE.credit_card,
+    monthTicketQuantity: 0, // 现有月票数量
+    monthTicketEndTime: "", // 有效期
+    monthTicketDetail: null //月票详情
   };
 
   componentDidMount() {
     this._timer = setTimeout(() => {
       this.props.showLoading && this.props.showLoading();
+      this._getMonthTicket();
       this._getMonthTicketList();
+      this._getMonthTicketInfo();
       clearTimeout(this._timer);
     }, 400);
   }
@@ -73,6 +79,16 @@ export default class PurchaseMonthTicketView extends PureComponent {
       });
   }
 
+  _getMonthTicketInfo() {
+    getMonthTicketInfo().then(data => {
+      if(data.ro.ok && data.data.list) {
+        this.setState({
+          monthTicketDetail: data.data.list
+        })
+      }
+    })
+  }
+
   _createMonthTicket() {
     this.props.showLoadingModal();
     createMonthTicket(this.state.currentMonthTicketSelect.specId)
@@ -97,6 +113,22 @@ export default class PurchaseMonthTicketView extends PureComponent {
       });
   }
 
+  _getMonthTicket() {
+    getMonthTicket().then(data => {
+      if(data.ro.ok && data.data) {
+        let _date = new Date(data.data.endTime);
+        this.setState({
+          monthTicketQuantity: data.data.amount,
+          monthTicketEndTime: [
+            _date.getDate() + 1 < 10 ? `0${_date.getDate() + 1}` : _date.getDate(),
+            _date.getMonth() + 1 < 10 ? `0${_date.getMonth() + 1}` : _date.getMonth(),
+            _date.getFullYear(),
+          ].join("/")
+        });
+      }
+    })
+  }
+
   _payMonthTicket(token, payment) {
     const { callback } = this.props.navigation.state.params;
     const { orderId, price } = this.state.currentMonthTicketOrder;
@@ -114,7 +146,9 @@ export default class PurchaseMonthTicketView extends PureComponent {
           this.state.currentPayType == SET_PAY_TYPE.apple_pay && this._paymentRequest && this._paymentRequest.complete("success");
           this.props.toast(data.ro.respMsg || "購買成功");
           this.props.navigation.goBack();
-          callback && callback();
+          if(typeof callback != 'undefined') {
+            callback();
+          }
         } else {
           this.props.toast(data.ro.respMsg || "購買失敗");
           if(data.ro.respCode == "20010") {
@@ -305,6 +339,21 @@ export default class PurchaseMonthTicketView extends PureComponent {
     this._overlayViewKey = Overlay.show(this.OverlayContent());
   }
 
+  _renderMonthTicketDetails() {
+    return (
+      <View style={[PurchaseMonthTicketStyles.topTitleView, {borderWidth: 1,borderColor: '#e8e9ed', borderRadius: em(4), padding: em(8),marginLeft: GLOBAL_PARAMS._winWidth * .03,marginRight: GLOBAL_PARAMS._winWidth * .03,marginBottom: em(5),marginTop: em(10)}]}>
+        <View style={{justifyContent: 'space-between',height: em(65)}}>
+          <Text style={PurchaseMonthTicketStyles.detailTitle}>我的月票</Text>
+          <Text style={PurchaseMonthTicketStyles.detailSubTitle}>清晰把握可用月票</Text>
+        </View>
+        <View style={{justifyContent: 'space-between',height: em(65)}}>
+          <Text style={PurchaseMonthTicketStyles.detailQuantity}>{this.state.monthTicketQuantity}張</Text>
+          <Text style={PurchaseMonthTicketStyles.detailDate}>{this.state.monthTicketEndTime || '--'}到期</Text>
+        </View>
+      </View>
+    )
+  }
+
   _renderTopTitle() {
     return (
       <View style={PurchaseMonthTicketStyles.topTitleView}>
@@ -351,6 +400,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
   }
 
   _renderInfoView() {
+    const {monthTicketDetail} = this.state;
     return(
       <View style={PurchaseMonthTicketStyles.infoView}>
         <View style={PurchaseMonthTicketStyles.infoViewTop}>
@@ -359,28 +409,46 @@ export default class PurchaseMonthTicketView extends PureComponent {
           <View style={PurchaseMonthTicketStyles.grayDivider}></View>
         </View>
         <View style={PurchaseMonthTicketStyles.infoContent}>
-          <Text style={PurchaseMonthTicketStyles.infoContentText}>1.月票只會在購買當天的一個月內有效</Text>
+          {
+            monthTicketDetail.map((text, idx) => (
+              <Text key={idx} style={PurchaseMonthTicketStyles.infoContentText}>{text}</Text>
+            ))
+          }
+          {/* <Text style={PurchaseMonthTicketStyles.infoContentText}>1.月票只會在購買當天的一個月內有效</Text>
           <Text style={PurchaseMonthTicketStyles.infoContentText}>2.使用期限請查看支付方式的月票到期日</Text>
           <Text style={PurchaseMonthTicketStyles.infoContentText}>3.月票每日僅限使用一張</Text>
-          <Text style={PurchaseMonthTicketStyles.infoContentText}>4.如有任何爭議，Mealtime有得食保留最終解釋權</Text>
+          <Text style={PurchaseMonthTicketStyles.infoContentText}>4.如有任何爭議，Mealtime有得食保留最終解釋權</Text> */}
         </View>
       </View>
     )
   }
 
   render() {
-    const { monthTicketList, currentMonthTicketSelect } = this.state;
+    const { monthTicketList, currentMonthTicketSelect, monthTicketQuantity, monthTicketDetail } = this.state;
+    const confirmBtn = () => {
+      const {isUsed, callback} = this.props.navigation.state.params;
+      return (
+        <TouchableOpacity style={{paddingRight: em(15), width: em(100)}} onPress={() => {
+            if(typeof callback != 'undefined') {
+              callback(!isUsed);
+            }
+            this.props.navigation.goBack();}}>
+          <Text style={{color: '#fff',fontSize: em(16),alignSelf: 'flex-end',}}>{isUsed ? '不使用' : '使用1張'}</Text>
+        </TouchableOpacity>
+      )
+    };
     return (
       <CustomizeContainer.SafeView mode="linear">
-        <CommonHeader title="購買月票" canBack />
+        <CommonHeader title="購買月票" canBack hasRight={typeof this.props.navigation.state.params != "undefined" && monthTicketQuantity > 0} rightElement={confirmBtn}/>
         <Content>
+          {this._renderMonthTicketDetails()}
           {this._renderTopTitle()}
           {monthTicketList.length > 0 ? (
             monthTicketList.map((item, key) =>
               this._renderTicketItem(item, key)
             )
           ) : null}
-          {this._renderInfoView()}
+          {monthTicketDetail?this._renderInfoView():null}
         </Content>
         <Footer style={PurchaseMonthTicketStyles.footer}>
           <Left style={{ flexDirection: "row", alignItems: "center" }}>
