@@ -21,4 +21,5 @@ export const RESET_CACHE = 'RESET_CACHE';
 
 
 //api
+export const FOOD_PLACE = 'FOOD_PLACE';
 export const GET_COUPON = 'GET_COUPON';
