@@ -466,21 +466,23 @@ class FoodListView extends PureComponent {
         <View
         style={[
           styles.articleItemContainer,
-          index == 0 && {
+          {
             borderTopRightRadius: 8,
             borderTopLeftRadius: 8,
+            overflow: 'hidden',
           }
         ]}
       >
         <FastImage
           source={{ uri: item.thumbnail }}
-          borderRadius={5}
+          borderRadius={8}
           style={{
             width: '100%',
             height: em(200),
             alignSelf: "center",
-            // borderRadius: em(2),
+            borderRadius: 8,
             marginBottom: em(5),
+            overflow: 'hidden'
           }}
           resizeMode={FastImage.resizeMode.cover}
         />
@@ -522,11 +524,11 @@ class FoodListView extends PureComponent {
             </Text>
           </View> */}
           {
-            item.prePrice ? (
+           typeof item.dayPrice != "undefined" && item.dayPrice ? (
               <View style={styles.foodCommonContainer}>
                 <Text style={[styles.foodCommon]}>是日價:   </Text>
                 <Text style={[styles.foodCommon,{textDecorationLine:'line-through'}]}>
-                  {` HKD${item.dayPrice}`}
+                  {` HKD${parseInt(item.dayPrice).toFixed(2)}`}
                 </Text>
               </View>
             ) : null
@@ -534,7 +536,7 @@ class FoodListView extends PureComponent {
           <View style={[styles.foodCommonContainer]}>
             <Text style={styles.foodCommon}>{item.prePrice ? `預購價:   ` : `是日價:   `} </Text>
             <Text style={styles.foodCommon}>
-            HKD{parseInt(item.prePrice ? `${item.prePrice}` : `${item.dayPrice}`).toFixed(2)}
+            HKD{parseInt(item.prePrice ? `${item.prePrice}` : `${item.dayPrice || item.prePrice}`).toFixed(2)}
             </Text>
           </View>
           <View>
