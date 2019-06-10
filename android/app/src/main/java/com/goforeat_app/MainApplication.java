@@ -3,6 +3,8 @@ package com.goforeat_app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.avishayil.rnrestart.ReactNativeRestartPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -76,6 +78,8 @@ public class MainApplication extends Application implements ReactApplication {
             String deploymentKey = "fMXsr1oL8ExCRlmMZD2nLEWHY0-rd261912e-873f-4270-b887-25c360664c8c";
             return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new ReactNativeRestartPackage(),
+            new AsyncStoragePackage(),
             new RNCWebViewPackage(),
             new RNFusedLocationPackage(),
             new VectorIconsPackage(),

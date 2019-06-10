@@ -1,10 +1,7 @@
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+  Copyright (c) Facebook, Inc. and its affiliates.
+  This source code is licensed under the MIT license found in the
+  LICENSE file in the root directory of this source tree.
  */
 
 #import "AppDelegate.h"
@@ -16,6 +13,7 @@
 #import <CodePush/CodePush.h>
 #import "SplashScreen.h"  // here
 
+#import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
@@ -79,23 +77,28 @@
   [JPUSHService setupWithOption:launchOptions appKey:@"1d3225ebddcae3fc7ef8b0b5"
                         channel:nil apsForProduction:nil];
 
-  NSURL *jsCodeLocation;
+
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                   moduleName:@"goforeat_app"
+                                            initialProperties:nil];
+
+//   NSURL *jsCodeLocation;
 
 
-    #ifdef DEBUG
-        jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-//          jsCodeLocation = [NSURL
-//                            URLWithString:
-//                            @"http://192.168.0.104:8081/index.bundle?platform=ios&dev=true"];
-    #else
-        jsCodeLocation = [CodePush bundleURL];
-    #endif
-//  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"index.ios" withExtension:@"jsbundle"];
+//     #ifdef DEBUG
+//         jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+// //          jsCodeLocation = [NSURL
+// //                            URLWithString:
+// //                            @"http://192.168.0.104:8081/index.bundle?platform=ios&dev=true"];
+//     #else
+//         jsCodeLocation = [CodePush bundleURL];
+//     #endif
 
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"goforeat_app"
-                                               initialProperties:nil
-                                                   launchOptions:launchOptions];
+  // RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+  //                                                     moduleName:@"goforeat_app"
+  //                                              initialProperties:nil
+  //                                                  launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -108,6 +111,16 @@
   [SplashScreen show];  // here
   [NSThread sleepForTimeInterval:0.5];
   return YES;
+}
+
+- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
+{
+#if DEBUG
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+#else
+  // return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  return [CodePush bundleURL];
+#endif
 }
   
   - (void)applicationDidBecomeActive:(UIApplication *)application {

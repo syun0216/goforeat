@@ -6,9 +6,10 @@ target 'goforeat_app' do
   # use_frameworks!
   
   # Pods for Facebook sdk
-  pod 'FBSDKCoreKit'
-  pod 'FBSDKShareKit'
-  pod 'FBSDKLoginKit'
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+  pod 'FBSDKCoreKit', '4.38'
+  pod 'FBSDKLoginKit', '4.38'
+  pod 'FBSDKShareKit', '4.38'
 
   # Pods for goforeat_app
 #  pod 'AppCenterReactNativeShared', '~> 1.3.0'
@@ -36,7 +37,7 @@ pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
 'RCTAnimation',
 'RCTBlob',
 'DevSupport',
-'BatchedBridge'
+# 'BatchedBridge'
 ]
 
   pod 'JCoreRN', :path => '../node_modules/jcore-react-native'
@@ -60,9 +61,17 @@ pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   post_install do |installer|
       installer.pods_project.targets.each do |target|
           if target.name == "React"
+              target.remove_from_project
+          end
+          if target.name == "yoga"
+              target.remove_from_project
+          end
+          if target.name == "RNCAsyncStorage"
               target.remove_from_project
           end
       end
