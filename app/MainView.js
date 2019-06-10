@@ -279,7 +279,7 @@ const darwerView = DrawerNavigator(
                 <Text style={MainViewStyles.loginBtnText}>
                   {_alreadyLogin ? "去更改" : ""}{" "}
                   <Icon
-                    name="ios-arrow-forward-outline"
+                    name="ios-arrow-forward"
                     style={mainviewStyle.loginBtnArrow}
                   />
                 </Text>
@@ -394,9 +394,9 @@ let MainView = StackNavigator(
     MonthTicket: {
       screen: CommonHOC(PurchaseMonthTicketView)
     },
-    // Debug: {
-    //   screen: CommonHOC(DebugView)
-    // },
+    Debug: {
+      screen: CommonHOC(DebugView)
+    },
   },
   {
     headerMode: "none",
