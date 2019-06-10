@@ -1,6 +1,8 @@
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
+ *
+ * @format
  * @flow
  */
 
@@ -11,12 +13,13 @@ import store from './app/store'
 import {Provider} from 'react-redux';
 import DashboardView from './app/DashBoardView';
 //cache
-import {userStorage,languageStorage,creditCardStorage} from './app/cache/appStorage'
+import {userStorage,languageStorage,debugStorage} from './app/cache/appStorage'
 //hot reload
 import CodePush from 'react-native-code-push'
-
 //utils
-import {getLanguage} from './app/utils/DeviceInfo';
+import {getLanguage, isDebugVersion} from './app/utils/DeviceInfo';
+//api config
+import {reinitServer} from "./app/api/config";
 
 class App extends Component < {} > {
   componentWillMount() {
@@ -24,6 +27,17 @@ class App extends Component < {} > {
     // console.log(pushEnabled);
     // api.getNotifications().then(data => console.log(data));
     // appStorage.removeAll()
+
+    console.log(1323232131231231)
+    if(isDebugVersion()) {
+      debugStorage.getData((err, data) => {
+        if(err == null && data) {
+          console.log('data', data)
+          reinitServer(data.value);
+        }
+      })
+    }
+
     userStorage.getData((error, data) => {
       if (error === null && data != null) {
         if (store.getState().auth.username === null) {

@@ -5,6 +5,7 @@ import {
   Text
 } from 'react-native';
 import {Item,Input,Label,List,ListItem,Left} from "native-base";
+import RNRestart from 'react-native-restart';
 //components
 import CustomizeContainer from "./components/CustomizeContainer";
 import CommonHeader from "./components/CommonHeader";
@@ -23,7 +24,7 @@ const _checked = "./asset/checked.png";
 const _unchecked = "./asset/unchecked.png";
 const server = [
   {id: 1,label: '正式服', value: "https://api.goforeat.hk"},
-  {id: 2,label: '测试服', value: "http://118.25.159.37"},
+  {id: 2,label: '测试服', value: "http://118.25.159.37:15106"},
   {id: 3, label: '自定義服務器地址', value: ''}
 ];
 export default class debugView extends Component {
@@ -58,8 +59,10 @@ export default class debugView extends Component {
       ToastUtil.showWithMessage("請輸入服務器地址");
       return;
     }
+    debugStorage.removeAll();
     debugStorage.setData(this.state.curselect);
     ToastUtil.showWithMessage("设置成功");
+    RNRestart.Restart();
   }
 
   _renderCheckImage(id) {
@@ -77,7 +80,7 @@ export default class debugView extends Component {
       <CustomizeContainer.SafeView mode="linear" >
         <CommonHeader title="debug setting" canBack/>
         <List style={{marginBottom: 15}}>
-            <ListItem onPress={() => debugStorage.removeData()}>
+            <ListItem onPress={() => debugStorage.removeAll()}>
               <Left>
                 <Text>清空緩存</Text>
               </Left>

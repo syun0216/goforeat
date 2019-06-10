@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
   Platform,
-  TouchableWithoutFeedback
+  TouchableOpacity
 } from "react-native";
 import {PullPicker} from 'teaset';
 import { Container, ActionSheet } from "native-base";
@@ -181,7 +181,7 @@ export default class SettingView extends PureComponent {
       },
       {
         content: i18n.about,
-        isEnd: true,
+        isEnd: false,
         clickFunc: () => {
           this.props.navigation.navigate("Statement", { name: "about" });
         }
@@ -191,18 +191,22 @@ export default class SettingView extends PureComponent {
       _list_arr.unshift(_setting_ios);
     }
     return (
-      <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef" }}>
+      <CustomizeContainer.SafeView mode="linear">
         <CommonHeader title={i18n.setting} canBack />
-        <ScrollView bounces={false}>
-          <TouchableWithoutFeedback
+        <ScrollView style={{ backgroundColor: "#efefef" }} bounces={false}>
+          <TouchableOpacity
             delayLongPress={4000}
-            onLongPress={() => {
+            activeOpacity={1}
+            onPress={() => {
               if(isDebugVersion()) {
                 this.props.navigation.navigate('Debug');
               }else {
-                languageStorage.removeAll();
-                alert("清除緩存成功");
+                return false;
               }
+            }}
+            onLongPress={() => {
+              languageStorage.removeAll();
+              alert("清除緩存成功");
             }}
           >
             <View
@@ -222,7 +226,7 @@ export default class SettingView extends PureComponent {
                 {i18n.goforeat} v{getVersion()}{" "}
               </Text>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
           {_list_arr.map((item, key) => (
             <CommonItem
               style={item.style || {}}
