@@ -1,6 +1,4 @@
-import {
-  AsyncStorage
-} from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import JSONUtils from '../utils/JSONUtils';
 /**
  *缓存构造函数
