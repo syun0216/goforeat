@@ -43,9 +43,10 @@ export default StyleSheet.create({
     fontSize: em(26)
   },
   BottomInfo: {
-    fontSize: em(12),
+    fontSize: em(14),
     color: "#999999",
-    textAlign: "center"
+    textAlign: "center",
+    fontWeight: 'bold'
   },
   Footer: {
     backgroundColor: "#fff",
@@ -54,8 +55,11 @@ export default StyleSheet.create({
     elevation: 0,
     alignItems: "center",
     height: GLOBAL_PARAMS.isIphoneX()
-      ? em(40 + GLOBAL_PARAMS.iPhoneXBottom)
-      : em(40)
+      ? em(50)
+      : em(40),
+    // height: em(40),
+    justifyContent: 'center',
+    flexDirection: 'column',
   },
   FooterBtn: {
     height: em(40),

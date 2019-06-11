@@ -34,7 +34,7 @@ export default StyleSheet.create({
     marginBottom: em(20)
   },
   topTitle: {
-    fontSize: em(30),
+    fontSize: em(22),
     fontWeight: '700',
     marginBottom: em(20)
   },
@@ -87,7 +87,7 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     paddingLeft: GLOBAL_PARAMS._winWidth * .025,
     paddingRight: GLOBAL_PARAMS._winWidth * .025,
-    height: GLOBAL_PARAMS.isIphoneX() ? em(80+GLOBAL_PARAMS.iPhoneXBottom) : em(80),
+    // height: em(60),
     alignItems:'center'
   },
   unit: {

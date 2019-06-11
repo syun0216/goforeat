@@ -165,7 +165,8 @@ export default StyleSheet.create({
     backgroundColor: "#fff"
   },
   Header: {
-    height: Platform.OS == 'ios' ? 79 : 64,
+    backgroundColor: '#FE560A',
+    height: GLOBAL_PARAMS.isIphoneX() ? 50 :  64,
     borderBottomWidth: 0,
     padding: 0,
     marginTop: Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? -44 : -20) : 0,
@@ -173,8 +174,8 @@ export default StyleSheet.create({
     elevation: 0
   },
   linearGradient: {
-    height: 64,
-    width: GLOBAL_PARAMS._winWidth,
+    height: Platform.OS == 'ios' ? 50 : 64,
+    width: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS._winWidth + 5 : GLOBAL_PARAMS._winWidth,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row"
@@ -247,8 +248,8 @@ export default StyleSheet.create({
           height: em(13)
         }
       : {
-          width: em(45),
-          height: em(40)
+          width: em(16),
+          height: em(13)
         },
   addFruitView: {
     flexDirection: 'row',
