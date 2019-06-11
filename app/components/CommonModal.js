@@ -38,7 +38,7 @@ class CommonModal extends PureComponent {
               <Button transparent onPress={() => {
                 closeFunc && closeFunc();
               }}>
-                <Text>關閉</Text>
+                <Text style={{color: '#333'}}>關閉</Text>
               </Button>
             </Header>
           )}

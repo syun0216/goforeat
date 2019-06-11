@@ -66,7 +66,7 @@ CommonItem.defaultProps = {
   content: '内容',
   isEnd: false,
   hasRightIcon: true,
-  rightIcon: (<Icon name="ios-arrow-forward-outline" style={styles.itemIcon}/>),
+  rightIcon: (<Icon name="ios-arrow-forward" style={styles.itemIcon}/>),
   hasLeftIcon: false,
   leftIcon:(<Icon name="md-alert" style={styles.itemIcon}/>),
   clickFunc: () => {},

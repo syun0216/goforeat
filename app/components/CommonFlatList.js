@@ -236,7 +236,7 @@ export default class CommonFlatList extends PureComponent {
         renderItem={({ item, index }) =>
           this._renderCommonListItemView(item, index)
         }
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => `${index}key`}
         onEndReachedThreshold={0.01}
         onEndReached={() => this._onEndReach()}
         ItemSeparatorComponent={() => this._renderItemDivider()}
