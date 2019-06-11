@@ -30,7 +30,7 @@ const BottomIntroduce = props => {
         <TouchableOpacity
           onPress={() => {
             Linking.openURL(
-              "https://www.facebook.com/GoforeatHK/?ref=aymt_homepage_panel"
+              "https://www.facebook.com/MealTimeHK"
             ).catch(err => alert(err));
           }}
         >
