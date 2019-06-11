@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { Platform, AppState, Alert, Image } from "react-native";
-import { Container, Input } from "native-base";
+import { Platform, AppState, Alert, Linking } from "react-native";
+import { Container } from "native-base";
 import { connect } from "react-redux";
+import {isNil} from "lodash";
+//api
+import {getVersionFromServer, versionCode} from "../api/request";;
 //codepush
 import CodePush from "react-native-code-push";
 import CodePushUtils from "../utils/CodePushUtils";
@@ -10,6 +13,7 @@ import JPushModule from "jpush-react-native";
 //utils
 import { _winWidth, _winHeight, em } from "../utils/global_params";
 import ToastUtils from "../utils/ToastUtil";
+import {getVersion} from "../utils/DeviceInfo";
 //components
 import CommonComment from "../components/CommonComment";
 import LoadingModal from "../components/LoadingModal";
@@ -58,21 +62,27 @@ const CommonHOC = WarppedComponent => {
     componentDidMount() {
       this._jpushDidMount();
       this.props.isLoading && this.props.hideLoading();
+      let _appStateTimer = null
       AppState.addEventListener("change", nextState => {
         console.log(nextState);
         if (nextState == "active") {
           // this._commentPopup();
-          CodePush.getUpdateMetadata().then(localPackage => {
-            if (localPackage == null) {
-              this._checkForUpdate();
-            } else {
-              if (localPackage.isPending) {
-                localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME);
-              } else {
+          if(_appStateTimer) clearTimeout(_appStateTimer);
+          _appStateTimer = setTimeout(() => {
+            this._checkVersion();
+            CodePush.getUpdateMetadata().then(localPackage => {
+              if (localPackage == null) {
                 this._checkForUpdate();
+              } else {
+                if (localPackage.isPending) {
+                  localPackage.install(CodePush.InstallMode.ON_NEXT_RESUME);
+                } else {
+                  this._checkForUpdate();
+                }
               }
-            }
-          });
+            });
+            clearTimeout(_appStateTimer);
+          }, 1000);
         } else if (nextState == "background") {
           // 清除缓存
           this.props.resetPageCache();
@@ -84,6 +94,64 @@ const CommonHOC = WarppedComponent => {
       // AppState.removeEventListener('change');
       JPushModule.removeReceiveNotificationListener("receiveNotification");
       // this._removeBackAndroidHandler();
+    }
+
+    //versionControll
+    _checkVersion() {
+      const _formatVersionIntoNumber = version => parseInt(version.split('.').join(""));
+      let _curVersion = _formatVersionIntoNumber(getVersion());// 当前的版本号
+      
+      if(_curVersion < 100) { //证明是debug版本
+        return;
+      } else {
+        getVersionFromServer().then(data => {
+          if(data.ro.ok && data.data) {
+            // console.log('data', data)
+            let _serverVersion = _formatVersionIntoNumber(data.data.latestVersion);
+            let _updateStatus = data.data.status;
+            // console.log('data1234', _updateStatus, versionCode.mustUpdate, isNil(_updateStatus));
+            if(isNil(_updateStatus)) {
+              return;
+            }
+            if(_serverVersion > _curVersion) { //本地版本落后于服务器最新版本
+              let _btnArr = [
+                {
+                  text: '去更新',
+                  onPress: () => {
+                    Linking.openURL(data.data.url).catch(
+                      err => alert(err)
+                    )
+                  }
+                }
+              ];
+              if(_updateStatus == versionCode.alertToUpdate) {
+                Alert.alert(
+                  "有得食誠邀你體驗最新版本哦",
+                  "更新到最新版可獲取更多服務~",
+                  [{
+                    text: "暂不更新",
+                    onPress: () => {
+                      return false
+                    }
+                  },..._btnArr]
+                );
+                
+              }else if(_updateStatus == versionCode.mustUpdate) {
+                Alert.alert(
+                  "有得食誠邀你體驗最新版本哦",
+                  "更新到最新版可獲取更多服務~",
+                  _btnArr
+                );
+                
+              }
+            }else {
+              return;
+            }
+          }
+        }).catch(err => {
+          console.log("err", err);
+        })
+      }
     }
 
     //cache
