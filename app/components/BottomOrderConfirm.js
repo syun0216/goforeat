@@ -15,7 +15,7 @@ import Colors from "../utils/Colors";
 import Text from "./UnScalingText";
 
 const iPhoneXBottom = {
-  marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom+ 25 : 0
+  marginBottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom : 0
 };
 
 const styles = StyleSheet.create({
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 25,
     overflow: "hidden",
     // marginRight: -12,
-    ...iPhoneXBottom
+    // ...iPhoneXBottom
   },
   confirmBtn: {
     height: 36,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     borderBottomRightRadius: 25,
     overflow: "hidden",
-    ...iPhoneXBottom
+    // ...iPhoneXBottom
   },
   priceText: {
     color: "#FF3348",
@@ -72,13 +72,13 @@ const styles = StyleSheet.create({
       Platform.OS == "ios" ? (GLOBAL_PARAMS._winWidth < 350 ? 60 : 100) : 80,
     marginTop: -5,
     fontWeight: "600",
-    ...iPhoneXBottom
+    // ...iPhoneXBottom
   },
   iconClose: {
     color: Colors.main_gray,
     fontSize: GLOBAL_PARAMS.em(28),
     marginTop: 3,
-    ...iPhoneXBottom
+    // ...iPhoneXBottom
   },
   closeBtn: {
     width: GLOBAL_PARAMS._winWidth < 350 ? 30 : 50,
@@ -114,16 +114,17 @@ export default class BottomOrderConfirm extends PureComponent {
 
   render() {
     let { total, btnClick, shareClick, canClose, btnMessage, status } = this.props;
+    console.log('total :', total);
     const canSold = status == HAS_FOODS;
     return (
       <View
-        style={[styles.bottomContainer, { justifyContent: "space-between" }]}
+        style={[styles.bottomContainer, { justifyContent: "space-between",...iPhoneXBottom }]}
       >
         <View style={styles.commonView}>
           {/*canClose ?<TouchableOpacity style={styles.closeBtn} onPress={this._cancelOrder}>
             <Icon name="md-close-circle" style={[styles.commonIcon,styles.iconClose]}/>
           </TouchableOpacity> : null*/}
-          <Text style={{ marginLeft: 5, fontSize: em(13),...iPhoneXBottom }}>
+          <Text style={{ marginLeft: 5, fontSize: em(13) }}>
             HKD{" "}
           </Text>
           <Text style={[styles.commonText, styles.priceText]} numberOfLines={1}>
