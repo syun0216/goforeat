@@ -500,7 +500,7 @@ export default class ConfirmOrderView extends PureComponent {
         }
         rightIcon={
           <Icon
-            name="ios-arrow-forward-outline"
+            name="ios-arrow-forward"
             style={ConfirmOrderStyles.ArrowShow}
           />
         }
@@ -816,7 +816,7 @@ export default class ConfirmOrderView extends PureComponent {
           </View>
           {item.canOpen ? (
             <Icon
-              name="ios-arrow-forward-outline"
+              name="ios-arrow-forward"
               style={ConfirmOrderStyles.ArrowShow}
             />
           ) : null}
@@ -830,7 +830,7 @@ export default class ConfirmOrderView extends PureComponent {
       <Footer
         style={{
           backgroundColor: "#fff",
-          height: GLOBAL_PARAMS.isIphoneX() ? em(60)+GLOBAL_PARAMS.iPhoneXBottom : em(60),
+          height: em(60),
           justifyContent: 'space-around',
           alignItems: "center"
         }}
