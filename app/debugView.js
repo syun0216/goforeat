@@ -59,7 +59,7 @@ export default class debugView extends Component {
       ToastUtil.showWithMessage("請輸入服務器地址");
       return;
     }
-    debugStorage.removeAll();
+    // debugStorage.removeAll();
     debugStorage.setData(this.state.curselect);
     ToastUtil.showWithMessage("设置成功");
     RNRestart.Restart();
