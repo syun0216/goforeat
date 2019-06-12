@@ -22,16 +22,17 @@ const styles = StyleSheet.create({
 class PickPlaceView extends React.Component {
   render() {
     const {placeList, place, screenProps:{language},navigation: {state: {params}}} = this.props;
-    console.log(place);
     let _formatData = placeList.slice(0);
-    let _selectPlace = null;
-    for(let idx in _formatData) {
-      if(_formatData[idx].id == place.id) {
-        _selectPlace = _formatData.splice(idx, 1);
-        // _selectPlace = _selectPlace[0].name + '  (當前選擇點)';
+    if(place) {
+      let _selectPlace = null;
+      for(let idx in _formatData) {
+        if(_formatData[idx].id == place.id) {
+          _selectPlace = _formatData.splice(idx, 1);
+          // _selectPlace = _selectPlace[0].name + '  (當前選擇點)';
+        }
       }
+      _formatData.unshift(_selectPlace[0]);
     }
-    _formatData.unshift(_selectPlace[0]);
     return (
       <CustomizeContainer.SafeView mode="linear">
         <CommonHeader canBack title={i18n[language].pickPlace} {...this.props} />
