@@ -125,12 +125,18 @@ export default class PurchaseMonthTicketView extends PureComponent {
             _date.getFullYear(),
           ].join("/")
         });
+      }else {
+        if (data.ro.respCode == "10006" || data.ro.respCode == "10007") {
+          this.props.screenProps.userLogout();
+          this.props.navigation.goBack();
+        }
       }
+      this.props.toast(data.ro.respMsg);
     })
   }
 
   _payMonthTicket(token, payment) {
-    const { callback } = this.props.navigation.state.params;
+    // const { callback } = this.props.navigation.state.params;
     const { orderId, price } = this.state.currentMonthTicketOrder;
     let params = {
       orderId,
@@ -145,19 +151,12 @@ export default class PurchaseMonthTicketView extends PureComponent {
         if (data.ro.ok) {
           this.state.currentPayType == SET_PAY_TYPE.apple_pay && this._paymentRequest && this._paymentRequest.complete("success");
           this.props.toast(data.ro.respMsg || "購買成功");
-          this.props.navigation.goBack();
-          if(typeof callback != 'undefined') {
-            callback();
-          }
+          this._getMonthTicket();
         } else {
           this.props.toast(data.ro.respMsg || "購買失敗");
           if(data.ro.respCode == "20010") {
             this.props.navigation.navigate('Credit', {
               callback: () => {
-                const {callback} = this.props.navigation.state.params;
-                if(typeof callback != "undefined") {
-                  callback();
-                }
                 this.props.navigation.goBack()
               }
             });
@@ -430,7 +429,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
       return (
         <TouchableOpacity style={{paddingRight: em(15), width: em(100)}} onPress={() => {
             if(typeof callback != 'undefined') {
-              callback(!isUsed);
+              monthTicketQuantity == 0 ? callback(false) : callback(!isUsed);
             }
             this.props.navigation.goBack();}}>
           <Text style={{color: '#fff',fontSize: em(16),alignSelf: 'flex-end',}}>{isUsed ? '不使用' : '使用1張'}</Text>
@@ -439,7 +438,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
     };
     return (
       <CustomizeContainer.SafeView mode="linear">
-        <CommonHeader title="購買月票" canBack hasRight={typeof this.props.navigation.state.params != "undefined" && monthTicketQuantity > 0} rightElement={confirmBtn}/>
+        <CommonHeader title="購買月票" canBack hasRight={typeof this.props.navigation.state.params != "undefined" && monthTicketQuantity >= 0} rightElement={confirmBtn}/>
         <Content>
           {this._renderMonthTicketDetails()}
           {this._renderTopTitle()}
