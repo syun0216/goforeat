@@ -232,6 +232,7 @@ export default class CouponView extends PureComponent {
         {this._renderGiftCoupon()}
         <CommonFlatList
           ref={cf => this._commonFlatList = cf}
+          style={{ backgroundColor: "#efefef" }}
           requestFunc={myCoupon}
           extraParams={{payMoney}}
           renderItem={(item, index) => this._renderCouponItem(item, index)}

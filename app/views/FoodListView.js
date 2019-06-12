@@ -18,6 +18,7 @@ import LinearGradient from "react-native-linear-gradient";
 import FastImage from "react-native-fast-image";
 import Antd from "react-native-vector-icons/AntDesign";
 import {PopoverPicker} from 'teaset';
+import {isNil} from "lodash";
 //actions
 import { SHOW_AD, HIDE_AD } from "../actions";
 //utils
@@ -524,7 +525,7 @@ class FoodListView extends PureComponent {
             </Text>
           </View> */}
           {
-           typeof item.dayPrice != "undefined" && item.dayPrice ? (
+           !isNil(item.prePrice) && !isNil(item.dayPrice) ? (
               <View style={styles.foodCommonContainer}>
                 <Text style={[styles.foodCommon]}>是日價:   </Text>
                 <Text style={[styles.foodCommon,{textDecorationLine:'line-through'}]}>
