@@ -5,7 +5,7 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
+//import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.theweflex.react.WeChatPackage;
@@ -80,7 +80,7 @@ public class MainApplication extends Application implements ReactApplication {
             new MainReactPackage(),
             new ReactNativeRestartPackage(),
             new AsyncStoragePackage(),
-            new RNCWebViewPackage(),
+//            new RNCWebViewPackage(),
             new RNFusedLocationPackage(),
             new VectorIconsPackage(),
             new FastImageViewPackage(),
