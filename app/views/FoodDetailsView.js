@@ -456,6 +456,7 @@ class FoodDetailsView extends Component {
               <Image
                 style={FoodDetailsStyles.canteenImg}
                 source={require("../asset/food.png")}
+                resizeMode="cover"
               />
               {" " + canteenName}
             </Text>
@@ -618,7 +619,7 @@ class FoodDetailsView extends Component {
           {/* {foodDetails.originPrice != null ? (
             <Text style={FoodDetailsStyles.AddPriceViewOriginPrice}>
               套餐價 HKD {foodDetails.originPrice}
-            </Text>
+          </Text>
           ) : null} */}
           {/* {foodDetails.originPrice != null ? (
             <View style={FoodDetailsStyles.AddPriceViewStriping} />
@@ -679,7 +680,7 @@ class FoodDetailsView extends Component {
     return (
       <View style={FoodDetailsStyles.addFruitView}>
         <Text style={FoodDetailsStyles.addFruitText}>{foodDetails.addName} + HKD {foodDetails.addPrice}</Text>
-        <Switch onTintColor="#FF7A00" value={this.state.isAddFruit} onValueChange={val => {
+        <Switch trackColor="#FF7A00" value={this.state.isAddFruit} onValueChange={val => {
           this.setState({
             isAddFruit: val
           })

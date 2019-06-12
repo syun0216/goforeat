@@ -290,12 +290,12 @@ export default class PaySettingView extends PureComponent {
     let _from_confirm_order =
       typeof this.props.navigation.state.params != "undefined";
     return (
-      <CustomizeContainer.SafeView mode="linear" style={{ backgroundColor: "#efefef"}}>
+      <CustomizeContainer.SafeView mode="linear">
         <CommonHeader
           title={this.i18n.payment}
           canBack
         />
-        <Content bounces={false}>
+        <Content bounces={false} style={{ backgroundColor: "#efefef"}}>
           {!this.state.loading && !this.state.isError && (
             <View>
               {this._renderManageCreditCard()}
