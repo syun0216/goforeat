@@ -43,28 +43,30 @@ const common = {
   },
   //_renderBottomView
   BottomView: {
-    width: GLOBAL_PARAMS._winWidth * 0.75,
+    width: GLOBAL_PARAMS._winWidth,
     height: GLOBAL_PARAMS._winHeight * 0.15,
-    position: "absolute",
-    bottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom : 0
+    marginTop: em(20)
+    // position: "absolute",
+    // bottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom : 0
   },
   BottomViewInner: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    height: GLOBAL_PARAMS._winHeight * 0.11
+    justifyContent: "flex-start",
+    height: GLOBAL_PARAMS._winHeight * 0.11,
+    paddingLeft: em(15)
   },
   BottomViewInnerImage: {
     width: GLOBAL_PARAMS.widthAuto(40),
     height: GLOBAL_PARAMS.widthAuto(40),
-    marginLeft: GLOBAL_PARAMS.widthAuto(30),
     marginRight: GLOBAL_PARAMS.widthAuto(30)
   },
   //renderDividerView
   DividerView: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around"
+    justifyContent: "flex-start",
+    padding: em(15)
   },
   Divider: {
     width: GLOBAL_PARAMS._winWidth * 0.2,
@@ -77,7 +79,6 @@ const common = {
     fontSize: em(16),
     color: "#666666",
     flex: 1,
-    textAlign: "center"
   }
 };
 

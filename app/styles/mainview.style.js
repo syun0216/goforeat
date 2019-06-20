@@ -82,5 +82,23 @@ export default StyleSheet.create({
     marginLeft: em(25),
     color: Colors.fontBlack,
     fontWeight: "700"
+  },
+  lottieView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: em(15),
+    // paddingLeft: em(6),
+    position: 'relative'
+  },
+  lottieIcon: {
+    width: em(40), height: em(40),
+  },
+  lottieContent: {
+    position: 'absolute',
+    left: em(38),
+    top: 10,
+  },
+  lottieText: {
+    fontSize: em(16)
   }
 });

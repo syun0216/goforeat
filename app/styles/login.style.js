@@ -62,8 +62,8 @@ export default StyleSheet.create({
     color: "#111111",
     fontSize: em(23),
     fontWeight: "600",
-    height: GLOBAL_PARAMS._winHeight * 0.1,
-    lineHeight: GLOBAL_PARAMS._winHeight * 0.1,
+    height: GLOBAL_PARAMS._winHeight * 0.08,
+    lineHeight: GLOBAL_PARAMS._winHeight * 0.08,
     marginLeft: 5
   },
   LoginBtn: {
@@ -74,15 +74,22 @@ export default StyleSheet.create({
     justifyContent: "center"
   },
   CommonInputView: {
-    height: 60,
+    height: 75,
     borderBottomWidth: 1,
     borderBottomColor: "#EBEBEB",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    position: 'relative'
   },
-  Icon: {
-    width: 17,
-    height: 26,
+  phone: {
+    width: em(28),
+    height: em(28),
+    marginRight: 20,
+    marginLeft: 3
+  },
+  password: {
+    width: em(23),
+    height: em(23),
     marginRight: 20,
     marginLeft: 5
   },
@@ -122,5 +129,12 @@ export default StyleSheet.create({
   },
   SendText: {
     color: "#999999"
+  },
+  loginErrorTips: {
+    color: '#ff5050',
+    fontSize: em(14),
+    position: 'absolute',
+    bottom: 3,
+    right: em(15)
   }
 });
