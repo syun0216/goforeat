@@ -51,7 +51,9 @@ export default class CustomLoginView extends PureComponent {
     codeContent: this.props.i18n.sendCode,
     isCodeDisabled: false,
     isKeyBoardShow: false,
-    loading: false
+    loading: false,
+    phoneErrorTips: '',
+    codeErrorTips: ''
   };
 
   componentWillUnmount() {
@@ -74,13 +76,14 @@ export default class CustomLoginView extends PureComponent {
   _sendPhoneAndGetCode() {
     let { i18n } = this.props;
     if (this.phone === null) {
-      this._toast(i18n.login_tips.fail.phone_null);
+      this.setState({
+        phoneErrorTips: i18n.login_tips.fail.phone_null
+      });
       return;
     }
     getCode(this.phone, this.state.selectedValue.value).then(
       data => {
-        if (data.ro.respCode == "0000") {
-          this.token = data.data.token;
+          this.token = data.token;
           ToastUtil.showWithMessage(i18n.login_tips.success.code);
           let _during = 60;
           this.interval = setInterval(() => {
@@ -99,21 +102,24 @@ export default class CustomLoginView extends PureComponent {
               clearInterval(this.interval);
             }
           }, 1000);
-        } else {
-          ToastUtil.showWithMessage(data.ro.respMsg);
-        }
-      },
-      () => {
-        ToastUtil.showWithMessage(i18n.login_tips.fail.code);
-      }
-    );
+      });
   }
 
   _getPhone(phone) {
+    if(this.state.phoneErrorTips != '') {
+      this.setState({
+        phoneErrorTips: ''
+      })
+    }
     this.phone = phone;
   }
 
   _getPassword(password) {
+    if(this.state.codeErrorTips != '') {
+      this.setState({
+        codeErrorTips: ''
+      })
+    }
     this.password = password;
   }
 
@@ -126,20 +132,23 @@ export default class CustomLoginView extends PureComponent {
     let { params } = this.props.navigation.state;
     let { selectedValue, password } = this.state;
     if (this.phone === null) {
-      this._toast(i18n.login_tips.fail.phone_null);
+      this.setState({
+        phoneErrorTips: i18n.login_tips.fail.phone_null
+      });
       return;
     }
     if (this.password === null) {
-      this._toast(i18n.login_tips.fail.code_null);
+      this.setState({
+        codeErrorTips: i18n.login_tips.fail.code_null
+      });
       return;
     }
     this.setState({loading: true});
     checkCode(this.phone, selectedValue.value, this.token, this.password)
       .then(data => {
         this.setState({loading: false});
-        if (data.ro.respCode == "0000") {
           ToastUtil.showWithMessage(i18n.login_tips.success.login);
-          const { account, sid, nickName, profileImg } = data.data;
+          const { account, sid, nickName, profileImg } = data;
           let _user = {
             username: account,
             sid,
@@ -161,21 +170,18 @@ export default class CustomLoginView extends PureComponent {
           }, 300);
           JPushModule.getRegistrationID(
             registrationId => {
-              saveDevices(registrationId, data.data.sid).then(sdata => {});
+              saveDevices(registrationId, sid).then(sdata => {});
             },
             () => {
               ToastUtil.showWithMessage(i18n.login_tips.fail.login);
             }
           );
-        } else {
           this.setState({loading: false});
-          alert(data.ro.respMsg);
-          ToastUtil.showWithMessage(data.ro.respMsg);
-        }
       })
       .catch(err => {
+
         this.setState({loading: false});
-        ToastUtil.showWithMessage(i18n.common_tips.err);
+        alert(err.errMsg);
       });
   }
 
@@ -233,15 +239,15 @@ export default class CustomLoginView extends PureComponent {
 
   _renderContentView() {
     let { i18n } = this.props;
-    const { loading } = this.state;
+    const { loading, phoneErrorTips, codeErrorTips } = this.state;
     return (
       <View style={LoginStyle.ContentView}>
         <Text style={LoginStyle.Title}>{i18n.signInPhone}</Text>
         <View style={LoginStyle.CommonView}>
-          <View style={LoginStyle.CommonInputView}>
+          <View style={[LoginStyle.CommonInputView,{borderBottomColor: phoneErrorTips == '' ? '#EBEBEB' : '#ff5050'}]}>
             <Image
               source={require("./asset/phone.png")}
-              style={LoginStyle.Icon}
+              style={LoginStyle.phone}
               reasizeMode="cover"
             />
             <TouchableOpacity
@@ -271,11 +277,15 @@ export default class CustomLoginView extends PureComponent {
               maxLength={11}
               returnKeyType="done"
             />
+            {
+              phoneErrorTips != null ? <Text style={LoginStyle.loginErrorTips}>{phoneErrorTips}</Text> : null
+            }
+            
           </View>
-          <View style={LoginStyle.CommonInputView}>
+          <View style={[LoginStyle.CommonInputView, {borderBottomColor: codeErrorTips == '' ? '#EBEBEB' : '#ff5050'}]}>
             <Image
               source={require("./asset/password.png")}
-              style={LoginStyle.Icon}
+              style={LoginStyle.password}
               reasizeMode="cover"
             />
             <Input
@@ -291,6 +301,9 @@ export default class CustomLoginView extends PureComponent {
               keyboardType="numeric"
               maxLength={6}
             />
+            {
+              codeErrorTips != "" ? <Text style={LoginStyle.loginErrorTips}>{codeErrorTips}</Text> : null
+            }
             <TouchableOpacity
               style={[
                 LoginStyle.SendBtn,
