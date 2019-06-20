@@ -8,11 +8,11 @@ const BottomIntroduce = props => {
   return (
     <View style={CommonStyle.BottomView}>
       <View style={CommonStyle.DividerView}>
-        <View style={CommonStyle.Divider} />
+        {/* <View style={CommonStyle.Divider} /> */}
         <Text style={CommonStyle.DividerText}>
           {i18n[props.screenProps.language].follow}
         </Text>
-        <View style={CommonStyle.Divider} />
+        {/* <View style={CommonStyle.Divider} /> */}
       </View>
       <View style={CommonStyle.BottomViewInner}>
         <TouchableOpacity

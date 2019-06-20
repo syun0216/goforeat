@@ -22,6 +22,7 @@ import CommonItem from "./components/CommonItem";
 import CommonBottomBtn from "./components/CommonBottomBtn";
 import Text from "./components/UnScalingText";
 import CustomizeContainer from "./components/CustomizeContainer";
+import BottomIntroduce from "./components/BottomIntroduce";
 //language
 import I18n from "./language/i18n";
 //api
@@ -58,17 +59,9 @@ export default class SettingView extends PureComponent {
     let { i18n } = this.state;
     logout().then(
       data => {
-        if (data.ro.respCode == "0000") {
-          ToastUtil.showWithMessage(i18n.setting_tips.success.logout);
-          this.props.screenProps.userLogout();
-        } else {
-          ToastUtil.showWithMessage(i18n.setting_tips.fail.logout);
-        }
-      },
-      () => {
-        ToastUtil.showWithMessage(i18n.setting_tips.fail.logout_network);
-      }
-    );
+        ToastUtil.showWithMessage(i18n.setting_tips.success.logout);
+        this.props.screenProps.userLogout();
+      });
   }
 
   _renderListFooterView = () => (
@@ -190,9 +183,34 @@ export default class SettingView extends PureComponent {
     if (Platform.OS == "ios") {
       _list_arr.unshift(_setting_ios);
     }
+
+    const logoutBtn = () => {
+      return (
+        <TouchableOpacity style={{paddingRight: em(15), width: em(100)}} onPress={() => {
+          Alert.alert(
+            this.state.i18n.tips,
+            this.state.i18n.setting_tips.common.logout_msg,
+            [
+              {
+                text: this.state.i18n.cancel,
+                onPress: () => {
+                  return null;
+                },
+                style: "cancel"
+              },
+              { text: this.state.i18n.confirm, onPress: () => this._logout() }
+            ],
+            { cancelable: false }
+          );
+        }}>
+          <Text style={{color: '#fff',fontSize: em(16), fontWeight: 'bold',alignSelf: 'flex-end',}}>{this.state.i18n.logout}</Text>
+        </TouchableOpacity>
+      )
+    }
+
     return (
       <CustomizeContainer.SafeView mode="linear">
-        <CommonHeader title={i18n.setting} canBack />
+        <CommonHeader title={i18n.setting} canBack hasRight={this.props.screenProps.user !== null} rightElement={logoutBtn}/>
         <ScrollView style={{ backgroundColor: "#efefef" }} bounces={false}>
           <TouchableOpacity
             delayLongPress={4000}
@@ -238,9 +256,7 @@ export default class SettingView extends PureComponent {
               clickFunc={item.clickFunc}
             />
           ))}
-          {this.props.screenProps.user !== null
-            ? this._renderListFooterView()
-            : null}
+          <BottomIntroduce {...this.props} />
         </ScrollView>
         <ActionSheet
           ref={a => {
