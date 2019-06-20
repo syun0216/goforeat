@@ -129,25 +129,23 @@ export default class WarningTips extends PureComponent {
   //api
   _getWarningTips() {
     queryList().then(data => {
-      if (!data.hasOwnProperty("data") || data.data.length == 0) return;
-      if (data.ro.ok) {
+      if (!data || data.length == 0) return;
         // data.data = data.data.concat(data.data);
         // data.data = data.data.concat(data.data);
         // data.data = data.data.concat(data.data);
         // console.log(data);
         let cacheTime = + new Date();
-        warningTipsStorage.setData({data: data.data, cacheTime})
+        warningTipsStorage.setData({data: data, cacheTime})
         this.setState(
           {
-            warningTipsData: data.data,
+            warningTipsData: data,
             isWarningTipShow: true
           },
           () => {
-            if (data.data.length == 1) return;
-            this._loopDisplay(0, data.data.length);
+            if (data.length == 1) return;
+            this._loopDisplay(0, data.length);
           }
         );
-      }
     });
   }
 

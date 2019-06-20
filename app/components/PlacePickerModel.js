@@ -216,48 +216,34 @@ class PlacePickerModel extends Component {
   //api
   async getPlace(position, storage_data) {
     const {latitude, longitude} =!!position && position.coords || {latitude: "",longitude: ""};
-    this.setState({loading: true})
     foodPlaces(latitude, longitude).then(
       data => {
-        if (data.ro.respCode === "0000") {
-          console.log(12345,data.data[0]);
+          console.log(12345,data[0]);
           console.log(12345,storage_data);
           let _data = {
             ...defaultData,
-            id: data.data[0].id
+            id: data[0].id
           }; // 如果沒有緩存信息就進行提示
           if(typeof storage_data != "undefined") { // 如果有缓存数据
-            if(storage_data && this._checkCacheInList(storage_data, data.data)) { //如果缓存数据在列表中 未被服务器删除
+            if(storage_data && this._checkCacheInList(storage_data, data)) { //如果缓存数据在列表中 未被服务器删除
               _data = storage_data;
             }
           }
-          let _sortList = this._sortCheckedToFirstPlace(data.data, _data);
+          let _sortList = this._sortCheckedToFirstPlace(data, _data);
           this._rawPlaceList = _sortList; // 保存一份原始數據
           this.setStateAsync({ selected: _data.name}).then(() => {
             this.setState({
               placeList: _sortList,
-              loading: false
             });
           });
           let cacheTime = +new Date();
           this.props.getSeletedValue(_data);
-          this.props.stockPlaceList(data.data);
-          placeListStorage.setData({data: data.data, cacheTime});
+          this.props.stockPlaceList(data);
+          placeListStorage.setData({data: data, cacheTime});
           // this.props.stockPlace(_data);
           // placeStorage.setData(_data);
-        } else {
-          this.setState({
-            loading:false
-          });
-          ToastUtils.showWithMessage(data.ro.repMsg);
-          this.props.getSeletedValue(null);
-        }
       },
       () => {
-        this.setState({
-          loading:false
-        });
-        ToastUtils.showWithMessage(this.state.i18n.common_tips.network_err);
         this.props.getSeletedValue(null);
       }
     );

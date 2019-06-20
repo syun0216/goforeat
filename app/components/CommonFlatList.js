@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
+import {netWorkFailCode} from '../api/config';
 //utils
 import GLOBAL_PARAMS, { isEmpty } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
@@ -49,7 +50,6 @@ export default class CommonFlatList extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.showLoading&& this.props.showLoading();
     this.init();
     this._timer = setTimeout(() => {
       this._requestFirstPage();
@@ -78,23 +78,14 @@ export default class CommonFlatList extends PureComponent {
     }
     this.props.requestFunc(_requestParams).then(
       data => {
-        if (data.ro.ok) {
-          getRawData && getRawData(data.data);
-          successCallback(data.data.list);
-          this.getFlatListCount();
-        } else {
-          if (data.ro.respCode == "10006" || data.ro.respCode == "10007") {
-            this.props.screenProps.userLogout();
-            this.props.navigation.goBack();
-          }
-          ToastUtil.showWithMessage(data.ro.respMsg);
-        }
+        getRawData && getRawData(data);
+        successCallback(data.list);
+        this.getFlatListCount();
       },
-      () => {
-        if (typeof failCallback != undefined) {
+      (err) => {
+        if (err.errCode == netWorkFailCode && typeof failCallback != undefined) {
           failCallback();
         }
-        ToastUtil.showWithMessage(i18n.common_tips.network_err);
       }
     );
   }
@@ -122,7 +113,6 @@ export default class CommonFlatList extends PureComponent {
     this.getData(
       requestParams.nextOffset,
       data => {
-        this.props.hideLoading && this.props.hideLoading();
         if (data.length == 0) {
           this.setState({
             listData: data,
@@ -138,7 +128,6 @@ export default class CommonFlatList extends PureComponent {
         });
       },
       () => {
-        this.props.hideLoading && this.props.hideLoading();
         this.setState({
           firstPageLoading: LOAD_FAILED
         });
