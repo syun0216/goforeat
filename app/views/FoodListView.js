@@ -34,8 +34,8 @@ import WarningTips from "../components/WarningTips";
 import CommonFlatList from "../components/CommonFlatList";
 import AdvertiseView from "../components/AdvertiseView";
 import PlacePickerModel from "../components/PlacePickerModel";
-import ShimmerPlaceHolder from "../components/ShimmerPlaceholder";
 import CustomizeContainer from "../components/CustomizeContainer";
+import Tips from "../components/Tips";
 //styles
 import FoodDetailsStyles from "../styles/fooddetails.style";
 //storage
@@ -581,6 +581,7 @@ class FoodListView extends PureComponent {
         extraParams={{ placeId: this.state.placeSelected.id }}
         refreshControlTitleColor="#fff"
         refreshControlTintColor="#fff"
+        isIndicatorShow={false}
         getRawData={data => {
           this.setState({ star: data.star});
         }}
@@ -601,7 +602,9 @@ class FoodListView extends PureComponent {
         {this._renderPlacePicker()}
         {this._renderHeaderView()}
         {this.state.isWarningTipShow && this._renderWarningView()}
+        <Tips message="邀請好友,領取優惠券" clickFunc={() => this.props.navigation.navigate("DrawerOpen")}/>
         {this._renderFlatListView()}
+
       </CustomizeContainer.SafeView>
     );
   }

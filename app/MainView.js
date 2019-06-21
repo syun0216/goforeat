@@ -2,7 +2,7 @@ import React from "react";
 import { View, Image, Platform, TouchableOpacity } from "react-native";
 import { Container, Content, Icon } from "native-base";
 import LinearGradient from "react-native-linear-gradient";
-import Antd from 'react-native-vector-icons/AntDesign';
+import LottieView from 'lottie-react-native';
 //navigation
 import {
   StackNavigator,
@@ -43,7 +43,6 @@ import store from "./store";
 //components
 import CommonHOC from "./hoc/CommonHOC";
 import TabBar from "./components/Tabbar";
-import BottomIntroduce from "./components/BottomIntroduce";
 import Text from "./components/UnScalingText";
 //styles
 import MainViewStyles from "./styles/mainview.style";
@@ -308,9 +307,15 @@ const darwerView = DrawerNavigator(
                   return <CustomDarwerItem {..._drawItemArr[scene.index]} />;
                 }}
               />
+              <View style={mainviewStyle.LottieView}>
+                <LottieView style={mainviewStyle.lottieIcon} autoPlay={true} source={require("./animations/bell.json")} loop={true}/>
+                <View style={mainviewStyle.lottieContent}>
+                  <Text style={mainviewStyle.drawerItemText}>邀請好友</Text>
+                  <Text style={[mainviewStyle.drawerItemText, {color: '#ff5050',fontSize: em(14),marginTop: em(10),}]}>已獲得5張優惠券</Text>
+                </View>
+              </View>
             </View>
           </Content>
-          <BottomIntroduce {...props} />
         </Container>
       );
     }
