@@ -7,6 +7,7 @@ import {
   Platform,
   Image
 } from "react-native";
+import LottieView from 'lottie-react-native';
 // utils
 import GLOBAL_PARAMS, { em } from "../utils/global_params";
 import Colors from "../utils/Colors";
@@ -49,17 +50,24 @@ const Loading = props => {
       <View
         style={{
           alignSelf: "center",
-          borderRadius: 20,
-          backgroundColor: 'rgba(255,255,255,0.5)',
-          padding: 20,
+          width: em(80),height: em(80),
+          borderRadius: em(40),
+          backgroundColor: 'rgba(255,255,255,1)',
+          // padding: 10,
         }}
       >
-        <Image
+        {/* <Image
           source={require("../asset/Coffeeloading.gif")}
           style={{ width: em(60), height: em(50)}}
           resizeMode="contain"
+        /> */}
+        <LottieView 
+        autoPlay={true}
+        source={require('../animations/loading.json')}
+        loop={true}
+        style={{width: em(80),height: em(80),transform:[{scale: 1.3}]}}
         />
-        <Text
+        {/* <Text
           allowFontScaling={false}
           style={{
             color: Colors.fontBlack,
@@ -68,7 +76,7 @@ const Loading = props => {
           }}
         >
           {props.message}
-        </Text>
+        </Text> */}
       </View>
     </View>
   );

@@ -8,9 +8,10 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
+import LottieView from 'lottie-react-native';
 import {netWorkFailCode} from '../api/config';
 //utils
-import GLOBAL_PARAMS, { isEmpty } from "../utils/global_params";
+import GLOBAL_PARAMS, { isEmpty, em } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //components
 import Loading from "../components/Loading";
@@ -18,10 +19,6 @@ import ListFooter from "../components/ListFooter";
 import ErrorPage from "../components/ErrorPage";
 import BlankPage from "../components/BlankPage";
 import Divider from "../components/Divider";
-//i18n
-import I18n from "../language/i18n";
-//utils
-import { em } from "../utils/global_params";
 
 let requestParams = {
   nextOffset: 0,
@@ -198,6 +195,17 @@ export default class CommonFlatList extends PureComponent {
     this._flatlist && this._flatlist.scrollToIndex({animated: true, index: 0});
   }
 
+  _renderFlatListLoading() {
+    return (
+      <LottieView 
+      autoPlay={true}
+      loop={true}
+      source={require('../animations/loading_item2.json')}
+      style={{width: GLOBAL_PARAMS._winWidth, height: GLOBAL_PARAMS._winHeight,marginTop: em(5)}}
+      />
+    )
+  }
+
   _renderToTop() {
     return (
       <TouchableOpacity
@@ -297,7 +305,7 @@ export default class CommonFlatList extends PureComponent {
     return (
       <View style={[{ flex: 1, position: 'relative' }, style]}>
         {showToTop && this._renderToTop()}
-        {firstPageLoading == LOADING && this.props.renderIndicator && this.props.renderIndicator()}
+        {firstPageLoading == LOADING && (this.props.isIndicatorShow && this._renderFlatListLoading())}
         {firstPageLoading == LOAD_FAILED ? <Error /> : null}
         {firstPageLoading == NO_DATA ? <Blank /> : null}
         {firstPageLoading == LOAD_SUCCESS ? this._renderCommonListView() : null}
@@ -314,6 +322,7 @@ CommonFlatList.propsType = {
   isRefreshControlShow: PropTypes.bool,
   isBlankInfoBtnShow: PropTypes.bool,
   isItemSeparatorShow: PropTypes.bool,
+  isIndicatorShow: PropTypes.bool,
   blankBtnMessage: PropTypes.string,
   blankBtnFunc: PropTypes.func,
   offset: PropTypes.number,
@@ -327,6 +336,7 @@ CommonFlatList.propsType = {
 CommonFlatList.defaultProps = {
   isRefreshControlShow: true,
   isItemSeparatorShow: false,
+  isIndicatorShow: true,
   offset: 5,
   extraParams: {},
   isBlankInfoBtnShow: false,
