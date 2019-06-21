@@ -94,20 +94,12 @@ export default class PeopleView extends Component {
           onPress: () => {
             cancelOrder(orderId).then(
               data => {
-                if (data.ro.respCode == "0000") {
-                  ToastUtil.showWithMessage(
-                    i18n.myorder_tips.success.cancel_order
-                  );
+                ToastUtil.showWithMessage(
+                  i18n.myorder_tips.success.cancel_order
+                );
 
-                  cancelRefresh();
-                } else {
-                  ToastUtil.showWithMessage(data.ro.respMsg);
-                }
-              },
-              () => {
-                ToastUtil.showWithMessage(i18n.common_tips.err);
-              }
-            );
+                cancelRefresh();
+              });
           }
         }
       ],

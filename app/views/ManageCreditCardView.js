@@ -1,15 +1,8 @@
 import React, { PureComponent } from "react";
-import { View, TouchableOpacity, Image, Platform, Alert } from "react-native";
+import { View, TouchableOpacity, Image, Alert } from "react-native";
 import {
-  Container,
   Content,
-  Header,
   Footer,
-  Left,
-  Body,
-  Right,
-  Button,
-  Icon
 } from "native-base";
 import LinearGradient from "react-native-linear-gradient";
 //styles
@@ -59,11 +52,9 @@ export default class ManageCreditCardView extends PureComponent {
     this.props.showLoading && this.props.showLoading();
     getCreditCard().then(data => {
       this.props.hideLoading && this.props.hideLoading();
-      if (data.ro.ok) {
-        this.setState({
-          creditCardInfo: data.data
-        });
-      }
+      this.setState({
+        creditCardInfo: data
+      });
     });
   }
 
@@ -93,17 +84,9 @@ export default class ManageCreditCardView extends PureComponent {
             this.props.showLoadingModal();
             removeCreditCard().then(
               data => {
-                this.props.hideLoadingModal();
-                if (data.ro.ok) {
-                  const { callback } = this.props.navigation.state.params;
-                  callback && callback();
-                  this.props.navigation.goBack();
-                } else {
-                  ToastUtil.showWithMessage(data.ro.respMsg);
-                }
-              },
-              () => {
-                this.props.hideLoadingModal();
+                const { callback } = this.props.navigation.state.params;
+                callback && callback();
+                this.props.navigation.goBack();
               }
             );
           }

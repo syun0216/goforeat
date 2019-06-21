@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
-import { Container, Content, Icon, Input, Toast, Footer } from "native-base";
+import { Content, Icon, Input, Toast, Footer } from "native-base";
 //components
 import CommonBottomBtn from "../components/CommonBottomBtn";
 import CommonHeader from "../components/CommonHeader";
@@ -21,14 +21,13 @@ import GLOBAL_PARAMS, {
   em,
   EXPLAIN_PAY_TYPE,
   isEmpty,
-  client,
   stripe_api_key,
   merchant_id
 } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 import { getDeviceId } from "../utils/DeviceInfo";
 //api
-import { createNewOrder, confirmOrder, useCoupon, confirmOrderV1 } from "../api/request";
+import { createNewOrder, useCoupon, confirmOrderV1 } from "../api/request";
 //component
 import Divider from "../components/Divider";
 //styles
@@ -117,41 +116,36 @@ export default class ConfirmOrderView extends PureComponent {
   }
 
   _createOrder() {
-    let { i18n } = this.state;
     // console.log("addStatus", this.addStatus);
     createNewOrder(this.dateFoodId, this.amount, this.props.currentPlace.id, this.addStatus).then(
       data => {
-        if (data.ro.respCode == "0000" && data.data) {
+        if (data) {
           this.setState({
             loading: false,
-            orderDetail: data.data,
-            discountsPrice: data.data.deduction && data.data.deduction.discount || 0,
-            couponDetail: data.data.deduction || null,
+            orderDetail: data,
+            discountsPrice: data.deduction && data.deduction.discount || 0,
+            couponDetail: data.deduction || null,
             isBottomShow: true,
             isError: false
           });
-          if(data.data.monthTicketAmount > 0) {
+          if(data.monthTicketAmount > 0) {
             this.setState({
               isMonthTicketUsed: true
             })
             ToastUtil.showWithMessage("已為您抵購一張月票!");
           }
-        } else {
-          if (data.ro.respCode == "10006" || data.ro.respCode == "10007") {
-            this.props.screenProps.userLogout();
-          }
-          ToastUtil.showWithMessage(data.ro.respMsg);
-          this.props.navigation.goBack();
+        } 
+      },
+      (err) => {
+        if(err.errCode === "10006" || err.errCode == "10007") {
           this.setState({
             loading: false,
             isExpired: true,
             expiredMessage: data.ro.respMsg
           });
+        }else if(err.errCode === "50000") {
+          this.setState({ loading: false, isError: true });
         }
-      },
-      () => {
-        this.setState({ loading: false, isError: true });
-        ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.get_order);
       }
     );
   }
@@ -257,28 +251,21 @@ export default class ConfirmOrderView extends PureComponent {
     ).then(
       data => {
         console.log(9999999,data);
-        this.props.hideLoadingModal();
-        if (data.ro.respCode == "0000") {
           ToastUtil.showWithMessage(i18n.confirmorder_tips.success.order);
           this.props.navigation.navigate("MyOrderDrawer", {
             replaceRoute: true,
             index: 0,
             confirm: true
           });
-        } else {
-          let _message =
-            defaultPayment == PAY_TYPE.credit_card
-              ? `,${i18n.confirmorder_tips.fail.check_card}`
-              : "";
-          ToastUtil.showWithMessage(data.ro.respMsg + _message);
         }
-      },
-      () => {
-        // ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.order);
-        this.props.hideLoadingModal();
-      }
     ).catch(err => {
-      console.log('err', err)
+      if(err.errCode !== "50000") {
+        let _message =
+            defaultPayment == PAY_TYPE.credit_card
+            ? `,${i18n.confirmorder_tips.fail.check_card}`
+            : "";
+        ToastUtil.showWithMessage(data.ro.respMsg + _message);
+      }
     });
   }
 
@@ -299,23 +286,18 @@ export default class ConfirmOrderView extends PureComponent {
     }
     useCoupon(coupon, orderId)
       .then(data => {
-        if (data.ro.respCode == "0000") {
-          ToastUtil.showWithMessage(i18n.confirmorder_tips.success.coupon);
-          this.setState({
-            discountsPrice: data.data.money
-          });
-        } else {
-          ToastUtil.showWithMessage(data.ro.respMsg);
+        ToastUtil.showWithMessage(i18n.confirmorder_tips.success.coupon);
+        this.setState({
+          discountsPrice: data.money
+        });
+      })
+      .catch((err) => {
+        if(err.errCode != "50000") {
           this._input._root.clear();
           this.setState({
             coupon: null
           });
         }
-      })
-      .catch(() => {
-        () => {
-          ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.get_coupon);
-        };
       });
   };
 

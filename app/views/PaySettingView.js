@@ -1,13 +1,11 @@
 import React, { PureComponent } from "react";
-import { View, Image, Alert,TouchableOpacity } from "react-native";
-import { Container, Content } from "native-base";
-import {Overlay} from 'teaset';
+import { View, Image } from "react-native";
+import { Content } from "native-base";
 //components
 import CommonItem from "../components/CommonItem";
 import CommonHeader from "../components/CommonHeader";
 import Text from "../components/UnScalingText";
 import CommonBottomBtn from "../components/CommonBottomBtn";
-import Loading from "../components/Loading";
 import ErrorPage from "../components/ErrorPage";
 import CustomizeContainer from "../components/CustomizeContainer";
 import Divider from "../components/Divider";
@@ -16,15 +14,13 @@ import OnlineBuyingModel from "../components/OnlineBuyingModel";
 import {
   SET_PAY_TYPE,
   EXPLAIN_PAY_TYPE,
-  em,
-  isEmpty
+  em
 } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
-import Colors from "../utils/Colors";
 //styles
 import PaySettingStyles from "../styles/paysetting.style";
 //api
-import { getPaySetting, getMonthTicket, getPaySettingNew } from "../api/request";
+import {  getPaySettingNew } from "../api/request";
 
 const _checked = "../asset/checked.png";
 const _unchecked = "../asset/unchecked.png";
@@ -67,61 +63,31 @@ export default class PaySettingView extends PureComponent {
   _getPaySetting() {
     getPaySettingNew()
       .then(data => {
-        this.props.hideLoading && this.props.hideLoading();
-        if (data.ro.ok) {
-          let _arr = [];
-          if (data.data && data.data.hasOwnProperty("creditCard")) {
-            this.setState({
-              creditCardInfo: data.data.creditCard
+        let _arr = [];
+        if (data && data.hasOwnProperty("creditCard")) {
+          this.setState({
+            creditCardInfo: data.creditCard
+          });
+        }
+        data.payments.forEach((v, i) => {
+          if (v.code != SET_PAY_TYPE.credit_card) {
+            _arr.push({
+              content:
+                EXPLAIN_PAY_TYPE[v.code][this.props.screenProps.language],
+              hasLeftIcon: true,
+              leftIcon: this._leftImage(LIST_IMAGE[v.code]),
+              code: v.code
             });
           }
-          data.data.payments.forEach((v, i) => {
-            if (v.code != SET_PAY_TYPE.credit_card) {
-              _arr.push({
-                content:
-                  EXPLAIN_PAY_TYPE[v.code][this.props.screenProps.language],
-                hasLeftIcon: true,
-                leftIcon: this._leftImage(LIST_IMAGE[v.code]),
-                code: v.code
-              });
-              // if (v.code == SET_PAY_TYPE.month_ticket) {
-              //   _arr.push({
-              //     content: this.state.monthTicketQuantity,
-              //     hasLeftIcon: true,
-              //     leftIcon: (
-              //       <Text
-              //         style={{
-              //           marginRight: 5,
-              //           color: Colors.main_orange,
-              //           fontSize: em(16)
-              //         }}
-              //       >
-              //         月票數量
-              //       </Text>
-              //     ),
-              //     code: null
-              //   });
-              // }
-            }
-          });
-          this.setState({
-            loading: false,
-            payTypeList: _arr,
-            checkedName: data.data.defaultPayment
-          });
-          // this._getMonthTicket();
-        } else {
-          ToastUtil.showWithMessage(data.ro.respMsg);
-          if (data.ro.respCode == "10006" || data.ro.respCode == "10007") {
-            this.props.screenProps.userLogout();
-            this.props.navigation.goBack();
-          }
-        }
+        });
+        this.setState({
+          loading: false,
+          payTypeList: _arr,
+          checkedName: data.defaultPayment
+        });
         // console.log(data);
       })
       .catch(err => {
-        console.log("err",err);
-        this.props.hideLoading && this.props.hideLoading();
         this.setState({
           loading: false,
           isError: true
@@ -147,33 +113,6 @@ export default class PaySettingView extends PureComponent {
       },
       () => this.props.hideLoadingModal()
     );
-  }
-
-  _getMonthTicket() {
-    getMonthTicket()
-      .then(data => {
-        if (typeof data["data"] == "undefined") {
-          return;
-        }
-        if (data.ro.ok) {
-          let _date = new Date(data.data.endTime);
-          this.setState({
-            monthTicketQuantity: data.data.amount,
-            monthTicketEndTime: [
-              _date.getFullYear(),
-              _date.getMonth() + 1,
-              _date.getDate()
-            ].join("-")
-          });
-        }
-      })
-      .catch(err => {
-        this.props.hideLoading && this.props.hideLoading();
-        this.setState({
-          loading: false,
-          isError: false
-        });
-      });
   }
 
   _checked(name) {
@@ -263,11 +202,6 @@ export default class PaySettingView extends PureComponent {
               this.props.navigation.navigate("Credit", {
                 callback: () => {
                   this._getPaySetting();
-                  // const { callback } = this.props.navigation.state.params;
-                  // !!callback && callback();
-                  // if(typeof callback != "undefined") {
-                  //   callback();
-                  // }
                 }
               });
             }
@@ -336,37 +270,6 @@ export default class PaySettingView extends PureComponent {
                   disabled={item.code == null}
                 />
               ))}
-              {/* <Divider bgColor='#efefef' height={em(10)}/> */}
-              {/* <View style={PaySettingStyles.creditcardView}>
-                <Text style={PaySettingStyles.creditcardText}>
-                  更多服務
-                </Text>
-              </View>
-              <CommonItem hasLeftIcon
-              leftIcon={this._leftImage(require('../asset/ticket.png'))} content="購買月票" clickFunc={() => this.props.navigation.navigate('MonthTicket')}/> */}
-              {/* <CommonItem hasLeftIcon leftIcon={this._leftImage(require('../asset/tuangou.png'))} content="團購優惠券" clickFunc={() => {
-                Alert.alert(
-                  this.props.i18n.tips,
-                  "是否使用HKD420購買10張優惠券?",
-                  [
-                    {
-                      text: this.props.i18n.cancel,
-                      onPress: () => {
-                        return null;
-                      },
-                      style: "cancel"
-                    },
-                    { text: this.props.i18n.confirm, onPress: () => {
-                      // this._overlayViewKey =  Overlay.show(this._renderOnlineBuyingModel());
-                      this._onlineBuyingModel = new OnlineBuyingModel('購買月票', 420, (payment, paytype) => {
-                        alert(paytype);
-                      });
-                      this._onlineBuyingModel._showOverlay();
-                    } }
-                  ],
-                  { cancelable: false }
-                );
-              }}/> */}
             </View>
           )}
           {this.state.isError ? (

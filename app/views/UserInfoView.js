@@ -51,7 +51,6 @@ export default class UserInfoView extends PureComponent {
 
   componentDidMount() {
     this._timer = setTimeout(() => {
-      this.props.showLoading && this.props.showLoading();
       clearTimeout(this._timer);
       this._getMyInfo();
     }, 500);
@@ -62,20 +61,11 @@ export default class UserInfoView extends PureComponent {
   _getMyInfo() {
     getMyInfo().then(data => {
       // console.log(data);
-      this.props.hideLoading && this.props.hideLoading();
-      if (data.ro.ok) {
-        this.rawMyInfo = JSON.stringify(data.data);
-        this.setState({
-          myInfo: data.data,
-          loadingModal: false
-        });
-      } else if (data.ro.respCode == "10006" || data.ro.respCode == "10007") {
-        ToastUtil.showWithMessage(data.ro.respMsg);
-        this.props.screenProps.userLogout();
-        this.props.navigation.goBack();
-      }
-    }).catch(() => {
-      this.props.hideLoading && this.props.hideLoading();
+      this.rawMyInfo = JSON.stringify(data);
+      this.setState({
+        myInfo: data,
+        loadingModal: false
+      });
     });
   }
 
@@ -95,31 +85,16 @@ export default class UserInfoView extends PureComponent {
     //     }
     //   }
     // }
-    this.setState({
-      loadingModal: true
-    });
     updateMyInfo(this.state.myInfo)
       .then(data => {
-        if (data.ro.ok) {
           ToastUtil.showWithMessage("更新成功");
-          this.setState({
-            loadingModal: false
-          });
           let { userInfo } = this.props.screenProps;
           userInfo.nickName = this.state.myInfo.nickName;
           userStorage.setData(userInfo);
           this.props.screenProps.userLogin(userInfo);
           this.rawMyInfo = JSON.stringify(this.state.myInfo);
           this.props.navigation.goBack();
-        } else {
-          ToastUtil.showWithMessage(data.ro.respMsg);
-          this.setState({ loadingModal: false });
-        }
       })
-      .catch(err => {
-        ToastUtil.showWithMessage("更新失敗");
-        this.setState({ loadingModal: false });
-      });
   }
 
   _uploadAvatar(photoData) {
@@ -132,34 +107,20 @@ export default class UserInfoView extends PureComponent {
         user_info_tips: { tips_avatar_success, tips_fail }
       }
     } = this.state;
-    this.setState(
-      {
-        loadingModal: true
-      },
-      () => {
-        uploadAvatar(photoData)
-          .then(data => {
-            this.setState({
-              loadingModal: false
-            });
-            if (data.data.ro.ok) {
-              this.setState({
-                photoData: photoData
-              });
-              let { userInfo } = this.props.screenProps;
-              userInfo.profileImg = data.data.data;
-              userStorage.setData(userInfo);
-              this.props.screenProps.userLogin(userInfo);
-              ToastUtil.showWithMessage(tips_avatar_success);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-            this.setState({ loadingModal: false });
-            ToastUtil.showWithMessage(tips_fail);
+    uploadAvatar(photoData)
+      .then(data => {
+          this.setState({
+            photoData: photoData
           });
-      }
-    );
+          let { userInfo } = this.props.screenProps;
+          userInfo.profileImg = data.data;
+          userStorage.setData(userInfo);
+          this.props.screenProps.userLogin(userInfo);
+          ToastUtil.showWithMessage(tips_avatar_success);
+      })
+      .catch(err => {;
+        ToastUtil.showWithMessage(tips_fail);
+      });
   }
 
   _selectPhotoTapped() {

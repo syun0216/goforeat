@@ -133,15 +133,14 @@ class FoodDetailsView extends Component {
   _getFoodDetails(id) { 
     getFoodDetails(id).then(
       data => {
-        if (data.ro.respCode == "0000") {
           // this.props.hideLoading && this.props.hideLoading();
           this.setState(
             {
-              foodDetails: data.data,
+              foodDetails: data,
               refreshing: false,
-              soldOut: data.data.status,
-              favoriteCount: data.data.likeCount,
-              isFavorite: data.data.like == isFavorite
+              soldOut: data.status,
+              favoriteCount: data.likeCount,
+              isFavorite: data.like == isFavorite
             },
             () => {
               if (Platform.OS == "ios") {
@@ -152,7 +151,6 @@ class FoodDetailsView extends Component {
               this.props.saveCache(`Food${this.dateFoodId}`, this.state);
             }
           );
-        }
       },
       () => {
         this.props.hideLoading && this.props.hideLoading();
@@ -202,9 +200,9 @@ class FoodDetailsView extends Component {
     );
     let status = !this.state.isFavorite ? isFavorite : isNotFavorite;
     myFavorite(foodId, status).then(data => {
-      if (data.ro.ok) {
-        return;
-      }
+      // if (data.ro.ok) {
+      //   return;
+      // }
     });
   }
 

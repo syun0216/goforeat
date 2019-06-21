@@ -42,20 +42,13 @@ export default class CouponView extends PureComponent {
       this.props.toast('請填寫優惠碼');
       return ;
     };
-    
-    this.props.showLoadingModal && this.props.showLoadingModal();
     getCoupon(this._exchangeCode).then(data => {
-      this.props.hideLoadingModal && this.props.hideLoadingModal();
-      if(data.ro.ok) {
         this.popupDialog.show();
         this.setState({
-          exchangeCodeRes: data.data
+          exchangeCodeRes: data
         },() => {
           this._lv&&this._lv.play();
         })
-      }else {
-        this.props.toast(data.ro.respMsg);
-      }
     })
   }
 

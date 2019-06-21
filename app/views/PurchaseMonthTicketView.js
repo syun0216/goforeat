@@ -48,7 +48,6 @@ export default class PurchaseMonthTicketView extends PureComponent {
 
   componentDidMount() {
     this._timer = setTimeout(() => {
-      this.props.showLoading && this.props.showLoading();
       this._getMonthTicket();
       this._getMonthTicketList();
       this._getMonthTicketInfo();
@@ -63,25 +62,22 @@ export default class PurchaseMonthTicketView extends PureComponent {
   _getMonthTicketList() {
     getMonthTicketList()
       .then(data => {
-        this.props.hideLoading && this.props.hideLoading();
-        if (data.ro.ok && data.data.list.length > 0) {
+        if (data.list.length > 0) {
           this.setState({
-            monthTicketList: data.data.list,
-            currentMonthTicketSelect: data.data.list[0]
+            monthTicketList: data.list,
+            currentMonthTicketSelect: data.list[0]
           });
         } else {
           this.props.toast("暫無月票銷售");
         }
       })
       .catch(err => {
-        this.props.hideLoading && this.props.hideLoading();
-        this.props.toast("獲取數據失敗");
       });
   }
 
   _getMonthTicketInfo() {
     getMonthTicketInfo().then(data => {
-      if(data.ro.ok && data.data.list) {
+      if(data.list) {
         this.setState({
           monthTicketDetail: data.data.list
         })
@@ -90,14 +86,12 @@ export default class PurchaseMonthTicketView extends PureComponent {
   }
 
   _createMonthTicket() {
-    this.props.showLoadingModal();
     createMonthTicket(this.state.currentMonthTicketSelect.specId)
       .then(data => {
-        this.props.hideLoadingModal();
-        if (data.ro.ok && data.data) {
+        if (data) {
           this.setState(
             {
-              currentMonthTicketOrder: data.data
+              currentMonthTicketOrder: data
             },
             () => {
               this._showOverlayConfirmView();
@@ -108,30 +102,23 @@ export default class PurchaseMonthTicketView extends PureComponent {
         }
       })
       .catch(err => {
-        this.props.hideLoadingModal();
         this.props.toast("獲取數據失敗");
       });
   }
 
   _getMonthTicket() {
     getMonthTicket().then(data => {
-      if(data.ro.ok && data.data) {
-        let _date = new Date(data.data.endTime);
+      if(data) {
+        let _date = new Date(data.endTime);
         this.setState({
-          monthTicketQuantity: data.data.amount,
+          monthTicketQuantity: data.amount,
           monthTicketEndTime: [
             _date.getDate() + 1 < 10 ? `0${_date.getDate() + 1}` : _date.getDate(),
             _date.getMonth() + 1 < 10 ? `0${_date.getMonth() + 1}` : _date.getMonth(),
             _date.getFullYear(),
           ].join("/")
         });
-      }else {
-        if (data.ro.respCode == "10006" || data.ro.respCode == "10007") {
-          this.props.screenProps.userLogout();
-          this.props.navigation.goBack();
-        }
       }
-      this.props.toast(data.ro.respMsg);
     })
   }
 
