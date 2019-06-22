@@ -50,7 +50,8 @@ export default StyleSheet.create({
       Platform.OS == "ios"
         ? GLOBAL_PARAMS.widthAuto(31)
         : GLOBAL_PARAMS.widthAuto(32),
-    width: em(32)
+    width: em(32),
+    borderRadius: em(5)
   },
   //_renderPayView
   payContainer: {

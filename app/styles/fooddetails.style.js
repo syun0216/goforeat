@@ -267,5 +267,34 @@ export default StyleSheet.create({
     bottom: em(-25),
     right: common.marginLeft,
     color: "#959595"
+  },
+  commentItem: {
+    flexDirection: 'row',
+    padding: em(10)
+  },
+  commentItemAvatar: {
+    width: em(40),
+    height: em(40),
+    borderRadius: em(20),
+    marginRight: em(10),
+    borderWidth: 1,
+    borderColor: '#ccc'
+  },
+  commentItemContent: {
+    justifyContent: 'space-between',
+    flex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: '#efefef',
+    height: em(80),
+    paddingBottom: em(10),
+    marginRight: em(5)
+  },
+  commentName: {
+    color: '#043e79',
+    fontSize: em(16)
+  },
+  commentCommonText: {
+    color: '#666',
+    fontSize: em(14)
   }
 });
