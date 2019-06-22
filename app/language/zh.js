@@ -71,7 +71,7 @@ export default {
   discount: "優惠金額",
   bookPhone: "下單電話",
   orderDetail: "訂單詳情",
-  foodDetail: "詳情",
+  commentDetail: "評論詳情",
   canteenDetail: "餐廳詳情",
   endTime: "截止時間",
   mon: "星期一",

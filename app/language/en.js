@@ -74,7 +74,7 @@ export default {
   discount: "Discounted price",
   bookPhone: "My Phone Number",
   orderDetail: "Order Details",
-  foodDetail: "Details",
+  commentDetail: "Comments",
   canteenDetail: "Canteen Details",
   endTime: "Deadline",
   mon: "Monday",
