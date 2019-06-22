@@ -201,7 +201,7 @@ export default class CommonFlatList extends PureComponent {
       autoPlay={true}
       loop={true}
       source={require('../animations/loading_item2.json')}
-      style={{width: GLOBAL_PARAMS._winWidth, height: GLOBAL_PARAMS._winHeight,marginTop: em(5)}}
+      style={{width: GLOBAL_PARAMS._winWidth, height: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS._winHeight*0.8 : GLOBAL_PARAMS._winHeight,marginTop: em(3)}}
       />
     )
   }
