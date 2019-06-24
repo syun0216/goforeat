@@ -405,6 +405,7 @@ export default class PeopleView extends Component {
         {this._renderPopupDialog()}
         <CommonHeader canBack hasTabs title={i18n.myorder} />
         <Tabs
+          style={{backgroundColor: '#efefef'}}
           tabBarUnderlineStyle={MyOrderStyles.tabBarUnderlineStyle}
           ref={t => (this._tabs = t)}
           onChangeTab={() => this._onChangeTabs()}

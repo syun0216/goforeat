@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import MainView from './MainView';
 import {connect} from 'react-redux';
+import NavigationService from './utils/NavigationService';
 import {
   LOGIN,
   LOGOUT,
@@ -17,6 +18,7 @@ class DashBoardView extends PureComponent {
   render() {
     return (
         <MainView 
+          ref={navigationRef => NavigationService.setTopLevelNavigator(navigationRef)}
         // navigation={addNavigationHelpers({
         //   dispatch: this.props.dispatch,
         //   state: this.props.nav,

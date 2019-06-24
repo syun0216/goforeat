@@ -9,6 +9,7 @@
     "bundle-android": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.jsbundle --platform android --assets-dest ./android/app/src/main/res/ --dev false"
   },
   "dependencies": {
+    "jsc-android": "241213.x.x",
     "@react-native-community/async-storage": "^1.4.2",
     "appcenter-push": "^1.3.0",
     "axios": "^0.17.1",
