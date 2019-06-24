@@ -192,7 +192,6 @@ _reinit() {
     commentTags = commentTags.join(',');
     let {currentComment: {orderId}, currentStar} = this.state;
     addComment(orderId, currentStar, commentTags).then(data => {
-      if(data.ro.ok) {
         this.isCommentSubmit = true;
         this.setState({
           modalVisible: false
@@ -202,7 +201,8 @@ _reinit() {
           }
           this._reinit();
         });
-      } else {
+    }).catch(err => {
+      if(err.errCode != 50000) {
         alert(data.ro.respMsg);
       }
     });

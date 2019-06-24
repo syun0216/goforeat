@@ -16,7 +16,7 @@ import Carousel from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
 import { sliderWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
-import {Popover, Label} from "teaset";
+import {isNil} from 'lodash';
 //styles
 import styles from "../styles/index.style";
 import FoodDetailsStyles from "../styles/fooddetails.style";
@@ -31,6 +31,7 @@ import ToastUtil from "../utils/ToastUtil";
 //api
 import { getFoodDetails, myFavorite, getCommentList } from "../api/request";
 //components
+import PannelBottom from '../components/PannelBottom';
 import ErrorPage from "../components/ErrorPage";
 import BottomOrderConfirm from "../components/BottomOrderConfirm";
 import Text from "../components/UnScalingText";
@@ -66,6 +67,7 @@ class FoodDetailsView extends Component {
     WeChat.registerApp("wx5b3f09ef08ffa7a7"); // 微信id
     this._current_offset = 0;
     this._SliderEntry = null;
+    this._panelBottom = null; // 評論底部彈框
     this._timer = null; // 延迟加载首页
     this.dateFoodId = this.props.navigation.state.params.dateFoodId;
     this.lastTap = null; //双击点赞
@@ -91,6 +93,7 @@ class FoodDetailsView extends Component {
       showMoreDetail: false, //是否展示更多内容
       isAddFruit: false, // 是否添加水果
       isIntroOpen: false, // 是否展開菜品介紹
+      commentTitle: '用戶評論', // 評論title
     };
   }
 
@@ -398,7 +401,7 @@ class FoodDetailsView extends Component {
             />
             <ShimmerPlaceHolder
               autoRun={true}
-              style={{ width: 20, height: 20 }}
+              style={{ width: 40, height: 20 }}
             />
           </View>
           <ShimmerPlaceHolder
@@ -463,12 +466,13 @@ class FoodDetailsView extends Component {
             style={FoodDetailsStyles.IntroductionDetailBtn}
             onPress={() => 
               {
-                this.slideUpPanel._snapTo()
+                // this.slideUpPanel._snapTo()
+                this._panelBottom.toggleVisible();
                 // Overlay.show(this._renderCommentModel())
               }
             }
           >
-            {this.props.i18n.foodDetail}
+            {this.props.i18n.commentDetail}
           </Text>
         </View>
         <Text
@@ -566,27 +570,34 @@ class FoodDetailsView extends Component {
 
   _renderCommentModel() {
     if(!this.state.foodDetails) return;
-    const {foodDetails:{foodId}} = this.state;
+    const {foodDetails:{foodId}, commentTitle} = this.state;
 
     return (
-      <Overlay.PullView ref={pv => this._commentView = pv} side="bottom" modal={false}>
-        <View style={{height: GLOBAL_PARAMS._winHeight*0.7}}>
-          <CommonFlatList 
-            ref={c => this._flatList = c}
-            requestFunc={getCommentList}
-            renderItem={(item, idx) => this._renderCommentItem(item,idx)}
-            extraParams={{foodId: foodId }}
-            {...this.props}
-          />
-        </View>
-      </Overlay.PullView>
+      <PannelBottom ref={pb => this._panelBottom = pb} title={commentTitle}>
+        <CommonFlatList 
+          ref={c => this._flatList = c}
+          requestFunc={getCommentList}
+          renderItem={(item, idx) => this._renderCommentItem(item,idx)}
+          extraParams={{foodId: foodId }}
+          getCount={count => {
+            this.setState({
+              commentTitle: `用戶評論(${count})`
+            })
+          }}
+          {...this.props}/>
+      </PannelBottom>
     )
   }
 
   _renderCommentItem(item, idx) {
     return (
-      <View key={idx}>
-        <Text>{item.nickName}</Text>
+      <View style={FoodDetailsStyles.commentItem} key={idx}>
+        <Image style={FoodDetailsStyles.commentItemAvatar} source={isNil(item.profileImg) ? require('../asset/defaultAvatar.png') : {uri: item.profileImg}}/>
+        <View style={FoodDetailsStyles.commentItemContent}>
+          <Text style={FoodDetailsStyles.commentName}>{item.nickName}</Text>
+          <Text style={[FoodDetailsStyles.commentCommonText, {fontSize:em(12), marginTop: -3}]}>評分: {item.star}星</Text>
+          <Text style={FoodDetailsStyles.commentCommonText}>{item.comment}</Text>
+        </View>
       </View>
     )
   }
@@ -876,7 +887,7 @@ class FoodDetailsView extends Component {
         {this._renderContentView()}
         {this._renderBottomBtnView()}
         {foodDetails && this._renderMoreDetailModal()}
-        {/* {foodDetails && this._renderCommentModel()} */}
+        {foodDetails && this._renderCommentModel()}
         {foodDetails && (
           <ShareComponent
             ref={sl => (this._shareList = sl)}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
 import Antd from "react-native-vector-icons/AntDesign";
@@ -12,7 +12,7 @@ import GLOBAL_PARAMS, {em} from '../utils/global_params';
 const pannelStyle = {
   pannelContainer: {
     width: GLOBAL_PARAMS._winWidth,
-    height: GLOBAL_PARAMS._winHeight * 0.5,
+    height: GLOBAL_PARAMS._winHeight * 0.7,
     backgroundColor: '#fff',
     padding: em(10),
   },
@@ -85,7 +85,13 @@ export default class PannelBottom extends Component {
             <Antd style={pannelStyle.downIcon} name="closecircleo"/>
           </TouchableOpacity>
         </View>
-        {this.props.children}
+        <ScrollView 
+          // ref={ref => (this.scrollViewRef = ref)}
+          // onScroll={this.handleOnScroll}
+          // scrollEventThrottle={16}
+        >
+          {this.props.children}
+        </ScrollView>
       </View>
     </Modal>
     )
