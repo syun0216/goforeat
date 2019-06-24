@@ -37,6 +37,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
+import androidx.multidex.MultiDex;
 
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 
@@ -58,6 +59,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected static CallbackManager getCallbackManager() {
         return mCallbackManager;
     }
+
+
 
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -116,6 +119,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
 //        AppEventsLogger.activateApp(this);
         SoLoader.init(this, /* native exopackage */ false);
     }
