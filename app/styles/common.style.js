@@ -44,7 +44,7 @@ const common = {
   //_renderBottomView
   BottomView: {
     width: GLOBAL_PARAMS._winWidth,
-    height: GLOBAL_PARAMS._winHeight * 0.15,
+    // height: GLOBAL_PARAMS._winHeight * 0.15,
     marginTop: em(20)
     // position: "absolute",
     // bottom: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS.iPhoneXBottom : 0
@@ -54,7 +54,7 @@ const common = {
     alignItems: "center",
     justifyContent: "flex-start",
     height: GLOBAL_PARAMS._winHeight * 0.11,
-    paddingLeft: em(15)
+    paddingLeft: em(10)
   },
   BottomViewInnerImage: {
     width: GLOBAL_PARAMS.widthAuto(40),
@@ -66,7 +66,7 @@ const common = {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    padding: em(15)
+    padding: em(10)
   },
   Divider: {
     width: GLOBAL_PARAMS._winWidth * 0.2,
