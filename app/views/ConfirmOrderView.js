@@ -143,7 +143,7 @@ export default class ConfirmOrderView extends PureComponent {
             isExpired: true,
             expiredMessage: data.ro.respMsg
           });
-        }else if(err.errCode === "50000") {
+        }else if(err.errCode === 50000) {
           this.setState({ loading: false, isError: true });
         }
       }
@@ -259,7 +259,7 @@ export default class ConfirmOrderView extends PureComponent {
           });
         }
     ).catch(err => {
-      if(err.errCode !== "50000") {
+      if(err.errCode !== 50000) {
         let _message =
             defaultPayment == PAY_TYPE.credit_card
             ? `,${i18n.confirmorder_tips.fail.check_card}`
@@ -292,7 +292,7 @@ export default class ConfirmOrderView extends PureComponent {
         });
       })
       .catch((err) => {
-        if(err.errCode != "50000") {
+        if(err.errCode != 50000) {
           this._input._root.clear();
           this.setState({
             coupon: null
