@@ -61,7 +61,5 @@ android/app/release
 android/app/debug
 
 # 项目内
-app/api
-app/views/StatementView.js
 /package-lock.json
 .vscode
