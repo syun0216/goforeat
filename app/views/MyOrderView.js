@@ -243,7 +243,6 @@ export default class PeopleView extends Component {
               </Text>
               <Antd name="doubleright" style={{color: Colors.main_orange, marginTop:  Platform.OS == 'ios' ? em(2) : em(4)}}/>
             </TouchableOpacity>  
-
           </View>
           <View style={MyOrderStyles.FoodCommonView}>
             <Text style={CommonStyles.common_info_text}>

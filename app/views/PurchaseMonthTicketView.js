@@ -135,26 +135,21 @@ export default class PurchaseMonthTicketView extends PureComponent {
       .then(data => {
         this._pullView && this._pullView.close();
         this.props.hideLoadingModal();
-        if (data.ro.ok) {
-          this.state.currentPayType == SET_PAY_TYPE.apple_pay && this._paymentRequest && this._paymentRequest.complete("success");
-          this.props.toast(data.ro.respMsg || "購買成功");
-          this._getMonthTicket();
-        } else {
-          this.props.toast(data.ro.respMsg || "購買失敗");
-          if(data.ro.respCode == "20010") {
-            this.props.navigation.navigate('Credit', {
-              callback: () => {
-                this.props.navigation.goBack()
-              }
-            });
-          }
-        }
+        this.state.currentPayType == SET_PAY_TYPE.apple_pay && this._paymentRequest && this._paymentRequest.complete("success");
+        this._getMonthTicket();
+        this.props.toast('購買成功');
       })
       .catch(err => {
-        console.log(err);
         this._pullView && this._pullView.close();
         this.props.hideLoadingModal();
         this.props.toast("購買失敗");
+        if(err.errCode == "20010") {
+          this.props.navigation.navigate('Credit', {
+            callback: () => {
+              this.props.navigation.goBack()
+            }
+          });
+        }
       });
   }
 
@@ -391,7 +386,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
       <View style={PurchaseMonthTicketStyles.infoView}>
         <View style={PurchaseMonthTicketStyles.infoViewTop}>
           <View style={PurchaseMonthTicketStyles.grayDivider}></View>
-          <Text style={PurchaseMonthTicketStyles.dividerText}>購買月票须知</Text>
+          <Text style={PurchaseMonthTicketStyles.dividerText}>購買月票須知</Text>
           <View style={PurchaseMonthTicketStyles.grayDivider}></View>
         </View>
         <View style={PurchaseMonthTicketStyles.infoContent}>

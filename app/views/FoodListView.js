@@ -602,9 +602,8 @@ class FoodListView extends PureComponent {
         {this._renderPlacePicker()}
         {this._renderHeaderView()}
         {this.state.isWarningTipShow && this._renderWarningView()}
-        <Tips message="邀請好友,領取優惠券" clickFunc={() => this.props.navigation.navigate("DrawerOpen")}/>
+        {/* <Tips message="邀請好友,領取優惠券" clickFunc={() => this.props.navigation.navigate("DrawerOpen")}/> */}
         {this._renderFlatListView()}
-
       </CustomizeContainer.SafeView>
     );
   }
