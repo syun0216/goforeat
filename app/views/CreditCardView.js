@@ -182,13 +182,11 @@ export default class CreditCardView extends Component {
         }
       })
       .then(data => {
-        if (data) {
-          if(typeof callback != "undefined") {
-            callback();
-          }
-          ToastUtils.showWithMessage(this.i18n.credit_card_tips.bind_success);
-          this.props.navigation.goBack();
+        if(typeof callback != "undefined") {
+          callback();
         }
+        ToastUtils.showWithMessage(this.i18n.credit_card_tips.bind_success);
+        this.props.navigation.goBack();
       })
       .catch(err => {
         if (err.hasOwnProperty("type")) {
