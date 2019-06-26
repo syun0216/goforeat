@@ -307,13 +307,13 @@ const darwerView = DrawerNavigator(
                   return <CustomDarwerItem {..._drawItemArr[scene.index]} />;
                 }}
               />
-              <View style={mainviewStyle.LottieView}>
+              {/* <View style={mainviewStyle.LottieView}>
                 <LottieView style={mainviewStyle.lottieIcon} autoPlay={true} source={require("./animations/bell.json")} loop={true}/>
                 <View style={mainviewStyle.lottieContent}>
                   <Text style={mainviewStyle.drawerItemText}>邀請好友</Text>
                   <Text style={[mainviewStyle.drawerItemText, {color: '#ff5050',fontSize: em(14),marginTop: em(10),}]}>已獲得5張優惠券</Text>
                 </View>
-              </View>
+              </View> */}
             </View>
           </Content>
         </Container>

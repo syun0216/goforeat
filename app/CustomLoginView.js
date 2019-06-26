@@ -170,7 +170,7 @@ export default class CustomLoginView extends PureComponent {
           }, 300);
           JPushModule.getRegistrationID(
             registrationId => {
-              saveDevices(registrationId, sid).then(sdata => {});
+              saveDevices(registrationId, data.sid).then(sdata => {});
             },
             () => {
               ToastUtil.showWithMessage(i18n.login_tips.fail.login);
