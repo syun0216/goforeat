@@ -105,7 +105,6 @@ const CommonHOC = WarppedComponent => {
         return;
       } else {
         getVersionFromServer().then(data => {
-          if(data.ro.ok && data.data) {
             // console.log('data', data)
             let _serverVersion = _formatVersionIntoNumber(data.data.latestVersion);
             let _updateStatus = data.data.status;
@@ -147,7 +146,6 @@ const CommonHOC = WarppedComponent => {
             }else {
               return;
             }
-          }
         }).catch(err => {
           console.log("err", err);
         })
