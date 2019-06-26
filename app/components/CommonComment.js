@@ -172,13 +172,10 @@ _reinit() {
     // console.log('orderId :', orderId);
     if(orderId) {
       getCommentByOrderId(orderId).then(data => {
-        if(data.ro.respCode == '0000') {
-          console.log(data);
-          this.setState({
-            currentComment: data.data,
-            modalVisible: true
-          })
-        }
+        this.setState({
+          currentComment: data,
+          modalVisible: true
+        })
       });
     }
   }
@@ -308,6 +305,22 @@ _reinit() {
     )
   }
 
+  _renderCommentTextareaView() {
+    return (
+      <TextInput numberOfLines={4} multiline allowFontScaling={false} style={{
+        marginTop: em(5),
+        padding: em(10),
+        color: '#9d9d9d',
+        // fontSize: em(13),
+        height: em(80),
+        backgroundColor: '#ece8f4',
+        borderRadius: 5,
+        // // height: Platform.OS == 'ios' ? em(30) : 40 * (_winHeight / 592),
+        // width: _winWidth * 0.85
+      }} underlineColorAndroid="transparent" placeholderTextColor="#9d9d9d" placeholder="您的評價" clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/>
+    )
+  }
+
   _renderCommentView() {
     const emoji_arr = [
       {defaultImage: require('../asset/crazy-normal.png'), activeImage: require('../asset/crazy-press.png'), name: 'crazy', val: 1},
@@ -337,8 +350,7 @@ _reinit() {
             </View> 
           {/*<Text style={[styles.commentText,{color: currentStar < 3 ? '#ccc' : currentStar<= 4 ? '#f7ba2a' : '#ff630f'}]}>{commentKeyWord[currentStar]}</Text>*/}
           {this._renderTagView()}
-          {this.state.commentTags.indexOf('文字評價')> -1 ?<TextInput numberOfLines={4} multiline allowFontScaling={false} style={styles.Input} underlineColorAndroid="transparent" placeholderTextColor="#9d9d9d" 
-          placeholder="您的評價" clearButtonMode="while-editing" onChangeText={(val) => this._getComment(val)}/> : null}
+          {this.state.commentTags.indexOf('文字評價')> -1 ? this._renderCommentTextareaView() : null}
           <View style={{flexDirection: 'row',justifyContent: 'space-around',}}>
             <CommonBottomBtn style={{width: GLOBAL_PARAMS._winWidth * .2}} clickFunc={() => this._share()}>分享</CommonBottomBtn>
             <CommonBottomBtn style={{width: GLOBAL_PARAMS._winWidth * .7}} clickFunc={() => this._addComment()}>填寫評論即可領取優惠券</CommonBottomBtn>

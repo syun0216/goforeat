@@ -85,13 +85,14 @@ export default class PannelBottom extends Component {
             <Antd style={pannelStyle.downIcon} name="closecircleo"/>
           </TouchableOpacity>
         </View>
-        <ScrollView 
-          // ref={ref => (this.scrollViewRef = ref)}
-          // onScroll={this.handleOnScroll}
-          // scrollEventThrottle={16}
+        {this.props.children}
+        {/* <ScrollView 
+          ref={ref => (this.scrollViewRef = ref)}
+          onScroll={this.handleOnScroll}
+          scrollEventThrottle={16}
         >
-          {this.props.children}
-        </ScrollView>
+          
+        </ScrollView> */}
       </View>
     </Modal>
     )

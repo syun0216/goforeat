@@ -52,7 +52,7 @@ const Loading = props => {
           alignSelf: "center",
           width: em(80),height: em(80),
           borderRadius: em(40),
-          backgroundColor: 'rgba(255,255,255,1)',
+          backgroundColor: 'rgba(255,255,255,.7)',
           // padding: 10,
         }}
       >
