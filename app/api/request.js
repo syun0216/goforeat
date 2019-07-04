@@ -572,7 +572,7 @@ export function getCommentList({foodId, limit, offset}) {
     method: 'post',
     data: {
       foodId,
-      limit,
+      limit: 15,
       offset
     }
   })
@@ -597,3 +597,35 @@ export const versionCode = {
   alertToUpdate: 2,
   mustUpdate: 3
 };
+
+/**
+ * 我的邀请概要
+ *
+ * @export
+ * @returns
+ */
+export function inviteActivityInfo() {
+  return request({
+    url: '/invite/showInvite',
+    method: 'post',
+    loading: false,
+  });
+}
+
+/**
+ * 获取我的邀请
+ *
+ * @export
+ * @returns
+ */
+export function myInvites() {
+  return request({
+    url: '/invite/myInvites',
+    method: 'post',
+    loading: false,
+    data: {
+      offset: 0,
+      limit: 1
+    }
+  })
+}
