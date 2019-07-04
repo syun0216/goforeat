@@ -17,6 +17,8 @@ export const HIDE_LOADING = 'HIDE_LOADING';
 export const HIDE_LOADING_MODAL = 'HIDE_LOADING_MODAL';
 export const SAVE_CACHE = 'SAVE_CACHE';
 export const RESET_CACHE = 'RESET_CACHE';
+export const SAVE_ACTIVITY = 'SAVE_ACTIVITY';
+export const RESET_ACTIVITY = 'RESET_ACTIVITY';
 
 
 
