@@ -88,6 +88,7 @@ export default StyleSheet.create({
     paddingLeft: GLOBAL_PARAMS._winWidth * .025,
     paddingRight: GLOBAL_PARAMS._winWidth * .025,
     // height: em(60),
+    marginBottom: GLOBAL_PARAMS.isIphoneX() ? 15 :0 ,
     alignItems:'center'
   },
   unit: {

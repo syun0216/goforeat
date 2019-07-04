@@ -54,10 +54,11 @@ export default StyleSheet.create({
     borderTopColor: "#E5E5E5",
     elevation: 0,
     alignItems: "center",
-    height: GLOBAL_PARAMS.isIphoneX()
-      ? em(50)
-      : em(40),
-    // height: em(40),
+    // height: GLOBAL_PARAMS.isIphoneX()
+    //   ? em(50)
+    //   : em(40),
+    height: em(40),
+    marginBottom: GLOBAL_PARAMS.isIphoneX() ? 15 :0 ,
     justifyContent: 'center',
     flexDirection: 'column',
   },
