@@ -8,7 +8,7 @@ import {
   Image,
   Easing
 } from "react-native";
-import { Container } from "native-base";
+import PropTypes from 'prop-types';
 //utils
 import GLOBAL_PARAMS from "../utils/global_params";
 import Colors from "../utils/Colors";
@@ -44,6 +44,15 @@ const styles = StyleSheet.create({
 });
 
 export default class ShareComponent extends Component {
+
+  static defaultProps = {
+    title: "與好友分享菜品",
+  };
+
+  static propsType = {
+    title: PropTypes.string
+  };
+
   constructor(props) {
     super(props);
     // WeChat.registerApp('wx5b3f09ef08ffa7a7');
@@ -103,7 +112,7 @@ export default class ShareComponent extends Component {
         ]}
       >
         <View style={styles.shareTop}>
-          <Text style={styles.shareTitle}>與好友分享菜品</Text>
+          <Text style={styles.shareTitle}>{this.props.title}</Text>
         </View>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <TouchableOpacity

@@ -126,7 +126,7 @@ class PlacePickerModel extends Component {
             },() => {
               this.props.stockPlaceList(placeList.data);
               placeStorage.getData((error, place) => {
-                console.log(place)
+                // console.log(place)
                 if (error === null) {
                   if (place !== null) {
                     console.log(place);
@@ -218,8 +218,8 @@ class PlacePickerModel extends Component {
     const {latitude, longitude} =!!position && position.coords || {latitude: "",longitude: ""};
     foodPlaces(latitude, longitude).then(
       data => {
-          console.log(12345,data[0]);
-          console.log(12345,storage_data);
+          // console.log(12345,data[0]);
+          // console.log(12345,storage_data);
           let _data = {
             ...defaultData,
             id: data[0].id
