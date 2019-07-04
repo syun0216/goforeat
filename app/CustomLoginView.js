@@ -11,7 +11,7 @@ import { Input, Icon, ActionSheet,Footer, Container, Content } from "native-base
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
 // import InstagramLogin from 'react-native-instagram-login'
 //utils
-import GLOBAL_PARAMS from "./utils/global_params";
+import GLOBAL_PARAMS, { em } from "./utils/global_params";
 import ToastUtil from "./utils/ToastUtil";
 //cache
 import { userStorage } from "./cache/appStorage";
@@ -423,14 +423,15 @@ export default class CustomLoginView extends PureComponent {
             />
           </KeyboardAvoidingView>
         </Content>
-        <Footer style={ManageCreditCardStyles.Footer}>
+        <Footer style={{borderTopWidth: 0,backgroundColor: '#fff'}}>
           <TouchableOpacity
-            style={ManageCreditCardStyles.FooterBtn}
+            style={[ManageCreditCardStyles.FooterBtn, {borderTopWidth: 0,}]}
             onPress={() => this.props.screenProps.toggleLogin(false)}
           >
-            <Text style={ManageCreditCardStyles.BottomInfo}>
+            {/* <Text style={ManageCreditCardStyles.BottomInfo}>
               暫不登錄
-            </Text>
+            </Text> */}
+            <Image style={{width: em(30), height: em(30)}} source={require('./asset/close3.png')}/>
           </TouchableOpacity>
         </Footer>
       </Container>
