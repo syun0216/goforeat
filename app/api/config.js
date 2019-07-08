@@ -2,8 +2,9 @@ import axios from 'axios';
 import { Platform, AsyncStorage } from 'react-native';
 import store from '../store/index';
 import qs from 'qs';
+import { isNil } from 'lodash';
 //actions
-import { HIDE_LOADING_MODAL, SHOW_LOADING_MODAL, LOGOUT, SHOW_LOADING, HIDE_LOADING } from '../actions'
+import { HIDE_LOADING_MODAL, SHOW_LOADING_MODAL, LOGOUT, SHOW_LOADING, HIDE_LOADING, RESET_ACTIVITY } from '../actions'
 //language
 import i18n from '../language/i18n';
 //utils 
@@ -81,10 +82,13 @@ service.interceptors.response.use(response => {
             return res.data;
         }else if(res.ro.respCode === "10006" || res.ro.respCode === "10007") {
             store.dispatch({type:LOGOUT});
+            store.dispatch({type: RESET_ACTIVITY});
             NavigationService.back();
             // console.log(NavigationService.navigatorRef)
         }
-        ToastUtil.showWithMessage(res.ro.respMsg);
+        if(!(!isNil(response.config.toast)&&!response.config.toast)) {
+            ToastUtil.showWithMessage(res.ro.respMsg);
+        }
         return Promise.reject({errCode: res.ro.respCode, errMsg: res.ro.respMsg});
     }
 }, err => {

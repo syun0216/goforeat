@@ -258,6 +258,7 @@ export function saveDevices(registrationId) {
     url: '/device/save',
     loading: true,
     method: 'post',
+    toast: false,
     data: {
       registrationId
     }
@@ -291,6 +292,7 @@ export function adSpace() {
   return request({
     url: '/adSpace/list',
     loading: true,
+    toast: false,
     method: 'post',
     data: {
       pagePosition: 1
@@ -302,6 +304,7 @@ export function adSpace() {
 export function queryLatest() {
   return request({
     url: '/notice/queryLatest',
+    toast: false,
     loading: true,
     method: 'get'
   })
@@ -311,6 +314,7 @@ export function queryList() {
   return request({
     url: '/notice/queryList',
     loading: true,
+    toast: false,
     method: 'get'
   })
 }
@@ -588,6 +592,7 @@ export function getVersionFromServer() {
   return request({
     url: '/info/getVersionInfo',
     loading: true,
+    toast: false,
     method: 'post'
   })
 }
@@ -609,6 +614,7 @@ export function inviteActivityInfo() {
     url: '/invite/showInvite',
     method: 'post',
     loading: false,
+    toast: false
   });
 }
 
