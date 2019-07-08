@@ -14,7 +14,9 @@ import {
   HIDE_AD,
   STORE_PLACE_LIST,
   SAVE_CACHE,
-  RESET_CACHE
+  RESET_CACHE,
+  SAVE_ACTIVITY,
+  RESET_ACTIVITY
 } from "../actions";
 //cache
 import { userStorage } from "../cache/appStorage";
@@ -58,7 +60,8 @@ const initialState = {
   advertimentState: {
     isAdvertisementShow: true
   },
-  pageState: {} //页面缓存
+  pageState: {}, //页面缓存
+  activityState: {}
 };
 
 export function pageCache(state = initialState.pageState, action) {
@@ -206,5 +209,18 @@ export function language(state = initialState.languageState, action) {
       return { ...state, language: action.language };
     default:
       return state;
+  }
+}
+
+
+export function activityInfo(state = {}, action) {
+  switch(action.type) {
+    case SAVE_ACTIVITY: {
+      return { ...state, activity: action.data};
+    }
+    case RESET_ACTIVITY: {
+      return { ...state, activity: {} }
+    }
+    default: return state;
   }
 }
