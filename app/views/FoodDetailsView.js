@@ -579,6 +579,7 @@ class FoodDetailsView extends Component {
           requestFunc={getCommentList}
           renderItem={(item, idx) => this._renderCommentItem(item,idx)}
           extraParams={{foodId: foodId }}
+          offset={15}
           getCount={count => {
             this.setState({
               commentTitle: `用戶評論(${count})`
@@ -596,7 +597,7 @@ class FoodDetailsView extends Component {
         <View style={FoodDetailsStyles.commentItemContent}>
           <Text style={FoodDetailsStyles.commentName}>{item.nickName}</Text>
           <Text style={[FoodDetailsStyles.commentCommonText, {fontSize:em(12), marginTop: -3}]}>評分: {item.star}星</Text>
-          <Text style={FoodDetailsStyles.commentCommonText}>{item.comment}</Text>
+          <Text numberOfLines={1} style={FoodDetailsStyles.commentCommonText}>{item.comment}</Text>
         </View>
       </View>
     )
@@ -777,7 +778,7 @@ class FoodDetailsView extends Component {
             //分享優惠券信息
             url: `https://m.goforeat.hk/#/foodDetails/${this.dateFoodId}`,
             message: foodName,
-            title: "新人註冊領HKD20優惠券",
+            title: "新人註冊領HKD35優惠券",
             social: "whatsapp"
           };
           this.timer = setTimeout(() => {
@@ -805,7 +806,7 @@ class FoodDetailsView extends Component {
           WeChat.isWXAppInstalled().then(isInstalled => {
             if (isInstalled) {
               let _obj = {
-                title: "新人註冊領HKD20優惠券",
+                title: "新人註冊領HKD35優惠券",
                 description: foodName,
                 thumbImage: extralImage[0],
                 type: "news",
