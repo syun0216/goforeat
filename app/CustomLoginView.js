@@ -127,21 +127,42 @@ export default class CustomLoginView extends PureComponent {
     Platform.OS == 'ios' ? (alert(message)) : ToastAndroid.show(message, ToastAndroid.SHORT);
   }
 
+  _checkPhoneIsValid() {
+    let { i18n } = this.props;
+    let _regMainLandChina = /^1(3|4|5|6|7|8|9)\d{9}$/;
+    let _regHK = /^1[0-9]{10}$|^[569][0-9]{7}$/;
+    if(this.phone === null || this.phone === '') {
+      this.setState({
+        phoneErrorTips: i18n.login_tips.fail.phone_null
+      });
+      return false;
+    }
+    if(!(_regMainLandChina.test(this.phone) || _regHK.test(this.phone))) {
+      this.setState({
+        phoneErrorTips: i18n.login_tips.fail.phone_format
+      });
+      return false;
+    }
+    return true;
+  }
+
+  _checkPasswordIsValid() {
+    let { i18n } = this.props;
+    if(this.password === null || this.password === '') {
+      this.setState({
+        codeErrorTips: i18n.login_tips.fail.code_null
+      });
+      return false;
+    }
+    return true;
+  }
+
   _login() {
     let { i18n } = this.props;
     let { params } = this.props.navigation.state;
     let { selectedValue, password } = this.state;
-    if (this.phone === null) {
-      this.setState({
-        phoneErrorTips: i18n.login_tips.fail.phone_null
-      });
-      return;
-    }
-    if (this.password === null) {
-      this.setState({
-        codeErrorTips: i18n.login_tips.fail.code_null
-      });
-      return;
+    if(!this._checkPhoneIsValid() || !this._checkPasswordIsValid()) {
+      return
     }
     this.setState({loading: true});
     checkCode(this.phone, selectedValue.value, this.token, this.password)
