@@ -3,10 +3,9 @@ import {
   View,
   WebView,
   TouchableWithoutFeedback,
-  Clipboard,
-  ActivityIndicator
+  Clipboard
 } from "react-native";
-import { Text } from "native-base";
+import { Text, Content } from "native-base";
 import Share, { ShareSheet, Button as SButton } from "react-native-share";
 //utils
 import ToastUtil from "../utils/ToastUtil";
@@ -232,15 +231,6 @@ export default class ContentView extends Component {
     );
   };
 
-  _activityIndicatorLoadingView() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="small" color={this.props.screenProps.theme} />
-        <Text />
-      </View>
-    );
-  }
-
   _renderPreventClickView() {
     return (
       <TouchableWithoutFeedback
@@ -279,8 +269,8 @@ export default class ContentView extends Component {
       source={{ uri: this.props.navigation.state.params.data.url }}
       onError={() => this.setState({ isError: true })}
       onMessage={(event) => this.handleMessage(event)}
-      renderLoading={() => <Loading />}
-      startInLoadingState={true}
+      // renderLoading={() => <Loading />}
+      // startInLoadingState={true}
       style={{
         width: GLOBAL_PARAMS._winWidth,
         height: GLOBAL_PARAMS._winHeight
@@ -306,8 +296,8 @@ export default class ContentView extends Component {
             this.openShare()
           }}
         />
-        {this.state.loading ? <Loading /> : null}
         <View style={{ flex: 1 }}>
+          {/* {this.state.loading ? <Loading /> : null} */}
           {this.state.isShareListShow && this._renderPreventClickView()}
           {this._renderArticleContentView()}
           {this._renderShareSheet()}

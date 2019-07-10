@@ -79,7 +79,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
     getMonthTicketInfo().then(data => {
       if(data.list) {
         this.setState({
-          monthTicketDetail: data.data.list
+          monthTicketDetail: data.list
         })
       }
     })
