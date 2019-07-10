@@ -27,12 +27,10 @@ class App extends Component < {} > {
     // console.log(pushEnabled);
     // api.getNotifications().then(data => console.log(data));
     // appStorage.removeAll()
-
-    console.log(1323232131231231)
     if(isDebugVersion()) {
       debugStorage.getData((err, data) => {
         if(err == null && data) {
-          console.log('data', data)
+          // console.log('data', data)
           reinitServer(data.value);
         }
       })
