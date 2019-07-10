@@ -2,7 +2,8 @@ import React from "react";
 import { View, Image, Platform, TouchableOpacity } from "react-native";
 import { Container, Content, Icon } from "native-base";
 import LinearGradient from "react-native-linear-gradient";
-import LottieView from 'lottie-react-native';
+import LottieView from "lottie-react-native";
+import { isNil } from 'lodash';
 //navigation
 import {
   StackNavigator,
@@ -37,7 +38,8 @@ import DebugView from './debugView';
 //api
 import source from "./api/CancelToken";
 //utils
-import GLOBAL_PARAMS, { em } from "./utils/global_params";
+import GLOBAL_PARAMS, { em, currentPlatform } from "./utils/global_params";
+import { getVersion } from './utils/DeviceInfo';
 //store
 import store from "./store";
 //components
@@ -238,7 +240,8 @@ const darwerView = DrawerNavigator(
       };
       let _alreadyLogin = props.screenProps.user != null;
       const {
-        userInfo: { username, nickName, profileImg }
+        userInfo: { username, nickName, profileImg },
+        activityInfo
       } = props.screenProps;
       return (
         <Container>
@@ -307,13 +310,26 @@ const darwerView = DrawerNavigator(
                   return <CustomDarwerItem {..._drawItemArr[scene.index]} />;
                 }}
               />
-              {/* <View style={mainviewStyle.LottieView}>
-                <LottieView style={mainviewStyle.lottieIcon} autoPlay={true} source={require("./animations/bell.json")} loop={true}/>
-                <View style={mainviewStyle.lottieContent}>
-                  <Text style={mainviewStyle.drawerItemText}>邀請好友</Text>
-                  <Text style={[mainviewStyle.drawerItemText, {color: '#ff5050',fontSize: em(14),marginTop: em(10),}]}>已獲得5張優惠券</Text>
-                </View>
-              </View> */}
+              {
+                (!isNil(activityInfo.activity) && activityInfo.activity.showStatus == 1) && (
+                  <TouchableOpacity activeOpacity={0.8} style={mainviewStyle.LottieView} onPress={() => {
+                    props.navigation.navigate('Content', {
+                      data: {
+                        url: `${activityInfo.activity.myInviteUrl}?sid=${store.getState().auth.sid}&language=${store.getState().language.language}&sellClient=${currentPlatform}&appVersion=${getVersion()}`,
+                        title: '邀請好友落Order獎你HKD10優惠券',
+                        message: 'goforeat'
+                      },
+                      kind: 'activity'
+                    })
+                  }}>
+                    <LottieView style={mainviewStyle.lottieIcon} autoPlay={true} source={require("./animations/bell.json")} loop={true}/>
+                    <View style={mainviewStyle.lottieContent}>
+                      <Text style={mainviewStyle.drawerItemText}>邀請好友</Text>
+                      <Text style={[mainviewStyle.drawerItemText, {color: '#ff5050',fontSize: em(14),marginTop: em(10),}]}>已獲得{activityInfo.activity.inviteCount || '0'}張優惠券</Text>
+                    </View>
+                  </TouchableOpacity>
+                )
+              }
             </View>
           </Content>
         </Container>
