@@ -12,7 +12,7 @@ import {
   Easing,
   Alert
 } from "react-native";
-import { Container, Header } from "native-base";
+import { Header } from "native-base";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import FastImage from "react-native-fast-image";
@@ -22,11 +22,11 @@ import {isNil} from "lodash";
 //actions
 import { SHOW_AD, HIDE_AD } from "../actions";
 //utils
-import GLOBAL_PARAMS, { em, isEmpty } from "../utils/global_params";
+import GLOBAL_PARAMS, { em, isEmpty, currentPlatform } from "../utils/global_params";
 import JSONUtils from "../utils/JSONUtils";
-import { getDeviceId } from "../utils/DeviceInfo";
+import { getDeviceId, getVersion } from "../utils/DeviceInfo";
 //api
-import { getNewArticleList, adSpace } from "../api/request";
+import { getNewArticleList, adSpace, inviteActivityInfo } from "../api/request";
 import source from "../api/CancelToken";
 //components
 import Text from "../components/UnScalingText";
@@ -41,6 +41,9 @@ import FoodDetailsStyles from "../styles/fooddetails.style";
 //storage
 import { advertisementStorage } from "../cache/appStorage";
 import Divider from "../components/Divider";
+//store
+import store from "../store/index";
+import { SAVE_ACTIVITY } from "../actions/index";
 
 const {
   isIphoneX,
@@ -75,6 +78,7 @@ class FoodListView extends PureComponent {
       listDataLength: 0,
       isAdvertiseShow: false,
       isWarningTipShow: true,
+      isActivityBtnShow: false,
       searchBarOpacity: new Animated.Value(1), 
       warningTipsScale: new Animated.Value(1),
       searchBtnShow: false,
@@ -86,6 +90,7 @@ class FoodListView extends PureComponent {
     if (isAdShow) {
       hideAd();
     }
+    
     advertisementStorage.getData((error, data) => {
       if (error == null) {
         if (data != null) {
@@ -100,6 +105,20 @@ class FoodListView extends PureComponent {
         this._getAdvertise(data);
       }
     });
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.screenProps.sid != this.props.screenProps.sid) {
+      this._getActivityInfo();
+    }
+    // console.log(999999999999999999999999,this.props);
+  }
+
+  componentDidMount() {
+    let _timer = setTimeout(() => {
+      this._getActivityInfo();
+      clearTimeout(_timer);
+    },300);
   }
 
   componentWillUnmount() {
@@ -149,6 +168,18 @@ class FoodListView extends PureComponent {
           // console.log('Request canceled', thrown.message);
         }
       });
+  }
+
+  _getActivityInfo(){
+    inviteActivityInfo().then(data => {
+      console.log('data :', data);
+      this.setState({
+        isActivityBtnShow: data.showStatus == 1
+      });
+      store.dispatch({type: SAVE_ACTIVITY, data});
+    }).catch(err => {
+      console.log('err',err)
+    });
   }
 
   _advertiseInterval() {
@@ -457,7 +488,11 @@ class FoodListView extends PureComponent {
             this.props.i18n.tips,
             placeSelected.name,
             [
-              { text: this.props.i18n.confirm, onPress: () => {return null} }
+              { text: this.props.i18n.confirm, onPress: () => {
+                this.setState({
+                  showPlacePicker: true
+                })
+              } }
             ],
             { cancelable: false }
           )
@@ -582,6 +617,7 @@ class FoodListView extends PureComponent {
         refreshControlTitleColor="#fff"
         refreshControlTintColor="#fff"
         isIndicatorShow={false}
+        blankBtnMessage="所選配送點暫未有餐食供應,請選擇其他離你最近的配送點"
         getRawData={data => {
           this.setState({ star: data.star});
         }}
@@ -594,6 +630,10 @@ class FoodListView extends PureComponent {
   }
 
   render() {
+    // console.log(999999999999999999999999,'render');
+    const {
+      activityInfo
+    } = this.props.screenProps;
     return (
       <CustomizeContainer.SafeView mode="linear" style={{ position: "relative", backgroundColor: "#fff" }}>
         {this._renderAdvertisementView()}
@@ -602,7 +642,18 @@ class FoodListView extends PureComponent {
         {this._renderPlacePicker()}
         {this._renderHeaderView()}
         {this.state.isWarningTipShow && this._renderWarningView()}
-        {/* <Tips message="邀請好友,領取優惠券" clickFunc={() => this.props.navigation.navigate("DrawerOpen")}/> */}
+        {
+          (!isNil(activityInfo.activity) && activityInfo.activity.showStatus == 1) && (<Tips message="邀請好友,領取優惠券" clickFunc={() => 
+            this.props.navigation.navigate('Content', {
+              data: {
+                url: `${activityInfo.activity.myInviteUrl}?sid=${store.getState().auth.sid}&language=${store.getState().language.language}&sellClient=${currentPlatform}&appVersion=${getVersion()}`,
+                title: '邀請好友落Order獎你HKD10優惠券',
+                message: 'goforeat'
+              },
+              kind: 'activity'
+            })
+          }/>)
+        }
         {this._renderFlatListView()}
       </CustomizeContainer.SafeView>
     );
