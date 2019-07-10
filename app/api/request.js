@@ -628,7 +628,8 @@ export function myInvites() {
   return request({
     url: '/invite/myInvites',
     method: 'post',
-    loading: false,
+    loading: true,
+    toast: true,
     data: {
       offset: 0,
       limit: 1

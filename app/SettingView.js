@@ -29,6 +29,8 @@ import I18n from "./language/i18n";
 import { logout } from "./api/request";
 //cache
 import { languageStorage } from "./cache/appStorage";
+//actions
+import { RESET_ACTIVITY } from "./actions/index";
 
 const LANGUAGE_BTN = ["繁體中文", "English", "Cancel"];
 const DESTRUCTIVE_INDEX = 3;
@@ -61,6 +63,7 @@ export default class SettingView extends PureComponent {
       data => {
         ToastUtil.showWithMessage(i18n.setting_tips.success.logout);
         this.props.screenProps.userLogout();
+        this.props.dispatch({type: RESET_ACTIVITY});
       });
   }
 

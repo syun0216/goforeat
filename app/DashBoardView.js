@@ -6,12 +6,9 @@ import {
   LOGIN,
   LOGOUT,
   CHANGE_LANGUAGE,
-  STOCK_PLACE,
-  DELETE_PLACE,
-  REFRESH,
   SET_PAY_TYPE,
-  SET_CREDIT_CARD,
-  REMOVE_CREDIT_CARD
+  SAVE_ACTIVITY,
+  RESET_ACTIVITY
 } from "./actions";
 
 class DashBoardView extends PureComponent {
@@ -40,6 +37,7 @@ const dashboardStateToProps = (state) => {
   sid: state.auth.sid,
   language: state.language.language,
   paytype: state.payType.payType,
+  activityInfo: state.activityInfo
 })}
 
 const dashboardmapDispatchToProps = dispatch => ({
