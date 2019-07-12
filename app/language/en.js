@@ -114,6 +114,7 @@ export default {
   notSupport: "This model is not supported at this time",
   dialingFail: "Failed to dial number",
   ticket: "Coupon",
+  invite: "invite friends",
   user_info_tips: {
     phone: "Account",
     nickName: "Name",

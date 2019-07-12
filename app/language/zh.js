@@ -111,6 +111,7 @@ export default {
   notSupport: "該機型暫不支持",
   dialingFail: "撥打用戶號碼失敗",
   ticket: "優  惠  券",
+  invite: "邀請好友",
   user_info_tips: {
     phone: "賬號",
     nickName: "暱稱",
