@@ -1,9 +1,5 @@
 import React from "react";
-import { View, Image, Platform, TouchableOpacity } from "react-native";
-import { Container, Content, Icon } from "native-base";
-import LinearGradient from "react-native-linear-gradient";
-import LottieView from "lottie-react-native";
-import { isNil } from 'lodash';
+import { Image, Platform } from "react-native";
 //navigation
 import {
   StackNavigator,
@@ -14,9 +10,7 @@ import {
 } from "react-navigation";
 import CardStackStyleInterpolator from "react-navigation/src/views/CardStack/CardStackStyleInterpolator";
 //views
-import CustomLoginView from "./CustomLoginView";
 import SettingView from "./SettingView";
-
 import FoodDetailsView from "./views/FoodDetailsView";
 import FoodListView from "./views/FoodListView";
 import ContentView from "./views/ContentView";
@@ -28,7 +22,6 @@ import UserHelperView from "./views/UserHelperView";
 import PaySettingView from "./views/PaySettingView";
 import CreditCardView from "./views/CreditCardView";
 import ManageCreditCardView from "./views/ManageCreditCardView";
-import MoreDetailView from "./views/MoreDetailView";
 import FeedbackView from "./views/FeedbackView";
 import UserInfoView from "./views/UserInfoView";
 import CouponView from "./views/CouponView";
@@ -38,19 +31,15 @@ import DebugView from './debugView';
 //api
 import source from "./api/CancelToken";
 //utils
-import GLOBAL_PARAMS, { em, currentPlatform } from "./utils/global_params";
-import { getVersion } from './utils/DeviceInfo';
+import GLOBAL_PARAMS from "./utils/global_params";
 //store
 import store from "./store";
 //components
 import CommonHOC from "./hoc/CommonHOC";
 import TabBar from "./components/Tabbar";
-import Text from "./components/UnScalingText";
+import CustomDrawer from "./components/CustomDrawer";
 //styles
 import MainViewStyles from "./styles/mainview.style";
-//language
-import i18n from "./language/i18n";
-import mainviewStyle from "./styles/mainview.style";
 //permission
 import { AuthInterceptor } from "./permission";
 
@@ -117,52 +106,6 @@ const tabView = TabNavigator(
   }
 );
 
-const WHITE_LIST = ["FoodDetails", "UserHelpDrawer", "SettingDrawer"];
-
-const CustomDarwerItem = ({ leftImage, title }) => (
-  <View style={MainViewStyles.drawerItemBtn}>
-    <Image
-      source={leftImage}
-      style={MainViewStyles.drawerItemImage}
-      resizeMode="contain"
-    />
-    <Text style={MainViewStyles.drawerItemText}>{title}</Text>
-  </View>
-);
-
-const customItemPress = ({ route, focused }, navigation) => {
-  // console.log(route);
-  // console.log(navigation);
-  let _toPage = (route, focused, navigation) => {
-    navigation.navigate("DrawerClose");
-    if (!focused) {
-      let subAction;
-      if (route.index !== undefined && route.index !== 0) {
-        subAction = NavigationActions.reset({
-          index: 0,
-          actions: [
-            NavigationActions.navigate({
-              routeName: route.routes[0].routeName
-            })
-          ]
-        });
-      }
-      navigation.navigate(route.routeName, undefined, subAction);
-    }
-  };
-  // if (
-  //   store.getState().auth.username == null &&
-  //   WHITE_LIST.indexOf(route.routeName) == -1
-  // ) {
-  //   navigation.navigate("Login", {
-  //     page: route.routeName,
-  //     callback: () => _toPage(route, focused, navigation)
-  //   }); // 登录验证
-  //   return;
-  // }
-  _toPage(route, focused, navigation);
-};
-
 const darwerView = DrawerNavigator(
   {
     FoodListDrawer: {
@@ -195,145 +138,7 @@ const darwerView = DrawerNavigator(
     drawerWidth: GLOBAL_PARAMS._winWidth * 0.75,
     drawerPosition: "left",
     contentComponent: props => {
-      let { language } = store.getState().language;
-      let _drawItemArr = [
-        {
-          title: i18n[language].dailyFood,
-          leftImage: require("./asset/food.png")
-        },
-        {
-          title: i18n[language].myorder,
-          leftImage: require("./asset/order.png")
-        },
-        {
-          title: i18n[language].pickPlace,
-          leftImage: require("./asset/location.png")
-        },
-        {
-          title: i18n[language].payment,
-          leftImage: require("./asset/payment.png")
-        },
-        {
-          title: i18n[language].myMonthTicket,
-          leftImage: require("./asset/monthticket.png")
-        },
-        {
-          title: i18n[language].ticket,
-          leftImage: require("./asset/coupon.png")
-        },
-        {
-          title: i18n[language].setting,
-          leftImage: require("./asset/setting.png")
-        },
-        {
-          title: i18n[language].setting,
-          leftImage: require("./asset/setting.png")
-        }
-      ];
-      let customLoginBtnRoute = {
-        route: {
-          key: "UserInfoDrawer",
-          routeName: "UserInfoDrawer",
-          params: undefined
-        },
-        focused: false
-      };
-      let _alreadyLogin = props.screenProps.user != null;
-      const {
-        userInfo: { username, nickName, profileImg },
-        activityInfo
-      } = props.screenProps;
-      return (
-        <Container>
-          <View>
-            <LinearGradient
-              colors={["#FF7A00", "#FE560A"]}
-              start={{ x: 0.0, y: 0.0 }}
-              end={{ x: 1.0, y: 0.0 }}
-              style={MainViewStyles.drawerTopContainer}
-            >
-              <Image
-                source={
-                  _alreadyLogin 
-                    ? profileImg != "" && profileImg ? { uri: profileImg } : require("./asset/defaultAvatar.png")
-                    : require("./asset/notlogged.png")
-                }
-                style={[MainViewStyles.drawerTopImage, !profileImg && {borderWidth: 0}]}
-              />
-              <TouchableOpacity
-                onPress={() => 
-                  props.navigation.navigate('UserInfo')
-                }
-                style={MainViewStyles.drawerTopImageContainer}
-              >
-                <View
-                  style={{ height: em(70), justifyContent: "space-around" }}
-                >
-                  <Text style={MainViewStyles.topName}>
-                    {_alreadyLogin ? nickName || "日日有得食" : "日日有得食"}
-                  </Text>
-                  {_alreadyLogin ? (
-                    <Text style={mainviewStyle.topNickName}>{username}</Text>
-                  ) : (
-                    <Text style={mainviewStyle.topNickName}>立即登錄</Text>
-                  )}
-                </View>
-                <Text style={MainViewStyles.loginBtnText}>
-                  {_alreadyLogin ? "去更改" : ""}{" "}
-                  <Icon
-                    name="ios-arrow-forward"
-                    style={mainviewStyle.loginBtnArrow}
-                  />
-                </Text>
-              </TouchableOpacity>
-            </LinearGradient>
-          </View>
-          <Content style={MainViewStyles.drawerContent}>
-            <View style={MainViewStyles.drawerInnerContent}>
-              <DrawerItems
-                {...props}
-                onItemPress={({ route, focused }) => {
-                  // customItemPress({ route, focused }, props.navigation)
-                  // console.log(route);
-                  if(route.routeName == 'FoodListDrawer') {
-                    customItemPress({ route, focused }, props.navigation)
-                  }else {
-                    let _route = route.routeName.split('D')[0];
-                    props.navigation.navigate(_route)
-                    }
-                  }
-                }
-                getLabel={scene => {
-                  if (scene.route.routeName == "UserInfoDrawer") {
-                    return null;
-                  }
-                  return <CustomDarwerItem {..._drawItemArr[scene.index]} />;
-                }}
-              />
-              {
-                (!isNil(activityInfo.activity) && activityInfo.activity.showStatus == 1) && (
-                  <TouchableOpacity activeOpacity={0.8} style={mainviewStyle.LottieView} onPress={() => {
-                    props.navigation.navigate('Content', {
-                      data: {
-                        url: `${activityInfo.activity.myInviteUrl}?sid=${store.getState().auth.sid}&language=${store.getState().language.language}&sellClient=${currentPlatform}&appVersion=${getVersion()}`,
-                        title: '邀請好友落Order獎你HKD10優惠券',
-                        message: 'goforeat'
-                      },
-                      kind: 'activity'
-                    })
-                  }}>
-                    <LottieView style={mainviewStyle.lottieIcon} autoPlay={true} source={require("./animations/bell.json")} loop={true}/>
-                    <View style={mainviewStyle.lottieContent}>
-                      <Text style={mainviewStyle.drawerItemText}>邀請好友</Text>
-                      <Text style={[mainviewStyle.drawerItemText, {color: '#ff5050',fontSize: em(14),marginTop: em(10),}]}>已獲得{activityInfo.activity.inviteCount || '0'}張優惠券</Text>
-                    </View>
-                  </TouchableOpacity>
-                )
-              }
-            </View>
-          </Content>
-        </Container>
-      );
+      return <CustomDrawer {...props}/>
     }
   }
 );
@@ -402,9 +207,6 @@ let MainView = StackNavigator(
     },
     Manage_Card: {
       screen: CommonHOC(ManageCreditCardView)
-    },
-    MoreDetail: {
-      screen: CommonHOC(MoreDetailView)
     },
     Feedback: {
       screen: CommonHOC(FeedbackView)
