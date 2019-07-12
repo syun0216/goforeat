@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import {
   FlatList,
@@ -9,16 +9,18 @@ import {
   Image
 } from "react-native";
 import LottieView from 'lottie-react-native';
+import { withNavigation } from 'react-navigation';
+import {connect} from 'react-redux';
 import {netWorkFailCode} from '../api/config';
 //utils
 import GLOBAL_PARAMS, { isEmpty, em } from "../utils/global_params";
-import ToastUtil from "../utils/ToastUtil";
 //components
-import Loading from "../components/Loading";
 import ListFooter from "../components/ListFooter";
 import ErrorPage from "../components/ErrorPage";
 import BlankPage from "../components/BlankPage";
 import Divider from "../components/Divider";
+//language
+import I18n from "../language/i18n";
 
 let requestParams = {
   nextOffset: 0,
@@ -29,7 +31,7 @@ const {
   httpStatus: { LOADING, LOAD_SUCCESS, LOAD_FAILED, NO_DATA, NO_MORE_DATA }
 } = GLOBAL_PARAMS;
 
-export default class CommonFlatList extends PureComponent {
+class CommonFlatList extends Component {
   constructor(props) {
     super(props);
     this._timer = null;
@@ -42,11 +44,13 @@ export default class CommonFlatList extends PureComponent {
         next: LOADING
       },
       refreshing: false,
-      showToTop: false
+      showToTop: false,
+      i18n: I18n[props.language]
     };
   }
 
   componentDidMount() {
+    console.log('this.props', this.props);
     this.init();
     this._timer = setTimeout(() => {
       this._requestFirstPage();
@@ -59,6 +63,11 @@ export default class CommonFlatList extends PureComponent {
     clearTimeout(this._timer);
   }  
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return JSON.stringify(nextState) != JSON.stringify(this.state);
+  };
+  
+
   init() {
     requestParams.currentOffset = 0;
     requestParams.nextOffset = 0;
@@ -66,7 +75,7 @@ export default class CommonFlatList extends PureComponent {
 
   getData(offset, successCallback, failCallback) {
     const { extraParams, getRawData } = this.props;
-    const { i18n } = this.props;
+    const { i18n } = this.state;
     let _requestParams = {
       offset
     };
@@ -164,7 +173,7 @@ export default class CommonFlatList extends PureComponent {
   }
 
   _onErrorRequestFirstPage() {
-    this.props.showLoading&& this.props.showLoading();
+    // this.props.showLoading&& this.props.showLoading();
     this.init();
     this._requestFirstPage();
   }
@@ -279,9 +288,9 @@ export default class CommonFlatList extends PureComponent {
   }
 
   render() {
-    // console.log("render");
+    console.log("flatlist~~~~~render");
     const { firstPageLoading, showToTop } = this.state;
-    const { i18n } = this.props;
+    const { i18n } = this.state;
     const {
       isBlankInfoBtnShow,
       blankBtnMessage,
@@ -344,3 +353,9 @@ CommonFlatList.defaultProps = {
   blankBtnMessage: "馬上有得食",
   style: {}
 };
+
+const FlatListState = state => ({
+  language: state.language.language
+});
+
+export default connect(FlatListState, {}, null, {withRef: true})(CommonFlatList);

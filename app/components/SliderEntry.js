@@ -118,4 +118,4 @@ const userStateToProps = state => ({
   user: state.auth.username
 });
 
-export default connect(userStateToProps)(withNavigation(SliderEntry));
+export default connect(userStateToProps, {})(SliderEntry);

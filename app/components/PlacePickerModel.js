@@ -44,7 +44,7 @@ class PlacePickerModel extends Component {
     placeList: null,
     selected: null,
     loading: false,
-    i18n: I18n[this.props.screenProps.language]
+    i18n: I18n[this.props.language]
   };
 
   componentDidMount() {
@@ -80,7 +80,7 @@ class PlacePickerModel extends Component {
      }
     }
     this.setState({
-      i18n: I18n[nextProps.screenProps.language]
+      i18n: I18n[nextProps.language]
     });
   }
 
@@ -318,7 +318,8 @@ class PlacePickerModel extends Component {
 const placePickerModalStateToProps = state => {
   return ({
     place: state.placeSetting.place,
-    placeList: state.placeSetting.placeList
+    placeList: state.placeSetting.placeList,
+    language: state.language.language
   })
 }
 

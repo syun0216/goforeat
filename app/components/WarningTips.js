@@ -8,6 +8,7 @@ import {
   Animated,
   Platform
 } from "react-native";
+import {withNavigation} from 'react-navigation';
 import Antd from 'react-native-vector-icons/AntDesign';
 //utils
 import GLOBAL_PAMRAS, { em } from "../utils/global_params";
@@ -90,7 +91,7 @@ const WARNING_CONTENT = (v, i, navigation) => (
   </TouchableOpacity>
 );
 
-export default class WarningTips extends PureComponent {
+class WarningTips extends PureComponent {
   _interval = null;
   _container_height = Platform.OS == "ios" ? -33.7 : -37.5;
   state = {
@@ -215,3 +216,6 @@ export default class WarningTips extends PureComponent {
     ) : null;
   }
 }
+
+
+export default withNavigation(WarningTips);

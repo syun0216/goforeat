@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import {
   View,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class BottomOrderConfirm extends PureComponent {
+export default class BottomOrderConfirm extends Component {
   timer = null;
   static defaultProps = {
     btnMessage: "立即預訂",
@@ -102,6 +102,10 @@ export default class BottomOrderConfirm extends PureComponent {
     shareClick: PropTypes.func,
     canClose: PropTypes.bool,
     status: PropTypes.number
+  };
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return JSON.stringify(nextState) != JSON.stringify(this.state) || JSON.stringify(nextProps) != JSON.stringify(this.props);
   };
 
   componentWillUnmount() {

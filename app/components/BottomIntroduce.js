@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from 'react-redux';
 import { View, TouchableOpacity, Text, Image, Linking } from "react-native";
 //styles
 import CommonStyle from "../styles/common.style";
@@ -10,7 +11,7 @@ const BottomIntroduce = props => {
       <View style={CommonStyle.DividerView}>
         {/* <View style={CommonStyle.Divider} /> */}
         <Text style={CommonStyle.DividerText}>
-          {i18n[props.screenProps.language].follow}
+          {i18n[props.language].follow}
         </Text>
         {/* <View style={CommonStyle.Divider} /> */}
       </View>
@@ -54,4 +55,8 @@ const BottomIntroduce = props => {
   );
 };
 
-export default BottomIntroduce;
+const BottomIntroduceState = state => ({
+  language: state.language.language
+})
+
+export default connect(BottomIntroduceState, {})(BottomIntroduce);

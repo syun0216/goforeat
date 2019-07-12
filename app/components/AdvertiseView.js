@@ -11,6 +11,7 @@ import {
   Platform,
   StatusBar
 } from "react-native";
+import {connect} from 'react-redux';
 import FastImage from "react-native-fast-image";
 import {
   Container,
@@ -19,9 +20,9 @@ import {
 //utils
 import GLOBAL_PARAMS, { em } from "../utils/global_params";
 import Colors from "../utils/Colors";
+import NavigationService from "../utils/NavigationService";
 //language
 import I18n from "../language/i18n";
-import i18n from "../language/i18n";
 
 const styles = StyleSheet.create({
   AdvertiseViewContent: {
@@ -98,7 +99,7 @@ const AdvertiseView = ({
   data,
   seconds,
   closeFunc,
-  screenProps: { language },
+  language,
   navigation
 }) => {
   return (
@@ -118,7 +119,7 @@ const AdvertiseView = ({
                 if (data.url == null || data.url == "") {
                   return;
                 }
-                navigation.navigate("Content", {
+                NavigationService.navigate("Content", {
                   data,
                   kind: "advertise"
                 });
@@ -166,4 +167,8 @@ AdvertiseView.propsType = {
 //   closeFunc: () => {}
 // }
 
-export default AdvertiseView;
+const stateToAdvertiseView = state => ({
+  language: state.language.language
+})
+
+export default connect(stateToAdvertiseView, {})(AdvertiseView);
