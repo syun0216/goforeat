@@ -81,10 +81,17 @@ export function getArticleList(offset, placeId) {
   })
 }
 
-export function getNewArticleList({offset, placeId}) {
+/**
+ * 获取每日菜品
+ *
+ * @export
+ * @param {*} {offset, placeId}
+ * @returns
+ */
+export function getFoodList({offset, placeId}) {
   return request({
     url: '/food/getFoodList',
-    loading: false,
+    loading: true,
     method: 'get',
     params: {
       offset,
@@ -305,7 +312,7 @@ export function queryLatest() {
   return request({
     url: '/notice/queryLatest',
     toast: false,
-    loading: true,
+    loading: false,
     method: 'get'
   })
 }
@@ -436,6 +443,8 @@ export function myFavorite(foodId, status) {
   return request({
     url: '/food/like',
     loading: false,
+    loginBlock: false, // 是否未登录自动退出
+    toast: false,
     method: 'post',
     data: {
       foodId,
@@ -628,7 +637,7 @@ export function myInvites() {
   return request({
     url: '/invite/myInvites',
     method: 'post',
-    loading: true,
+    loading: false,
     toast: true,
     data: {
       offset: 0,

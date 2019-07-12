@@ -83,7 +83,9 @@ service.interceptors.response.use(response => {
         }else if(res.ro.respCode === "10006" || res.ro.respCode === "10007") {
             store.dispatch({type:LOGOUT});
             store.dispatch({type: RESET_ACTIVITY});
-            NavigationService.back();
+            if(!(!isNil(response.config.loginBlock)&&!response.config.loginBlock)){
+                NavigationService.back();
+            }
             // console.log(NavigationService.navigatorRef)
         }
         if(!(!isNil(response.config.toast)&&!response.config.toast)) {
