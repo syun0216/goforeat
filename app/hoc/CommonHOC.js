@@ -54,8 +54,10 @@ const CommonHOC = WarppedComponent => {
     static navigationOptions = WarppedComponent.navigationOptions;
     constructor(props) {
       super(props);
+      this.showUpdateAlert = false;
+      this.showCodePushAlert = false;
       this.state = {
-        i18n: I18n[props.screenProps.language],
+        i18n: I18n[props.language],
       };
     }
 
@@ -106,8 +108,8 @@ const CommonHOC = WarppedComponent => {
       } else {
         getVersionFromServer().then(data => {
             // console.log('data', data)
-            let _serverVersion = _formatVersionIntoNumber(data.data.latestVersion);
-            let _updateStatus = data.data.status;
+            let _serverVersion = _formatVersionIntoNumber(data.latestVersion);
+            let _updateStatus = data.status;
             // console.log('data1234', _updateStatus, versionCode.mustUpdate, isNil(_updateStatus));
             if(isNil(_updateStatus)) {
               return;
@@ -117,20 +119,24 @@ const CommonHOC = WarppedComponent => {
                 {
                   text: '去更新',
                   onPress: () => {
-                    Linking.openURL(data.data.url).catch(
+                    this.showUpdateAlert = false;
+                    Linking.openURL(data.url).catch(
                       err => alert(err)
                     )
                   }
                 }
               ];
               if(_updateStatus == versionCode.alertToUpdate) {
+                if(this.showUpdateAlert) return;
+                this.showUpdateAlert = true;
                 Alert.alert(
                   "有得食誠邀你體驗最新版本哦",
                   "更新到最新版可獲取更多服務~",
                   [{
                     text: "暂不更新",
                     onPress: () => {
-                      return false
+                      this.showUpdateAlert = false;
+                      return false;
                     }
                   },..._btnArr]
                 );
@@ -236,6 +242,8 @@ const CommonHOC = WarppedComponent => {
     _syncInNonSilent = remotePackage => {
       let { i18n } = this.state;
       if (remotePackage.isMandatory) {
+        if(this.showCodePushAlert) return;
+        this.showCodePushAlert = true;
         Alert.alert(
           null,
           `${i18n.hot_reload_tips.update_details}\n ${
@@ -245,6 +253,7 @@ const CommonHOC = WarppedComponent => {
             {
               text: i18n.hot_reload_tips.understand,
               onPress: () => {
+                this.showCodePushAlert = false;
                 this._downloadMandatoryNewVersionWithRemotePackage(
                   remotePackage
                 );
@@ -255,10 +264,14 @@ const CommonHOC = WarppedComponent => {
         return;
       } else {
         Alert.alert(null, i18n.hot_reload_tips.has_new_function, [
-          { text: i18n.hot_reload_tips.not_now },
+          { text: i18n.hot_reload_tips.not_now, onPress: () => {
+            this.showCodePushAlert = false;
+            return false;
+          }},
           {
             text: i18n.hot_reload_tips.update_now,
             onPress: () => {
+              this.showCodePushAlert = false;
               this._downloadNewVersionWithRemotePackage(remotePackage);
             }
           }
@@ -305,7 +318,7 @@ const CommonHOC = WarppedComponent => {
         <CommonModal
           isHeaderShow={false}
           type="login"
-          modalVisible={this.props.screenProps.showLogin}
+          modalVisible={this.props.showLogin}
           closeFunc={() => this.props.toggleLogin(false)}
         >
           <LoginView
@@ -342,7 +355,9 @@ const CommonHOC = WarppedComponent => {
     pageCache: state.pageCache,
     isLoading: state.loading.showLoading,
     isLoadingModal: state.loading.showLoadingModal,
-    currentPlace: state.placeSetting.place
+    currentPlace: state.placeSetting.place,
+    language: state.language.language,
+    showLogin: state.login.showLogin,
   });
 
   const dispatchToBasic = dispatch => ({
