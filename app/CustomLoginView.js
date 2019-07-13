@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import {
   Image,
   View,
@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   ToastAndroid,
 } from "react-native";
+import {connect} from 'react-redux';
 import { Input, Icon, ActionSheet,Footer, Container, Content } from "native-base";
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
 // import InstagramLogin from 'react-native-instagram-login'
@@ -17,7 +18,7 @@ import ToastUtil from "./utils/ToastUtil";
 import { userStorage } from "./cache/appStorage";
 //api
 import { getCode, checkCode, saveDevices } from "./api/request";
-import source from "./api/CancelToken";
+import {abortRequestInPatchWhenRouteChange} from "./api/CancelToken";
 //jpush
 import JPushModule from "jpush-react-native";
 //styles
@@ -36,7 +37,7 @@ const BUTTONS = [
 const DESTRUCTIVE_INDEX = 3;
 const CANCEL_INDEX = 2;
 
-export default class CustomLoginView extends PureComponent {
+class CustomLoginView extends Component {
   _textInput = null;
   token = null;
   _timer = null;
@@ -57,10 +58,15 @@ export default class CustomLoginView extends PureComponent {
   };
 
   componentWillUnmount() {
-    source.cancel();
+    abortRequestInPatchWhenRouteChange();
     clearInterval(this.interval);
     clearTimeout(this._timer);
   }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return JSON.stringify(nextState) != JSON.stringify(this.state);
+  };
+  
 
   //common function
 
@@ -177,21 +183,24 @@ export default class CustomLoginView extends PureComponent {
             profileImg
           };
           userStorage.setData(_user);
-          this.props.screenProps.userLogin(_user);
-          this.props.screenProps.toggleLogin(false);
+          this.props.userLogin(_user);
           let _timer = setTimeout(() => {
-            let {toPage} = this.props.screenProps;
+            let {toPage} = this.props;
             if(toPage.routeName && toPage.routeName == 'UserInfo') {
               this.props.navigation.navigate('DrawerClose');
             }else {
               this.props.navigation.navigate(toPage);
             }
-            // console.log(1111111111111,this.props.screenProps.toPage);
+            // console.log(1111111111111,this.props.toPage);
             clearTimeout(_timer);
           }, 300);
           JPushModule.getRegistrationID(
             registrationId => {
-              saveDevices(registrationId, data.sid).then(sdata => {});
+              saveDevices(registrationId, data.sid).then(sdata => {
+                this.props.toggleLogin(false);
+              }).catch(err => {
+                this.props.toggleLogin(false);
+              });
             },
             () => {
               ToastUtil.showWithMessage(i18n.login_tips.fail.login);
@@ -200,7 +209,7 @@ export default class CustomLoginView extends PureComponent {
           this.setState({loading: false});
       })
       .catch(err => {
-
+        console.log(err);
         this.setState({loading: false});
         alert(err.errMsg);
       });
@@ -250,7 +259,7 @@ export default class CustomLoginView extends PureComponent {
         </View>
         {/* <TouchableOpacity
           style={LoginStyle.CloseBtn}
-          onPress={() => this.props.screenProps.toggleLogin(false)}
+          onPress={() => this.props.toggleLogin(false)}
         >
           <Icon name="ios-arrow-back" style={LoginStyle.CloseImage} />
         </TouchableOpacity> */}
@@ -447,7 +456,7 @@ export default class CustomLoginView extends PureComponent {
         <Footer style={{borderTopWidth: 0,backgroundColor: '#fff'}}>
           <TouchableOpacity
             style={[ManageCreditCardStyles.FooterBtn, {borderTopWidth: 0,}]}
-            onPress={() => this.props.screenProps.toggleLogin(false)}
+            onPress={() => this.props.toggleLogin(false)}
           >
             {/* <Text style={ManageCreditCardStyles.BottomInfo}>
               暫不登錄
@@ -459,3 +468,15 @@ export default class CustomLoginView extends PureComponent {
     );
   }
 }
+
+const stateToLogin = state => ({
+  toPage: state.login.toPage,
+})
+
+
+const propsToLogin = dispatch => ({
+  toggleLogin: (status) => dispatch({type:'CHANGE_LOGIN_STATUS', showLogin: status}),
+  userLogin: (user) => dispatch({type:"LOGIN",...user}),
+})
+
+export default connect(stateToLogin, propsToLogin)(CustomLoginView);
