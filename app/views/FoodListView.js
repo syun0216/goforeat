@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import {
   View,
   TouchableOpacity,
@@ -26,8 +26,8 @@ import GLOBAL_PARAMS, { em, isEmpty, currentPlatform } from "../utils/global_par
 import JSONUtils from "../utils/JSONUtils";
 import { getDeviceId, getVersion } from "../utils/DeviceInfo";
 //api
-import { getNewArticleList, adSpace, inviteActivityInfo } from "../api/request";
-import source from "../api/CancelToken";
+import { getFoodList, adSpace, inviteActivityInfo } from "../api/request";
+import {abortRequestInPatchWhenRouteChange} from "../api/CancelToken";
 //components
 import Text from "../components/UnScalingText";
 import WarningTips from "../components/WarningTips";
@@ -59,9 +59,10 @@ const IS_INTERCEPT = 3;
 
 let lastBackPressed = Date.now();
 
-class FoodListView extends PureComponent {
+class FoodListView extends Component {
   _interval = null;
   _isFirstReload = null;
+  flatlist = null;
   constructor(props) {
     super(props);
     this._interval = null;
@@ -85,7 +86,18 @@ class FoodListView extends PureComponent {
     };
   }
 
-  componentWillMount() {
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.userInfo.username != this.props.userInfo.username) {
+      this._getActivityInfo();
+    }
+  }
+  
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return JSON.stringify(nextState) != JSON.stringify(this.state) || nextProps.userInfo.username != this.props.userInfo.username;
+  }
+
+  componentDidMount() {
     let { isAdShow, hideAd } = this.props;
     if (isAdShow) {
       hideAd();
@@ -105,16 +117,6 @@ class FoodListView extends PureComponent {
         this._getAdvertise(data);
       }
     });
-  }
-
-  componentWillReceiveProps(nextProps){
-    if(nextProps.screenProps.sid != this.props.screenProps.sid) {
-      this._getActivityInfo();
-    }
-    // console.log(999999999999999999999999,this.props);
-  }
-
-  componentDidMount() {
     let _timer = setTimeout(() => {
       this._getActivityInfo();
       clearTimeout(_timer);
@@ -122,9 +124,7 @@ class FoodListView extends PureComponent {
   }
 
   componentWillUnmount() {
-    source.cancel();
-    // BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid.bind(this));
-    // clearInterval(this._interval);
+    abortRequestInPatchWhenRouteChange();
   }
 
   //logic functions
@@ -179,6 +179,9 @@ class FoodListView extends PureComponent {
       store.dispatch({type: SAVE_ACTIVITY, data});
     }).catch(err => {
       console.log('err',err)
+      this.setState({
+        isActivityBtnShow: false
+      });
     });
   }
 
@@ -222,7 +225,7 @@ class FoodListView extends PureComponent {
       () => {
         if (!this._isFirstReload) {
           if (!!this.flatlist) {
-            this.flatlist.outSideRefresh();
+            this.flatlist.getWrappedInstance().outSideRefresh();
             this._initMenuStatus();
           };
           this._isFirstReload = false;
@@ -282,7 +285,6 @@ class FoodListView extends PureComponent {
             isAdvertiseShow: false
           })
         }
-        {...this.props}
       />
     );
   }
@@ -337,7 +339,7 @@ class FoodListView extends PureComponent {
         inputRange: [0, 1],
         outputRange: [0, 40]
       })}}>
-        <WarningTips {...this.props} />
+        <WarningTips/>
       </Animated.View>
     )
   }
@@ -461,7 +463,6 @@ class FoodListView extends PureComponent {
         modalVisible={showPlacePicker}
         closeFunc={() => this.setState({ showPlacePicker: false })}
         getSeletedValue={val => this._getSeletedValue(val)}
-        {...this.props}
       />
     );
   }
@@ -609,7 +610,7 @@ class FoodListView extends PureComponent {
     return (
       <CommonFlatList
         ref={c => (this.flatlist = c)}
-        requestFunc={getNewArticleList}
+        requestFunc={getFoodList}
         // renderIndicator={() => this._renderIndicator()}
         renderItem={(item, index) => this._renderFoodListItemView(item, index)}
         renderHeader={() => this._renderTopTitleView()}
@@ -624,16 +625,15 @@ class FoodListView extends PureComponent {
         getScrollTop={
           scrollTop => this._getScrollTop(scrollTop)
         }
-        {...this.props}
       />
     );
   }
 
   render() {
-    // console.log(999999999999999999999999,'render');
+    console.log(9999999,'render');
     const {
       activityInfo
-    } = this.props.screenProps;
+    } = this.props;
     return (
       <CustomizeContainer.SafeView mode="linear" style={{ position: "relative", backgroundColor: "#fff" }}>
         {this._renderAdvertisementView()}
@@ -643,7 +643,7 @@ class FoodListView extends PureComponent {
         {this._renderHeaderView()}
         {this.state.isWarningTipShow && this._renderWarningView()}
         {
-          (!isNil(activityInfo.activity) && activityInfo.activity.showStatus == 1) && (<Tips message="邀請好友,領取優惠券" clickFunc={() => 
+          (this.state.isActivityBtnShow) && (<Tips message="邀請好友,領取優惠券" clickFunc={() => 
             this.props.navigation.navigate('Content', {
               data: {
                 url: `${activityInfo.activity.myInviteUrl}?sid=${store.getState().auth.sid}&language=${store.getState().language.language}&sellClient=${currentPlatform}&appVersion=${getVersion()}`,
@@ -662,7 +662,10 @@ class FoodListView extends PureComponent {
 
 const foodListStateToProps = state => {
   return {
-    isAdShow: state.toggleAd.isAdvertisementShow
+    isAdShow: state.toggleAd.isAdvertisementShow,
+    sid: state.auth.sid,
+    userInfo: state.auth,
+    activityInfo: state.activityInfo
   };
 };
 
@@ -673,7 +676,9 @@ const foodListDispatchToProps = dispatch => ({
 
 export default connect(
   foodListStateToProps,
-  foodListDispatchToProps
+  foodListDispatchToProps,
+  null,
+  {withRef: true}
 )(FoodListView);
 
 const styles = StyleSheet.create({

@@ -3,9 +3,11 @@ import {
   View,
   WebView,
   TouchableWithoutFeedback,
-  Clipboard
+  Clipboard,
+  Platform
 } from "react-native";
-import { Text, Content } from "native-base";
+import { Text } from "native-base";
+import { connect } from "react-redux";
 import Share, { ShareSheet, Button as SButton } from "react-native-share";
 //utils
 import ToastUtil from "../utils/ToastUtil";
@@ -25,7 +27,7 @@ import {myInvites} from "../api/request";
 
 const WeChat = require("react-native-wechat");
 
-export default class ContentView extends Component {
+class ContentView extends Component {
   _webView = null;
   _shareList = null;
   _inviteUrl = null;
@@ -34,7 +36,7 @@ export default class ContentView extends Component {
     modalVisible: false,
     loading: false,
     isError: false,
-    i18n: I18n[this.props.screenProps.language],
+    i18n: I18n[this.props.language],
     isShareListShow: false
   };
 
@@ -269,8 +271,8 @@ export default class ContentView extends Component {
       source={{ uri: this.props.navigation.state.params.data.url }}
       onError={() => this.setState({ isError: true })}
       onMessage={(event) => this.handleMessage(event)}
-      // renderLoading={() => <Loading />}
-      // startInLoadingState={true}
+      renderLoading={() => <Loading />}
+      startInLoadingState={Platform.OS == 'ios'}
       style={{
         width: GLOBAL_PARAMS._winWidth,
         height: GLOBAL_PARAMS._winHeight
@@ -319,3 +321,9 @@ export default class ContentView extends Component {
     );
   }
 }
+
+const stateToContent = state => ({
+  langauge: state.language.language
+});
+
+export default connect(stateToContent, {})(ContentView);

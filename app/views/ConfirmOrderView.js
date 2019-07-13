@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import {
   View,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Image
 } from "react-native";
 import { Content, Icon, Input, Toast, Footer } from "native-base";
+import {connect} from 'react-redux';
 //components
 import CommonBottomBtn from "../components/CommonBottomBtn";
 import CommonHeader from "../components/CommonHeader";
@@ -28,6 +29,7 @@ import ToastUtil from "../utils/ToastUtil";
 import { getDeviceId } from "../utils/DeviceInfo";
 //api
 import { createNewOrder, useCoupon, confirmOrderV1 } from "../api/request";
+import {abortRequestInPatchWhenRouteChange} from '../api/CancelToken';
 //component
 import Divider from "../components/Divider";
 //styles
@@ -48,7 +50,7 @@ const PAY_TYPE = {
 
 // global.PaymentRequest = require('react-native-payments').PaymentRequest;
 
-export default class ConfirmOrderView extends PureComponent {
+class ConfirmOrderView extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const { params } = navigation.state;
     return {
@@ -84,7 +86,7 @@ export default class ConfirmOrderView extends PureComponent {
       remark: "",
       couponDetail: null,
       isMonthTicketUsed: false, //是否使用月票
-      i18n: I18n[props.screenProps.language],
+      i18n: I18n[props.language],
     };
   }
 
@@ -95,12 +97,17 @@ export default class ConfirmOrderView extends PureComponent {
     }, 500);
   }
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return JSON.stringify(nextState) != JSON.stringify(this.state);
+  };
+
   componentWillUnmount() {
     clearTimeout(this.timer);
+    abortRequestInPatchWhenRouteChange();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.screenProps.paytype == PAY_TYPE.month_ticket) {
+    if (nextProps.paytype == PAY_TYPE.month_ticket) {
       this.setState({
         discountsPrice: 0,
         coupon: null
@@ -170,7 +177,6 @@ export default class ConfirmOrderView extends PureComponent {
       i18n,
       orderDetail: { defaultPayment }
     } = this.state;
-    let { creditCardInfo } = this.props.screenProps;
     let token = null;
     if (this.state.orderDetail === null) {
       ToastUtil.showWithMessage(i18n.confirmorder_tips.fail.confirm_order);
@@ -310,7 +316,7 @@ export default class ConfirmOrderView extends PureComponent {
       hasChangeDefaultPayment != null
         ? hasChangeDefaultPayment
         : defaultPayment;
-    return EXPLAIN_PAY_TYPE[defaultPayment][this.props.screenProps.language];
+    return EXPLAIN_PAY_TYPE[defaultPayment][this.props.language];
   };
 
   _renderMonthTicketView() {
@@ -842,6 +848,7 @@ export default class ConfirmOrderView extends PureComponent {
       isExpired,
       expiredMessage
     } = this.state;
+    console.log("confirmorder~~~~~render");
     return (
       <CustomizeContainer.SafeView mode="linear">
         <CommonHeader
@@ -932,3 +939,10 @@ const styles = StyleSheet.create({
     marginBottom: 15
   }
 });
+
+const stateToConfirmOrder = state => ({
+  language: state.language.language,
+  paytype: state.payType.payType,
+})
+
+export default connect(stateToConfirmOrder, {})(ConfirmOrderView);

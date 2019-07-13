@@ -1,6 +1,7 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { View, Image } from "react-native";
 import { Content } from "native-base";
+import { connect } from "react-redux";
 //components
 import CommonItem from "../components/CommonItem";
 import CommonHeader from "../components/CommonHeader";
@@ -34,14 +35,14 @@ const LIST_IMAGE = {
   7: require("../asset/ticket.png")
 };
 
-export default class PaySettingView extends PureComponent {
+class PaySettingView extends Component {
   _onlineBuyingModel = null;
 
   constructor(props) {
     super(props);
     this.i18n = props.i18n;
     this.state = {
-      checkedName: props.screenProps.paytype,
+      checkedName: props.paytype,
       loading: true,
       isError: false,
       payTypeList: [],
@@ -59,6 +60,10 @@ export default class PaySettingView extends PureComponent {
     }, 300);
   }
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return JSON.stringify(nextState) != JSON.stringify(this.state);
+  };
+
   //api
   _getPaySetting() {
     getPaySettingNew()
@@ -73,7 +78,7 @@ export default class PaySettingView extends PureComponent {
           if (v.code != SET_PAY_TYPE.credit_card) {
             _arr.push({
               content:
-                EXPLAIN_PAY_TYPE[v.code][this.props.screenProps.language],
+                EXPLAIN_PAY_TYPE[v.code][this.props.language],
               hasLeftIcon: true,
               leftIcon: this._leftImage(LIST_IMAGE[v.code]),
               code: v.code
@@ -99,10 +104,9 @@ export default class PaySettingView extends PureComponent {
     let _from_confirm_order =
       typeof this.props.navigation.state.params != "undefined";
     _from_confirm_order && this.props.showLoadingModal();
-    this.props.screenProps.setPayType(
+    this.props.setPayType(
       payment,
       () => {
-        this.props.hideLoadingModal()
         if (_from_confirm_order) {
           const { callback } = this.props.navigation.state.params;
           callback && callback();
@@ -110,8 +114,7 @@ export default class PaySettingView extends PureComponent {
         } else {
           ToastUtil.showWithMessage("修改支付方式成功");
         }
-      },
-      () => this.props.hideLoadingModal()
+      }
     );
   }
 
@@ -220,6 +223,7 @@ export default class PaySettingView extends PureComponent {
   }
 
   render() {
+    console.log("render~~~~~~paysetting");
     let { payTypeList, monthTicketQuantity } = this.state;
     let _from_confirm_order =
       typeof this.props.navigation.state.params != "undefined";
@@ -283,3 +287,14 @@ export default class PaySettingView extends PureComponent {
     );
   }
 }
+
+const stateToPaySetting = state => ({
+  paytype: state.payType.payType,
+  language: state.language.language,
+});
+
+const propsToPaySetting = dispatch => ({
+  setPayType: (paytype,callback) => dispatch({type: "SET_PAY_TYPE",paytype,callback}),
+})
+
+export default connect(stateToPaySetting, propsToPaySetting)(PaySettingView);

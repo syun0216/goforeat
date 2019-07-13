@@ -229,7 +229,6 @@ export default class CouponView extends PureComponent {
           requestFunc={myCoupon}
           extraParams={{payMoney}}
           renderItem={(item, index) => this._renderCouponItem(item, index)}
-          {...this.props}
         />
       </CustomizeContainer.SafeView>
     );

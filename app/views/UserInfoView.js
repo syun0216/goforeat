@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { View, TouchableOpacity, Image, Alert } from "react-native";
+import {connect} from 'react-redux';
 import {
-  Container,
   Content,
   Segment,
   Form,
@@ -27,6 +27,8 @@ import UserInfoStyle from "../styles/userinfo.style";
 import I18n from "../language/i18n";
 //cache
 import { userStorage } from "../cache/appStorage";
+//action
+import {LOGIN} from "../actions/index";
 
 const SECRET = 0;
 const FEMALE = 1;
@@ -36,7 +38,7 @@ const getUserFormLabel = (key, language) => {
   return language[key];
 };
 
-export default class UserInfoView extends PureComponent {
+class UserInfoView extends PureComponent {
   constructor(props) {
     super(props);
     this.rawMyInfo = null;
@@ -45,7 +47,7 @@ export default class UserInfoView extends PureComponent {
       myInfo: null,
       currentGender: SECRET,
       loadingModal: false,
-      i18n: I18n[props.screenProps.language]
+      i18n: I18n[props.language]
     };
   }
 
@@ -88,13 +90,13 @@ export default class UserInfoView extends PureComponent {
     updateMyInfo(this.state.myInfo)
       .then(data => {
           ToastUtil.showWithMessage("更新成功");
-          let { userInfo } = this.props.screenProps;
+          let { userInfo } = this.props;
           userInfo.nickName = this.state.myInfo.nickName;
           userStorage.setData(userInfo);
-          this.props.screenProps.userLogin(userInfo);
+          this.props.userLogin(userInfo);
           this.rawMyInfo = JSON.stringify(this.state.myInfo);
           this.props.navigation.goBack();
-      })
+      }).catch(err => {});
   }
 
   _uploadAvatar(photoData) {
@@ -112,13 +114,14 @@ export default class UserInfoView extends PureComponent {
           this.setState({
             photoData: photoData
           });
-          let { userInfo } = this.props.screenProps;
+          let { userInfo } = this.props;
           userInfo.profileImg = data.data;
           userStorage.setData(userInfo);
-          this.props.screenProps.userLogin(userInfo);
+          this.props.userLogin(userInfo);
           ToastUtil.showWithMessage(tips_avatar_success);
       })
-      .catch(err => {;
+      .catch(err => {
+        console.log('err :', err);
         ToastUtil.showWithMessage(tips_fail);
       });
   }
@@ -382,3 +385,14 @@ export default class UserInfoView extends PureComponent {
     );
   }
 }
+
+const stateToUserInfo = state => ({
+  language: state.language.language,
+  userInfo: state.auth,
+})
+
+const propsToUserInfo = dispatch => ({
+  userLogin: (user) => dispatch({type:LOGIN,...user}),
+})
+
+export default connect(stateToUserInfo, propsToUserInfo)(UserInfoView);

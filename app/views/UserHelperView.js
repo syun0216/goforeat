@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Image, Linking } from "react-native";
+import { connect } from "react-redux";
 import { Container, Content, Icon } from "native-base";
 //components
 import CommonItem from "../components/CommonItem";
@@ -7,8 +8,6 @@ import CommonHeader from "../components/CommonHeader";
 //utils
 import LinkingUtils from "../utils/LinkingUtils";
 import Colors from "../utils/Colors";
-import ToastUtil from "../utils/ToastUtil";
-import { em } from "../utils/global_params";
 import CustomizeContainer from "../components/CustomizeContainer";
 //language
 import i18n from "../language/i18n";
@@ -16,9 +15,9 @@ import i18n from "../language/i18n";
 import PaySettingStyles from "../styles/paysetting.style";
 const EMAIL = "food@mealtime.hk";
 
-export default class UserHelper extends Component {
+class UserHelper extends Component {
   render() {
-    let { language } = this.props.screenProps;
+    let { language } = this.props;
     let _left_icon = img => (
       <Image
         source={img}
@@ -54,7 +53,7 @@ export default class UserHelper extends Component {
     ];
     return (
       <CustomizeContainer.SafeView mode="linear">
-        <CommonHeader canBack title={i18n[language].contact} {...this.props} />
+        <CommonHeader canBack title={i18n[language].contact} />
         <Content bounces={false} style={{ backgroundColor: Colors.main_white }}>
           <View>
             {_list_arr.map((item, key) => (
@@ -73,3 +72,10 @@ export default class UserHelper extends Component {
     );
   }
 }
+
+
+const stateToUserHelper = state => ({
+  language: state.language.language
+})
+
+export default connect(stateToUserHelper, {})(UserHelper);

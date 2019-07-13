@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { View, Text, TouchableOpacity, Image, Platform } from "react-native";
 import { Footer, Right, Left, Body, Content } from "native-base";
 import { Overlay } from "teaset";
@@ -10,10 +10,10 @@ import {
   getMonthTicket,
   getMonthTicketInfo
 } from "../api/request";
+import {abortRequestInPatchWhenRouteChange} from '../api/CancelToken';
 //components
 import CommonHeader from "../components/CommonHeader";
 import CustomizeContainer from "../components/CustomizeContainer";
-import BlankPage from "../components/BlankPage";
 import CommonItem from "../components/CommonItem";
 //style
 import PurchaseMonthTicketStyles from "../styles/purchasemonthticket.style";
@@ -29,7 +29,7 @@ import GLOBAL_PARAMS,{
 const CHECKED = require("../asset/checked.png");
 const UNCHECKED = require("../asset/unchecked.png");
 
-export default class PurchaseMonthTicketView extends PureComponent {
+export default class PurchaseMonthTicketView extends Component {
   _overlayViewKey = null; // overlayview的唯一key值
   _overlayView = null;
   _pullView = null;
@@ -55,8 +55,14 @@ export default class PurchaseMonthTicketView extends PureComponent {
     }, 400);
   }
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return JSON.stringify(nextState) != JSON.stringify(this.state);
+  };
+  
+
   componentWillUnmount() {
     this._timer && clearTimeout(this._timer);
+    abortRequestInPatchWhenRouteChange();
   }
 
   _getMonthTicketList() {
@@ -405,6 +411,7 @@ export default class PurchaseMonthTicketView extends PureComponent {
   }
 
   render() {
+    console.log('render~~~~~~~~~PurchaseMonthTicket');
     const { monthTicketList, currentMonthTicketSelect, monthTicketQuantity, monthTicketDetail } = this.state;
     const confirmBtn = () => {
       const {isUsed, callback} = this.props.navigation.state.params;

@@ -3,6 +3,7 @@ import {View, StyleSheet, Platform} from 'react-native';
 import {CardItem, Card, Container, Content, Body} from 'native-base';
 import Image from 'react-native-image-progress';
 import {connect} from 'react-redux';
+import {withNavigation} from 'react-navigation';
 import FastImage from "react-native-fast-image";
 //utils
 import GLOBAL_PARMAS,{em} from '../utils/global_params';
@@ -19,9 +20,15 @@ const styles = StyleSheet.create({
   {width:GLOBAL_PARMAS._winWidth*0.9,height:em(250),marginTop: GLOBAL_PARMAS._winWidth*0.05}
 })
 
+/**
+ *
+ *
+ * @class PickPlaceView
+ * @extends {React.Component}
+ */
 class PickPlaceView extends React.Component {
   render() {
-    const {placeList, place, screenProps:{language},navigation: {state: {params}}} = this.props;
+    const {placeList, place, language,navigation: {state: {params}}} = this.props;
     let _formatData = placeList.slice(0);
     if(place) {
       let _selectPlace = null;
@@ -35,7 +42,7 @@ class PickPlaceView extends React.Component {
     }
     return (
       <CustomizeContainer.SafeView mode="linear">
-        <CommonHeader canBack title={i18n[language].pickPlace} {...this.props} />
+        <CommonHeader canBack title={i18n[language].pickPlace} />
         <Content style={{backgroundColor: '#efefef'}}>
           {_formatData.map((item, key) => (
             <View key={key} style={[{width: GLOBAL_PARMAS._winWidth* 0.9,marginLeft: GLOBAL_PARMAS._winWidth*0.05,marginBottom: GLOBAL_PARMAS._winWidth*0.05,borderRadius: 8,backgroundColor: '#fff'},key==0&&{marginTop:GLOBAL_PARMAS._winWidth*.05}]}>
@@ -59,7 +66,8 @@ class PickPlaceView extends React.Component {
 const placePickerModalStateToProps = state => {
   return ({
     placeList: state.placeSetting.placeList,
-    place: state.placeSetting.place
+    place: state.placeSetting.place,
+    language: state.language.language
   })
 }
 

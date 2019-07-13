@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, TouchableOpacity, Alert, Platform, Image } from "react-native";
-import { Container, Tabs, Tab, TabHeading } from "native-base";
+import {connect} from 'react-redux';
+import { Tabs, Tab, TabHeading } from "native-base";
 import Antd from "react-native-vector-icons/AntDesign";
 import PopupDialog, {
   SlideAnimation,
@@ -14,7 +15,7 @@ import GLOBAL_PARAMS, {
 } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //api
-import { myOrder, cancelOrder, popupComment } from "../api/request";
+import { myOrder, cancelOrder } from "../api/request";
 //components
 import CommonHeader from "../components/CommonHeader";
 import Text from "../components/UnScalingText";
@@ -46,7 +47,7 @@ const slideAnimation = new SlideAnimation({
   slideFrom: "bottom"
 });
 
-export default class PeopleView extends Component {
+class MyOrderView extends Component {
   timer = null;
   _tabs = null;
   _commentView = null;
@@ -62,11 +63,16 @@ export default class PeopleView extends Component {
       currentStatus: _ORDER_DELIVERING,
       currentPickImage: null,
       currentPickTitle: "",
-      i18n: I18n[props.screenProps.language],
+      i18n: I18n[props.language],
       hasDelivering: false,
       listCount: 0
     };
   }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return JSON.stringify(nextState) != JSON.stringify(this.state);
+  };
+  
 
   //private function
 
@@ -74,9 +80,9 @@ export default class PeopleView extends Component {
     let { i18n, currentTab } = this.state;
     const cancelRefresh = () => {
       if (!isEmpty(this[`${_TAB_ALL}flatlist`])) {
-        this[`${_TAB_ALL}flatlist`].outSideRefresh();
+        this[`${_TAB_ALL}flatlist`].getWrappedInstance().outSideRefresh();
       }
-      this[`${_TAB_DELIVERING}flatlist`].outSideRefresh();
+      this[`${_TAB_DELIVERING}flatlist`].getWrappedInstance().outSideRefresh();
     };
     Alert.alert(
       i18n.tips,
@@ -153,7 +159,7 @@ export default class PeopleView extends Component {
 
   _renderFoodDetailView(item) {
     let { i18n } = this.state;
-    let { language } = this.props.screenProps;
+    let { language } = this.props;
     let _picture = !item.picture
       ? require("../asset/default_pic.png")
       : { uri: item.picture };
@@ -448,16 +454,21 @@ export default class PeopleView extends Component {
                 blankBtnMessage={i18n.common_tips.no_data}
                 blankBtnFunc={() => this.props.navigation.goBack()}
                 getCount={count => this._getListCount(count, item.tab)}
-                {...this.props}
               />
             </Tab>
           ))}
         </Tabs>
         <CommonComment ref={c => this._commentView = c} callback={() => {
-          this[`${_TAB_COMMENT}flatlist`].outSideRefresh();
+          this[`${_TAB_COMMENT}flatlist`].getWrappedInstance().outSideRefresh();
           ToastUtil.showWithMessage("添加評論成功!");
         }}/>
       </CustomizeContainer.SafeView>
     );
   }
 }
+
+const stateToMyOrder = state => ({
+  language: state.language.language
+});
+
+export default connect(stateToMyOrder, {})(MyOrderView);

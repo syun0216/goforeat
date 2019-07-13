@@ -28,7 +28,7 @@ import I18n from "../language/i18n";
 export default class CreditCardView extends Component {
   constructor(props) {
     super(props);
-    let { creditCardInfo } = props.screenProps;
+    let { creditCardInfo } = props;
     this._raw_card = "";
     this.i18n = props.i18n;
     this.state = {

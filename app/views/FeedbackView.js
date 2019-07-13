@@ -1,6 +1,7 @@
 import React from "react";
 import { TextInput } from "react-native";
 import { Container, Content } from "native-base";
+import { connect } from "react-redux";
 //components
 import CommonHeader from "../components/CommonHeader";
 import CommonBottomBtn from "../components/CommonBottomBtn";
@@ -17,10 +18,10 @@ const FeedbackView = props => {
   let _feedback = {
     content: "",
     memberInfo: "",
-    sid: props.screenProps.sid
+    sid: props.sid
   };
   let _hasSubmit = false;
-  let { language } = props.screenProps;
+  let { language } = props;
   let _submit = () => {
     if (_feedback.content.length < 5) {
       ToastUtils.showWithMessage(i18n[language].feedbackLength);
@@ -32,10 +33,8 @@ const FeedbackView = props => {
     }
     feedback(_feedback)
       .then(data => {
-        if (data.ro.respCode == "0000") {
-          _hasSubmit = true;
-          ToastUtils.showWithMessage(i18n[language].common_tips.send_success);
-        }
+        _hasSubmit = true;
+        ToastUtils.showWithMessage(i18n[language].common_tips.send_success);
       })
       .catch(err => {
         ToastUtils.showWithMessage(i18n[language].common_tips.network_err);
@@ -98,4 +97,9 @@ const FeedbackView = props => {
   );
 };
 
-export default FeedbackView;
+const stateToFeedback = state => ({
+  language: state.language.language,
+  sid: state.auth.sid,
+});
+
+export default connect(stateToFeedback, {})(FeedbackView);
