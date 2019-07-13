@@ -87,14 +87,14 @@ export default class PannelBottom extends Component {
             </TouchableOpacity>
           </View>
           
-          <ScrollView 
-          // ref={ref => (this.scrollViewRef = ref)}
-          // onScroll={this.handleOnScroll}
-          // scrollEventThrottle={16}
-          style={{flex: 1}}
-        >
+          {/* <ScrollView 
+          ref={ref => (this.scrollViewRef = ref)}
+          onScroll={this.handleOnScroll}
+          scrollEventThrottle={16}
+          style={{flex: 1}} */}
+        {/* > */}
           {this.props.children}
-        </ScrollView>
+        {/* </ScrollView> */}
         </View>
       </Modal>
     );

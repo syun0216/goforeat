@@ -9,9 +9,9 @@ import {
   TouchableWithoutFeedback,
   Switch
 } from "react-native";
+import { connect } from 'react-redux';
 import Share from "react-native-share";
 import Antd from "react-native-vector-icons/AntDesign";
-import {Overlay} from "teaset";
 import Carousel from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
 import { sliderWidth } from "../styles/SliderEntry.style";
@@ -24,12 +24,11 @@ import FoodDetailsStyles from "../styles/fooddetails.style";
 import GLOBAL_PARAMS, {
   em,
   HAS_FOODS,
-  NO_MORE_FOODS,
-  IS_INTERCEPT
 } from "../utils/global_params";
 import ToastUtil from "../utils/ToastUtil";
 //api
 import { getFoodDetails, myFavorite, getCommentList } from "../api/request";
+import {abortRequestInPatchWhenRouteChange} from '../api/CancelToken';
 //components
 import PannelBottom from '../components/PannelBottom';
 import ErrorPage from "../components/ErrorPage";
@@ -41,6 +40,8 @@ import ShareComponent from "../components/ShareComponent";
 import ShimmerPlaceHolder from "../components/ShimmerPlaceholder";
 import CustomizeContainer from "../components/CustomizeContainer";
 import CommonFlatList from "../components/CommonFlatList";
+
+import store from '../store/index';
 
 const WeChat = require("react-native-wechat");
 
@@ -98,6 +99,8 @@ class FoodDetailsView extends Component {
   }
 
   componentDidMount() {
+    console.log('this.props :', this.props);
+    console.log('store.getState() :', store.getState());
     if (this.props.getCache(`Food${this.dateFoodId}`)) {
       this.setState(
         {
@@ -118,6 +121,7 @@ class FoodDetailsView extends Component {
   }
 
   componentWillUnmount() {
+    abortRequestInPatchWhenRouteChange();
     if (this.timer) {
       clearTimeout(this.timer);
     }
@@ -222,7 +226,7 @@ class FoodDetailsView extends Component {
       total: foodCount * price,
       addStatus: isAddFruit ? 1 : 0
     };
-    if (this.props.screenProps.user !== null) {
+    if (this.props.user !== null) {
       this.props.navigation.navigate("Order", _defaultObj);
     } else {
       if (this.dateFoodId) {
@@ -354,7 +358,6 @@ class FoodDetailsView extends Component {
         length={this.state.foodDetails.extralImage.length || 1}
         width={itemWidth + itemHorizontalMargin}
         clickFunc={() => this._handleDoubleTap()}
-        {...this.props}
         // parallax={true}
         // parallaxProps={parallaxProps}
       />
@@ -584,8 +587,7 @@ class FoodDetailsView extends Component {
             this.setState({
               commentTitle: `用戶評論(${count})`
             })
-          }}
-          {...this.props}/>
+          }}/>
       </PannelBottom>
     )
   }
@@ -739,7 +741,6 @@ class FoodDetailsView extends Component {
     return (
       <BottomOrderConfirm
         btnMessage={i18n.book}
-        {...this.props}
         isShow={true}
         total={foodDetails ? (foodCount * (parseInt(foodDetails.price) + (isAddFruit ? parseInt(foodDetails.addPrice) : 0))) : null}
         status={soldOut}
@@ -900,4 +901,8 @@ class FoodDetailsView extends Component {
   }
 }
 
-export default FoodDetailsView;
+const stateToDetails = state => ({
+  user: state.auth.username,
+});
+
+export default connect(stateToDetails, {})(FoodDetailsView);
