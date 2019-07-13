@@ -56,6 +56,7 @@ const CommonHOC = WarppedComponent => {
       super(props);
       this.showUpdateAlert = false;
       this.showCodePushAlert = false;
+      this.nextState = null;
       this.state = {
         i18n: I18n[props.language],
       };
@@ -67,6 +68,7 @@ const CommonHOC = WarppedComponent => {
       let _appStateTimer = null
       AppState.addEventListener("change", nextState => {
         console.log(nextState);
+        if(this.nextState == nextState) return;
         if (nextState == "active") {
           // this._commentPopup();
           if(_appStateTimer) clearTimeout(_appStateTimer);
