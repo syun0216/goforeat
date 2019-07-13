@@ -4,6 +4,16 @@ import store from '../store/index';
 import {getVersion} from '../utils/DeviceInfo';
 import {currentPlatform} from '../utils/global_params';
 import qs from 'qs';
+
+
+// request 自定义属性
+/**
+ * loading 是否显示loading boolean
+ * toast 是否显示toast boolean
+ * postCustom 是否自定义post参数
+ * loginBlock 是否自动进行登录拦截行为
+ */
+
 //login
 export function getCode(mobile, type) {
   return request({
@@ -210,6 +220,14 @@ export function confirmOrderV1(orderId, payMoney, payment=1, token, deductionId 
   })
 }
 
+/**
+ * 获取可用优惠券
+ *
+ * @export
+ * @param {*} coupon
+ * @param {*} orderId
+ * @returns
+ */
 export function useCoupon(coupon,orderId) {
   return request({
     url: '/coupon/isUseful',
@@ -222,7 +240,13 @@ export function useCoupon(coupon,orderId) {
   })
 }
 
-//myorder
+/**
+ * 取消订单
+ *
+ * @export
+ * @param {*} orderId
+ * @returns
+ */
 export function cancelOrder(orderId) {
   return request({
     url: '/order/cancel',
@@ -234,6 +258,13 @@ export function cancelOrder(orderId) {
   })
 }
 
+/**
+ * 获取我的订单
+ *
+ * @export
+ * @param {*} {offset, status}
+ * @returns
+ */
 export function myOrder({offset, status}) {
   return request({
     url: '/order/myOrderList',
@@ -247,7 +278,14 @@ export function myOrder({offset, status}) {
   })
 }
 
-//place picker
+/**
+ * 获取配送点信息
+ *
+ * @export
+ * @param {*} [lat=null]
+ * @param {*} [lon=null]
+ * @returns
+ */
 export function foodPlaces(lat = null, lon = null) {
   return request({
     url: '/food/getDeliveryPlace',
@@ -260,6 +298,13 @@ export function foodPlaces(lat = null, lon = null) {
   })
 }
 
+/**
+ * 登录保存设备信息
+ *
+ * @export
+ * @param {*} registrationId
+ * @returns
+ */
 export function saveDevices(registrationId) {
   return request({
     url: '/device/save',
@@ -272,7 +317,13 @@ export function saveDevices(registrationId) {
   })
 }
 
-//credit card
+/**
+ * 监测信用卡是否合法
+ *
+ * @export
+ * @param {*} bankCard
+ * @returns
+ */
 export function vaildCard(bankCard) {
   return request({
     url: '/member/isBankCardValid',
@@ -284,7 +335,13 @@ export function vaildCard(bankCard) {
   })
 }
 
-//feed back
+/**
+ * 反馈
+ *
+ * @export
+ * @param {*} data
+ * @returns
+ */
 export function feedback(data) {
   return request({
     url: '/feedback/add',
@@ -294,7 +351,12 @@ export function feedback(data) {
   })
 }
 
-//广告位
+/**
+ * 获取广告位
+ *
+ * @export
+ * @returns
+ */
 export function adSpace() {
   return request({
     url: '/adSpace/list',
@@ -317,6 +379,12 @@ export function queryLatest() {
   })
 }
 
+/**
+ * 获取公告栏信息
+ *
+ * @export
+ * @returns
+ */
 export function queryList() {
   return request({
     url: '/notice/queryList',
@@ -334,6 +402,7 @@ export function getPaySetting() {
     method: 'get'
   })
 }
+
 /**
  * 新的支付方式
  *
@@ -348,7 +417,13 @@ export function getPaySettingNew() {
   })
 }
 
-//修改支付方式
+/**
+ * 设置支付方式
+ *
+ * @export
+ * @param {*} payment
+ * @returns
+ */
 export function setPayment(payment) {
   return request({
     url: '/member/setPayment',
@@ -358,7 +433,12 @@ export function setPayment(payment) {
   })
 }
 
-//月票
+/**
+ * 获取月票
+ *
+ * @export
+ * @returns
+ */
 export function getMonthTicket() {
   return request({
     url: '/member/myMonthTicket',
@@ -367,7 +447,12 @@ export function getMonthTicket() {
   })
 }
 
-//我的资料
+/**
+ * 获取我的资料
+ *
+ * @export
+ * @returns
+ */
 export function getMyInfo() {
   return request({
     url: '/member/me',
@@ -376,6 +461,13 @@ export function getMyInfo() {
   })
 }
 
+/**
+ * 更新我的详情
+ *
+ * @export
+ * @param {*} {nickName, address, email, gender}
+ * @returns
+ */
 export function updateMyInfo({nickName, address, email, gender}) {
   return request({
     url: '/member/update',
@@ -402,17 +494,24 @@ export function uploadAvatar(profileImg) {
   params.append('sellClient', currentPlatform);
   params.append('appVersion', getVersion());
   console.log('params',JSON.stringify(params))
-  return axios.post('http://api.goforeat.hk/member/uploadProfileImg', params)
-  // return request({
-  //   url: '/member/uploadProfileImg',
-  //   method: 'post',
-  //   headers: { 'content-type': 'multipart/form-data' },
-  //   data: {
-  //     'profileImg': _img
-  //   }
-  // })
+  // return axios.post('http://api.goforeat.hk/member/uploadProfileImg', params)
+  return request({
+    url: '/member/uploadProfileImg',
+    method: 'post',
+    loading: true,
+    postCustom: true, // 自定义post传值
+    data: params
+  })
 }
 
+
+/**
+ * 我的优惠券
+ *
+ * @export
+ * @param {*} {offset,limit=5,useStatus =null,payMoney=null}
+ * @returns
+ */
 export function myCoupon({offset,limit=5,useStatus =null,payMoney=null}) {
   return request({
     url: '/coupon/myCoupon',
@@ -427,6 +526,13 @@ export function myCoupon({offset,limit=5,useStatus =null,payMoney=null}) {
   })
 }
 
+/**
+ * 获取优惠券
+ *
+ * @export
+ * @param {*} exchangeCode
+ * @returns
+ */
 export function getCoupon(exchangeCode) {
   return request({
     url: '/coupon/exchangeCoupon',
@@ -438,7 +544,14 @@ export function getCoupon(exchangeCode) {
   })
 }
 
-//点赞
+/**
+ * 点赞
+ *
+ * @export
+ * @param {*} foodId
+ * @param {*} status
+ * @returns
+ */
 export function myFavorite(foodId, status) {
   return request({
     url: '/food/like',
@@ -453,7 +566,12 @@ export function myFavorite(foodId, status) {
   })
 }
 
-//弹窗点评
+/**
+ * 弹出窗口评论
+ *
+ * @export
+ * @returns
+ */
 export function popupComment() {
   return request({
     url: '/comment/isPopup',
@@ -462,6 +580,15 @@ export function popupComment() {
   })
 }
 
+/**
+ * 添加评论
+ *
+ * @export
+ * @param {*} orderId
+ * @param {*} star
+ * @param {*} comment
+ * @returns
+ */
 export function addComment(orderId, star, comment) {
   return request({
     url: '/comment/add',
@@ -475,7 +602,15 @@ export function addComment(orderId, star, comment) {
   })
 }
 
-//保存信用卡
+/**
+ * 保存信用卡
+ *
+ * @export
+ * @param {*} token
+ * @param {*} time
+ * @param {*} tailNum
+ * @returns
+ */
 export function setCreditCard(token, time, tailNum) {
   return request({
     url: '/member/setCreditCard',
@@ -487,7 +622,12 @@ export function setCreditCard(token, time, tailNum) {
   })
 }
 
-//获取信用卡
+/**
+ * 获取信用卡
+ *
+ * @export
+ * @returns
+ */
 export function getCreditCard() {
   return request({
     url: '/member/myCreditCard',
@@ -496,7 +636,12 @@ export function getCreditCard() {
   })
 }
 
-//取消绑定信用卡
+/**
+ * 取消绑定信用卡
+ *
+ * @export
+ * @returns
+ */
 export function removeCreditCard() {
   return request({
     url: '/member/cancelCreditCard',
@@ -533,6 +678,13 @@ export function getMonthTicketInfo() {
   })
 }
 
+/**
+ * 创建月票订单
+ *
+ * @export
+ * @param {*} specId
+ * @returns
+ */
 export function createMonthTicket(specId) {
   return request({
     url: '/monthTicket/create',
@@ -544,6 +696,13 @@ export function createMonthTicket(specId) {
   })
 }
 
+/** 
+ * 确认购买月票
+ *
+ * @export
+ * @param {*} {orderId, payMoney, payment, token}
+ * @returns
+ */
 export function confirmMonthTicket({orderId, payMoney, payment, token}) {
   return request({
     url: '/monthTicket/confirm',

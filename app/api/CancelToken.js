@@ -1,5 +1,12 @@
-import axios from 'axios'
+//存储页面请求token
 
-const source = axios.CancelToken.source()
+let sourceKeyStore = [];
 
-export default source
+export const abortRequestInPatchWhenRouteChange = () => {
+  if(sourceKeyStore.length == 0) return;
+  sourceKeyStore.forEach(cancel => {
+    cancel && cancel()
+  });
+};
+
+export default sourceKeyStore;

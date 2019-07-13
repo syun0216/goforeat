@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { Platform, AsyncStorage } from 'react-native';
 import store from '../store/index';
 import qs from 'qs';
 import { isNil } from 'lodash';
+import sourceKeyStore from './CancelToken';
 //actions
-import { HIDE_LOADING_MODAL, SHOW_LOADING_MODAL, LOGOUT, SHOW_LOADING, HIDE_LOADING, RESET_ACTIVITY } from '../actions'
+import { HIDE_LOADING_MODAL, LOGOUT, SHOW_LOADING, HIDE_LOADING, RESET_ACTIVITY } from '../actions'
 //language
 import i18n from '../language/i18n';
 //utils 
@@ -17,6 +17,7 @@ const CancelToken = axios.CancelToken;
 export const source = CancelToken.source();
 
 export const netWorkFailCode = 50000; //custom network error code
+export const cancelTokenCode = 60000; // custom cancel token code
 
 const BASE_URL = 'https://api.goforeat.hk';
 
@@ -34,18 +35,25 @@ let service = axios.create({
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 service.interceptors.request.use(config => {
+
+    config.cancelToken = new CancelToken(cancel => {
+        sourceKeyStore.push(cancel);
+    });
+
     if(!store.getState().loading.showLoadingModal && config.loading) {
         store.dispatch({type: SHOW_LOADING});
     }
     if (config.method == 'post') {
-        let _data = qs.parse(config.data);
-        config.data = qs.stringify({
-            ..._data,
-            sid: store.getState().auth.sid,
-            language: store.getState().language.language,
-            sellClient: currentPlatform,
-            appVersion: getVersion()
-        })
+        if(!(!isNil(config.postCustom)&&config.postCustom)) {
+            let _data = qs.parse(config.data);
+            config.data = qs.stringify({
+                ..._data,
+                sid: store.getState().auth.sid,
+                language: store.getState().language.language,
+                sellClient: currentPlatform,
+                appVersion: getVersion()
+            })
+        }
     } else if (config.method == 'get') {
         config.params = {
             ...config.params,
@@ -94,10 +102,16 @@ service.interceptors.response.use(response => {
         return Promise.reject({errCode: res.ro.respCode, errMsg: res.ro.respMsg});
     }
 }, err => {
+    console.log('err', err);
+    if(axios.isCancel(err)) {
+        console.log('cancel token when route change');
+        return Promise.reject({errCode: cancelTokenCode, errMsg: 'cancel token'});
+    }else {
+        store.dispatch({type: HIDE_LOADING})
+        ToastUtil.showWithMessage(i18n[store.getState().language.language].common_tips.network_err);
+        return Promise.reject({errCode: netWorkFailCode, errMsg: i18n[store.getState().language.language].common_tips.network_err});
+    }
     // console.log({err})
-    store.dispatch({type: HIDE_LOADING})
-    ToastUtil.showWithMessage(i18n[store.getState().language.language].common_tips.network_err);
-    return Promise.reject({errCode: netWorkFailCode, errMsg: i18n[store.getState().language.language].common_tips.network_err});
 })
 
 export const reinitServer = url => {
