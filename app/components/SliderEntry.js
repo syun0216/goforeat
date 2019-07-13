@@ -18,6 +18,10 @@ class SliderEntry extends Component {
     };
   }
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return JSON.stringify(nextState) != JSON.stringify(this.state);
+  };
+
   image() {
     const { data } = this.props;
     return (
@@ -88,6 +92,7 @@ class SliderEntry extends Component {
   }
 
   render() {
+    console.log("sliderentry~~~~~render");
     const { width } = this.props;
     return (
       <TouchableOpacity

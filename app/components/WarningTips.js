@@ -181,6 +181,7 @@ class WarningTips extends PureComponent {
   render() {
     let { navigation } = this.props;
     let { warningTipsData } = this.state;
+    console.log("warning~~~~~render");
     return this.state.isWarningTipShow ? (
       <View style={styles.warn_container}>
         {/* <Image

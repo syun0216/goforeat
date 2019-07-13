@@ -68,7 +68,6 @@ class CustomDrawer extends PureComponent {
       activityInfo,
       sid
     } = this.props;
-    
     let _drawItemArr = [
       {
         title: i18n[language].dailyFood,

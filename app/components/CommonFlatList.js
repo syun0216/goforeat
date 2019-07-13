@@ -50,7 +50,6 @@ class CommonFlatList extends Component {
   }
 
   componentDidMount() {
-    console.log('this.props', this.props);
     this.init();
     this._timer = setTimeout(() => {
       this._requestFirstPage();
