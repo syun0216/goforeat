@@ -448,7 +448,7 @@ class FoodDetailsView extends Component {
             <View style={{ position: "relative", flexDirection: "row" }}>
               {Platform.OS == "ios" && this._renderHeartView()}
               {_isFavorite()}
-              <Text style={FoodDetailsStyles.canteenName}>
+              <Text style={[FoodDetailsStyles.canteenName, this.state.isFavorite && {color: '#ff5050'}]}>
                 {favoriteCount}次贊
               </Text>
             </View>
@@ -493,7 +493,7 @@ class FoodDetailsView extends Component {
           {foodBrief}
         </Text>
         <TouchableOpacity
-          style={{alignSelf: 'flex-end',margin: em(5)}}
+          style={{position: 'absolute', right: em(15), bottom: 0,backgroundColor: '#fff'}}
          onPress={() => {
           this.setState({
             isIntroOpen: !this.state.isIntroOpen
