@@ -115,7 +115,7 @@ class UserInfoView extends PureComponent {
             photoData: photoData
           });
           let { userInfo } = this.props;
-          userInfo.profileImg = data.data;
+          userInfo.profileImg = data;
           userStorage.setData(userInfo);
           this.props.userLogin(userInfo);
           ToastUtil.showWithMessage(tips_avatar_success);
