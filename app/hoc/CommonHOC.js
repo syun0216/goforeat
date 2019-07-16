@@ -67,9 +67,9 @@ const CommonHOC = WarppedComponent => {
       this.props.isLoading && this.props.hideLoading();
       let _appStateTimer = null
       AppState.addEventListener("change", nextState => {
-        console.log(nextState);
         if(this.nextState == nextState) return;
-        if (nextState == "active") {
+        if (nextState == "active" && this.nextState != 'active') {
+          this.nextState = nextState;
           // this._commentPopup();
           if(_appStateTimer) clearTimeout(_appStateTimer);
           _appStateTimer = setTimeout(() => {
@@ -87,8 +87,9 @@ const CommonHOC = WarppedComponent => {
             });
             clearTimeout(_appStateTimer);
           }, 1000);
-        } else if (nextState == "background") {
+        } else if (nextState == "background" && this.nextState != 'background') {
           // 清除缓存
+          this.nextState = nextState;
           this.props.resetPageCache();
         }
       });
@@ -102,9 +103,14 @@ const CommonHOC = WarppedComponent => {
 
     //versionControll
     _checkVersion() {
-      const _formatVersionIntoNumber = version => parseInt(version.split('.').join(""));
+      const _formatVersionIntoNumber = version => {
+        if(version) {
+          return parseInt(version.split('.').join(""))
+        }else {
+          return 0;
+        }
+      };
       let _curVersion = _formatVersionIntoNumber(getVersion());// 当前的版本号
-      
       if(_curVersion < 100) { //证明是debug版本
         return;
       } else {

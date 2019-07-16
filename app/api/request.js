@@ -101,7 +101,7 @@ export function getArticleList(offset, placeId) {
 export function getFoodList({offset, placeId}) {
   return request({
     url: '/food/getFoodList',
-    loading: true,
+    loading: false,
     method: 'get',
     params: {
       offset,
