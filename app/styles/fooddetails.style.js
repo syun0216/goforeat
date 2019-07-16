@@ -34,9 +34,11 @@ export default StyleSheet.create({
   IntroductionView: {
     width: GLOBAL_PARAMS._winWidth,
     paddingLeft: common.marginLeft,
-    paddingRight: common.marginLeft
+    paddingRight: common.marginLeft,
+    marginBottom: em(10)
   },
   IntroductionFoodNameCotainer: {
+    position: 'relative',
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",

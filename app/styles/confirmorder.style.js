@@ -147,5 +147,21 @@ export default StyleSheet.create({
   },
   CouponText: {
     color: "#FF3348"
+  },
+  footer: {
+    position: 'absolute',
+    bottom: GLOBAL_PARAMS.isIphoneX() ? -15 : 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    backgroundColor: "#fff",
+    height: em(100),
+    borderTopWidth: 1,
+    borderTopColor: '#e8e9ed',
+    justifyContent: 'space-between',
+    alignItems: "flex-start",
+    paddingLeft: GLOBAL_PARAMS._winWidth * .025,
+    paddingRight: GLOBAL_PARAMS._winWidth * .025,
+    paddingTop: em(8),
   }
 });

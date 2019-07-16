@@ -84,12 +84,27 @@ export default StyleSheet.create({
     fontSize: em(16),
   },
   footer: {
+    position: 'absolute',
+    bottom: GLOBAL_PARAMS.isIphoneX() ? -15 : 0,
+    height: em(90),
+    borderTopWidth: 1,
+    borderTopColor: '#e8e9ed',
+    left:0,
+    right: 0,
+    flexDirection: 'row',
     backgroundColor: '#fff',
     paddingLeft: GLOBAL_PARAMS._winWidth * .025,
     paddingRight: GLOBAL_PARAMS._winWidth * .025,
+    paddingTop: em(8),
     // height: em(60),
     marginBottom: GLOBAL_PARAMS.isIphoneX() ? 15 :0 ,
-    alignItems:'center'
+    justifyContent: 'space-between',
+    alignItems:'flex-start'
+  },
+  priceContent: {
+    height: em(50),
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   unit: {
     fontSize: em(14),
