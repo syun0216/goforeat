@@ -10,7 +10,8 @@ import {
   TouchableOpacity
 } from "react-native";
 import {PullPicker} from 'teaset';
-import { Container, ActionSheet } from "native-base";
+import { ActionSheet } from "native-base";
+import { connect } from "react-redux";
 //utils
 import ToastUtil from "./utils/ToastUtil";
 import { getVersion } from "./utils/DeviceInfo";
@@ -30,30 +31,34 @@ import { logout } from "./api/request";
 //cache
 import { languageStorage } from "./cache/appStorage";
 //actions
-import { RESET_ACTIVITY } from "./actions/index";
+import {
+  LOGOUT,
+  CHANGE_LANGUAGE,
+  RESET_ACTIVITY
+} from "./actions";
 
 const LANGUAGE_BTN = ["繁體中文", "English", "Cancel"];
 const DESTRUCTIVE_INDEX = 3;
 const CANCEL_INDEX = 2;
-export default class SettingView extends PureComponent {
+class SettingView extends PureComponent {
   popupDialog = null;
   _actionSheet = null;
   state = {
     isEnglish: false,
-    language: this.props.screenProps.language == "en" ? "English" : "繁體中文",
-    lang_idx: this.props.screenProps.language == "en" ? 1 : 0,
-    i18n: I18n[this.props.screenProps.language]
+    language: this.props.language == "en" ? "English" : "繁體中文",
+    lang_idx: this.props.language == "en" ? 1 : 0,
+    i18n: I18n[this.props.language]
   };
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      i18n: I18n[nextProps.screenProps.language]
+      i18n: I18n[nextProps.language]
     });
   }
 
   componentDidMount() {
     this.setState({
-      isEnglish: this.props.screenProps.language === "en"
+      isEnglish: this.props.language === "en"
     });
   }
 
@@ -62,7 +67,7 @@ export default class SettingView extends PureComponent {
     logout().then(
       data => {
         ToastUtil.showWithMessage(i18n.setting_tips.success.logout);
-        this.props.screenProps.userLogout();
+        this.props.userLogout();
         this.props.dispatch({type: RESET_ACTIVITY});
       });
   }
@@ -132,7 +137,7 @@ export default class SettingView extends PureComponent {
                 switch (LANGUAGE_BTN[buttonIndex]) {
                   case "English":
                     {
-                      this.props.screenProps.changeLanguage("en");
+                      this.props.changeLanguage("en");
                       languageStorage.setData("en");
                       this.setState({
                         lang_idx: buttonIndex,
@@ -142,7 +147,7 @@ export default class SettingView extends PureComponent {
                     break;
                   case "繁體中文": {
                     languageStorage.setData("zh");
-                    this.props.screenProps.changeLanguage("zh");
+                    this.props.changeLanguage("zh");
                     this.setState({
                       lang_idx: buttonIndex,
                       language: LANGUAGE_BTN[buttonIndex]
@@ -213,7 +218,7 @@ export default class SettingView extends PureComponent {
 
     return (
       <CustomizeContainer.SafeView mode="linear">
-        <CommonHeader title={i18n.setting} canBack hasRight={this.props.screenProps.user !== null} rightElement={logoutBtn}/>
+        <CommonHeader title={i18n.setting} canBack hasRight={this.props.user !== null} rightElement={logoutBtn}/>
         <ScrollView style={{ backgroundColor: "#efefef" }} bounces={false}>
           <TouchableOpacity
             delayLongPress={4000}
@@ -259,7 +264,7 @@ export default class SettingView extends PureComponent {
               clickFunc={item.clickFunc}
             />
           ))}
-          <BottomIntroduce {...this.props} />
+          <BottomIntroduce />
         </ScrollView>
         <ActionSheet
           ref={a => {
@@ -270,3 +275,15 @@ export default class SettingView extends PureComponent {
     );
   }
 }
+
+const stateToSetting = state => ({
+  language: state.language.language,
+  user: state.auth.username,
+})
+
+const PropsToSetting = dispatch => ({
+  userLogout: () => dispatch({type:LOGOUT}),
+  changeLanguage: (language) => dispatch({type: CHANGE_LANGUAGE,language}),
+})
+
+export default connect(stateToSetting, PropsToSetting)(SettingView);
