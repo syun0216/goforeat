@@ -732,8 +732,8 @@ class ConfirmOrderView extends Component {
           styles.commonNewContainer,
           {
             marginBottom: GLOBAL_PARAMS.isIphoneX()
-              ? GLOBAL_PARAMS.iPhoneXBottom
-              : 0
+              ? em(100)
+              : em(60)
           }
         ]}
       >
@@ -815,27 +815,21 @@ class ConfirmOrderView extends Component {
 
   _renderBottomConfirmView() {
     return (
-      <Footer
-        style={{
-          backgroundColor: "#fff",
-          height: em(60),
-          justifyContent: 'space-around',
-          alignItems: "center"
-        }}
-      >
-        <View style={{flexDirection: 'row', justifyContent:'space-between',alignItems:'center'}}>
-          <Text style={{color: '#666', fontSize: em(14)}}>還需支付 HKD  </Text>
-          <Text style={{color: '#ff5050', fontSize: em(28),marginTop:em(-8)}}>{this.state.orderDetail ? this._countTotal().toFixed(2) : "--"}</Text>
+      <View style={ConfirmOrderStyles.footer}>
+        <View>
+          <Text style={{color: '#ff5050', fontSize: em(24),marginTop:em(-8)}}>HKD  {this.state.orderDetail ? this._countTotal().toFixed(2) : "--"}</Text>
+          <Text style={{color: '#666', fontSize: em(14)}}>還需支付 </Text>
         </View>
         <CommonBottomBtn
-          style={{ height: em(40),width: em(140),alignSelf: 'center',marginBottom: 0,}}
+          containerStyle={{marginTop:GLOBAL_PARAMS.isIphoneX() ? 0 : em(10), alignSelf: 'flex-start'}}
+          style={{ height: em(40),width: em(140),alignSelf: 'flex-start',marginBottom: 0,}}
           disabled={this.state.orderDetail == null}
           loading={this.state.orderDetail == null}
           clickFunc={() => this._confirmOrder()}
         >
           {this.state.i18n.orderNow}
         </CommonBottomBtn>
-      </Footer>
+      </View>
     );
   }
 
@@ -869,8 +863,6 @@ class ConfirmOrderView extends Component {
           ) : null}
           {this._renderNewOrderView()}
           {this._renderNewDetailsView()}
-
-          <View style={{ height: 20 }} />
         </Content>
         {this._renderBottomConfirmView()}
       </CustomizeContainer.SafeView>

@@ -155,13 +155,13 @@ export default StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     backgroundColor: "#fff",
-    height: em(100),
+    height: GLOBAL_PARAMS.isIphoneX() ? em(100) : em(60),
     borderTopWidth: 1,
     borderTopColor: '#e8e9ed',
     justifyContent: 'space-between',
-    alignItems: "flex-start",
+    alignItems: GLOBAL_PARAMS.isIphoneX() ? "flex-start" : "center",
     paddingLeft: GLOBAL_PARAMS._winWidth * .025,
     paddingRight: GLOBAL_PARAMS._winWidth * .025,
-    paddingTop: em(8),
+    paddingTop:  GLOBAL_PARAMS.isIphoneX() ? em(8) : 0,
   }
 });

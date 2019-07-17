@@ -86,7 +86,7 @@ export default StyleSheet.create({
   footer: {
     position: 'absolute',
     bottom: GLOBAL_PARAMS.isIphoneX() ? -15 : 0,
-    height: em(90),
+    height: GLOBAL_PARAMS.isIphoneX() ? em(90) : em(60),
     borderTopWidth: 1,
     borderTopColor: '#e8e9ed',
     left:0,
@@ -95,11 +95,11 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     paddingLeft: GLOBAL_PARAMS._winWidth * .025,
     paddingRight: GLOBAL_PARAMS._winWidth * .025,
-    paddingTop: em(8),
+    paddingTop: GLOBAL_PARAMS.isIphoneX() ? em(8) : 0,
     // height: em(60),
     marginBottom: GLOBAL_PARAMS.isIphoneX() ? 15 :0 ,
     justifyContent: 'space-between',
-    alignItems:'flex-start'
+    alignItems: GLOBAL_PARAMS.isIphoneX() ? 'flex-start' : 'center'
   },
   priceContent: {
     height: em(50),
@@ -188,6 +188,7 @@ export default StyleSheet.create({
     paddingRight: GLOBAL_PARAMS._winWidth* 0.06
   },
   infoView: {
+    marginBottom: em(90),
   },
   infoViewTop: {
     flexDirection: 'row',

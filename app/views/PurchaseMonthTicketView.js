@@ -438,7 +438,24 @@ export default class PurchaseMonthTicketView extends Component {
           ) : null}
           {monthTicketDetail?this._renderInfoView():null}
         </Content>
-        <Footer style={PurchaseMonthTicketStyles.footer}>
+        <View style={PurchaseMonthTicketStyles.footer}>
+          <View style={PurchaseMonthTicketStyles.priceContent}>
+            <Text style={PurchaseMonthTicketStyles.unit}>HKD</Text>
+            <Text style={PurchaseMonthTicketStyles.total}>
+              {(currentMonthTicketSelect.price &&
+                currentMonthTicketSelect.price.toFixed(2)) ||
+                "--"}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={PurchaseMonthTicketStyles.submitBtn}
+            onPress={() => this._createMonthTicket()}
+            disabled={monthTicketList.length == 0}
+          >
+            <Text style={PurchaseMonthTicketStyles.submitBtnText}>購買</Text>
+          </TouchableOpacity>
+        </View>
+        {/* <Footer style={PurchaseMonthTicketStyles.footer}>
           <Left style={{ flexDirection: "row", alignItems: "center" }}>
             <Text style={PurchaseMonthTicketStyles.unit}>HKD</Text>
             <Text style={PurchaseMonthTicketStyles.total}>
@@ -457,7 +474,7 @@ export default class PurchaseMonthTicketView extends Component {
               <Text style={PurchaseMonthTicketStyles.submitBtnText}>購買</Text>
             </TouchableOpacity>
           </Right>
-        </Footer>
+        </Footer> */}
       </CustomizeContainer.SafeView>
     );
   }
