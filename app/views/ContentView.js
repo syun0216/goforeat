@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import {
   View,
-  WebView,
   TouchableWithoutFeedback,
   Clipboard,
   Platform
 } from "react-native";
+import { WebView } from 'react-native-webview';
 import { Text } from "native-base";
 import { connect } from "react-redux";
 import Share, { ShareSheet, Button as SButton } from "react-native-share";
@@ -13,7 +13,7 @@ import Share, { ShareSheet, Button as SButton } from "react-native-share";
 import ToastUtil from "../utils/ToastUtil";
 import GLOBAL_PARAMS from "../utils/global_params";
 //api
-import source from "../api/CancelToken";
+import {abortRequestInPatchWhenRouteChange} from "../api/CancelToken";
 //components
 import Loading from "../components/Loading";
 import CommonHeader from "../components/CommonHeader";
@@ -52,7 +52,7 @@ class ContentView extends Component {
   }
 
   componentWillUnmount() {
-    source.cancel();
+    abortRequestInPatchWhenRouteChange();
   }
 
   //api

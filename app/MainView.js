@@ -5,8 +5,7 @@ import {
   StackNavigator,
   TabNavigator,
   DrawerNavigator,
-  NavigationActions,
-  DrawerItems
+  NavigationActions
 } from "react-navigation";
 import CardStackStyleInterpolator from "react-navigation/src/views/CardStack/CardStackStyleInterpolator";
 //views
@@ -29,7 +28,7 @@ import PickPlaceView from "./views/PickPlaceView";
 import PurchaseMonthTicketView from './views/PurchaseMonthTicketView';
 import DebugView from './debugView';
 //api
-import source from "./api/CancelToken";
+import {abortRequestInPatchWhenRouteChange} from "./api/CancelToken";
 //utils
 import GLOBAL_PARAMS from "./utils/global_params";
 //store
@@ -226,14 +225,14 @@ let MainView = StackNavigator(
     cardStyle: {
       backgroundColor: "#fff"
     },
-    // transitionConfig: (): Object => ({
-    //   containerStyle: {
-    //     backgroundColor: "#fff"
-    //   },
-    //   screenInterpolator: sceneProps => {
-    //     return CardStackStyleInterpolator.forHorizontal(sceneProps);
-    //   }
-    // })
+    transitionConfig: (): Object => ({
+      containerStyle: {
+        backgroundColor: "#fff"
+      },
+      screenInterpolator: sceneProps => {
+        return CardStackStyleInterpolator.forHorizontal(sceneProps);
+      }
+    })
   }
 );
 
@@ -244,6 +243,8 @@ const defaultGetStateForAction = MainView.router.getStateForAction;
 MainView.router.getStateForAction = (action, state) => {
   // console.log('action', action)
   // console.log('state', state)
+
+  //登录拦截
   const mustLogin = AuthInterceptor(action, state);
   if (mustLogin) {
     let _action = {...action};
@@ -257,9 +258,9 @@ MainView.router.getStateForAction = (action, state) => {
     // return defaultGetStateForAction(newAction, state);
     return;
   }
-  if (action.type === NavigationActions.NAVIGATE) {
-    source.cancel();
-  }
+  // if (action.type === NavigationActions.NAVIGATE) {
+  //   source.cancel();
+  // }
   if (state && action.type === NavigationActions.NAVIGATE) {
     if (action.params && action.params.replaceRoute) {
       //replaceRoute值 仅仅作为一个标识，进到这个方法之后就没有作用了
