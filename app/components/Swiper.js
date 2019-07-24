@@ -1,54 +1,76 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {View,StyleSheet} from 'react-native'
-import Image from "react-native-image-progress";
-import Swiper from 'react-native-swiper'
-import GLOBAL_PARAMS from '../utils/global_params';
+import React from "react";
+import PropTypes from "prop-types";
+import { View, StyleSheet, Text, Image } from "react-native";
+import FastImage from "react-native-fast-image";
+import Swiper from "react-native-swiper";
+import GLOBAL_PARAMS, { em } from "../utils/global_params";
+import { ENTRIES1 } from "../static/entries";
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: GLOBAL_PARAMS._winWidth,
-    height:GLOBAL_PARAMS.heightAuto(250),
+    width: GLOBAL_PARAMS._winWidth - em(16),
+    height: GLOBAL_PARAMS.em(90)
   },
   img: {
-    width:GLOBAL_PARAMS._winWidth,
-    height:250,
-    // borderRadius:15,
-    // borderWidth: 1,
+    width: GLOBAL_PARAMS._winWidth - em(16),
+    height: GLOBAL_PARAMS.em(90),
+    borderRadius: em(5),
+    alignSelf: "center"
     // borderColor:Colors.main_gray
   },
-  activeDot:{}
-})
+  dot: {
+    width: em(4),
+    height: em(4),
+    borderRadius: em(2),
+    marginLeft: em(2.5),
+    opacity: 0.5
+  },
+  activeDot: {
+    width: em(18),
+    height: em(4),
+    borderRadius: em(2),
+    marginLeft: em(2.5)
+  }
+});
 
-const GoodsSwiper = (props) => {
-  return (<Swiper style={styles.wrapper}
-    // autoplay
-    loop
-    paginationStyle={{position:'absolute',bottom:15,marginLeft:250}}
-    dotStyle={{width: 10, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.5}}
-    dotColor="#fafafa" activeDotColor="white" activeDotStyle={{width: 25, height: 10, borderRadius: 5, marginLeft: 10,opacity:0.8}}
-    showsPagination>
-    {props.adDetail.map((item,idx) => (
-      <View key={idx}>
-        <Image style={styles.img} source={{uri: item}}/>
-      </View>
-    ))}
-    {
-      // props.adDetail.length === 0 ? <Text>loading</Text> : null
-    }
-  </Swiper>
-)}
+const GoodsSwiper = props => {
+  return (
+    <View style={{height: em(108),paddingTop: em(15)}}>
+      <Swiper
+        autoplay
+        loop
+        paginationStyle={{ position: "absolute", bottom: 11 }}
+        dotStyle={styles.dot}
+        dotColor="#fafafa"
+        activeDotColor="white"
+        activeDotStyle={styles.activeDot}
+        showsPagination
+      >
+        {props.adDetail.length > 0 &&
+          props.adDetail.map((item, idx) => (
+            <View key={idx}>
+              <Image
+                resizeMode="cover"
+                style={styles.img}
+                source={{ uri: item.foodImage }}
+              />
+            </View>
+          ))}
+      </Swiper>
+    </View>
+  );
+};
 
 // GoodsSwiper.defaultProps({
 //   imgArr:[]
 // })
 
 GoodsSwiper.propTypes = {
-  adDetail: PropTypes.array,
-}
+  adDetail: PropTypes.array
+};
 
 GoodsSwiper.defaultProps = {
-  adDetail: []
-}
+  adDetail: ENTRIES1
+};
 
-export default GoodsSwiper
+export default GoodsSwiper;
