@@ -48,13 +48,22 @@ export default StyleSheet.create({
     fontSize: em(20),
     color: "#111",
     fontWeight: "bold",
-    maxWidth: em(210)
+    maxWidth: em(200)
   },
   IntroductionDetailBtn: {
     color: "#ff3348",
-    fontSize: em(18),
-    paddingLeft: em(20),
+    fontSize: em(16),
+    paddingLeft: em(12),
     paddingRight: 0
+  },
+  Commentbtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },  
+  CommentImg: {
+    width: em(20),
+    height: em(20)
   },
   IntroductionFoodBrief: {
     fontSize: em(14),
@@ -177,7 +186,7 @@ export default StyleSheet.create({
   },
   linearGradient: {
     height: Platform.OS == 'ios' ? 50 : 64,
-    width: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS._winWidth + 5 : GLOBAL_PARAMS._winWidth,
+    width:Platform.OS == 'ios' ? GLOBAL_PARAMS._winWidth + 5 : GLOBAL_PARAMS._winWidth,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row"
@@ -228,20 +237,19 @@ export default StyleSheet.create({
     borderRadius: em(8)
   },
   canteenName: {
-    fontSize: em(18),
-    color: "#999"
+    fontSize: em(16),
+    color: "#999999"
   },
   canteenFavorite: {
-    fontSize: em(20),
-    color: "#959595",
+    width: em(20),
     marginRight: em(8),
-    width: em(20)
+    marginTop: -1
   },
   canteenFavoriteActive: {
-    fontSize: em(20),
     marginRight: em(8),
     color: Colors.main_orange,
-    width: em(20)
+    width: em(20),
+    marginTop: -1
   },
   canteenImg:
     Platform.OS == "ios"

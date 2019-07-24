@@ -423,17 +423,17 @@ class FoodDetailsView extends Component {
       );
     }
     let {
-      foodDetails: { foodName, canteenName, foodBrief },
+      foodDetails: { foodName, canteenName, foodBrief, commentAmount },
       isFavorite,
       favoriteCount
     } = this.state;
     const _isFavorite = () =>
       isFavorite ? (
         Platform.OS == "android" && (
-          <Antd style={FoodDetailsStyles.canteenFavoriteActive} name="heart" />
+          <Image style={FoodDetailsStyles.canteenFavoriteActive} source={require('../asset/1.3.7/icon_2.png')} resizeMode="contain"/>
         )
       ) : (
-        <Antd style={FoodDetailsStyles.canteenFavorite} name="hearto" />
+        <Image style={FoodDetailsStyles.canteenFavorite} source={require('../asset/1.3.7/icon_1.png')} resizeMode="contain"/>
       );
     return (
       <View style={FoodDetailsStyles.IntroductionView}>
@@ -445,10 +445,10 @@ class FoodDetailsView extends Component {
             {foodName}
           </Text>
           <TouchableWithoutFeedback onPress={() => this._onFavorite()}>
-            <View style={{ position: "relative", flexDirection: "row" }}>
+            <View style={{ position: "relative", flexDirection: "row", alignItems: 'center',justifyContent: 'center', height: em(20) }}>
               {Platform.OS == "ios" && this._renderHeartView()}
               {_isFavorite()}
-              <Text style={[FoodDetailsStyles.canteenName, this.state.isFavorite && {color: '#ff5050'}]}>
+              <Text style={[FoodDetailsStyles.canteenName, {color: '#000'}, this.state.isFavorite && {color: '#ff5050'}]}>
                 {favoriteCount}次贊
               </Text>
             </View>
@@ -465,18 +465,21 @@ class FoodDetailsView extends Component {
               {" " + canteenName}
             </Text>
           ) : null}
-          <Text
-            style={FoodDetailsStyles.IntroductionDetailBtn}
-            onPress={() => 
-              {
-                // this.slideUpPanel._snapTo()
-                this._panelBottom.toggleVisible();
-                // Overlay.show(this._renderCommentModel())
+          <TouchableOpacity style={FoodDetailsStyles.Commentbtn}>
+            <Image style={FoodDetailsStyles.CommentImg} source={require('../asset/1.3.7/icon_comment.png')} resizeMode="contain" />
+            <Text
+              style={FoodDetailsStyles.IntroductionDetailBtn}
+              onPress={() => 
+                {
+                  // this.slideUpPanel._snapTo()
+                  this._panelBottom.toggleVisible();
+                  // Overlay.show(this._renderCommentModel())
+                }
               }
-            }
-          >
-            {this.props.i18n.commentDetail}
-          </Text>
+            >
+              {commentAmount || 0} 條
+            </Text>
+          </TouchableOpacity>
         </View>
         <Text
           style={FoodDetailsStyles.IntroductionFoodBrief}
@@ -493,7 +496,7 @@ class FoodDetailsView extends Component {
           {foodBrief}
         </Text>
         <TouchableOpacity
-          style={{position: 'absolute', right: em(15), bottom: 0,backgroundColor: '#fff'}}
+          style={{position: 'absolute', right: em(15), bottom: 1,backgroundColor: '#fff'}}
          onPress={() => {
           this.setState({
             isIntroOpen: !this.state.isIntroOpen
