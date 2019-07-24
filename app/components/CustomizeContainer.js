@@ -6,6 +6,7 @@ import LinearGradient from "react-native-linear-gradient";
 //utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS from "../utils/global_params";
+import { isIphoneXr } from "../utils/DeviceInfo";
 
 const styles = {
   position: "absolute",
@@ -41,7 +42,7 @@ const SafeView = props => (
         style={Platform.OS == 'ios' ? linear : linearAndroid}
       />
     ) : null}
-    <Container>
+    <Container style={{marginTop: isIphoneXr() ? 20 : 0}}>
       <StatusBar barStyle={props.barStyle} backgroundColor='transparent' translucent/>
       {props.children}
     </Container>

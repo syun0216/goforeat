@@ -15,6 +15,9 @@ const ratioY = Y < 568 ? (Y < 480 ? 0.75 : 0.875) : 1;
 const iPhoneX_WIDTH = 375;
 const iPhoneX_HEIGHT = 812;
 
+const XR_WIDTH = 414;
+const XR_HEIGHT = 896;
+
 const GLOBAL_PARAMS = {
   _winWidth: X,
   _winHeight: Y,
@@ -49,6 +52,13 @@ const GLOBAL_PARAMS = {
       Platform.OS === 'ios' &&
       ((Y === iPhoneX_HEIGHT && X === iPhoneX_WIDTH) ||
         (Y === iPhoneX_WIDTH && X === iPhoneX_HEIGHT))
+    )
+  },
+  isIphoneXr: () => {
+    return (
+      Platform.OS === 'ios' &&
+      ((Y === XR_HEIGHT && X === XR_WIDTH) ||
+        (Y === XR_WIDTH && X === XR_HEIGHT))
     )
   }
 }
