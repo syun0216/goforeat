@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import FastImage from "react-native-fast-image";
 import Swiper from "react-native-swiper";
+//utils
 import GLOBAL_PARAMS, { em } from "../utils/global_params";
-import { ENTRIES1 } from "../static/entries";
+import NavigationService from '../utils/NavigationService';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -48,13 +49,18 @@ const GoodsSwiper = props => {
       >
         {props.adDetail.length > 0 &&
           props.adDetail.map((item, idx) => (
-            <View key={idx}>
-              <Image
-                resizeMode="cover"
+            <TouchableOpacity key={idx} onPress={
+              () => NavigationService.navigate("Content", {
+                data: item,
+                kind: "warning"
+              })
+            }>
+              <FastImage
+                resizeMode={FastImage.resizeMode.cover}
                 style={styles.img}
-                source={{ uri: item.foodImage }}
+                source={{ uri: item.image }}
               />
-            </View>
+            </TouchableOpacity>
           ))}
       </Swiper>
     </View>
@@ -70,7 +76,7 @@ GoodsSwiper.propTypes = {
 };
 
 GoodsSwiper.defaultProps = {
-  adDetail: ENTRIES1
+  adDetail: []
 };
 
 export default GoodsSwiper;

@@ -36,6 +36,7 @@ import AdvertiseView from "../components/AdvertiseView";
 import PlacePickerModel from "../components/PlacePickerModel";
 import CustomizeContainer from "../components/CustomizeContainer";
 import Tips from "../components/Tips";
+import Swiper from "../components/Swiper";
 //styles
 import FoodDetailsStyles from "../styles/fooddetails.style";
 //storage
@@ -75,11 +76,13 @@ class FoodListView extends Component {
       advertiseData: null,
       advertiseCountdown: 5,
       warningTipsData: [],
+      swiperListData: [],
       star: null,
       listDataLength: 0,
       isAdvertiseShow: false,
       isWarningTipShow: true,
       isActivityBtnShow: false,
+      isSwiperShow: false,
       searchBarOpacity: new Animated.Value(1), 
       warningTipsScale: new Animated.Value(1),
       searchBtnShow: false,
@@ -119,6 +122,7 @@ class FoodListView extends Component {
     });
     let _timer = setTimeout(() => {
       this._getActivityInfo();
+      this._getSwiperAdList();
       clearTimeout(_timer);
     },300);
   }
@@ -138,6 +142,12 @@ class FoodListView extends Component {
     return true;
   }
 
+/**
+ * 获取启动页广告
+ *
+ * @param {*} old_data
+ * @memberof FoodListView
+ */
   _getAdvertise(old_data) {
     adSpace()
       .then(data => {
@@ -168,8 +178,28 @@ class FoodListView extends Component {
           // console.log('Request canceled', thrown.message);
         }
       });
+    }
+
+  /**
+   * 获取swiper活动详情列表
+   * @params type=2 获取swiper
+   * @memberof FoodListView
+   */
+  _getSwiperAdList() {
+    adSpace(2).then(data => {
+      this.setState({
+        swiperListData: data
+      })
+    }).catch(err => {
+      console.log('err', err)
+    })
   }
 
+  /**
+   * 获取活动详情
+   *
+   * @memberof FoodListView
+   */
   _getActivityInfo(){
     inviteActivityInfo().then(data => {
       console.log('data :', data);
@@ -200,15 +230,6 @@ class FoodListView extends Component {
     }, 1000);
   }
 
-  _initMenuStatus() {
-    this.setState({
-      searchBtnShow: false,
-      isWarningTipShow: true,
-    });
-    this.state.searchBarOpacity.setValue(1);
-    this.state.warningTipsScale.setValue(1);
-  }
-
   _getSeletedValue(val) {
     if (val == null) {
       // this._picker.getPlace();
@@ -237,38 +258,9 @@ class FoodListView extends Component {
   }
 
   _getScrollTop(scrollTop) {
-    // console.log('scrollTop', scrollTop);
-    // console.log('height', GLOBAL_PARAMS._winHeight);
-    if(scrollTop <= 0) {
-      this._initMenuStatus();
-    }
-    if(scrollTop > em(50)) {
-      this.setState({
-        searchBtnShow: scrollTop > em(100)
-      });
-      this.setState({
-        isWarningTipShow: scrollTop < em(100)
-      })
-      // if(Platform.OS == 'ios') {
-        Animated.parallel(['searchBarOpacity', 'warningTipsScale'].map(property => {
-          return Animated.spring(this.state[property], {
-            toValue: 1 - scrollTop / em(100) < 0 ? 0 : (1 - scrollTop / em(100)),
-            duration: 300,
-            easing: Easing.linear
-          })
-        })).start();
-      // }
-    } else {
-      // if(Platform.OS == 'ios') {
-        Animated.parallel(['searchBarOpacity', 'warningTipsScale'].map(property => {
-          return Animated.spring(this.state[property], {
-            toValue: 1,
-            duration: 300,
-            easing: Easing.linear
-          })
-        })).start();
-      // }
-    }
+    this.setState({
+      searchBtnShow: scrollTop > em(100)
+    });
   }
 
   //render functions
@@ -523,43 +515,16 @@ class FoodListView extends Component {
           }}
           resizeMode={FastImage.resizeMode.cover}
         />
-        {/* <Image
-          source={{ uri: item.thumbnail }}
-          style={{ width: _winWidth * 0.45 - 10, height: em(170) }}
-          resizeMode="cover"
-        /> */}
+        <View style={styles.itemLike}>
+          <Image style={styles.itemLikeImg} source={require('../asset/1.3.7/icon_2.png')} resizeMode="contain"/>
+          <Text style={styles.itemLikeText}>{item.likeCount || 0}贊</Text>
+        </View>
         <View style={styles.articleItemDetails}>
           <View style={[styles.itemName, styles.marginBottom9]}>
             <Text style={styles.foodName} numberOfLines={1}>
               {item.name}
             </Text>
           </View>
-          {/* <View style={styles.foodCommonContainer}>
-            <Text style={styles.foodCommon}>日期</Text>
-            <Text style={styles.foodCommon}>{item.date}</Text>
-          </View> */}
-          {/* <View style={styles.foodCommonContainer}>
-            <Text style={styles.foodCommon}>餐廳</Text>
-            <Text style={styles.foodCommon}>{item.canteenName}</Text>
-          </View> */}
-          {/* <View style={styles.foodCommonContainer}>
-            <Text style={styles.foodCommon}>套餐價: </Text>
-            <Text
-              style={[
-                styles.foodCommon,
-                item.originPrice
-                  ? {
-                      textDecorationLine: "line-through",
-                      textDecorationColor: "#666"
-                    }
-                  : {}
-              ]}
-            >
-              {item.originPrice
-                ? `HKD${parseFloat(item.originPrice).toFixed(2)}`
-                : "市價"}
-            </Text>
-          </View> */}
           {
            !isNil(item.prePrice) && !isNil(item.dayPrice) ? (
               <View style={styles.foodCommonContainer}>
@@ -613,10 +578,9 @@ class FoodListView extends Component {
         requestFunc={getFoodList}
         // renderIndicator={() => this._renderIndicator()}
         renderItem={(item, index) => this._renderFoodListItemView(item, index)}
-        renderHeader={() => this._renderTopTitleView()}
+        renderHeader={() => {return this.state.swiperListData.length > 0 ? <Swiper adDetail={this.state.swiperListData} /> : null}}
         extraParams={{ placeId: this.state.placeSelected.id }}
-        refreshControlTitleColor="#fff"
-        refreshControlTintColor="#fff"
+        refreshControlTitleColor="#999999"
         isIndicatorShow={false}
         blankBtnMessage="所選配送點暫未有餐食供應,請選擇其他離你最近的配送點"
         getRawData={data => {
@@ -637,11 +601,11 @@ class FoodListView extends Component {
     return (
       <CustomizeContainer.SafeView mode="linear" style={{ position: "relative", backgroundColor: "#fff" }}>
         {this._renderAdvertisementView()}
-        {this.state.star && this._renderRefreshBgView()}
+        {/* {this.state.star && this._renderRefreshBgView()} */}
         {/* {this._renderIndicator()} */}
         {this._renderPlacePicker()}
         {this._renderHeaderView()}
-        {this.state.isWarningTipShow && this._renderWarningView()}
+        {/* {this.state.isWarningTipShow && this._renderWarningView()} */}
         {
           (this.state.isActivityBtnShow) && (<Tips message="邀請好友,領取優惠券" clickFunc={() => 
             this.props.navigation.navigate('Content', {
@@ -684,7 +648,7 @@ export default connect(
 const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: '#fff',
-    padding: 15,
+    padding: em(8),
     // height: em(190),
     borderBottomWidth: em(15),
     borderBottomColor: '#f0f0f0',
@@ -709,6 +673,28 @@ const styles = StyleSheet.create({
     // overflow: "hidden",
     // alignItems: 'center',
     
+  },
+  itemLike: {
+    backgroundColor: "rgba(0, 0, 0, .5)",
+    width: em(92),
+    height: em(32),
+    borderRadius: em(20),
+    position: 'absolute',
+    top: em(155),
+    left: em(12),
+    zIndex: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  itemLikeImg: {
+    width: em(22),
+    marginRight: em(10)
+  },
+  itemLikeText: {
+    color: '#fff',
+    fontSize: em(16),
+
   },
   articleItemDetails: {
     // height: em(100),
