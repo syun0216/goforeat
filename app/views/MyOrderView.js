@@ -3,10 +3,6 @@ import { View, TouchableOpacity, Alert, Platform, Image } from "react-native";
 import {connect} from 'react-redux';
 import { Tabs, Tab, TabHeading } from "native-base";
 import Antd from "react-native-vector-icons/AntDesign";
-import PopupDialog, {
-  SlideAnimation,
-  DialogButton
-} from "react-native-popup-dialog";
 import FastImage from "react-native-fast-image";
 //utils
 import GLOBAL_PARAMS, {
@@ -22,6 +18,7 @@ import Text from "../components/UnScalingText";
 import CommonFlatList from "../components/CommonFlatList";
 import CustomizeContainer from "../components/CustomizeContainer";
 import CommonComment from "../components/CommonComment";
+import PreviewPlaceImg from "../components/PreviewPlaceImg";
 //utils
 import { em } from "../utils/global_params";
 import Colors from "../utils/Colors";
@@ -42,10 +39,6 @@ const _ORDER_DELIVERING = 1; // 待配送
 const _ORDER_FINISHED = 2; //已完成
 const _ORDER_ALL = null; // 全部
 const _ORDER_COMMENT = 3; // 待评价
-
-const slideAnimation = new SlideAnimation({
-  slideFrom: "bottom"
-});
 
 class MyOrderView extends Component {
   timer = null;
@@ -261,7 +254,8 @@ class MyOrderView extends Component {
               ]}
               numberOfLines={1}
             >
-              {EXPLAIN_PAY_TYPE[item.payment || 1][language] || i18n.cash}
+              {/* {EXPLAIN_PAY_TYPE[item.payment || 1][language] || i18n.cash} */}
+              {item.paymentDesc}
             </Text>
           </View>
         </View>
@@ -280,24 +274,6 @@ class MyOrderView extends Component {
           <Text style={MyOrderStyles.pickNumber}>{item.mealCode}</Text>
         </View>
         <View style={MyOrderStyles.payInner}>
-          {/* <TouchableOpacity
-              onPress={() => {
-                this.setState(
-                  {
-                    currentPickImage: item.takePointPicture,
-                    currentPickTitle: item.takeAddressDetail || ""
-                  },
-                  () => {
-                    this.popupDialog.show();
-                  }
-                );
-              }}
-              style={[MyOrderStyles.payStatusBtn, { borderColor: "#ff5858" }]}
-            >
-            <Text style={[MyOrderStyles.payStatusText, { color: "#ff5858" }]}>
-              {i18n.myorder_tips.common.pick_place_btn}
-            </Text>
-          </TouchableOpacity> */}
           <View style={[MyOrderStyles.totalInnerView, item.status == _ORDER_ALL || item.status == _ORDER_CANCEL && {
             position: 'absolute',
             right: 0,
@@ -342,8 +318,6 @@ class MyOrderView extends Component {
             <TouchableOpacity
               onPress={() =>
                 {
-                  // console.log(this._commentView);
-                  // console.log(item);
                   this._commentView._commentPopup(item.orderId, () => {
 
                   })
@@ -362,35 +336,8 @@ class MyOrderView extends Component {
 
   _renderPopupDialog() {
     return (
-      <PopupDialog
-        ref={popupDialog => {
-          this.popupDialog = popupDialog;
-        }}
-        width={em(295)}
-        height={em(270)}
-        dialogAnimation={slideAnimation}
-        dialogTitle={
-          <Text style={{ textAlign: "center", margin: em(10) }}>
-            {this.state.currentPickTitle}
-          </Text>
-        }
-        actions={[
-          <DialogButton
-            key={0}
-            textStyle={{ color: "#fff" }}
-            text="關閉"
-            onPress={() => {
-              this.popupDialog.dismiss();
-            }}
-          />
-        ]}
-      >
-        <FastImage
-          source={this.state.currentPickImage ? { uri: this.state.currentPickImage }: require("../asset/gardenListDefault.png")}
-          style={{ width: em(295), height: em(250), borderBottomLeftRadius: 8,borderBottomRightRadius: 8, }}
-        />
-      </PopupDialog>
-    );
+      <PreviewPlaceImg getRef={r => this.popupDialog = r} title={this.state.currentPickTitle} img={this.state.currentPickImage}/>
+    )
   }
 
   render() {
