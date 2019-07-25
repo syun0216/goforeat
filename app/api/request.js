@@ -286,7 +286,7 @@ export function myOrder({offset, status}) {
  * @param {*} [lon=null]
  * @returns
  */
-export function foodPlaces(lat = null, lon = null) {
+export function foodPlaces(lat = null, lon = null) { // 即将废弃
   return request({
     url: '/food/getDeliveryPlace',
     loading: true,
@@ -357,14 +357,14 @@ export function feedback(data) {
  * @export
  * @returns
  */
-export function adSpace() {
+export function adSpace(pagePosition = 1) {
   return request({
     url: '/adSpace/list',
     loading: true,
     toast: false,
     method: 'post',
     data: {
-      pagePosition: 1
+      pagePosition
     }
   })
 }
@@ -804,3 +804,19 @@ export function myInvites() {
     }
   })
 }
+
+/**
+ * 获取有层级关系的配送地址
+ *
+ * @export
+ * @returns
+ */
+export function getDeliveryList() {
+  return request({
+    url: '/deliveryPlace/getList',
+    method: 'post',
+    loading: false,
+    toast: false,
+  })
+}
+
