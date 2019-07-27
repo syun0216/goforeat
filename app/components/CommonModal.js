@@ -50,7 +50,7 @@ class CommonModal extends PureComponent {
   }
 
   _renderDefaultMode() {
-    const { title, children, isHeaderShow,closeFunc} = this.props;
+    const { title, children, isHeaderShow,closeFunc, CustomHeader, isCustomHeader} = this.props;
     const CloseIcon = () => (
       <TouchableOpacity style={styles.closeIcon} onPress={closeFunc}>
         <Icon name="md-close" style={[{ fontSize: GLOBAL_PARAMS.em(22), color: '#fff' }]}/>
@@ -58,7 +58,7 @@ class CommonModal extends PureComponent {
     )
     return (
       <CustomizeContainer.SafeView mode={Platform.OS == 'ios' ? 'linear' : 'none'} >
-        {isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
+        {isCustomHeader ? CustomHeader : isHeaderShow && <CommonHeader title={title} canBack leftElement={<CloseIcon />}></CommonHeader>}
         <Content bounces={false}>
             {children}
           </Content>
@@ -93,14 +93,16 @@ CommonModal.propsType = {
   getSearchContent: PropTypes.func,
   isHeaderShow: PropTypes.bool,
   isSearchHeader: PropTypes.bool,
-  type: PropTypes.string
+  type: PropTypes.string,
 }
 
 CommonModal.defaultProps = {
   modalVisible: false,
   isHeaderShow: true,
   isSearchHeader: false,
-  type: 'default'
+  type: 'default',
+  CustomHeader: null,
+  isCustomHeader: false
 }
 
 export default CommonModal;
