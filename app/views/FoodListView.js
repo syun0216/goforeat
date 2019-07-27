@@ -247,7 +247,6 @@ class FoodListView extends Component {
         if (!this._isFirstReload) {
           if (!!this.flatlist) {
             this.flatlist.getWrappedInstance().outSideRefresh();
-            this._initMenuStatus();
           };
           this._isFirstReload = false;
         } else {
@@ -357,7 +356,7 @@ class FoodListView extends Component {
         androidStatusBarColor="transparent"
       >
         <LinearGradient
-          colors={["#FF7A00", "#FE560A"]}
+          colors={["#FF881D", "#FF312F"]}
           start={{ x: 0.0, y: 0.0 }}
           end={{ x: 1.0, y: 0.0 }}
           style={FoodDetailsStyles.linearGradient}
