@@ -811,12 +811,15 @@ export function myInvites() {
  * @export
  * @returns
  */
-export function getDeliveryList() {
+export function getDeliveryList(lat = null, lon = null) {
   return request({
     url: '/deliveryPlace/getList',
     method: 'post',
     loading: false,
     toast: false,
+    data: {
+      lat, lon
+    }
   })
 }
 
