@@ -16,6 +16,7 @@ import ErrorPage from "../components/ErrorPage";
 import Text from "../components/UnScalingText";
 import CommonItem from "../components/CommonItem";
 import CustomizeContainer from "../components/CustomizeContainer";
+import Guider from "../components/Guider";
 //utils
 import Colors from "../utils/Colors";
 import GLOBAL_PARAMS, {
@@ -836,8 +837,6 @@ class ConfirmOrderView extends Component {
   render() {
     let {
       i18n,
-      orderDetail,
-      loading,
       isError,
       isExpired,
       expiredMessage
@@ -851,6 +850,7 @@ class ConfirmOrderView extends Component {
           titleStyle={{ fontSize: 18, fontWeight: "bold" }}
           {...this["props"]}
         />
+        <Guider pageName="confirmOrder"/>
         {isError ? (
           <ErrorPage
             errorToDo={() => this._createOrder()}

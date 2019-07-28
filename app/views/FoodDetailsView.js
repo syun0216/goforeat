@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import { connect } from 'react-redux';
 import Share from "react-native-share";
-import Antd from "react-native-vector-icons/AntDesign";
 import Carousel from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
 import { sliderWidth } from "../styles/SliderEntry.style";
@@ -40,6 +39,7 @@ import ShareComponent from "../components/ShareComponent";
 import ShimmerPlaceHolder from "../components/ShimmerPlaceholder";
 import CustomizeContainer from "../components/CustomizeContainer";
 import CommonFlatList from "../components/CommonFlatList";
+import Guider from "../components/Guider";
 
 import store from '../store/index';
 
@@ -886,6 +886,7 @@ class FoodDetailsView extends Component {
         mode="linear"
         style={FoodDetailsStyles.ContainerBg}
       >
+        <Guider pageName="foodDetails"/>
         {this._renderHeaderView()}
         {isError ? this._renderErrorView() : null}
         {isShareListShow && this._renderPreventClickView()}

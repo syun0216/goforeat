@@ -37,6 +37,7 @@ import PlacePickerModel from "../components/PlacePickerModel";
 import CustomizeContainer from "../components/CustomizeContainer";
 import Tips from "../components/Tips";
 import Swiper from "../components/Swiper";
+import Guider from "../components/Guider";
 //styles
 import FoodDetailsStyles from "../styles/fooddetails.style";
 //storage
@@ -599,6 +600,7 @@ class FoodListView extends Component {
     } = this.props;
     return (
       <CustomizeContainer.SafeView mode="linear" style={{ position: "relative", backgroundColor: "#fff" }}>
+        <Guider pageName="foodList"/>
         {this._renderAdvertisementView()}
         {/* {this.state.star && this._renderRefreshBgView()} */}
         {/* {this._renderIndicator()} */}
