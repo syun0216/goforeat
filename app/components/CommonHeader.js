@@ -9,7 +9,7 @@ import {
   View
 } from "react-native";
 import { withNavigation } from "react-navigation";
-import { Header, Left, Body, Right, Icon, Button } from "native-base";
+import { Left, Body, Right, Icon, Button } from "native-base";
 import LinearGradient from "react-native-linear-gradient";
 import Antd from "react-native-vector-icons/AntDesign";
 import Entypo from "react-native-vector-icons/Entypo";

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     alignItems:'center',
     flexWrap: 'wrap',
-    maxWidth: em(220)
+    maxWidth: em(150)
   },
   itemText: {
     fontSize: em(16),
