@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
   },
   contentLeft: {
     width: em(80),
+    maxWidth: em(80),
     borderRightWidth: 1,
     borderRightColor: '#E5E5E5',
   },
@@ -146,7 +147,6 @@ class PlacePickerModel extends Component {
     placeList: null, // 子层级level list
     parentList: null, // 父层级level list
     parentSelected: null, // 父层级选中值
-    parent: '123',
     selected: null, // only name property
     selectedVal: null, // all data
     isSearching: false,
@@ -165,8 +165,8 @@ class PlacePickerModel extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       nextProps.modalVisible != this.props.modalVisible ||
-      JSON.stringify(this.state.placeList) !=
-        JSON.stringify(nextState.placeList)
+      JSON.stringify(this.state) !=
+        JSON.stringify(nextState)
     );
   }
 
@@ -421,11 +421,12 @@ class PlacePickerModel extends Component {
     });
   }
 
-  _setParentSelected(v) {
+  _setParentSelected(item) {
     // if(parentSelected.name == v.name) return;
     this.setState({
-      parent: v.name
-    })
+      parentSelected: item,
+      placeList: this._rawPlaceList.filter(v => v.parentId == item.id)
+    });
   }
 
   /**
@@ -450,7 +451,14 @@ class PlacePickerModel extends Component {
         </View>
         <TouchableOpacity
           style={styles.inputBtn}
-          onPress={() => this.props.closeFunc()}
+          onPress={() => {
+            if(this.state.isSearching) {
+              this.setState({
+                isSearching: false
+              });
+            }
+            this.props.closeFunc();
+          }}
         >
           <Text style={styles.inputBtnText}>關閉</Text>
         </TouchableOpacity>
@@ -496,22 +504,23 @@ class PlacePickerModel extends Component {
   }
 
   _renderPickPlaceContent() {
-    const { placeList, parentList, parentSelected, isSearch} = this.state;
+    const { placeList, parentList, parentSelected, isSearching} = this.state;
     return (
-      <View style={{flexDirection: 'row'}}>
-        {parentList && !isSearch ? <View style={styles.contentLeft}>
+      <View style={{flexDirection: 'row', height: GLOBAL_PARAMS._winHeight - em(168.5)}}>
+        {parentList && !isSearching ? 
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.contentLeft}>
           {
             parentList.map((v, i) => (
               <TouchableOpacity style={[styles.contentLeftBtn, parentSelected.name == v.name && {borderRightWidth: 2,borderRightColor: '#FF5100',}]} key={i} onPress={() => this._setParentSelected(v)}>
-                <Text style={[styles.contentLeftText, parentSelected.id == v.id && {color: '#FE5800'}]}>{v.name}</Text>
+                <Text style={[styles.contentLeftText, parentSelected.name == v.name && {color: '#FE5800'}]}>{v.name}</Text>
               </TouchableOpacity>
             ))
           }
-        </View> : null}
-        {placeList ? <View style={styles.contentRight}>
+        </ScrollView> : null}
+        {placeList ? <ScrollView style={styles.contentRight}>
           {placeList.map((item, idx) => (
               <CommonItem
-                style={!isSearch && {width: GLOBAL_PARAMS._winWidth - em(80)}}
+                style={!isSearching && {width: GLOBAL_PARAMS._winWidth - em(80)}}
                 key={idx}
                 content={item.name}
                 clickFunc={() => this._onValueChange(item)}
@@ -529,7 +538,13 @@ class PlacePickerModel extends Component {
               />
             ))
           }
-        </View> : null
+          {placeList && placeList.length == 0 && (
+            <BlankPage
+              message="沒有搜索數據"
+              style={{ backgroundColor: "transparent" }}
+            />
+          )}
+        </ScrollView> : null
       }
       </View>
     )
@@ -554,12 +569,6 @@ class PlacePickerModel extends Component {
         {this._renderPositionPreviewer()}
         {this._renderPopupDialog()}
         {this._renderPickPlaceContent()}
-        {this.state.placeList && this.state.placeList.length == 0 && (
-          <BlankPage
-            message="沒有搜索數據"
-            style={{ backgroundColor: "transparent" }}
-          />
-        )}
         {this.state.loading && <LoadingModal message="loading..." />}
       </CommonModal>
     );

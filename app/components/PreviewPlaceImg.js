@@ -42,6 +42,7 @@ const previewPlaceImg = ({title, img, getRef}) => (
     ]}
   >
     <Text
+      key="1"
       style={{
         position: "absolute",
         top: em(-35),
@@ -54,6 +55,7 @@ const previewPlaceImg = ({title, img, getRef}) => (
       {title}
     </Text>
     <FastImage
+      key="2"
       source={
         img
         ? { uri: img }
