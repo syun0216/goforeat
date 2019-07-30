@@ -1,10 +1,16 @@
 rootProject.name = 'goforeat_app'
+include ':react-native-i18n'
+project(':react-native-i18n').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-i18n/android')
+include ':react-native-awesome-card-io'
+project(':react-native-awesome-card-io').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-awesome-card-io/android')
+//include ':janalytics-react-native'
+//project(':janalytics-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/janalytics-react-native/android')
 include ':react-native-restart'
 project(':react-native-restart').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-restart/android')
 include ':@react-native-community_async-storage'
 project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/async-storage/android')
-//include ':react-native-webview'
-//project(':react-native-webview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview/android')
+include ':react-native-webview'
+project(':react-native-webview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview/android')
 include ':react-native-geolocation-service'
 project(':react-native-geolocation-service').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-geolocation-service/android')
 include ':react-native-vector-icons'
