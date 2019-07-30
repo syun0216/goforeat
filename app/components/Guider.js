@@ -60,10 +60,10 @@ const guiderData = {
     {img: require('../asset/1.3.7/text_2.png'), style: {top: em(350)},start: {x: 0.0, y: 0.0},end: {x: 0.0, y: 1.0},locations: [0, 0.8], colors: ["transparent", "#000"], type: 'top'},
   ],
   foodDetails: [
-    {img: require('../asset/1.3.7/text_3.png'),  style: {top: em(220)},start: {x: 0.0, y: 0.0},end: {x: 0.0, y: 1.0},locations: [0.6, 0.67], colors: ["#000", "transparent"], type: 'bottom'}
+    {img: require('../asset/1.3.7/text_3.png'),  style: {top: GLOBAL_PARAMS.isIphoneX() ? GLOBAL_PARAMS._winHeight*0.25 : GLOBAL_PARAMS._winHeight *0.3},start: {x: 0.0, y: 0.0},end: {x: 0.0, y: 1.0},locations: GLOBAL_PARAMS.isIphoneX() ? [0.5, 0.55] : [0.6, 0.67], colors: ["#000", "transparent"], type: 'bottom'}
   ],
   confirmOrder: [
-    {img: require('../asset/1.3.7/text_4.png'),  style: {bottom: em(60)},start: {x: 0.0, y: 0.0},end: {x: 0.0, y: 1.0},locations: [0.85, 0.9], colors: ["#000", "transparent"], type: 'bottom'}
+    {img: require('../asset/1.3.7/text_4.png'),  style: {bottom: GLOBAL_PARAMS.isIphoneX() ? em(110) : em(60)},start: {x: 0.0, y: 0.0},end: {x: 0.0, y: 1.0},locations: GLOBAL_PARAMS.isIphoneX() ? [0.83, 0.85] : [0.85, 0.9], colors: ["#000", "transparent"], type: 'bottom'}
   ]
 };
 

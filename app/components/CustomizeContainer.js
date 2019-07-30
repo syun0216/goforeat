@@ -30,6 +30,7 @@ const linearAndroid = {
   width: GLOBAL_PARAMS._winWidth,
 };
 
+
 const SafeView = props => (
   <SafeAreaView style={[{ flex: 1, backgroundColor: "transparent" },props.style]} forceInset={props.forceInset}>
     {props.mode != 'none' ? props.mode == "default" ? (

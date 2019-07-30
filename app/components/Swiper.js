@@ -49,7 +49,7 @@ const GoodsSwiper = props => {
       >
         {props.adDetail.length > 0 &&
           props.adDetail.map((item, idx) => (
-            <TouchableOpacity key={idx} onPress={
+            <TouchableOpacity activeOpacity={1} key={idx} onPress={
               () => NavigationService.navigate("Content", {
                 data: item,
                 kind: "warning"

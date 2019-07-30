@@ -14,6 +14,7 @@ import { Input } from "native-base";
 import FastImage from "react-native-fast-image";
 import LinearGardient from "react-native-linear-gradient";
 import { connect } from "react-redux";
+import { isNil } from "lodash";
 //actions
 import { STORE_PLACE_LIST, STOCK_PLACE } from "../actions";
 //utils
@@ -409,7 +410,7 @@ class PlacePickerModel extends Component {
 
   _filterPickPlace(place) {
     this.setState({
-      isSearch: place != ''
+      isSearching: place != ''
     });
     if (/^[A-Za-z]+$/.test(place)) {
       place = place.toLowerCase();
@@ -425,7 +426,7 @@ class PlacePickerModel extends Component {
     // if(parentSelected.name == v.name) return;
     this.setState({
       parentSelected: item,
-      placeList: this._rawPlaceList.filter(v => v.parentId == item.id)
+      placeList: isNil(item.id) ? this._rawPlaceList.slice(0) : this._rawPlaceList.filter(v => v.parentId == item.id)
     });
   }
 
@@ -506,7 +507,7 @@ class PlacePickerModel extends Component {
   _renderPickPlaceContent() {
     const { placeList, parentList, parentSelected, isSearching} = this.state;
     return (
-      <View style={{flexDirection: 'row', height: GLOBAL_PARAMS._winHeight - em(168.5)}}>
+      <View style={{flexDirection: 'row', height: parentSelected ? GLOBAL_PARAMS._winHeight - em(168.5) : 'auto'}}>
         {parentList && !isSearching ? 
         <ScrollView showsVerticalScrollIndicator={false} style={styles.contentLeft}>
           {
@@ -520,7 +521,8 @@ class PlacePickerModel extends Component {
         {placeList ? <ScrollView style={styles.contentRight}>
           {placeList.map((item, idx) => (
               <CommonItem
-                style={!isSearching && {width: GLOBAL_PARAMS._winWidth - em(80)}}
+                style={!isSearching && parentList && {width: GLOBAL_PARAMS._winWidth - em(80)}}
+                leftStyle={!isSearching && parentList && {maxWidth: em(150)}}
                 key={idx}
                 content={item.name}
                 clickFunc={() => this._onValueChange(item)}
@@ -553,7 +555,6 @@ class PlacePickerModel extends Component {
 
   render() {
     const { modalVisible, closeFunc } = this.props;
-    const { placeList, parentList, parentSelected, isSearch} = this.state;
     return (
       <CommonModal
         modalVisible={modalVisible}

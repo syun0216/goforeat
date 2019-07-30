@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     alignItems:'center',
     flexWrap: 'wrap',
-    maxWidth: em(150)
+    maxWidth: em(220)
   },
   itemText: {
     fontSize: em(16),
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,clickFunc,style,contentStyle,disabled}) => {
+const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,clickFunc,style,leftStyle,contentStyle,disabled}) => {
   // console.log(style);
   return (
   <View>
@@ -52,7 +52,7 @@ const CommonItem = ({content,isEnd,hasRightIcon,rightIcon,leftIcon,hasLeftIcon,c
       });
       // clickFunc()  
     }}>
-      <View style={styles.itemLeftView}>
+      <View style={[styles.itemLeftView, leftStyle]}>
         {hasLeftIcon ? leftIcon:null}
         <Text style={[styles.itemText,contentStyle]}>{content}</Text>
       </View>
@@ -71,6 +71,7 @@ CommonItem.defaultProps = {
   leftIcon:(<Icon name="md-alert" style={styles.itemIcon}/>),
   clickFunc: () => {},
   style: {},
+  leftStyle: {},
   contentStyle: {},
   disabled: false
 };
