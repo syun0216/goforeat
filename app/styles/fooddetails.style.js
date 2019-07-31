@@ -176,9 +176,8 @@ export default StyleSheet.create({
     backgroundColor: "#fff"
   },
   Header: {
-    borderWidth: 1,
     backgroundColor: '#FE560A',
-    height: GLOBAL_PARAMS.isIphoneX() ? 45 :  64,
+    height: GLOBAL_PARAMS.isIphoneX() ? 45 : Platform.OS == 'ios' ? 64 : 50,
     borderBottomWidth: 0,
     padding: 0,
     marginTop: Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? -44 : -20) : 0,
@@ -186,7 +185,7 @@ export default StyleSheet.create({
     elevation: 0
   },
   linearGradient: {
-    height: Platform.OS == 'ios' ? 50 : 64,
+    height: Platform.OS == 'ios' ? 50 : 50,
     width:Platform.OS == 'ios' ? GLOBAL_PARAMS._winWidth + 5 : GLOBAL_PARAMS._winWidth,
     justifyContent: "center",
     alignItems: "center",

@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingLeft: em(12),
     backgroundColor: "#fff",
-    width: em(276),
+    width: Platform.OS == 'ios' ? em(276) : GLOBAL_PARAMS._winWidth*0.8,
     height: em(44),
     borderRadius: em(22),
     marginRight: em(26)
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     width: em(80),
     minHeight: em(50),
     borderBottomWidth: 1,
-    borderColor: '#E5E5E5'
+    borderBottomColor: '#E5E5E5'
   },
   contentLeftText: {
     fontSize: em(14),
@@ -507,7 +507,7 @@ class PlacePickerModel extends Component {
   _renderPickPlaceContent() {
     const { placeList, parentList, parentSelected, isSearching} = this.state;
     return (
-      <View style={{flexDirection: 'row', height: parentSelected ? GLOBAL_PARAMS._winHeight - em(168.5) : 'auto'}}>
+      <View style={{flexDirection: 'row', height: parentSelected && Platform.OS == 'ios' ? GLOBAL_PARAMS._winHeight - em(168.5) : 'auto'}}>
         {parentList && !isSearching ? 
         <ScrollView showsVerticalScrollIndicator={false} style={styles.contentLeft}>
           {

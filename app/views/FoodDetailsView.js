@@ -15,7 +15,7 @@ import Carousel from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
 import { sliderWidth } from "../styles/SliderEntry.style";
 import SliderEntry from "../components/SliderEntry";
-import {isNil} from 'lodash';
+import { isNil } from 'lodash';
 //styles
 import styles from "../styles/index.style";
 import FoodDetailsStyles from "../styles/fooddetails.style";
@@ -496,7 +496,7 @@ class FoodDetailsView extends Component {
           {foodBrief}
         </Text>
         <TouchableOpacity
-          style={{position: 'absolute', right: em(15), bottom: 1,backgroundColor: '#fff'}}
+          style={{position: 'absolute', right: em(15), bottom: Platform.OS == 'ios' ? 1 : 2,backgroundColor: '#fff'}}
          onPress={() => {
           this.setState({
             isIntroOpen: !this.state.isIntroOpen
