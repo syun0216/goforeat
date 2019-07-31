@@ -1,8 +1,4 @@
 rootProject.name = 'goforeat_app'
-include ':react-native-i18n'
-project(':react-native-i18n').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-i18n/android')
-include ':react-native-awesome-card-io'
-project(':react-native-awesome-card-io').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-awesome-card-io/android')
 //include ':janalytics-react-native'
 //project(':janalytics-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/janalytics-react-native/android')
 include ':react-native-restart'
@@ -51,8 +47,6 @@ include ':react-native-share'
 project(':react-native-share').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share/android')
 include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
-include ':appcenter-push'
-project(':appcenter-push').projectDir = new File(rootProject.projectDir, '../node_modules/appcenter-push/android')
 include ':react-native-interactable'
 project(':react-native-interactable').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-interactable/android')
 

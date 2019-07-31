@@ -3585,6 +3585,11 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
+janalytics-react-native@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/janalytics-react-native/-/janalytics-react-native-1.4.1.tgz#6fba0dee7c7217d77253bf4944f522619f65f44a"
+  integrity sha512-7t9CPLTGQQBpMlcZgcZ9OwLwR14AozOSwFNmW/rkgrb43cN73pKmiM9I1snk187nCS99dSGsLM1NhQuugvmkLQ==
+
 jcore-react-native@^1.2.6:
   version "1.2.11"
   resolved "https://registry.npmjs.org/jcore-react-native/-/jcore-react-native-1.2.11.tgz#21adca03dd1738e49800e83889537cd9abeb8a94"
@@ -6002,6 +6007,14 @@ react-native-vector-icons@6.1.0, react-native-vector-icons@^6.1.0:
     lodash "^4.0.0"
     prop-types "^15.6.2"
     yargs "^8.0.2"
+
+react-native-webview@^5.12.1:
+  version "5.12.1"
+  resolved "https://registry.npmjs.org/react-native-webview/-/react-native-webview-5.12.1.tgz#5e2b124e9087d64fc40040d911c10ee5744b5d4d"
+  integrity sha512-pFYzyNUG+k7Jk2a0Z3S1+OL9qtp0VQxVP08d1ume/O6l1Xibi0K0hRZms7zPUHqQc2uWEfjZ0FOa17MIN7vruw==
+  dependencies:
+    escape-string-regexp "1.0.5"
+    invariant "2.2.4"
 
 react-native-webview@^5.2.0:
   version "5.8.2"

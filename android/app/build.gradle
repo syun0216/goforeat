@@ -117,8 +117,8 @@ android {
         applicationId "com.goforeat_app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 37
-        versionName "0.0.11"
+        versionCode 38
+        versionName "0.0.13"
         multiDexEnabled true
         manifestPlaceholders = [
                 JPUSH_APPKEY: "1d3225ebddcae3fc7ef8b0b5",
@@ -171,8 +171,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-i18n')
-    implementation project(':react-native-awesome-card-io')
 //    implementation project(':janalytics-react-native')
     implementation project(':react-native-restart')
     implementation project(':@react-native-community_async-storage')
@@ -200,7 +198,6 @@ dependencies {
     implementation project(':react-native-code-push')
     implementation project(':react-native-share')
     implementation project(':react-native-image-picker')
-    implementation project(':appcenter-push')
     implementation project(':react-native-interactable')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
