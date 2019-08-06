@@ -177,7 +177,7 @@ export default StyleSheet.create({
   },
   Header: {
     backgroundColor: '#FE560A',
-    height: GLOBAL_PARAMS.isIphoneX() ? 45 : Platform.OS == 'ios' ? 64 : 50,
+    height: GLOBAL_PARAMS.isIphoneX() ? 44 : Platform.OS == 'ios' ? 64 : 50,
     borderBottomWidth: 0,
     padding: 0,
     marginTop: Platform.OS == "ios" ? (GLOBAL_PARAMS.isIphoneX() ? -44 : -20) : 0,

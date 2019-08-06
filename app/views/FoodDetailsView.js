@@ -94,13 +94,10 @@ class FoodDetailsView extends Component {
       showMoreDetail: false, //是否展示更多内容
       isAddFruit: false, // 是否添加水果
       isIntroOpen: false, // 是否展開菜品介紹
-      commentTitle: '用戶評論', // 評論title
     };
   }
 
   componentDidMount() {
-    console.log('this.props :', this.props);
-    console.log('store.getState() :', store.getState());
     if (this.props.getCache(`Food${this.dateFoodId}`)) {
       this.setState(
         {
@@ -576,21 +573,16 @@ class FoodDetailsView extends Component {
 
   _renderCommentModel() {
     if(!this.state.foodDetails) return;
-    const {foodDetails:{foodId}, commentTitle} = this.state;
+    const {foodDetails:{foodId, commentAmount}} = this.state;
 
     return (
-      <PannelBottom ref={pb => this._panelBottom = pb} title={commentTitle}>
+      <PannelBottom ref={pb => this._panelBottom = pb} title={`用戶評論(${commentAmount})`}>
         <CommonFlatList 
           ref={c => this._flatList = c}
           requestFunc={getCommentList}
           renderItem={(item, idx) => this._renderCommentItem(item,idx)}
           extraParams={{foodId: foodId }}
-          offset={15}
-          getCount={count => {
-            this.setState({
-              commentTitle: `用戶評論(${count})`
-            })
-          }}/>
+          offset={15}/>
       </PannelBottom>
     )
   }
