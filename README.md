@@ -1,4 +1,4 @@
-# goforeat（有得食開源app前端部分代碼-僅供參考）
+# goforeat MealTime 有得食開源app
 <p align="center">
   <img width="128" src="./display/goforeat.png">
 </p>
@@ -13,6 +13,8 @@
 app  
 ├── actions                                                     actions
 │   └── index.js                                                需要處理的actions別名
+├── animations                                                  lottie動畫庫
+├── api                                                         請求方法
 ├── asset                                                       圖標
 ├── cache                                                       cache
 │   └── appStorage.js                                           app中的緩存
@@ -21,17 +23,27 @@ app
 │   ├── BlankPage.js                                            空白頁提示
 │   ├── BottomIntroduce.js                                      底部介紹
 │   ├── CommonBottomBtn.js                                      底部確認按鈕
+│   ├── CommonComment.js                                        評論組件
 │   ├── CommonFlatList.js                                       公用flatlist
 │   ├── CommonHeader.js                                         app公用navbar
 │   ├── CommonItem.js                                           app公用列表item
 │   ├── CommonModal.js                                          app公用modal
+│   ├── CustomDrawer.js                                         抽屜組件
+│   ├── CustomizeContainer.js                                   公用的處理iPhone適配組件
+│   ├── CustomLoading.js                                        指示器組件
 │   ├── Divider.js                                              間隔組件
 │   ├── ErrorPage.js                                            錯誤頁組件
+│   ├── Guider.js                                               導航組件
 │   ├── ImageGellery.js                                         圖片瀏覽
 │   ├── ListFooter.js                                           列表上拉顯示狀態組件
 │   ├── Loading.js                                              整屏加載組件
 │   ├── LoadingModal.js                                         加載modal
+│   ├── OnlineBuyingModel.js                                    線上支付彈出組件(信用卡,apple pay)
+│   ├── PannelBottom.js                                         從底部劃出組件
 │   ├── PlacePickerModel.js                                     選擇地區modal
+│   ├── PreviewPlaceImg.js                                      預覽選擇地區
+│   ├── ShareComponent.js                                       分享朋友圈或者WhatsApp
+│   ├── ShimmerPlaceholder.js                                   加載佔位符
 │   ├── SliderEntry.js                                          首屏滾動圖片組件
 │   ├── SlideUpPanel.js                                         向上滾動組件
 │   ├── Swiper.js                                               圖片輪播組件
@@ -61,10 +73,12 @@ app
 │   ├── managecreditcard.style.js                               管理信用卡樣式
 │   ├── myorder.style.js                                        我的訂單樣式
 │   ├── paysetting.style.js                                     支付方式樣式
+│   ├── purchasemonthticket.style.js                            購買月票樣式
 │   ├── SliderEntry.style.js                                    輪播樣式
 │   └── userinfo.style.js                                       用戶詳情樣式
 ├── utils                                                       工具
 │   ├── animations.js                                           動畫庫
+│   ├── BackAndroidHandler.js                                   安卓返回處理
 │   ├── CodePushUtils.js                                        codepush熱更新
 │   ├── Colors.js                                               顏色
 │   ├── DeviceInfo.js                                           手機詳細信息
@@ -72,6 +86,7 @@ app
 │   ├── global_params.js                                        全局配置參數
 │   ├── JSONUtils.js                                            json處理工具
 │   ├── LinkingUtils.js                                         打電話工具
+│   ├── NavigationService.js                                    自定義路由跳轉
 │   ├── TextUtils.js                                            字體
 │   ├── ToastUtil.js                                            toast工具
 │   └── ViewStatus.js                                           頁面狀態
@@ -81,40 +96,43 @@ app
 │   ├── CouponView.js                                           優惠券頁面
 │   ├── CreditCardView.js                                       信用卡頁面
 │   ├── FeedbackView.js                                         反饋頁
-│   ├── FoodListView.js                                         餐單預告頁面
 │   ├── FoodDetailsView.js                                      菜品詳情頁面
+│   ├── FoodListView.js                                         餐單預告頁面
 │   ├── ManageCreditCardView.js                                 管理信用卡頁面
-│   ├── MoreDetailView.js                                       更多詳情頁面
+│   ├── MyOrderView.js                                          我的訂單頁
 │   ├── PaySettingView.js                                       支付方式頁面
+│   ├── PickPlaceView.js                                        瀏覽選擇地區頁面
+│   ├── PurchaseMonthTicket.js                                  購買月票頁面
 │   ├── StatementView.js                                        app里宣傳頁面
 │   ├── UserHelperView.js                                       用戶支援頁面
 │   └── UserInfoView.js                                         用戶詳情頁
 ├── CustomLoginView.js                                          登錄頁
-├── DashBoardView.js                                            DashboardView(用於將redux傳入screenProps)
+├── DashBoardView.js                                            DashboardView(用于获取路由ref实例)
 ├── MainView.js                                                 MainView(整個app的路由配置)
 ├── MandatoryUpdateView.js                                      熱更新下載進度頁
+├── permission.js                                               登录权限配置
 └── SettingView.js                                              系統設置頁                                          
 
 ```
 
-### v 1.2.4 概覽
+### v 1.3.7 概覽
  <p align="left">
   <img src="./display/launch_screen.png" width="200">
-  <img src="./display/v1.3.0-1.png" width="200">
-  <img src="./display/v1.3.0-2.png" width="200">
-  <img src="./display/v1.3.0-3.png" width="200">
+  <img src="./display/v1.3.7_1.png" width="200">
+  <img src="./display/v1.3.7_2.png" width="200">
+  <img src="./display/v1.3.7_3.png" width="200">
 </p>
 <p align="left">
-  <img src="./display/v1.3.0-4.png" width="200">
-  <img src="./display/v1.3.0-5.png" width="200">
-  <img src="./display/v1.3.0-6.png" width="200">
-  <!-- <img src="./display/v1244.png" width="200"> -->
-  <img src="./display/v1.3.0-7.png" width="200">
+  <img src="./display/v1.3.7_4.png" width="200">
+  <img src="./display/v1.3.7_5.jpg" width="200">
+  <img src="./display/v1.3.7_6.png" width="200">
+  <img src="./display/v1.3.7_7.png" width="200">
 </p>
 <p align="left">
-  <img src="./display/v1.3.0-8.png" width="200">
-  <img src="./display/v1.3.0-9.png" width="200">
-  <img src="./display/v1.3.0-10.png" width="200">
+  <img src="./display/v1.3.7_8.jpg" width="200">
+  <img src="./display/v1.3.7_9.jpg" width="200">
+  <img src="./display/v1.3.7_10.jpg" width="200">
+  <img src="./display/v1.3.7_11.jpg" width="200">
 </p>
 
 ### 附錄
