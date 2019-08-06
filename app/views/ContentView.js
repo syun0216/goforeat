@@ -3,7 +3,8 @@ import {
   View,
   TouchableWithoutFeedback,
   Clipboard,
-  Platform
+  Platform,
+  // WebView
 } from "react-native";
 import { WebView } from 'react-native-webview';
 import { Text } from "native-base";
@@ -263,22 +264,23 @@ class ContentView extends Component {
     );
   }
 
-  _renderArticleContentView = () => (
-    <WebView
+  _renderArticleContentView = () => {
+    return (<WebView
       ref={w => this._webView = w}
       bounces={true}
-      scalesPageToFit={true}
+      // scalesPageToFit={true}
       source={{ uri: this.props.navigation.state.params.data.url }}
       onError={() => this.setState({ isError: true })}
       onMessage={(event) => this.handleMessage(event)}
       renderLoading={() => <Loading />}
       startInLoadingState={Platform.OS == 'ios'}
+      javaScriptEnabled={true}
       style={{
         width: GLOBAL_PARAMS._winWidth,
         height: GLOBAL_PARAMS._winHeight
       }}
-    />
-  );
+    />)
+    };
 
   render() {
     let {
@@ -286,7 +288,6 @@ class ContentView extends Component {
       kind
     } = this.props.navigation.state.params;
     title = typeof title == "undefined" ? "有得食" : title;
-    console.log(this.props.navigation.state.params);
     return (
       <CustomizeContainer.SafeView mode="linear">
         <CommonHeader

@@ -13,6 +13,8 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.38.0):
     - FBSDKCoreKit
+  - JAnalyticsRN (1.4.1):
+    - React
   - JCoreRN (1.2.11):
     - React
   - JPushRN (2.2.13):
@@ -39,7 +41,7 @@ PODS:
     - React
   - react-native-splash-screen (3.0.9):
     - React
-  - react-native-webview (5.8.2):
+  - react-native-webview (5.12.1):
     - React
   - React/ART (0.59.8):
     - React/Core
@@ -80,6 +82,8 @@ PODS:
     - React
   - RNDeviceInfo (0.21.5):
     - React
+  - RNI18n (2.0.12):
+    - React
   - RNVectorIcons (6.1.0):
     - React
   - yoga (0.59.8.React)
@@ -89,6 +93,7 @@ DEPENDENCIES:
   - FBSDKCoreKit (= 4.38)
   - FBSDKLoginKit (= 4.38)
   - FBSDKShareKit (= 4.38)
+  - JAnalyticsRN (from `../node_modules/janalytics-react-native`)
   - JCoreRN (from `../node_modules/jcore-react-native`)
   - JPushRN (from `../node_modules/jpush-react-native`)
   - lottie-ios (from `../node_modules/lottie-ios`)
@@ -113,12 +118,15 @@ DEPENDENCIES:
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNI18n (from `../node_modules/react-native-i18n`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
   BVLinearGradient:
     :path: ../node_modules/react-native-linear-gradient
+  JAnalyticsRN:
+    :path: ../node_modules/janalytics-react-native
   JCoreRN:
     :path: ../node_modules/jcore-react-native
   JPushRN:
@@ -139,6 +147,8 @@ EXTERNAL SOURCES:
     :path: ../node_modules/@react-native-community/async-storage
   RNDeviceInfo:
     :path: ../node_modules/react-native-device-info
+  RNI18n:
+    :path: ../node_modules/react-native-i18n
   RNVectorIcons:
     :path: ../node_modules/react-native-vector-icons
   yoga:
@@ -150,6 +160,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 2ab7fdbf600dc6b628ba7a49aa29d357a7b4c74e
   FBSDKLoginKit: 634fa27e72e33620eb6389253337342c03d4a407
   FBSDKShareKit: 00290e3db446eed603ff80ac629dcc5e80cf8b74
+  JAnalyticsRN: e48f69811b2d89658f4b8ad9bc016ddd73b2e92a
   JCoreRN: 5dff1e0264ee9fd57a0bc9b8cb2411b3c553e241
   JPushRN: bdaefc1f0442d90ef4035f47e29e4268ee6a11f2
   lottie-ios: 9f24be3ecb13412223b6ac70d97437742b0e3de1
@@ -157,12 +168,13 @@ SPEC CHECKSUMS:
   React: 1d605e098d69bdf08960787f3446f0a9dc2e2ccf
   react-native-fbsdk: d5f98cc5abecbcc463e3c35c04743d716d002d37
   react-native-splash-screen: 8e3f866dc79bfe533baeffd0a38c33f7a7eae7f8
-  react-native-webview: a42108b827082f8f0333529b0772102031d5960d
+  react-native-webview: ad9581723f4d401c22cb3a371811d4dc9310df56
   RNCAsyncStorage: 6ae5aba8a41bfe0a9f21885ec91faf23ca3fe7ee
   RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
+  RNI18n: db9be06a40336f04d136f24dd5de3f5eb9f3207c
   RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
   yoga: 128daf064cacaede0c3bb27424b6b4c71052e6cd
 
-PODFILE CHECKSUM: c6d2df24d5dfd08f0e8c40f33225de4b56ffc8e7
+PODFILE CHECKSUM: 4367e9ff16b5ecfa787d6248ff25c28a57b70a50
 
 COCOAPODS: 1.4.0

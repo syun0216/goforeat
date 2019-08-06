@@ -180,7 +180,7 @@ export function payType(state = initialState.paytypeState, action) {
     case SET_PAY_TYPE: {
       setPayment(action.paytype).then(data => {
         !isEmpty(action.callback) && action.callback();
-      });
+      }).catch(err => {});
       return {
         ...state,
         payType: action.paytype

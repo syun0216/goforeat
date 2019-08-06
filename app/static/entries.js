@@ -1,8 +1,8 @@
 export const ENTRIES1 = [
     {
-        foodName: 'Beautiful and dramatic Antelope Canyon',
+        title: 'Beautiful and dramatic Antelope Canyon',
         subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-        foodImage: 'https://r.mealtime.hk/img/food/20190718120140944.jpg',
+        image: 'https://r.mealtime.hk/img/food/20190718120140944.jpg',
         canteenAddress:"觀塘鴻圖道34號致樂工業大廈8樓C室",
         "foodBrief": "西班牙火腿，濃郁的鹹鮮肉香，搭配黑松露，野菌味十足，值得口味獨特的你前來一試。",
         foodId: 21,
@@ -10,9 +10,9 @@ export const ENTRIES1 = [
         price:38
     },
     {
-        foodName: 'Beautiful and dramatic Antelope Canyon',
+        title: 'Beautiful and dramatic Antelope Canyon',
         subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-        foodImage: 'https://r.mealtime.hk/img/food/20190718111257127.jpg',
+        image: 'https://r.mealtime.hk/img/food/20190718111257127.jpg',
         canteenAddress:"觀塘鴻圖道34號致樂工業大廈8樓C室",
         "foodBrief": "西班牙火腿，濃郁的鹹鮮肉香，搭配黑松露，野菌味十足，值得口味獨特的你前來一試。",
         foodId: 21,
