@@ -135,6 +135,11 @@ app
   <img src="./display/v1.3.7_11.jpg" width="200">
 </p>
 
+### 更多
+- [有得食介绍](https://github.com/syun0216/goforeat/tree/master/more/有得食介绍.md)
+- [项目构建遇到的问题](https://github.com/syun0216/goforeat/tree/master/more/项目构建遇到的问题.md)
+- [update-to-0.59.8](https://github.com/syun0216/goforeat/tree/master/more/update-to-0.59.8.md)
+
 ### 附錄
 ios的打包方法:
 [https://www.jianshu.com/p/b1b77d804254](https://www.jianshu.com/p/b1b77d804254) <br>
