@@ -323,17 +323,10 @@ const CommonHOC = WarppedComponent => {
     _renderLoginModal() {
       const { i18n } = this.state;
       return (
-        <CommonModal
-          isHeaderShow={false}
-          type="login"
-          modalVisible={this.props.showLogin}
-          closeFunc={() => this.props.toggleLogin(false)}
-        >
-          <LoginView
-            {...this.props}
-            i18n={i18n}
-          />
-        </CommonModal>
+        <LoginView
+          {...this.props}
+          i18n={i18n}
+        />
       );
     }
 

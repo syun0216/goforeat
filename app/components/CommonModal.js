@@ -1,13 +1,14 @@
 import React,{PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {Modal,TouchableOpacity,StyleSheet,Platform, StatusBar} from 'react-native';
+import {Modal,TouchableOpacity,StyleSheet,Platform, Animated, Easing} from 'react-native';
 import {Content,Icon, Header, Item, Input,Button, Container} from 'native-base';
 import Text from './UnScalingText';
 import CustomizeContainer from './CustomizeContainer';
 //components
 import CommonHeader from './CommonHeader';
 //utils
-import GLOBAL_PARAMS from '../utils/global_params';
+import GLOBAL_PARAMS,{em} from '../utils/global_params';
+import Colors from '../utils/Colors';
 
 const styles = StyleSheet.create({
   closeIcon: {
@@ -16,11 +17,62 @@ const styles = StyleSheet.create({
     alignItems:'center',
     marginLeft:-5,
     justifyContent:'center'
+  },
+  toastContent: {
+    position: 'absolute',
+    zIndex: 999,
+    padding: em(15),
+    backgroundColor: "#000",
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderRadius: em(8),
+    top: '50%',
+  },
+  toastText: {
+    color: Colors.main_white,
+    fontSize: em(20),
+    fontWeight: 'bold'
   }
 });
 
 
 class CommonModal extends PureComponent {
+
+  state = {
+    isToastShow: false,
+    toastOpacity: new Animated.Value(0),
+    toastText: ''
+  }
+
+  //logic
+  showToast = (text, during=1000) => {
+    Animated.timing(this.state.toastOpacity, {
+      toValue: 0.8,
+      duration: 300,
+      easing: Easing.linear
+    }).start();
+    this.setState({
+      toastText: text
+    }, () => {
+      let _timer = setTimeout(() => {
+        Animated.timing(this.state.toastOpacity, {
+          toValue: 0,
+          duration: 300,
+          easing: Easing.linear
+        }).start();
+        clearTimeout(_timer);
+      }, during)
+    });
+  }
+
+  _renderToastUtil() {
+    return (
+      <Animated.View style={[styles.toastContent, {opacity: this.state.toastOpacity}]}>
+        <Text style={styles.toastText}>{this.state.toastText}</Text>
+      </Animated.View>
+    )
+  }
 
   _renderSearchMode() {
     const {getSearchContent, children,isSearchHeader,closeFunc} = this.props;
@@ -78,6 +130,7 @@ class CommonModal extends PureComponent {
       onRequestClose={() => {
         closeFunc && closeFunc();
       }}>
+        {this._renderToastUtil()}
         {
           type == 'default' ? this._renderDefaultMode() : this._renderSearchMode()
         }

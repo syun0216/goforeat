@@ -14,6 +14,7 @@ import { LoginButton, AccessToken } from 'react-native-fbsdk';
 //utils
 import GLOBAL_PARAMS, { em } from "./utils/global_params";
 import ToastUtil from "./utils/ToastUtil";
+import NavigationService from "./utils/NavigationService";
 //cache
 import { userStorage } from "./cache/appStorage";
 //api
@@ -28,6 +29,7 @@ import ManageCreditCardStyles from "./styles/managecreditcard.style";
 //components
 import CommonBottomBtn from "./components/CommonBottomBtn";
 import Text from "./components/UnScalingText";
+import CommonModal from "./components/CommonModal";
 
 const BUTTONS = [
   GLOBAL_PARAMS.phoneType.HK.label,
@@ -38,6 +40,7 @@ const DESTRUCTIVE_INDEX = 3;
 const CANCEL_INDEX = 2;
 
 class CustomLoginView extends Component {
+  _commonModal = null;
   _textInput = null;
   token = null;
   _timer = null;
@@ -64,7 +67,7 @@ class CustomLoginView extends Component {
   }
 
   shouldComponentUpdate = (nextProps, nextState) => {
-    return JSON.stringify(nextState) != JSON.stringify(this.state);
+    return JSON.stringify(nextState) != JSON.stringify(this.state) || this.props.showLogin != nextProps.showLogin;
   };
   
 
@@ -130,7 +133,8 @@ class CustomLoginView extends Component {
   }
 
   _toast(message) {
-    Platform.OS == 'ios' ? (alert(message)) : ToastAndroid.show(message, ToastAndroid.SHORT);
+    this._commonModal.showToast(message);
+    // Platform.OS == 'ios' ? (alert(message)) : ToastAndroid.show(message, ToastAndroid.SHORT);
   }
 
   _checkPhoneIsValid() {
@@ -165,7 +169,6 @@ class CustomLoginView extends Component {
 
   _login() {
     let { i18n } = this.props;
-    let { params } = this.props.navigation.state;
     let { selectedValue, password } = this.state;
     if(!this._checkPhoneIsValid() || !this._checkPasswordIsValid()) {
       return
@@ -187,9 +190,9 @@ class CustomLoginView extends Component {
           let _timer = setTimeout(() => {
             let {toPage} = this.props;
             if(toPage.routeName && toPage.routeName == 'UserInfo') {
-              this.props.navigation.navigate('DrawerClose');
+              NavigationService.navigate('DrawerClose');
             }else {
-              this.props.navigation.navigate(toPage);
+              NavigationService.navigate(toPage);
             }
             // console.log(1111111111111,this.props.toPage);
             clearTimeout(_timer);
@@ -211,7 +214,7 @@ class CustomLoginView extends Component {
       .catch(err => {
         console.log(err);
         this.setState({loading: false});
-        alert(err.errMsg);
+        this._commonModal.showToast(err.errMsg);
       });
   }
 
@@ -435,36 +438,44 @@ class CustomLoginView extends Component {
 
   render() {
     return (
-      <Container>
-        <Content bounces={false}>
-          <KeyboardAvoidingView
-            style={[
-              LoginStyle.LoginContainer
-            ]}
-          >
-            {this._renderTopImage()}
-            {this._renderContentView()}
-            
-            {/*this._renderBottomView()*/}
-            <ActionSheet
-              ref={a => {
-                this._actionSheet = a;
-              }}
-            />
-          </KeyboardAvoidingView>
-        </Content>
-        <Footer style={{borderTopWidth: 0,backgroundColor: '#fff'}}>
-          <TouchableOpacity
-            style={[ManageCreditCardStyles.FooterBtn, {borderTopWidth: 0,}]}
-            onPress={() => this.props.toggleLogin(false)}
-          >
-            {/* <Text style={ManageCreditCardStyles.BottomInfo}>
-              暫不登錄
-            </Text> */}
-            <Image style={{width: em(30), height: em(30)}} source={require('./asset/close3.png')}/>
-          </TouchableOpacity>
-        </Footer>
-      </Container>
+      <CommonModal
+        ref={r => this._commonModal = r}
+        isHeaderShow={false}
+        type="login"
+        modalVisible={this.props.showLogin}
+        closeFunc={() => this.props.toggleLogin(false)}  
+      >
+        <Container>
+          <Content bounces={false}>
+            <KeyboardAvoidingView
+              style={[
+                LoginStyle.LoginContainer
+              ]}
+            >
+              {this._renderTopImage()}
+              {this._renderContentView()}
+              
+              {/*this._renderBottomView()*/}
+              <ActionSheet
+                ref={a => {
+                  this._actionSheet = a;
+                }}
+              />
+            </KeyboardAvoidingView>
+          </Content>
+          <Footer style={{borderTopWidth: 0,backgroundColor: '#fff'}}>
+            <TouchableOpacity
+              style={[ManageCreditCardStyles.FooterBtn, {borderTopWidth: 0,}]}
+              onPress={() => this.props.toggleLogin(false)}
+            >
+              {/* <Text style={ManageCreditCardStyles.BottomInfo}>
+                暫不登錄
+              </Text> */}
+              <Image style={{width: em(30), height: em(30)}} source={require('./asset/close3.png')}/>
+            </TouchableOpacity>
+          </Footer>
+        </Container>
+      </CommonModal>
     );
   }
 }
