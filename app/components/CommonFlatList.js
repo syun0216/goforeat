@@ -15,10 +15,10 @@ import {netWorkFailCode} from '../api/config';
 //utils
 import GLOBAL_PARAMS, { isEmpty, em } from "../utils/global_params";
 //components
-import ListFooter from "../components/ListFooter";
-import ErrorPage from "../components/ErrorPage";
-import BlankPage from "../components/BlankPage";
-import Divider from "../components/Divider";
+import ListFooter from "./ListFooter";
+import ErrorPage from "./ErrorPage";
+import BlankPage from "./BlankPage";
+import Divider from "./Divider";
 //language
 import I18n from "../language/i18n";
 

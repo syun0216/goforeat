@@ -10,7 +10,8 @@ import CustomizeContainer from "../components/CustomizeContainer";
 import i18n from "../language/i18n";
 //utils
 import ToastUtils from "../utils/ToastUtil";
-import GLOBAL_PARAMS, { em, debounce } from "../utils/global_params";
+import GLOBAL_PARAMS, { em } from "../utils/global_params";
+import NavigationService from "../utils/NavigationService";
 //api
 import { feedback } from "../api/request";
 
@@ -35,6 +36,7 @@ const FeedbackView = props => {
       .then(data => {
         _hasSubmit = true;
         ToastUtils.showWithMessage(i18n[language].common_tips.send_success);
+        NavigationService.back();
       })
       .catch(err => {
         ToastUtils.showWithMessage(i18n[language].common_tips.network_err);

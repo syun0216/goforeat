@@ -85,7 +85,7 @@ const ListFooter = ({ loadingStatus, errorToDo, language }) => {
 };
 
 ListFooter.defaultProps = {
-  loadingStatus: 0
+  loadingStatus: GLOBAL_PARAMS.httpStatus.LOADING
 };
 ListFooter.propTypes = {
   loadingStatus: PropTypes.number,
