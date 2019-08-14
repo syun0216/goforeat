@@ -21,7 +21,7 @@ const CommonBottomBtn = props => {
   return (
     <View style={[CommonStyles.common_btn_container,props.containerStyle]}>
       <TouchableOpacity onPress={props.clickFunc} disabled={props.loading}>
-        <LinearGradient colors={['#FF7A00','#FE560A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={[CommonStyles.btn,props.style]}>
+        <LinearGradient colors={props.colors || ['#FF7A00','#FE560A']} start={{x:0.0, y:0.0}} end={{x:1.0,y: 0.0}} style={[CommonStyles.btn,props.style,{shadowColor: props.colors ? props.colors[0] : '#FA9285'}]}>
           {props.loading ? (<ActivityIndicator color="#fff" size="small"/>) : (<Text style={{color:'#fff',fontSize:em(17),backgroundColor:'transparent',fontWeight:"700",}}>{props.children}</Text>)}
         </LinearGradient>
       </TouchableOpacity>
@@ -32,7 +32,8 @@ const CommonBottomBtn = props => {
 CommonBottomBtn.defaultProps = {
   clickFunc: () => {},
   style: {},
-  containerStyle: {}
+  containerStyle: {},
+  colors: null
 }
 
 CommonBottomBtn.propsType = {
