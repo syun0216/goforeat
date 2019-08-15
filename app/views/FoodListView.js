@@ -583,6 +583,10 @@ class FoodListView extends Component {
         refreshControlTitleColor="#999999"
         isIndicatorShow={false}
         blankBtnMessage="所選配送點暫未有餐食供應,請選擇其他離你最近的配送點"
+        errorCallback={() => {
+          this._getSwiperAdList();
+          this._getActivityInfo();
+        }}
         getRawData={data => {
           this.setState({ star: data.star});
         }}
@@ -594,7 +598,6 @@ class FoodListView extends Component {
   }
 
   render() {
-    console.log(9999999,'render');
     const {
       activityInfo
     } = this.props;

@@ -175,6 +175,7 @@ class CommonFlatList extends Component {
     // this.props.showLoading&& this.props.showLoading();
     this.init();
     this._requestFirstPage();
+    this.props.errorCallback();
   }
 
   _onErrorToRequestNextPage() {
@@ -338,7 +339,8 @@ CommonFlatList.propsType = {
   getCount: PropTypes.func,
   getRawData: PropTypes.func, // 获取最原始的列表数据
   getScrollTop: PropTypes.func, //获取滚动高度
-  style: PropTypes.object
+  style: PropTypes.object,
+  errorCallback: PropTypes.func
 };
 
 CommonFlatList.defaultProps = {
@@ -349,8 +351,9 @@ CommonFlatList.defaultProps = {
   extraParams: {},
   isBlankInfoBtnShow: false,
   blankBtnFunc: () => {},
+  errorCallback: () => {},
   blankBtnMessage: "馬上有得食",
-  style: {}
+  style: {},
 };
 
 const FlatListState = state => ({

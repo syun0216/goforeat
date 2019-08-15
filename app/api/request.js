@@ -759,7 +759,7 @@ export function getCommentList({foodId, limit, offset}) {
 export function getVersionFromServer() {
   return request({
     url: '/info/getVersionInfo',
-    loading: true,
+    loading: false,
     toast: false,
     method: 'post'
   })
