@@ -18,7 +18,7 @@ import {getVersion} from "../utils/DeviceInfo";
 import CommonComment from "../components/CommonComment";
 import LoadingModal from "../components/LoadingModal";
 import Loading from "../components/Loading";
-import CommonModal from "../components/CommonModal";
+import VersionController from "../components/VersionController";
 import LoginView from "../CustomLoginView";
 //language
 import I18n from "../language/i18n";
@@ -57,8 +57,10 @@ const CommonHOC = WarppedComponent => {
       this.showUpdateAlert = false;
       this.showCodePushAlert = false;
       this.nextState = null;
+      this.versionCtrl = null;
       this.state = {
         i18n: I18n[props.language],
+        remotePackage: null
       };
     }
 
@@ -252,23 +254,24 @@ const CommonHOC = WarppedComponent => {
       if (remotePackage.isMandatory) {
         if(this.showCodePushAlert) return;
         this.showCodePushAlert = true;
-        Alert.alert(
-          null,
-          `${i18n.hot_reload_tips.update_details}\n ${
-            remotePackage.description
-          }`,
-          [
-            {
-              text: i18n.hot_reload_tips.understand,
-              onPress: () => {
-                this.showCodePushAlert = false;
-                this._downloadMandatoryNewVersionWithRemotePackage(
-                  remotePackage
-                );
-              }
-            }
-          ]
-        );
+        this._downloadMandatoryNewVersionWithRemotePackage(remotePackage);
+        // Alert.alert(
+        //   null,
+        //   `${i18n.hot_reload_tips.update_details}\n ${
+        //     remotePackage.description
+        //   }`,
+        //   [
+        //     {
+        //       text: i18n.hot_reload_tips.understand,
+        //       onPress: () => {
+        //         this.showCodePushAlert = false;
+        //         this._downloadMandatoryNewVersionWithRemotePackage(
+        //           remotePackage
+        //         );
+        //       }
+        //     }
+        //   ]
+        // );
         return;
       } else {
         Alert.alert(null, i18n.hot_reload_tips.has_new_function, [
@@ -314,9 +317,14 @@ const CommonHOC = WarppedComponent => {
     };
 
     _downloadMandatoryNewVersionWithRemotePackage = remotePackage => {
-      this.props.navigation.navigate("Mandatory", {
-        remotePackage: remotePackage
+      this.setState({
+        remotePackage
+      }, () => {
+        this.versionCtrl.setModalVisible(true);
       });
+      // this.props.navigation.navigate("Mandatory", {
+      //   remotePackage: remotePackage
+      // });
     };
     // ---------------------------end
 
@@ -331,7 +339,7 @@ const CommonHOC = WarppedComponent => {
     }
 
     render() {
-      const { i18n } = this.state;
+      const { i18n, remotePackage } = this.state;
       const { isLoading, isLoadingModal } = this.props;
       return (
         <Container>
@@ -339,6 +347,7 @@ const CommonHOC = WarppedComponent => {
           {isLoading && <Loading />}
           {this._renderLoginModal()}
           <CommonComment />
+          <VersionController ref={r => this.versionCtrl = r} remotePackage={remotePackage}/>
           <WarppedComponent
             ref={w => (this.WarppedComponent = w)}
             saveCache={this._saveCache.bind(this)}

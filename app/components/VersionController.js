@@ -6,8 +6,7 @@ import {
   ScrollView,
   ProgressBarAndroid,
   ProgressViewIOS,
-  Platform,
-  ActivityIndicator
+  Platform
 } from "react-native";
 import PropTypes from "prop-types";
 import Modal from "react-native-modal";
@@ -21,6 +20,7 @@ import GLOBAL_PARAMS, { em } from "../utils/global_params";
 import * as ViewStatus from "../utils/ViewStatus";
 import ToastUtils from "../utils/ToastUtil";
 import Colors from "../utils/Colors";
+import { getVersion } from "../utils/DeviceInfo";
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -114,25 +114,6 @@ export default class VersionController extends Component {
     viewStatus:  ViewStatus.VIEW_STATUS_INITIAL
   };
 
-  test() {
-    this.setState({
-      progress: 0
-    })
-    let _timer = setInterval(() => {
-      console.log('123 :', 123);
-      this.setState({
-        progress: this.state.progress + 0.1
-      })
-      if(this.state.progress >= 1) {
-        this.setState({
-          viewStatus: ViewStatus.VIEW_STATUS_REQUEST_NETWORK_ERROR
-        })
-        clearInterval(_timer);
-      }
-    },300)
-  }
-  
-
   //logic
   setModalVisible = status => {
     this.setState({ isVisible: status });
@@ -196,13 +177,19 @@ export default class VersionController extends Component {
 
   _renderUpdateStatusView() {
     const { remotePackage } = this.props;
+    let _descrition = ['提高了應用程式的穩定性'];
+    if(remotePackage && remotePackage.description) {
+      _descrition = remotePackage.description.split(",");
+    }
     switch(this.state.viewStatus) {
       case ViewStatus.VIEW_STATUS_INITIAL:{
         return (
           <View>
-            <Text style={styles.bottomText}>- 優化了性能</Text>
-            <Text style={styles.bottomText}>- 界面升級</Text>
-            <Text style={styles.bottomText}>- 修復了若干bug</Text>
+            {
+              _descrition.map(item => (
+                <Text style={styles.bottomText}>{item}</Text>
+              ))
+            }
           </View>
         )
       };
@@ -233,7 +220,7 @@ export default class VersionController extends Component {
           style={styles.topContainer}
         >
           <Text style={styles.topText1}>發現新版本更新</Text>
-          <Text style={styles.topText2}>v1.3.8</Text>
+          <Text style={styles.topText2}>V{getVersion()}</Text>
         </LinearGradient>
           <Image
             style={styles.mediumImg}
