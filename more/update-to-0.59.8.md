@@ -6,7 +6,7 @@ google应用市场在8月后不再支持非64位应用
 
 ### 升级步骤
 
-1. 查看项目，[rn-diff-purge]('https://github.com/react-native-community/rn-diff-purge');或者直接点击 [此处]('https://react-native-community.github.io/upgrade-helper/')
+1. 查看项目，[rn-diff-purge](https://github.com/react-native-community/rn-diff-purge);或者直接点击 [此处](https://react-native-community.github.io/upgrade-helper/)
 2. 输入自己当前的rn版本和将要升级的版本，登出每个文件的diff
 3. 将自己的本地文件替换成网页上新增的内容，注意ios那些依赖文件可以不加，可以通过手动在build setting里link binary或者使用pod install
 4. 若升级代码后，在android studio升级会提示更新到gradle最新版，**请不要点😂**
