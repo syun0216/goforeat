@@ -138,6 +138,7 @@ app
 ### 更多
 - [有得食介绍](https://github.com/syun0216/goforeat/tree/master/more/有得食介绍.md)
 - [项目构建遇到的问题](https://github.com/syun0216/goforeat/tree/master/more/项目构建遇到的问题.md)
+- [项目小技巧](https://github.com/syun0216/goforeat/tree/master/more/项目小技巧.md)
 - [update-to-0.59.8](https://github.com/syun0216/goforeat/tree/master/more/update-to-0.59.8.md)
 - [codepush 热更新gif效果](https://github.com/syun0216/goforeat/tree/master/display/codepush.gif)
 
