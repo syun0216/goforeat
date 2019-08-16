@@ -118,19 +118,19 @@ app
 
 ## v 1.3.7 概覽
 
- <p align="center">
+ <p align="left">
   <img src="./display/launch_screen.png" width="200">
   <img src="./display/v1.3.7_1.png" width="200">
   <img src="./display/v1.3.7_2.png" width="200">
   <img src="./display/v1.3.7_3.png" width="200">
 </p>
-<p align="center">
+<p align="left">
   <img src="./display/v1.3.7_4.png" width="200">
   <img src="./display/v1.3.7_5.jpg" width="200">
   <img src="./display/v1.3.7_6.png" width="200">
   <img src="./display/v1.3.7_7.png" width="200">
 </p>
-<p align="center">
+<p align="left">
   <img src="./display/v1.3.7_8.jpg" width="200">
   <img src="./display/v1.3.7_9.jpg" width="200">
   <img src="./display/v1.3.7_10.jpg" width="200">
