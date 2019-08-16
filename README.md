@@ -1,12 +1,10 @@
-<p align="left">
-  <img width="128" src="./display/goforeat.png">
+<p align="center">
+  <img width="100" src="./display/goforeat.png">
 </p>
 
 ## goforeat MealTime 有得食開源app
 
-### android平台 [android 下載地址](https://play.google.com/store/apps/details?id=com.goforeat_app)
-
-### ios平台 [ios 下載地址](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
+### android平台 [android 下載地址](https://play.google.com/store/apps/details?id=com.goforeat_app)、ios平台 [ios 下載地址](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
 
 ### 文檔結構
 <details>
@@ -154,13 +152,13 @@ android的打包方法:
 
 ### 参考
 
-react-native官网:[https://facebook.github.io/react-native/](https://facebook.github.io/react-native/)  
-react-native中文网:[https://reactnative.cn/](https://reactnative.cn/)
-react-navigation:[https://reactnavigation.org/en/](https://reactnavigation.org/en/)
-react-native 动画教程:[https://www.tuicool.com/articles/BJ7JbaY](https://www.tuicool.com/articles/BJ7JbaY)
-native-base:[https://nativebase.io](https://nativebase.io)
-teaset:[https://github.com/rilyu/teaset](https://github.com/rilyu/teaset)
-upgrade-rn-app:[https://react-native-community.github.io/upgrade-helper/](https://react-native-community.github.io/upgrade-helper/)
-safeAreaView详解:[https://blog.csdn.net/xiangzhihong8/article/details/80692792](https://blog.csdn.net/xiangzhihong8/article/details/80692792)
-code-push 热更新教程:[https://bbs.reactnative.cn/topic/725](https://bbs.reactnative.cn/topic/725/code-push-%E7%83%AD%E6%9B%B4%E6%96%B0%E4%BD%BF%E7%94%A8%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%E5%92%8C%E6%95%99%E7%A8%8B)
-项目参考:[https://juejin.im/post/58f37cb361ff4b0058f9824a](https://juejin.im/post/58f37cb361ff4b0058f9824a)
+react-native官网:[https://facebook.github.io/react-native/](https://facebook.github.io/react-native/)    
+react-native中文网:[https://reactnative.cn/](https://reactnative.cn/)  
+react-navigation:[https://reactnavigation.org/en/](https://reactnavigation.org/en/)  
+react-native 动画教程:[https://www.tuicool.com/articles/BJ7JbaY](https://www.tuicool.com/articles/BJ7JbaY)  
+native-base:[https://nativebase.io](https://nativebase.io)  
+teaset:[https://github.com/rilyu/teaset](https://github.com/rilyu/teaset)  
+upgrade-rn-app:[https://react-native-community.github.io/upgrade-helper/](https://react-native-community.github.io/upgrade-helper/)  
+safeAreaView详解:[https://blog.csdn.net/xiangzhihong8/article/details/80692792](https://blog.csdn.net/xiangzhihong8/article/details/80692792)  
+code-push 热更新教程:[https://bbs.reactnative.cn/topic/725](https://bbs.reactnative.cn/topic/725/code-push-%E7%83%AD%E6%9B%B4%E6%96%B0%E4%BD%BF%E7%94%A8%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%E5%92%8C%E6%95%99%E7%A8%8B)  
+项目参考:[https://juejin.im/post/58f37cb361ff4b0058f9824a](https://juejin.im/post/58f37cb361ff4b0058f9824a)  
