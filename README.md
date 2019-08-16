@@ -1,15 +1,17 @@
-# goforeat MealTime 有得食開源app
-<p align="center">
+<p align="left">
   <img width="128" src="./display/goforeat.png">
 </p>
 
+## goforeat MealTime 有得食開源app
 
 ### android平台 [android 下載地址](https://play.google.com/store/apps/details?id=com.goforeat_app)
 
 ### ios平台 [ios 下載地址](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
 
 ### 文檔結構
-```
+<details>
+<summary>点击展开查看</summary>
+<pre><code>
 app  
 ├── actions                                                     actions
 │   └── index.js                                                需要處理的actions別名
@@ -63,7 +65,7 @@ app
 │   └── index.js                                                store的配置
 ├── styles                                                      app中的樣式
 │   ├── common.style.js                                         公用樣式
-│   ├── confirmorder.style.js                                    確認訂單樣式
+│   ├── confirmorder.style.js                                   確認訂單樣式
 │   ├── content.style.js                                        內容頁樣式
 │   ├── coupon.style.js                                         優惠券樣式
 │   ├── creditcard.style.js                                     信用卡樣式
@@ -92,7 +94,7 @@ app
 │   ├── ToastUtil.js                                            toast工具
 │   └── ViewStatus.js                                           頁面狀態
 ├── views                                                       頁面
-│   ├── ConfirmOrderView.js                                      確認訂單頁面
+│   ├── ConfirmOrderView.js                                     確認訂單頁面
 │   ├── ContentView.js                                          內容頁
 │   ├── CouponView.js                                           優惠券頁面
 │   ├── CreditCardView.js                                       信用卡頁面
@@ -112,9 +114,9 @@ app
 ├── MainView.js                                                 MainView(整個app的路由配置)
 ├── MandatoryUpdateView.js                                      熱更新下載進度頁
 ├── permission.js                                               登录权限配置
-└── SettingView.js                                              系統設置頁                                          
-
-```
+└── SettingView.js                                              系統設置頁
+</code></pre>
+</details>
 
 ### v 1.3.7 概覽
  <p align="left">
