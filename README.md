@@ -2,11 +2,15 @@
   <img width="100" src="./display/goforeat.png">
 </p>
 
-## goforeat MealTime 有得食開源app
+<h3 align="center">goforeat mealtime 有得食开源app</h3>
 
-[<img src="./display/android.png"/>](https://play.google.com/store/apps/details?id=com.goforeat_app)  [<img src="./display/apple.png"/>](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=com.goforeat_app"><img src="./display/android.png"/></a>
+  <a href="https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8"><img src="./display/apple.png"/></a>
+</p> 
 
-### 文檔結構
+## 文檔結構
+
 <details>
 <summary>点击展开查看</summary>
 <pre><code>
@@ -116,7 +120,8 @@ app
 </code></pre>
 </details>
 
-### v 1.3.7 概覽
+## v 1.3.7 概覽
+
  <p align="left">
   <img src="./display/launch_screen.png" width="200">
   <img src="./display/v1.3.7_1.png" width="200">
@@ -136,21 +141,23 @@ app
   <img src="./display/v1.3.7_11.jpg" width="200">
 </p>
 
-### 更多
+## 更多
+
 - [有得食介绍](https://github.com/syun0216/goforeat/tree/master/more/有得食介绍.md)
 - [项目构建遇到的问题](https://github.com/syun0216/goforeat/tree/master/more/项目构建遇到的问题.md)
 - [项目小技巧](https://github.com/syun0216/goforeat/tree/master/more/项目小技巧.md)
 - [update-to-0.59.8](https://github.com/syun0216/goforeat/tree/master/more/update-to-0.59.8.md)
 - [codepush 热更新gif效果](https://github.com/syun0216/goforeat/tree/master/display/codepush.gif)
 
-### 附錄
+## 附錄
+
 ios的打包方法:
 [https://www.jianshu.com/p/b1b77d804254](https://www.jianshu.com/p/b1b77d804254) <br>
 android的打包方法:
 [https://www.jianshu.com/p/61e27d9b02f2](https://www.jianshu.com/p/61e27d9b02f2)
 
 
-### 参考
+## 参考
 
 react-native官网:[https://facebook.github.io/react-native/](https://facebook.github.io/react-native/)    
 react-native中文网:[https://reactnative.cn/](https://reactnative.cn/)  
