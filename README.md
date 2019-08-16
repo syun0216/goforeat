@@ -4,7 +4,7 @@
 
 ## goforeat MealTime 有得食開源app
 
-### android平台 [android 下載地址](https://play.google.com/store/apps/details?id=com.goforeat_app)、ios平台 [ios 下載地址](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
+[<img src="./display/android.png"/>](https://play.google.com/store/apps/details?id=com.goforeat_app)  [<img src="./display/apple.png"/>](https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8)
 
 ### 文檔結構
 <details>
