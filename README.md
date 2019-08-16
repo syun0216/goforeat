@@ -49,6 +49,7 @@ app
 │   ├── Swiper.js                                               圖片輪播組件
 │   ├── Tabbar.js                                               自定義tabbar
 │   ├── UnScalingText.js                                        不允許系統放大字體Text
+│   ├── VersionController.js                                    codepush更新控制
 │   └── WarningTips.js                                          首頁公告組件
 ├── hoc                                                         高階組件
 │   └── CommonHOC.js                                            公共高階組件
