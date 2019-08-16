@@ -4,6 +4,10 @@
 
 <h3 align="center">goforeat mealtime 有得食开源app</h3>
 
+<p align="center">	
+  <a href="https://play.google.com/store/apps/details?id=com.goforeat_app"><img src="./display/android.png"/></a>	
+  <a href="https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8"><img src="./display/apple.png"/></a>	
+</p> 
 
 ## 文檔結構
 
