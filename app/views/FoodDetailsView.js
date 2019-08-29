@@ -774,7 +774,7 @@ class FoodDetailsView extends Component {
             //分享優惠券信息
             url: `https://m.goforeat.hk/#/foodDetails/${this.dateFoodId}`,
             message: foodName,
-            title: "新人註冊領HKD35優惠券",
+            title: "新人註冊領HKD30優惠券",
             social: "whatsapp"
           };
           this.timer = setTimeout(() => {

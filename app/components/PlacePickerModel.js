@@ -220,10 +220,14 @@ class PlacePickerModel extends Component {
         // 用户允许授权访问gps
         callbackWhenGranted && callbackWhenGranted();
       } else {
-        this.getPlace();
+        this._getSelectPlace(
+          place => this.getPlace(null, place)
+        );
       }
     } catch (err) {
-      this.getPlace();
+      this._getSelectPlace(
+        place => this.getPlace(null, place)
+      );
     }
   }
 
@@ -246,7 +250,6 @@ class PlacePickerModel extends Component {
                     // console.log(place)
                     if (error === null) {
                       if (place !== null) {
-                        console.log(place);
                         this.setState({
                           selected: place.name
                         });
@@ -274,7 +277,9 @@ class PlacePickerModel extends Component {
         });
       },
       err => {
-        this.getPlace();
+        this._getSelectPlace(
+          place => this.getPlace(null, place)
+        );
       },
       {
         timeout: 3000
@@ -353,13 +358,13 @@ class PlacePickerModel extends Component {
           parentList: _parentList,
           parentSelected: {name: '全部', id: null}
         });
-        console.log('data :', _parentList);
+        // console.log('data :', _parentList);
         data = data.childList;
         let _data = {
           ...defaultData,
           id: data[0].id
         }; // 如果沒有緩存信息就進行提示
-        if (typeof storage_data != "undefined") {
+        if (!isNil(storage_data)) {
           // 如果有缓存数据
           if (storage_data && this._checkCacheInList(storage_data, data)) {
             //如果缓存数据在列表中 未被服务器删除
