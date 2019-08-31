@@ -802,7 +802,7 @@ class FoodDetailsView extends Component {
           WeChat.isWXAppInstalled().then(isInstalled => {
             if (isInstalled) {
               let _obj = {
-                title: "新人註冊領HKD35優惠券",
+                title: "新人註冊領HKD30優惠券",
                 description: foodName,
                 thumbImage: extralImage[0],
                 type: "news",

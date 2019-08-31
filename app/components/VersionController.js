@@ -179,7 +179,8 @@ export default class VersionController extends Component {
     const { remotePackage } = this.props;
     let _descrition = ['提高了應用程式的穩定性'];
     if(remotePackage && remotePackage.description) {
-      _descrition = remotePackage.description.split(",");
+      let _formatDes = remotePackage.description.replace(/[；、;，\/\\]/g, ",");
+      _descrition = _formatDes.split(",");
     }
     switch(this.state.viewStatus) {
       case ViewStatus.VIEW_STATUS_INITIAL:{
