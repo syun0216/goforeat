@@ -118,11 +118,7 @@ export default class PurchaseMonthTicketView extends Component {
         let _date = new Date(data.endTime);
         this.setState({
           monthTicketQuantity: data.amount,
-          monthTicketEndTime: [
-            _date.getDate() + 1 < 10 ? `0${_date.getDate() + 1}` : _date.getDate(),
-            _date.getMonth() + 1 < 10 ? `0${_date.getMonth() + 1}` : _date.getMonth(),
-            _date.getFullYear(),
-          ].join("/")
+          monthTicketEndTime: data.endTimeNew || '--'
         });
       }
     })
