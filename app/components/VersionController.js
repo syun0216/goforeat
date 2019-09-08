@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import Modal from "react-native-modal";
 import LinearGradient from "react-native-linear-gradient";
 import CodePush from "react-native-code-push";
+import {isNil} from 'lodash';
 //component
 import Text from "./UnScalingText";
 import CommonBottomBtn from "./CommonBottomBtn";
@@ -121,8 +122,10 @@ export default class VersionController extends Component {
 
   _startDownload() {
     const { remotePackage } = this.props;
-    if(!remotePackage) {
+    if(isNil(remotePackage)) {
       ToastUtils.showWithMessage("找不到安裝包...");
+      this.setModalVisible(false);
+      return;
     }
     this.setState({
       progress: 0.0,
@@ -133,6 +136,7 @@ export default class VersionController extends Component {
     .then(localPackage => {
       if(localPackage) {
         localPackage.install(CodePush.InstallMode.IMMEDIATE)
+        this.setModalVisible(false);
       }else {
         this.setState({
           viewStatus: ViewStatus.VIEW_STATUS_REQUEST_NETWORK_ERROR
@@ -156,7 +160,7 @@ export default class VersionController extends Component {
       <View style={{justifyContent: 'center',paddingTop: em(20)}}>
         {Platform.OS == "ios" ? (
           <ProgressViewIOS
-            progressTintColor="#2399fd"
+            progressTintColor="#FF312F"
             style={{ width: GLOBAL_PARAMS._winWidth*0.75,transform: [{ scaleX: 1.0 }, { scaleY: 4 }], }}
             progress={this.state.progress}
           />
@@ -164,7 +168,7 @@ export default class VersionController extends Component {
         {Platform.OS == "android" ? (
           <ProgressBarAndroid
             style={{ width: GLOBAL_PARAMS._winWidth*0.75,transform: [{ scaleX: 1.0 }, { scaleY: 4 }], }}
-            color="#2399fd"
+            color="#FF312F"
             styleAttr="Horizontal"
             indeterminate={false}
             progress={this.state.progress}
@@ -187,8 +191,8 @@ export default class VersionController extends Component {
         return (
           <View>
             {
-              _descrition.map(item => (
-                <Text style={styles.bottomText}>{item}</Text>
+              _descrition.map((item, idx) => (
+                <Text key={idx} style={styles.bottomText}>{item}</Text>
               ))
             }
           </View>
@@ -215,7 +219,7 @@ export default class VersionController extends Component {
           resizeMode="contain"
         />
         <LinearGradient
-          colors={["#2399fd", "#4567ff"]}
+          colors={["#FF881D", "#FF312F"]}
           start={{ x: 0.0, y: 0.0 }}
           end={{ x: 1.0, y: 0.0 }}
           style={styles.topContainer}
@@ -231,7 +235,7 @@ export default class VersionController extends Component {
         <ScrollView style={styles.bottomContainer}>
           {this._renderUpdateStatusView()}
         </ScrollView>
-        <CommonBottomBtn loading={viewStatus == ViewStatus.VIEW_STATUS_DATA} containerStyle={{position: 'absolute',left: 0,right: 0, bottom: -20,backgroundColor: '#fff',paddingTop: em(30),paddingBottom: em(30),borderBottomLeftRadius: em(8),borderBottomRightRadius: em(8),}} style={{height: em(50),borderRadius: em(25), width: GLOBAL_PARAMS._winWidth*0.75,alignSelf: 'center',overflow: 'hidden'}} colors={['#68B0F7', '#716DFF']} clickFunc={() => this._startDownload()}>
+        <CommonBottomBtn loading={viewStatus == ViewStatus.VIEW_STATUS_DATA} containerStyle={{position: 'absolute',left: 0,right: 0, bottom: -20,backgroundColor: '#fff',paddingTop: em(30),paddingBottom: em(30),borderBottomLeftRadius: em(8),borderBottomRightRadius: em(8),}} style={{height: em(50),borderRadius: em(25), width: GLOBAL_PARAMS._winWidth*0.75,alignSelf: 'center',overflow: 'hidden'}} colors={['#FF881D', '#FF312F']} clickFunc={() => this._startDownload()}>
           <Text style={styles.btnText}>
             {
               viewStatus == ViewStatus.VIEW_STATUS_INITIAL ? '立即升級' : viewStatus == ViewStatus.VIEW_STATUS_REQUEST_NETWORK_ERROR ? '點擊重試': null
