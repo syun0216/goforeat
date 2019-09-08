@@ -192,7 +192,7 @@ class CustomLoginView extends Component {
             if(toPage.routeName && toPage.routeName == 'UserInfo') {
               NavigationService.navigate('DrawerClose');
             }else {
-              NavigationService.navigate(toPage);
+              NavigationService.navigateWithWholeRouteParmas(toPage);
             }
             // console.log(1111111111111,this.props.toPage);
             clearTimeout(_timer);
@@ -444,6 +444,7 @@ class CustomLoginView extends Component {
         type="login"
         modalVisible={this.props.showLogin}
         closeFunc={() => this.props.toggleLogin(false)}  
+        animationType={Platform.OS == 'ios' ? 'slide' : 'fade'}
       >
         <Container>
           <Content bounces={false}>
@@ -471,7 +472,7 @@ class CustomLoginView extends Component {
               {/* <Text style={ManageCreditCardStyles.BottomInfo}>
                 暫不登錄
               </Text> */}
-              <Image style={{width: em(30), height: em(30)}} source={require('./asset/close3.png')}/>
+              <Image style={{width: em(30), height: em(30)}} source={require('./asset/close3.png')} resizeMode="contain"/>
             </TouchableOpacity>
           </Footer>
         </Container>

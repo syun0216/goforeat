@@ -15,6 +15,12 @@ function navigate(routeName, params) {
   );
 }
 
+function navigateWithWholeRouteParmas(params) {
+  _navigator.dispatch(
+    NavigationActions.navigate(params)
+  );
+}
+
 function back() {
   _navigator.dispatch(
     NavigationActions.back()
@@ -26,5 +32,6 @@ function back() {
 export default {
   back,
   navigate,
+  navigateWithWholeRouteParmas,
   setTopLevelNavigator,
 };

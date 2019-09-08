@@ -119,12 +119,12 @@ class CommonModal extends PureComponent {
   }
 
   render() {
-    const { modalVisible, closeFunc, type } = this.props;
+    const { modalVisible, closeFunc, type, animationType } = this.props;
     return (
       <Modal 
       transparent
       style={{ zIndex: 1 }}
-      animationType={"slide"}
+      animationType={animationType}
       transparent={false}
       visible={modalVisible}
       onRequestClose={() => {
@@ -147,6 +147,7 @@ CommonModal.propsType = {
   isHeaderShow: PropTypes.bool,
   isSearchHeader: PropTypes.bool,
   type: PropTypes.string,
+  animationType: PropTypes.string
 }
 
 CommonModal.defaultProps = {
@@ -155,7 +156,8 @@ CommonModal.defaultProps = {
   isSearchHeader: false,
   type: 'default',
   CustomHeader: null,
-  isCustomHeader: false
+  isCustomHeader: false,
+  animationType: 'slide'
 }
 
 export default CommonModal;
