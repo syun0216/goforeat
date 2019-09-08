@@ -206,7 +206,13 @@ class PlacePickerModel extends Component {
   _getSelectPlace(callbackWithSelectedPlace) {
     placeStorage.getData((error, place) => {
       if (error === null) {
-        callbackWithSelectedPlace && callbackWithSelectedPlace(place);
+        if(!isNil(place)) {
+          callbackWithSelectedPlace && callbackWithSelectedPlace(place);
+        }else {
+          callbackWithSelectedPlace && callbackWithSelectedPlace(null);
+        }
+      }else {
+        callbackWithSelectedPlace && callbackWithSelectedPlace(null)
       }
     });
   }
@@ -385,8 +391,8 @@ class PlacePickerModel extends Component {
         this.props.getSeletedValue(_data);
         this.props.stockPlaceList(data);
         placeListStorage.setData({ data: data, cacheTime });
-        // this.props.stockPlace(_data);
-        // placeStorage.setData(_data);
+        this.props.stockPlace(_data);
+        placeStorage.setData(_data);
       },
       () => {
         this.props.getSeletedValue(null);

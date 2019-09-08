@@ -125,7 +125,8 @@ class ConfirmOrderView extends Component {
 
   _createOrder() {
     // console.log("addStatus", this.addStatus);
-    createNewOrder(this.dateFoodId, this.amount, this.props.currentPlace.id, this.addStatus).then(
+    let _placeId = this.props.currentPlace ? this.props.currentPlace.id || null : null
+    createNewOrder(this.dateFoodId, this.amount, _placeId, this.addStatus).then(
       data => {
         if (data) {
           this.setState({
