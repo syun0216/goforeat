@@ -135,8 +135,17 @@ export default class VersionController extends Component {
     remotePackage.download(progress => this._downloadProgressHasChange(progress))
     .then(localPackage => {
       if(localPackage) {
-        localPackage.install(CodePush.InstallMode.IMMEDIATE)
-        this.setModalVisible(false);
+        if(Platform.OS == 'ios') {
+          localPackage.install(CodePush.InstallMode.IMMEDIATE)
+        }else if(Platform.OS == 'android') {
+          this.setState({
+            isVisible: false //隐藏更新框再安装更新包 否则会导致卡死(安卓)
+          },() => {
+            setTimeout(() => {
+              localPackage.install(CodePush.InstallMode.IMMEDIATE)
+            }, 600)
+          })
+        }        
       }else {
         this.setState({
           viewStatus: ViewStatus.VIEW_STATUS_REQUEST_NETWORK_ERROR
@@ -255,7 +264,7 @@ export default class VersionController extends Component {
         animationIn="zoomInDown"
         animationOut="zoomOutUp"
         animationInTiming={600}
-        animationOutTiming={600}
+        animationOutTiming={200}
         backdropTransitionInTiming={600}
         backdropTransitionOutTiming={600}
       >
