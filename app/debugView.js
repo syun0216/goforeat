@@ -23,7 +23,7 @@ import {debugStorage} from "./cache/appStorage";
 const _checked = "./asset/checked.png";
 const _unchecked = "./asset/unchecked.png";
 const server = [
-  {id: 1,label: '正式服', value: "https://api.goforeat.hk"},
+  {id: 1,label: '正式服', value: "http://118.25.159.37:15106"},
   {id: 2,label: '测试服', value: "http://118.25.159.37:15106"},
   {id: 3, label: '自定義服務器地址', value: ''}
 ];

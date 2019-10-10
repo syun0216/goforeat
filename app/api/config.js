@@ -19,7 +19,7 @@ export const source = CancelToken.source();
 export const netWorkFailCode = 50000; //custom network error code
 export const cancelTokenCode = 60000; // custom cancel token code
 
-const BASE_URL = 'https://api.goforeat.hk';
+const BASE_URL = 'http://118.25.159.37:15106';
 
 // const generateBaseUrl = async () => {
 //     let res = await AsyncStorage.getItem('storage_debug');
