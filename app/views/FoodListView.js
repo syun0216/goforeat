@@ -71,22 +71,17 @@ class FoodListView extends Component {
     this._isFirstReload = true; //判断是否为首次加载
     // Platform.OS == 'android' && BackHandler.addEventListener('hardareBackPress', this.onBackButtonPressAndroid.bind(this));
     this.state = {
-      currentItem: "",
-      placeSelected: null,
-      advertiseImg: "",
-      advertiseData: null,
-      advertiseCountdown: 5,
-      warningTipsData: [],
-      swiperListData: [],
-      star: null,
-      listDataLength: 0,
-      isAdvertiseShow: false,
-      isWarningTipShow: true,
-      isActivityBtnShow: false,
-      isSwiperShow: false,
-      searchBarOpacity: new Animated.Value(1), 
-      warningTipsScale: new Animated.Value(1),
-      searchBtnShow: false,
+      placeSelected: null, // 当前地址选择
+      advertiseImg: "",  // 广告图
+      advertiseData: null, //首页广告数据
+      advertiseCountdown: 5, //广告倒计时
+      swiperListData: [], //首页轮播图数据
+      star: null, // 当日评分
+      isAdvertiseShow: false, //是否展示广告 
+      isActivityBtnShow: false, // 是否展示活动详情的入口按钮
+      isSwiperShow: false, //是否展示首页的轮播图
+      searchBarOpacity: new Animated.Value(1),  //搜索框滚动列表时逐渐消失动画
+      searchBtnShow: false, //是否展示搜索框
     };
   }
 
@@ -106,7 +101,7 @@ class FoodListView extends Component {
     if (isAdShow) {
       hideAd();
     }
-    
+    // 获取广告页数据
     advertisementStorage.getData((error, data) => {
       if (error == null) {
         if (data != null) {
@@ -133,7 +128,12 @@ class FoodListView extends Component {
   }
 
   //logic functions
-
+/**
+ * 安卓返回键
+ *
+ * @returns
+ * @memberof FoodListView
+ */
   onBackButtonPressAndroid() {
     if(lastBackPressed && lastBackPressed + 2000 >= Date.now()) {
       BackHandler.exitApp()
@@ -216,6 +216,11 @@ class FoodListView extends Component {
     });
   }
 
+  /**
+   * 广告页倒计时
+   *
+   * @memberof FoodListView
+   */
   _advertiseInterval() {
     this._interval = setInterval(() => {
       if (this.state.advertiseCountdown > 1) {
@@ -231,6 +236,13 @@ class FoodListView extends Component {
     }, 1000);
   }
 
+  /**
+   * 获取当前选择地区回调
+   *
+   * @param {*} val
+   * @returns
+   * @memberof FoodListView
+   */
   _getSeletedValue(val) {
     if (val == null) {
       // this._picker.getPlace();
@@ -257,6 +269,12 @@ class FoodListView extends Component {
     );
   }
 
+  /**
+   * 获取列表滚动高度
+   *
+   * @param {*} scrollTop
+   * @memberof FoodListView
+   */
   _getScrollTop(scrollTop) {
     this.setState({
       searchBtnShow: scrollTop > em(100)
@@ -264,6 +282,12 @@ class FoodListView extends Component {
   }
 
   //render functions
+  /**
+   * 广告页
+   *
+   * @returns
+   * @memberof FoodListView
+   */
   _renderAdvertisementView() {
     return (
       <AdvertiseView
@@ -281,61 +305,12 @@ class FoodListView extends Component {
     );
   }
 
-  _renderRefreshBgView() {
-    return (
-      <LinearGradient
-        colors={["#FF7A00", "#FE560A"]}
-        start={{ x: 0.0, y: 0.0 }}
-        end={{ x: 1.0, y: 0.0 }}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          height: _winHeight*0.6,
-          width: _winWidth,
-          overflow: "hidden"
-        }}
-      />
-    );
-  }
-
-  _renderTopTitleView() {
-    return (
-      <LinearGradient
-        colors={["#FF7A00", "#FE560A"]}
-        start={{ x: 0.0, y: 0.0 }}
-        end={{ x: 1.0, y: 0.0 }}
-        style={{
-          paddingTop: em(10),
-          paddingBottom: em(10),
-          paddingLeft: em(15),
-          paddingRight: em(15),
-          justifyContent: "space-between",
-          flexDirection: "row",
-          position: "relative"
-        }}
-      >
-        <Text style={[FoodDetailsStyles.DateFormatWeekText, { color: "#fff" }]}>
-          {this.props.i18n.foodlist_tips.title}
-        </Text>
-        <Text style={{ color: "#fff", fontWeight: "700" }}>
-          {this.props.i18n.foodlist_tips.sub_title}:{this.state.star}/5
-        </Text>
-      </LinearGradient>
-    );
-  }
-
-  _renderWarningView() {
-    return (
-      <Animated.View style={{height: this.state.warningTipsScale.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, 40]
-      })}}>
-        <WarningTips/>
-      </Animated.View>
-    )
-  }
-
+  /**
+   * 顶部导航栏
+   *
+   * @returns
+   * @memberof FoodListView
+   */
   _renderHeaderView() {
     let { placeSelected } = this.state;
     let { navigate } = this.props.navigation;
@@ -426,6 +401,13 @@ class FoodListView extends Component {
     );
   }
 
+
+  /**
+   * 导航栏选择地区bar
+   *
+   * @returns
+   * @memberof FoodListView
+   */
   _renderPlacePickerBtn() {
     return (
       <TouchableOpacity
@@ -447,6 +429,13 @@ class FoodListView extends Component {
     );
   }
 
+
+  /**
+   * 弹出地址选择器
+   *
+   * @returns
+   * @memberof FoodListView
+   */
   _renderPlacePicker() {
     let { showPlacePicker } = this.state;
     return (
@@ -459,12 +448,15 @@ class FoodListView extends Component {
     );
   }
 
-  _renderIndicator() {
-    return (
-      <Divider height={1} bgColor="#ccc"/>
-    )
-  }
 
+  /**
+   * 列表item渲染
+   * 
+   * @param {*} item
+   * @param {*} index
+   * @returns
+   * @memberof FoodListView
+   */
   _renderFoodListItemView(item, index) {
     if (typeof item === "undefined") return;
     let _device = getDeviceId().split(",")[0];
@@ -564,6 +556,13 @@ class FoodListView extends Component {
       );
   }
 
+
+  /**
+   * 列表控件渲染
+   *
+   * @returns
+   * @memberof FoodListView
+   */
   _renderFlatListView() {
     _bottomDistance = isIphoneX()
       ? bottomDistance + iPhoneXBottom
@@ -576,7 +575,6 @@ class FoodListView extends Component {
       <CommonFlatList
         ref={c => (this.flatlist = c)}
         requestFunc={getFoodList}
-        // renderIndicator={() => this._renderIndicator()}
         renderItem={(item, index) => this._renderFoodListItemView(item, index)}
         renderHeader={() => {return this.state.swiperListData.length > 0 ? <Swiper adDetail={this.state.swiperListData} /> : null}}
         extraParams={{ placeId: this.state.placeSelected.id }}
@@ -597,6 +595,13 @@ class FoodListView extends Component {
     );
   }
 
+ 
+  /**
+   * 主render函数
+   *
+   * @returns
+   * @memberof FoodListView
+   */
   render() {
     const {
       activityInfo
@@ -605,11 +610,8 @@ class FoodListView extends Component {
       <CustomizeContainer.SafeView mode="linear" style={{ position: "relative", backgroundColor: "#fff" }}>
         <Guider pageName="foodList"/>
         {this._renderAdvertisementView()}
-        {/* {this.state.star && this._renderRefreshBgView()} */}
-        {/* {this._renderIndicator()} */}
         {this._renderPlacePicker()}
         {this._renderHeaderView()}
-        {/* {this.state.isWarningTipShow && this._renderWarningView()} */}
         {
           (this.state.isActivityBtnShow) && (<Tips message="邀請好友,領取優惠券" clickFunc={() => 
             this.props.navigation.navigate('Content', {

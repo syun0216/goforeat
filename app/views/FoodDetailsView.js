@@ -41,8 +41,6 @@ import CustomizeContainer from "../components/CustomizeContainer";
 import CommonFlatList from "../components/CommonFlatList";
 import Guider from "../components/Guider";
 
-import store from '../store/index';
-
 const WeChat = require("react-native-wechat");
 
 const SLIDER_1_FIRST_ITEM = 0;
@@ -74,7 +72,6 @@ class FoodDetailsView extends Component {
     this.lastTap = null; //双击点赞
     this.state = {
       slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
-      shopDetail: null, // 商店详情
       foodDetails: null, // 菜品详情
       soldOut: HAS_FOODS, // 是否已售罄
       isError: false, // 是否加载出错
@@ -163,6 +160,14 @@ class FoodDetailsView extends Component {
     );
   }
 
+
+  /**
+   * 刷新页面重新获得数据
+   *
+   * @param {*} id
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _onRefreshToRequestFirstPageData(id) { // 刷新页面
     if (!id) return;
     this._timer = setTimeout(() => {
@@ -172,7 +177,14 @@ class FoodDetailsView extends Component {
     }, 500);
   }
 
-  _handleDoubleTap() { // 双击图片点赞功能
+
+  /**
+   * 双击图片点赞功能
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
+  _handleDoubleTap() {
     if (this.state.isFavorite) return;
     const now = Date.now();
     const DOUBLE_PRESS_DELAY = 300;
@@ -183,7 +195,13 @@ class FoodDetailsView extends Component {
     }
   }
 
-  _onFavorite() { // 点击关注功能
+
+  /**
+   * 点击关注功能
+   *
+   * @memberof FoodDetailsView
+   */
+  _onFavorite() {
     let { foodId } = this.state.foodDetails;
 
     this.setState(
@@ -210,7 +228,12 @@ class FoodDetailsView extends Component {
     });
   }
 
-  _goToOrder() { // 去下单
+  /**
+   * 去下单
+   *
+   * @memberof FoodDetailsView
+   */
+  _goToOrder() {
     let {
       foodDetails: { price },
       foodCount,
@@ -237,14 +260,27 @@ class FoodDetailsView extends Component {
     }
   }
 
-  _add() { //添加一个菜品
+
+  /**
+   * 添加一个菜品数量
+   *
+   * @memberof FoodDetailsView
+   */
+  _add() { 
     this.setState({
       foodCount: this.state.foodCount + 1,
       isBottomContainerShow: true
     });
   }
 
-  _remove() { // 删除一个菜品
+
+  /**
+   * 删除一个菜品
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
+  _remove() {
     if (this.state.foodCount == 1) {
       this.props.navigation.setParams({ visible: true });
       this.setState({
@@ -259,48 +295,119 @@ class FoodDetailsView extends Component {
     });
   }
 
-  _reloadWhenCancelLogin() { // 选择不登录时刷新
+
+  /**
+   * 选择不登录时刷新
+   *
+   * @memberof FoodDetailsView
+   */
+  _reloadWhenCancelLogin() { 
     this._onRefreshToRequestFirstPageData(this.dateFoodId);
   }
 
-  _cancelOrder = () => { // 取消下单
+
+  /**
+   * 取消下单
+   *
+   * @memberof FoodDetailsView
+   */
+  _cancelOrder = () => { 
     this.props.navigation.goBack();
   };
 
+  /**
+   * 微信分享 whatsapp分享
+   *
+   * @param {*} type
+   * @memberof FoodDetailsView
+   */
+  _pressToShare(type) {
+    const {
+      foodDetails: { foodName, extralImage }
+    } = this.state;
+    switch (type) {
+      case "whatsapp":
+        {
+          const shareOptions = {
+            //分享優惠券信息
+            url: `https://m.goforeat.hk/#/foodDetails/${this.dateFoodId}`,
+            message: foodName,
+            title: "新人註冊領HKD30優惠券",
+            social: "whatsapp"
+          };
+          this.timer = setTimeout(() => {
+            Share.shareSingle(
+              Object.assign(shareOptions, {
+                social: "whatsapp"
+              })
+            )
+              .then(info => {
+                // console.log(info);
+                this.setState({
+                  modalVisible: false
+                });
+              })
+              .catch(err => {
+                alert(`WhatsApp:${err && err.error && err.error.message}`);
+                // console.log(err);
+                return;
+              });
+          }, 300);
+        }
+        break;
+      case "wechat":
+        {
+          WeChat.isWXAppInstalled().then(isInstalled => {
+            if (isInstalled) {
+              let _obj = {
+                title: "新人註冊領HKD30優惠券",
+                description: foodName,
+                thumbImage: extralImage[0],
+                type: "news",
+                webpageUrl: `https://m.goforeat.hk/#/foodDetails/${
+                  this.dateFoodId
+                }`
+              };
+              // Platform.OS=='ios' && (
+              //   _obj['thumbImage'] = extralImage[0]
+              // );
+              WeChat.shareToSession(_obj).catch(error => {
+                // console.log(error);
+                if (error.message == -2) {
+                  ToastUtil.showWithMessage("分享失敗");
+                } else {
+                  ToastUtil.showWithMessage("分享成功");
+                }
+              });
+            } else {
+              ToastUtil.showWithMessage("WeChat is not installed");
+            }
+          });
+        }
+        break;
+    }
+  }
+
   //render function
+
+  /**
+   * 顶部导航栏
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderHeaderView() { 
     const { i18n } = this.props;
     const { foodDetails } = this.state;
     return <CommonHeader title={foodDetails ? foodDetails.title : i18n.dailyFood} subTitle={foodDetails ? foodDetails.subTitle : null} canBack />;
   }
 
-  _renderDateFormat() {
-    if (!this.state.foodDetails) {
-      return (
-        <View style={FoodDetailsStyles.DateFormatView}>
-          <ShimmerPlaceHolder
-            autoRun={true}
-            style={{ width: 125, height: 25 }}
-          />
-          <ShimmerPlaceHolder
-            autoRun={true}
-            style={{ width: 250, marginTop: 5 }}
-          />
-        </View>
-      );
-    }
-    return (
-      <View style={FoodDetailsStyles.DateFormatView}>
-        <Text style={FoodDetailsStyles.DateFormatWeekText}>
-          {this.state.foodDetails.title}
-        </Text>
-        <Text style={FoodDetailsStyles.DateFormatDateText}>
-          {this.state.foodDetails.subTitle}
-        </Text>
-      </View>
-    );
-  }
-
+  /**
+   * 轮播控件
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderMainView() {
     const { foodDetails } = this.state;
     if (!foodDetails) {
@@ -342,6 +449,15 @@ class FoodDetailsView extends Component {
     ) : null;
   }
 
+
+  /**
+   * 轮播控件
+   *
+   * @param {*} { item, index }
+   * @param {*} parallaxProps
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderItemWithParallax({ item, index }, parallaxProps) {
     const itemWidth =
       this.state.foodDetails.extralImage.length > 1
@@ -361,6 +477,13 @@ class FoodDetailsView extends Component {
     );
   }
 
+
+  /**
+   * 点赞小星
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderHeartView() {
     return (
       <LottieView
@@ -380,6 +503,12 @@ class FoodDetailsView extends Component {
     );
   }
 
+  /**
+   * 菜品详情介绍
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderIntroductionView() {
     if (!this.state.foodDetails) {
       return (
@@ -505,6 +634,13 @@ class FoodDetailsView extends Component {
     );
   }
 
+
+  /**
+   * 查看更多详情modal
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderMoreDetailModal() {
     let {
       foodDetails: {
@@ -571,6 +707,12 @@ class FoodDetailsView extends Component {
     );
   }
 
+  /**
+   * 评论详情列表
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderCommentModel() {
     if(!this.state.foodDetails) return;
     const {foodDetails:{foodId, commentAmount}} = this.state;
@@ -587,6 +729,12 @@ class FoodDetailsView extends Component {
     )
   }
 
+  /**
+   * 评论列表item
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderCommentItem(item, idx) {
     return (
       <View style={FoodDetailsStyles.commentItem} key={idx}>
@@ -600,6 +748,13 @@ class FoodDetailsView extends Component {
     )
   }
 
+
+  /**
+   * 添加和减少菜品数量控件
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderAddPriceView() {
     const { foodDetails, soldOut } = this.state;
     const { i18n } = this.props;
@@ -664,6 +819,13 @@ class FoodDetailsView extends Component {
     );
   }
 
+
+  /**
+   * 原价
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderMealComponentsPrice() {
     if(!this.state.foodDetails) {
       return (
@@ -682,7 +844,14 @@ class FoodDetailsView extends Component {
     )
   }
 
-  _renderIsAddedFruitView(foodDetails) { //是否加入水果
+  /**
+   * 是否加入水果
+   *
+   * @param {*} foodDetails
+   * @returns
+   * @memberof FoodDetailsView
+   */
+  _renderIsAddedFruitView(foodDetails) { 
     const {isAddFruit} = this.state;
     return (
       <View style={FoodDetailsStyles.addFruitView}>
@@ -697,6 +866,13 @@ class FoodDetailsView extends Component {
     )
   }
 
+
+  /**
+   * 总体内容的包裹容器
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderContentView() {
     let {
       foodDetails,
@@ -717,7 +893,6 @@ class FoodDetailsView extends Component {
           />
         }
       >
-        {/* {this._renderDateFormat()} */}
         {this._renderMainView()}
         <View>
           {this._renderIntroductionView()}
@@ -730,6 +905,13 @@ class FoodDetailsView extends Component {
     );
   }
 
+
+  /**
+   * 底部下单按钮
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderBottomBtnView() {
     const { soldOut, foodCount, foodDetails, isAddFruit } = this.state;
     const { i18n } = this.props;
@@ -763,73 +945,12 @@ class FoodDetailsView extends Component {
     );
   }
 
-  _pressToShare(type) {
-    const {
-      foodDetails: { foodName, extralImage }
-    } = this.state;
-    switch (type) {
-      case "whatsapp":
-        {
-          const shareOptions = {
-            //分享優惠券信息
-            url: `https://m.goforeat.hk/#/foodDetails/${this.dateFoodId}`,
-            message: foodName,
-            title: "新人註冊領HKD30優惠券",
-            social: "whatsapp"
-          };
-          this.timer = setTimeout(() => {
-            Share.shareSingle(
-              Object.assign(shareOptions, {
-                social: "whatsapp"
-              })
-            )
-              .then(info => {
-                // console.log(info);
-                this.setState({
-                  modalVisible: false
-                });
-              })
-              .catch(err => {
-                alert(`WhatsApp:${err && err.error && err.error.message}`);
-                // console.log(err);
-                return;
-              });
-          }, 300);
-        }
-        break;
-      case "wechat":
-        {
-          WeChat.isWXAppInstalled().then(isInstalled => {
-            if (isInstalled) {
-              let _obj = {
-                title: "新人註冊領HKD30優惠券",
-                description: foodName,
-                thumbImage: extralImage[0],
-                type: "news",
-                webpageUrl: `https://m.goforeat.hk/#/foodDetails/${
-                  this.dateFoodId
-                }`
-              };
-              // Platform.OS=='ios' && (
-              //   _obj['thumbImage'] = extralImage[0]
-              // );
-              WeChat.shareToSession(_obj).catch(error => {
-                // console.log(error);
-                if (error.message == -2) {
-                  ToastUtil.showWithMessage("分享失敗");
-                } else {
-                  ToastUtil.showWithMessage("分享成功");
-                }
-              });
-            } else {
-              ToastUtil.showWithMessage("WeChat is not installed");
-            }
-          });
-        }
-        break;
-    }
-  }
-
+  /**
+   * 加载出错页
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderErrorView() {
     const { i18n } = this.props;
     return (
@@ -840,6 +961,12 @@ class FoodDetailsView extends Component {
     );
   }
 
+  /**
+   * 分享遮罩
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   _renderPreventClickView() {
     return (
       <TouchableWithoutFeedback
@@ -870,8 +997,14 @@ class FoodDetailsView extends Component {
     );
   }
 
+  /**
+   * render函数
+   *
+   * @returns
+   * @memberof FoodDetailsView
+   */
   render() {
-    let { loading, isError, foodDetails, isShareListShow } = this.state;
+    let { isError, foodDetails, isShareListShow } = this.state;
 
     return (
       <CustomizeContainer.SafeView
