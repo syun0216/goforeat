@@ -1,6 +1,14 @@
 import { NavigationActions } from "react-navigation";
 import store from "./store/index";
 
+/**
+ * 用于登录验证拦截
+ *
+ * @export
+ * @param {*} action
+ * @param {*} state
+ * @returns
+ */
 export function AuthInterceptor(action, state) {
     const authRoutes = [
         "MyOrderDrawer",

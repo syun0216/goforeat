@@ -10,7 +10,6 @@ import CommonBottomBtn from "../components/CommonBottomBtn";
 import ErrorPage from "../components/ErrorPage";
 import CustomizeContainer from "../components/CustomizeContainer";
 import Divider from "../components/Divider";
-import OnlineBuyingModel from "../components/OnlineBuyingModel";
 //utils
 import {
   SET_PAY_TYPE,
@@ -42,13 +41,13 @@ class PaySettingView extends Component {
     super(props);
     this.i18n = props.i18n;
     this.state = {
-      checkedName: props.paytype,
-      loading: true,
-      isError: false,
-      payTypeList: [],
-      monthTicketQuantity: 0,
-      monthTicketEndTime: "",
-      creditCardInfo: null
+      checkedName: props.paytype, // 选中的支付方式
+      loading: true, // 是否在加载中
+      isError: false, // 是否加载出错
+      payTypeList: [], // 支付方式列表
+      monthTicketQuantity: 0, // 月票数量
+      monthTicketEndTime: "", // 月票结束时间
+      creditCardInfo: null // 信用卡详情
     };
   }
 
@@ -65,6 +64,11 @@ class PaySettingView extends Component {
   };
 
   //api
+  /**
+   * 获取支付方式列表
+   *
+   * @memberof PaySettingView
+   */
   _getPaySetting() {
     getPaySettingNew()
       .then(data => {
@@ -100,6 +104,13 @@ class PaySettingView extends Component {
       });
   }
 
+
+  /**
+   *
+   *
+   * @param {*} payment
+   * @memberof PaySettingView
+   */
   _setPayType(payment) {
     let _from_confirm_order =
       typeof this.props.navigation.state.params != "undefined";
@@ -118,6 +129,14 @@ class PaySettingView extends Component {
     );
   }
 
+
+  /**
+   * 设置当前的支付方式
+   *
+   * @param {*} name
+   * @returns
+   * @memberof PaySettingView
+   */
   _checked(name) {
     // console.log(name)
     let _from_confirm_order =
@@ -129,6 +148,14 @@ class PaySettingView extends Component {
     this._setPayType(name);
   }
 
+
+  /**
+   * 设置当前的选中图
+   *
+   * @param {*} name
+   * @returns
+   * @memberof PaySettingView
+   */
   _checkedImage(name) {
     if (this.state.checkedName == name) {
       return (
@@ -149,6 +176,14 @@ class PaySettingView extends Component {
     }
   }
 
+
+  /**
+   * 设置当前item左侧的默认图标
+   *
+   * @param {*} image
+   * @returns
+   * @memberof PaySettingView
+   */
   _leftImage(image) {
     return (
       <Image
@@ -159,6 +194,13 @@ class PaySettingView extends Component {
     );
   }
 
+
+  /**
+   * 管理卡片模块
+   *
+   * @returns
+   * @memberof PaySettingView
+   */
   _renderManageCreditCard() {
     let { creditCardInfo } = this.state;
     let _creditCardNumber = "";
@@ -214,19 +256,8 @@ class PaySettingView extends Component {
     );
   }
 
-  _renderBottomConfirm() {
-    return (
-      <CommonBottomBtn clickFunc={() => this.props.navigation.goBack()}>
-        {this.i18n.confirm}
-      </CommonBottomBtn>
-    );
-  }
-
   render() {
-    console.log("render~~~~~~paysetting");
     let { payTypeList, monthTicketQuantity } = this.state;
-    let _from_confirm_order =
-      typeof this.props.navigation.state.params != "undefined";
     return (
       <CustomizeContainer.SafeView mode="linear">
         <CommonHeader

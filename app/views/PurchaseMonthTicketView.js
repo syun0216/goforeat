@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, Image, Platform } from "react-native";
-import { Footer, Right, Left, Body, Content } from "native-base";
+import { Content } from "native-base";
 import { Overlay } from "teaset";
 //api
 import {
@@ -65,6 +65,11 @@ export default class PurchaseMonthTicketView extends Component {
     abortRequestInPatchWhenRouteChange();
   }
 
+  /**
+   * 获取月票列表
+   *
+   * @memberof PurchaseMonthTicketView
+   */
   _getMonthTicketList() {
     getMonthTicketList()
       .then(data => {
@@ -81,6 +86,11 @@ export default class PurchaseMonthTicketView extends Component {
       });
   }
 
+  /**
+   * 获取月票详情
+   *
+   * @memberof PurchaseMonthTicketView
+   */
   _getMonthTicketInfo() {
     getMonthTicketInfo().then(data => {
       if(data.list) {
@@ -91,6 +101,12 @@ export default class PurchaseMonthTicketView extends Component {
     })
   }
 
+
+  /**
+   * 创建当前选择购买的月票
+   *
+   * @memberof PurchaseMonthTicketView
+   */
   _createMonthTicket() {
     createMonthTicket(this.state.currentMonthTicketSelect.specId)
       .then(data => {
@@ -112,6 +128,12 @@ export default class PurchaseMonthTicketView extends Component {
       });
   }
 
+
+  /**
+   * 获取我的月票详情
+   *
+   * @memberof PurchaseMonthTicketView
+   */
   _getMonthTicket() {
     getMonthTicket().then(data => {
       if(data) {
@@ -124,6 +146,14 @@ export default class PurchaseMonthTicketView extends Component {
     })
   }
 
+
+  /**
+   * 支付月票
+   *
+   * @param {*} token
+   * @param {*} payment
+   * @memberof PurchaseMonthTicketView
+   */
   _payMonthTicket(token, payment) {
     // const { callback } = this.props.navigation.state.params;
     const { orderId, price } = this.state.currentMonthTicketOrder;
@@ -155,6 +185,12 @@ export default class PurchaseMonthTicketView extends Component {
       });
   }
 
+
+  /**
+   * 使用apple pay支付月票
+   *
+   * @memberof PurchaseMonthTicketView
+   */
   _payWithApplePay() {
     const { price } = this.state.currentMonthTicketOrder;
     this.props.showLoadingModal();
@@ -207,11 +243,24 @@ export default class PurchaseMonthTicketView extends Component {
       });
   }
 
+
+  /**
+   * 使用信用卡支付月票
+   *
+   * @memberof PurchaseMonthTicketView
+   */
   _payWithCreditCard() {
     this.props.showLoadingModal();
     this._payMonthTicket(null, SET_PAY_TYPE.credit_card);
   }
 
+  /**
+   * 展示选中的月票
+   *
+   * @param {*} paytype
+   * @returns
+   * @memberof PurchaseMonthTicketView
+   */
   _showItemChecked(paytype) {
     if (this.state.currentPayType == paytype) {
       return (
@@ -238,6 +287,14 @@ export default class PurchaseMonthTicketView extends Component {
     }
   }
 
+
+  /**
+   * 选择月票的支付方式
+   *
+   * @param {*} paytype
+   * @returns
+   * @memberof PurchaseMonthTicketView
+   */
   _checked(paytype) {
     if (this.state.currentPayType == paytype) {
       return;
@@ -248,6 +305,13 @@ export default class PurchaseMonthTicketView extends Component {
     });
   }
 
+
+  /**
+   * 购买月票弹出框
+   *
+   * @returns
+   * @memberof PurchaseMonthTicketView
+   */
   OverlayContent() {
     const { price, amount } = this.state.currentMonthTicketOrder;
     return (
@@ -317,11 +381,22 @@ export default class PurchaseMonthTicketView extends Component {
     );
   }
 
+  /**
+   * 展示购买月票弹出框
+   *
+   * @memberof PurchaseMonthTicketView
+   */
   _showOverlayConfirmView() {
       
     this._overlayViewKey = Overlay.show(this.OverlayContent());
   }
 
+  /**
+   * 我的月票详情
+   *
+   * @returns
+   * @memberof PurchaseMonthTicketView
+   */
   _renderMonthTicketDetails() {
     return (
       <View style={[PurchaseMonthTicketStyles.topTitleView, {borderWidth: 1,borderColor: '#e8e9ed', borderRadius: em(4), padding: em(8),marginLeft: GLOBAL_PARAMS._winWidth * .03,marginRight: GLOBAL_PARAMS._winWidth * .03,marginBottom: em(5),marginTop: em(10)}]}>
@@ -337,6 +412,12 @@ export default class PurchaseMonthTicketView extends Component {
     )
   }
 
+  /**
+   * 顶部标题
+   *
+   * @returns
+   * @memberof PurchaseMonthTicketView
+   */
   _renderTopTitle() {
     return (
       <View style={PurchaseMonthTicketStyles.topTitleView}>
@@ -353,6 +434,14 @@ export default class PurchaseMonthTicketView extends Component {
     );
   }
 
+  /**
+   * 月票item
+   *
+   * @param {*} item
+   * @param {*} key
+   * @returns
+   * @memberof PurchaseMonthTicketView
+   */
   _renderTicketItem(item, key) {
     const { currentMonthTicketSelect } = this.state;
     return (
@@ -382,6 +471,12 @@ export default class PurchaseMonthTicketView extends Component {
     );
   }
 
+  /**
+   * 购买月票须知
+   *
+   * @returns
+   * @memberof PurchaseMonthTicketView
+   */
   _renderInfoView() {
     const {monthTicketDetail} = this.state;
     return(

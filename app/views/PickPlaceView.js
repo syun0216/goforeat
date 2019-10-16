@@ -1,9 +1,7 @@
 import React from "react";
 import {View, StyleSheet, Platform} from 'react-native';
-import {CardItem, Card, Container, Content, Body} from 'native-base';
-import Image from 'react-native-image-progress';
+import {Content} from 'native-base';
 import {connect} from 'react-redux';
-import {withNavigation} from 'react-navigation';
 import FastImage from "react-native-fast-image";
 //utils
 import GLOBAL_PARMAS,{em} from '../utils/global_params';

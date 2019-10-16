@@ -44,10 +44,9 @@ class SettingView extends PureComponent {
   popupDialog = null;
   _actionSheet = null;
   state = {
-    isEnglish: false,
-    language: this.props.language == "en" ? "English" : "繁體中文",
-    lang_idx: this.props.language == "en" ? 1 : 0,
-    i18n: I18n[this.props.language]
+    language: this.props.language == "en" ? "English" : "繁體中文", // 当前语言显示label
+    lang_idx: this.props.language == "en" ? 1 : 0, // 当前语言的索引
+    i18n: I18n[this.props.language] // 当前语言数据
   };
 
   componentWillReceiveProps(nextProps) {
@@ -56,13 +55,12 @@ class SettingView extends PureComponent {
     });
   }
 
-  componentDidMount() {
-    this.setState({
-      isEnglish: this.props.language === "en"
-    });
-  }
-
-  _logout() {
+/**
+ * 退出登录
+ *
+ * @memberof SettingView
+ */
+_logout() {
     let { i18n } = this.state;
     logout().then(
       data => {
@@ -72,30 +70,7 @@ class SettingView extends PureComponent {
       });
   }
 
-  _renderListFooterView = () => (
-    <CommonBottomBtn
-      clickFunc={() => {
-        Alert.alert(
-          this.state.i18n.tips,
-          this.state.i18n.setting_tips.common.logout_msg,
-          [
-            {
-              text: this.state.i18n.cancel,
-              onPress: () => {
-                return null;
-              },
-              style: "cancel"
-            },
-            { text: this.state.i18n.confirm, onPress: () => this._logout() }
-          ],
-          { cancelable: false }
-        );
-      }}
-    >
-      {this.state.i18n.logout}
-    </CommonBottomBtn>
-  );
-
+  //render function
   render() {
     let { i18n } = this.state;
     let _setting_ios = {
