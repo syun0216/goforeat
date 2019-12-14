@@ -148,6 +148,7 @@ app
 - [项目小技巧](https://github.com/syun0216/goforeat/tree/master/more/项目小技巧.md)
 - [update-to-0.59.8](https://github.com/syun0216/goforeat/tree/master/more/update-to-0.59.8.md)
 - [codepush 热更新gif效果](https://github.com/syun0216/goforeat/tree/master/display/codepush.gif)
+- [Android apk下载](https://github.com/syun0216/goforeat/tree/master/more/goforeat.apk)
 
 ## 附錄
 
