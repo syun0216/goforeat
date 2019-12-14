@@ -2,7 +2,6 @@
 
 google应用市场在8月后不再支持非64位应用
 
----
 
 ### 升级步骤
 
@@ -13,4 +12,3 @@ google应用市场在8月后不再支持非64位应用
 5. 若要升级到androidx，则需要对依赖引用进行替换，详细替换规则请参考[此处](https://developer.android.com/jetpack/androidx/migrate)
 6. 打包后android apk体积会明显增大，因为32位和64.so文件都被打在包里，如果要缩小包的体积，请参考google 的 bundles 分拆app 减少打包体积。 [传送门](https://blog.csdn.net/wuzi_csdn/article/details/88824438)
 
----

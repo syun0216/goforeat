@@ -3123,6 +3123,11 @@ https-proxy-agent@^1.0.0:
     debug "2"
     extend "3"
 
+i18n-js@3.0.11:
+  version "3.0.11"
+  resolved "https://registry.npmjs.org/i18n-js/-/i18n-js-3.0.11.tgz#f9e96bdb641c5b9d6be12759d7c422089987ef02"
+  integrity sha512-v7dG3kYJTQTyox3NqDabPDE/ZotWntyMI9kh4cYi+XlCSnsIR+KBTS2opPyObL8WndnklcLzbNU92FP/mLge3Q==
+
 iconv-lite@0.4.19, iconv-lite@^0.4.17, iconv-lite@~0.4.13:
   version "0.4.19"
   resolved "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
@@ -5820,6 +5825,13 @@ react-native-fbsdk@^0.8.0:
 react-native-geolocation-service@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/react-native-geolocation-service/-/react-native-geolocation-service-2.0.0.tgz#9fbab4953726b3a3ca9a74388a92dc1e1997127a"
+
+react-native-i18n@^2.0.15:
+  version "2.0.15"
+  resolved "https://registry.npmjs.org/react-native-i18n/-/react-native-i18n-2.0.15.tgz#09b5a9836116fa7dbd0054c46e2d1014c1ef3c65"
+  integrity sha512-V8VwUP0TLda3oJvgt5tdnFaOV7WXPhTjCTLO7sXI3C2SHggSbD4bCUryMzNJhesimJidH21V2Owvj4zAylHoQQ==
+  dependencies:
+    i18n-js "3.0.11"
 
 react-native-image-gallery@^2.1.5:
   version "2.1.5"
