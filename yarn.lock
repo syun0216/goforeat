@@ -936,8 +936,9 @@ acorn-globals@^4.1.0:
     acorn "^5.0.0"
 
 acorn@^5.0.0, acorn@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.npmjs.org/acorn/-/acorn-5.3.0.tgz#7446d39459c54fb49a80e6ee6478149b940ec822"
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 adm-zip@^0.4.7:
   version "0.4.11"
@@ -3580,14 +3581,15 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
-janalytics-react-native@^1.4.1:
+janalytics-react-native@1.4.1:
   version "1.4.1"
-  resolved "https://registry.npmjs.org/janalytics-react-native/-/janalytics-react-native-1.4.1.tgz#6fba0dee7c7217d77253bf4944f522619f65f44a"
+  resolved "https://registry.yarnpkg.com/janalytics-react-native/-/janalytics-react-native-1.4.1.tgz#6fba0dee7c7217d77253bf4944f522619f65f44a"
   integrity sha512-7t9CPLTGQQBpMlcZgcZ9OwLwR14AozOSwFNmW/rkgrb43cN73pKmiM9I1snk187nCS99dSGsLM1NhQuugvmkLQ==
 
-jcore-react-native@^1.2.6:
-  version "1.2.11"
-  resolved "https://registry.npmjs.org/jcore-react-native/-/jcore-react-native-1.2.11.tgz#21adca03dd1738e49800e83889537cd9abeb8a94"
+jcore-react-native@1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/jcore-react-native/-/jcore-react-native-1.2.6.tgz#7a45596ebb5b5581f58c772feb15a38e3176360b"
+  integrity sha512-cvQGqU+9ctIctoH9Y4fkJH66l/4QepK4jPVPihxjcEZ1b1+ztNBMUmGR4Z9l23KTdDk3tOXjlT8Xo1WiHv3MoQ==
 
 jest-changed-files@^24.8.0:
   version "24.8.0"
@@ -3971,9 +3973,10 @@ jest@^24.8.0:
     import-local "^2.0.0"
     jest-cli "^24.8.0"
 
-jpush-react-native@^2.2.13:
+jpush-react-native@2.2.13:
   version "2.2.13"
-  resolved "https://registry.npmjs.org/jpush-react-native/-/jpush-react-native-2.2.13.tgz#022f1bb8b9c66377e6798a25a5a2f736dfead667"
+  resolved "https://registry.yarnpkg.com/jpush-react-native/-/jpush-react-native-2.2.13.tgz#022f1bb8b9c66377e6798a25a5a2f736dfead667"
+  integrity sha512-VhV4CEOWKkhaHuDuFCnpwuJVD72NsBlSUxk/3TGjIIVi6wPbfSav7ild44yjbr8Z/Pd8tr0RL8fkMhJzrQP/Bw==
   dependencies:
     inquirer "*"
     mpatch "^0.1.0"
