@@ -11,9 +11,9 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.4.2",
     "axios": "^0.18.1",
-    "janalytics-react-native": "^1.4.1",
-    "jcore-react-native": "^1.2.6",
-    "jpush-react-native": "^2.2.13",
+    "janalytics-react-native": "1.4.1",
+    "jcore-react-native": "1.2.6",
+    "jpush-react-native": "2.2.13",
     "js-md5": "^0.7.3",
     "jsc-android": "241213.x.x",
     "jslint": "^0.12.0",
