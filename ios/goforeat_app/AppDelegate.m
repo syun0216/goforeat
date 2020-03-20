@@ -11,7 +11,7 @@
 #endif
 
 #import <CodePush/CodePush.h>
-#import "SplashScreen.h"  // here
+#import "RNSplashScreen.h"  // here
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -108,7 +108,7 @@
   [self.window makeKeyAndVisible];
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
-  [SplashScreen show];  // here
+//  [RNSplashScreen show];  // here
   [NSThread sleepForTimeInterval:0.5];
   return YES;
 }

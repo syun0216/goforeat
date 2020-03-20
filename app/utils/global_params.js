@@ -63,6 +63,10 @@ const GLOBAL_PARAMS = {
   }
 }
 
+export function isIphoneXAboveModel() {
+  return GLOBAL_PARAMS.isIphoneX() || GLOBAL_PARAMS.isIphoneXr();
+}
+
 // 路由存储以abort请求
 export const ABORT_LIST_WITH_ROUTE = [];
 

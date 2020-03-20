@@ -1747,7 +1747,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODEPUSH_KEY = "y5mK05OSrYUfX9dfqMBWnJiRhkm3d261912e-873f-4270-b887-25c360664c8c";
 				CODE_SIGN_ENTITLEMENTS = goforeat_app/goforeat_app.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1787,7 +1787,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.syun.goforeat;
 				PRODUCT_NAME = goforeat_app;
 				PROVISIONING_PROFILE = Automatic;
-				PROVISIONING_PROFILE_SPECIFIER = dev;
+				PROVISIONING_PROFILE_SPECIFIER = iosAdhoc;
 				VALID_ARCHS = "arm64 arm64e armv7s armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1841,7 +1841,7 @@
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = goforeat_app;
 				PROVISIONING_PROFILE = Automatic;
-				PROVISIONING_PROFILE_SPECIFIER = GoforeatAppStore;
+				PROVISIONING_PROFILE_SPECIFIER = iosAppstore;
 				VALID_ARCHS = "arm64 arm64e armv7s armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

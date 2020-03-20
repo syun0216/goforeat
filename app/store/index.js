@@ -3,11 +3,9 @@ import {createLogger} from "redux-logger";
 import promise from "redux-promise-middleware";
 // reducers
 import * as appReducers from "../reducers/appReducer";
-import * as serverReducers from "../reducers/serverReducers";
 
 const rootReducer = combineReducers({
   ...appReducers,
-  ...serverReducers
 });
 
 const isPromise = obj => (!!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function');

@@ -5,20 +5,20 @@ import { Container } from "native-base";
 import LinearGradient from "react-native-linear-gradient";
 //utils
 import Colors from "../utils/Colors";
-import GLOBAL_PARAMS from "../utils/global_params";
+import GLOBAL_PARAMS, {isIphoneXAboveModel} from "../utils/global_params";
 import { isIphoneXr } from "../utils/DeviceInfo";
 
 const styles = {
   position: "absolute",
   top: 0,
-  height: GLOBAL_PARAMS.isIphoneX() ? 44 : 20,
+  height: isIphoneXAboveModel() ? 44 : 20,
   width: GLOBAL_PARAMS._winWidth,
   backgroundColor: Colors.main_white,
   zIndex: 10
 };
 
 const linear = {
-  height: GLOBAL_PARAMS.isIphoneX() ? 44 : 20,
+  height: isIphoneXAboveModel() ? 44 : 20,
   width: GLOBAL_PARAMS._winWidth,
   position: "absolute",
   top: 0,
@@ -43,7 +43,7 @@ const SafeView = props => (
         style={Platform.OS == 'ios' ? linear : linearAndroid}
       />
     ) : null}
-    <Container style={{marginTop: isIphoneXr() ? 20 : 0}}>
+    <Container style={{marginTop: isIphoneXAboveModel() ? 20 : 0}}>
       <StatusBar barStyle={props.barStyle} backgroundColor='transparent' translucent/>
       {props.children}
     </Container>
