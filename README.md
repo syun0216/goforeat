@@ -9,9 +9,6 @@
   <a href="https://itunes.apple.com/cn/app/goforeat/id1343559475?mt=8"><img src="./display/apple.png"/></a>	
 </p> 
 
-> 注意：有得食app在10月4号后线上已经停止服务，若想看效果，请下载[有得食apk](https://github.com/syun0216/goforeat/tree/master/more/goforeat.apk)  
-
-
 [启动教程请点这里](https://github.com/syun0216/goforeat/tree/master/more/启动项目.md)
 
 ## 文檔結構
