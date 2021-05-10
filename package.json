@@ -17,7 +17,7 @@
     "js-md5": "^0.7.3",
     "jsc-android": "241213.x.x",
     "jslint": "^0.12.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "lottie-react-native": "^2.5.10",
     "native-base": "^2.12.1",
     "react": "16.8.3",
